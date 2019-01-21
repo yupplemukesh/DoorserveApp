@@ -1,0 +1,134 @@
+﻿
+@{
+    ViewBag.Title = "ManageProvider";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add Service Provider<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                @Html.Action("AddServiceProvider")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>List Of All Service Provider<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" style="overflow-x: scroll;">
+                @Html.Action("ServiceProviderTable", "ManageProvider")
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="Editmodel" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog model-lg" style="width:1000px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Service Provider Category</h4>
+            </div>
+
+            <div class="modal-body" id="Info" >@Html.Partial("EditServiceProvider")</div>
+        </div>
+
+    </div>
+</div>
+
+@if (ViewBag.AddProvider != null)
+{
+    <div id="snackbar">@ViewBag.AddProvider</div>
+    
+}
+@if (ViewBag.EditProvider != null)
+{
+    <div id="snackbar">@ViewBag.EditProvider</div>
+}
+@if (ViewBag.AddProvider != null || ViewBag.EditProvider != null)
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+    </script>
+}
+@section Scripts{
+
+    <script>
+
+        $('input[name="Pincode"],input[name="Mobile_No"]').keyup(function (e) {
+            if (/\D/g.test(this.value)) {
+                // Filter non-digits from input value.
+                this.value = this.value.replace(/\D/g, '');
+            }
+        });
+        function EditServiceProvider(ProviderId) {
+            debugger;
+            $.ajax({
+                type: 'GET',
+                url: "/ManageProvider/EditServiceProvider?ProviderId=" + ProviderId,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    debugger;
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+        }
+    </script>
+}

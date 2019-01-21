@@ -1,0 +1,107 @@
+﻿
+@{
+	ViewBag.Title = "Index";
+}
+
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2><small></small></h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li>
+						<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<br />
+				@Html.Partial("FindPFRAWBA")
+
+				@Html.Action("PFRAWBAForm", "Logistics")
+			</div>
+		</div>
+	</div>
+</div>
+@if (ViewBag.Message != null)
+{
+	<div id="snackbar">@ViewBag.Message</div>
+}
+@if (ViewBag.Message != null)
+{
+	<script>
+
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+	</script>
+}
+@section scripts{
+	<script>
+	function AjaxWithValue(method, ddl, e) {
+		var val = e.value;
+		debugger;
+		$.ajax({
+			type: "GET",
+			url: "/DropdownBind/" + method + "?value=" + val,
+			data: '{}',
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: function (data) {
+				$("#" + ddl).empty();
+
+				//var sel = new Option('-Select-', '');
+				//$('#' + ddl).append(sel);
+				for (var i = 0; i < data.length; i++) {
+					var opt = new Option(data[i].Text, data[i].Value);
+					$('#' + ddl).append(opt);
+				}
+			}
+		});
+	}
+
+		function CCno(ccNo) {
+			$.ajax({
+				type: 'POST',
+				url: "/RepairStatus/FindByCcNo?CcNO=" + ccNo,
+				contentType: 'application/json; charset=utf-8',
+				cache: false,
+				success: function (response) {
+					debugger;
+					console.log(response);
+					$('#PrblmObsrvd').val(response.PrblmObsrvd);
+					$('#getCC_NO').val(response.CcNo);
+					 $('#Mobile_No').val(response.Mobile_No);
+					 $('#Brand').val(response.Brand);
+					 $('#Cust_Add').val(response.Cust_Add);
+					 $('#Cust_City').val(response.Cust_City);
+					 $('#Cust_State').val(response.Cust_State);
+					 $('#CustomerId').val(response.CustomerId);
+					 $('#Customer_Name').val(response.Customer_Name);
+					 $('#Email_Id').val(response.Email_Id);
+					 $('#Model').val(response.Model);
+					 $('#Pickup_Date').val(response.Pickup_Date);
+					 $('#Pincode').val(response.Pincode);
+					 $('#Problem').val(response.Problem);
+					 $('#StatusName').val(response.StatusName);
+					 $('#SubCatName').val(response.SubCatName);
+				},
+				error: function (e) {
+					console.log(e);
+					$(".submitbutton").attr("disabled", false);
+					alert("Something went wrong...");
+
+				},
+				complete: function () {
+
+					$(".submitbutton").attr("disabled", false);
+				}
+			});
+		}
+	</script>
+}
+
+

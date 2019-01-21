@@ -1,0 +1,132 @@
+﻿@model TogoFogo.Models.SparePartsPriceStockModel
+@{
+	Layout = null;
+}
+@using (Html.BeginForm("EditSparePartsPriceandStock", "PurchaseProcurement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.HiddenFor(m => m.SparePriceStockId)
+
+	<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+		<div class="col-md-6 col-lg-6">
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.CatName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.CatName, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'editSubCatName', this)" })
+					@Html.ValidationMessageFor(model => model.CatName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.SubCatName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.SubCatName, null, new { @class = "form-control", id = "editSubCatName" })
+					@Html.ValidationMessageFor(model => model.SubCatName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.Brand, null, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'editProductName', this)" })
+					@Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.ProductName, null, new { @class = "form-control", id = "editProductName" })
+					@Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.TRUPC, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.TRUPC, htmlAttributes: new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.TRUPC, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.SpareTypeName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.SpareTypeName, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'editPartName', this)" })
+					@Html.ValidationMessageFor(model => model.SpareTypeName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.PartName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.PartName, null, htmlAttributes: new { @class = "form-control", id = "editPartName", onchange = "partNameCodeGenerate(this)" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.TGFGPartCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.TGFGPartCode, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.CTH_Number, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.CTH_Number, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.SpareCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.SpareCode, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.EstimatedPrice, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.EstimatedPrice, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.MarketPrice, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.MarketPrice, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.SpareQty, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.SpareQty, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px;">
+				@Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+					{
+						new SelectListItem {Text = "Yes", Value = "Yes"},
+						new SelectListItem {Text = "No", Value = "No"}
+
+					}, "Select", new {@class = "form-control"})
+					@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
+				<button type="submit" class="btn btn-success">Submit</button>
+			</div>
+		</div>
+	</div>
+
+}
+@if (ViewBag.SortOrder != null)
+{
+	<script>
+        document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
+
+	</script>
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

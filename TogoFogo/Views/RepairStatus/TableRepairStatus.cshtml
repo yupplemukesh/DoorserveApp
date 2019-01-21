@@ -1,0 +1,55 @@
+﻿@model IEnumerable<TogoFogo.Models.RepairStatusModel>
+
+@{
+	Layout = null;
+}
+
+
+<table class="table table-striped table-bordered table-condensed">
+	<thead>
+		<tr>
+
+			<th>
+				@Html.DisplayName("Pending Repair calls")
+			</th>
+			<th>
+				@Html.DisplayName("Average Repair TAT (Days)")
+			</th>
+			<th>
+				@Html.DisplayName("Maximum Open TAT (Days)")
+			</th>
+			<th>
+				@Html.DisplayName("Status")
+			</th>
+
+			<th>
+				@Html.DisplayName("Action")
+			</th>
+		</tr>
+	</thead>
+	
+		<tr>
+
+			<td>
+				@Html.Display("10")
+			</td>
+			<td>
+				@Html.Display("5")
+			</td>
+			<td>
+				@Html.Display("5")
+			</td>
+			<td>
+				@Html.Display("Pending for Repair Status Update")
+			</td>
+
+
+
+			<td style="display: inline-flex;">
+				@* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+				<a href="/RepairStatus/EditRepairStatus" data-toggle="modal" class="btn btn-info btnSize ">Update</a>
+			</td>
+		</tr>
+	
+
+</table>

@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Manage Repairs Website Banners<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @Html.Action("DynamicCrousel", "ManageBanners")
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 4000);
+
+    </script>
+}
+@section Scripts{
+    <script>
+        function readURL1(input) {
+            debugger;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah2')
+                        .attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function readURL2(input) {
+            debugger;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah3')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function readUrlMobile(input) {
+            debugger
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var inputId = input.id;
+                if (inputId == "MobileImageUpload1") { reader.onload = function (e) { $('#Mobile1').attr('src', e.target.result); }; }
+                else if (inputId == "MobileImageUpload2") { reader.onload = function (e) { $('#Mobile2').attr('src', e.target.result); }; }
+                else if (inputId == "MobileImageUpload3") {reader.onload = function (e) { $('#Mobile3').attr('src', e.target.result); };}               
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+}

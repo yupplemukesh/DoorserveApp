@@ -1,0 +1,159 @@
+﻿@model TogoFogo.Models.BrandModel
+@using (Html.BeginForm("EditBrand", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.HiddenFor(m => m.BrandId)
+	@Html.HiddenFor(m => m.BrandImage)
+	<div class="row">
+		<div class="col-md-8">
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
+					@Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", @class = "form-control", onchange = "loadFile(event)" })
+
+
+				</div>
+
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.UrlName, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextBoxFor(model => model.UrlName, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextAreaFor(model => model.Header, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.Footer, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextBoxFor(model => model.Footer, htmlAttributes: new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.Is_repair, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.DropDownListFor(model => model.Is_repair, new List<SelectListItem>
+						{
+							new SelectListItem {Text = "Yes", Value = "Yes"},
+							new SelectListItem {Text = "No", Value = "No"}
+
+						}, "Select Repair Status", new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.Is_Active, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
+						{
+							new SelectListItem {Text = "Yes", Value = "Yes"},
+							new SelectListItem {Text = "No", Value = "No"}
+
+						}, "Select Status", new { @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				<div class="col-md-4">
+
+					@Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
+				</div>
+				<div class="col-md-8">
+
+					@Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+				</div>
+			</div>
+
+
+			<div class="row text-center">
+				<input type="submit" value="Submit" class="btn btn-large btn-success" />
+			</div>
+
+		</div>
+		<div class="col-md-3" style="margin-top: 80px;">
+
+			<img id="editblah" src="~/Images/male-user-add.png" width="150" height="150" alt="your image" />
+		</div>
+	</div>
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

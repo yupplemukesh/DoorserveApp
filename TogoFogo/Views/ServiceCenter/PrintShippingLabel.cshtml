@@ -1,0 +1,333 @@
+﻿@model TogoFogo.Models.AllData
+@{
+	ViewBag.Title = "PrintShippingLabel";
+	Layout = null;
+}
+<style>
+	.center {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		width: 30%;
+	}
+
+	.border {
+		border: 1px solid black;
+	}
+
+	.row {
+		margin-right: 15px !important;
+		margin-left: 15px !important;
+	}
+
+	.border1 {
+		border-top: 2px solid grey;
+		border-bottom: 2px solid grey
+	}
+
+	.borderLeft {
+		border-left: 2px solid grey
+	}
+
+	.borderRight {
+		border-right: 1px solid grey
+	}
+
+	.pad {
+		margin-top: 10px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+
+	.size {
+		font-size: 15px;
+	}
+
+	.table-condensed > thead > tr > th {
+		padding: 0px !important;
+	}
+
+	th {
+		font-size: 14px !important;
+	}
+
+	.borderBottom {
+		border-bottom: 1px solid lightgrey;
+	}
+
+	.fontSize {
+		font-size: 14px;
+	}
+
+	.fontSizetbody {
+		font-size: 13px;
+	}
+
+	.borderBottom1 {
+		border-bottom: 2px solid lightgrey
+	}
+
+	tbody:before {
+		content: '';
+		display: block;
+		height: 20px;
+	}
+
+	.secondTable:before {
+		height: 0px;
+	}
+
+	.table2 {
+		border-collapse: collapse !important;
+	}
+
+	table {
+		border-collapse: collapse;
+	}
+
+	.borderBottom2 {
+		border-bottom: 2px solid grey;
+	}
+</style>
+<div class="row border">
+	<div class="col-md-6 ">
+		<div class="col-md-6 borderBottom">
+			<p class="border1 pad size">Delivery Address</p>
+			<b>@Model.Customer_Name</b> <br />
+			<b>Address</b>:@Model.Cust_Add <br />
+			<b>LandMark</b>:<br />
+			<b>Pincode</b>:@Model.Pincode<br/>
+			<b>City</b>:@Model.Cust_City <br />
+			<b>State</b>:@Model.Cust_State <br />
+			<b>Contact Number:</b>@Model.Mobile_No<br />
+			<b>Email Id :</b>@Model.Email_Id<br />
+		</div>
+		<div class="col-md-6">
+
+		</div>
+		<div class="col-md-12" style="margin-bottom:10px;margin-top:10px;">
+			<table style="border-collapse: collapse;">
+				<thead>
+					<tr>
+						<td class="borderBottom fontSize">VSKU</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">Item Name</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">QTY</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">Value</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">Shipping Charge</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">COD Charge</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">Other Charge</td>
+						<td class="borderBottom fontSize" style="padding-left:15px">Collect Charge</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="borderBottom1 pad">
+						<td class="fontSizetbody">@Model.CatName</td>
+						<td class="fontSizetbody" style="padding-left:9px">@Model.Model</td>
+						<td class="fontSizetbody" style="padding-left:9px"></td>
+						<td class="fontSizetbody" style="padding-left:9px"></td>
+						<td class="fontSizetbody" style="padding-left:9px"></td>
+						<td class="fontSizetbody" style="padding-left:9px"></td>
+						<td class="fontSizetbody" style="padding-left:9px"></td>
+						<td class="fontSizetbody" style="padding-left:9px"></td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+		<div class="col-md-12 borderBottom1">
+			<div class="col-md-6">
+				<h4 class="borderBottom">Weight(Kg):@Model.Weight </h4>
+				<h4 class="borderBottom1">Dimension(LXWXH)CM:<br />@Model.Length x @Model.Width x @Model.Height</h4>
+				<h5>Shipper Address</h5>
+				Shree Vinayak Traders<br />
+				<b>Address:23/3850 </b><br />
+				1st Floor Regharpura<br />
+				<b>Address</b>: Delhi<br />
+				<b>Delhi </b>: 110053<br />
+				<b>LandMark</b> : Karol Bagh<br />
+				<b>City</b>: Delhi<br />
+				<b>State</b>:Delhi<br />
+			</div>
+			<div class="col-md-6">
+
+			</div>
+		</div>
+		<div class="col-md-12 borderBottom1">
+			<h4> If Undelivered return to</h4><br />
+			<b>Shree Vinayak Traders</b><br />
+			<b>Address</b>: Delhi<br />
+			<b>Delhi </b>: 110053<br />
+			<b>LandMark</b> : Karol Bagh<br />
+			<b>City</b>: Delhi<br />
+			<b>State</b>:Delhi<br />
+		</div>
+		<div class="col-md-12 pad" style="padding-bottom:10px;">
+			<div class="pull-right">
+				Ordered via <span><b>togofogo.com</b></span>
+			</div>
+
+		</div>
+	</div>
+	<div class="col-md-6" style="border-left:1px dashed black !important">
+		<p class="border1 pad size text-center">TAX INVOICE</p>
+		<div class="col-md-12 col-lg-12 col-sm-12" style="padding:0">
+			<div class="row borderBottom2">
+				<img src="~/Images/Togofogo_Logo.png" width="150" height="35" style="text-align:center" class="center" /><br />
+			</div>
+
+			<div class="col-md-6 borderRight">
+				<b>Company GSTIN Number</b>:<br />
+				<b>Tax is Payable on Reverse Charge </b>: <br />
+				<b>Invoice Serial Number</b>:@Model.Bill_Invoice_Number<br />
+				<b>Invoice Date </b>:<br />
+				<b>Shree Vinayak Traders</b><br />
+				<b>Address</b>: Delhi<br />
+				<b>Delhi </b>: 110053<br />
+				<b>LandMark</b> : Karol Bagh<br />
+				<b>City</b>: Delhi<br />
+				<b>State</b>:Delhi<br />
+			</div>
+			<div class="col-md-6 ">
+				<b>Courier Name </b>:@Model.CourierName<br />
+				<b>AWB Number </b>:11009876 <br />
+				<b>Date Of Shipment</b>:29-july-2018 <br />
+				<b>Place Of Supply </b>: Delhi <br />
+			</div>
+
+		</div>
+		<br />
+		<div class="col-md-12">
+
+			<div class="col-md-6 borderRight" style="padding:0px;">
+				<div class="col-md-12" style="background-color:lightgray">
+					Details of Receiver
+				</div>
+				<b>@Model.Customer_Name</b> <br />
+				<b>Address</b>:@Model.Cust_Add <br />
+				<b>LandMark</b>: <br />
+				<b>Pincode</b>:@Model.Pincode<br />
+				<b>City</b>:@Model.Cust_City <br />
+				<b>State</b>:@Model.Cust_State <br />
+				<b>Contact Number:</b>@Model.Mobile_No<br />
+				<b>Email Id :</b>@Model.Email_Id<br />
+
+				
+			</div>
+			<div class="col-md-6" style="padding:0px;">
+				<div class="col-md-12" style="background-color:lightgray;padding:0px">
+					Details of Receiver
+				</div>
+				<div class="col-md-12">
+					<b>@Model.Customer_Name</b> <br />
+					<b>Address</b>:@Model.Cust_Add <br />
+					<b>LandMark</b>: <br />
+					<b>Pincode</b>:@Model.Pincode<br />
+					<b>City</b>:@Model.Cust_City <br />
+					<b>State</b>:@Model.Cust_State <br />
+					<b>Contact Number:</b>@Model.Mobile_No<br />
+					<b>Email Id :</b>@Model.Email_Id<br />
+				</div>
+
+			</div>
+		</div>
+		<div class="col-md-12" style="padding-left:0px;padding-top:10px">
+			<table class="table table-bordered table-condensed table-responsive table2">
+				<thead>
+					<tr>
+						<th rowspan="2">S.No</th>
+						<th rowspan="2">Description Of Goods</th>
+						<th rowspan="2">HSN Code</th>
+						<th rowspan="2">Qty</th>
+						<th rowspan="2">Rate</th>
+						<th rowspan="2">Total</th>
+						<th rowspan="2">Discount</th>
+						<th rowspan="2">Taxable value</th>
+						<th colspan="2" class="text-center">CGST</th>
+						<th colspan="2" class="text-center">SGST</th>
+						<th colspan="2" class="text-center">IGST</th>
+					</tr>
+					<tr>
+						<th>Rate</th>
+						<th>Amount</th>
+						<th>Rate</th>
+						<th>Amount</th>
+						<th>Rate</th>
+
+					</tr>
+
+				</thead>
+				<tbody class="secondTable">
+					<tr>
+						<td>1</td>
+						<td style="font-size:13px">@Model.Model</td>
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px">1</td>
+						<td style="font-size:13px"></td>
+
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px"></td>
+						<td style="font-size:13px"></td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+
+						<td style="font-size:13px"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td style="font-size:13px"></td>
+						<td></td>
+						<td style="font-size:13px"></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td colspan="8"></td>
+						<td colspan="5" style="font-size:13px;">Total</td>
+					</tr>
+					<tr>
+						<td colspan="8" style="font-size: 13px;">
+							<b>Invoice value (in words)</b><br />
+							<b>One THousand Four Hundred Ninty Nine only</b>
+						</td>
+						<td colspan="5">
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size:13px;">Shipping Charges</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size:13px;">Loading And Packing Charges</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size:13px;">Insurance Charges</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size:13px;">COD Charges</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size:13px;">Invoice Total</p><br />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="8" style="font-size: 13px;">Amount of tax subject to reverse charge</td>
+						<td colspan="1" style="font-size: 13px;"></td>
+						<td colspan="1" style="font-size: 13px;">Rs.0.00</td>
+						<td colspan="1" style="font-size: 13px;"></td>
+						<td colspan="1" style="font-size: 13px;">Rs.0.00</td>
+						<td colspan="1"></td>
+					</tr>
+					<tr>
+						<td colspan="5" style="font-size: 13px;">Terms And Conditions</td>
+						<td colspan="8">
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size: 13px;">Electronic reference Number:T180923247u8</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size: 13px;">Company Name: Shree Vinayak Traders</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size: 13px;">Signature:</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size: 13px;">Authorize Signatory: Shree Vinayak Traders</p><br />
+							<p class="borderBottom1" style="margin: 0 0 -16px;font-size: 13px;">Name and Designation :Shree Vinayak Traders </p><br />
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/vendors/jquery/dist/jquery.min.js"></script>

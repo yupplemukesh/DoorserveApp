@@ -1,0 +1,246 @@
+﻿@model TogoFogo.Models.CreateUserModel
+
+@{
+    ViewBag.Title = "AddRights";
+}
+
+<h2>AddRights</h2>
+
+@using (Html.BeginForm("AddRights", "Master", FormMethod.Post, new { onSubmit = "return checkSubmit()", id = "form11" }))
+{
+    @Html.AntiForgeryToken()
+<div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
+    @Html.HiddenFor(m => m.ID)
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.UserType, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.UserRole, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.UserRole, new { @class = "form-control",@readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @*<div id="hiddenDiv1">
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.ServiceProvider, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    @Html.TextBoxFor(model => model.ServiceProvider, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.ServiceProvider, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.ServiceProviderType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.DropDownListFor(model => model.ServiceProviderType, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "HO", Value = "HO"},
+                    new SelectListItem {Text = "TRC", Value = "TRC"}
+
+                },  new { @class="form-control", onchange = "showDiv1(this)", @readonly = "readonly", @disabled = "disabled" })
+
+                    @Html.ValidationMessageFor(model => model.ServiceProviderType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>*@
+    @*<div class="row" id="TRCHidden" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.TRCId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.TRCId, new { @class = "form-control", @readonly = "readonly" })
+
+                @Html.ValidationMessageFor(model => model.TRCId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    <div id="hiddenDiv">
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Mobile, htmlAttributes: new { @class = "form-control", @maxlength = "10", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Email_Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Email_Address, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Email_Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                   {
+                       new SelectListItem {Text = "Yes", Value = "Yes"},
+                       new SelectListItem {Text = "No", Value = "No"}
+
+                   },  new { @class="form-control", onchange = "showDiv1(this)", @readonly = "readonly",@disabled="disabled" })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.MenuMasters, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.MenuMasters, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MenuMasters, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                <input type="button" class="btn btn-info" value="Add Submenu" onclick="AddSubMenu()" />
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-condensed" style="width: 100%" id="test1">
+                <thead>
+                    <tr>
+                        <th>Submenu</th>
+
+                        <th>View Status</th>
+                    </tr>
+                </thead>
+
+
+
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="ln_solid"></div>
+    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <div class="col-md-6 col-sm-6  col-xs-12 col-md-offset-5 col-sm-offset-5">
+            <button type="submit" class="btn  btn-success">Update</button>
+            <input type="button" class="btn btn-lg btn-warning btnSize" value="Back" onclick="@("window.location.href='" + @Url.Action("UserMaster", "Master") + "'");" />
+        </div>
+    </div>
+    <br />
+</div>
+}
+
+
+<script>
+    function checkSubmit() {
+        debugger;
+        $("#MenuMasters option:selected").text();
+        var listName = "TableSubMenu";
+        var table = $("#test1 tbody");
+        var qtd = 0;
+        var Id = $('#ID').val()
+        table.find('tr').each(function (i) {
+            var $tds = $(this).find('td');
+            var z = $(this).find('td:eq(1) input[type=checkbox]').is(':checked')
+
+            if (z == true) {
+                z = "Show";
+
+
+            }
+            if (z == false) { z = "Hide"; }
+            $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].UserID' value='" + Id + "'>");
+            $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].Menu_Name' value='" + $tds.eq(0).text() + "'>");
+            $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].ViewStatus' value='" + z + "'>");
+            qtd += 1;
+
+        });
+        return true;
+    }
+    function check_checkbox(UserId, MainMenu) {
+        debugger;
+        $.ajax({
+            type: 'GET',
+            url: "/Master/GetSelectedView?UserId=" + UserId + "&MainMenuId=" + MainMenu,
+            contentType: 'application/json; charset=utf-8',
+            cache: false,
+            success: function (response) {
+                debugger;
+
+                var Menu_Name = "";
+                $.each(response, function (i, item) {
+                    debugger;
+                    Menu_Name = item.MenuId;
+                    $('#test1 tbody tr').each(function () {
+                        debugger;
+                        var match = $(this).find("td").html();
+                        if ($(this).find("input").val() == Menu_Name) {
+                            $(this).find("input").attr('checked', true);
+                        }
+                    });
+                });
+
+                //$('#test1').append(trHTML);
+            },
+            error: function (e) {
+                console.log(e);
+                $(".submitbutton").attr("disabled", false);
+                alert("Something went wrong...");
+
+            },
+            complete: function () {
+
+                $(".submitbutton").attr("disabled", false);
+            }
+
+        });
+    }
+    function AddSubMenu() {
+        var UserId = $('#ID').val()
+
+        var MainMenu = $("#MenuMasters").val();
+        $("#test1 tbody tr").remove();
+        $.ajax({
+            type: 'GET',
+            url: "/Master/SubMenu?MainMenuId=" + MainMenu,
+            contentType: 'application/json; charset=utf-8',
+            cache: false,
+            success: function (response) {
+                debugger;
+                var Quan = 1;
+                var trHTML = '';
+                $.each(response, function (i, item) {
+                    trHTML += '<tr style="padding-top:5px"><td>' + item.Menu_Name + '</td><td><input type="checkbox" name="foo" value="' + item.MenuCap_ID + '" /></td></tr>';
+                });
+                $('#test1').append(trHTML);
+                check_checkbox(UserId, MainMenu);
+            },
+            error: function (e) {
+                console.log(e);
+                $(".submitbutton").attr("disabled", false);
+                alert("Something went wrong...");
+
+            },
+            complete: function () {
+
+                $(".submitbutton").attr("disabled", false);
+            }
+
+        });
+    }
+</script>

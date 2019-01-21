@@ -1,0 +1,87 @@
+﻿@model TogoFogo.Models.UREVASmodel
+@{
+    ViewBag.Title = "UREVASform";
+    var Source = "";
+    Source = "http://crm.togofogo.com/Uploaded Images/" + Model.CourierLogo;
+
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Update AWB Status<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm("AWBStatusform", "Logistics", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.AWBNumber)
+                    <div class="row">
+                        <p style="font-size: 17px;"><u></u></p>
+                        <div class="col-md-6">
+
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.CourierName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.CourierName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row" style="padding-bottom: 5px">
+
+                                <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3 col-xs-12">
+                                    <img src="@Url.Content(Source)" alt="Courier Logo" width="120" height="120" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" row">
+                        <p style="font-size: 17px;"><u>Mass Reverse AWB Status Update:</u></p>
+                        <br />
+                        <div class="col-md-6">
+
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.AWBStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.AWBStatus, new List<SelectListItem>
+                                     {
+                                         new SelectListItem {Text = "In Transit", Value = "In Transit"},
+                                         new SelectListItem {Text = "Lost", Value = "Lost"},
+                                         new SelectListItem {Text = "Delivered", Value = "Delivered"},
+                                         new SelectListItem {Text = "RTO In Transit", Value = "RTO In Transit"},
+                                         new SelectListItem {Text = "RTO Lost", Value = "RTO Lost"},
+                                         new SelectListItem {Text = "RTO Delivered", Value = "RTO Delivered"},
+                                     }, "Select", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.AWBStatus, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

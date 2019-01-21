@@ -1,0 +1,92 @@
+﻿<style>
+    .buttons-excel {
+        background-color:forestgreen;
+        color:white;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Repair request Report<small>Total call request : <span class="badge" style="color:white">@ViewBag.TotalCount</span></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                @Html.Action("FilterOfRepairReport", "Reports")
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" style="overflow-x: scroll;" id="refresh">
+                @Html.Action("TableRepair", "Reports")
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $("#btnSubmit").click(function () {
+
+
+                var data = $("#myForm").serialize();
+
+                $.ajax({
+                    type: "POST",               
+                    url: "/Reports/FilterOfRepairReport",
+                    data: data,
+                    success: function (response) {
+                      
+                        $("#refresh").html(response);
+                        $('#myTable').DataTable({
+                            dom: 'Bfrtip',
+                            buttons: [
+                                {
+                                    extend: 'excel',
+                                    title: 'Repair request report'
+                                }
+                            ],
+                            initComplete: function () {
+                                //$(".buttons-html5").css("background-color", "green","color","white");
+                                $('.buttons-html5').html('<b><span class="glyphicon glyphicon-file" data-toggle="tooltip" title="Export To Excel" style="font-size: 15px;color: darkgreen;font-weight: 600;">Export To Excel</span></b>')
+                            }
+                        });
+                       
+                    },
+                    error: function () {
+
+                        alert("Something went wrong...")
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+            });
+        });
+    </script>
+    
+
+}

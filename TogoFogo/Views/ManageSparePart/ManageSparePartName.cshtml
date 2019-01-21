@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "";
+}
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add Spare Part Name<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <br />
+                @Html.Action("AddSparePartName", "ManageSparePart")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>List Of All Spare Name<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" style="overflow-x: scroll;">
+                @Html.Action("AddSparePartNametable", "ManageSparePart")
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="Editmodel" role="dialog">
+    <div class="modal-dialog  modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Spare Name</h4>
+            </div>
+
+            <div class="modal-body" id="Info">@Html.Action("EditSpareName","ManageSparePart")</div>
+        </div>
+
+    </div>
+</div>
+@if (ViewBag.AddSparePart != null)
+{
+    <div id="snackbar">@ViewBag.AddSparePart</div>
+}
+@if (ViewBag.EditSparePart != null)
+{
+    <div id="snackbar">@ViewBag.EditSparePart</div>
+}
+@if (ViewBag.AddSpareName != null)
+{
+    <div id="snackbar">@ViewBag.AddSpareName</div>
+}
+@if (ViewBag.EditSpareName != null)
+{
+    <div id="snackbar">@ViewBag.EditSpareName</div>
+}
+@if (ViewBag.AddSparePart != null || ViewBag.EditSparePart != null || ViewBag.AddSpareName != null || ViewBag.EditSpareName!=null)
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+    </script>
+}
+
+@section scripts{
+    <script>
+        function EditSpareName(SpareTypeId) {
+            $.ajax({
+                type: 'GET',
+                url: "/ManageSparePart/EditSpareName?SpareTypeId=" + SpareTypeId,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+        }
+    </script>
+}

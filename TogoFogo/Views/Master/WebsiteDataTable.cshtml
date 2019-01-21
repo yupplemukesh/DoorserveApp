@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TogoFogo.Models.Prob_Vs_price_matrix>
+@{
+    Layout = null;
+}
+<table class="table table-striped table-bordered table-condensed" id="myTable">
+    <thead>
+        <tr>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Model_Id)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Problem_Id)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Problem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Market_Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.estimated_Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Min_Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Max_Price)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Model_Id)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Problem_Id)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Problem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Market_Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.estimated_Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Min_Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Max_Price)
+            </td>
+            <td style="display: inline-flex">
+                
+                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="WebsitePriceProb('@item.Model_Id','@item.Problem_Id')">Edit</a>                
+                
+            </td>
+        </tr>
+        }
+    </tbody>
+  
+
+</table>

@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "ServiceCharge";
+}
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>Add Device Service Charge<small></small></h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li>
+						<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<br />
+				@Html.Action("AddServiceCharge", "DeviceServiceCharge")
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>List Service Charge<small></small></h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li>
+						<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+					</li>
+            
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content" style="overflow-x: scroll;">
+				@Html.Action("ServiceChargeTable", "DeviceServiceCharge")
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="Editmodel" role="dialog">
+	<div class="modal-dialog  modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Edit Service Charge</h4>
+			</div>
+
+			<div class="modal-body" id="Info">@Html.Partial("EditServiceCharge")</div>
+		</div>
+
+	</div>
+</div>
+@if (ViewBag.Message != null)
+{
+	<div id="snackbar">@ViewBag.Message</div>
+}
+
+@if (ViewBag.Message != null)
+{
+	<script>
+
+		var x = document.getElementById("snackbar");
+		x.className = "show";
+		setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+	</script>
+}
+@section scripts{
+    <script>
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+		}
+		function EditServiceCharge(serviceChargeId) {
+
+	        $.ajax({
+		        type: 'GET',
+				url: "/DeviceServiceCharge/EditServiceCharge?serviceChargeId=" + serviceChargeId,
+		        contentType: 'application/json; charset=utf-8',
+		        cache: false,
+		        success: function (response) {
+			        $("#Info").html(response);
+			        $("#editdatepicker").datepicker({
+				        dateFormat: 'dd-M-yy'
+			        }).datepicker();;
+		        },
+		        error: function (e) {
+			        console.log(e);
+			        $(".submitbutton").attr("disabled", false);
+			        alert("Something went wrong...");
+
+		        },
+		        complete: function () {
+
+			        $(".submitbutton").attr("disabled", false);
+		        }
+	        });
+        }
+    </script>
+}

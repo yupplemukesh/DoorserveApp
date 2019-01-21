@@ -1,0 +1,101 @@
+﻿@model IEnumerable<TogoFogo.Models.CreateUserModel>
+
+@{
+    Layout = null;
+}
+
+
+    <table  class="table table-striped table-bordered table-condensed" id="myTable">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserRole)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmployeeId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mobile)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email_Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+
+                <th> Action</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserRole)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mobile)
+                </td>
+                <td nowrap>
+                    @Html.DisplayFor(modelItem => item.Email_Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td style="display: inline-flex">
+                    <input type="button" class="btn btn-small btn-warning btnSize" value="Edit" onclick="@("window.location.href='" + @Url.Action("EditUser1", "Master",new {UserId=item.ID }) + "'");" />
+
+                    <input type="button" class="btn btn-small btn-success btnSize" value="Update Password" onclick="@("window.location.href='" + @Url.Action("EditPassword", "Master",new {Id=item.ID,Email=item.Email_Address,username=item.UserName}) + "'");" />
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    
+    </table>
+

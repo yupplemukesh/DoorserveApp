@@ -1,0 +1,191 @@
+﻿@using TogoFogo.Models
+@model TogoFogo.Models.ProductModel
+
+
+@using (Html.BeginForm("EditProduct", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.HiddenFor(model => model.ProductId)
+	@Html.HiddenFor(model => model.ProductImage)
+	<div class="row">
+        <div class="col-md-8">
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.Category_ID, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.Sub_Cat_Id, null, new { @class = "form-control", @id = "SubCat" })
+                    @Html.ValidationMessageFor(model => model.Sub_Cat_Id, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                    @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                    @Html.ListBoxFor(model => model.ProductColor, null, new { @class = "selectpicker1", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+                    @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", onchange = "loadFile(event)" })
+                    @Html.ValidationMessageFor(model => model.ProductImg, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.Alt_ProductName, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextBoxFor(model => model.Alt_ProductName, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Alt_ProductName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextBoxFor(model => model.MRP, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MRP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextBoxFor(model => model.Market_Price, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Market_Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.TUPC, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextBoxFor(model => model.TUPC, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TUPC, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.Is_repair, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.DropDownListFor(model => model.Is_repair, new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Yes", Value = "Yes"},
+                        new SelectListItem {Text = "No", Value = "No"}
+
+                    }, "Select Repair Status", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.Is_Active, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Yes", Value = "Yes"},
+                            new SelectListItem {Text = "No", Value = "No"}
+
+                        }, "Select Status", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px">
+                <div class="col-md-4">
+
+                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-8">
+
+                    @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row text-center">
+                <input type="submit" value="Submit" class="btn btn-large btn-success" />
+            </div>
+
+        </div>
+		<div class="col-md-3" style="margin-top: 80px;">
+			<img id="editblah" src="~/Images/male-user-add.png" width="150" height="150" alt="your image" />
+		</div>
+	</div>
+}
+    <script>
+        $('.selectpicker1').selectpicker();
+        $(".bootstrap-select").click(function () {
+            $(this).addClass("open");
+
+            //$('#CountryList').attr('data-live-search', true);
+        });
+        $(document).click(function () {
+            $(".bootstrap-select").removeClass("open");
+            $('.selectpicker').attr("data-live-search", true);
+
+        });
+        $(".bootstrap-select").click(function (e) {
+            debugger;
+            e.stopPropagation();
+
+
+        });
+    </script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+

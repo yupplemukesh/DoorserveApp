@@ -1,0 +1,75 @@
+﻿@model TogoFogo.Models.ColorModel
+@{
+    Layout = null;
+}
+
+
+
+@using (Html.BeginForm("EditColorMaster", "Master", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.ColorId)
+
+    <div class="col-md-8 col-sm-8 col-lg-8">
+
+        @*<div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                    @Html.ListBoxFor(model => model.pd, null, new { id = "Model", @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>*@
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.ColorName, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.ColorName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ColorName, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Yes", Value = "Yes"},
+                        new SelectListItem {Text = "No", Value = "No"}
+
+                    }, "Select", new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
+                <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+

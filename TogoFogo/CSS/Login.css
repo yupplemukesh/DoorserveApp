@@ -1,0 +1,54 @@
+﻿body{
+	background-image:url(/Images/lockscreen.jpg)
+}
+#login-name{
+font-size: 30px;
+font-family: arabic typesetting;
+border-bottom-style: ridge;
+color:white;
+margin-top:100px; 
+}
+#login{
+background-color:rgba(13,13,13,0.2);
+min-height:500px;
+padding: 40px 80px 40px 80px;
+box-shadow: -10px -10px 9px darkslategrey;
+text-align:center
+}
+.user{
+font-size: 29px;
+font-family: arabic typesetting;
+color: white;
+}
+
+#iconn{
+
+background-color:gray;
+border-color:darkgray;
+color: white;
+
+}
+#iconn1{
+
+background-color: gray;
+border-color: darkgray;
+color: white;
+
+}
+
+#text1{
+	border-radius: 0;
+	height: 40px;
+}
+#text2{
+
+	border-radius: 0;
+	height: 40px;
+}
+
+.btn{
+	width: 50%;
+	float: left;
+	height: 40px;
+	font-size: 18px;
+}

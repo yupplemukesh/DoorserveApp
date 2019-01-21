@@ -1,0 +1,87 @@
+﻿
+@model TogoFogo.Models.Prob_Vs_price_matrix
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("EditWebsiteData", "Master", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Model_Id);
+    @Html.HiddenFor(m => m.Problem);
+   
+    <div class="col-md-6 col-sm-6 col-lg-6">
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control", disabled = "disabled", onchange = "AjaxWithValue('BindModelNameJson', 'editModel_Id', this)" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Model_Id, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.Model_Id, null, htmlAttributes: new { @class = "form-control", placeholder = "", id = "editModel_Id", disabled = "disabled" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.Problem, null, new { @class = "form-control", disabled = "disabled" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Market_Price, null, new { @class = "form-control" })
+            </div>
+        </div>        
+    </div>
+    <div class="col-md-6 col-sm-6 col-lg-6">
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.estimated_Price, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.estimated_Price, null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Min_Price, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Min_Price, null, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Max_Price, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Max_Price, null, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-4 col-sm-4 col-xs-12"></div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        </div>
+    </div>
+}
+
+
+

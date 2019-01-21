@@ -1,0 +1,82 @@
+﻿
+@using System.Web.UI.WebControls
+@model TogoFogo.Models.ManageProblemObserved
+@{
+	Layout = null;
+}
+
+@using (Html.BeginForm("EditProblemObserved", "ProblemObserved", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.HiddenFor(m => m.ProblemId)
+
+	<div class="row" style="padding-bottom: 5px;">
+		@Html.LabelFor(model => model.DeviceCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.Device_Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
+            @Html.ValidationMessageFor(model => model.Device_Category, "", new { @class = "text-danger" })
+        </div>
+	</div>
+	<div class="row" style="padding-bottom: 5px;">
+		@Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.SubCategory, null, new { @class = "form-control", id = "EditSubCategory" })
+            @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
+        </div>
+	</div>
+	<div class="row" style="padding-bottom: 5px;">
+		@Html.LabelFor(model => model.ProblemCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.ProblemCode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ProblemCode, "", new { @class = "text-danger" })
+        </div>
+	</div>
+
+	<div class="row" style="padding-bottom: 5px;">
+		@Html.LabelFor(model => model.ProblemObserved, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.ProblemObserved, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ProblemObserved, "", new { @class = "text-danger" })
+        </div>
+	</div>
+	<div class="row" style="padding-bottom: 5px;">
+		@Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
+        </div>
+	</div>
+
+	<div class="row" style="padding-bottom: 5px;">
+		@Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Yes", Value = "1"},
+                new SelectListItem {Text = "No", Value = "0"}
+
+            }, "Select Status", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+	</div>
+
+	<div class="ln_solid"></div>
+	<div class="form-group">
+		<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
+			<button type="submit" class="btn btn-success">Submit</button>
+		</div>
+	</div>
+}
+
+
+@if (ViewBag.SortOrder != null)
+{
+	<script>
+            document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
+
+	</script>
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>togoFogo </title>
+
+    <!-- Bootstrap -->
+    <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Font Awesome -->
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/vendors/nprogress/nprogress.css" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+
+    <!-- bootstrap-progressbar -->
+    <link href="~/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="~/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-daterangepicker -->
+    @*<link href="~/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">*@
+    <!-- iCheck -->
+    <link href="~/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+   
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    <style>
+        /* Large devices (laptops/desktops, 992px and up) */
+        @@media only screen and (min-width: 992px) {
+            .toggle {
+                display: none;
+            }
+        }
+
+        /* Extra large devices (large laptops and desktops, 1200px and up) */
+        @@media only screen and (min-width: 1200px) {
+            .toggle {
+                display: none;
+            }
+        }
+        /* Extra small devices (phones, 600px and down) */
+        @@media only screen and (max-width: 600px) {
+            .navbar nav_title > img {
+                display: none;
+            }
+        }
+
+        @@media only screen and (min-width: 1200px) {
+            #testlogo {
+                display: block !important;
+            }
+        }
+        /* Small devices (portrait tablets and large phones, 600px and up) */
+        @@media only screen and (max-width: 400px) {
+            #testlogo {
+                display: none !important;
+            }
+        }
+    </style>
+    <style>
+        #link {
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            /*optional*/
+            font-family: arial,sans-serif; /*input has OS specific font-family*/
+            color: cornflowerblue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .loader {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('/ErrorPageImages/Facebook-1s-200px.gif') 50% 50% no-repeat rgb(249,249,249);
+            opacity: .8;
+        }
+    </style>
+
+    @*Datatables*@
+    @*<link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+        <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">*@
+
+    <!-- Custom Theme Style -->
+    <link href="~/build/css/custom.min.css" rel="stylesheet">
+    <link href="~/Custom_CssandScript/Mystylesheet.css" rel="stylesheet" />
+</head>
+<body class="nav-md">
+    <div class="loader"></div>
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        @*<a href="index.html" class="site_title"><i class="fa fa-paw"></i></a>*@
+                        <img id="testlogo" src="~/Images/Images/Togofogo_Logo.png" width="190" />
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <br />
+                    <!-- sidebar menu -->
+                    @Html.Action("DynamicLinks", "Home")
+
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu" style="background: #2A3F54;">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+
+                                <input type="button" class="btn btn-primary btn-lg" value="Logout" onclick="@("window.location.href='" + @Url.Action("Logout", "Account") + "'");" />
+
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <div>
+                <div id="overlay">
+                    <div id="progstat"></div>
+                    <div id="progress"></div>
+                </div>
+                <div class="right_col" role="main">
+                    @RenderBody()
+                </div>
+
+            </div>
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Togo Fogo Admin Panel - Created by <a href="http://aforeserve.co.in/">Aforeserve</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    @*<script src="~/vendors/jquery/dist/jquery.min.js"></script>*@
+    <!-- Custom Theme Scripts -->
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/customBundle")
+    @* <script src="~/Scripts/jquery.validate.min.js"></script> *@
+    @* <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script> *@
+    @*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>*@
+    <!-- Bootstrap -->
+    @*<script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>*@
+
+    <!-- FastClick -->
+    <script src="~/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="~/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="~/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+
+    <!-- Skycons -->
+    <script src="~/vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="~/vendors/Flot/jquery.flot.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="~/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="~/vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="~/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <!-- Datatables -->
+    <script src="~/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    @*<script src="~/vendors/jszip/dist/jszip.min.js"></script>*@
+    @*<script src="~/vendors/pdfmake/build/pdfmake.min.js"></script>
+        <script src="~/vendors/pdfmake/build/vfs_fonts.js"></script>*@
+
+    <script src="~/vendors/moment/min/moment.min.js"></script>
+    <script src="~/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="~/build/js/custom.min.js"></script>
+    @*<link href="~/Custom_CssandScript/bootstrap-select.css" rel="stylesheet" />
+        <script src="~/Custom_CssandScript/bootstrap-select.js"></script>*@
+
+    @*@Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jqueryval")*@
+
+    <!-- Calender -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <!-- searchable Dropdown -->
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>*@
+
+    <script src="~/Custom_CssandScript/jquery.dataTables.min.js"></script>
+
+
+    <link href="~/CSS/bootstrap-select.min.css" rel="stylesheet" />
+
+    <script src="~/CSS/bootstrap-select.js"></script>
+    <!--dATETIME PICKER-->>
+
+    <link href="~/Custom_CssandScript/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="~/Custom_CssandScript/bootstrap-datetimepicker.js"></script>
+    <!-- iCheck -->
+    <script src="~/vendors/iCheck/icheck.min.js"></script>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+
+
+
+    @*<script src="~/ExcelDOwnloadScript/jquery.table2excel.js"></script>*@
+
+    <script src="">https://code.jquery.com/jquery-3.3.1.js</script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+    <script>
+        $(window).load(function () {
+            $(".loader").fadeOut("slow");
+        });
+        $(document).ready(function (e) {
+            $('.selectpicker').selectpicker();
+
+            $(".bootstrap-select").click(function () {
+                $(this).addClass("open");
+
+                //$('#CountryList').attr('data-live-search', true);
+            });
+            $(document).click(function () {
+                $(".bootstrap-select").removeClass("open");
+                $('.selectpicker').attr("data-live-search", true);
+
+            });
+            $(".bootstrap-select").click(function (e) {
+                debugger;
+                e.stopPropagation();
+
+
+            });
+
+        });
+        $(document).ready(function () {
+            debugger;
+            $('#myTable').DataTable();
+        });
+        $(document).ready(function () {
+            debugger
+
+            $('#OOWRRTable').DataTable({
+
+                dom: 'Bfrtip',
+
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: 'OOWR report',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+                        }
+                    },
+
+                ],
+                initComplete: function () {
+                    //$(".buttons-html5").css("background-color", "green","color","white");
+                    $('.buttons-html5').html('<b><span class="glyphicon glyphicon-file" data-toggle="tooltip" title="Export To Excel" style="font-size: 15px;color: darkgreen;font-weight: 600;">Export To Excel</span></b>');
+                    $('#hideLink').hide()
+                }
+            });
+        });
+        $(document).ready(function () {
+            //$('#SC_PincodeDropdown').select2();
+            $("#datepicker,#AgreementStartDate,#AgreementEndDate,#editAgreementStartDate,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
+                .datepicker({
+                    dateFormat: 'dd-M-yy',
+                }).datepicker("setDate", new Date());
+            $('#date_begin,#date_end').datetimepicker();
+            $("#form_datetime,#form_datetime1,#form_datetime2").datetimepicker({ format: 'yyyy-mm-dd hh:ii' });
+        });
+        $(document).ready(function () {
+
+            $('#ReportFromDate,#ReportToDate').datepicker({
+                dateFormat: 'dd-M-yy',
+            }).datepicker("setDate", new Date());
+
+            $('#LandingToDate,#LandingFromDate').datepicker({
+                dateFormat: 'dd-M-yy',
+                maxDate: new Date(),
+            }).datepicker("setDate", new Date());
+        });
+        $(document).ready(function () {
+            $("#datepicker1,#FromDate,#ToDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                minDate: 0
+            }).datepicker("setDate", new Date());;
+        });
+        $(document).ready(function () {
+            $("#datepicker1").datepicker({
+                dateFormat: 'dd-M-yy',
+            }).datepicker("setDate", new Date());;
+        });
+
+        function readURL(input) {
+            debugger;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('editblah');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        $(function () {
+            var startDate = $(".startDate").val();
+            var endDate = $(".endDate").val();
+
+            $(".excel").click(function () {
+                $('<table>')
+                    .append(
+                        $("#myTable").DataTable().$('tr').clone()
+                    )
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "SomeFile" //do not include extension
+                    });
+            });
+
+            $("#myTable").dataTable();
+        });
+
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

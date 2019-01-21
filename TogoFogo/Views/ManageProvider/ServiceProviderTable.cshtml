@@ -1,0 +1,107 @@
+﻿@model IEnumerable<TogoFogo.Models.ManageServiceProviderModel>
+@{
+    Layout = null;
+}
+
+
+<table class="table table-striped table-bordered table-condensed" id="myTable">
+<thead>
+<tr>
+    <th>
+        @Html.DisplayNameFor(model => model.ProcessName)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.ProviderCode)
+    </th>
+
+    <th>
+        @Html.DisplayNameFor(model => model.ProviderName)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.OrganisationName)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.AddressType)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Address)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Country)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.St_Name)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.LocationName)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Locality)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.NearByLoc)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.FirstName)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.LastName)
+    </th>
+   
+    <th></th>
+</tr>
+</thead>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProcessName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProviderCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProviderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrganisationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddressType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.St_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Locality)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NearByLoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+       
+        <td style="display: inline-flex">
+            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize "onclick="EditServiceProvider(@item.ProviderId)">Edit</a>
+            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
+            @*<input type="button" value="Delete" class="btn btn-small btn-danger btnSize"/>*@
+        </td>
+    </tr>
+}
+
+</table>
+@*  *@

@@ -1,0 +1,123 @@
+﻿
+@model TogoFogo.Models.SubcategoryModel
+@{
+	Layout = null;
+}
+@using (Html.BeginForm("EditDeviceSubCategory", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.HiddenFor(model => model.SubCatId)
+	<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.DeviceCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.DeviceCategory, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCatName', this)" })
+				@Html.ValidationMessageFor(model => model.DeviceCategory, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.SubCatName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.SubCatName, htmlAttributes: new { @class = "form-control", id = "EditSubCatName" })
+				@Html.ValidationMessageFor(model => model.SubCatName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.IMEI1, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.IMEI1, new List<SelectListItem>
+				{
+					new SelectListItem {Text = "Yes", Value = "Yes"},
+					new SelectListItem {Text = "No", Value = "No"}
+
+				}, "Select Status", new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.IMEI1, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.IMEI2, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.IMEI2, new List<SelectListItem>
+				{
+					new SelectListItem {Text = "Yes", Value = "Yes"},
+					new SelectListItem {Text = "No", Value = "No"}
+
+				}, "Select Status", new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.IMEI2, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.IMEI_Length, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.IMEI_Length, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.IMEI_Length, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.Sr_no_req, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.Sr_no_req, new List<SelectListItem>
+				{
+					new SelectListItem {Text = "Yes", Value = "Yes"},
+					new SelectListItem {Text = "No", Value = "No"}
+
+				}, "Select Status", new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Sr_no_req, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.Sr_No_Length, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.Sr_No_Length, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Sr_No_Length, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.Is_repair, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.Is_repair, new List<SelectListItem>
+				{
+					new SelectListItem {Text = "Yes", Value = "Yes"},
+					new SelectListItem {Text = "No", Value = "No"}
+
+				}, "Select Status", new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.Is_Active, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
+				{
+					new SelectListItem {Text = "Yes", Value = "Yes"},
+					new SelectListItem {Text = "No", Value = "No"}
+
+				}, "Select Status", new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px;">
+			@Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+			</div>
+		</div>
+		<div class="ln_solid"></div>
+		<div class="form-group">
+			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+				<button type="submit" class="btn btn-success">Submit</button>
+			</div>
+		</div>
+	</div>
+
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

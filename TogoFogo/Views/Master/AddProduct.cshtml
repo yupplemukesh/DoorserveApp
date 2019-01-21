@@ -1,0 +1,114 @@
+﻿@model TogoFogo.Models.ProductModel
+@using (Html.BeginForm("AddProduct", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Sub_Cat_Id', this)" })
+            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            @Html.DropDownListFor(model => model.Sub_Cat_Id, new List<SelectListItem> { }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Sub_Cat_Id, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.ProductColor, null, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true" ,data_width="100%"})
+            @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Alt_ProductName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.Alt_ProductName, htmlAttributes: new { @class = "form-control" })
+
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.MRP, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.Market_Price, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.TUPC, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.TUPC, htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Is_repair, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.Is_repair, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Yes", Value = "Yes"},
+                new SelectListItem {Text = "No", Value = "No"}
+
+            }, "Select Status", new {@class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Is_Active, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Yes", Value = "Yes"},
+                new SelectListItem {Text = "No", Value = "No"}
+
+            }, "Select Status", new {@class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <button class="btn btn-primary" type="button">Cancel</button>
+            <button class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</div>
+    <div class="col-md-4 col-sm-4 col-lg-4 col-xs-12" style="margin-top: 90px;">
+        <img id="blah" src="/Images/male-user-add.png" width="200" alt="your image" style="height: 200px" />
+    </div>
+}

@@ -1,0 +1,199 @@
+﻿@model IEnumerable<TogoFogo.Models.AllData>
+@{
+    ViewBag.Title = "POOWRR_Test";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" style="overflow-x: scroll;">
+                <br />
+                <table class="table table-striped table-bordered table-condensed text-nowrap" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayName("Call Request Number")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Call Request Date and Time")
+                            </th>
+
+                            @*<th>
+                                @Html.DisplayName("Warranty Status")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Warranty Expiry Date")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Repair Count")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Call Status")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Current Status")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Call Back Date And Time")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Customer Name")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Mobile Number")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Alternative Contact Number")
+                            </th>
+                            <th>
+                                @Html.DisplayName("EMailAddress")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Address")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Pincode")
+                            </th>
+                            <th>
+                                @Html.DisplayName("City/Location Name")
+                            </th>
+                            <th>
+                                @Html.DisplayName("State/UT")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Device")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Brand")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Model")
+                            </th>
+
+                            <th>
+                                @Html.DisplayName("Remarks")
+                            </th>
+                            <th>
+                                @Html.DisplayName("IP_Address")
+                            </th>*@
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td></td>
+                        <td>
+                            <a href="@Url.Action("EditRequest", "CustomerSupport", new { reqno = item.CC_NO })" data-toggle="modal">
+                                <span style="color:cornflowerblue !important" class="glyphicon glyphicon-earphone text-danger">@Html.DisplayFor(modelItem => item.CC_NO)</span>
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CallRequestDate)
+                        </td>
+
+                        @*<td>
+                            @Html.Display("")
+                        </td>
+                        <td>
+                            @Html.Display("")
+                        </td>
+                        <td>
+                            @Html.Display("")
+                        </td>
+                        <td>
+                            @Html.Display("")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Current_Status)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CallBackDatetime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Customer_Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mobile_No)
+                        </td>
+
+                        <td>
+                            @Html.Display("")
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email_Id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cust_Add)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pincode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cust_City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cust_State)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CatName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model)
+                        </td>
+
+                        <td>
+                            @Html.Display("")
+                        </td>
+                        <td>
+                            @Html.Display("")
+                        </td>*@
+
+
+                    </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+    </script>
+}
+@section Scripts{
+    <script>
+
+        $(document).ready(function () {
+
+            $('table tr').each(function (index) {
+                $(this).find('td:nth-child(1)').html(index);
+            });
+        });
+    </script>
+}

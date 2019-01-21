@@ -1,0 +1,276 @@
+﻿
+@{
+    ViewBag.Title = "PIWRR";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Pending IW Repair Requests<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div id="hiddenPart" style="display:none">
+                    @*@Html.Partial("PIWRRFindByCcNo")*@
+                    @Html.Action("EditPIWRR", "CustomerSupport")
+                </div>
+
+                <div class="x_content" style="overflow-x: scroll;">
+                    @Html.Action("TablePIWRR", "CustomerSupport")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+    </script>
+}
+
+<div id="snackbar">Please search By Call Request Number First</div>
+
+@section Scripts{
+    <script>
+        $('#myTable input:button').click(function () {
+            //alert($(this).val());
+            var ccNo = $(this).val()
+            CCno(ccNo);
+            $('#hiddenPart').show();
+        });
+    </script>
+    <script>
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+        }
+
+        function CCno(ccNo) {
+            $(window).scrollTop(0);
+            $.ajax({
+                type: 'POST',
+                url: "/CustomerSupport/PIWRRFindByCcNo?CcNO=" + ccNo,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    //document.getElementById('ProcessName').value = response.ProcessName;
+                    //$('#editCC_NO').val(response.CcNo);
+                    $('#getCC_NO').val(response.CcNo);
+                    $('#ProcessName').val(response.TrcProcess_Name);
+                    $('#Mobile_No').val(response.Mobile_No);
+                    $('#Brand').val(response.Brand);
+                    $('#Cust_Add').val(response.Cust_Add);
+                    $('#Cust_City').val(response.Cust_City);
+                    $('#Cust_State').val(response.Cust_State);
+                    $('#CustomerId').val(response.CustomerId);
+                    $('#Customer_Name').val(response.Customer_Name);
+                    $('#Email_Id').val(response.Email_Id);
+                    $('#Model').val(response.Model);
+                    $('#CallRequestDateTime').val(response.EntryDate);
+                    $('#ServiceProviderName').val(response.ServiceProviderName);
+                    $('#Pincode').val(response.Pincode);
+                    $('#Problem').val(response.Problem);
+                    $('#StatusName').val(response.StatusName);
+                    $('#SubCatName').val(response.SubCatName);
+                    $('#Serial_No').val(response.Serial_No);
+                    $('#IMEI1').val(response.IMEI1);
+                    $('#IMEI2').val(response.IMEI2);
+                    $('#CurrentStatusRepairInfo').val(response.StatusName);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+        function checkSubmit() {
+            var listName = "test";
+            var table = $("#test1 tbody");
+            var qtd = 0;
+            table.find('tr').each(function (i) {
+                var $tds = $(this).find('td');
+                //console.log($tds);
+
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].spareCcNoField' value='" + document.getElementById('CcNo').value + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].spaceJobNumberField' value='" + document.getElementById('CustomerId').value + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].spareTypeField' value='" + $tds.eq(2).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].spareNameField' value='" + $tds.eq(3).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].sparePriceField' value='" + $tds.eq(4).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].spareQuantityField' value='" + $tds.eq(5).text() + "'>");
+
+                qtd += 1;
+            });
+            return true;
+        }
+
+        $("#test1").on('click', '.btnDelete', function () {
+            $(this).closest('tr').remove();
+        });
+        $(function () {
+            $("#CallStatus").change(function () {
+                debugger;
+                var ab = $(this).find('option:selected').text();
+                if (ab == "Reject") {
+                    $("#CallRequestReject").show();
+                } else {
+                    $("#CallRequestReject").hide();
+                }
+            });
+        });
+
+        function getSpareData() {
+            if ($("#CcNo").val() == "") {
+                debugger;
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 4000);
+            }
+            else {
+                var spareType = $("#SpareType").val();
+                var spareName = $("#SpareName").val();
+                var Quantity = $("#Quantity").val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: "/RepairStatus/SpareName?spareType=" + spareType + "&spareName=" + spareName,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    cache: false,
+                    success: function (response) {
+                        debugger;
+                        var Quan = 1;
+                        var trHTML = '';
+                        trHTML +=
+
+                            '<tr style="padding-top:5px"><td>' + document.getElementById('CcNo').value + '</td><td>' + document.getElementById('CustomerId').value + '</td><td>' + response.SpareTypeName + '</td><td id="PartName">' + response.PartName + '</td><td id="Price">' + response.MarketPrice +
+                            '</td id="Quantity"><td>' + document.getElementById('Quantity').value + '</td><td>' + "<input class=btnDelete type=button value=Remove style=background-color:red;color:white>" + '</td></tr>';
+                        $('#test1').append(trHTML);
+
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                        $(".submitbutton").attr("disabled", false);
+                    }
+
+                });
+            }
+
+
+        }
+
+        function calculateBill() {
+            var cost = 0;
+            var totalCost = 0;
+            var table = document.getElementById('test1');
+            var rows = $('#test1 tbody tr').length;
+            for (var i = 1; i <= rows; i += 1) {
+                var row = table.rows[i];
+                console.log(row);
+                var se = row.cells[4].innerHTML;
+                var cost = row.cells[4].innerHTML * row.cells[5].innerHTML;
+                totalCost = totalCost + cost;
+            }
+            var service = document.getElementById('BillServiceCharge').value = 100;
+            var estiCost = service + totalCost;
+            $('#BillSpareCost').val(totalCost);
+            $('#BillEstimatedCost').val(estiCost);
+        }
+        $('#SelectTrc').change(function () {
+            var selectedValue = parseInt(jQuery(this).val());
+            $.ajax({
+                type: 'GET',
+                url: "/CustomerSupport/GetTrcFullAddress?TRCID=" + selectedValue,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    console.log(response)
+
+                    $('#TRCFullAddr').val(response.Address + "  " + response.LOCALITY + "  " + response.NEAR_BY_LOCATION + "  " + response.PIN_CODE)
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        });
+        $('#CourierName').change(function () {
+
+            var selectedValue = parseInt(jQuery(this).val());
+            $.ajax({
+                type: 'GET',
+                url: "/CustomerSupport/GetCourierInformation?CourierId=" + selectedValue,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    console.log(response)
+                    var url = "http://crm.togofogo.com/Uploaded Images/" + response.UploadedCourierFile
+                    $('#CourierContact').val(response.MobileNumber)
+                    $("#CourierLogo").attr('src', url);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        });
+    </script>
+}
+

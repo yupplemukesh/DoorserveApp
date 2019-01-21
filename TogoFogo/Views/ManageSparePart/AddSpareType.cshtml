@@ -1,0 +1,64 @@
+﻿@model TogoFogo.Models.ManageSpareType
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("AddSpareType", "ManageSparePart", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.SubCategory, new List<SelectListItem> { }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.SpareTypeName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.SpareTypeName, htmlAttributes: new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.SpareTypeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control",@readonly="readonly"})
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+
+                }, "Select", new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button class="btn btn-primary" type="button">Cancel</button>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+
+}
+@if (ViewBag.SortOrder != null)
+{
+    <script>
+        document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
+
+    </script>
+}

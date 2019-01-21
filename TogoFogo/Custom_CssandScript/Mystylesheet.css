@@ -1,0 +1,88 @@
+﻿body {
+}
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+
+.dataTables_paginate a {
+    padding: 6px 9px!important;
+    background: #ddd!important;
+    border-color: #ddd!important;
+    cursor: pointer !important;
+}
+.btnSize {
+    padding: 1px 5px !important;
+}
+.nav.side-menu>li.active, .nav.side-menu>li.current-page {
+    border-right: none!important;
+}
+.nav-md ul.nav.child_menu li:before {
+    background: none !important;
+}
+.nav-md ul.nav.child_menu li:after {
+    border-left: none!important; 
+        }
+/*.glyphicon {
+    position: relative !important;
+    top: 7px !important;
+    color: #ffffff!important;
+}*/
+fa fa-chevron-right>.adjust { top:10px!important}
+
+td, th {
+     padding: 1px; 
+}
+.x_title h2 {
+    margin: 5px 0 6px !important;
+    float: left !important;
+    display: block !important;
+    color: cornflowerblue !important;
+}
+/*.glyphicon {
+    position: relative !important;
+    top: 7px !important;
+    color: blue !important;
+}*/
+option {
+    background: white !important;
+    color: black !important;
+}
