@@ -9,13 +9,14 @@ namespace TogoFogo.Models
 {
     public class ManageLocation
     {
+        [DisplayName("Serial No")]
+        public Int32 SerialNo { get; set; }
         [Required]
         [DisplayName("Country Name")]
         public string CountryName { get; set; }
         [Required]
         [DisplayName("State Name")]
         public string StateName { get; set; }
-
         public string LocationId {get;set;}
         [Required]
         [DisplayName("Location Name")]
