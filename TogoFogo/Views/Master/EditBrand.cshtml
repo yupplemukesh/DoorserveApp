@@ -4,152 +4,161 @@
 	@Html.HiddenFor(m => m.BrandId)
 	@Html.HiddenFor(m => m.BrandImage)
 	<div class="row">
-		<div class="col-md-8">
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
-
-					@Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
-
-					@Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
-					@Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
-
-					@Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
-
-					@Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", @class = "form-control", onchange = "loadFile(event)" })
+        <div class="col-md-8">
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
+                    @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
 
 
-				</div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.UrlName, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.UrlName, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextBoxFor(model => model.UrlName, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextBoxFor(model => model.UrlName, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Header, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextAreaFor(model => model.Header, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.Footer, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.Footer, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Footer, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextBoxFor(model => model.Footer, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.LabelFor(model => model.Is_repair, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                    @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.DropDownListFor(model => model.Is_repair, new List<SelectListItem>
-						{
-							new SelectListItem {Text = "Yes", Value = "Yes"},
-							new SelectListItem {Text = "No", Value = "No"}
+                    @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-12">
 
-						}, "Select Repair Status", new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+                    @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
 
-					@Html.LabelFor(model => model.Is_Active, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+                </div>
+                <div class="col-md-3">
+                    @if (Model!=null)
+                    {
+                        
+                        <img id="blah" src="/UploadedImages/@Model.BrandImage" width="50" height="50"  />
+                    }
+                    else
+                    {
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50"  />
+                     }
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
-						{
-							new SelectListItem {Text = "Yes", Value = "Yes"},
-							new SelectListItem {Text = "No", Value = "No"}
+                    @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
-						}, "Select Status", new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px">
-				<div class="col-md-4">
+            @*@Html.DropDownListFor(model => model.IsRepair, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Yes", Value = "Yes"},
+                new SelectListItem {Text = "No", Value = "No"}
 
-					@Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-8">
+            }, "Select", new {@class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })*@
+                    @Html.CheckBoxFor(model => model.IsRepair)
+                </div>
+                
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-				</div>
-			</div>
+                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
 
+                @*@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
 
-			<div class="row text-center">
-				<input type="submit" value="Submit" class="btn btn-large btn-success" />
-			</div>
+                }, "Select", new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })*@
 
-		</div>
-		<div class="col-md-3" style="margin-top: 80px;">
+                    @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+                </div>
+            </div>
 
-			<img id="editblah" src="~/Images/male-user-add.png" width="150" height="150" alt="your image" />
-		</div>
+            <div class="row text-center">
+                <input type="submit" value="Submit" class="btn btn-large btn-success" />
+            </div>
+
+        </div>
+		
 	</div>
 
 }

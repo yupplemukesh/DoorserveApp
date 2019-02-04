@@ -82,12 +82,12 @@ namespace TogoFogo.Controllers
                             model.UrlName,
                             model.Header,
                             model.Footer,
-                            model.Is_repair,
-                            model.Is_Active,
+                            model.IsRepair,
+                            model.IsActive,
                             model.Comments,
-                            CreatedBy = "",
-                            ModifyBy = "",
-                            DeleteBy = "",
+                            model.CreatedBy,
+                            model.ModifyBy ,
+                            model.DeleteBy ,
                             Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
@@ -145,8 +145,8 @@ namespace TogoFogo.Controllers
                         model.BrandName,
                         model.BrandImage,
                         model.BrandDescription,
-                        model.Is_repair,
-                        model.Is_Active,
+                        model.IsRepair,
+                        model.IsActive,
                         model.Comments,
                         model.MetaKeyword,
                         model.MetaDescription,
@@ -154,9 +154,9 @@ namespace TogoFogo.Controllers
                         model.UrlName,
                         model.Header,
                         model.Footer,
-                        CreatedBy = "",
-                        ModifyBy = "",
-                        DeleteBy = "",
+                        model.CreatedBy,
+                        model.ModifyBy,
+                        model.DeleteBy,
                         Action = "edit"
                     },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();

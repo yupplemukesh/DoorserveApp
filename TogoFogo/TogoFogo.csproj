@@ -5054,7 +5054,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Barcode_file\" />
-    <Folder Include="Uploaded Images\" />
+    <Folder Include="UploadedImages\" />
     <Folder Include="UploadExcel\" />
     <Folder Include="Views\Custo_PCRC\" />
     <Folder Include="Views\Default\" />

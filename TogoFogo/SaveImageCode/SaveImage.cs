@@ -14,7 +14,7 @@ namespace TogoFogo.SaveImageCode
             try
             {
 
-                string path = System.Web.HttpContext.Current.Server.MapPath("~/Uploaded Images");
+                string path = System.Web.HttpContext.Current.Server.MapPath("~/UploadedImages");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

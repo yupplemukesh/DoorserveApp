@@ -10,7 +10,8 @@ namespace TogoFogo.Models
 {
     public class BrandModel
     {
-        
+        public int SerialNo { get; set; }
+
         public int BrandId { get; set; }
         [DisplayName("Brand Name")]
         [Required]
@@ -21,10 +22,10 @@ namespace TogoFogo.Models
         public string BrandDescription { get; set; }
         [DisplayName("Is Repair?")]
         [Required]
-        public string Is_repair { get; set; }
+        public Boolean IsRepair { get; set; }
         [DisplayName("Is Active?")]
         [Required]
-        public string Is_Active { get; set; }
+        public Boolean IsActive { get; set; }
         public string Comments { get; set; }
         [DisplayName("Meta Keyword")]
         public string MetaKeyword { get; set; }
@@ -37,12 +38,13 @@ namespace TogoFogo.Models
         [DisplayName("Header Description")]
         public string Header { get; set; }
         public string Footer { get; set; }
-        public string Created_By { get; set; }
-        public string Created_Date { get; set; }
-        public string Modify_by { get; set; }
-        public string Modify_date { get; set; }
-        public string delete_By { get; set; }
-        public string delete_Date { get; set; }
+        public int CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public int ModifyBy { get; set; }
+        [DisplayName("Last Update Date and Time")]
+        public string ModifyDate { get; set; }
+        public int DeleteBy { get; set; }
+        public string DeleteDate { get; set; }
         public HttpPostedFileBase BrandIMG { get; set; }
     }
 }
