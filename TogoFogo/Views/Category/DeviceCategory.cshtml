@@ -102,3 +102,15 @@
 
 </script>
 }
+    <script>
+        $(document).on("keypress", "#SortOrder", function (e) {
+            //if (event.keyCode < 48 || event.keyCode > 57) {
+            //    event.preventDefault();
+            //}
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                //$("#errmsg").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+    </script>

@@ -23,9 +23,9 @@ namespace TogoFogo.Models
         public string LocationName {get;set;}
         public string StateId {get;set;}
         public string CountryId {get;set;}
-        [Required]
+        //[Required]
         [DisplayName("Is Active")]
-        public string IsActive {get;set;}
+        public Boolean IsActive {get;set;}
         [DisplayName("Comments")]
         public string Comments {get;set;}
         [DisplayName("Created By")]

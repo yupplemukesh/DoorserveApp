@@ -42,6 +42,9 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Modify_Delete_Category",
@@ -49,14 +52,15 @@ namespace TogoFogo.Controllers
                         {
                             CatId = "",
                             model.CatName,
-                            model.Is_repair,
-                            model.Is_Active,
+                            model.IsRepair,
+                            model.IsActive,
                             model.Comments,
-                            model.Created_By,
+                            model.CreatedBy,
                             Action = "add",
-                            SortOrder = "",
-                            Modify_By = "",
-                            Delete_By = ""
+                            model.SortOrder,
+                            model.ModifyBy,
+                            model.DeleteBy 
+
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -83,7 +87,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<DeviceCategoryModel>("Select * from MstCategory ", new { }, commandType: CommandType.Text).ToList();
+                var result = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
                 return View(result);
             }
         }
@@ -109,6 +113,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Modify_Delete_Category",
@@ -116,14 +121,14 @@ namespace TogoFogo.Controllers
                         {
                             model.CatId,
                             model.CatName,
-                            model.Is_repair,
-                            model.Is_Active,
+                            model.IsRepair,
+                            model.IsActive,
                             model.Comments,
-                            model.Created_By,
+                            model.CreatedBy,
                             Action = "edit",
-                            SortOrder = "",
-                            Modify_By = "",
-                            Delete_By = ""
+                            model.SortOrder,
+                            model.ModifyBy,
+                            model.DeleteBy
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 2)
                     {
@@ -163,16 +168,18 @@ namespace TogoFogo.Controllers
 
         public ActionResult AddSubCategory()
         {
-            using (var con = new SqlConnection(_connectionString))
-            {
+            ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            //using (var con = new SqlConnection(_connectionString))
+            //{
 
-                ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(), "Value", "Text");
-                var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstSubCategory", null, commandType: CommandType.Text).FirstOrDefault();
-               
-                ViewBag.SortOrder = result + 1;
-                return View();
+            //    ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            //    var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstSubCategory", null, commandType: CommandType.Text).FirstOrDefault();
 
-            }
+            //    ViewBag.SortOrder = result + 1;
+            //    return View();
+
+            //}
+            return View();
         }
         [HttpPost]
         public ActionResult AddSubCategory(SubcategoryModel model)
@@ -184,22 +191,22 @@ namespace TogoFogo.Controllers
                     var result = con.Query<int>("Add_Modify_Delete_SubCategory",
                         new
                         {
-                            CatId = model.DeviceCategory,
+                            model.CatId,
                             model.SubCatName,
                             model.SortOrder,
                             model.SubCatId,
-                            model.IMEI1,
-                            model.IMEI2,
-                            model.Sr_no_req,
-                            model.Sr_No_Length,
-                            model.Is_repair,
-                            model.Is_Active,
+                            model.IsRequiredIMEI1,
+                            model.IsRequiredIMEI2,
+                            model.IsRequiredSerialNo,
+                            model.SRNOLength,
+                            model.IsRepair,
+                            model.IsActive,
                             model.Comments,
-                            model.IMEI_Length,
-                            Created_By = "",
+                            model.IMEILength,
+                            model.CreatedBy,
                             Action = "add",
-                            Modify_By = "",
-                            Delete_By = ""
+                            model.ModifyBy,
+                            model.DeleteBy,
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -261,18 +268,18 @@ namespace TogoFogo.Controllers
                             model.SubCatName,
                             model.SortOrder,
                             model.SubCatId,
-                            model.IMEI1,
-                            model.IMEI2,
-                            model.Sr_no_req,
-                            model.Sr_No_Length,
-                            model.Is_repair,
-                            model.Is_Active,
+                            model.IsRequiredIMEI1,
+                            model.IsRequiredIMEI2,
+                            model.IsRequiredSerialNo,
+                            model.SRNOLength,
+                            model.IsRepair,
+                            model.IsActive,
                             model.Comments,
-                            model.IMEI_Length,
-                            Created_By = "",
+                            model.IMEILength,
+                            model.CreatedBy,
                             Action = "edit",
-                            Modify_By = "",
-                            Delete_By = ""
+                            model.ModifyBy,
+                            model.DeleteBy
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 2)
                     {

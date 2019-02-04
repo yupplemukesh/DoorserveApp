@@ -9,23 +9,26 @@ namespace TogoFogo.Models
 {
     public class DeviceCategoryModel
     {
-        public int CatId { get; set; }
-        [Required]
+        [DisplayName("Serial No")]
+        public Int32 SerialNo { get; set; }
+        public int CatId { get; set; }   
         [DisplayName("Category Name")]
-        public string CatName { get; set; }
-        [Required]
+        [Required(ErrorMessage="Enter Category Name")]
+        public string CatName { get; set; } 
+       //[Required]
         [DisplayName("Is Repair")]
-        public string Is_repair { get; set; }
-        [Required]
+        public Boolean IsRepair { get; set; }
+        //[Required]
         [DisplayName("Is Active")]
-        public string Is_Active { get; set; }
+        public Boolean IsActive { get; set; }
         public string Comments { get; set; }
-        public string Created_By { get; set; }
-        public string Modify_By { get; set; }
-        public string Delete_By { get; set; }
+        public string CreatedBy { get; set; }
+        public string ModifyBy { get; set; }
+        public string DeleteBy { get; set; }
         public string Action { get; set; }
+        [Required(ErrorMessage ="Enter Sort Order Number")]
         public int SortOrder { get; set; }
-        public string Modify_Date { get; set; }
+        public string ModifyDate { get; set; }
 
     }
 }

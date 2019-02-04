@@ -1,67 +1,78 @@
 ﻿@model IEnumerable<TogoFogo.Models.DeviceCategoryModel>
 @{
     Layout = null;
+    int count = 0;
 }
 
 
 <table class="table table-striped table-bordered table-condensed" id="myTable">
     <thead>
         <tr>
-
+            <th>
+                @Html.DisplayNameFor(model => model.SerialNo)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.CatName)
             </th>
-         
             <th>
-                @Html.DisplayNameFor(model => model.Is_repair)
+                @Html.DisplayNameFor(model => model.SortOrder)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Is_Active)
+                @Html.DisplayNameFor(model => model.IsRepair)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Comments)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Modify_Date)
+                @Html.DisplayNameFor(model => model.ModifyDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Modify_By)
-            </th>
-            
+            @*<th>
+            @Html.DisplayNameFor(model => model.ModifyBy)
+        </th>*@
+
             <th>Actions</th>
         </tr>
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.CatName)
-            </td>
-     
-            <td>
-                @Html.DisplayFor(modelItem => item.Is_repair)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Is_Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Modify_Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Modify_By)
-            </td>
-           
-            <td style="display: inline-flex">
-                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize "onclick="EditCategory(@item.CatId)">Edit</a>
-                <a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
-                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @(count += 1)
+            @*@Html.DisplayFor(modelItem => item.SerialNo)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CatName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SortOrder)
+        </td>
+        <td>
+            @(item.IsRepair == true ? "Yes" : "No")
+            @*@Html.DisplayFor(modelItem => item.IsRepair)*@
+        </td>
+        <td>
+            @(item.IsActive == true ? "Active" : "InActive")
+            @*@Html.DisplayFor(modelItem => item.IsActive)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifyDate)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ModifyBy)
+        </td>*@
+        <td style="display: inline-flex">
+            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCategory(@item.CatId)">Edit</a>
+            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
+            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+        </td>
+    </tr>
     }
 
 </table>

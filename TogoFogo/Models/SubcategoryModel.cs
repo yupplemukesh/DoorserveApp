@@ -10,6 +10,8 @@ namespace TogoFogo.Models
 {
     public class SubcategoryModel
     {
+        
+        public int SerialNo { get; set; }
         public string Device_Category { get; set; }
         public string CatName { get; set; }
         public int CatId { get; set; }
@@ -21,30 +23,30 @@ namespace TogoFogo.Models
         [DisplayName("Sort Order")]
         public int SortOrder { get; set; }
         [DisplayName("Is IMEI-1 Required?")]
-        public string IMEI1 { get; set; }
+        public Boolean IsRequiredIMEI1 { get; set; }
         [DisplayName("Is IMEI-2 Required?")]
-        public string IMEI2 { get; set; }
+        public Boolean IsRequiredIMEI2 { get; set; }
         [DisplayName("IMEI Length")]
-        public int IMEI_Length { get; set; }
+        public int IMEILength { get; set; }
         [DisplayName("Is Serial Number Required?")]
-        public string Sr_no_req { get; set; }
+        public Boolean IsRequiredSerialNo { get; set; }
         [DisplayName("Serial Number Length")]
-        public int Sr_No_Length { get; set; }
+        public int SRNOLength { get; set; }
         [Required]
         [DisplayName("Is Repair?")]
-        public string Is_repair { get; set; }
+        public Boolean IsRepair { get; set; }
         [Required]
         [DisplayName("Is Active?")]
-        public string Is_Active { get; set; }
+        public Boolean IsActive { get; set; }
         [DisplayName("Comments")]
         public string Comments { get; set; }
-        public string Created_By { get; set; }
-        public string Created_date { get; set; }
-        public string Modify_by { get; set; }
-        [DisplayName("Last update Details")]
-        public string Modify_date { get; set; }
-        public string delete_By { get; set; }
-        public string delete_Date { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public string ModifyBy { get; set; }
+        [DisplayName("Last Update Date and Time")]
+        public string ModifyDate { get; set; }
+        public string DeleteBy { get; set; }
+        public string DeleteDate { get; set; }
         [Required]
         [DisplayName("Device Category")]
         public string DeviceCategory { get; set; }
