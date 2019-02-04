@@ -1,0 +1,256 @@
+﻿@model TogoFogo.Models.ClientModel
+<div class="row"> 
+    <div class="col-md-2">
+
+                <ul class="nav nav-tabs m-b-15 tabs-left">
+                    <li class="active">
+                        <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-3" id="tab3" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-4" id="tab4" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-5" id="tab5" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                        </a>
+                    </li>
+                  
+                </ul>
+            </div>
+ 
+            <div class="col-md-10">
+                <div class="tab-content tab-content responsive">
+                    <div class="tab-pane fade in active" id="tab-1">
+                        <div class="container-fluid tab-form-control">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+
+                                    <!-- Select Basic -->
+                                    <div class=" row form-group">
+                                        <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.ProcessName, new List<SelectListItem>
+          {
+              new SelectListItem {Text = "Togofogo Repairs", Value = "Togofogo Repairs"},
+              new SelectListItem {Text = "WarrantyBazaar", Value = "WarrantyBazaar"}
+
+          }, "Select", new { @class = "form-control" })
+                                            @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
+                                            @Html.ValidationMessageFor(model => model.ProcessName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class=" row form-group">
+                                        <label class="col-md-3 " for="textinput">Client Code</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.ClientCode, new { @class = "form-control input-md", @placeholder = "Client Code" })
+                                            @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Text input-->
+                                    <div class=" row form-group">
+                                        <label class="col-md-3 " for="textinput">Client Name</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.ClientName, new { @class = "form-control input-md", @placeholder = "Client Name" })
+                                            @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group" id="serviceDelType">
+                                        @*@Html.HiddenFor(x=>x.ServiceDeliveryType)*@
+                                        <!-- Multiple Radios (inline) -->
+                                        <label class="col-md-3 control-label" for="radios">Service Delivery Type</label>
+                                        @for (int x = 0; x < Model.DeliveryServiceList.Count(); x++)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class="" for="radios-0">
+                                                    @Html.CheckBoxFor(p => p.DeliveryServiceList[x].IsChecked)
+                                                    @Model.DeliveryServiceList[x].Text
+                                                    @Html.HiddenFor(p => p.DeliveryServiceList[x].Text)
+
+
+                                                </label>
+
+                                            </div>
+                                        }
+
+                                        <div class="col-md-12 col-md-offset-3">
+                                            @Html.ValidationMessageFor(x => x.DeliveryServiceList, "", new { @class = "text-danger" })
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class=" row form-group">
+                                        <label class="col-md-3 control-label" for="selectbasic">Supported Device Category	</label>
+                                        <div class="col-md-9">
+                                            @Html.ListBoxFor(model => model.DeviceCategories, Model.SupportedCategoryList, htmlAttributes: new { @class = "selectpicker form-control", multiple = "multiple", data_actions_box = "true", data_width = "100%", @data_val = "true", @data_val_required = "choose is device category" })
+                                            @Html.ValidationMessageFor(model => model.DeviceCategories, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row form-group">
+                                        <!-- Multiple Radios (inline) -->
+                                        @*@Html.HiddenFor(x => x.ServiceType)*@
+                                        <label class="col-md-3 control-label" for="radios">Service Type</label>
+
+                                        @for (int x = 0; x < Model.ServiceList.Count(); x++)
+                                        {
+                                            <div class="col-md-3">
+                                                <label class="" for="radios-0">
+                                                    @Html.CheckBoxFor(p => p.ServiceList[x].IsChecked)
+                                                    @Model.ServiceList[x].Text
+                                                    @Html.HiddenFor(p => p.ServiceList[x].Text)
+
+
+                                                </label>
+
+                                            </div>
+                                        }
+
+                                        <div class="col-md-12 col-md-offset-3">
+                                            @Html.ValidationMessageFor(x => x.ServiceList, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="tab-pane fade" id="tab-2">
+
+
+
+                        <!-- <h2> Address and Contact Person</h2>-->
+
+                        <div class="container-fluid tab-form-control">
+                            <div class="row">
+                        @Html.Partial("_AddorEditOrganization",Model.Organization)
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="tab-pane fade" id="tab-3">
+
+                        <!-- <h2>Organization</h2>-->
+
+                        <div class="container-fluid tab-form-control">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+
+                                    <div class="col-9">
+                                        <div class="row">
+                                          <div class="col-12">
+                                            @foreach (var item in Model.ContactPersons)
+                                            {
+                                                <div class="col-3" >
+                                             
+
+
+                                                </div>
+                                            }
+                                            <div class="row"></div>
+
+                                        </div>
+                                <div class="col-9 pull-md-right" >
+                                   <input type="button" class="btn btn-primary" value="Add Contact" />
+
+                                </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-4">
+                        <!--<h2>Bank Details</h2>-->
+                        <div class="container-fluid tab-form-control">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+
+
+
+                                  
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-5">
+
+                        <!--<h2>Registration</h2>-->
+
+                        <div class="container-fluid tab-form-control">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                    <!-- Select Basic -->
+                                    <div class="row form-group">
+                                        <label class="col-md-3 control-label" for="selectbasic">
+                                            Is Active?
+                                        </label>
+                                        <div class="col-md-9">
+
+                                            @Html.CheckBoxFor(x => x.IsActive)
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Text input-->
+                                    <div class=" row form-group">
+                                        <label class="col-md-3 " for="textinput">Comments</label>
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control input-md" })
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <label><input type="checkbox" name="remember"> Remember me</label>-->
+                                    <!--<button type="submit" class="btn btn-default">Submit</button>-->
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        
+    <!--/.panel-->
+</div>

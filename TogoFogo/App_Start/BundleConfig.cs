@@ -10,62 +10,35 @@ namespace TogoFogo
         {
            
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Content/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Content/Scripts/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+                        "~/Content/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                       "~/Content/Scripts/bootstrap-datetimepicker.js",
+                                              "~/Content/js/bootstrap-select.js"
 
+               ));
+            bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
+                     "~/Content/js/dashboard-2.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/css/vendor.css",
+                                  "~/Content/css/application.css",                                
+                                  "~/Content/css/bootstrap-datetimepicker.css",
+                                     "~/Content/css/bootstrap-select.min.css",
+                      "~/Content/css/style.css"));
             bundles.Add(new ScriptBundle("~/bundles/customBundle").Include(
-               
-                      "~/vendors/fastclick/lib/fastclick.js",
-                      "~/vendors/nprogress/nprogress.js",
-                      "~/vendors/gauge.js/dist/gauge.min.js",
-                      "~/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js",
-                      "~/vendors/skycons/skycons.js",
-                      "~/vendors/Flot/jquery.flot.js",
-                      "~/vendors/Flot/jquery.flot.pie.js",
-                      "~/vendors/Flot/jquery.flot.time.js",
-                      "~/vendors/Flot/jquery.flot.stack.js",
-                      "~/vendors/Flot/jquery.flot.resize.js",
-                      "~/vendors/flot.orderbars/js/jquery.flot.orderBars.js",
-                      "~/vendors/flot-spline/js/jquery.flot.spline.min.js",
-                      "~/vendors/flot.curvedlines/curvedLines.js",
-                      "~/vendors/jqvmap/dist/jquery.vmap.js",
-                      "~/vendors/jqvmap/dist/maps/jquery.vmap.world.js",
-                      "~/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js",
-                       "~/vendors/datatables.net/js/jquery.dataTables.min.js",
-                       "~/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js",
-                       "~/vendors/datatables.net-buttons/js/dataTables.buttons.min.js",
-                       "~/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js",
-                       "~/vendors/datatables.net-buttons/js/buttons.flash.min.js",
-                       "~/vendors/datatables.net-buttons/js/buttons.html5.min.js",
-                       "~/vendors/datatables.net-buttons/js/buttons.print.min.js",
-                       "~/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js",
-                       "~/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js",
-                       "~/vendors/datatables.net-responsive/js/dataTables.responsive.min.js",
-                       "~/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js",
-                       "~/vendors/datatables.net-scroller/js/dataTables.scroller.min.js",
-                       //"~/vendors/moment/min/moment.min.js",
-                       "~/vendors/bootstrap-daterangepicker/daterangepicker.js",
-                        "~/Custom_CssandScript/jquery.dataTables.min.js",
-                    
-                       //"~/Custom_CssandScript/bootstrap-datetimepicker.css",
-                       "~/Custom_CssandScript/bootstrap-datetimepicker.js",
-                        //"~/build/js/custom.min.js",
-                       "~/vendors/iCheck/icheck.min.js"
-                         
+
+                      "~/content/js/vendor.min.js",
+                      "~/content/js/cosmos.min.js",
+                      "~/content/js/application.min.js",
+                      "~/content/js/tables-datatables.min.js"                         
                        ));
         }
     }

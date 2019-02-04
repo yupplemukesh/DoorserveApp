@@ -1,0 +1,257 @@
+﻿@model TogoFogo.Models.ContactPersonModel
+
+@using (Html.BeginForm("AddContact", "ManageClient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">First Name</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConFirstName, new { @class = "form-control input-md", @placeholder = "First Name" })
+            @Html.ValidationMessageFor(model => model.ConFirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Last Name</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConLastName, new { @class = "form-control input-md", @placeholder = "Last Name" })
+            @Html.ValidationMessageFor(model => model.ConLastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Mobile Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConMobileNumber, new { @class = "form-control input-md", @placeholder = "Mobile Number" })
+            @Html.ValidationMessageFor(model => model.ConMobileNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Email Address</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConEmailAddress, new { @class = "form-control input-md", @placeholder = "Email Address" })
+            @Html.ValidationMessageFor(model => model.ConEmailAddress, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Select Basic -->
+    <div class="row form-group">
+        <label class="col-md-3 control-label" for="selectbasic">Is User?	</label>
+        <div class="col-md-9">
+            <label class="" for="radios-1">
+                @Html.CheckBoxFor(x => x.IsUser)
+            </label>
+        </div>
+    </div>
+    if (Model.IsUser)
+    {
+
+        <div class="row" id="userDetails">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                <div class=" row form-group">
+                    <label class="col-md-3 " for="textinput">User Name</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-md", @placeholder = "User name" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class=" row form-group">
+                    <label class="col-md-3 " for="textinput">User Password</label>
+                    <div class="col-md-9">
+                        @*@Html.PasswordFor(x => x.Password, new { @class = "form-control input-md", @placeholder = "User Password" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="row" id="userDetails" style="display:none">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                <div class=" row form-group">
+                    <label class="col-md-3 " for="textinput">User Name</label>
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-md", @placeholder = "User name" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class=" row form-group">
+                    <label class="col-md-3 " for="textinput">User Password</label>
+                    <div class="col-md-9">
+                        @Html.PasswordFor(x => x.Password, new { @class = "form-control input-md", @placeholder = "User Password" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    }
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">PAN Card Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConPanNumber, new { @class = "form-control input-md", @placeholder = "PAN Card Number" })
+            @Html.ValidationMessageFor(model => model.ConPanNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- file input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Upload PAN Card Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.ConPanNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+            @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Voter ID Card Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.ConVoterId, htmlAttributes: new { @class = "form-control input-md", placeholder = "Voter ID Card Number" })
+            @Html.ValidationMessageFor(model => model.ConVoterId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <!-- file input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Upload Voter ID Card Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.ConVoterIdFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+            @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Aadhaar Card Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.ConAdhaarNumber, htmlAttributes: new { @class = "form-control input-md", placeholder = "Adhaar card number" })
+            @Html.ValidationMessageFor(model => model.ConAdhaarNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Aadhaar Card Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.ConAdhaarNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control input-md", placeholder = "Upload Adhaar card number" })
+            @Html.ValidationMessageFor(model => model.ConAdhaarNumberFilePath, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Select Basic -->
+    <div class="row form-group">
+        <label class="col-md-3 control-label" for="selectbasic">Address type</label>
+        <div class="col-md-9">
+
+            @Html.DropDownListFor(model => model.ConAddressType, new List<SelectListItem>
+    {
+    new SelectListItem {Text = "Home", Value = "Home"},
+    new SelectListItem {Text = "Office", Value = "Office"},
+    new SelectListItem {Text = "Neighbour", Value = "Neighbour"}
+    }, "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConAddressType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <!-- Select Basic -->
+    <div class="row form-group">
+        <label class="col-md-3 control-label" for="selectbasic">Country	</label>
+        <div class="col-md-9">
+
+            @Html.DropDownListFor(model => model.ConCountry, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'ConState', this)" })
+            @Html.ValidationMessageFor(model => model.ConCountry, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+
+
+    <!-- Select Basic -->
+    <div class="row form-group">
+        <label class="col-md-3 control-label" for="selectbasic">State/Province/Union Territory	</label>
+        <div class="col-md-9">
+            @Html.DropDownListFor(model => model.ConState, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'ConCity', this)" })
+            @Html.ValidationMessageFor(model => model.ConState, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+
+    <!-- Select Basic -->
+    <div class="row form-group">
+        <label class="col-md-3 control-label" for="selectbasic">City/Location	</label>
+        <div class="col-md-9">
+
+            @Html.DropDownListFor(model => model.ConCity, Model.CityList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConCity, "", new { @class = "text-danger" })
+
+        </div>
+
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Address</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConAddress, new { @class = "form-control input-md", @placeholder = "Address" })
+            @Html.ValidationMessageFor(model => model.ConAddress, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Locality/PS/PO</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConLocality, new { @class = "form-control input-md", @placeholder = "Locality" })
+            @Html.ValidationMessageFor(model => model.ConLocality, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Near By Location</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConNearByLocation, new { @class = "form-control input-md", @placeholder = "Near By Location" })
+            @Html.ValidationMessageFor(model => model.ConNearByLocation, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">PIN/ZIP</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.ConPinNumber, new { @class = "form-control input-md", @placeholder = "PIN/ZIP" })
+            @Html.ValidationMessageFor(model => model.ConPinNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="input-group">
+
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+}

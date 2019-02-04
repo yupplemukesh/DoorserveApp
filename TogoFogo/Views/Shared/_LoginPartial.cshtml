@@ -1,22 +1,64 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-    @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="nav-cell p-r-10">
+                <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
+            </span>
+            <span class="nav-cell">
+                @User.Identity.GetUserName()
+                <span class="caret"></span>
+            </span>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="#">
+                    <i class="zmdi zmdi-account-o m-r-10"></i> Profile
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="zmdi zmdi-settings m-r-10"></i> Settings
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="zmdi zmdi-help-outline m-r-10"></i> Help
+                </a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">
+                    <i class="zmdi zmdi-power m-r-10"></i> Logout
+                </a>
+            </li>
+        </ul>
+
+
+
+
+
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <a href="@Url.Action("Login","Master")" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <span class="nav-cell p-r-10">
+            <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
+        </span>
+        <span class="nav-cell">
+            Login
+            <span class="caret"></span>
+        </span>
+    </a>
+
 }
+
+

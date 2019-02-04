@@ -2,56 +2,74 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
-    Layout = "~/Views/Shared/_Layout1.cshtml";
+    Layout = null;
 }
-@using (Html.BeginForm("Login", "Account"))
-{    @Html.AntiForgeryToken()
-    <div class="container">
 
+<!DOCTYPE html>
+<html lang="en">
 
+<!-- Mirrored from big-bang-studio.com/cosmos/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Nov 2017 05:36:02 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="">
+    <title>Togofogo</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
+    @Styles.Render("~/Content/css")
+</head>
+<body class="authentication-body">
+    <div class="container-fluid">
+        <div class="authentication-header m-b-30">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <a class="authentication-logo" href="@Url.Action("Index","Home")">
+                        <img src="~/Content/img/logo.png" alt="" style="width:100%">
 
-        <div class="row">
-
-            <div class="col-md-6 col-md-offset-3" id="login">
-                <img src="~/Images/Togofogo_Logo.png" alt="LOGO" height="70" width="350">
-
-                @Html.ValidationSummary(true, "")
-                <br/><br/>
-                     <div class="text-danger"style="color:white"><h4>@ViewBag.Message</h4></div>
-                <div class="form-group" style="margin-top:50px">
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="iconn"> <i class="glyphicon glyphicon-user"></i></span>
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "username", style = "height:35px" })
-                       
-                    </div>
-                    @Html.ValidationMessageFor(m => m.Email, "", new { style = "color:white" })
+                    </a>
                 </div>
-                <div class="form-group sm-md-10">
-
-                    <div class="input-group">
-                        <span class="input-group-addon" id="iconn1"> <i class="glyphicon glyphicon-lock"></i></span>
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = " Enter Password", style = "height:35px" })                       
-                    </div>
-                    @Html.ValidationMessageFor(m => m.Password, "", new { style="color:white" })
-                </div>
-                <div class=" col-md-offset-2" style="margin-top:50px">
-                    
-                    <input type="submit" class="btn btn-primary col-md-10" value="login" style="border-radius:0px;">
-                </div>
-
-
+                @*<div class="pull-right">
+                    <a href="http://big-bang-studio.com/pages-signup.html" class="btn btn-outline-info">Sign up</a>
+                </div>*@
             </div>
-
         </div>
-
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <div class="authentication-content m-b-30">
+                    <h3 class="m-t-0 m-b-30 text-center">You look great today!</h3>
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form" }))
+                    {@Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="form-control-1">User Name</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter username" })                    
+                    </div>
+                    <div class="form-group">
+                        <label for="form-control-2">Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter password" })
+                    
+                    </div>
+                    <div class="form-group">
+                        <label class="custom-control custom-control-info custom-checkbox active">
+                            <input class="custom-control-input" type="checkbox" name="mode" checked="checked">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-label">Keep me signed in</span>
+                        </label>
+                        <a href="void()" class="text-info pull-right">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-info btn-block">Submit</button>
+                    }
+                </div>
+            </div>
+        </div>
+        @*<div class="authentication-footer">
+            <span class="text-muted">Need help? Contact us mail@example.com</span>
+        </div>*@
     </div>
-}
 
-<hr />
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <link href="~/CSS/Login.css" rel="stylesheet" />
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-}
+    @Scripts.Render("~/bundles/customBundle")
+</body>
+
+<!-- Mirrored from big-bang-studio.com/cosmos/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Nov 2017 05:36:02 GMT -->
+</html>
+

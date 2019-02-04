@@ -1,28 +1,30 @@
 ﻿@model IEnumerable<TogoFogo.Models.Menu>
-<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-    <div class="menu_section">
+<div class="custom-scrollbar">
+    <ul class="sidebar-menu" id="sideMenu">
 
-        <ul class="nav side-menu">
-            @foreach (var item in Model)
+        @foreach (var item in Model)
+        {
+            if (item.ParentMenuID == 0)
             {
-                if (item.ParentMenuID == 0)
-                {
-            <li>
-                <a><i class="fa fa-home"></i> @item.Menu_Name <span class="fa fa-chevron-down"></span></a>
-                <ul class="nav child_menu">
-                    @foreach (var submenu in Model.Where(m=>m.ParentMenuID==item.MenuCap_ID))
-                    {
+                <li class="with-sub active">
+                    <a href="#" aria-haspopup="true">
+                        <span class="menu-icon">
+                            <i class="zmdi zmdi-home"></i>
+                        </span>
+                        <span class="menu-text">@item.Menu_Name</span>
+                    </a>
+                    <ul class="sidebar-submenu collapse">
+                        @foreach (var submenu in Model.Where(m => m.ParentMenuID == item.MenuCap_ID))
+                        {
 
+                            <li class="menu-subtitl"><a href="@submenu.PagePath">@submenu.Menu_Name </a></li>
 
-                        <li style="display: inline-flex;"><i style="margin-top:9px;" class="glyphicon glyphicon-chevron-right"></i><a href="@submenu.PagePath">@submenu.Menu_Name</a></li>
-
-                    }
+                        }
                     </ul>
-            </li>
-                }
+                </li>
+
             }
-           
-        </ul>
-    </div>
+        }
+    </ul>
 
 </div>

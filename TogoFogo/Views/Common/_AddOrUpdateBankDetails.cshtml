@@ -1,0 +1,78 @@
+﻿@model TogoFogo.Models.BankDetailModel
+<!-- Text input-->
+
+@using (Html.BeginForm("AddBank", "ManageClient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Bank Name</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.BankName, htmlAttributes: new { @class = "form-control input-md", placeholder = "Bank Name" })
+            @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Bank Account Number</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "form-control input-md", placeholder = "Bank Account Number" })
+            @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Company Name at Bank Account</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.BankCompanyName, htmlAttributes: new { @class = "form-control input-md", placeholder = "Company Name at Bank Account" })
+            @Html.ValidationMessageFor(model => model.BankCompanyName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">IFSC Code</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.BankIFSCCode, htmlAttributes: new { @class = "form-control input-md", placeholder = "IFSC Code" })
+
+            @Html.ValidationMessageFor(model => model.BankIFSCCode, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-9 col-lg-offset-3">
+            <span>
+                <h3>  Search Bank Details</h3>
+
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Text input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Bank Branch</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.BankName, htmlAttributes: new { @class = "form-control input-md", placeholder = "Bank Branch" })
+            @Html.ValidationMessageFor(model => model.BankBranchName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <!-- file input-->
+    <div class=" row form-group">
+        <label class="col-md-3 " for="textinput">Upload Cancelled Cheque</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(model => model.BankCancelledChequeFilePath, htmlAttributes: new { @type = "file", @class = "form-control input-md" })
+            @Html.ValidationMessageFor(model => model.BankCancelledChequeFilePath, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="input-group">
+
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+}
