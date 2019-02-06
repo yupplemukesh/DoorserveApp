@@ -7,15 +7,15 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Add GST Tax<small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+                <h3 class="m-y-0">Add GST Tax</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                </ul>
-                <div class="clearfix"></div>
-            </div>
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
             <div class="x_content">
                 <br />
                 @Html.Action("AddGst", "GSTTax")
@@ -27,27 +27,27 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>List Of GST Tax<small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+                <h3 class="m-y-0">List Of GST Tax</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                </ul>
-                <div class="clearfix"></div>
-            </div>
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
             <div class="x_content" style="overflow-x: scroll;">
                 @Html.Action("GstTaxtable", "GSTTax")
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="Editmodel" role="dialog">
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg">
 
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit GST Tax</h4>
             </div>

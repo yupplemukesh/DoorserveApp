@@ -8,190 +8,136 @@
 {
 	@Html.HiddenFor(m => m.EngineerId)
 	@Html.HiddenFor(m => m.EngineerPhoto)
-	<div class="col-md-12 col-sm-12 col-lg-12">
-		<div class="col-md-6">
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.EngineerCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.TextBoxFor(model => model.EngineerCode, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
-					@Html.ValidationMessageFor(model => model.EngineerCode, "", new { @class = "text-danger" })
+<div class="form-group">
+    @Html.LabelFor(model => model.EngineerCode, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EngineerCode, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
+        @Html.ValidationMessageFor(model => model.EngineerCode, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EngineerPhoto1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EngineerPhoto1, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Trc, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.DropDownListFor(model => model.Trc, null, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Department, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.Department, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.Designation, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EmployeeName, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmpMobileNo, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EmpMobileNo, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmpAltNo, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EmpAltNo, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmpEmailId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EmpEmailId, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmpAddress, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextAreaFor(model => model.EmpAddress, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmpJoiningDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.EmpJoiningDate, htmlAttributes: new { @class = "form-control", id = "editdatepicker" })
+        @Html.ValidationMessageFor(model => model.EmpJoiningDate, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.EmpPicUp, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.DropDownListFor(model => model.EmpPicUp, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "Yes"},
+            new SelectListItem {Text = "No", Value = "No"}
+
+        }, "Select", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.EmpPicUp, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.BikeModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.BikeModel, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+        @Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    <div class="input-group">
+        <span class="input-group-addon"></span>
+
+        @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "Yes"},
+            new SelectListItem {Text = "No", Value = "No"}
+
+        }, "Select", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+    </div>
+</div>
 
 
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
 
-					@Html.LabelFor(model => model.EngineerPhoto1, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.EngineerPhoto1, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
-
-				</div>
-
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.Trc, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.DropDownListFor(model => model.Trc, null, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.Department, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.Department, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.Designation, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.EmployeeName, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmpMobileNo, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.EmpMobileNo, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-6">
-
-
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmpAltNo, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.EmpAltNo, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmpEmailId, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.EmpEmailId, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmpAddress, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextAreaFor(model => model.EmpAddress, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmpJoiningDate, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.TextBoxFor(model => model.EmpJoiningDate, htmlAttributes: new { @class = "form-control", id = "editdatepicker" })
-					@Html.ValidationMessageFor(model => model.EmpJoiningDate, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.EmpPicUp, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.DropDownListFor(model => model.EmpPicUp, new List<SelectListItem>
-					{
-						new SelectListItem {Text = "Yes", Value = "Yes"},
-						new SelectListItem {Text = "No", Value = "No"}
-
-					}, "Select", new { @class = "form-control" })
-					@Html.ValidationMessageFor(model => model.EmpPicUp, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.BikeModel, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.BikeModel, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-3 col-md-offset-1 col-xs-12">
-
-					@Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-
-					@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-					{
-						new SelectListItem {Text = "Yes", Value = "Yes"},
-						new SelectListItem {Text = "No", Value = "No"}
-
-					}, "Select", new { @class = "form-control" })
-					@Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-				</div>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-
-				<button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
-			</div>
-		</div>
-	</div>
-	@*<div class="col-md-4" style="margin-top: 40px;">
-			<img id="blah" src="~/Images/male-user-add.png" width="200" height="200" alt="your image" />
-		</div>*@
+<div class="row ">
+    <div class="ln_solid"></div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+</div>
 
 }
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
