@@ -38,8 +38,8 @@ namespace TogoFogo.Controllers
                 ViewBag.Device_Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
                 ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
-                var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstProblemObserved", null, commandType: CommandType.Text).FirstOrDefault();
-                ViewBag.SortOrder = result + 1;
+                //var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstProblemObserved", null, commandType: CommandType.Text).FirstOrDefault();
+                //ViewBag.SortOrder = result + 1;
                 return View();
 
             }
@@ -49,6 +49,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddProblemObserved(ManageProblemObserved model)
         {
+            model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ?"0" : Convert.ToString(Session["User_ID"]));
+            model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemObserved == null)
@@ -67,9 +69,9 @@ namespace TogoFogo.Controllers
                            model.IsActive,                            
                            model.SortOrder,
                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
-                            Action="add"
+                           model.ModifyBy,
+                           model.DeleteBy,
+                           Action="add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 1)
@@ -81,11 +83,8 @@ namespace TogoFogo.Controllers
                         TempData["ProblemObserved"] = "Problem Code Already Exist";
                     }
                 }
-
-
                 return RedirectToAction("ManageProblemObserved");
-
-            }
+           }
         }
 
         public ActionResult ProblemObservedtable()
@@ -117,6 +116,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditProblemObserved(ManageProblemObserved model)
         {
+            model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemId == null)
