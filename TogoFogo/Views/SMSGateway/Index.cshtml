@@ -1,0 +1,128 @@
+﻿@model TogoFogo.Models.SMSGatewayModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<div class="panel-heading">
+    <h3 class="m-y-0">Manage SMS Gateway</h3>
+</div>
+<div class="panel-body">
+
+
+
+
+    <div class="row">
+        <div class="col-md-6">
+
+
+
+
+
+
+
+
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="panel-tools">
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-refresh"></i>
+                        </a>
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-close"></i>
+                        </a>
+                    </div>
+                    <h3 class="panel-title">SMS Gateway List</h3>
+                    <div class="panel-subtitle"></div>
+
+                </div>
+                <!--<div class="row">
+                <div class="col-md-6">
+                <div class="dataTables_length" id="table-1_length"><label>Show <select name="table-1_length" aria-controls="table-1" class="form-control input-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div>
+                </div>
+                <div class="col-md-6">gf</div>
+                </div>-->
+
+
+
+                <div class="panel-body" style="border:0px solid red">
+                    <div class="table-responsive">
+                        @Html.Action("SMSGatewayTable")
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="panel-tools">
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-refresh"></i>
+                        </a>
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-close"></i>
+                        </a>
+                    </div>
+                    <h3 class="panel-title">SMS Gateway Create / Update</h3>
+                    <div class="panel-subtitle"></div>
+
+
+                </div>
+                <div class="panel-body" style="border:0px solid red">
+                    <div class="row ">
+                        <div class="col-md-12 ">
+@using (Html.BeginForm("AddorUpdate", "SMSGateway", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.GatewayId)
+
+                           @Html.Partial("__CreateEditSMSGatewayForm",Model)
+}
+
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+
+
+
+            </div><!--panel-body-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
