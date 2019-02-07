@@ -9,6 +9,7 @@ namespace TogoFogo.Models
 {
     public class ManageTRCModel
     {
+        public int SerialNo { get; set; }
         public string SupportedCategory { get; set; }
         public string[] Supported_Category { get; set; }
         [DisplayName("Process Name")]
@@ -77,7 +78,7 @@ namespace TogoFogo.Models
         ErrorMessage = "Please Enter Correct Email Address")]
         public string EMAIL { get; set; }
         [DisplayName("Is User?")]
-        public string IS_USER { get; set; }
+        public Boolean IsUser { get; set; }
         [DisplayName("PAN Card Number")]
         
         //[RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
@@ -116,7 +117,7 @@ namespace TogoFogo.Models
         public string UPLOAD_CANCELLED_CHEQUE { get; set; }
         [DisplayName("Is Active")]
         [Required]
-        public string IS_ACTIVE { get; set; }
+        public Boolean IsActive { get; set; }
         [DisplayName("Comments")]
         public string COMMENTS { get; set; }
         [DisplayName("Last Update Date and Time")]

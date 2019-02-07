@@ -157,18 +157,7 @@
                     @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IS_USER, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.IS_USER, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
-                    }, "Select", new {@class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.IS_USER, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.CONTACT_PERSON_PANNO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-7 col-sm-7 col-xs-12">
@@ -340,48 +329,63 @@
 	</div>
 	<div class="col-md-12 col-sm-12 col-lg-12">
 
-		<div class="col-md-6">
-			<p style="font-size: 19px;"><u>Registration</u></p>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.IS_ACTIVE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.DropDownListFor(model => model.IS_ACTIVE, new List<SelectListItem>
-				{
-					new SelectListItem {Text = "Yes", Value = "Yes"},
-					new SelectListItem {Text = "No", Value = "No"}
+        <div class="col-md-6">
+            <p style="font-size: 19px;"><u>Registration</u></p>
 
-				}, "Select", new { @class = "form-control" })
-					@Html.ValidationMessageFor(model => model.IS_ACTIVE, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.COMMENTS, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.COMMENTS, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.COMMENTS, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			@*<div class="row" style="padding-bottom: 5px;">
-					@Html.LabelFor(model => model.LAST_UPDATE_DATETIME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-					<div class="col-md-7 col-sm-7 col-xs-12">
-						@Html.TextBoxFor(model => model.LAST_UPDATE_DATETIME, htmlAttributes: new { @class = "form-control", placeholder = "" })
-						@Html.ValidationMessageFor(model => model.LAST_UPDATE_DATETIME, "", new { @class = "text-danger" })
-					</div>
-				</div>
-				<div class="row" style="padding-bottom: 5px;">
-					@Html.LabelFor(model => model.LAST_UPDATE_DETAILS, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-					<div class="col-md-7 col-sm-7 col-xs-12">
-						@Html.TextBoxFor(model => model.LAST_UPDATE_DETAILS, htmlAttributes: new { @class = "form-control", placeholder = "" })
-						@Html.ValidationMessageFor(model => model.LAST_UPDATE_DETAILS, "", new { @class = "text-danger" })
-					</div>
-				</div>*@
-		</div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.COMMENTS, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    @Html.TextBoxFor(model => model.COMMENTS, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.COMMENTS, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    @*@Html.DropDownListFor(model => model.IS_USER, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+
+                }, "Select", new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.IS_USER, "", new { @class = "text-danger" })*@
+                    @Html.CheckBoxFor(model => model.IsUser)
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+
+                }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IS_ACTIVE, "", new { @class = "text-danger" })*@
+                    @Html.CheckBoxFor(model => model.IsActive)
+                </div>
+            </div>
+            @*<div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.LAST_UPDATE_DATETIME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                @Html.TextBoxFor(model => model.LAST_UPDATE_DATETIME, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.LAST_UPDATE_DATETIME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.LAST_UPDATE_DETAILS, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                @Html.TextBoxFor(model => model.LAST_UPDATE_DETAILS, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.LAST_UPDATE_DETAILS, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        </div>
 	</div>
 	<div class="col-md-12">
 		<div class="ln_solid"></div>
 		<div class="form-group">
 			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-				<button class="btn btn-primary" type="button">Cancel</button>
+				@*<button class="btn btn-primary" type="button">Cancel</button>*@
 				<button class="btn btn-primary" type="reset">Reset</button>
 				<button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
 			</div>
@@ -407,6 +411,6 @@
 
     });
 </script>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

@@ -535,6 +535,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
         {
+            m.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
@@ -543,6 +545,8 @@ namespace TogoFogo.Controllers
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
+                               m.CreatedBy,
+                               m.ModifyBy,
                                Action = "add",
                                m.ColorId
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -574,6 +578,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditColorMaster(ColorModel m)
         {
+         
+            m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
@@ -582,6 +588,8 @@ namespace TogoFogo.Controllers
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
+                               m.CreatedBy,
+                               m.ModifyBy,
                                Action = "edit",
                                m.ColorId,
 
@@ -602,7 +610,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ColorModel>("Select * from Color_Master", new { },
+                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CreatedBy',cum1.UserName 'ModifyBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
                     commandType: CommandType.Text).ToList();              
                 return View(result);
             }
@@ -1738,9 +1746,10 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)
         {
+            m.UserId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id,Problem_Id=m.Problem,m.Market_Price,m.estimated_Price,m.Min_Price,m.Max_Price,action="Add"},
+                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id,Problem_Id=m.Problem,m.Market_Price,m.estimated_Price,m.Min_Price,m.Max_Price,action="Add", m.UserId },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 1)
                 {
@@ -1778,9 +1787,10 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditWebsiteData(Prob_Vs_price_matrix m)
         {
+            m.UserId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id, Problem_Id = m.Problem, m.Market_Price, m.estimated_Price, m.Min_Price, m.Max_Price, action = "edit" },
+                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id, Problem_Id = m.Problem, m.Market_Price, m.estimated_Price, m.Min_Price, m.Max_Price, action = "edit", m.UserId },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 2)
                 {

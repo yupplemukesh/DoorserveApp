@@ -23,7 +23,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Uploaded Images");
+                string path = Server.MapPath("~/UploadedImages");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -79,6 +79,9 @@ namespace TogoFogo.Controllers
         {
             try
             {
+
+                model.CREATE_BY = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.MODIFY_BY = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 if (model.UploadPanCardNO != null)
                 {
                     model.UPLOAD_PAN_NO = SaveImageFile(model.UploadPanCardNO);
@@ -148,7 +151,7 @@ namespace TogoFogo.Controllers
                             model.LAST_NAME,
                             model.MOBILE_NO,
                             model.EMAIL,
-                            model.IS_USER,
+                            model.IsUser,
                             model.CONTACT_PERSON_PANNO,
                             model.PERSON_UPLOAD_PANNO,
                             model.VOTER_CARD_N0,
@@ -161,7 +164,7 @@ namespace TogoFogo.Controllers
                             model.IFSC_CODE,
                             model.BANK_BRANCH,
                             model.UPLOAD_CANCELLED_CHEQUE,
-                            model.IS_ACTIVE,
+                            model.IsActive,
                             model.COMMENTS,
                             model.CREATE_BY,
                             model.MODIFY_BY,
@@ -223,6 +226,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.MODIFY_BY = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 if (model.UploadPanCardNO != null)
                 {
                     model.UPLOAD_PAN_NO = SaveImageFile(model.UploadPanCardNO);
@@ -286,7 +290,7 @@ namespace TogoFogo.Controllers
                                 model.LAST_NAME,
                                 model.MOBILE_NO,
                                 model.EMAIL,
-                                model.IS_USER,
+                                model.IsUser,
                                 model.CONTACT_PERSON_PANNO,
                                 model.PERSON_UPLOAD_PANNO,
                                 model.VOTER_CARD_N0,
@@ -299,7 +303,7 @@ namespace TogoFogo.Controllers
                                 model.IFSC_CODE,
                                 model.BANK_BRANCH,
                                 model.UPLOAD_CANCELLED_CHEQUE,
-                                model.IS_ACTIVE,
+                                model.IsActive,
                                 model.COMMENTS,
                                 model.CREATE_BY,
                                 model.MODIFY_BY,
