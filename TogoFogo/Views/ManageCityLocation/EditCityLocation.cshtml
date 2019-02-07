@@ -1,63 +1,71 @@
 ﻿
 @model TogoFogo.Models.ManageLocation
 @{
-	Layout = null;
+    Layout = null;
 }
 @using (Html.BeginForm("EditCityLocation", "ManageCityLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-	@Html.HiddenFor(m => m.LocationId)
-<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "col-md-4 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
+    @Html.HiddenFor(m => m.LocationId)
+
+    <div class="form-group">
+        
+            @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+            <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.LocationName, null, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
         </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "col-md-4 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+            <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.CountryName, null, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateName', this)" })
             @Html.ValidationMessageFor(model => model.CountryName, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.StateName, htmlAttributes: new { @class = "col-md-4 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.DropDownListFor(model => model.StateName, null, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.StateName, "", new { @class = "text-danger" })
-        </div>
-    </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.StateName, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.StateName, null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StateName, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
 
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-4 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control" })
+                </div>
+            </div>
+
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
                 {
                     new SelectListItem {Text = "Yes", Value = "Yes"},
                     new SelectListItem {Text = "No", Value = "No"}
 
                 }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+          
+       
+    <div class="row ">
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </div>
-</div>
-
-}
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+            }
+           

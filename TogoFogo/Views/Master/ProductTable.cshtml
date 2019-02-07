@@ -8,20 +8,21 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.ProductId)
+            @Html.DisplayName("Serial No")
+        </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductImage)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ProductName)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Pro_Color)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Alt_ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductImage)
-                </th>
+                @*<th>
+            @Html.DisplayNameFor(model => model.Pro_Color)
+        </th>*@
+                @*<th>
+            @Html.DisplayNameFor(model => model.Alt_ProductName)
+        </th>*@
+
 
                 <th>
                     @Html.DisplayNameFor(model => model.BrandName)
@@ -30,21 +31,26 @@
                     @Html.DisplayNameFor(model => model.MRP)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Market_Price)
+                    @Html.DisplayNameFor(model => model.MarketPrice)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.TUPC)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Is_repair)
+                    @Html.DisplayNameFor(model => model.IsRepair)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Is_Active)
+                    @Html.DisplayNameFor(model => model.IsActive)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Comments)
                 </th>
-
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifyBy)
+                </th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -52,27 +58,28 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
+            @Html.DisplayFor(modelItem => item.SerialNo)
+        </td>
+            <td>
+                @if (item.ProductImage != null)
+                {
+                    <img src="~/UploadedImages/@item.ProductImage" width="50" height="50" />
+                }
+                @*else
+                {
+                    @Html.DisplayFor(modelItem => item.ProductImage)
+                }*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pro_Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Alt_ProductName)
-            </td>
-            <td>
-                @if (item.ProductImage != null)
-                {
-                    <img src="~/Uploaded Images/@item.ProductImage" width="50" height="50" />
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.ProductImage)
-                }
-            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Pro_Color)
+        </td>*@
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Alt_ProductName)
+        </td>*@
+
             <td>
                 @Html.DisplayFor(modelItem => item.BrandName)
             </td>
@@ -80,25 +87,34 @@
                 @Html.DisplayFor(modelItem => item.MRP)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Market_Price)
+                @Html.DisplayFor(modelItem => item.MarketPrice)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TUPC)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Is_repair)
+                @*@Html.DisplayFor(modelItem => item.IsRepair)*@
+                @(item.IsRepair==true?"Yes":"No")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Is_Active)
+                @*@Html.DisplayFor(modelItem => item.IsActive)*@
+                @(item.IsActive == true ? "Active" : "InActive")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyBy)
+            </td>
 
             <td style="display: inline-flex;">
                 @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.Brand_ID, '@item.ProductName','@item.Category_ID')">Edit</a>
-                <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
+                <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.BrandID, '@item.ProductName','@item.CategoryID')">Edit</a>
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
                 <input type="button" value="Delete" class="btn btn-danger btnSize " />
             </td>
         </tr>

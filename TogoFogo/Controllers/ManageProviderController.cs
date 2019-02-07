@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Uploaded Images");
+                string path = Server.MapPath("~/UploadedImages");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -84,6 +84,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.User = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
                 if (model.GST_No_File1 != null)
                 {
                     model.GST_No_File = SaveImageFile(model.GST_No_File1);
@@ -160,7 +161,7 @@ namespace TogoFogo.Controllers
                             model.CancelledChequeFile,
                             model.IsActive,
                             model.Comments,
-                            User = "",
+                           model.User,
                             Action = "add",
                             model.AddressType,
                             model.Address,
@@ -198,7 +199,6 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
-
         public ActionResult EditServiceProvider(int ProviderId)
         {
 
@@ -234,6 +234,7 @@ namespace TogoFogo.Controllers
                         commandType: CommandType.Text).FirstOrDefault();
                    
                     result.GstCategory = result.GstCategoryId;
+                    if(!string.IsNullOrEmpty(result.SupportedCategory))
                     result.Supported_Category = result.SupportedCategory.Split(',');
                     return PartialView("EditServiceProvider", result);
                 }
@@ -245,6 +246,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditServiceProvider(ManageServiceProviderModel model)
         {
+            model.User = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
             try
             {
                 if (model.GST_No_File1 != null)
@@ -312,7 +314,7 @@ namespace TogoFogo.Controllers
                             model.CancelledChequeFile,
                             model.IsActive,
                             model.Comments,
-                            User = "",
+                            model.User,
                             Action = "edit",
                             model.AddressType,
                             model.Address,

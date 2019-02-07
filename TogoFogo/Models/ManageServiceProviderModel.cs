@@ -10,6 +10,7 @@ namespace TogoFogo.Models
 {
     public class ManageServiceProviderModel
     {
+        public int SerialNo { get; set; }
         public string GstCategoryId { get; set; }
         [DisplayName("Gst Category")]
         public string GstCategory { get; set; }
@@ -79,7 +80,7 @@ namespace TogoFogo.Models
         [DisplayName("Upload PAN Card Number")]
         public string Pancardno_File { get; set; }
         [DisplayName("Is User?")]
-        public string IsUser { get; set; }
+        public Boolean IsUser { get; set; }
         [DisplayName("User PAN Card Number")]
         //[RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid User PAN Number")]
         public string UserPanNo { get; set; }
@@ -87,7 +88,6 @@ namespace TogoFogo.Models
         public HttpPostedFileBase UserPanNo_File1 { get; set; }
         [DisplayName("Upload Pan Card")]
         public string UserPanNo_File { get; set; }
-
         [DisplayName("Voter ID Card Number")]
         public string VoterIdCard { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
@@ -118,7 +118,7 @@ namespace TogoFogo.Models
         public string CancelledChequeFile { get; set; }
         [DisplayName("Is Active ?")]
         [Required]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         public string Comments { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
@@ -126,7 +126,6 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
-
-
+        public int  User { get; set; }
     }
 }

@@ -1100,7 +1100,7 @@ namespace TogoFogo.Controllers
             {
                 List<BindDeviceModel> company = con
                     .Query<BindDeviceModel>(
-                        "select DISTINCT ProductId,ProductName  from MstProduct Where Brand_Id=@BrandId", new { @BrandId = BrandId },
+                        "select DISTINCT ProductId,ProductName  from MstProduct Where BrandID=@BrandId", new { @BrandId = BrandId },
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem

@@ -9,6 +9,7 @@ namespace TogoFogo.Models
 {
     public class DeviceProblemModel
     {
+        public int SerialNo { get; set; }
         [Required]
         public string Category { get; set; }
         [Required]
@@ -20,17 +21,20 @@ namespace TogoFogo.Models
         public string ProblemID { get; set; }
         [Required]
         public string Problem { get; set; }
-        public string SortOrder { get; set; }
+        public int SortOrder { get; set; }
         [DisplayName("Is Active?")]
         [Required]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         public string CreatedBy { get; set; }
-        public string Createddate { get; set; }
-        public string Modifyby { get; set; }
-        public string Modifydate { get; set; }
-        public string deleteBy { get; set; }
-        public string deleteDate { get; set; }
+        [DisplayName("Created Date")]
+        public string CreatedDate { get; set; }
+        public string ModifyBy { get; set; }
+        [DisplayName("Modifyd Date")]
+        public string ModifyDate { get; set; }
+        public string DeleteBy { get; set; }
+        public string DeleteDate { get; set; }
         public string SubCatName { get; set; }
         public string CatName { get; set; }
+        public string User { get; set; }
     }
 }

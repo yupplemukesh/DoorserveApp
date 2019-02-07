@@ -29,6 +29,7 @@ namespace TogoFogo.Models
     }
     public class ManageSparePart
     {
+        public int SerialNo { get; set; }
         [DisplayName("Device Model Name")]
         public string ProductName { get; set; }
         public string CatName { get; set; }
@@ -47,8 +48,8 @@ namespace TogoFogo.Models
         [DisplayName("Spare Type")]
         public string SpareTypeName { get; set; }
         public int SpareTypeId {get;set;}
-       public string CategoryId {get;set;}
-       public int BrandId {get;set;}
+        public string CategoryId {get;set;}
+        public int BrandId {get;set;}
         public int ProductId {get;set;}
         public int PartId {get;set;}
         [Required]
@@ -56,24 +57,24 @@ namespace TogoFogo.Models
         public string PartName {get;set;}
         [DisplayName("TRUPC")]
         public string TUPC {get;set;}
-        public string TGFG_Code {get;set;}
+        public string TGFGCode {get;set;}
         [DisplayName("Spare Code")]
         [Required]
         public string SpareCode {get;set;}
         [DisplayName("CTH Number (GST Tariff item - HSN Code)")]
-        public string CTH_No {get;set;}
+        public string CTHNo {get;set;}
         [DisplayName("Spare Part Photo")]
         public string Part_Image {get;set;}
         public string SortOrder {get;set;}
         [DisplayName("Is Active")]
         [Required]
-        public string IsActive {get;set;}
+        public Boolean IsActive {get;set;}
         public string CreatedBy {get;set;}
-        public string Created_date {get;set;}
+        public string CreatedDate {get;set;}
         public string ModifyBy {get;set;}
-        public string Modify_Date {get;set;}
+        public string ModifyDate {get;set;}
         public string DeleteBy {get;set;}
-        public string Delete_date { get; set; }
+        public string DeleteDate { get; set; }
         public HttpPostedFileBase PartImage1 { get; set; }
     }
 }
