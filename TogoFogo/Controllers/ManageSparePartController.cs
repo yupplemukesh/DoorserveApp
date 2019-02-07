@@ -59,11 +59,11 @@ namespace TogoFogo.Controllers
         }
         public ActionResult AddSpareType()
         {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstSpareType", null, commandType: CommandType.Text).FirstOrDefault();
-                ViewBag.SortOrder = result + 1;
-            }
+            //using (var con = new SqlConnection(_connectionString))
+            //{
+            //    var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstSpareType", null, commandType: CommandType.Text).FirstOrDefault();
+            //    ViewBag.SortOrder = result + 1;
+            //}
             ViewBag.Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
             ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
@@ -74,6 +74,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
 
                 using (var con = new SqlConnection(_connectionString))
                 {
@@ -86,9 +88,9 @@ namespace TogoFogo.Controllers
                             SubCategoryid = model.SubCategory,
                             model.SortOrder,
                             model.IsActive,
-                            CreatedBy = "",
-                            ModifyBy = "",
-                            DeleteBy = "",
+                            model.CreatedBy,
+                            model.ModifyBy,
+                            model.DeleteBy,
                             Action = "add"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -156,7 +158,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_SpareType",
@@ -168,9 +170,9 @@ namespace TogoFogo.Controllers
                             SubCategoryid = model.SubCategory,
                             model.SortOrder,
                             model.IsActive,
-                            CreatedBy = "",
-                            ModifyBy = "",
-                            DeleteBy = "",
+                            model.CreatedBy,
+                            model.ModifyBy,
+                            model.DeleteBy,
                             Action = "edit"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -197,7 +199,7 @@ namespace TogoFogo.Controllers
             ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.DeviceModelName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.CTH_No = new SelectList(Enumerable.Empty<SelectListItem>());
+            ViewBag.CTHNo = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["AddSpareName"] != null)
             {
                 ViewBag.AddSpareName = TempData["AddSpareName"].ToString();
@@ -211,14 +213,14 @@ namespace TogoFogo.Controllers
         }
         public ActionResult AddSparePartName()
         {
-            ViewBag.CTH_No = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstSparePart", null,
-                    commandType: CommandType.Text).FirstOrDefault();
+            ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
+            //using (var con = new SqlConnection(_connectionString))
+            //{
+            //    var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstSparePart", null,
+            //        commandType: CommandType.Text).FirstOrDefault();
 
-                ViewBag.SortOrder = result + 1;
-            }
+            //    ViewBag.SortOrder = result + 1;
+            //}
 
             //ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
             ViewBag.Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
@@ -233,6 +235,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -250,16 +254,16 @@ namespace TogoFogo.Controllers
                             SpareCode= model.SpareCode,
                             ProductId = model.DeviceModelName,
                             model.SubCategory,
-                            model.CTH_No,
+                            model.CTHNo,
                             model.Part_Image,
                             model.PartName,
                             model.SortOrder,
                             model.IsActive,
-                            CreatedBy = "",
-                            ModifyBy = "",
-                            DeleteBy = "",
+                            model.CreatedBy,
+                            model.ModifyBy,
+                            model.DeleteBy,
                             Action = "add",
-                            TGFG_Code="",
+                            TGFGCode="",
                             model.TUPC
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -304,7 +308,7 @@ namespace TogoFogo.Controllers
             }
             else
             {
-                ViewBag.CTH_No = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
+                ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<ManageSparePart>("Select * from MstSparePart where SpareTypeId=@SpareTypeId", new { SpareTypeId = SpareTypeId },
@@ -332,6 +336,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -349,16 +354,16 @@ namespace TogoFogo.Controllers
                             model.SpareCode,
                             ProductId = model.DeviceModelName,
                             model.SubCategory,
-                            model.CTH_No,
+                            model.CTHNo,
                             model.Part_Image,
                             model.PartName,
                             model.SortOrder,
                             model.IsActive,
-                            CreatedBy = "",
-                            ModifyBy = "",
-                            DeleteBy = "",
+                            model.CreatedBy,
+                            model.ModifyBy,
+                            model.DeleteBy,
                             Action = "edit",
-                            TGFG_Code = "",
+                            TGFGCode = "",
                             model.TUPC
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();

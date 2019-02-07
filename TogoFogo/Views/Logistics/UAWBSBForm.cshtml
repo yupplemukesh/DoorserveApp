@@ -9,68 +9,68 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Update Reverse AWB Status (Biker)<small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+                <h3 class="m-y-0">Update Reverse AWB Status (Biker)</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                </ul>
-                <div class="clearfix"></div>
-            </div>
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
             <div class="x_content">
                 @using (Html.BeginForm("", "Logistics", FormMethod.Post))
                 {
-                    <div class="row">
-                        
-                            <p style="font-size: 17px;"><u>Repair Information:</u></p>
-                            <div class="row" style="padding-bottom: 5px">
-                                @Html.LabelFor(model => model.CourierName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    @Html.TextBoxFor(model => model.CourierName, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
-                                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p style="font-size: 17px;"><u>Repair Information:</u></p>
+                        <div class="row" style="padding-bottom: 5px">
+                            @Html.LabelFor(model => model.CourierName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.CourierName, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
                             </div>
-                            <div class="row" style="padding-bottom: 5px">
-                                @Html.LabelFor(model => model.BikerName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    @Html.TextBoxFor(model => model.BikerName, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.BikerName, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px">
+                            @Html.LabelFor(model => model.BikerName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.BikerName, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BikerName, "", new { @class = "text-danger" })
                             </div>
-                            <div class="row" style="padding-bottom: 5px">
-                                @Html.LabelFor(model => model.BikerMobile, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    @Html.TextBoxFor(model => model.BikerMobile, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.BikerMobile, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px">
+                            @Html.LabelFor(model => model.BikerMobile, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.BikerMobile, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BikerMobile, "", new { @class = "text-danger" })
                             </div>
-                            <div class="row" style="padding-bottom: 5px">
-                                @Html.LabelFor(model => model.BikeMake, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    @Html.TextBoxFor(model => model.BikeMake, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.BikeMake, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px">
+                            @Html.LabelFor(model => model.BikeMake, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.BikeMake, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BikeMake, "", new { @class = "text-danger" })
                             </div>
-                            <div class="row" style="padding-bottom: 5px">
-                                @Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    @Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.BikeNumber, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px">
+                            @Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.BikeNumber, "", new { @class = "text-danger" })
                             </div>
-                            <div class="row" style="padding-bottom: 5px">
-                                @Html.LabelFor(model => model.CashInHand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    @Html.TextBoxFor(model => model.CashInHand, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.CashInHand, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px">
+                            @Html.LabelFor(model => model.CashInHand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.CashInHand, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CashInHand, "", new { @class = "text-danger" })
                             </div>
-                    
-                        
+                        </div>
+
+
                     </div>
-               
-                    
+                
+                    </div>
                     <div class="row ">
                         <div class="ln_solid"></div>
                         <div class="form-group">
@@ -82,6 +82,7 @@
                         </div>
                     </div>
                 }
+                
             </div>
         </div>
     </div>

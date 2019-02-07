@@ -8,15 +8,19 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.SubCatName)
+                    @Html.DisplayName("Serial No")
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.CatName)
                 </th>
-               
                 <th>
-                    @Html.DisplayNameFor(model => model.ProblemID)
+                    @Html.DisplayNameFor(model => model.SubCatName)
                 </th>
+
+
+                @*<th>
+            @Html.DisplayNameFor(model => model.ProblemID)
+        </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Problem)
                 </th>
@@ -26,40 +30,65 @@
                 <th>
                     @Html.DisplayNameFor(model => model.IsActive)
                 </th>
-               
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifyBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifyDate)
+                </th>
                 <th>Action</th>
             </tr>
         </thead>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubCatName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CatName)
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProblemID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Problem)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SortOrder)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-               
-                <td style="display: inline-flex;">
-                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                    <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProblemID)">Edit</a>
-                    <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-                    <input type="button" value="Delete" class="btn btn-danger btnSize " />
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCatName)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.ProblemID)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Problem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SortOrder)
+            </td>
+            <td>
+                @(item.IsActive == true ? "Active" : "InActive")
+                @*@Html.DisplayFor(modelItem => item.IsActive)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
+            <td style="display: inline-flex;">
+                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProblemID)">Edit</a>
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
+                <input type="button" value="Delete" class="btn btn-danger btnSize " />
+            </td>
+        </tr>
         }
 
     </table>

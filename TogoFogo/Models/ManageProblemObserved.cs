@@ -9,6 +9,8 @@ namespace TogoFogo.Models
 {
     public class ManageProblemObserved
     {
+        public int SerialNo { get; set; }
+        [Required]
         public string Device_Category { get; set; }
         [Required]
         [DisplayName("Device Category")]
@@ -23,10 +25,10 @@ namespace TogoFogo.Models
         [DisplayName("Problem Observed")]
         public string ProblemObserved { get; set; }
         [DisplayName("Sort Order")]
-        public string SortOrder { get; set; }
+        public int SortOrder { get; set; }
         [Required]
         [DisplayName("Is Active?")]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
         public string ModifyBy { get; set; }

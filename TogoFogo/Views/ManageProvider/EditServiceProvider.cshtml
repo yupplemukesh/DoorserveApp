@@ -152,18 +152,7 @@
 					@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 				</div>
 			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
-					{
-						new SelectListItem {Text = "Yes", Value = "Yes"},
-						new SelectListItem {Text = "No", Value = "No"}
-
-					}, "Select", new { @class = "form-control" })
-					@Html.ValidationMessageFor(model => model.IsUser, "", new { @class = "text-danger" })
-				</div>
-			</div>
+			
 			<div class="row" style="padding-bottom: 5px;">
 				@Html.LabelFor(model => model.UserPanNo, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
 				<div class="col-md-7 col-sm-7 col-xs-12">
@@ -347,22 +336,37 @@
 
             <p style="font-size: 19px;"><u>Registration</u></p>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                    @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                @*@Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
                 {
                     new SelectListItem {Text = "Yes", Value = "Yes"},
                     new SelectListItem {Text = "No", Value = "No"}
 
                 }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.IsUser, "", new { @class = "text-danger" })*@
+                    @Html.CheckBoxFor(model=>model.IsUser)
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+
+                }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+                    @Html.CheckBoxFor(model=>model.IsActive)
                 </div>
             </div>
         </div>
@@ -396,6 +400,6 @@
 
         });
     </script>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

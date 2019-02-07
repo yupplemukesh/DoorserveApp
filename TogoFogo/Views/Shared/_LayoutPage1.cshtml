@@ -217,12 +217,14 @@
         });
 
         function readURL(input) {
+            var _this = input;
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
+                    //$('#blah')
+                    //    .attr('src', e.target.result);
+                    $(_this).parent('div').next('div').find('img').attr('src', e.target.result);
                 };
 
                 reader.readAsDataURL(input.files[0]);

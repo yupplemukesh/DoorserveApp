@@ -9,24 +9,27 @@ namespace TogoFogo.Models
 {
     public class ManageSpareType
     {
+        public int SerialNo { get; set; }
         public int SpareTypeId { get; set; }
         [Required]
         [DisplayName("Spare Type Name")]
         public string SpareTypeName { get; set; }
         public int ProductId { get; set; }
+        [Required]
         public int SortOrder { get; set; }
         [Required]
         [DisplayName("Is Active")]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         public string CreatedBy { get; set; }
-        public string Created_date { get; set; }
+        public string CreatedDate { get; set; }
         public string ModifyBy { get; set; }
-        public string Modify_Date { get; set; }
+        public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
-        public string Delete_date { get; set; }
+        public string DeleteDate { get; set; }
         [Required]
         [DisplayName("Category")]
         public string Category { get; set; }
+        [Required]
         public int CategoryId { get; set; }
         [Required]
         [DisplayName("Sub Category")]

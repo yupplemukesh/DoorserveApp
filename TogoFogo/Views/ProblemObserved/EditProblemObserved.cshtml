@@ -1,9 +1,7 @@
 ﻿
 @using System.Web.UI.WebControls
 @model TogoFogo.Models.ManageProblemObserved
-@{
-	Layout = null;
-}
+
 
 @using (Html.BeginForm("EditProblemObserved", "ProblemObserved", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -41,7 +39,7 @@
 	<div class="row" style="padding-bottom: 5px;">
 		@Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+            @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control"})
             @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
         </div>
 	</div>
@@ -49,13 +47,14 @@
 	<div class="row" style="padding-bottom: 5px;">
 		@Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "1"},
-                new SelectListItem {Text = "No", Value = "0"}
+            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "1"},
+            new SelectListItem {Text = "No", Value = "0"}
 
-            }, "Select Status", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        }, "Select Status", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+            @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
         </div>
 	</div>
 
