@@ -1,0 +1,15 @@
+﻿@model TogoFogo.Models.ContactPersonModel
+<div class="col-3">
+    <span>
+        <strong> Name</strong>:    @Model.ConFirstName @Model.ConLastName
+        <br />
+        <strong> Mobile</strong>:    @Model.ConMobileNumber
+        <br />
+        <strong> Email</strong>:    @Model.ConEmailAddress
+        <br />
+        <strong> Address</strong>:    @Model.ConAddress  
+
+    </span>
+    <a class="btn btn-primary" href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(Model)),this)'> Edit</a>
+    
+</div>

@@ -11,7 +11,9 @@ namespace TogoFogo.Repository.Clients
     {
         Task<List<ClientModel>> GetClients();
         Task<ClientModel> GetClientByClientId(Guid clientId);
-        Task<bool> AddUpdateDeleteClient(ClientModel client,char action);
+        Task<ResponseModel> AddUpdateDeleteClient(ClientModel client);
+        Task<ResponseModel> AddUpdateBankDetails(BankDetailModel bank);
+        Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact);
         void Save();
     }
 }

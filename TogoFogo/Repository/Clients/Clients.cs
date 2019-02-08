@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,13 +27,52 @@ namespace TogoFogo.Repository.Clients
 
         public async Task<ClientModel> GetClientByClientId(Guid clientId)
         {
+            var ClientModel = new ClientModel();
             SqlParameter client = new SqlParameter("@ClientId", clientId);
-            return await _context.Database.SqlQuery<ClientModel>("USPGetClientById @ClientId", client).SingleOrDefaultAsync();
+            using (var connection = _context.Database.Connection)
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "EXEC USPGetClientById";
+                command.Parameters.Add(client);
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                     ClientModel=
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<ClientModel>(reader)
+                            .SingleOrDefault();
+                    reader.NextResult();
+
+                    ClientModel.Organization =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<OrganizationModel>(reader)
+                            .SingleOrDefault();
+                    reader.NextResult();
+
+                    ClientModel.ContactPersons =
+                     ((IObjectContextAdapter)_context)
+                         .ObjectContext
+                         .Translate<ContactPersonModel>(reader)
+                         .ToList();
+                    reader.NextResult();
+
+                    ClientModel.BankDetails =
+                   ((IObjectContextAdapter)_context)
+                       .ObjectContext
+                       .Translate<BankDetailModel>(reader)
+                       .ToList();
+
+                }
+            }
+
+            return ClientModel;
+
         }
 
-        public async Task<bool> AddUpdateDeleteClient(ClientModel client, char action)
-        {
-            bool result = false;
+        public async Task<ResponseModel> AddUpdateDeleteClient(ClientModel client)
+        {            
             string cat = "";
            foreach(var item in client.DeviceCategories)
             {
@@ -78,63 +118,9 @@ namespace TogoFogo.Repository.Clients
             sp.Add(param);
             param = new SqlParameter("@ORGPANFILEPATH", ToDBNull(client.Organization.OrgPanFileName));
             sp.Add(param);
-            param = new SqlParameter("@CONADDRESSTYPE", ToDBNull(client));
-            sp.Add(param);
-            //param = new SqlParameter("@CONCOUNTRY", ToDBNull(client.ConCountry));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONSTATE", ToDBNull(client.ConState));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONCITY", ToDBNull(client.ConCity));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONADDRESS", ToDBNull(client.ConAddress));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONLOCALITY", ToDBNull(client.ConLocality));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONNEARBYLOCATION", ToDBNull(client.ConNearByLocation));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONPIN", ToDBNull(client.ConPinNumber));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONFNAME", ToDBNull(client.ConFirstName));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONLNAME", ToDBNull(client.ConLastName));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONMOBILENUMBER", ToDBNull(client.ConMobileNumber));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONEMAIL", ToDBNull(client.ConEmailAddress));
-            //sp.Add(param);
-            //param = new SqlParameter("@ISUSER", client.IsUser);
-            //sp.Add(param);
-            //param = new SqlParameter("@USERNAME", ToDBNull(client.UserName));
-            //sp.Add(param);
-            //param = new SqlParameter("@PASSWORD", ToDBNull(client.Password));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONPANNUMBER", ToDBNull(client.ConPanNumber));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONPANFILEPATH", ToDBNull(client.ConPanFileName));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONVOTERID", ToDBNull(client.ConVoterId));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONVOTERIDFILEPATH", ToDBNull(client.ConVoterIdFileName));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONADHAARNUMBER", ToDBNull(client.ConAdhaarNumber));
-            //sp.Add(param);
-            //param = new SqlParameter("@CONADHAARFILEPATH", ToDBNull(client.ConAdhaarFileName));
-            //sp.Add(param);
-            //param = new SqlParameter("@BANKNAME", ToDBNull(client.BankName));
-            //sp.Add(param);
-            //param = new SqlParameter("@BANKACCNUMBER", ToDBNull(client.BankAccountNumber));
-            //sp.Add(param);
-            //param = new SqlParameter("@BANKCOMPNAME", ToDBNull(client.BankCompanyName));
-            //sp.Add(param);
-            //param = new SqlParameter("@BANKIFSC", ToDBNull(client.BankIFSCCode));
-            //sp.Add(param);
-            //param = new SqlParameter("@BANKBRANCHNAME", ToDBNull(client.BankBranchName));
-            //sp.Add(param);
-            //param = new SqlParameter("@BANKCANCELLEDCHEQUEFILEPATH", ToDBNull(client.BankCancelledChequeFileName));
-            //sp.Add(param);
             param = new SqlParameter("@ISACTIVE", (object)client.IsActive);
             sp.Add(param);
-            param = new SqlParameter("@ACTION", (object)action);
+            param = new SqlParameter("@ACTION", (object)client.action);
             sp.Add(param);
             param = new SqlParameter("@USER", (object)client.CreatedBy);
             sp.Add(param);
@@ -142,19 +128,16 @@ namespace TogoFogo.Repository.Clients
             sp.Add(param);
          
 
-            var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSNAME,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH,@CONADDRESSTYPE,@CONCOUNTRY,@CONSTATE, @CONCITY, @CONADDRESS , @CONLOCALITY, @CONNEARBYLOCATION,@CONPIN ,@CONFNAME ,@CONLNAME,@CONMOBILENUMBER," +
-                        "@CONEMAIL,@ISUSER,@USERNAME,@PASSWORD,@CONPANNUMBER,@CONPANFILEPATH,@CONVOTERID,@CONVOTERIDFILEPATH, @CONADHAARNUMBER ,@CONADHAARFILEPATH ,@BANKNAME , @BANKACCNUMBER , @BANKCOMPNAME ,@BANKIFSC," +
-                        "@BANKBRANCHNAME , @BANKCANCELLEDCHEQUEFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER ,@ServiceType,@ServiceDeliveryType";
-
- 
+            var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSNAME,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ServiceType,@ServiceDeliveryType,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER ";
        
 
-            var res = await _context.Database.SqlQuery<string>(sql, sp.ToArray()).FirstOrDefaultAsync();
-            if (res == "Ok")
-                result = true;
-
-            return result;
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.Response == "Ok")
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
         }
       
         public static object ToDBNull(object value)
@@ -183,6 +166,108 @@ namespace TogoFogo.Repository.Clients
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public async Task<ResponseModel> AddUpdateBankDetails(BankDetailModel bank)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@BANKID", bank.bankId);
+            sp.Add(param);
+            param = new SqlParameter("@BANKNAMEID", (object)bank.BankNameId);
+            sp.Add(param);
+            param = new SqlParameter("@BANKACCNUMBER", (object)bank.BankAccountNumber);
+            sp.Add(param);
+            param = new SqlParameter("@BANKCOMPATACC", (object)bank.BankCompanyName);
+            sp.Add(param);
+
+            param = new SqlParameter("@BANKBRANCH", (object)bank.BankBranchName);
+            sp.Add(param);
+            param = new SqlParameter("@BANKIFSC", (object)bank.BankIFSCCode);
+            sp.Add(param);
+            param = new SqlParameter("@BankCancelledChequeFileName", (object)bank.BankCancelledChequeFileName);
+            sp.Add(param);
+            param = new SqlParameter("@USER", (object)bank.UserId);
+            sp.Add(param);
+            param = new SqlParameter("@CLIENTID", (object)bank.ClientId);
+            sp.Add(param);
+            param = new SqlParameter("@ACTION", (object)bank.Action);
+            sp.Add(param);   
+
+            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@CLIENTID ,@ACTION";
+
+
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.Response == "Ok")
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
+        }
+
+        public async Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@CONTACTID", contact.ContactId);
+            sp.Add(param);
+            param = new SqlParameter("@CLIENTID", (object)contact.ClientId);
+            sp.Add(param);
+            param = new SqlParameter("@CONADDRESSTYPEID", (object)contact.ConAddressType);
+            sp.Add(param);
+            param = new SqlParameter("@CONCOUNTRYID", (object)contact.ConCountry);
+            sp.Add(param);
+            param = new SqlParameter("@CONSTATEID", (object)contact.ConState);
+            sp.Add(param);
+            param = new SqlParameter("@CONCITYID", (object)contact.ConCity);
+            sp.Add(param);
+            param = new SqlParameter("@CONADDRESS", (object)contact.ConCountry);
+            sp.Add(param);
+            param = new SqlParameter("@CONLOCALITY", (object)contact.ConLocality);
+            sp.Add(param);
+            param = new SqlParameter("@CONNEARBYLOCATION", (object)contact.ConNearByLocation);
+            sp.Add(param);
+            param = new SqlParameter("@CONPIN", (object)contact.ConPinNumber);
+            sp.Add(param);
+            param = new SqlParameter("@CONFNAME", (object)contact.ConFirstName);
+            sp.Add(param);
+            param = new SqlParameter("@CONLNAME", (object)contact.ConLastName);
+            sp.Add(param);
+            param = new SqlParameter("@CONNUMBER", (object)contact.ConMobileNumber);
+            sp.Add(param);
+            param = new SqlParameter("@CONEMAIL", (object)contact.ConEmailAddress);
+            sp.Add(param);
+            param = new SqlParameter("@ISUSER", (object)contact.IsUser);
+            sp.Add(param);
+            param = new SqlParameter("@USERNAME", (object)contact.UserName);
+            sp.Add(param);
+            param = new SqlParameter("@PASSWORD", (object)contact.Password);
+            sp.Add(param);
+            param = new SqlParameter("@CONPANNUMBER", (object)contact.ConPanNumber);
+            sp.Add(param);
+            param = new SqlParameter("@CONPANFILENAME", (object)contact.ConPanFileName);
+            sp.Add(param);
+            param = new SqlParameter("@CONVOTERID", (object)contact.ConVoterId);
+            sp.Add(param);
+            param = new SqlParameter("@CONVOTERIDFILENAME", (object)contact.ConVoterIdFileName);
+            sp.Add(param);
+            param = new SqlParameter("@CONADHAARNUMBER", (object)contact.ConAdhaarNumber);
+            sp.Add(param);
+            param = new SqlParameter("@CONADHAARFILENAME", (object)contact.ConAdhaarNumberFilePath);
+            sp.Add(param);
+            param = new SqlParameter("@ACTION", (object)contact.Action);
+            sp.Add(param);
+            param = new SqlParameter("@USER", (object)contact.UserID);
+            sp.Add(param);
+
+            var sql = "USPADDOREDITCONTACTS @CONTACTID,@CLIENTID,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
+                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@ISUSER,@USERNAME,@PASSWORD,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER";
+
+
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.Response == "Ok")
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
         }
     }
 }

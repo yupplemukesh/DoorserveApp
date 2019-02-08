@@ -23,7 +23,7 @@ namespace TogoFogo
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                        "~/Content/Scripts/bootstrap-datetimepicker.js",
                                               "~/Content/js/bootstrap-select.js"
-
+               
                ));
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));
@@ -38,7 +38,8 @@ namespace TogoFogo
                       "~/content/js/vendor.min.js",
                       "~/content/js/cosmos.min.js",
                       "~/content/js/application.min.js",
-                      "~/content/js/tables-datatables.min.js"                         
+                      "~/content/js/tables-datatables.min.js",
+                         "~/content/js/ui-notifications.min.js"
                        ));
         }
     }

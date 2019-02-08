@@ -23472,3 +23472,9 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .tab-left-panel {
     border-left: solid 1px #ddd;
 }
+.isDisabledtab {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+}

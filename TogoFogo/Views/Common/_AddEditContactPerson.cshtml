@@ -1,6 +1,6 @@
 ﻿@model TogoFogo.Models.ContactPersonModel
 
-@using (Html.BeginForm("AddContact", "ManageClient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AddOrPersonContactDetails", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data",  }))
 {
     <div class=" row form-group">
         <label class="col-md-3 " for="textinput">First Name</label>
@@ -43,7 +43,7 @@
 
     <!-- Select Basic -->
     <div class="row form-group">
-        <label class="col-md-3 control-label" for="selectbasic">Is User?	</label>
+        <label class="col-md-3 control-label" for="selectbasic">Is User?</label>
         <div class="col-md-9">
             <label class="" for="radios-1">
                 @Html.CheckBoxFor(x => x.IsUser)
@@ -106,6 +106,7 @@
         </div>
     </div>
 
+
     <!-- file input-->
     <div class=" row form-group">
         <label class="col-md-3 " for="textinput">Upload PAN Card Number</label>
@@ -160,12 +161,8 @@
         <label class="col-md-3 control-label" for="selectbasic">Address type</label>
         <div class="col-md-9">
 
-            @Html.DropDownListFor(model => model.ConAddressType, new List<SelectListItem>
-    {
-    new SelectListItem {Text = "Home", Value = "Home"},
-    new SelectListItem {Text = "Office", Value = "Office"},
-    new SelectListItem {Text = "Neighbour", Value = "Neighbour"}
-    }, "Select", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.ConAddressType, Model.AddressTypelist,
+     "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ConAddressType, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -176,7 +173,6 @@
     <div class="row form-group">
         <label class="col-md-3 control-label" for="selectbasic">Country	</label>
         <div class="col-md-9">
-
             @Html.DropDownListFor(model => model.ConCountry, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'ConState', this)" })
             @Html.ValidationMessageFor(model => model.ConCountry, "", new { @class = "text-danger" })
         </div>
@@ -251,7 +247,9 @@
     <div class="form-group">
         <div class="input-group">
 
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit"  class="btn btn-success">Submit</button>
         </div>
     </div>
+
 }
+@Scripts.Render("~/bundles/jqueryval")

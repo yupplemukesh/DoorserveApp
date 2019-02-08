@@ -10,6 +10,8 @@ namespace TogoFogo.Models
 {
     public class OrganizationModel
     {
+
+        public Guid ClientId { get; set; }
         [DisplayName("Organisation Name")]
         [Required]
         public string OrgName { get; set; }
@@ -19,10 +21,10 @@ namespace TogoFogo.Models
         [DisplayName("Organisation IEC Number")]
         public string OrgIECNumber { get; set; }
         [DisplayName("Organisation Statutory Type")]
-        public string OrgStatutoryType { get; set; }
+        public int OrgStatutoryType { get; set; }
         [DisplayName("Organisation Application Tax Type")]
         [Required]
-        public string OrgApplicationTaxType { get; set; }
+        public int OrgApplicationTaxType { get; set; }
         [DisplayName("Organisation GST Category")]
         [Required]
         public int OrgGSTCategory { get; set; }
@@ -38,5 +40,9 @@ namespace TogoFogo.Models
         public HttpPostedFileBase OrgPanNumberFilePath { get; set; }
         public string OrgPanFileName { get; set; }
         public SelectList GstCategoryList { get; set; }
+        public SelectList SatatutoryList { get; set; }
+        public SelectList AplicationTaxTypeList { get; set; }
+       
+
     }
 }

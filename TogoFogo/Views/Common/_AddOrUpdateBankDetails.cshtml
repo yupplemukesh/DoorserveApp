@@ -1,12 +1,13 @@
 ﻿@model TogoFogo.Models.BankDetailModel
 <!-- Text input-->
 
-@using (Html.BeginForm("AddBank", "ManageClient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("AddOrEditBank", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "bankForm" }))
 {
+    @Html.HiddenFor(x => x.bankId)
     <div class=" row form-group">
         <label class="col-md-3 " for="textinput">Bank Name</label>
         <div class="col-md-9">
-            @Html.TextBoxFor(model => model.BankName, htmlAttributes: new { @class = "form-control input-md", placeholder = "Bank Name" })
+            @Html.DropDownListFor(model => model.BankName, Model.BankList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -41,12 +42,7 @@
 
             @Html.ValidationMessageFor(model => model.BankIFSCCode, "", new { @class = "text-danger" })
         </div>
-        <div class="col-md-9 col-lg-offset-3">
-            <span>
-                <h3>  Search Bank Details</h3>
 
-            </span>
-        </div>
     </div>
 
 
@@ -59,7 +55,7 @@
         </div>
     </div>
 
-
+    
     <!-- file input-->
     <div class=" row form-group">
         <label class="col-md-3 " for="textinput">Upload Cancelled Cheque</label>
@@ -72,7 +68,8 @@
     <div class="form-group">
         <div class="input-group">
 
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit"  class="btn btn-success">Submit</button>
         </div>
     </div>
 }
+@Scripts.Render("~/bundles/jqueryval")

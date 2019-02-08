@@ -59,22 +59,7 @@
                         <th>
                             @Html.DisplayName("Organization Name")
                         </th>
-                        <th>
-                            @Html.DisplayName("City/Location")
-                        </th>
-
-                        <th>
-                            @Html.DisplayName("First Name")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Last Name")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Mobile Number")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Email")
-                        </th>
+                       
                         <th>
                             @Html.DisplayName("Is Active")
                         </th>
@@ -108,23 +93,8 @@
                             @Html.DisplayFor(modelItem => item.ClientName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.OrgName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConCityName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConFirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConLastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConMobileNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ConEmailAddress)
-                        </td>
+                            @Html.DisplayFor(modelItem => item.Organization.OrgName)
+                        </td>                        
 
                         <td>
                             @Html.DisplayFor(modelItem => item.IsActive)
