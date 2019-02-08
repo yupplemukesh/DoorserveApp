@@ -1,0 +1,97 @@
+﻿@model TogoFogo.Models.SMSGatewayModel
+
+
+                    <form class="form-horizontal ">
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="control-label" for="form-control-9">SMS Gateway Name</label>
+                                <input id="form-control-1" class="form-control" type="text">
+                                @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "GatewayName" })
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row form-group">
+                            <div class="col-sm-12 ">
+                                <label class="control-label" for="form-control-9">Header</p></label>
+                                <textarea id="form-control-8" class="form-control" rows="3"></textarea>
+                                @Html.TextAreaFor(model => model.Header, new { @class = "form-control input-md", @placeholder = "Header" })
+                            </div>
+                        </div>
+
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="control-label" for="form-control-9">Trans Api key</label>
+                                <input id="form-control-1" class="form-control" type="text">
+                                @Html.TextBoxFor(model => model.TransApikey, new { @class = "form-control input-md", @placeholder = "Trans Api key" })
+                            </div>
+
+                        </div>
+
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="control-label" for="form-control-9">OTP Api key</label>
+                                <input id="form-control-1" class="form-control" type="text">
+                                @Html.TextBoxFor(model => model.OTPApikey, new { @class = "form-control input-md", @placeholder = "OTP Api key" })
+                            </div>
+
+                        </div>
+
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="control-label" for="form-control-9">Success Message</label>
+                                <input id="form-control-1" class="form-control" type="text">
+                                @Html.TextBoxFor(model => model.SuccessMessage, new { @class = "form-control input-md", @placeholder = "Success Message" })
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-12"><label class=" control-label" for="form-control-9">Is Active</label></div>
+                            <div class="col-md-12">
+                                <label class="custom-control custom-control-primary custom-checkbox active">
+                                    <input class="custom-control-input" type="checkbox" name="mode">
+                                    @Html.CheckBoxFor(x => x.IsActive)
+                                    <span class="custom-control-indicator"></span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label class="control-label" for="form-control-9">OTP Sender</label>
+                                <select id="form-control-9" class="form-control">
+                                    <option value="corporate">**** Select OTP Sender****</option>
+                                    <option value="creative">Creative</option>
+                                    <option value="ecommerce">eCommerce</option>
+                                    <option value="mobile">Mobile</option>
+                                    <option value="retail">Retail</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="wedding">Wedding</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12 ">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+
+                    </form>
+
