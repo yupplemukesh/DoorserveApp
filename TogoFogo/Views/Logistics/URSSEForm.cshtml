@@ -3,11 +3,46 @@
     ViewBag.Title = "URSSEForm";
 }
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">Update Repair Status (Service Engineer):</h3>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+    </div>
+                <div class="x_content">
+
+                    @{Html.RenderPartial("URSSE_Child_Form");}
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<div class="panel-heading">    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
                 <h3 class="m-y-0">Update Repair Status (Service Engineer):</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    @{Html.RenderPartial("URSSE_Child_Form");}
+    <br/>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">List Repair Status (Service Engineer):</h3>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -15,232 +50,212 @@
 
                     </ul>
                     <div class="clearfix"></div>
-</div>
-            <div class="x_content">
+                </div>
+                <div class="x_content" style="overflow-x:scroll">
 
-                @{Html.RenderPartial("URSSE_Child_Form");}
+                    @{Html.RenderPartial("Single_URSSE_Table", Model.URSSE_Table);}
+                </div>
             </div>
         </div>
     </div>
 </div>
+    @if (ViewBag.Message != null)
+    {
+        <div id="snackbar">@ViewBag.Message</div>
+    }
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h3 class="m-y-0">List Repair Status (Service Engineer):</h3>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
+    @if (ViewBag.Message != null)
+    {
+        <script>
 
-                    </ul>
-                    <div class="clearfix"></div>
-</div>
-            <div class="x_content" style="overflow-x:scroll">
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-                @{Html.RenderPartial("Single_URSSE_Table", Model.URSSE_Table);}
-            </div>
-        </div>
-    </div>
-</div>
-@if (ViewBag.Message != null)
-{
-    <div id="snackbar">@ViewBag.Message</div>
-}
+        </script>
+    }
 
-@if (ViewBag.Message != null)
-{
-    <script>
+    @section Scripts{
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        <script>
+            $('#myTable input:button').click(function () {
+                //alert($(this).val());
+                debugger;
+                var ccNo = $(this).val()
+                CCno(ccNo);
+                $('#hiddenPart').show();
+            });
+            function Payment(val) {
+                if (val == 'Paytm') {
+                    $('#payMode').show();
+                    $('#cashReci').hide();
+                } else {
+                    $('#payMode').hide();
+                    $('#cashReci').show();
+                }
 
-    </script>
-}
-
-@section Scripts{
-
-    <script>
-        $('#myTable input:button').click(function () {
-            //alert($(this).val());
-            debugger;
-            var ccNo = $(this).val()
-            CCno(ccNo);
-            $('#hiddenPart').show();
-        });
-        function Payment(val) {
-            if (val == 'Paytm') {
-                $('#payMode').show();
-                $('#cashReci').hide();
-            } else {
-                $('#payMode').hide();
-                $('#cashReci').show();
             }
+            function Repair(val) {
+                if (val == 'WIP') {
+                    $('#reDate').show();
+                } else {
+                    $('#reDate').hide();
+                }
 
-        }
-        function Repair(val) {
-            if (val == 'WIP') {
-                $('#reDate').show();
-            } else {
-                $('#reDate').hide();
             }
+            function CCno(ccNo) {
+                $(window).scrollTop(0);
+                $.ajax({
+                    type: 'POST',
+                    url: "/Logistics/SingleURSSEForm?CC_NO=" + ccNo,
+                    contentType: 'application/json; charset=utf-8',
+                    async: false,
+                    dataType: 'json',
+                    cache: false,
+                    success: function (response) {
+                        debugger;
+                        $("#test1 tbody tr").remove();
+                        $('#ServiceProviderName').val(response.ServiceProviderName);
+                        $('#Process_Name').val(response.Process_Name);
+                        $('#CcNo').val(response.CcNo);
+                        $('#CallStatus').val(response.CallStatus);
+                        $('#CurrentStatus').val(response.StatusName);
+                        $('#Cust_Add').val(response.Cust_Add);
+                        $('#Cust_City').val(response.Cust_City);
+                        $('#Cust_State').val(response.Cust_State);
+                        $('#CustomerId').val(response.CustomerId);
+                        $('#Customer_Name').val(response.Customer_Name);
+                        $('#Email_Id').val(response.Email_Id);
+                        $('#Pincode').val(response.Pincode);
+                        $('#AltNo').val(response.AltNumber);
+                        $('#Mobile_No').val(response.Mobile_No);
+                        $('#EntryDate').val(response.EntryDate);
+                        $('#Brand').val(response.Brand);
+                        $('#Model').val(response.Model);
+                        $('#ModelColor').val(response.ModelColor);
+                        $('#DeviceType').val(response.DeviceType);
+                        $('#TUPCModel').val(response.TUPCModel);
+                        $('#Problem').val(response.Problem);
+                        if (response.WS == "Your 90 days Warranty Free") {
+                            $('#DeviceWarranty').val(0)
+                        }
+                        else {
+                            var war = response.WS
+                            var SplitWar = war.split("?");
+                            $('#DeviceWarranty').val(SplitWar)
+                        }
+                        $('#SE_Action').val(response.SE_Action);
+                        $('#CourierName').val(response.CourierID);
+                        if (response.CourierID != null) {
+                            var selectedValue = response.CourierID;
+                            $.ajax({
+                                type: 'GET',
+                                url: "/CustomerSupport/GetCourierInformation?CourierId=" + selectedValue,
+                                contentType: 'application/json; charset=utf-8',
+                                cache: false,
+                                success: function (response) {
+                                    console.log(response)
+                                    var url = "http://crm.togofogo.com/Uploaded Images/" + response.UploadedCourierFile
+                                    $('#CourierContact').val(response.MobileNumber)
+                                    $('#CourierActive').val(response.IsActive)
+                                    $('#BikeMake').val(response.BikeMakeandModel)
+                                    $('#BikeNumber').val(response.BikeNumber)
+                                    $("#CourierLogo").attr('src', url);
+                                },
+                                error: function (e) {
+                                    console.log(e);
+                                    $(".submitbutton").attr("disabled", false);
+                                    alert("Something went wrong...");
 
-        }
-        function CCno(ccNo) {
-            $(window).scrollTop(0);
-            $.ajax({
-                type: 'POST',
-                url: "/Logistics/SingleURSSEForm?CC_NO=" + ccNo,
-                contentType: 'application/json; charset=utf-8',
-                async: false,
-                dataType: 'json',
-                cache: false,
-                success: function (response) {
-                    debugger;
-                    $("#test1 tbody tr").remove();
-                    $('#ServiceProviderName').val(response.ServiceProviderName);
-                    $('#Process_Name').val(response.Process_Name);
-                    $('#CcNo').val(response.CcNo);
-                    $('#CallStatus').val(response.CallStatus);
-                    $('#CurrentStatus').val(response.StatusName);
-                    $('#Cust_Add').val(response.Cust_Add);
-                    $('#Cust_City').val(response.Cust_City);
-                    $('#Cust_State').val(response.Cust_State);
-                    $('#CustomerId').val(response.CustomerId);
-                    $('#Customer_Name').val(response.Customer_Name);
-                    $('#Email_Id').val(response.Email_Id);
-                    $('#Pincode').val(response.Pincode);
-                    $('#AltNo').val(response.AltNumber);
-                    $('#Mobile_No').val(response.Mobile_No);
-                    $('#EntryDate').val(response.EntryDate);
-                    $('#Brand').val(response.Brand);
-                    $('#Model').val(response.Model);
-                    $('#ModelColor').val(response.ModelColor);
-                    $('#DeviceType').val(response.DeviceType);
-                    $('#TUPCModel').val(response.TUPCModel);
-                    $('#Problem').val(response.Problem);
-                    if (response.WS == "Your 90 days Warranty Free") {
-                        $('#DeviceWarranty').val(0)
-                    }
-                    else {
-                        var war = response.WS
-                        var SplitWar = war.split("?");
-                        $('#DeviceWarranty').val(SplitWar)
-                    }
-                    $('#SE_Action').val(response.SE_Action);
-                    $('#CourierName').val(response.CourierID);
-                    if (response.CourierID != null) {
-                        var selectedValue = response.CourierID;
-                        $.ajax({
-                            type: 'GET',
-                            url: "/CustomerSupport/GetCourierInformation?CourierId=" + selectedValue,
-                            contentType: 'application/json; charset=utf-8',
-                            cache: false,
-                            success: function (response) {
-                                console.log(response)
-                                var url = "http://crm.togofogo.com/Uploaded Images/" + response.UploadedCourierFile
-                                $('#CourierContact').val(response.MobileNumber)
-                                $('#CourierActive').val(response.IsActive)
-                                $('#BikeMake').val(response.BikeMakeandModel)
-                                $('#BikeNumber').val(response.BikeNumber)
-                                $("#CourierLogo").attr('src', url);
-                            },
-                            error: function (e) {
-                                console.log(e);
-                                $(".submitbutton").attr("disabled", false);
-                                alert("Something went wrong...");
+                                },
+                                complete: function () {
 
-                            },
-                            complete: function () {
+                                    $(".submitbutton").attr("disabled", false);
+                                }
+                            });
+                        }
+                        $('#SE_Remarks').val(response.SERemarks);
+                        if (response.SE_Action == 'Pickup') {
+                            $('#rev').show();
+                            $('#eng').hide();
+                            $('#engName').hide();
+                            $('#ReversePickupDate').val(response.ReversePickupDate);
+                        } else {
+                            $('#rev').hide();
+                            $('#eng').show();
+                            $('#engName').show();
+                        }
 
-                                $(".submitbutton").attr("disabled", false);
-                            }
+                        $('#MessageCusto').val(response.MessageCusto);
+                        $('#ServiceCharge').val(response.ServiceCharge);
+                        $('#SpareCost').val(response.SpareCost);
+                        $('#EstimatedCost').val(response.EstimatedCost);
+                        $('#TotalCost').val(response.EstimatedCost);
+                        var trHTML1 = '';
+
+                        var r = 0;
+                        $.each(response.ChildtableDataProblem, function (i, item) {
+                            trHTML1 +=
+                                '<tr style="padding-top:5px"><td hidden>' + item.ProblemId + '</td><td>' + item.ProblemName + '</td><td>' + item.Estimated_Price + '</td></tr>';
+
+                            r++;
                         });
+
+                        $('#test1').append(trHTML1);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                        $(".submitbutton").attr("disabled", false);
                     }
-                    $('#SE_Remarks').val(response.SERemarks);
-                    if (response.SE_Action == 'Pickup') {
-                        $('#rev').show();
-                        $('#eng').hide();
-                        $('#engName').hide();
-                        $('#ReversePickupDate').val(response.ReversePickupDate);
-                    } else {
-                        $('#rev').hide();
-                        $('#eng').show();
-                        $('#engName').show();
-                    }
-
-                    $('#MessageCusto').val(response.MessageCusto);
-                    $('#ServiceCharge').val(response.ServiceCharge);
-                    $('#SpareCost').val(response.SpareCost);
-                    $('#EstimatedCost').val(response.EstimatedCost);
-                    $('#TotalCost').val(response.EstimatedCost);
-                    var trHTML1 = '';
-
-                    var r = 0;
-                    $.each(response.ChildtableDataProblem, function (i, item) {
-                        trHTML1 +=
-                            '<tr style="padding-top:5px"><td hidden>' + item.ProblemId + '</td><td>' + item.ProblemName + '</td><td>' + item.Estimated_Price + '</td></tr>';
-
-                        r++;
-                    });
-
-                    $('#test1').append(trHTML1);
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
-
-                },
-                complete: function () {
-
-                    $(".submitbutton").attr("disabled", false);
-                }
-            });
-        }
-
-        $('#SE_Action').on('change', function () {
-            if (this.value == 'Pickup') {
-                $("#ReversePickupDate").show();
-            }
-            else {
-                $("#ReversePickupDate").hide();
+                });
             }
 
-        });
-        $('#CourierName').change(function () {
-
-            var selectedValue = parseInt(jQuery(this).val());
-            $.ajax({
-                type: 'GET',
-                url: "/CustomerSupport/GetCourierInformation?CourierId=" + selectedValue,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    var url = "http://crm.togofogo.com/Uploaded Images/" + response.UploadedCourierFile
-                    $('#CourierContact').val(response.MobileNumber)
-                    $('#CourierActive').val(response.IsActive)
-                    $('#BikeMake').val(response.BikeMakeandModel)
-                    $('#BikeNumber').val(response.BikeNumber)
-                    $("#CourierLogo").attr('src', url);
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
-
-                },
-                complete: function () {
-
-                    $(".submitbutton").attr("disabled", false);
+            $('#SE_Action').on('change', function () {
+                if (this.value == 'Pickup') {
+                    $("#ReversePickupDate").show();
                 }
+                else {
+                    $("#ReversePickupDate").hide();
+                }
+
             });
-        });
-    </script>
-}
+            $('#CourierName').change(function () {
+
+                var selectedValue = parseInt(jQuery(this).val());
+                $.ajax({
+                    type: 'GET',
+                    url: "/CustomerSupport/GetCourierInformation?CourierId=" + selectedValue,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        console.log(response)
+                        var url = "http://crm.togofogo.com/Uploaded Images/" + response.UploadedCourierFile
+                        $('#CourierContact').val(response.MobileNumber)
+                        $('#CourierActive').val(response.IsActive)
+                        $('#BikeMake').val(response.BikeMakeandModel)
+                        $('#BikeNumber').val(response.BikeNumber)
+                        $("#CourierLogo").attr('src', url);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                        $(".submitbutton").attr("disabled", false);
+                    }
+                });
+            });
+        </script>
+    }
 
 
 

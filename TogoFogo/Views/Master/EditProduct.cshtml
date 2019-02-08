@@ -4,83 +4,109 @@
 
 @using (Html.BeginForm("EditProduct", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-	@Html.HiddenFor(model => model.ProductId)
-	@Html.HiddenFor(model => model.ProductImage)
-	<div class="row">
-        <div class="col-md-8">
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
-                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-                </div>
+    @Html.HiddenFor(model => model.ProductId)
+    @Html.HiddenFor(model => model.ProductImage)
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-8">
-                    @Html.DropDownListFor(model => model.SubCategoryId, null, new { @class = "form-control", @id = "SubCat" })
-                    @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
-                </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.SubCategoryId, null, new { @class = "form-control", @id = "SubCat" })
+                @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-                <div class="col-md-8 col-sm-8 col-xs-12">
-                    @Html.ListBoxFor(model => model.ProductColor, null, new { @class = "selectpicker1", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
-                    @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.AlternateProductName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AlternateProductName, htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
 
-                </div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.MRP, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
-                </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.MarketPrice, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.MarketPrice, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
-                </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.ListBoxFor(model => model.ProductColor, null, new { @class = "selectpicker1", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+                @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.TUPC, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.TUPC, htmlAttributes: new { @class = "form-control" })
-                </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AlternateProductName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AlternateProductName, htmlAttributes: new { @class = "form-control" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-                </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MRP, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-5 col-sm-5 col-xs-12">
-                    @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
-                </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MarketPrice, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MarketPrice, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.TUPC, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.TUPC, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+            </div>
+        </div>
+    </div>
+    
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+
                 <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
-                    @*<img id="blah" src="/Images/male-user-add.png" width="50" alt="your image" style="height: 50px" />*@
+                    @*<img id="blah" src="/Images/male-user-add.png" width="50" alt="your image" style="height: 50px" />
                     @if (Model != null)
                     {
 
@@ -92,62 +118,94 @@
                     }
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.Is_repair, new List<SelectListItem>
-        {
-            new SelectListItem {Text = "Yes", Value = "Yes"},
-            new SelectListItem {Text = "No", Value = "No"}
+        </div>*@
 
-        }, "Select Status", new {@class = "form-control"})
-        @Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })*@
-                    @Html.CheckBoxFor(model => model.IsRepair)
+    
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="input-group ">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+                    </div>
+                    <div></div>
                 </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
-        {
-            new SelectListItem {Text = "Yes", Value = "Yes"},
-            new SelectListItem {Text = "No", Value = "No"}
+                <div class="col-md-3">
+                    @if (Model != null)
+                    {
 
-        }, "Select Status", new {@class = "form-control"})
-        @Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })*@
-                    @Html.CheckBoxFor(model => model.IsActive)
+                        <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" />
+                    }
+                    else
+                    {
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
+                    }
                 </div>
+               
             </div>
-
-
-            <div class="row text-center">
-                <input type="submit" value="Submit" class="btn btn-large btn-success" />
-            </div>
-
         </div>
-		
-	</div>
-}
-    <script>
-        $('.selectpicker1').selectpicker();
-        $(".bootstrap-select").click(function () {
-            $(this).addClass("open");
+       
+    </div>
 
-            //$('#CountryList').attr('data-live-search', true);
-        });
-        $(document).click(function () {
-            $(".bootstrap-select").removeClass("open");
-            $('.selectpicker').attr("data-live-search", true);
-
-        });
-        $(".bootstrap-select").click(function (e) {
-            debugger;
-            e.stopPropagation();
+       
+     
 
 
-        });
-    </script>
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+
+                @Html.CheckBoxFor(model => model.IsRepair)
+                @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+            </div>
+        </div>
+   
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+
+                    @Html.CheckBoxFor(model => model.IsActive)
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row ">
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        }
+        <script>
+            $('.selectpicker1').selectpicker();
+            $(".bootstrap-select").click(function () {
+                $(this).addClass("open");
+
+                //$('#CountryList').attr('data-live-search', true);
+            });
+            $(document).click(function () {
+                $(".bootstrap-select").removeClass("open");
+                $('.selectpicker').attr("data-live-search", true);
+
+            });
+            $(".bootstrap-select").click(function (e) {
+                debugger;
+                e.stopPropagation();
+
+
+            });
+        </script>
+        <script src="~/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 

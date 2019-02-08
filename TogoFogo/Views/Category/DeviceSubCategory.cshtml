@@ -4,112 +4,133 @@
 }
 
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h3 class="m-y-0"> Add Sub Category</h3>
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0"> Add Sub Category</h3>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+    </div>
+                <div class="x_content">
+                    <br />
+                    @Html.Action("AddSubCategory", "Category")
+                </div>
+            </div>
+        </div>
+    </div>
+*@
+
+
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Add Sub Category</h3>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="panel-body">
+    @Html.Action("AddSubCategory", "Category")
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>List Of Sub Category</h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-</div>
-            <div class="x_content">
-                <br />
-                @Html.Action("AddSubCategory", "Category")
+                </div>
+                <div class="x_content" style="overflow-x: scroll;">
+                    @Html.Action("DeviceSubCategoryTable", "Category")
+                </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h3 class="m-y-0">List Of Sub Category</h3>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-</div>
-            <div class="x_content" style="overflow-x: scroll;">
-                @Html.Action("DeviceSubCategoryTable", "Category")
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Sub Category</h4>
-            </div>
-
-            <div class="modal-body" id="Info">@Html.Partial("EditDeviceSubCategory")</div>
         </div>
 
     </div>
 </div>
 
-@if (ViewBag.AddSubCategory != null)
-{
-    <div id="snackbar">@ViewBag.AddSubCategory</div>
-}
-@if (ViewBag.EditSubCategory != null)
-{
-    <div id="snackbar">@ViewBag.EditSubCategory</div>
-}
-@*@if (ViewBag.SortOrder != null)
-{
-    
-    <script>
-        document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
+    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
 
-    </script>
-}*@
-@if (ViewBag.AddSubCategory != null || ViewBag.EditSubCategory != null)
-{
-    <script>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Sub Category</h4>
+                </div>
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+                <div class="modal-body" id="Info">@Html.Partial("EditDeviceSubCategory")</div>
+            </div>
 
-    </script>
-}
+        </div>
+    </div>
 
-@section scripts{
-    <script>
-        function EditSubCategory(SubCatId) {
-            $.ajax({
-                type: 'GET',
-                url: "/Category/EditDeviceSubCategory?SubCatId=" + SubCatId,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    $("#Info").html(response);
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
+    @if (ViewBag.AddSubCategory != null)
+    {
+        <div id="snackbar">@ViewBag.AddSubCategory</div>
+    }
+    @if (ViewBag.EditSubCategory != null)
+    {
+        <div id="snackbar">@ViewBag.EditSubCategory</div>
+    }
+    @*@if (ViewBag.SortOrder != null)
+        {
 
-                },
-                complete: function () {
+            <script>
+                document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
 
-                    $(".submitbutton").attr("disabled", false);
-                }
-            });
-        }
+            </script>
+        }*@
+    @if (ViewBag.AddSubCategory != null || ViewBag.EditSubCategory != null)
+    {
+        <script>
 
-    </script>
-}
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+        </script>
+    }
+
+    @section scripts{
+        <script>
+            function EditSubCategory(SubCatId) {
+                $.ajax({
+                    type: 'GET',
+                    url: "/Category/EditDeviceSubCategory?SubCatId=" + SubCatId,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        $("#Info").html(response);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                        $(".submitbutton").attr("disabled", false);
+                    }
+                });
+            }
+
+        </script>
+    }
