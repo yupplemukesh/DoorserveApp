@@ -1,370 +1,459 @@
 ﻿@model TogoFogo.Models.ManageTRCModel
 @{
-	/**/
+    /**/
 
-	Layout = null;
+    /**/
+
+    /**/
+
+    Layout = null;
 }
 
 @using (Html.BeginForm("EditTRC", "ManageTRC", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-	@Html.HiddenFor(m => m.TRC_ID)
-	@Html.HiddenFor(m => m.PERSON_UPLOAD_PANNO)
-	@Html.HiddenFor(m => m.UPLOAD_AADHAR_CARD_NO)
-	@Html.HiddenFor(m => m.UPLOAD_CANCELLED_CHEQUE)
-	@Html.HiddenFor(m => m.UPLOAD_GST_NO)
-	@Html.HiddenFor(m => m.PERSON_UPLOAD_PANNO)
-	@Html.HiddenFor(m => m.UPLOAD_PAN_NO)
-	<div class="col-md-12 col-sm-12 col-lg-12">
-        <div class="col-md-6">
-            <p style="font-size: 19px;"><u>Website</u></p>
+    @Html.HiddenFor(m => m.TRC_ID)
+    @Html.HiddenFor(m => m.PERSON_UPLOAD_PANNO)
+    @Html.HiddenFor(m => m.UPLOAD_AADHAR_CARD_NO)
+    @Html.HiddenFor(m => m.UPLOAD_CANCELLED_CHEQUE)
+    @Html.HiddenFor(m => m.UPLOAD_GST_NO)
+    @Html.HiddenFor(m => m.PERSON_UPLOAD_PANNO)
+    @Html.HiddenFor(m => m.UPLOAD_PAN_NO)
+    <div class="form-group">
+        <p style="font-size: 19px;"><u>Website</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PROCESS_NAME, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.PROCESS_NAME, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Togofogo Repairs", Value = "Togofogo Repairs"},
+            new SelectListItem {Text = "WarrantyBazaar", Value = "WarrantyBazaar"}
 
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.PROCESS_NAME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.PROCESS_NAME, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Togofogo Repairs", Value = "Togofogo Repairs"},
-                new SelectListItem {Text = "WarrantyBazaar", Value = "WarrantyBazaar"}
-
-            }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PROCESS_NAME, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.TRC_CODE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.TRC_CODE, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.TRC_CODE, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.TRC_NAME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.TRC_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.TRC_NAME, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Supported_Category, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.ListBoxFor(model => model.Supported_Category, null, htmlAttributes: new { @class = "selectpicker1", data_actions_box = "true", data_width = "100%" })
-                    @Html.ValidationMessageFor(model => model.Supported_Category, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <p style="font-size: 19px;"><u>Address and Contact Person</u></p>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.ADDRESS_TYPE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.ADDRESS_TYPE, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Delivery Address", Value = "Delivery Address"},
-                    new SelectListItem {Text = "Billing address", Value = "Billing address"},
-                    new SelectListItem {Text = "Office address", Value = "Office address"},
-                    new SelectListItem {Text = "Permanent Address", Value = "Permanent Address"},
-                    new SelectListItem {Text = "Shipping Address", Value = "Shipping Address"}
-                }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ADDRESS_TYPE, "", new { @class = "text-danger" })
-
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.COUNTRY, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.COUNTRY, null, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'editSTATE_TERRITORY', this)" })
-                    @Html.ValidationMessageFor(model => model.COUNTRY, "", new { @class = "text-danger" })
-
-                </div>
-
-
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.STATE_TERRITORY, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.STATE_TERRITORY, null, new { @class = "form-control", id = "editSTATE_TERRITORY", onchange = "AjaxWithValue('BindLocationJson', 'editCITY', this)" })
-                    @Html.ValidationMessageFor(model => model.STATE_TERRITORY, "", new { @class = "text-danger" })
-
-                </div>
-
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CITY, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.CITY, null, htmlAttributes: new { @class = "form-control", placeholder = "", id = "editCITY" })
-                    @Html.ValidationMessageFor(model => model.CITY, "", new { @class = "text-danger" })
-
-                </div>
-                @*<div class="col-md-1">
-                @Html.Label("If Others", htmlAttributes: new { @class = "" })
-            </div>
-            <div class="col-md-3">
-                @Html.TextBoxFor(model => model.CITY, htmlAttributes: new { @class = "form-control" })
-            </div>*@
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.ADDRESS, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.ADDRESS, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.ADDRESS, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.LOCALITY, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.LOCALITY, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.LOCALITY, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.NEAR_BY_LOCATION, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.NEAR_BY_LOCATION, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.NEAR_BY_LOCATION, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.PIN_CODE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.PIN_CODE, htmlAttributes: new { @class = "form-control", placeholder = "", @maxlength = "6" })
-                    @Html.ValidationMessageFor(model => model.PIN_CODE, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.LAST_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.EMAIL, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.EMAIL, htmlAttributes: new { @class = "form-control", placeholder = "", @type = "email" })
-                    @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CONTACT_PERSON_PANNO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.CONTACT_PERSON_PANNO, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.CONTACT_PERSON_PANNO, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-4 col-xs-12">
-                    @Html.LabelFor(model => model.PERSON_UPLOAD_PANNO, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.PERSON_UPLOAD_PANNO1, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.VOTER_CARD_N0, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.VOTER_CARD_N0, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.VOTER_CARD_N0, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UPLOAD_VOTER_CARD_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.UPLOAD_VOTER_CARD_NO1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.UPLOAD_VOTER_CARD_NO, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.AADHAR_CARD_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.AADHAR_CARD_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.AADHAR_CARD_NO, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UPLOAD_AADHAR_CARD_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.UPLOAD_AADHAR_CARD_NO1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.UPLOAD_AADHAR_CARD_NO, "", new { @class = "text-danger" })
-                </div>
+        }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PROCESS_NAME, "", new { @class = "text-danger" })
             </div>
         </div>
-		<div class="col-md-6">
-			<p style="font-size: 19px;"><u>Organization</u></p>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.ORG_NAME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.ORG_NAME, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.ORG_NAME, "", new { @class = "text-danger" })
-                </div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.CIN, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.CIN, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.CIN, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.IEC_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.IEC_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.IEC_NO, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.STATUTORY_TYPE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.DropDownListFor(model => model.STATUTORY_TYPE, new List<SelectListItem>
-              {
-                  new SelectListItem {Text = "Partnership", Value = "Partnership"},
-                  new SelectListItem {Text = "Private Limited", Value = "Private Limited"},
-                  new SelectListItem {Text = "Proprietary", Value = "Proprietary"},
-                   new SelectListItem {Text = "Limited", Value = "Limited"}
-              }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.STATUTORY_TYPE, "", new { @class = "text-danger" })
-
-                </div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.APPL_TAX_TYPE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.DropDownListFor(model => model.APPL_TAX_TYPE, new List<SelectListItem>
-					{
-						new SelectListItem {Text = "Indian Gst", Value = "Indian Gst"},
-						new SelectListItem {Text = "Gst", Value = "Gst"}
-
-					}, "Select", new {@class = "form-control"})
-					@Html.ValidationMessageFor(model => model.APPL_TAX_TYPE, "", new { @class = "text-danger" })
-					
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.GST_N0, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.GST_N0, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.GST_N0, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.PAN_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.PAN_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.PAN_NO, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-4 col-xs-12">
-					@Html.LabelFor(model => model.UPLOAD_GST_NO, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.UPLOAD_GST_NO1, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				<div class="col-md-4 col-xs-12">
-					@Html.LabelFor(model => model.UPLOAD_PAN_NO, htmlAttributes: new { @class = "" })
-				</div>
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.UploadPanCardNO, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
-				</div>
-			</div>
-			<p style="font-size: 19px;"><u>Bank Details</u></p>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.BANK_NAME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.BANK_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.BANK_NAME, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.BANK_ACCOUNT_NO, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.BANK_ACCOUNT_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.BANK_ACCOUNT_NO, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.COMPANY_NAME_BANK_ACCNT, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.COMPANY_NAME_BANK_ACCNT, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.COMPANY_NAME_BANK_ACCNT, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.IFSC_CODE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.IFSC_CODE, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.IFSC_CODE, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.BANK_BRANCH, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.BANK_BRANCH, htmlAttributes: new { @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.BANK_BRANCH, "", new { @class = "text-danger" })
-				</div>
-			</div>
-			<div class="row" style="padding-bottom: 5px;">
-				@Html.LabelFor(model => model.UPLOAD_CANCELLED_CHEQUE, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-				<div class="col-md-7 col-sm-7 col-xs-12">
-					@Html.TextBoxFor(model => model.UPLOAD_CANCELLED_CHEQUE1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-					@Html.ValidationMessageFor(model => model.UPLOAD_CANCELLED_CHEQUE, "", new { @class = "text-danger" })
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-12 col-sm-12 col-lg-12">
-
-        <div class="col-md-6">
-            <p style="font-size: 19px;"><u>Registration</u></p>
-
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.COMMENTS, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @Html.TextBoxFor(model => model.COMMENTS, htmlAttributes: new { @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.COMMENTS, "", new { @class = "text-danger" })
-                </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.TRC_CODE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.TRC_CODE, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.TRC_CODE, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.IS_USER, new List<SelectListItem>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.TRC_NAME, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.TRC_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.TRC_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Supported_Category, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.ListBoxFor(model => model.Supported_Category, null, htmlAttributes: new { @class = "selectpicker", multiple = "multiple", data_actions_box = "true", data_width = "100%" })
+                @Html.ValidationMessageFor(model => model.Supported_Category, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p style="font-size: 19px;"><u>Address and Contact Person</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ADDRESS_TYPE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.ADDRESS_TYPE, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Delivery Address", Value = "Delivery Address"},
+                new SelectListItem {Text = "Billing address", Value = "Billing address"},
+                new SelectListItem {Text = "Office address", Value = "Office address"},
+                new SelectListItem {Text = "Permanent Address", Value = "Permanent Address"},
+                new SelectListItem {Text = "Shipping Address", Value = "Shipping Address"}
+            }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ADDRESS_TYPE, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.COUNTRY, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.COUNTRY, null, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'editSTATE_TERRITORY', this)" })
+                @Html.ValidationMessageFor(model => model.COUNTRY, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.STATE_TERRITORY, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.STATE_TERRITORY, null, new { @class = "form-control", id = "editSTATE_TERRITORY", onchange = "AjaxWithValue('BindLocationJson', 'editCITY', this)" })
+                @Html.ValidationMessageFor(model => model.STATE_TERRITORY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CITY, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CITY, null, htmlAttributes: new { @class = "form-control", placeholder = "", id = "editCITY" })
+                @Html.ValidationMessageFor(model => model.CITY, "", new { @class = "text-danger" })
+
+            </div>
+            @*<div class="col-md-1">
+                    @Html.Label("If Others", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.CITY, htmlAttributes: new { @class = "form-control" })
+                </div>*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ADDRESS, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ADDRESS, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.ADDRESS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.LOCALITY, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.LOCALITY, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.LOCALITY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.NEAR_BY_LOCATION, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.NEAR_BY_LOCATION, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.NEAR_BY_LOCATION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PIN_CODE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.PIN_CODE, htmlAttributes: new { @class = "form-control", placeholder = "", @maxlength = "6" })
+                @Html.ValidationMessageFor(model => model.PIN_CODE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.LAST_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.EMAIL, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.EMAIL, htmlAttributes: new { @class = "form-control", placeholder = "", @type = "email" })
+                @Html.ValidationMessageFor(model => model.EMAIL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CONTACT_PERSON_PANNO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CONTACT_PERSON_PANNO, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CONTACT_PERSON_PANNO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PERSON_UPLOAD_PANNO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.PERSON_UPLOAD_PANNO1, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.VOTER_CARD_N0, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.VOTER_CARD_N0, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.VOTER_CARD_N0, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UPLOAD_VOTER_CARD_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UPLOAD_VOTER_CARD_NO1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.UPLOAD_VOTER_CARD_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AADHAR_CARD_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AADHAR_CARD_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.AADHAR_CARD_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UPLOAD_AADHAR_CARD_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UPLOAD_AADHAR_CARD_NO1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.UPLOAD_AADHAR_CARD_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p style="font-size: 19px;"><u>Organization</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ORG_NAME, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.ORG_NAME, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.ORG_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CIN, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CIN, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CIN, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IEC_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.IEC_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.IEC_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.STATUTORY_TYPE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.STATUTORY_TYPE, new List<SelectListItem>
+          {
+              new SelectListItem {Text = "Partnership", Value = "Partnership"},
+              new SelectListItem {Text = "Private Limited", Value = "Private Limited"},
+              new SelectListItem {Text = "Proprietary", Value = "Proprietary"},
+               new SelectListItem {Text = "Limited", Value = "Limited"}
+          }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.STATUTORY_TYPE, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.APPL_TAX_TYPE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.APPL_TAX_TYPE, new List<SelectListItem>
                 {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
+                    new SelectListItem {Text = "Indian Gst", Value = "Indian Gst"},
+                    new SelectListItem {Text = "Gst", Value = "Gst"}
 
                 }, "Select", new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.IS_USER, "", new { @class = "text-danger" })*@
-                    @Html.CheckBoxFor(model => model.IsUser)
-                </div>
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
+                @Html.ValidationMessageFor(model => model.APPL_TAX_TYPE, "", new { @class = "text-danger" })
 
-                }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IS_ACTIVE, "", new { @class = "text-danger" })*@
-                    @Html.CheckBoxFor(model => model.IsActive)
-                </div>
             </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.GST_N0, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.GST_N0, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.GST_N0, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PAN_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.PAN_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.PAN_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UPLOAD_GST_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+
+                @Html.TextBoxFor(model => model.UPLOAD_GST_NO1, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.UPLOAD_PAN_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UploadPanCardNO, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <p style="font-size: 19px;"><u>Bank Details</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BANK_NAME, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BANK_NAME, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.BANK_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BANK_ACCOUNT_NO, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BANK_ACCOUNT_NO, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.BANK_ACCOUNT_NO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.COMPANY_NAME_BANK_ACCNT, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.COMPANY_NAME_BANK_ACCNT, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.COMPANY_NAME_BANK_ACCNT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IFSC_CODE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.IFSC_CODE, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.IFSC_CODE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BANK_BRANCH, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BANK_BRANCH, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.BANK_BRANCH, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UPLOAD_CANCELLED_CHEQUE, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UPLOAD_CANCELLED_CHEQUE1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.UPLOAD_CANCELLED_CHEQUE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <p style="font-size: 19px;"><u>Registration</u></p>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.COMMENTS, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.COMMENTS, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.COMMENTS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "control-label" })
+            @*@Html.DropDownListFor(model => model.IS_USER, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "Yes"},
+            new SelectListItem {Text = "No", Value = "No"}
+
+        }, "Select", new {@class = "form-control"})
+        @Html.ValidationMessageFor(model => model.IS_USER, "", new { @class = "text-danger" })*@
+            @Html.CheckBoxFor(model => model.IsUser)
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+
+            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "Yes"},
+            new SelectListItem {Text = "No", Value = "No"}
+
+        }, "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IS_ACTIVE, "", new { @class = "text-danger" })*@
+            @Html.CheckBoxFor(model => model.IsActive)
+        </div>
+            </div>
+
             @*<div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.LAST_UPDATE_DATETIME, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
             <div class="col-md-7 col-sm-7 col-xs-12">
@@ -379,38 +468,50 @@
                 @Html.ValidationMessageFor(model => model.LAST_UPDATE_DETAILS, "", new { @class = "text-danger" })
             </div>
         </div>*@
+
+
+            @*<div class="col-md-12">
+            <div class="ln_solid"></div>
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                    @*<button class="btn btn-primary" type="button">Cancel</button>
+        <button class="btn btn-primary" type="reset">Reset</button>
+        <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
         </div>
-	</div>
-	<div class="col-md-12">
-		<div class="ln_solid"></div>
-		<div class="form-group">
-			<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-				@*<button class="btn btn-primary" type="button">Cancel</button>*@
-				<button class="btn btn-primary" type="reset">Reset</button>
-				<button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
-			</div>
-		</div>
-	</div>
-}
-<script>
-    $('.selectpicker1').selectpicker();
-    $(".bootstrap-select").click(function () {
-        $(this).addClass("open");
+        </div>
+        </div>*@
 
-        //$('#CountryList').attr('data-live-search', true);
-    });
-    $(document).click(function () {
-        $(".bootstrap-select").removeClass("open");
-        $('.selectpicker').attr("data-live-search", true);
+            <div class="row ">
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+            }
+            <script>
+                $('.selectpicker').selectpicker();
+                $(".bootstrap-select").click(function () {
+                    $(this).addClass("open");
 
-    });
-    $(".bootstrap-select").click(function (e) {
-        debugger;
-        e.stopPropagation();
+                    //$('#CountryList').attr('data-live-search', true);
+                });
 
+              
+                $(document).click(function () {
+                    $(".bootstrap-select").removeClass("open");
+                    $('.selectpicker').attr("data-live-search", true);
 
-    });
-</script>
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+                });
+
+               $(".bootstrap-select").click(function (e) {
+                    debugger;
+                    e.stopPropagation();
+               
+
+                });
+            </script>
+            <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+            <script src="~/Content/Scripts/jquery.validate.js"></script>
+            <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

@@ -97,9 +97,9 @@
             </div>
         </div>
     </div>
-    
 
-    @*<div class="form-group">
+
+   @* <div class="form-group">
             @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
@@ -120,92 +120,82 @@
             </div>
         </div>*@
 
-    
+
 
 
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group ">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+            </div>
+        </div>
             <div class="row">
-                <div class="col-md-9">
-                    <div class="input-group ">
-                        <span class="input-group-addon"></span>
-                        @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
-                    </div>
-                    <div></div>
-                </div>
                 <div class="col-md-3">
                     @if (Model != null)
                     {
 
-                        <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" />
+                        <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" style="margin-top:15px"/>
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" style="margin-top:15px"/>
                     }
                 </div>
-               
-            </div>
+                </div>          
         </div>
-       
-    </div>
 
-       
-     
+
+
 
 
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
 
-                @Html.CheckBoxFor(model => model.IsRepair)
-                @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+            @Html.CheckBoxFor(model => model.IsRepair)
+            @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="row ">
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
-   
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
+    </div>
 
-                    @Html.CheckBoxFor(model => model.IsActive)
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
+}
+<script>
+    $('.selectpicker1').selectpicker();
+    $(".bootstrap-select").click(function () {
+        $(this).addClass("open");
 
+        //$('#CountryList').attr('data-live-search', true);
+    });
+    $(document).click(function () {
+        $(".bootstrap-select").removeClass("open");
+        $('.selectpicker').attr("data-live-search", true);
 
-        <div class="row ">
-            <div class="ln_solid"></div>
-            <div class="form-group">
-                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </div>
-            </div>
-        </div>
-
-        }
-        <script>
-            $('.selectpicker1').selectpicker();
-            $(".bootstrap-select").click(function () {
-                $(this).addClass("open");
-
-                //$('#CountryList').attr('data-live-search', true);
-            });
-            $(document).click(function () {
-                $(".bootstrap-select").removeClass("open");
-                $('.selectpicker').attr("data-live-search", true);
-
-            });
-            $(".bootstrap-select").click(function (e) {
-                debugger;
-                e.stopPropagation();
+    });
+    $(".bootstrap-select").click(function (e) {
+        debugger;
+        e.stopPropagation();
 
 
-            });
-        </script>
-        <script src="~/Scripts/jquery-1.10.2.js"></script>
-        <script src="~/Scripts/jquery.validate.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    });
+</script>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
