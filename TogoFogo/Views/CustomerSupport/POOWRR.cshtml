@@ -3,11 +3,11 @@
     ViewBag.Title = "POOWRR";
 }
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h3 class="m-y-0">Pending Out Of Warranty Repair Request:</h3>
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">Pending Out Of Warranty Repair Request:</h3>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -15,20 +15,36 @@
 
                     </ul>
                     <div class="clearfix"></div>
-</div>
-            <div class="x_content">
-                <div id="hiddenPart" style="display:none">
-                   
-                    @Html.Action("POOWRRForm", "CustomerSupport")
-                </div>
-
-                <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("TablePOOWRR", "CustomerSupport")
                 </div>
             </div>
         </div>
+    </div>*@
+
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Pending Out Of Warranty Repair Request:</h3>
+            </div>           
+        </div>
     </div>
 </div>
+
+
+<div class="panel-body">
+    <div class="x_content">
+        <div id="hiddenPart" style="display:none">
+
+            @Html.Action("POOWRRForm", "CustomerSupport")
+        </div>
+
+        <div class="x_content" style="overflow-x: scroll;">
+            @Html.Action("TablePOOWRR", "CustomerSupport")
+        </div>
+    </div>
+</div>
+
 @if (ViewBag.Message != null)
 {
     <div id="snackbar">@ViewBag.Message</div>
@@ -57,7 +73,7 @@
     </script>
     <script>
         function AjaxWithValueForSparePartName(method, ddl, e) {
-            
+
             var val = e.value;
             var ModelValue = $('#Model').val();
             debugger
@@ -165,26 +181,23 @@
                     $('#TUPCModel').val(response.TUPCModel);
                     $('#Remarks').val(response.Remarks);
                     $("#EMail_SMS").val(response.EMail_SMS);
-                    
+
                     if (response.WS == "Your 90 days Warranty Free") {
                         $('#DeviceWarranty').val(0)
                     }
-                    else
-                    {
+                    else {
                         var war = response.WS
                         var SplitWar = war.split("?");
                         $('#DeviceWarranty').val(SplitWar)
                     }
-                   
-                    if (response.IMEI1 == 'Yes')
-                    {
+
+                    if (response.IMEI1 == 'Yes') {
                         $('#IMEI1').show();
                     }
                     if (response.Serial_No == 'Yes') {
                         $('#Serial_No').show();
                     }
-                   if(response.CallStatus==1)
-                    {
+                    if (response.CallStatus == 1) {
                         $("#commanAll").show();
                         $("#EmailSmsPart").show();
                         $("#commanPart").hide();
@@ -192,16 +205,16 @@
                         $("#CallBack").hide();
                         $('#EngineerVisit').hide();
                     }
-                      if(response.CallStatus==5)
-                    {  $('#CallBack').show();
-                $("#EmailSmsPart").show();
-                $("#commanAll").show();
-                $('#commanPart').hide();
-                $('#EngineerVisit').hide();
-                $('#SchedulePick').hide();
-                $('#CallRequestRejectReason').hide();
+                    if (response.CallStatus == 5) {
+                        $('#CallBack').show();
+                        $("#EmailSmsPart").show();
+                        $("#commanAll").show();
+                        $('#commanPart').hide();
+                        $('#EngineerVisit').hide();
+                        $('#SchedulePick').hide();
+                        $('#CallRequestRejectReason').hide();
                     }
-                   
+
                     var trHTML1 = '';
 
                     var r = 0;
@@ -213,17 +226,17 @@
                     });
 
                     $('#test1').append(trHTML1);
-                   
+
                     debugger;
                     var totalCost = 0;
-                   
+
                     var table = document.getElementById('test1');
                     var rows = $('#test1 tbody tr').length;
                     for (var i = 1; i <= rows; i += 1) {
                         var row = table.rows[i];
                         console.log(row);
                         var se = row.cells[2].innerHTML;
-                        se=Math.abs(se);
+                        se = Math.abs(se);
                         totalCost = totalCost + se;
                     }
                     debugger;
@@ -288,7 +301,7 @@
             var cells = $(this).closest("tr").children("td");
             var cell1 = cells.eq(0).text();
             var cell2 = cells.eq(2).text();
-            
+
             $.ajax({
 
                 type: 'GET',
@@ -307,12 +320,12 @@
                     $('#EstimatedCost').val(oldEP - subtractedPrice);
                 }
             });
-           
+
         });
         function AddProblem() {
             debugger;
             var DropValue = $('#Problem').val();
-           
+
             var Model = $('#Model').val();
             var dropdownText = $("#Problem option:selected").text();
             var OrderId = $('#CcNo').val();
@@ -347,7 +360,7 @@
                         totalCost = totalCost + se;
                     }
                     debugger;
-                   
+
                     $('#ServiceCharge').val('300');
                     $('#SpareCost').val(totalCost);
                     var estimate = totalCost + 300
@@ -454,8 +467,7 @@
                 $('#SchedulePick').hide();
                 $('#CallRequestRejectReason').hide();
             }
-            else
-            {
+            else {
                 $('#CallBack').hide();
                 $("#EmailSmsPart").hide();
                 $("#commanAll").hide();
@@ -464,9 +476,9 @@
                 $('#SchedulePick').hide();
                 $('#CallRequestRejectReason').hide();
             }
-           
-            
-         
+
+
+
 
         });
         function getval(sel) {

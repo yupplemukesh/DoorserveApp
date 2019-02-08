@@ -7,10 +7,11 @@
 @using (Html.BeginForm("EditCourierApi", "ManageCourierApi", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(m => m.API_ID)
-    <div class="form-group">
-        <span style="font-size: 17px;">Select Courier</span>
-
-        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    
+    
+<span style="font-size: 17px;">Select Courier</span>
+    <div class="form-group"> 
+        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control" })
@@ -18,7 +19,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.Courier, null, htmlAttributes: new { @class = "form-control" })
@@ -29,7 +30,7 @@
 
     <span style="font-size: 17px;">Courier API Details</span>
     <div class="form-group">
-        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Username, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -37,7 +38,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Passwrd, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Passwrd, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Passwrd, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -45,7 +46,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.AppVersion, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.AppVersion, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.AppVersion, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -53,7 +54,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.AccountNo, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.AccountNo, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.AccountNo, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -61,7 +62,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.AccountPIN, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.AccountPIN, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.AccountPIN, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -69,7 +70,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.AccountEntity, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.AccountEntity, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.AccountEntity, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -77,7 +78,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.AccountCountryCode, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.AccountCountryCode, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.AccountCountryCode, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -85,7 +86,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.IsLargePacket, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.IsLargePacket, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.IsLargePacket, new List<SelectListItem>
@@ -98,7 +99,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
@@ -112,7 +113,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Comments, null, htmlAttributes: new { @class = "form-control" })

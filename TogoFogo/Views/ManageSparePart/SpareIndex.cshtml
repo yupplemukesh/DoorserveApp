@@ -1,121 +1,136 @@
 ﻿@{
     ViewBag.Title = "SpareIndex";
 }
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Add Spare Part<small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Add Spare Part<small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                </ul>
-                <div class="clearfix"></div>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br />
+                    @Html.Action("AddSpareType","ManageSparePart")
+                </div>
             </div>
-            <div class="x_content">
-                <br />
-                @Html.Action("AddSpareType","ManageSparePart")
+        </div>
+    </div>*@
+
+
+<div class="panel-heading">    
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Add Spare Part</h3>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>List Of All Spare<small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content" style="overflow-x: scroll;">
-                @Html.Action("SpareTypeTable", "ManageSparePart")
+
+
+<div class="panel-body">
+    @Html.Action("AddSpareType", "ManageSparePart")
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>List Of All Spare<small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" style="overflow-x: scroll;">
+                    @Html.Action("SpareTypeTable", "ManageSparePart")
+                </div>
             </div>
         </div>
     </div>
-
 </div>
-<div class="modal fade" id="Editmodel" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Spare </h4>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Spare </h4>
+                </div>
+
+                <div class="modal-body" id="Info">@Html.Partial("EditSpareType")</div>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Partial("EditSpareType")</div>
         </div>
-
     </div>
-</div>
-@if (ViewBag.AddSparePart != null)
-{
-    <div id="snackbar">@ViewBag.AddSparePart</div>
-}
-@if (ViewBag.EditSparePart != null)
-{
-    <div id="snackbar">@ViewBag.EditSparePart</div>
-}
-@if (ViewBag.AddSparePart != null || ViewBag.EditSparePart != null)
-{
-    <script>
+    @if (ViewBag.AddSparePart != null)
+    {
+        <div id="snackbar">@ViewBag.AddSparePart</div>
+    }
+    @if (ViewBag.EditSparePart != null)
+    {
+        <div id="snackbar">@ViewBag.EditSparePart</div>
+    }
+    @if (ViewBag.AddSparePart != null || ViewBag.EditSparePart != null)
+    {
+        <script>
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-    </script>
-}
+        </script>
+    }
 
-@section scripts{
-    <script>
-        function EditSpareType(SpareTypeId) {
-            $.ajax({
-                type: 'GET',
-                url: "/ManageSparePart/EditSpareType?SpareTypeId=" + SpareTypeId,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    $("#Info").html(response);
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
+    @section scripts{
+        <script>
+            function EditSpareType(SpareTypeId) {
+                $.ajax({
+                    type: 'GET',
+                    url: "/ManageSparePart/EditSpareType?SpareTypeId=" + SpareTypeId,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        $("#Info").html(response);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
 
-                },
-                complete: function () {
+                    },
+                    complete: function () {
 
-                    $(".submitbutton").attr("disabled", false);
-                }
-            });
-        }
-        function AjaxWithValue(method, ddl, e) {
-            var val = e.value;
-            $.ajax({
-                type: "GET",
-                url: "/DropdownBind/" + method + "?value=" + val,
-                data: '{}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $("#" + ddl).empty();
-
-                    //var sel = new Option('-Select-', '');
-                    //$('#' + ddl).append(sel);
-                    for (var i = 0; i < data.length; i++) {
-                        var opt = new Option(data[i].Text, data[i].Value);
-                        $('#' + ddl).append(opt);
+                        $(".submitbutton").attr("disabled", false);
                     }
-                }
-            });
-        }
-    </script>
-}
+                });
+            }
+            function AjaxWithValue(method, ddl, e) {
+                var val = e.value;
+                $.ajax({
+                    type: "GET",
+                    url: "/DropdownBind/" + method + "?value=" + val,
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#" + ddl).empty();
+
+                        //var sel = new Option('-Select-', '');
+                        //$('#' + ddl).append(sel);
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].Text, data[i].Value);
+                            $('#' + ddl).append(opt);
+                        }
+                    }
+                });
+            }
+        </script>
+    }

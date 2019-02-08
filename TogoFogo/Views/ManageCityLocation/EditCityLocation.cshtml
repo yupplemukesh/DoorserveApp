@@ -1,21 +1,23 @@
 ﻿
 @model TogoFogo.Models.ManageLocation
 @{
-    Layout = null;
+                /**/
+
+                Layout = null;
 }
 @using (Html.BeginForm("EditCityLocation", "ManageCityLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(m => m.LocationId)
 
     <div class="form-group">
-        
-            @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
+
+        @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.LocationName, null, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
         </div>
-        </div>
+    </div>
     <div class="form-group">
         @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
@@ -24,40 +26,35 @@
             @Html.ValidationMessageFor(model => model.CountryName, "", new { @class = "text-danger" })
         </div>
     </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.StateName, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.StateName, null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.StateName, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.StateName, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+            <span class="input-group-addon"></span>
+            @Html.DropDownListFor(model => model.StateName, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.StateName, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control" })
-                </div>
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+            <span class="input-group-addon"></span>
+            @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
 
-            
-            <div class="form-group">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+           
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-                }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-          
-       
+
     <div class="row ">
         <div class="ln_solid"></div>
         <div class="form-group">
@@ -67,5 +64,5 @@
         </div>
     </div>
 
-            }
-           
+}
+

@@ -10,7 +10,7 @@
 <div class="form-group">
     <p style="font-size: 17px;"><u>Select Courier:</u></p>
 
-    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
     <div class="input-group">
         <span class="input-group-addon"></span>
         @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+    @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "control-label" })
     <div class="input-group">
         <span class="input-group-addon"></span>
         @Html.DropDownListFor(model => model.Courier, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
@@ -28,7 +28,7 @@
     <p style="font-size: 17px;"><u>PIN/ZIP Code Details:</u></p>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.PIN_Country1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.PIN_Country1, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.PIN_Country1, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'editPIN_State1', this)" })
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.PIN_State1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.PIN_State1, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.PIN_State1, null, htmlAttributes: new { id = "editPIN_State1", @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'editPIN_City1', this)" })
@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.PIN_City1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.PIN_City1, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.PIN_City1, null, htmlAttributes: new { @class = "form-control", id = "editPIN_City1" })
@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Pin_Region, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Pin_Region, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Pin_Region, htmlAttributes: new { @class = "form-control", })
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Pin_Zone, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Pin_Zone, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Pin_Zone, htmlAttributes: new { @class = "form-control", })
@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Pin_Code, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Pin_Code, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Pin_Code, htmlAttributes: new { @class = "form-control", })
@@ -76,7 +76,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ShortCode, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.ShortCode, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.ShortCode, htmlAttributes: new { @class = "form-control", })
@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Pin_TAT, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Pin_TAT, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Pin_TAT, htmlAttributes: new { @class = "form-control", })
@@ -92,7 +92,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Pin_Cod, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Pin_Cod, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.Pin_Cod, new List<SelectListItem>
@@ -105,7 +105,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ISExpress, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.ISExpress, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
@@ -118,7 +118,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ReverseLogistics, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.ReverseLogistics, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.ReverseLogistics, new List<SelectListItem>
@@ -131,7 +131,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.OrderPreference, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.OrderPreference, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
 
@@ -146,7 +146,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
@@ -160,7 +160,7 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.Comments, null, htmlAttributes: new { @class = "form-control" })

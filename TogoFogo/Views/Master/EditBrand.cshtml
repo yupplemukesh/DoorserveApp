@@ -1,168 +1,232 @@
 ﻿@model TogoFogo.Models.BrandModel
 @using (Html.BeginForm("EditBrand", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-	@Html.HiddenFor(m => m.BrandId)
-	@Html.HiddenFor(m => m.BrandImage)
-	<div class="row">
-        <div class="col-md-8">
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
-                    @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.BrandId)
+    @Html.HiddenFor(m => m.BrandImage)
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
 
 
-                </div>
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>
+        <div class="form-group">
 
-                    @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-                </div>
+            @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>*@
 
-                    @Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-                </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
-
-                    @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-                </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>
+    </div>
 
-                    @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
-                </div>
+
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>
 
-                    @Html.LabelFor(model => model.UrlName, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.TextBoxFor(model => model.UrlName, htmlAttributes: new { @class = "form-control" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>*@
 
-                    @Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.TextBoxFor(model => model.Header, htmlAttributes: new { @class = "form-control" })
-                </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
-
-                    @Html.LabelFor(model => model.Footer, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.TextBoxFor(model => model.Footer, htmlAttributes: new { @class = "form-control" })
-                </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>
+    </div>
 
-                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-                </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UrlName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UrlName, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
 
-                    @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-5 col-sm-5 col-xs-12">
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Header, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Footer, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Footer, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
 
-                    @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
+            </div>
+        </div>
+        </div>s
 
-                </div>
+        <div class="form-group">
+            <div class="input-group">
                 <div class="col-md-3">
-                    @if (Model!=null)
+                    @if (Model != null)
                     {
-                        
-                        <img id="blah" src="/UploadedImages/@Model.BrandImage" width="50" height="50"  />
+
+                        <img id="blah" src="/UploadedImages/@Model.BrandImage" width="50" height="50" />
+
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50"  />
-                     }
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
+
+                    }
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
-
-                    @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-            @*@Html.DropDownListFor(model => model.IsRepair, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
-
-            }, "Select", new {@class = "form-control"})
-            @Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })*@
-                    @Html.CheckBoxFor(model => model.IsRepair)
-                </div>
-                
-            </div>
-            <div class="row" style="padding-bottom: 5px;">
-                <div class="col-md-3 col-md-offset-1 col-xs-12">
-
-                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
-                </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                @*@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
-
-                }, "Select", new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })*@
-
-                    @Html.CheckBoxFor(model => model.IsActive)
-                </div>
-            </div>
-
-            <div class="row text-center">
-                <input type="submit" value="Submit" class="btn btn-large btn-success" />
-            </div>
-
         </div>
-		
-	</div>
 
-}
 
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+        @*  <div class="form-group">
+            @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
+
+                    <div class="col-md-3">
+                        @if (Model != null)
+                        {
+
+                            <img id="blah" src="/UploadedImages/@Model.BrandImage" width="50" height="50" />
+
+                        }
+                        else
+                        {
+                            <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
+
+                        }
+                    </div>
+
+                </div>
+        </div>*@
+
+
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+
+                @Html.CheckBoxFor(model => model.IsRepair)
+                @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+
+                @Html.CheckBoxFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
+
+                @Html.CheckBoxFor(model => model.IsRepair)
+                @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+
+
+                @Html.CheckBoxFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="row ">
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            }
+
+

@@ -3,11 +3,47 @@
     ViewBag.Title = "Me";
 }
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">Add Engineer</h3>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+    </div>
+                <div class="x_content">
+                    <br />
+                    @Html.Action("AddEngineer", "ManageEngineers")
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
                 <h3 class="m-y-0">Add Engineer</h3>
+            </div>            
+        </div>
+    </div>
+</div>
+
+
+<div class="panel-body">
+    @Html.Action("AddEngineer", "ManageEngineers")
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">List Of Engineers</h3>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -15,90 +51,71 @@
 
                     </ul>
                     <div class="clearfix"></div>
-</div>
-            <div class="x_content">
-                <br />
-                @Html.Action("AddEngineer", "ManageEngineers")
+                </div>
+                <div class="x_content" style="overflow-x: scroll;">
+                    @Html.Action("AddEngineertable", "ManageEngineers")
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h3 class="m-y-0">List Of Engineers</h3>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
+    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+        <div class="modal-dialog  modal-lg">
 
-                    </ul>
-                    <div class="clearfix"></div>
-</div>
-            <div class="x_content" style="overflow-x: scroll;">
-                @Html.Action("AddEngineertable", "ManageEngineers")
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-    <div class="modal-dialog  modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Engineer Information</h4>
+                </div>
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Engineer Information</h4>
+                <div class="modal-body" id="Info">@Html.Partial("EditEngineer")</div>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Partial("EditEngineer")</div>
         </div>
-
     </div>
-</div>
-@if (ViewBag.Message != null)
-{
-    <div id="snackbar">@ViewBag.Message</div>
-}
+    @if (ViewBag.Message != null)
+    {
+        <div id="snackbar">@ViewBag.Message</div>
+    }
 
-@if (ViewBag.Message != null)
-{
-    <script>
+    @if (ViewBag.Message != null)
+    {
+        <script>
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-    </script>
-}
-@section Scripts{
-    <script>
-        function EditEngineer(engineerId) {
+        </script>
+    }
+    @section Scripts{
+        <script>
+            function EditEngineer(engineerId) {
 
-            $.ajax({
-                type: 'GET',
-                url: "/ManageEngineers/EditEngineer?engineerId=" + engineerId,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    $("#Info").html(response);
-                    $("#datepicker1,#editdatepicker").datepicker({
-                        dateFormat: 'dd-M-yy'
-                    }).datepicker();;
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
+                $.ajax({
+                    type: 'GET',
+                    url: "/ManageEngineers/EditEngineer?engineerId=" + engineerId,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        $("#Info").html(response);
+                        $("#datepicker1,#editdatepicker").datepicker({
+                            dateFormat: 'dd-M-yy'
+                        }).datepicker();;
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
 
-                },
-                complete: function () {
+                    },
+                    complete: function () {
 
-                    $(".submitbutton").attr("disabled", false);
-                }
-            });
-        }
-    </script>
-}
+                        $(".submitbutton").attr("disabled", false);
+                    }
+                });
+            }
+        </script>
+    }
 

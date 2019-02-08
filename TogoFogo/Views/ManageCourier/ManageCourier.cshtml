@@ -4,138 +4,151 @@
 
 
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">Add Courier</h3>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+    </div>
+                <div class="x_content">
+                    <br />
+                    @Html.Action("AddCourier", "ManageCourier")
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
                 <h3 class="m-y-0">Add Courier</h3>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-
-                    </ul>
-                    <div class="clearfix"></div>
-</div>
-            <div class="x_content">
-                <br />
-                @Html.Action("AddCourier", "ManageCourier")
-            </div>
+            </div>            
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h3 class="m-y-0">List Of All Courier</h3>
+
+<div class="panel-body">
+    @Html.Action("AddCourier", "ManageCourier")
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">List Of All Courier</h3>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
                     </ul>
                     <div class="clearfix"></div>
-</div>
-            <div class="x_content" style="overflow-x: scroll;">
-                @Html.Action("CourierTable", "ManageCourier")
+                </div>
+                <div class="x_content" style="overflow-x: scroll;">
+                    @Html.Action("CourierTable", "ManageCourier")
+                </div>
             </div>
         </div>
     </div>
-
 </div>
-<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Courier</h4>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Courier</h4>
+                </div>
+
+                <div class="modal-body" id="Info">@Html.Partial("EditCourier")</div>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Partial("EditCourier")</div>
         </div>
-
     </div>
-</div>
 
-@if (ViewBag.AddCourier != null)
-{
-    <div id="snackbar">@ViewBag.AddCourier</div>
-}
+    @if (ViewBag.AddCourier != null)
+    {
+        <div id="snackbar">@ViewBag.AddCourier</div>
+    }
 
-@if (ViewBag.AddCourier != null)
-{
-    <script>
+    @if (ViewBag.AddCourier != null)
+    {
+        <script>
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-    </script>
-}
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $('#SC_PincodeDropdown').select2();
-     
+        </script>
+    }
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $('#SC_PincodeDropdown').select2();
 
-        });
-     
-        
-        $('input[name="WeightRange1"],input[name="WeightRange2"],input[name="Pincode"],input[name="MobileNumber"],input[name="Volumn1"],input[name="Volumn2"]').keyup(function (e) {
-            if (/\D/g.test(this.value)) {
-                // Filter non-digits from input value.
-                this.value = this.value.replace(/\D/g, '');
-            }
-        });
-        
-        function EditCourier(courierId) {
-            debugger;
-            $.ajax({
-                type: 'GET',
-                url: "/ManageCourier/EditCourier?courierId=" + courierId,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    $("#Info").html(response);
-                    $('#editSC_PincodeDropdown').select2();
-                    $("#editAgreementStartDate,#editAgreementEndDate,#editApplicableFromDate").datepicker({
-                        dateFormat: 'dd-M-yy',
-                    }).datepicker("setDate", new Date());
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
 
-                },
-                complete: function () {
+            });
 
-                    $(".submitbutton").attr("disabled", false);
+
+            $('input[name="WeightRange1"],input[name="WeightRange2"],input[name="Pincode"],input[name="MobileNumber"],input[name="Volumn1"],input[name="Volumn2"]').keyup(function (e) {
+                if (/\D/g.test(this.value)) {
+                    // Filter non-digits from input value.
+                    this.value = this.value.replace(/\D/g, '');
                 }
             });
-        }
-        function AjaxWithValue(method, ddl, e) {
-            var val = e.value;
-            $.ajax({
-                type: "GET",
-                url: "/DropdownBind/" + method + "?value=" + val,
-                data: '{}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $("#" + ddl).empty();
 
-                    //var sel = new Option('-Select-', '');
-                    //$('#' + ddl).append(sel);
-                    for (var i = 0; i < data.length; i++) {
-                        var opt = new Option(data[i].Text, data[i].Value);
-                        $('#' + ddl).append(opt);
+            function EditCourier(courierId) {
+                debugger;
+                $.ajax({
+                    type: 'GET',
+                    url: "/ManageCourier/EditCourier?courierId=" + courierId,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        $("#Info").html(response);
+                        $('#editSC_PincodeDropdown').select2();
+                        $("#editAgreementStartDate,#editAgreementEndDate,#editApplicableFromDate").datepicker({
+                            dateFormat: 'dd-M-yy',
+                        }).datepicker("setDate", new Date());
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                        $(".submitbutton").attr("disabled", false);
                     }
-                }
-            });
-        }
-    </script>
-}
+                });
+            }
+            function AjaxWithValue(method, ddl, e) {
+                var val = e.value;
+                $.ajax({
+                    type: "GET",
+                    url: "/DropdownBind/" + method + "?value=" + val,
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#" + ddl).empty();
+
+                        //var sel = new Option('-Select-', '');
+                        //$('#' + ddl).append(sel);
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].Text, data[i].Value);
+                            $('#' + ddl).append(opt);
+                        }
+                    }
+                });
+            }
+        </script>
+    }
 

@@ -78,31 +78,44 @@
         margin: 10px 0 10px 0;
     }
 </style>
-<div class="row">
-    
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Website User</h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Website User</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                </ul>
-                <div class="clearfix"></div>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
             </div>
-            <div class="x_content" style="overflow-x: scroll;">
+        </div>
+    </div>*@
 
-                @Html.Action("WebsiteUserStatus", "Reports")
 
-            </div>
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Website User</h3>
+            </div>            
         </div>
     </div>
 </div>
-@section Scripts{
-    
-    <script>
+<div class="panel-body">
+    <div class="x_content" style="overflow-x: scroll;">
+
+        @Html.Action("WebsiteUserStatus", "Reports")
+
+    </div>
+    </div>
+
+    @section Scripts{
+
+        <script>
         function DownloadReport() {
             debugger;
             document.location = '@Url.Action("DownloadReportUser", "Reports")';
@@ -120,7 +133,7 @@
                 var statusValue = "Active";
             } else {
                 var statusValue = "Inactive";
-            }            
+            }
                 $.ajax({
                     type: 'POST',
                     url: '/Reports/UpdateCustomerStatus?Status=' + statusValue + '&Id=' + Id,
@@ -131,11 +144,11 @@
                     },
 
                 });
-            
-            
-           
+
+
+
         }
-    </script>
-}
+        </script>
+    }
 
 
