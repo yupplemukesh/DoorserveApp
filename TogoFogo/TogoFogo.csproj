@@ -203,7 +203,6 @@
     <Compile Include="Controllers\LogisticsController.cs" />
     <Compile Include="Controllers\ManageBannersController.cs" />
     <Compile Include="Controllers\ManageCityLocationController.cs" />
-    <Compile Include="Controllers\ManageClientsController.cs" />
     <Compile Include="Controllers\ManageCourierApiController.cs" />
     <Compile Include="Controllers\ManageCourierController.cs" />
     <Compile Include="Controllers\ManageEngineersController.cs" />

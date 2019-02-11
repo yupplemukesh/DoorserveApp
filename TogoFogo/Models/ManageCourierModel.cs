@@ -9,6 +9,7 @@ namespace TogoFogo.Models
 {
     public class ManageCourierModel
     {
+        public int SerialNo { get; set; }
         [Required]
         public string Country { get; set; }
         [Required]
@@ -63,9 +64,9 @@ namespace TogoFogo.Models
         [DisplayName("AWB Number Used Type")]
         public string AWBNumber { get; set; }
         [DisplayName("Is Reverse Logistics?")]
-        public string IsReverse { get; set; }
+        public Boolean IsReverse { get; set; }
         [DisplayName("Is Allow Order Preference")]
-        public string IsAllowPreference { get; set; }
+        public Boolean IsAllowPreference { get; set; }
         public string CountryId { get; set; }
         public string StateId { get; set; }
         public string CityId { get; set; }
@@ -82,8 +83,7 @@ namespace TogoFogo.Models
         public string UploadedGSTFile { get; set; }
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
-        public string PANCardNumber { get; set; }
-        
+        public string PANCardNumber { get; set; }      
         public string PANCardFile { get; set; }
         [DisplayName("Bike Make and Model")]
         public string BikeMakeandModel { get; set; }
@@ -118,7 +118,7 @@ namespace TogoFogo.Models
         ErrorMessage = "Please Enter Correct Email Address")]
         public string EmailAddress { get; set; }
         [DisplayName("Is User?")]
-        public string IsUser { get; set; }
+        public Boolean IsUser { get; set; }
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
         public string UserPANCard { get; set; }
@@ -130,7 +130,7 @@ namespace TogoFogo.Models
         public string AadhaarCardNo { get; set; }
         public string AadhaarCardFile { get; set; }
         [DisplayName("Item Type")]
-        public string ItemType { get; set; }
+        public Boolean ItemType { get; set; }
         [DisplayName("Country")]
         public string SC_Country { get; set; }
         [DisplayName("PIN Code")]
@@ -177,7 +177,7 @@ namespace TogoFogo.Models
         public string LuluandSky_Status { get; set; }
         [DisplayName("Is Active")]
         [Required]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         public string Comments { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
@@ -185,11 +185,9 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
-
         public String Cnty_Name { get; set; }
         public string St_Name { get; set; }
         public string LocationName { get; set; }
-
         public string DaysRemaining { get; set; }
     }
 }

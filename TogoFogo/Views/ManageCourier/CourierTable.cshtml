@@ -8,6 +8,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayName("Serial No")
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.UploadedCourierFile)
             </th>
             <th>
@@ -27,6 +30,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsReverse)
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsAllowPreference)
@@ -67,13 +71,21 @@
             <th>
                 @Html.DisplayNameFor(model => model.Comments)
             </th>
-
+            <th>
+                @Html.DisplayName("Modify By")
+            </th>
+            <th>
+                @Html.DisplayName("Modify Date")
+            </th>
             <th>Actions</th>
         </tr>
     </thead>
     @foreach (var item in Model)
     {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNo)
+        </td>
         <td>
             @if (item.UploadedCourierFile != null)
             {
@@ -100,10 +112,12 @@
             @Html.DisplayFor(modelItem => item.AWBNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsReverse)
+            @*@Html.DisplayFor(modelItem => item.IsReverse)*@
+            @(item.IsReverse == true ? "Yes" : "No")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsAllowPreference)
+            @*@Html.DisplayFor(modelItem => item.IsAllowPreference)*@
+            @(item.IsAllowPreference == true ? "Yes" : "No")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Cnty_Name)
@@ -134,15 +148,22 @@
             @Html.DisplayFor(modelItem => item.AgreementEndDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
+            @*@Html.DisplayFor(modelItem => item.IsActive)*@
+            @(item.IsActive == true ? "Active" : "InActive")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifyBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifyDate)
+        </td>
         <td style="display: inline-flex">
 
             <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCourier(@item.CourierId)">Edit</a>
-            <a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
+            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
             <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
         </td>
     </tr>
