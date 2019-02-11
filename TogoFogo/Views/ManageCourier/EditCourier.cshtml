@@ -1,11 +1,15 @@
 ﻿
 @model TogoFogo.Models.ManageCourierModel
 @{
-                /**/
+    /**/
 
-                /**/
+    /**/
 
-                Layout = null;
+    /**/
+
+    /**/
+
+    Layout = null;
 }
 
 @using (Html.BeginForm("EditCourier", "ManageCourier", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -118,9 +122,9 @@
                 @Html.TextBoxFor(model => model.UploadedCourierFile1, htmlAttributes: new { @type = "file", @class = "form-control", onchange = "loadFile(event)", accept = "image/*" })
                 @Html.ValidationMessageFor(model => model.UploadedCourierFile, "", new { @class = "text-danger" })
             </div>
-        </div>    
+        </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <img id="editblah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+            <img id="editblah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" style="margin-top:25px" />
         </div>
     </div>
 
@@ -299,7 +303,7 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             @Html.LabelFor(model => model.ValueRange, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
@@ -307,41 +311,89 @@
                 @Html.ValidationMessageFor(model => model.ValueRange, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-8 col-sm-4 col-xs-12">
-                <div class="col-md-12 col-xs-12">
-                    <label class="col-md-2 col-sm-2 col-xs-2">From</label>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                    <label class="col-md-2 col-sm-2 col-xs-2">To</label>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
-                    </div>
 
+        @* <div class="form-group">
+                @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                        <div class="col-md-12 col-xs-12">
+                            <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+        </div>*@
+
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "control-label" })
-            <div class="col-md-8 col-sm-4 col-xs-12">
-                <div class="col-md-12 col-xs-12">
-                    <label class="col-md-2 col-sm-2 col-xs-2">From</label>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
-                    </div>
-                    <label class="col-md-2 col-sm-2 col-xs-2">To</label>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
-                    </div>
 
+   
+
+    @* <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
+        </div>*@
+
+    <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.ServiceCharge, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
@@ -350,9 +402,6 @@
                 @Html.ValidationMessageFor(model => model.ServiceCharge, "", new { @class = "text-danger" })
             </div>
         </div>
-    </div>
-
-    <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.ApplicableFromDate, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
@@ -361,7 +410,10 @@
                 @Html.ValidationMessageFor(model => model.ApplicableFromDate, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             @Html.LabelFor(model => model.ItemType, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 @*<span class="input-group-addon"></span>*@
@@ -373,10 +425,10 @@
                         }, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ItemType, "", new { @class = "text-danger" })*@
                 @Html.CheckBoxFor(model => model.ItemType)
-
             </div>
         </div>
     </div>
+
 
 
     <div class="form-group">
@@ -718,7 +770,7 @@
         </div>
     </div>
     <div class="form-group">
-        <p style="font-size: 18px;padding-bottom:5px;">Registration</p>
+        <p style="font-size: 18px;padding-bottom:5px;"><u>Registration</u></p>
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.LuluandSky_Status, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
@@ -739,18 +791,19 @@
         </div>
     </div>
     <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @*<span class="input-group-addon"></span>*@
+                @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                             {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
 
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @*<span class="input-group-addon"></span>*@
-            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                         {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
-
-                  }, "Select", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(model => model.IsActive)
+                      }, "Select", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.IsActive)
+            </div>
         </div>
     </div>
 
