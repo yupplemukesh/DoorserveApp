@@ -1,0 +1,13 @@
+﻿@model TogoFogo.Models.BankDetailModel
+<div class="col-3">
+    <span>
+        <strong> Name</strong>:    @Model.BankName
+        <br />
+        <strong> IFSC</strong>:    @Model.BankIFSCCode
+        <br />
+        <strong> Acc</strong>:    @Model.BankAccountNumber
+    </span>
+    <a  class="btn btn-primary" href="#BankModel" data-toggle="modal" onclick='AddOrEditBank(@Html.Raw(Json.Encode(Model)),this)' >Edit</a>
+    <a class="btn btn-primary" onclick="DeleteBankDetails(@Html.Raw(Json.Encode(Model)),this)" href="void(item)" >Delete</a>
+</div>
+

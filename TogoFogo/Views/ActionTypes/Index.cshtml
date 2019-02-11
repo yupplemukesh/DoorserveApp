@@ -1,16 +1,15 @@
-﻿@model IEnumerable<TogoFogo.Models.ClientModel>
+﻿
+@model IEnumerable<TogoFogo.Models.ActionTypeModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
-    var Count = 1;
+    var count = 1;
 }
-
-
 <div class="panel-heading">
     <div class="row">
         <div class="col-lg-12">
             <div class="col-md-6">
-                <h3 class="m-y-0">Manage Clients</h3>
+                <h3 class="m-y-0">Action Types</h3>
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
@@ -18,12 +17,12 @@
                         Export Excel
                     </button>
 
-                    <a class="btn btn-primary" href="@Url.Action("Create","ManageClients")">
-
+                    <a class="btn btn-primary" href="@Url.Action("Create","ActionTypes")">
                         <span>
-                            Add Clients
+                            Add ActionTypes
 
                         </span>
+
                     </a>
 
                 </div>
@@ -31,9 +30,6 @@
         </div>
     </div>
 </div>
-
-
-<!--/.row-->
 
 
 <div class="panel-body">
@@ -48,23 +44,11 @@
                             @Html.DisplayName("#SN")
                         </th>
                         <th>
-                            @Html.DisplayName("Process Name")
+                            @Html.DisplayName("Name")
                         </th>
-                        <th>
-                            @Html.DisplayName("Client Code")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Client Name")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Organization Name")
-                        </th>
-                       
+                      
                         <th>
                             @Html.DisplayName("Is Active")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Comments")
                         </th>
                         <th>
                             @Html.DisplayName("Last Updated Date Time")
@@ -72,52 +56,45 @@
                         <th>
                             @Html.DisplayName("Last Updated Details")
                         </th>
-
-                        <th>Actions</th>
+                       
+                        <th>
+                            @Html.DisplayName("Comments")
+                        </th>
                     </tr>
                 </thead>
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => Count)
+                            @count
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ProcessName)
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ClientCode)
-
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ClientName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Organization.OrgName)
-                        </td>                        
-
+                      
                         <td>
                             @Html.DisplayFor(modelItem => item.IsActive)
                         </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastUpdatedDateTime)
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Remarks)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.ModifyBy)
+                            @Html.DisplayFor(modelItem => item.LastUpdateBy)
                         </td>
+                      
                         <td>
-                            @Html.DisplayFor(modelItem => item.ModifyDate)
+                            @Html.DisplayFor(modelItem => item.Comments)
                         </td>
                         <td style="display: inline-flex">
-                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT","ManageClients",new {id = item.ClientId})'>Edit</a>
+                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ActionTypes", new { id = item.ActionTypeId })'>Edit</a>
                         </td>
                     </tr>
-                    Count++;
+                    count++;
                 }
             </table>
         </div>
-        <!--/.panel
-        </div><!--/.col-->
     </div>
 </div>
+
+

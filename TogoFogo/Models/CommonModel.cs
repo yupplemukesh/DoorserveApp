@@ -10,60 +10,79 @@ namespace TogoFogo
 {
     public static class CommonModel
     {
-        private readonly static ApplicationDbContext _context= new ApplicationDbContext();
+       
     
         
         public static async Task<List<CheckBox>> GetServiceType()
         {
-            var _servicetype =  await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Service Type' and isActive=1").ToListAsync();          
-            return _servicetype;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _servicetype = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Service Type' and isActive=1").ToListAsync();
+                return _servicetype;
+            }
         }
 
 
 
         public static async Task<List<CheckBox>> GetDeliveryServiceType()
         {
-
-            var _deliveryType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Delivery Type' and isActive=1").ToListAsync();
-            return _deliveryType;          
+            using (var _context = new ApplicationDbContext())
+            {
+                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Delivery Type' and isActive=1").ToListAsync();
+                return _deliveryType;
+            }
         }
 
         public static async Task<List<CheckBox>> GetApplicationTaxType()
         {
-
-            var _applicationTaxType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Application Tax Type' and isActive=1").ToListAsync();
-            return _applicationTaxType;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _applicationTaxType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Application Tax Type' and isActive=1").ToListAsync();
+                return _applicationTaxType;
+            }
         }
 
         public static async Task<List<CheckBox>> GetStatutoryType()
         {
-
-            var _statutoryType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Statutory Type' and isActive=1").ToListAsync();
-            return _statutoryType;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _statutoryType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Statutory Type' and isActive=1").ToListAsync();
+                return _statutoryType;
+            }
         }
 
         public static async Task<List<CheckBox>> GetGstCategory()
         {
-
-            var _gstCategory = await _context.Database.SqlQuery<CheckBox>("SELECT GstCategoryId value,GSTCategory text FROM MstGstCategory where IsActive='YES'").ToListAsync();
-            return _gstCategory;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _gstCategory = await _context.Database.SqlQuery<CheckBox>("SELECT GstCategoryId value,GSTCategory text FROM MstGstCategory where IsActive='YES'").ToListAsync();
+                return _gstCategory;
+            }
         }
         public static async Task<List<CheckBox>> GetProcesses()
         {
-
-            var _processes = await _context.Database.SqlQuery<CheckBox>("SELECT ProcessId value,processName text FROM tblProcesses where IsActive=1").ToListAsync();
-            return _processes;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _processes = await _context.Database.SqlQuery<CheckBox>("SELECT ProcessId value,processName text FROM MSTProcesses where IsActive=1").ToListAsync();
+                return _processes;
+            }
         }
         public static  List<CheckBox> GetBanks()
         {
-            var _banksDetails =  _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Bank' and isActive=1").ToList();
-            return _banksDetails;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _banksDetails = _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Bank' and isActive=1").ToList();
+                return _banksDetails;
+            }
         }
 
         public static  List<CheckBox> GetAddressTypes()
         {
-            var _addressTypes =  _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='ADDRESS' and isActive=1").ToList();
-            return _addressTypes;
+            using (var _context = new ApplicationDbContext())
+            {
+                var _addressTypes = _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='ADDRESS' and isActive=1").ToList();
+                return _addressTypes;
+            }
         }
 
       

@@ -10,7 +10,13 @@ namespace TogoFogo.Models
 {
     public class ClientModel
     {
-      
+       
+
+        public ClientModel()
+        {
+            Activetab = "tab-1";
+
+        }
         public string ServiceTypes
         {
             get;
@@ -21,37 +27,39 @@ namespace TogoFogo.Models
         {
             get;set;
         }
-    
-
         public List<int> DeviceCategories { get; set; }
         public string _deviceCategories {
             get;
             set;
-
-
-
-        }       
+        }
+        public string Activetab { get; set; }
+        public char action { get; set; }
         public OrganizationModel Organization { get; set; }
         public List<ContactPersonModel> ContactPersons { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
         public Guid ClientId { get; set; }
         [Required]
         [DisplayName("Process Name")]
-        public string ProcessName { get; set; }
+        public int ProcessId { get; set; }
+           
+        public int ProcessName { get; set; }
+
         [Required]
         [DisplayName("Client Code")]
         public string ClientCode { get; set; }
         [Required]
         [DisplayName("Client Name")]
         public string ClientName { get; set; }
-        
+        [DisplayName("Organization Name")]
+        public string ORGNAME { get; set; }
+
 
        
         [DisplayName("Is Active ?")]
         public bool IsActive { get; set; }
         public string Remarks { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifyBy { get; set; }
+        public int CreatedBy { get; set; }
+        public int ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
        
         public SelectList SupportedCategoryList { get; set; }
@@ -60,6 +68,8 @@ namespace TogoFogo.Models
         public List<TogoFogo.CheckBox> ServiceList { get; set; }
         [SkillValidation(ErrorMessage = "Select at least 1 Service Delivery Type")]
         public List<TogoFogo.CheckBox> DeliveryServiceList { get; set; }
+        public SelectList ProcessList { get; set; }
+     
 
     }
 

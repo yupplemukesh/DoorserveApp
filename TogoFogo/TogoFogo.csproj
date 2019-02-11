@@ -193,6 +193,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AbhayController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActionTypesController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CPCAPController.cs" />
     <Compile Include="Controllers\CustomerSupportController.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Controllers\PurchaseProcurementController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ServiceCenterController.cs" />
+    <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\Trc_PFELSController.cs" />
     <Compile Include="Controllers\Trc_PFQCController.cs" />
     <Compile Include="Controllers\Trc_PFRController.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="Extended\UserExtended.cs" />
     <Compile Include="Extension\CheckUrl.cs" />
     <Compile Include="Extension\CustomAuthorize.cs" />
+    <Compile Include="Models\ActionTypeModel.cs" />
     <Compile Include="Models\BankDetailModel.cs" />
     <Compile Include="Models\BindAPI.cs" />
     <Compile Include="Models\CJSModel.cs" />
@@ -257,6 +260,7 @@
     <Compile Include="Models\ReportsModel.cs" />
     <Compile Include="Models\ReverseAWB_AllocationModel.cs" />
     <Compile Include="Models\SMSGateway.cs" />
+    <Compile Include="Models\SMSGatewayModel.cs" />
     <Compile Include="Models\UAWBS.cs" />
     <Compile Include="Models\UREVASmodel.cs" />
     <Compile Include="Global.asax.cs">
@@ -304,6 +308,8 @@
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
+    <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
     <Compile Include="Repository\Clients\Clients.cs" />
     <Compile Include="Repository\Clients\IClients.cs" />
     <Compile Include="SaveImageCode\SaveImage.cs" />
@@ -888,6 +894,13 @@
     <Content Include="Views\Common\_AddEditContactPerson.cshtml" />
     <Content Include="Views\Common\_AddOrEditOrginazation.cshtml" />
     <Content Include="Views\Common\_AddOrUpdateBankDetails.cshtml" />
+    <Content Include="Views\ActionTypes\Index.cshtml" />
+    <Content Include="Views\ActionTypes\_CreateEditActionTypesForm.cshtml" />
+    <Content Include="Views\ActionTypes\Create.cshtml" />
+    <Content Include="Views\ActionTypes\Edit.cshtml" />
+    <Content Include="Views\SMSGateway\Index.cshtml" />
+    <Content Include="Views\SMSGateway\_SMSGatewayTable.cshtml" />
+    <Content Include="Views\SMSGateway\_CreateEditSMSGatewayForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

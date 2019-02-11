@@ -10,8 +10,11 @@ namespace TogoFogo.Models
 {
     public class ContactPersonModel
     {
+      
+        public Guid ContactId { get; set; }
+        public Guid ClientId { get; set; }
         [DisplayName("Address Type")]
-        public string ConAddressType { get; set; }
+        public int ConAddressType{ get; set; }
         [DisplayName("Country")]
         public int ConCountry { get; set; }
         [DisplayName("State")]
@@ -46,7 +49,8 @@ namespace TogoFogo.Models
         public string ConVoterId { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
-
+        public int UserID { get; set; }
+        public char Action { get; set; }
 
         public string ConVoterIdFileName { get; set; }
 
@@ -60,7 +64,6 @@ namespace TogoFogo.Models
         public HttpPostedFileBase ConAdhaarNumberFilePath { get; set; }
         public string ConAdhaarFileName { get; set; }
         [DisplayName("Upload Aadhaar Number")]
-        public string ConAdhaarNumbe { get; set; }
         public string ConCityName { get; set; }
         public SelectList AddressTypelist { get; set; }
         public SelectList CityList { get; set; }
