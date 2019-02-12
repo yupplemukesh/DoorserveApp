@@ -77,7 +77,7 @@ namespace TogoFogo.Controllers
             ViewBag.PersonStateDropdown = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.PersonCityDropdown = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.PersonCountryDropdown = new SelectList(dropdown.BindCountry(), "Value", "Text");
-           
+
             return View();
         }
 
@@ -86,124 +86,131 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                if (model.UploadedCourierFile1 != null)
-                {
-                    model.UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1);
-                }
-                if (model.UploadedGSTFile1 != null)
-                {
-                    model.UploadedGSTFile = SaveImageFile(model.UploadedGSTFile1);
-                }
-                if (model.UserPANCardFile1 != null)
-                {
-                    model.UserPANCardFile = SaveImageFile(model.UserPANCardFile1);
-                }
-                if (model.UserPANCardFile1 != null)
-                {
-                    model.UserPANCardFile = SaveImageFile(model.UserPANCardFile1);
-                }
-                if (model.VoterIDFile1 != null)
-                {
-                    model.VoterIDFile = SaveImageFile(model.VoterIDFile1);
-                }
-                if (model.AadhaarCardFile1 != null)
-                {
-                    model.AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1);
-                }
+                //if (model.UploadedCourierFile1 != null)
+                //{
+                //    model.UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1);
+                //}
+                //if (model.UploadedGSTFile1 != null)
+                //{
+                //    model.UploadedGSTFile = SaveImageFile(model.UploadedGSTFile1);
+                //}
+                //if (model.UserPANCardFile1 != null)
+                //{
+                //    model.UserPANCardFile = SaveImageFile(model.UserPANCardFile1);
+                //}
+                //if (model.UserPANCardFile1 != null)
+                //{
+                //    model.UserPANCardFile = SaveImageFile(model.UserPANCardFile1);
+                //}
+                //if (model.VoterIDFile1 != null)
+                //{
+                //    model.VoterIDFile = SaveImageFile(model.VoterIDFile1);
+                //}
+                //if (model.AadhaarCardFile1 != null)
+                //{
+                //    model.AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1);
+                //}
 
-                if (model.PANCardFile1 != null)
-                {
-                    model.PANCardFile = SaveImageFile(model.PANCardFile1);
-                }
-                if (model.AgreementScanFile1 != null)
-                {
-                    model.AgreementScanFile = SaveImageFile(model.AgreementScanFile1);
-                }
-                if (model.CancelledChequeFile1 != null)
-                {
-                    model.CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1);
-                }
+                //if (model.PANCardFile1 != null)
+                //{
+                //    model.PANCardFile = SaveImageFile(model.PANCardFile1);
+                //}
+                //if (model.AgreementScanFile1 != null)
+                //{
+                //    model.AgreementScanFile = SaveImageFile(model.AgreementScanFile1);
+                //}
+                //if (model.CancelledChequeFile1 != null)
+                //{
+                //    model.CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1);
+                //}
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Add_Modify_Delete_Courier",
-                        new
-                        {
-
-                            model.CourierId,
-                            model.UploadedCourierFile,
-                            model.CourierName,
-                            model.CourierCode,
-                            model.CourierBrandName,
-                            model.Priority,
-                            model.CourierTAT,
-                            model.AWBNumber,
-                            model.IsReverse,
-                            model.IsAllowPreference,
-                            CountryId=model.Country,
-                            StateId=model.StateDropdown,
-                            CityId=model.CityDropdown,
-                            model.CourierCompanyName,
-                            model.OrganizationCode,
-                            model.StatutoryType,
-                            model.ApplicableTaxType,
-                            model.GSTNumber,
-                            model.UploadedGSTFile,
-                            model.PANCardNumber,
-                            model.PANCardFile,
-                            model.BikeMakeandModel,
-                            model.BikeNumber,
-                            model.PersonAddresstype,
-                            PersonCountry=model.PersonCountryDropdown,
-                            PersonState=model.PersonStateDropdown,
-                            PersonCity=model.PersonCityDropdown,
-                            model.FullAddress,
-                            model.Locality,
-                            model.NearByLocation,
-                            model.Pincode,
-                            model.FirstName,
-                            model.LastName,
-                            model.MobileNumber,
-                            model.EmailAddress,
-                            model.IsUser,
-                            model.UserPANCard,
-                            model.UserPANCardFile,
-                            model.VoterIDCardNo,
-                            model.VoterIDFile,
-                            model.AadhaarCardNo,
-                            model.AadhaarCardFile,
-                            model.ItemType,
-                            SC_Country=model.SC_CountryDropdown,
-                            SC_Pincode=model.SC_PincodeDropdown,
-                            model.Currency,
-                            model.ServiceChargeType,
-                            model.ValueRange,
-                            WeightRange=model.WeightRange1+"-"+model.WeightRange2,
-                            Volume = model.Volumn1 + "-" + model.Volumn2,
-                            model.ServiceCharge,
-                            model.ApplicableFromDate,
-                            model.LegalDocumentVerificationStatus,
-                            model.AgreementSignupStatus,
-                            model.AgreementStartDate,
-                            model.AgreementEndDate,
-                            model.AgreementNumber,
-                            model.AgreementScanFile,
-                            model.BankName,
-                            model.BankAccountNumber,
-                            model.CompanyNameatBank,
-                            model.IFSCCode,
-                            model.BankBranch,
-                            model.CancelledChequeFile,
-                            model.PaymentCycle,
-                            model.LuluandSky_Status,
-                            model.IsActive,
-                            model.Comments,
-                           
-                            Action="add",
-                            User=""
-                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 1)
+                    if (ModelState.IsValid)
                     {
-                        TempData["AddCourier"] = "Successfully Added";
+                        var result = con.Query<int>("Add_Modify_Delete_Courier",
+                            new
+                            {
+
+                                model.CourierId,
+                                model.UploadedCourierFile,
+                                model.CourierName,
+                                model.CourierCode,
+                                model.CourierBrandName,
+                                model.Priority,
+                                model.CourierTAT,
+                                model.AWBNumber,
+                                model.IsReverse,
+                                model.IsAllowPreference,
+                                CountryId = model.Country,
+                                StateId = model.StateDropdown,
+                                CityId = model.CityDropdown,
+                                model.CourierCompanyName,
+                                model.OrganizationCode,
+                                model.StatutoryType,
+                                model.ApplicableTaxType,
+                                model.GSTNumber,
+                                model.UploadedGSTFile,
+                                model.PANCardNumber,
+                                model.PANCardFile,
+                                model.BikeMakeandModel,
+                                model.BikeNumber,
+                                model.PersonAddresstype,
+                                PersonCountry = model.PersonCountryDropdown,
+                                PersonState = model.PersonStateDropdown,
+                                PersonCity = model.PersonCityDropdown,
+                                model.FullAddress,
+                                model.Locality,
+                                model.NearByLocation,
+                                model.Pincode,
+                                model.FirstName,
+                                model.LastName,
+                                model.MobileNumber,
+                                model.EmailAddress,
+                                model.IsUser,
+                                model.UserPANCard,
+                                model.UserPANCardFile,
+                                model.VoterIDCardNo,
+                                model.VoterIDFile,
+                                model.AadhaarCardNo,
+                                model.AadhaarCardFile,
+                                model.ItemType,
+                                SC_Country = model.SC_CountryDropdown,
+                                SC_Pincode = model.SC_PincodeDropdown,
+                                model.Currency,
+                                model.ServiceChargeType,
+                                model.ValueRange,
+                                WeightRange = model.WeightRange1 + "-" + model.WeightRange2,
+                                Volume = model.Volumn1 + "-" + model.Volumn2,
+                                model.ServiceCharge,
+                                model.ApplicableFromDate,
+                                model.LegalDocumentVerificationStatus,
+                                model.AgreementSignupStatus,
+                                model.AgreementStartDate,
+                                model.AgreementEndDate,
+                                model.AgreementNumber,
+                                model.AgreementScanFile,
+                                model.BankName,
+                                model.BankAccountNumber,
+                                model.CompanyNameatBank,
+                                model.IFSCCode,
+                                model.BankBranch,
+                                model.CancelledChequeFile,
+                                model.PaymentCycle,
+                                model.LuluandSky_Status,
+                                model.IsActive,
+                                model.Comments,
+
+                                Action = "add",
+                                User = ""
+                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        if (result == 1)
+                        {
+                            TempData["AddCourier"] = "Successfully Added";
+                        }
+                    }
+                    else
+                    {
+                        TempData["AddCourier"] = "Please fill the required fields.";
                     }
                 }
 
@@ -211,7 +218,7 @@ namespace TogoFogo.Controllers
             catch (Exception e)
             {
                 TempData["AddCourier"] = e;
-                
+
             }
 
             return RedirectToAction("ManageCourier");
@@ -225,17 +232,17 @@ namespace TogoFogo.Controllers
 
                 return View(result);
             }
-            
+
         }
 
         public ActionResult EditCourier(int? courierId)
         {
-            
+
             using (var con = new SqlConnection(_connectionString))
             {
                 ViewBag.COUNTRY = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 ViewBag.StateDropdown = new SelectList(dropdown.BindState(), "Value", "Text");
-                ViewBag.CityDropdown = new SelectList(dropdown.BindLocation(),"Value","Text");
+                ViewBag.CityDropdown = new SelectList(dropdown.BindLocation(), "Value", "Text");
                 ViewBag.PinCodeDropdown = new SelectList(dropdown.BindPinCode(), "Value", "Text");
                 ViewBag.PersonCountry = new SelectList(dropdown.BindCountry(), "Value", "Text");
 
@@ -250,12 +257,12 @@ namespace TogoFogo.Controllers
                 ViewBag.PersonState = new SelectList(dropdown.BindState(), "Value", "Text");
                 if (result != null)
                 {
-                    
+
                     result.Country = result.CountryId;
                     result.StateDropdown = result.StateId;
                     result.CityDropdown = result.CityId;
                     result.PinCodeDropdown = result.Pincode;
-                 
+
                     result.SC_CountryDropdown = result.SC_Country;
                     result.PersonCountryDropdown = result.PersonCountry;
                     result.PersonCityDropdown = result.PersonCity;
@@ -269,7 +276,7 @@ namespace TogoFogo.Controllers
                     result.WeightRange1 = parts[0];
                     result.WeightRange2 = parts[1];
                     result.AgreementEndDate = result.AgreementEndDate;
-                   
+
                 }
 
                 return PartialView("EditCourier", result);

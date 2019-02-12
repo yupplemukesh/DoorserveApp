@@ -129,8 +129,6 @@
     </div>
 
 
-
-
     @Scripts.Render("~/bundles/customBundle")
 
     @Scripts.Render("~/bundles/bootstrap")
@@ -239,24 +237,51 @@
             reader.readAsDataURL(event.target.files[0]);
         };
 
+
         $(function () {
             var startDate = $(".startDate").val();
             var endDate = $(".endDate").val();
 
             $(".excel").click(function () {
+                var obj = $("#myTable").DataTable().$('tr').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                $(obj1).find("th:last-child").remove();
+                $(obj).find("td:last-child").remove();
                 $('<table>')
                     .append(
-                        $("#myTable").DataTable().$('tr').clone()
+                    obj1
+                    )
+                    .append(
+                    obj
                     )
                     .table2excel({
                         exclude: ".excludeThisClass",
                         name: "Worksheet Name",
-                        filename: "SomeFile" //do not include extension
+                        filename: "Excel.xls" //do not include extension
                     });
             });
 
             $("#myTable").dataTable();
         });
+
+        //$(function () {
+        //    var startDate = $(".startDate").val();
+        //    var endDate = $(".endDate").val();
+
+        //    $(".excel").click(function () {
+        //        $('<table>')
+        //            .append(
+        //                $("#myTable").DataTable().$('tr').clone()
+        //            )
+        //            .table2excel({
+        //                exclude: ".excludeThisClass",
+        //                name: "Worksheet Name",
+        //                filename: "SomeFile" //do not include extension
+        //            });
+        //    });
+
+        //    $("#myTable").dataTable();
+        //});
 
 
 
