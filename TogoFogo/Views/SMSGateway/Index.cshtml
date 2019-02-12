@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.SMSGatewayModel
+﻿@model TogoFogo.Models.SMSGateWayMainModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -15,12 +15,6 @@
 
     <div class="row">
         <div class="col-md-6">
-
-
-
-
-
-
 
 
             <div class="panel panel-default panel-table">
@@ -46,26 +40,17 @@
 
 
 
-                <div class="panel-body" style="border:0px solid red">
+                <div class="panel-body" id="Info" style="border:0px solid red">
                     <div class="table-responsive">
-                        @Html.Action("SMSGatewayTable")
+
+                        @Html.Partial("_SMSGatewayTable", Model.mainModel)
                     </div>
                 </div>
             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
         </div>
+
 
         <div class="col-md-6">
             <div class="panel panel-default panel-table">
@@ -86,12 +71,13 @@
                 <div class="panel-body" style="border:0px solid red">
                     <div class="row ">
                         <div class="col-md-12 ">
-@using (Html.BeginForm("AddorUpdate", "SMSGateway", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.HiddenFor(x => x.GatewayId)
+                            @using (Html.BeginForm("create", "SMSGateway", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form - horizontal" }))
+                            {
 
-                           @Html.Partial("__CreateEditSMSGatewayForm",Model)
-}
+                                @Html.Partial("_CreateEditSMSGatewayForm", Model.Gateway)
+
+
+                            }
 
                         </div>
 
@@ -107,21 +93,47 @@
             </div><!--panel-body-->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
     </div>
 </div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function GetGatwayDetails(Id) {
+            debugger;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Edit","smsGateway")',
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                data: { Id: Id },
+                success: function (response) {
+                    $("#GatewayId").val(response.GatewayId);
+                    $("#GatewayName").val(response.GatewayName);
+                    $("#GatewayTypeId").val(response.GatewayTypeId);
+                    $("#IsActive").prop("checked", response.IsActive);
+                    $("#OTPApikey").val(response.OTPApikey);
+                    $("#OTPSender").val(response.OTPSender);
+                    $("#SuccessMessage").val(response.SuccessMessage);
+                    $("#TransApikey").val(response.TransApikey);
+                    $("#URL").val(response.URL);
+
+
+                    console.log(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    </script>
+}
 
 
 

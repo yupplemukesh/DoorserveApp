@@ -46,8 +46,8 @@
                         <div class="navbar-search-group">
                             <input type="text" class="form-control" id="filter" placeholder="Search">
                             @*<button type="submit" class="btn btn-default">
-                                <i class="zmdi zmdi-search"></i>
-                            </button>*@
+                                    <i class="zmdi zmdi-search"></i>
+                                </button>*@
                         </div>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
@@ -249,10 +249,10 @@
                 $(obj).find("td:last-child").remove();
                 $('<table>')
                     .append(
-                    obj1
+                        obj1
                     )
                     .append(
-                    obj
+                        obj
                     )
                     .table2excel({
                         exclude: ".excludeThisClass",
@@ -290,7 +290,7 @@
 
 
             $("#filter").keyup(function () {
-                var filter = $(this).val();          
+                var filter = $(this).val();
                 $("#sideMenu").find('li').each(function () {
                     if (filter == "") {
                         $(this).css("visibility", "visible");
@@ -310,7 +310,26 @@
 
 
     </script>
-
+    @if (TempData["response"] != null)
+    {
+        var resp = TempData["response"] as TogoFogo.Models.ResponseModel;
+        <div class="tox tox-silver-sink tox-tinymce-aux" style="position: relative;">
+            <div id="toast-container" class="toast-top-right">
+                @if (resp.IsSuccess)
+                {
+                    <div class="toast toast-success" aria-live="polite" style="">
+                        <div class="toast-message">@resp.Response</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="toast toast-error" aria-live="polite" style="">
+                        <div class="toast-message">@resp.Response</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
 
 
     @RenderSection("scripts", required: false)

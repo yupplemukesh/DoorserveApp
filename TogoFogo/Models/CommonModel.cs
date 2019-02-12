@@ -18,6 +18,14 @@ namespace TogoFogo
                 return _clientData;
             }
         }
+        public static async Task<List<CheckBox>> GetGatewayType()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _servicetype = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Gateway' and isActive=1").ToListAsync();
+                return _servicetype;
+            }
+        }
 
 
         public static async Task<List<CheckBox>> GetServiceType()
