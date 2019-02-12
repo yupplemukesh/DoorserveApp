@@ -3,165 +3,179 @@
     ViewBag.Title = "Index";
 }
 
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2><small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2><small></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
 
-                </ul>
-                <div class="clearfix"></div>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
             </div>
-            <div class="x_content">
-                <br />
-                <div id="hiddenPart" style="display:none">
-                    @*@Html.Partial("FindPFRMA")*@
-                    @Html.Action("PFRMAForm", "Trc_PFRMA")
-                </div>
+        </div>
+    </div>*@
 
-                <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("TablePFRMA", "Trc_PFRMA")
-                </div>
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Approval of Received Material</h3>
             </div>
         </div>
     </div>
 </div>
-@if (ViewBag.Message != null)
-{
-    <div id="snackbar">@ViewBag.Message</div>
-}
-@if (ViewBag.Message != null)
-{
-    <script>
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+<div class="panel-body">
+    <div class="x_content">
+        <br />
+        <div id="hiddenPart" style="display:none">
+            @*@Html.Partial("FindPFRMA")*@
+            @Html.Action("PFRMAForm", "Trc_PFRMA")
+        </div>
 
-    </script>
-}
-@section Scripts{
-    
-    <script>
-        function AjaxWithValue(method, ddl, e) {
-            var val = e.value;
-            debugger;
-            $.ajax({
-                type: "GET",
-                url: "/DropdownBind/" + method + "?value=" + val,
-                data: '{}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $("#" + ddl).empty();
+        <div class="x_content" style="overflow-x: scroll;">
+            @Html.Action("TablePFRMA", "Trc_PFRMA")
+        </div>
+    </div>
+</div>
 
-                    //var sel = new Option('-Select-', '');
-                    //$('#' + ddl).append(sel);
-                    for (var i = 0; i < data.length; i++) {
-                        var opt = new Option(data[i].Text, data[i].Value);
-                        $('#' + ddl).append(opt);
+    @if (ViewBag.Message != null)
+    {
+        <div id="snackbar">@ViewBag.Message</div>
+    }
+    @if (ViewBag.Message != null)
+    {
+        <script>
+
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+        </script>
+    }
+    @section Scripts{
+
+        <script>
+            function AjaxWithValue(method, ddl, e) {
+                var val = e.value;
+                debugger;
+                $.ajax({
+                    type: "GET",
+                    url: "/DropdownBind/" + method + "?value=" + val,
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#" + ddl).empty();
+
+                        //var sel = new Option('-Select-', '');
+                        //$('#' + ddl).append(sel);
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].Text, data[i].Value);
+                            $('#' + ddl).append(opt);
+                        }
                     }
-                }
-            });
-        }
+                });
+            }
 
-        function CCno(ccNo) {
-            debugger;
-            $(window).scrollTop(0);
-            $.ajax({
-                type: 'POST',
-                url: "/Trc_PFRMA/FindPFRMA?CcNO=" + ccNo,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    debugger;
-                    $('#TUPCModel').val(response.TUPCModel);
-                    var DamagedBoxImage = 'http://crm.togofogo.com/Uploaded Images/' + response.DamagedBoxImage;
-                    var url = 'http://crm.togofogo.com/Uploaded Images/' + response.PhotoOfDevice;
-                    $('#TRCInfoFull').val("Trc Name:" + response.TrcName + ",Mobile No:" + response.TrcMobile + " , Email:" + response.TrcEmail, " , Address:" + response.TrcAddress +
-                        ", Pincode:" + response.TrcPinCode + " ,Location:" + response.TrcLocality + ", Near By Location :" + response.TrcNear_By_Location);
-                    $('#CustoFullInfo').val("Name:" + response.Customer_Name + ", Mobile No.:" + response.Mobile_No + ", E-Mail: " + response.Email_Id + ", Customer Address:" + response.Cust_Add +
-                        ", Pincode" + response.Pincode + " City/Location:" + response.Cust_City + " , State:" + response.Cust_State);
-                    $('#ProcessName').val(response.TrcProcess_Name);
-                    $('#TRCCity').val(response.TRCCity);
-                    $('#TrcName').val(response.TrcName)
-                    $('#WarrentyStatus').val(response.WarrantyStatus);
-                    //$('#WarrentyExpiryDate').val(response.WarrantyExpiryDate.split(' ')[0]);
+            function CCno(ccNo) {
+                debugger;
+                $(window).scrollTop(0);
+                $.ajax({
+                    type: 'POST',
+                    url: "/Trc_PFRMA/FindPFRMA?CcNO=" + ccNo,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        debugger;
+                        $('#TUPCModel').val(response.TUPCModel);
+                        var DamagedBoxImage = 'http://crm.togofogo.com/Uploaded Images/' + response.DamagedBoxImage;
+                        var url = 'http://crm.togofogo.com/Uploaded Images/' + response.PhotoOfDevice;
+                        $('#TRCInfoFull').val("Trc Name:" + response.TrcName + ",Mobile No:" + response.TrcMobile + " , Email:" + response.TrcEmail, " , Address:" + response.TrcAddress +
+                            ", Pincode:" + response.TrcPinCode + " ,Location:" + response.TrcLocality + ", Near By Location :" + response.TrcNear_By_Location);
+                        $('#CustoFullInfo').val("Name:" + response.Customer_Name + ", Mobile No.:" + response.Mobile_No + ", E-Mail: " + response.Email_Id + ", Customer Address:" + response.Cust_Add +
+                            ", Pincode" + response.Pincode + " City/Location:" + response.Cust_City + " , State:" + response.Cust_State);
+                        $('#ProcessName').val(response.TrcProcess_Name);
+                        $('#TRCCity').val(response.TRCCity);
+                        $('#TrcName').val(response.TrcName)
+                        $('#WarrentyStatus').val(response.WarrantyStatus);
+                        //$('#WarrentyExpiryDate').val(response.WarrantyExpiryDate.split(' ')[0]);
 
-                    $('#EstimatedCost').val(response.EstimatedCost);
-                    $('#WarrantyVoid').val(response.WarrantyVoid);
-                    $('#wipedevice').val(response.wipedevice);
-                    $('#CostApproved').val(response.EstimatedCostApproved);
-                    $('#CourierName').val(response.CourierName);
-                    $('#ProblemObserved').val(response.PrblmObsrvd);
-                    $('#ProblemReported').val(response.Problem)
-                    $('#getCC_NO').val(response.CcNo);
-                    $('#Mobile_No').val(response.Mobile_No);
-                    $('#Brand').val(response.Brand);
-                    $('#ServiceProviderName').val(response.ServiceProviderName);
-                    $('#Cust_Add').val(response.Cust_Add);
-                    $('#Cust_City').val(response.Cust_City);
-                    $('#Cust_State').val(response.Cust_State);
-                    $('#CustomerId').val(response.CustomerId);
+                        $('#EstimatedCost').val(response.EstimatedCost);
+                        $('#WarrantyVoid').val(response.WarrantyVoid);
+                        $('#wipedevice').val(response.wipedevice);
+                        $('#CostApproved').val(response.EstimatedCostApproved);
+                        $('#CourierName').val(response.CourierName);
+                        $('#ProblemObserved').val(response.PrblmObsrvd);
+                        $('#ProblemReported').val(response.Problem)
+                        $('#getCC_NO').val(response.CcNo);
+                        $('#Mobile_No').val(response.Mobile_No);
+                        $('#Brand').val(response.Brand);
+                        $('#ServiceProviderName').val(response.ServiceProviderName);
+                        $('#Cust_Add').val(response.Cust_Add);
+                        $('#Cust_City').val(response.Cust_City);
+                        $('#Cust_State').val(response.Cust_State);
+                        $('#CustomerId').val(response.CustomerId);
 
-                    $('#Customer_Name').val(response.Customer_Name);
-                    $('#Email_Id').val(response.Email_Id);
-                    $('#Model').val(response.Model);
-                    $('#Pickup_Date').val(response.Pickup_Date);
-                    $('#Pincode').val(response.Pincode);
-                    $('#Problem').val(response.Problem);
-                    $('#StatusName').val(response.StatusName);
-                    $('#SubCatName').val(response.SubCatName);
-                    $('#Serial_No').val(response.Serial_No);
-                    $('#IMEI1').val(response.IMEI1);
-                    $('#IMEI2').val(response.IMEI2);
-                    $('#BtryRemovable').val(response.BtryRemovable);
-                    $('#BtryReq').val(response.BtryReq);
-                    $('#IsDiffDeviceRecvd').val(response.IsDiffDeviceRecvd);
-                    $('#IsDiffDeviceRecvd').val(response.IsDiffDeviceRecvd);
-                    $('#RecvdBrand').val(response.RecvdBrand);
-                    $('#RecvdModel').val(response.RecvdModel);
-                    $('#IsPhyDamage').val(response.IsPhyDamage);
-                    $('#ReceiveDate').val(response.ReceiveDate);
-                    $('#RecvRemarks').val(response.RecvRemarks);
-                    $('#EnggName').val(response.EnggName);
-                    $('#BtryReceived').val(response.BtryReceived);
-                    $('#BtryBrandAndModel').val(response.BtryBrandAndModel);
-                    $('#DeviceTUPC').val(response.DeviceTUPC);
-                    $('#RecvdSerialNo').val(response.RecvdSerialNo);
-                    $('#RecvdIMEI1').val(response.RecvdIMEI1);
-                    $('#RecvdIMEI2').val(response.RecvdIMEI2);
-                    $('#ReceiveApprovalNeeded').val(response.ReceiveApprovalNeeded);
-                    $('#RecvApprovalStatus').val(response.RecvApprovalStatus);
-                    $('#RecvApprovedBy').val(response.RecvApprovedBy);
-                    $('#PhotoOfDevice').attr('src', url);
-                    $('#DamagedBoxImage').attr('src', DamagedBoxImage);
-                    $('#ReceivedDevice').val(response.RecvdDevice);
-                    $('#BoxCondition').val(response.BoxCondition);
-                    $('#ReceivingDoc').val(response.ReceivingDocument);
-                    $('#Returnable').val(response.IsReturnable);
-                    $('#NoOfBoxesReceived').val(response.NoOfBoxesReceived);
-                    $('#AWBNo').val(response.AWBNumber);
-                    $('#CallRequestDate').val(response.EntryDate);
-                    $('#ScheduleDate').val(response.SchedulePickupDateandTime);
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
+                        $('#Customer_Name').val(response.Customer_Name);
+                        $('#Email_Id').val(response.Email_Id);
+                        $('#Model').val(response.Model);
+                        $('#Pickup_Date').val(response.Pickup_Date);
+                        $('#Pincode').val(response.Pincode);
+                        $('#Problem').val(response.Problem);
+                        $('#StatusName').val(response.StatusName);
+                        $('#SubCatName').val(response.SubCatName);
+                        $('#Serial_No').val(response.Serial_No);
+                        $('#IMEI1').val(response.IMEI1);
+                        $('#IMEI2').val(response.IMEI2);
+                        $('#BtryRemovable').val(response.BtryRemovable);
+                        $('#BtryReq').val(response.BtryReq);
+                        $('#IsDiffDeviceRecvd').val(response.IsDiffDeviceRecvd);
+                        $('#IsDiffDeviceRecvd').val(response.IsDiffDeviceRecvd);
+                        $('#RecvdBrand').val(response.RecvdBrand);
+                        $('#RecvdModel').val(response.RecvdModel);
+                        $('#IsPhyDamage').val(response.IsPhyDamage);
+                        $('#ReceiveDate').val(response.ReceiveDate);
+                        $('#RecvRemarks').val(response.RecvRemarks);
+                        $('#EnggName').val(response.EnggName);
+                        $('#BtryReceived').val(response.BtryReceived);
+                        $('#BtryBrandAndModel').val(response.BtryBrandAndModel);
+                        $('#DeviceTUPC').val(response.DeviceTUPC);
+                        $('#RecvdSerialNo').val(response.RecvdSerialNo);
+                        $('#RecvdIMEI1').val(response.RecvdIMEI1);
+                        $('#RecvdIMEI2').val(response.RecvdIMEI2);
+                        $('#ReceiveApprovalNeeded').val(response.ReceiveApprovalNeeded);
+                        $('#RecvApprovalStatus').val(response.RecvApprovalStatus);
+                        $('#RecvApprovedBy').val(response.RecvApprovedBy);
+                        $('#PhotoOfDevice').attr('src', url);
+                        $('#DamagedBoxImage').attr('src', DamagedBoxImage);
+                        $('#ReceivedDevice').val(response.RecvdDevice);
+                        $('#BoxCondition').val(response.BoxCondition);
+                        $('#ReceivingDoc').val(response.ReceivingDocument);
+                        $('#Returnable').val(response.IsReturnable);
+                        $('#NoOfBoxesReceived').val(response.NoOfBoxesReceived);
+                        $('#AWBNo').val(response.AWBNumber);
+                        $('#CallRequestDate').val(response.EntryDate);
+                        $('#ScheduleDate').val(response.SchedulePickupDateandTime);
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
 
-                },
-                complete: function () {
+                    },
+                    complete: function () {
 
-                    $(".submitbutton").attr("disabled", false);
-                }
-            });
-        }
-    </script>
-}
+                        $(".submitbutton").attr("disabled", false);
+                    }
+                });
+            }
+        </script>
+    }
 
 
