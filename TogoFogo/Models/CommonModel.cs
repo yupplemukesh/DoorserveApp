@@ -10,9 +10,16 @@ namespace TogoFogo
 {
     public static class CommonModel
     {
-       
-    
-        
+        public static async Task<List<CheckBox>> GetClientData()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _clientData = await _context.Database.SqlQuery<CheckBox>("select clientId as name,clientName as text from MstClients where isActive=1").ToListAsync();
+                return _clientData;
+            }
+        }
+
+
         public static async Task<List<CheckBox>> GetServiceType()
         {
             using (var _context = new ApplicationDbContext())
@@ -94,6 +101,7 @@ namespace TogoFogo
         public string Text { get; set; }
         public int Value { get; set; }
         public bool IsChecked { get; set; }
+        public Guid Name { get; set; }
 
     }
 }
