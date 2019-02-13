@@ -58,14 +58,14 @@
                         <div class="row" style="padding-bottom: 5px;">
                             @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "BindCityAndSate()" })
+                                @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "BindCityAndSate()" ,id= "Pincode" })
                                 @Html.ValidationMessageFor(model => model._AddressDetail.PinNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="row" style="padding-bottom: 5px;">
                             @Html.LabelFor(model => model._AddressDetail.CityId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                @Html.TextBoxFor(model => model._AddressDetail.CityId, htmlAttributes: new { @class = "form-control", id = "City" })
+                                @Html.TextBoxFor(model => model._AddressDetail.City, htmlAttributes: new { @class = "form-control", id = "City" })
                                 @Html.ValidationMessageFor(model => model._AddressDetail.CityId, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                         <div class="row" style="padding-bottom: 5px;">
                             @Html.Label("Address Type", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                @*@Html.DropDownListFor(model => model.AddressType, new List<SelectListItem>
+                  @*@Html.DropDownListFor(model => model.AddressType, new List<SelectListItem>
                   {
                       new SelectListItem {Text = "Home", Value = "Home"},
                       new SelectListItem {Text = "Office", Value = "Office"},
@@ -129,7 +129,7 @@
 
 <script>
     function BindCityAndSate() {
-        
+        debugger 
         var value = document.getElementById("Pincode").value;
         if (value.length == 6) {
             AjaxWithValueDEE('BindSatetByPincode', 'State', value)
@@ -148,7 +148,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-
+                debugger
                 $('#' + ddl).val(data[0].Text);
 
             }

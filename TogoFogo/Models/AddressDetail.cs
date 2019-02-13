@@ -14,13 +14,15 @@ namespace TogoFogo.Models
         public int AddressTypeId { get; set; }
         [DisplayName("Country")]
         [Required(ErrorMessage = "Enter Country")]
-        public int CountryId { get; set; }
-        [DisplayName("State")]
-        [Required(ErrorMessage = "Enter State")]
-        public int StateId { get; set; }
+        public int CountryId { get; set; }      
+        public int StateId { get; set; }        
+        public int CityId { get; set; }
         [DisplayName("City")]
         [Required(ErrorMessage = "Enter City")]
-        public int CityId { get; set; }
+        public string City { get; set; }
+        [DisplayName("State")]
+        [Required(ErrorMessage = "Enter State")]
+        public string State { get; set; }
         [Required(ErrorMessage = "Enter Address")]
         public string Address { get; set; } 
         public string Locality { get; set; }
