@@ -236,12 +236,14 @@
     <Compile Include="Controllers\RepairStatusController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UnauthorizedController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebsiteSettingsController.cs" />
     <Compile Include="Encrypt_Decrypt_Code\encrypt_decrypt.cs" />
     <Compile Include="Extended\UserExtended.cs" />
     <Compile Include="Extension\CheckUrl.cs" />
     <Compile Include="Extension\CustomAuthorize.cs" />
     <Compile Include="Models\ActionTypeModel.cs" />
+    <Compile Include="Models\AddressDetail.cs" />
     <Compile Include="Models\BankDetailModel.cs" />
     <Compile Include="Models\BindAPI.cs" />
     <Compile Include="Models\CJSModel.cs" />
@@ -311,14 +313,13 @@
     <Compile Include="Models\SubcategoryModel.cs" />
     <Compile Include="Models\test.cs" />
     <Compile Include="Models\URSSEModel.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
-    <Compile Include="Repository\Clients\Clients.cs" />
-    <Compile Include="Repository\Clients\IClients.cs" />
     <Compile Include="Repository\SMSGateway\Gateway.cs" />
     <Compile Include="Repository\SMSGateway\IGateway.cs" />
     <Compile Include="SaveImageCode\SaveImage.cs" />
@@ -910,10 +911,12 @@
     <Content Include="Views\SMSGateway\Index.cshtml" />
     <Content Include="Views\SMSGateway\_SMSGatewayTable.cshtml" />
     <Content Include="Views\SMSGateway\_CreateEditSMSGatewayForm.cshtml" />
+    <Content Include="Views\User\AddUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Barcode_file\" />
+    <Folder Include="Repository\Clients\" />
     <Folder Include="UploadedImages\" />
     <Folder Include="UploadExcel\" />
     <Folder Include="Views\Custo_PCRC\" />
