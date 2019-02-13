@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
@@ -29,6 +30,10 @@ namespace TogoFogo.Models
     }
     public class CourierPinZipCode
     {
+        public SelectList CountryList { get; set; }
+        public SelectList CourierList { get; set; }
+        public SelectList StateList { get; set; }
+        public SelectList CityList { get; set; }
         [Required]
         [DisplayName("Country")]
         public string Country { get; set; }
@@ -46,32 +51,45 @@ namespace TogoFogo.Models
         public string PIN_City1 { get; set; }
 
 
-
+        [Required]
         public int Pin_ZIP_ID { get; set; }
+        [Required]
         public int CountryID { get; set; }
+        [Required]
         public int CourierID { get; set; }
+        [Required]
         public int Pin_CountryID { get; set; }
+        [Required]
         public int Pin_State { get; set; }
+        [Required]
         public int Pin_City { get; set; }
         [Required]
-        [DisplayName("Region")]
+        [DisplayName("Region")]      
         public string Pin_Region { get; set; }
+        [Required]
         [DisplayName("Zone")]
         public string Pin_Zone { get; set; }
+        [Required]
         [DisplayName("PIN/ZIP Code")]
         public string Pin_Code { get; set; }
         [DisplayName("Courier TAT in days")]
         public string Pin_TAT { get; set; }
+        [Required]
         [DisplayName("Is COD?")]
         public string Pin_Cod { get; set; }
+        [Required]
         [DisplayName("Short Code")]
         public string ShortCode { get; set; }
+        [Required]
         [DisplayName("Is Express?")]
         public string ISExpress { get; set; }
+        [Required]
         [DisplayName("Is Reverse Logistics?")]
         public string ReverseLogistics { get; set; }
+        [Required]
         [DisplayName("Is Allow Order Preference?")]
         public string OrderPreference { get; set; }
+        [Required]
         [DisplayName("Is Active?")]
         public string IsActive { get; set; }
         [DisplayName("Comments")]

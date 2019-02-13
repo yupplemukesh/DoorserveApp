@@ -19,23 +19,22 @@ namespace TogoFogo.Controllers
         // GET: ManageCourierApi
         public ActionResult ManageCourierApi()
         {
-            ViewBag.Country = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Courier = new SelectList(Enumerable.Empty<SelectListItem>());
-            if (TempData["Message"] != null)
+            using (var con = new SqlConnection(_connectionString))
             {
-                ViewBag.Message = TempData["Message"].ToString();
+                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
             }
-            return View();
         }
-        public ActionResult AddCourierApi()
+        public ActionResult Create()
         {
-            ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            return View();
+            ManageCourierApiModel courierApiModel = new ManageCourierApiModel();
+            courierApiModel.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
+            courierApiModel.CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text");
+            return View(courierApiModel);
         }
 
         [HttpPost]
-        public ActionResult AddCourierApi(ManageCourierApiModel model)
+        public ActionResult Create(ManageCourierApiModel model)
         {
             try
             {
@@ -95,20 +94,9 @@ namespace TogoFogo.Controllers
             return RedirectToAction("ManageCourierApi");
         }
 
-        public ActionResult CourierAPITable()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
-            }
 
-        }
-
-        public ActionResult EditCourierApi(int apiId)
+        public ActionResult Edit(int apiId)
         {
-            ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<ManageCourierApiModel>("Select * from MstCourierAPI Where API_ID=@API_ID", new { @API_ID = apiId }
@@ -117,6 +105,8 @@ namespace TogoFogo.Controllers
                 {
                     result.Country = result.CountryID.ToString();
                     result.Courier = result.CourierID.ToString();
+                    result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
+                    result.CourierList= new SelectList(dropdown.BindCourier(), "Value", "Text");
                     ViewBag.CourierImage = "http://crm.togofogo.com/Uploaded Images/" + result.CourierImage;
                 }
 
@@ -126,14 +116,16 @@ namespace TogoFogo.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditCourierApi(ManageCourierApiModel model)
+        public ActionResult Edit(ManageCourierApiModel model)
         {
             try
             {
 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Add_Edit_Delete_CourierApi",
+                    if (ModelState.IsValid)
+                    {
+                        var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
                         {
                             model.API_ID,
@@ -157,17 +149,21 @@ namespace TogoFogo.Controllers
                             User = "",
                             Action = "edit",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 2)
-                    {
-                        TempData["Message"] = "Updated Successfully";
+                        if (result == 2)
+                        {
+                            TempData["Message"] = "Updated Successfully";
 
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Not Updated";
+                        }
                     }
                     else
                     {
-                        TempData["Message"] = "Not Updated";
+                        return View(model);
                     }
                 }
-
             }
             catch (Exception e)
             {

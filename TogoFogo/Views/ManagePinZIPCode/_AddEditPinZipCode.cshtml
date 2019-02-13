@@ -1,56 +1,53 @@
-﻿
-@model TogoFogo.Models.CourierPinZipCode
+﻿@model TogoFogo.Models.CourierPinZipCode
 @{
     Layout = null;
 }
-
-@using (Html.BeginForm("AddPinZip", "ManagePinZIPCode", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+<div class="form-group">
     <div class="row">
         <div class="col-md-9 col-sm-9 col-lg-9">
- 
+
             <p style="font-size: 17px;"><u>Select Courier:</u></p>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.Country, Model.CountryList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    @Html.DropDownListFor(model => model.Courier, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.Courier, Model.CourierList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.Courier, "", new { @class = "text-danger" })
                 </div>
             </div>
             <p style="font-size: 17px;"><u>PIN/ZIP Code Details:</u></p>
-            
+
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.PIN_Country1, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    @Html.DropDownListFor(model => model.PIN_Country1, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'PIN_State1', this)" })
+                    @Html.DropDownListFor(model => model.PIN_Country1, Model.CountryList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'PIN_State1', this)" })
                     @Html.ValidationMessageFor(model => model.PIN_Country1, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.PIN_State1, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    @Html.DropDownListFor(model => model.PIN_State1, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'PIN_City1', this)"  })
+                    @Html.DropDownListFor(model => model.PIN_State1, Model.StateList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'PIN_City1', this)" })
                     @Html.ValidationMessageFor(model => model.PIN_State1, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.PIN_City1, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    @Html.DropDownListFor(model => model.PIN_City1, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.PIN_City1, Model.CityList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.PIN_City1, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Pin_Region, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                    @Html.TextBoxFor(model => model.Pin_Region, htmlAttributes: new { @class = "form-control",})
+                    @Html.TextBoxFor(model => model.Pin_Region, htmlAttributes: new { @class = "form-control", })
                     @Html.ValidationMessageFor(model => model.Pin_Region, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -121,7 +118,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.OrderPreference, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                   
+
                     @Html.DropDownListFor(model => model.OrderPreference, new List<SelectListItem>
                     {
                         new SelectListItem {Text = "Yes", Value = "Yes"},
@@ -153,7 +150,7 @@
 
                 </div>
             </div>
-            <br/>
+            <br />
             <div class="ln_solid"></div>
             <div class="form-group">
                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -165,4 +162,4 @@
         </div>
 
     </div>
-}
+</div>

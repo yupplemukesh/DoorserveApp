@@ -4,11 +4,16 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
     public class ManageCourierModel
     {
+        public SelectList CountryList { get; set; }
+        public SelectList StateList { get; set; }
+        public SelectList CityList { get; set; }
+        public SelectList PincodeList { get; set; }
         [Required]
         public int SerialNo { get; set; }
         [Required]
@@ -53,16 +58,20 @@ namespace TogoFogo.Models
         public string WeightRange2 { get; set; }
         public string Volumn1 { get; set; }
         public string Volumn2 { get; set; }
+        [Required]
         [DisplayName("State")]
         public string PersonStateDropdown { get; set; }
+        [Required]
         [DisplayName("City/Location")]
         public string PersonCityDropdown { get; set; }
+        [Required]
         [DisplayName("Country")]
         public string PersonCountryDropdown { get; set; }
 
 
-
+        [Required]
         public string CourierId { get; set; }
+        [Required]
         [DisplayName("Courier Logo")]
         public string UploadedCourierFile { get; set; }
         [Required]
@@ -84,46 +93,65 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Is Allow Order Preference")]
         public Boolean IsAllowPreference { get; set; }
+        [Required]
         public string CountryId { get; set; }
+        [Required]
         public string StateId { get; set; }
+        [Required]
         public string CityId { get; set; }
+        [Required]
         [DisplayName("Courier Name")]
         public string CourierCompanyName { get; set; }
+        [Required]
         [DisplayName("Organization Code (CIN)")]
         public string OrganizationCode { get; set; }
+        [Required]
         [DisplayName("Statutory Type")]
         public string StatutoryType { get; set; }
+        [Required]
         [DisplayName("Applicable Tax Type")]
         public string ApplicableTaxType { get; set; }
+        [Required]
         [DisplayName("GST Number")]
         public string GSTNumber { get; set; }
+        [Required]
         public string UploadedGSTFile { get; set; }
         [Required]
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
-        public string PANCardNumber { get; set; }      
+        public string PANCardNumber { get; set; }
+        [Required]
         public string PANCardFile { get; set; }
+        [Required]
         [DisplayName("Bike Make and Model")]
         public string BikeMakeandModel { get; set; }
         [DisplayName("Bike Number")]
         public string BikeNumber { get; set; }
         [DisplayName("Address type")]
         public string PersonAddresstype { get; set; }
+        [Required]
         [DisplayName("Country")]
         public string PersonCountry { get; set; }
+        [Required]
         [DisplayName("State/Province/Union Territory")]
         public string PersonState { get; set; }
+        [Required]
         [DisplayName("City/Location")]
         public string PersonCity { get; set; }
+        [Required]
         [DisplayName("Address")]
         public string FullAddress { get; set; }
+        [Required]
         [DisplayName("Locality/PS/PO")]
         public string Locality { get; set; }
+        [Required]
         [DisplayName("Near By Location")]
         public string NearByLocation { get; set; }
+        [Required]
         [DisplayName("PIN/ZIP")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string Pincode { get; set; }
+        [Required]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
@@ -131,21 +159,28 @@ namespace TogoFogo.Models
         [DisplayName("Mobile Number")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string MobileNumber { get; set; }
+        [Required]
         [DisplayName("Email Address")]
         [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
         ErrorMessage = "Please Enter Correct Email Address")]
         public string EmailAddress { get; set; }
         [DisplayName("Is User?")]
         public Boolean IsUser { get; set; }
+        [Required]
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
         public string UserPANCard { get; set; }
+        [Required]
         public string UserPANCardFile { get; set; }
+        [Required]
         [DisplayName("Voter ID Card Number")]
         public string VoterIDCardNo { get; set; }
+        [Required]
         public string VoterIDFile { get; set; }
+        [Required]
         [DisplayName("Aadhaar Card Number")]
         public string AadhaarCardNo { get; set; }
+        [Required]
         public string AadhaarCardFile { get; set; }
         [DisplayName("Item Type")]
         public Boolean ItemType { get; set; }
@@ -166,28 +201,38 @@ namespace TogoFogo.Models
         public string ServiceCharge { get; set; }
         [DisplayName("Applicable From Date")]
         public string ApplicableFromDate { get; set; }
+        [Required]
         [DisplayName("Legal Document Verification Status")]
         public string LegalDocumentVerificationStatus { get; set; }
+        [Required]
         [DisplayName("Agreement Signup Status")]
         public string AgreementSignupStatus { get; set; }
+        [Required]
         [DisplayName("Agreement Start Date")]
         public string AgreementStartDate { get; set; }
+        [Required]
         [DisplayName("Agreement End Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? AgreementEndDate { get; set; }
         [DisplayName("Agreement Number")]
         public string AgreementNumber { get; set; }
         public string AgreementScanFile { get; set; }
+        [Required]
         [DisplayName("Bank Name")]
         public string BankName { get; set; }
+        [Required]
         [DisplayName("Bank Account Number")]
         public string BankAccountNumber { get; set; }
+        [Required]
         [DisplayName("Company Name at Bank Account")]
         public string CompanyNameatBank { get; set; }
+        [Required]
         [DisplayName("IFSC Code")]
         public string IFSCCode { get; set; }
+        [Required]
         [DisplayName("Bank Branch")]
         public string BankBranch { get; set; }
+        [Required]
         public string CancelledChequeFile { get; set; }
         [DisplayName("Payment Cycle")]
         public string PaymentCycle { get; set; }

@@ -1,0 +1,42 @@
+﻿@model TogoFogo.Models.ManageCourierApiModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="panel-heading">
+    <h3 class="m-y-0">New  Courier API</h3>
+</div>
+<div class="panel-body">
+    @using (Html.BeginForm("Create", "ManageCourierApi", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+       @Html.Partial("_AddEditCourierApi",Model)
+    }
+</div>
+@section scripts{
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+            function AjaxWithValue(method, ddl, e) {
+                var val = e.value;
+                $.ajax({
+                    type: "GET",
+                    url: "/DropdownBind/" + method + "?value=" + val,
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#" + ddl).empty();
+
+                        //var sel = new Option('-Select-', '');
+                        //$('#' + ddl).append(sel);
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].Text, data[i].Value);
+                            $('#' + ddl).append(opt);
+                        }
+                    }
+                });
+            }
+    </script>
+}

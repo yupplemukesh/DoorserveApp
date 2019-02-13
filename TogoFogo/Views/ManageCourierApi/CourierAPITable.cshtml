@@ -48,8 +48,6 @@
         <th>Actions</th>
     </tr>
     </thead>
-    
-
     @foreach (var item in Model)
     {
         <tr>
@@ -90,11 +88,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
-            <td style="display: inline-flex">
-                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="editCourierApi(@item.API_ID)">Edit</a>
-                <a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
-                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+            <td style="display: inline-flex">             
+                <a href='@Url.Action("Edit", "ManageCourierApi",new { @apiId=item.API_ID })'  class="btn btn-small btn-info btnSize " >Edit</a>
             </td>
         </tr>
     }

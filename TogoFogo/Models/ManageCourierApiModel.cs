@@ -4,11 +4,14 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
     public class ManageCourierApiModel
     {
+        public SelectList CountryList { get; set; }
+        public SelectList CourierList { get; set; }
         [Required]
         public string Country { get; set; }
         [Required]
