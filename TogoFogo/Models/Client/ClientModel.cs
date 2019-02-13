@@ -42,7 +42,7 @@ namespace TogoFogo.Models
         [DisplayName("Process Name")]
         public int ProcessId { get; set; }
            
-        public int ProcessName { get; set; }
+        public string ProcessName { get; set; }
 
         [Required]
         [DisplayName("Client Code")]
@@ -59,9 +59,9 @@ namespace TogoFogo.Models
         public bool IsActive { get; set; }
         public string Remarks { get; set; }
         public int CreatedBy { get; set; }
-        public int ModifyBy { get; set; }
+        public string ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
-       
+        
         public SelectList SupportedCategoryList { get; set; }
 
         [SkillValidation(ErrorMessage = "Select at least 1 Service Type")]

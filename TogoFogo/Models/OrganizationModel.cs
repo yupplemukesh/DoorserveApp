@@ -10,7 +10,6 @@ namespace TogoFogo.Models
 {
     public class OrganizationModel
     {
-
         public Guid ClientId { get; set; }
         [DisplayName("Organisation Name")]
         [Required]

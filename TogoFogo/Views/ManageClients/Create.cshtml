@@ -117,6 +117,8 @@
         });
 
         function AddOrEditContact(contact) {
+           
+
             var clientId = $("#ClientId").val();
             console.log(clientId);
             contact.clientId=clientId;
@@ -125,7 +127,7 @@
                 url: '@Url.Action("AddorUpdateContact","manageClients")',
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
-                data: contact,
+                data: JSON.stringify(contact),
                 success: function (response) {
                     $("#ContactInfo").html(response);
                 },
@@ -152,7 +154,7 @@
                 url: '@Url.Action("AddorEditBankDetails","manageClients")',
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
-                data: bank,
+                data: JSON.stringify(bank),
                 success: function (response) {
                     $("#BankInfo").html(response);
                 },
