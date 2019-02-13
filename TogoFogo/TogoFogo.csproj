@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
@@ -68,6 +71,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -191,6 +195,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="AutoMapper\AutoMapperConfig.cs" />
     <Compile Include="Controllers\AbhayController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActionTypesController.cs" />
@@ -249,6 +254,8 @@
     <Compile Include="Models\EmailGateway.cs" />
     <Compile Include="Models\Email_send_code.cs" />
     <Compile Include="Models\Encrypt_Decrypt.cs" />
+    <Compile Include="Models\Gateway\GatewayModel.cs" />
+    <Compile Include="Models\Gateway\SMSGatewayModel.cs" />
     <Compile Include="Models\HFTemplate.cs" />
     <Compile Include="Models\IVRTemplate.cs" />
     <Compile Include="Models\LandingPageModel.cs" />
@@ -258,9 +265,9 @@
     <Compile Include="Models\PromoCodeModel.cs" />
     <Compile Include="Models\RajModel.cs" />
     <Compile Include="Models\ReportsModel.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\ReverseAWB_AllocationModel.cs" />
     <Compile Include="Models\SMSGateway.cs" />
-    <Compile Include="Models\SMSGatewayModel.cs" />
     <Compile Include="Models\UAWBS.cs" />
     <Compile Include="Models\UREVASmodel.cs" />
     <Compile Include="Global.asax.cs">
@@ -312,6 +319,8 @@
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
     <Compile Include="Repository\Clients\Clients.cs" />
     <Compile Include="Repository\Clients\IClients.cs" />
+    <Compile Include="Repository\SMSGateway\Gateway.cs" />
+    <Compile Include="Repository\SMSGateway\IGateway.cs" />
     <Compile Include="SaveImageCode\SaveImage.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
