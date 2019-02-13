@@ -304,14 +304,13 @@
     <Compile Include="Models\SubcategoryModel.cs" />
     <Compile Include="Models\test.cs" />
     <Compile Include="Models\URSSEModel.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
-    <Compile Include="Repository\Clients\Clients.cs" />
-    <Compile Include="Repository\Clients\IClients.cs" />
     <Compile Include="SaveImageCode\SaveImage.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -905,6 +904,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Barcode_file\" />
+    <Folder Include="Repository\Clients\" />
     <Folder Include="UploadedImages\" />
     <Folder Include="UploadExcel\" />
     <Folder Include="Views\Custo_PCRC\" />
