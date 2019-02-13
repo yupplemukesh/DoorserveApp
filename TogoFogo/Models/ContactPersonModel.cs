@@ -13,31 +13,34 @@ namespace TogoFogo.Models
       
         public Guid ContactId { get; set; }
         public Guid ClientId { get; set; }
-        [DisplayName("Address Type")]
-        public int ConAddressType{ get; set; }
-        [DisplayName("Country")]
-        public int ConCountry { get; set; }
-        [DisplayName("State")]
-        public int ConState { get; set; }
-        [DisplayName("City")]
-        public int ConCity { get; set; }
-        [DisplayName("Address")]
-        public string ConAddress { get; set; }
-        [DisplayName("Locality")]
-        public string ConLocality { get; set; }
-        [DisplayName("Near By Location")]
-        public string ConNearByLocation { get; set; }
-        [DisplayName("Pin Code")]
-        public string ConPinNumber { get; set; }
+        //[DisplayName("Address Type")]
+        //public int ConAddressType{ get; set; }
+        //[DisplayName("Country")]
+        //public int ConCountry { get; set; }
+        //[DisplayName("State")]
+        //public int ConState { get; set; }
+        //[DisplayName("City")]
+        //public int ConCity { get; set; }
+        //[DisplayName("Address")]
+        //public string ConAddress { get; set; }
+        //[DisplayName("Locality")]
+        //public string ConLocality { get; set; }
+        //[DisplayName("Near By Location")]
+        //public string ConNearByLocation { get; set; }
+        //[DisplayName("Pin Code")]
+        //public string ConPinNumber { get; set; }
         [DisplayName("First Name")]
+        [Required( ErrorMessage ="Enter Name")]
         public string ConFirstName { get; set; }
         [DisplayName("Last Name")]
         public string ConLastName { get; set; }
         [DisplayName("Mobile No")]
+        [Required(ErrorMessage = "Enter Mobile No")]
         public string ConMobileNumber { get; set; }
         [DisplayName("Email Address")]
         [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
         ErrorMessage = "Please Enter Correct Email Address")]
+        [Required(ErrorMessage = "Enter Email")]
         public string ConEmailAddress { get; set; }
         public bool IsUser { get; set; }
         [DisplayName("Client PAN Card Number")]
@@ -51,9 +54,7 @@ namespace TogoFogo.Models
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
         public int UserID { get; set; }
         public char Action { get; set; }
-
         public string ConVoterIdFileName { get; set; }
-
         [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", ErrorMessage = "UserName already exists!")]
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -62,12 +63,9 @@ namespace TogoFogo.Models
         public string ConAdhaarNumber { get; set; }
         [DisplayName("Upload Aadhaar Number")]
         public HttpPostedFileBase ConAdhaarNumberFilePath { get; set; }
-        public string ConAdhaarFileName { get; set; }
         [DisplayName("Upload Aadhaar Number")]
-        public string ConCityName { get; set; }
-        public SelectList AddressTypelist { get; set; }
-        public SelectList CityList { get; set; }
-        public SelectList StateList { get; set; }
-        public SelectList CountryList { get; set; }
+        public string ConAdhaarFileName { get; set; }
+       
+      
     }
 }

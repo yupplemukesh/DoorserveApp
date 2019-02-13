@@ -1,22 +1,26 @@
 ﻿@model TogoFogo.Models.SMTPGatewayModel
 
+@Html.HiddenFor(x => x.GatewayId)
+@Html.HiddenFor(x => x.GatewayTypeId)
 
 <div class="row">
     <div class="col-md-6 form-group">
-        <label class=" control-label" for="form-control-9">Setting Name</label>
+        <label class=" control-label" for="form-control-9">Gateway Name</label>
         <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
+
+            @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "Gateway Name" })
+            @Html.ValidationMessageFor(model => model.GatewayName, "", new { @class = "text-danger" })
         </div>
+
     </div>
-
-
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Form Name</label>
         <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
+
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-md", @placeholder = "Form Name" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
-
 </div>
 
 
@@ -24,56 +28,50 @@
 <div class="row">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">From Email</label>
-        <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
-        </div>
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control input-md", @placeholder = "Form Email" })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
     </div>
 
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Smtp Server Name</label>
 
-        <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
-        </div>
+        @Html.TextBoxFor(model => model.SmtpServerName, new { @class = "form-control input-md", @placeholder = "Smtp Server Name" })
+        @Html.ValidationMessageFor(model => model.SmtpServerName, "", new { @class = "text-danger" })
     </div>
 </div>
-
-
 
 
 <div class="row">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Smtp User Name</label>
-        <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
-        </div>
+
+        @Html.TextBoxFor(model => model.SmtpUserName, new { @class = "form-control input-md", @placeholder = "Smtp User Name " })
+        @Html.ValidationMessageFor(model => model.SmtpUserName, "", new { @class = "text-danger" })
     </div>
-
-
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Smtp Password</label>
-        <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
-        </div>
+        @Html.TextBoxFor(model => model.SmtpPassword, new { @class = "form-control input-md", @placeholder = "Smtp Password " })
+        @Html.ValidationMessageFor(model => model.SmtpPassword, "", new { @class = "text-danger" })
     </div>
+
 </div>
+
+
 
 
 
 <div class="row">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Port Number</label>
-        <div class="form-group">
-            <input id="form-control-1" class="form-control" type="text" placeholder="Mailer Template Name">
-        </div>
+        @Html.TextBoxFor(model => model.PortNumber, new { @class = "form-control input-md", @placeholder = "Port Number " })
+        @Html.ValidationMessageFor(model => model.PortNumber, "", new { @class = "text-danger" })
     </div>
-
 
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">SSL Enabled</label>
         <div class="form-group">
             <label class="custom-control custom-control-primary custom-checkbox active">
-                <input class="custom-control-input" type="checkbox" name="mode">
+                @Html.CheckBoxFor(x => x.SSLEnabled, new { @class = "custom-control-input" })
                 <span class="custom-control-indicator"></span>
             </label>
         </div>
@@ -87,7 +85,7 @@
         <label class=" control-label" for="form-control-9">Is Active</label>
         <div class="form-group">
             <label class="custom-control custom-control-primary custom-checkbox active">
-                <input class="custom-control-input" type="checkbox" name="mode">
+                @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input" })
                 <span class="custom-control-indicator"></span>
             </label>
         </div>
@@ -98,7 +96,7 @@
         <label class=" control-label" for="form-control-9">IsDefault</label>
         <div class="form-group">
             <label class="custom-control custom-control-primary custom-checkbox active">
-                <input class="custom-control-input" type="checkbox" name="mode">
+                @Html.CheckBoxFor(x => x.IsDefault, new { @class = "custom-control-input" })
                 <span class="custom-control-indicator"></span>
             </label>
         </div>
@@ -113,20 +111,13 @@
         <label class=" control-label" for="form-control-9">IsProcessByAwsSes</label>
         <div class="form-group">
             <label class="custom-control custom-control-primary custom-checkbox active">
-                <input class="custom-control-input" type="checkbox" name="mode">
+                @Html.CheckBoxFor(x => x.IsProcessByAWS, new { @class = "custom-control-input" })
+
                 <span class="custom-control-indicator"></span>
             </label>
         </div>
     </div>
 
 
-    <div class="col-md-6 form-group">
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <button type="submit" class="btn btn-primary">Cancel</button>
-            </label>
-        </div>
-    </div>
 
 </div>

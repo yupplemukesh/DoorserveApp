@@ -74,11 +74,11 @@ namespace TogoFogo.Repository.SMSGateway
             sp.Add(param);
             param = new SqlParameter("@URL", ToDBNull(gatewayModel.URL));
             sp.Add(param);
-            param = new SqlParameter("@TransApikey", (object)gatewayModel.TransApikey);
+            param = new SqlParameter("@TransApikey",ToDBNull(gatewayModel.TransApikey));
             sp.Add(param);
-            param = new SqlParameter("@OTPApikey", (object)gatewayModel.OTPApikey);
+            param = new SqlParameter("@OTPApikey", ToDBNull(gatewayModel.OTPApikey));
             sp.Add(param);
-            param = new SqlParameter("@SuccessMessage", (object)gatewayModel.SuccessMessage);
+            param = new SqlParameter("@SuccessMessage", ToDBNull(gatewayModel.SuccessMessage));
             sp.Add(param);
             param = new SqlParameter("@OtpSender", ToDBNull(gatewayModel.OTPSender));
             sp.Add(param);

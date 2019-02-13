@@ -1199,6 +1199,32 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
+        public List<ListItem> BindLocation(int StateId)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                List<BindDropdown> company = con
+                    .Query<BindDropdown>(
+                        "select LocationId AS St_ID, LocationName as St_Name  from MstLocation where StateId=@St_StateId", new { @St_StateId = StateId },
+                        commandType: CommandType.Text).ToList();
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "Select " //Text Field(Name)
+                });
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.St_ID.ToString(), //Value Field(ID)
+                        Text = val.St_Name //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
         public List<ListItem> BindTrcAjax()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -1313,7 +1339,7 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.dist_Name, //Value Field(ID)
+                        Value = val.ID, //Value Field(ID)
                         Text = val.dist_Name //Text Field(Name)
                     });
                 }
@@ -1331,7 +1357,7 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.state_Name, //Value Field(ID)
+                        Value = val.ID, //Value Field(ID)
                         Text = val.state_Name //Text Field(Name)
                     });
                 }

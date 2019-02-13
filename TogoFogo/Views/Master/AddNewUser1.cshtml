@@ -38,8 +38,6 @@
         </div>
     </div>
 </div>
-
-
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
@@ -70,7 +68,6 @@
                 }
             });
         }
-
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
             debugger;
@@ -126,7 +123,8 @@
 
             });
         });
-        function checkSubmit() {
+        function checkSubmit()
+        {
             var listName = "TableMenu";
             var table = $("#test1 tbody");
             var qtd = 0;

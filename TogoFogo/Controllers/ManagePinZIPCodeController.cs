@@ -23,30 +23,25 @@ namespace TogoFogo.Controllers
       [CustomAuthorize]
         public ActionResult PinZIPCode()
         {
-            ViewBag.Country = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Courier = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.PIN_Country1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.PIN_State1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.PIN_City1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            if (TempData["Message"] != null)
+            using (var con = new SqlConnection(_connectionString))
             {
+                var result = con.Query<CourierPinZipCode>("GetDataFrm_MstCourierPINzip", null, commandType: CommandType.StoredProcedure).ToList();
 
-                ViewBag.Message = TempData["Message"].ToString();
+                return View(result);
             }
-            return View();
         }
-        public ActionResult AddPinZip()
+        public ActionResult Create()
         {
-            ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            ViewBag.PIN_Country1 = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.PIN_State1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.PIN_City1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            return View();
+            CourierPinZipCode courierPinZipCode = new CourierPinZipCode();
+            courierPinZipCode.CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text");
+            courierPinZipCode.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            courierPinZipCode.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+            courierPinZipCode.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+            return View(courierPinZipCode);
         }
 
         [HttpPost]
-        public ActionResult AddPinZip(CourierPinZipCode model)
+        public ActionResult Create(CourierPinZipCode model)
         {
             try
             {
@@ -93,8 +88,8 @@ namespace TogoFogo.Controllers
                         }
                     }
                     else
-                    {
-                        TempData["Message"] = "Please fill the required fields.";
+                    {                      
+                            return View(model);                       
                     }
                 }
 
@@ -108,23 +103,9 @@ namespace TogoFogo.Controllers
             return RedirectToAction("PinZIPCode");
         }
 
-        public ActionResult PinZipTable()
+        public ActionResult Edit(int pinZipId)
         {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<CourierPinZipCode>("GetDataFrm_MstCourierPINzip", null, commandType: CommandType.StoredProcedure).ToList();
-
-                return View(result);
-            }
-        }
-
-        public ActionResult EditPinZipCode(int pinZipId)
-        {
-            ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            ViewBag.PIN_Country1 = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.PIN_State1 = new SelectList(dropdown.BindState(), "Value", "Text");
-            ViewBag.PIN_City1 = new SelectList(dropdown.BindLocation(),"Value","Text");
+            DropdownBindController dropdownBindController=new DropdownBindController();
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<CourierPinZipCode>("select * from MstCourierPINzip where pin_Zip_ID=@pin_Zip_ID",
@@ -135,6 +116,10 @@ namespace TogoFogo.Controllers
                     result.Country = result.CountryID.ToString();
                     result.Courier = result.CourierID.ToString();
                     result.PIN_Country1 = result.Pin_CountryID.ToString();
+                    result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
+                    result.CourierList= new SelectList(dropdown.BindCourier(), "Value", "Text");
+                    result.StateList = new SelectList(dropdownBindController.BindState(result.Pin_CountryID),"Value","Text");
+                    result.CityList = new SelectList(dropdownBindController.BindLocation(result.Pin_State), "Value", "Text");
                     result.PIN_State1 = result.Pin_State.ToString();
                     result.PIN_City1 = result.Pin_City.ToString();
                 }
@@ -143,51 +128,57 @@ namespace TogoFogo.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPinZipCode(CourierPinZipCode model)
+        public ActionResult Edit(CourierPinZipCode model)
         {
             try
             {
 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
-                        new
-                        {
-                            model.Pin_ZIP_ID,
-                            CountryID = model.Country,
-                            CourierID = model.Courier,
-                            Pin_CountryID = model.PIN_Country1,
-                            Pin_State = model.PIN_State1,
-                            Pin_City = model.PIN_City1,
-                            model.Pin_Region,
-                            model.Pin_Zone,
-                            model.Pin_Code,
-                            model.Pin_TAT,
-                            model.Pin_Cod,
-                            model.ShortCode,
-                            model.ISExpress,
-                            model.ReverseLogistics,
-                            model.OrderPreference,
-                            model.IsActive,
-                            model.Comments,
-                            model.CreatedDate,
-                            model.ModifyBy,
-                            model.ModifyDate,
-                            model.DeleteBy,
-                            model.DeleteDate,
-                            User = "",
-                            Action = "edit"
-                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 2)
+                    if (ModelState.IsValid)
                     {
-                        TempData["Message"] = "Updated Successfully";
+                        var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
+                            new
+                            {
+                                model.Pin_ZIP_ID,
+                                CountryID = model.Country,
+                                CourierID = model.Courier,
+                                Pin_CountryID = model.PIN_Country1,
+                                Pin_State = model.PIN_State1,
+                                Pin_City = model.PIN_City1,
+                                model.Pin_Region,
+                                model.Pin_Zone,
+                                model.Pin_Code,
+                                model.Pin_TAT,
+                                model.Pin_Cod,
+                                model.ShortCode,
+                                model.ISExpress,
+                                model.ReverseLogistics,
+                                model.OrderPreference,
+                                model.IsActive,
+                                model.Comments,
+                                model.CreatedDate,
+                                model.ModifyBy,
+                                model.ModifyDate,
+                                model.DeleteBy,
+                                model.DeleteDate,
+                                User = "",
+                                Action = "edit"
+                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        if (result == 2)
+                        {
+                            TempData["Message"] = "Updated Successfully";
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Something went wrong";
+                        }
                     }
                     else
                     {
-                        TempData["Message"] = "Something went wrong";
+                        return View(model);
                     }
                 }
-
             }
             catch (Exception e)
             {

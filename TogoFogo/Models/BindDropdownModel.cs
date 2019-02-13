@@ -120,6 +120,7 @@ namespace TogoFogo.Models
     }
     public class BindDropdown1
     {
+        public string  ID { get; set; }
         public string St_ID { get; set; }
         public string St_Name { get; set; }
         public string LocationId { get; set; }

@@ -1,0 +1,193 @@
+﻿@model TogoFogo.Models.User
+@{
+    ViewBag.Title = "Add User";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-7 col-sm-7 col-xs-7">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add User<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            @using (Html.BeginForm("AddUser", "User", FormMethod.Post, new { id = "form" }))
+            {
+                <div class="x_content">
+                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.Label("Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._ContactPerson.ConFirstName, htmlAttributes: new { @class = "form-control" , tabindex = "1" })
+                                @Html.ValidationMessageFor(model => model._ContactPerson.ConFirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model._ContactPerson.ConMobileNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._ContactPerson.ConMobileNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10" , tabindex = "2" })
+                                @Html.ValidationMessageFor(model => model._ContactPerson.ConMobileNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model._ContactPerson.ConEmailAddress, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._ContactPerson.ConEmailAddress, htmlAttributes: new { @class = "form-control", tabindex = "3" })
+                                @Html.ValidationMessageFor(model => model._ContactPerson.ConEmailAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", @onchange = "remoteValidation()", tabindex = "4" })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "BindCityAndSate()", tabindex = "5", id = "Pincode" })
+                                @Html.ValidationMessageFor(model => model._AddressDetail.PinNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model._AddressDetail.City, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._AddressDetail.City, htmlAttributes: new { @class = "form-control", id = "City",@readonly="readonly", tabindex = "6" })
+                                @Html.HiddenFor(model => model._AddressDetail.CityId,new { id= "CityId" })
+                                @Html.ValidationMessageFor(model => model._AddressDetail.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "form-control", id = "State", @readonly = "readonly", tabindex = "7" })
+                                @Html.HiddenFor(model => model._AddressDetail.StateId,new { id= "StateId" })
+                                @Html.ValidationMessageFor(model => model._AddressDetail.State, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @Html.TextBoxFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "form-control", tabindex = "8" })
+                                @Html.ValidationMessageFor(model => model._AddressDetail.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.Label("Address Type", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                @*@Html.DropDownListFor(model => model.AddressType, new List<SelectListItem>
+                                      {
+                                          new SelectListItem {Text = "Home", Value = "Home"},
+                                          new SelectListItem {Text = "Office", Value = "Office"},
+                                          new SelectListItem {Text = "Other", Value = "Other"},
+
+                                      },"Select",  new { @class="form-control"})
+                                    @Html.ValidationMessageFor(model => model.AddressType, "", new { @class = "text-danger" })*@
+                                @*@Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, new { })*@
+                                Home
+                                @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 1, new { @checked = "checked" })
+                                Work
+                                @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 2)
+                                Other
+                                @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 3)
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;">
+                            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                            @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                @*<button class="btn btn-primary" type="button">Cancel</button>*@
+                                <button class="btn btn-primary" type="reset">Reset</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function BindCityAndSate() {
+        debugger
+        $('#State').val('');
+        $('#City').val('');
+        var value = document.getElementById("Pincode").value;
+        if (value.length == 6) {
+            AjaxWithValueDEE('BindSatetByPincode', 'State', value)
+
+            AjaxWithValueDEE('BindCityByPincode', 'City', value)
+        }
+
+    }
+    function AjaxWithValueDEE(method, ddl, val) {
+       
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?value=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger
+                if (data.length>0) {
+
+                    $('#' + ddl).val(data[0].Text);
+                    if (ddl == "State") {
+                        $('#StateId').val(data[0].Value);
+                        $('#StateId').next('span').children('span').html('');
+                        
+                    }
+                    if (ddl == "City") {
+                        $('#CityId').val(data[0].Value);
+                        $('#CityId').next('span').children('span').html('');
+                    }
+
+                }
+
+            }
+        });
+    }
+    function AjaxWithValue(method, ddl, e) {
+        var val = e.value;
+
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?value=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#" + ddl).empty();
+
+                //var sel = new Option('-Select-', '');
+                //$('#' + ddl).append(sel);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#' + ddl).append(opt);
+                }
+            }
+        });
+    }
+</script>
+<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
