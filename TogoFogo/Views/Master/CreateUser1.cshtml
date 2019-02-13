@@ -41,14 +41,14 @@
 @section scripts{
     <script>
         function EditUserType(UserTypeId) {
-            debugger
+            
             $.ajax({
                 type: 'GET',
                 url: "/Master/EditUserType1?UserTypeId=" + UserTypeId,
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 success: function (response) {
-                    debugger;
+                    
 
                 },
                 error: function (e) {
