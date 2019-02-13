@@ -4,19 +4,36 @@
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-<div class="site-content">
-    <div class="panel panel-default panel-table">
         <div class="panel-heading">
-            <div class="panel-tools">
-
-                <a href="#" class="tools-icon">
-                    <i class="zmdi zmdi-close"></i>
-                </a>
-            </div>
-
+   
             <h3 class="m-t-0 m-b-5">Smtp Gateway Edit</h3>
-            <p class="text-muted m-b-0"></p>
         </div>
+ 
+@using (Html.BeginForm("Edit", "SMTPGateway", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.GatewayId)
+    <!--/.row-->
+
+
+    <div class="panel-body">
+
+
+        @Html.Partial("_CreateEditSMTPGatewayForm", Model)
+        <div class=" row form-group">
+            <div class="text-center">
+                <button class="btn btn-primary">
+                    Save
+                </button>
+
+            </div>
+        </div>
+
     </div>
-</div>
+}
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
 

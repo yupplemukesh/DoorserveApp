@@ -14,8 +14,10 @@ namespace TogoFogo.AutoMapper
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<SMSGateway, SMSGatewayModel>().ReverseMap();
-            
-        });
+                 cfg.CreateMap<SMSGateway, SMTPGatewayModel>().ReverseMap();
+
+
+            });
         }
     }
 }
