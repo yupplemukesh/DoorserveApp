@@ -1,6 +1,14 @@
 ﻿
 @model TogoFogo.Models.ManageCourierModel
 @{
+    /**/
+
+    /**/
+
+    /**/
+
+    /**/
+
     Layout = null;
 }
 
@@ -18,642 +26,784 @@
 
     <div class="form-group">
         <p style="font-size: 18px;"><u>Website</u></p>
-        @Html.LabelFor(model => model.CourierName, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CourierName, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CourierCode, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CourierCode, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.CourierCode, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CourierBrandName, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CourierBrandName, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.CourierBrandName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Priority, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CourierTAT, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CourierTAT, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.CourierTAT, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.AWBNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.AWBNumber, new List<SelectListItem>
-           {
-               new SelectListItem {Text = "ApiUsed", Value = "ApiUsed"},
-               new SelectListItem {Text = "ManualUsed", Value = "ManualUsed"}
-
-           }, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.AWBNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateDropdown', this)" })
-            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.Label("State", htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.StateDropdown, null, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityDropdown', this)" })
-            @Html.ValidationMessageFor(model => model.StateDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.Label("City", htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.CityDropdown, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.CityDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-
-
-        @Html.LabelFor(model => model.UploadedCourierFile, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group col-md-6 col-sm-6 col-xs-12">
-            @*<span class="input-group-addon"></span>*@
-            @Html.TextBoxFor(model => model.UploadedCourierFile1, htmlAttributes: new { @type = "file", @class = "form-control", onchange = "loadFile(event)", accept = "image/*" })
-            @Html.ValidationMessageFor(model => model.UploadedCourierFile, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CourierName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CourierName, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
+            </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <img id="editblah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+            @Html.LabelFor(model => model.CourierCode, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CourierCode, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CourierCode, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-    
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsReverse, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @*<span class="input-group-addon"></span>*@
-            @*@Html.DropDownListFor(model => model.IsReverse, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
 
-                    }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsReverse, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(model => model.IsReverse)
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CourierBrandName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CourierBrandName, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CourierBrandName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Priority, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.IsAllowPreference, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @*<span class="input-group-addon"></span>*@
-            @*@Html.DropDownListFor(model => model.IsAllowPreference, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CourierTAT, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CourierTAT, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CourierTAT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AWBNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.AWBNumber, new List<SelectListItem>
+               {
+                   new SelectListItem {Text = "ApiUsed", Value = "ApiUsed"},
+                   new SelectListItem {Text = "ManualUsed", Value = "ManualUsed"}
 
-                    }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsAllowPreference, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(model => model.IsAllowPreference)
+               }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AWBNumber, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateDropdown', this)" })
+                @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.Label("State", htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.StateDropdown, null, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityDropdown', this)" })
+                @Html.ValidationMessageFor(model => model.StateDropdown, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.Label("City", htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CityDropdown, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CityDropdown, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UploadedCourierFile, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group col-md-6 col-sm-6 col-xs-12">
+                @*<span class="input-group-addon"></span>*@
+                @Html.TextBoxFor(model => model.UploadedCourierFile1, htmlAttributes: new { @type = "file", @class = "form-control", onchange = "loadFile(event)", accept = "image/*" })
+                @Html.ValidationMessageFor(model => model.UploadedCourierFile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <img id="editblah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" style="margin-top:25px" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsReverse, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @*<span class="input-group-addon"></span>*@
+                @*@Html.DropDownListFor(model => model.IsReverse, new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Yes", Value = "Yes"},
+                            new SelectListItem {Text = "No", Value = "No"}
+
+                        }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsReverse, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.IsReverse)
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsAllowPreference, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @*<span class="input-group-addon"></span>*@
+                @*@Html.DropDownListFor(model => model.IsAllowPreference, new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Yes", Value = "Yes"},
+                            new SelectListItem {Text = "No", Value = "No"}
+
+                        }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsAllowPreference, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.IsAllowPreference)
+            </div>
+        </div>
+    </div>
+
+
+
     <div class="form-group">
         <p style="font-size: 18px;"><u>Organization</u></p>
-
-        @Html.LabelFor(model => model.CourierCompanyName, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CourierCompanyName, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.CourierCompanyName, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CourierCompanyName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CourierCompanyName, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.CourierCompanyName, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.OrganizationCode, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.OrganizationCode, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.OrganizationCode, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.StatutoryType, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.StatutoryType, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.StatutoryType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ApplicableTaxType, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
-        {
-        new SelectListItem {Text = "Indian Gst", Value = "Indian Gst"},
-        new SelectListItem {Text = "Gst", Value = "Gst"},
-        }, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ApplicableTaxType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.GSTNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.GSTNumber, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.GSTNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.UploadedGSTFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.UploadedGSTFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.UploadedGSTFile1, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PANCardNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.PANCardNumber, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.PANCardNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PANCardFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.PANCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.PANCardFile1, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.BikeMakeandModel, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.BikeMakeandModel, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.BikeMakeandModel, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.BikeNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <p style="font-size: 18px;padding-bottom:5px"><u>Service Charge</u></p>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.SC_CountryDropdown, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.SC_CountryDropdown, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SC_CountryDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.SC_PincodeDropdown, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.SC_PincodeDropdown, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SC_PincodeDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Currency, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ServiceChargeType, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.ServiceChargeType, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ServiceChargeType, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ValueRange, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.ValueRange, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ValueRange, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "control-label" })
-        <div class="col-md-8 col-sm-4 col-xs-12">
-            <div class="col-md-12 col-xs-12">
-                <label class="col-md-2 col-sm-2 col-xs-2">From</label>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
-                </div>
-                <label class="col-md-2 col-sm-2 col-xs-2">To</label>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
-                </div>
-
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.OrganizationCode, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.OrganizationCode, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.OrganizationCode, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "control-label" })
-        <div class="col-md-8 col-sm-4 col-xs-12">
-            <div class="col-md-12 col-xs-12">
-                <label class="col-md-2 col-sm-2 col-xs-2">From</label>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
-                </div>
-                <label class="col-md-2 col-sm-2 col-xs-2">To</label>
-                <div class="col-md-4 col-sm-4 col-xs-4">
-                    @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
-                </div>
 
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.StatutoryType, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.StatutoryType, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.StatutoryType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ApplicableTaxType, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
+            {
+            new SelectListItem {Text = "Indian Gst", Value = "Indian Gst"},
+            new SelectListItem {Text = "Gst", Value = "Gst"},
+            }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ApplicableTaxType, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.ServiceCharge, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.ServiceCharge, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ServiceCharge, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.GSTNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.GSTNumber, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.GSTNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UploadedGSTFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UploadedGSTFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.UploadedGSTFile1, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.ApplicableFromDate, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.ApplicableFromDate, null, htmlAttributes: new { @class = "form-control", id = "editApplicableFromDate", autocomplete = "off" })
-            @Html.ValidationMessageFor(model => model.ApplicableFromDate, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PANCardNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.PANCardNumber, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.PANCardNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PANCardFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.PANCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.PANCardFile1, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.ItemType, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @*<span class="input-group-addon"></span>*@
-            @*@Html.DropDownListFor(model => model.ItemType, new List<SelectListItem>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BikeMakeandModel, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BikeMakeandModel, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.BikeMakeandModel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.BikeNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <p style="font-size: 18px;padding-bottom:5px"><u>Service Charge</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.SC_CountryDropdown, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.SC_CountryDropdown, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SC_CountryDropdown, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.SC_PincodeDropdown, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.SC_PincodeDropdown, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SC_PincodeDropdown, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Currency, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Currency, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Currency, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ServiceChargeType, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ServiceChargeType, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ServiceChargeType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.ValueRange, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ValueRange, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ValueRange, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* <div class="form-group">
+                @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                        <div class="col-md-12 col-xs-12">
+                            <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                            <div class="col-md-4 col-sm-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+        </div>*@
+
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
+
+    @* <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "control-label" })
+                <div class="col-md-8 col-sm-4 col-xs-12">
+                    <div class="col-md-12 col-xs-12">
+                        <label class="col-md-2 col-sm-2 col-xs-2">From</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ServiceCharge, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ServiceCharge, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ServiceCharge, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.ApplicableFromDate, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ApplicableFromDate, null, htmlAttributes: new { @class = "form-control", id = "editApplicableFromDate", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.ApplicableFromDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.ItemType, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @*<span class="input-group-addon"></span>*@
+                @*@Html.DropDownListFor(model => model.ItemType, new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Yes", Value = "Yes"},
+                            new SelectListItem {Text = "No", Value = "No"}
+
+                        }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ItemType, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.ItemType)
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <p style="font-size: 18px;padding-bottom:5px"><u>Address and Contact Person</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PersonAddresstype, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.PersonAddresstype, new List<SelectListItem>
                     {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
+                        new SelectListItem {Text = "Home", Value = "Home"},
+                        new SelectListItem {Text = "Office", Value = "Office"},
+                        new SelectListItem {Text = "Neighbour", Value = "Neighbour"}
                     }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ItemType, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(model => model.ItemType)
+                @Html.ValidationMessageFor(model => model.PersonAddresstype, "", new { @class = "text-danger" })
 
+            </div>
         </div>
-    </div>
-
-    <p style="font-size: 18px;padding-bottom:5px"><u>Address and Contact Person</u></p>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PersonAddresstype, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.PersonAddresstype, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Home", Value = "Home"},
-                    new SelectListItem {Text = "Office", Value = "Office"},
-                    new SelectListItem {Text = "Neighbour", Value = "Neighbour"}
-                }, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.PersonAddresstype, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PersonCountryDropdown, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.PersonCountryDropdown, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'editPersonStateDropdown', this)" })
-            @Html.ValidationMessageFor(model => model.PersonCountryDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PersonStateDropdown, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.PersonStateDropdown, null, new { @class = "form-control", id = "editPersonStateDropdown", onchange = "AjaxWithValue('BindLocationJson', 'editPersonCityDropdown', this)" })
-            @Html.ValidationMessageFor(model => model.PersonStateDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PersonCityDropdown, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.PersonCityDropdown, null, htmlAttributes: new { @class = "form-control", placeholder = "", id = "editPersonCityDropdown" })
-            @Html.ValidationMessageFor(model => model.PersonCityDropdown, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.FullAddress, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.FullAddress, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.FullAddress, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Locality, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.NearByLocation, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.NearByLocation, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.NearByLocation, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Pincode, htmlAttributes: new { @class = "form-control", placeholder = "", maxlength = "6" })
-            @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.FirstName, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.LastName, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.MobileNumber, htmlAttributes: new { @class = "form-control", placeholder = "", minlength = "10", maxlength = "10" })
-            @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.EmailAddress, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PersonCountryDropdown, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.PersonCountryDropdown, null, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'editPersonStateDropdown', this)" })
+                @Html.ValidationMessageFor(model => model.PersonCountryDropdown, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.UserPANCard, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.UserPANCard, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.UserPANCard, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PersonStateDropdown, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.PersonStateDropdown, null, new { @class = "form-control", id = "editPersonStateDropdown", onchange = "AjaxWithValue('BindLocationJson', 'editPersonCityDropdown', this)" })
+                @Html.ValidationMessageFor(model => model.PersonStateDropdown, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.PersonCityDropdown, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.PersonCityDropdown, null, htmlAttributes: new { @class = "form-control", placeholder = "", id = "editPersonCityDropdown" })
+                @Html.ValidationMessageFor(model => model.PersonCityDropdown, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.UserPANCardFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.UserPANCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.UserPANCardFile1, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.FullAddress, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.FullAddress, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.FullAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Locality, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.VoterIDCardNo, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.VoterIDCardNo, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.VoterIDCardNo, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.NearByLocation, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.NearByLocation, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.NearByLocation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Pincode, htmlAttributes: new { @class = "form-control", placeholder = "", maxlength = "6" })
+                @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.VoterIDFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.VoterIDFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.VoterIDFile1, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.FirstName, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.LastName, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.AadhaarCardNo, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.AadhaarCardNo, htmlAttributes: new { @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.AadhaarCardNo, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MobileNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MobileNumber, htmlAttributes: new { @class = "form-control", placeholder = "", minlength = "10", maxlength = "10" })
+                @Html.ValidationMessageFor(model => model.MobileNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.EmailAddress, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
     <div class="form-group">
-        @Html.LabelFor(model => model.AadhaarCardFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.AadhaarCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.AadhaarCardFile1, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UserPANCard, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UserPANCard, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.UserPANCard, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.UserPANCardFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.UserPANCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.UserPANCardFile1, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.VoterIDCardNo, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.VoterIDCardNo, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.VoterIDCardNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.VoterIDFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.VoterIDFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.VoterIDFile1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AadhaarCardNo, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AadhaarCardNo, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.AadhaarCardNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AadhaarCardFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AadhaarCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                @Html.ValidationMessageFor(model => model.AadhaarCardFile1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
         <p style="font-size: 18px;padding-bottom:5px;"><u>Agreement</u></p>
-
-        @Html.LabelFor(model => model.LegalDocumentVerificationStatus, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.LegalDocumentVerificationStatus, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Correct", Value = "Correct"},
-                    new SelectListItem {Text = "Incorrect", Value = "Incorrect"}
-
-                }, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.LegalDocumentVerificationStatus, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgreementSignupStatus, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.AgreementSignupStatus, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "All Correct", Value = "All Correct"},
-                    new SelectListItem {Text = "Need correction", Value = "Need correction"}
-
-                }, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.AgreementSignupStatus, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgreementStartDate, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.AgreementStartDate, null, htmlAttributes: new { @class = "form-control", id = "editAgreementStartDate", autocomplete = "off" })
-            @Html.ValidationMessageFor(model => model.AgreementStartDate, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgreementEndDate, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.AgreementEndDate, null, htmlAttributes: new { @class = "form-control", id = "editAgreementEndDate", autocomplete = "off" })
-            @Html.ValidationMessageFor(model => model.AgreementEndDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgreementNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.AgreementNumber, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.AgreementNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgreementScanFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.AgreementScanFile1, null, htmlAttributes: new { @type = "file", @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.AgreementScanFile1, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @*<span class="input-group-addon"></span>*@
-            @*@Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.LegalDocumentVerificationStatus, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.LegalDocumentVerificationStatus, new List<SelectListItem>
                     {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"},
+                        new SelectListItem {Text = "Correct", Value = "Correct"},
+                        new SelectListItem {Text = "Incorrect", Value = "Incorrect"}
+
                     }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsUser, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(model => model.IsUser)
+                @Html.ValidationMessageFor(model => model.LegalDocumentVerificationStatus, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AgreementSignupStatus, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.AgreementSignupStatus, new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "All Correct", Value = "All Correct"},
+                        new SelectListItem {Text = "Need correction", Value = "Need correction"}
+
+                    }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AgreementSignupStatus, "", new { @class = "text-danger" })
+
+            </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AgreementStartDate, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AgreementStartDate, null, htmlAttributes: new { @class = "form-control", id = "editAgreementStartDate", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.AgreementStartDate, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AgreementEndDate, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AgreementEndDate, null, htmlAttributes: new { @class = "form-control", id = "editAgreementEndDate", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.AgreementEndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AgreementNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AgreementNumber, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AgreementNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.AgreementScanFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AgreementScanFile1, null, htmlAttributes: new { @type = "file", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AgreementScanFile1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @*<span class="input-group-addon"></span>*@
+                @*@Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Yes", Value = "Yes"},
+                            new SelectListItem {Text = "No", Value = "No"},
+                        }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsUser, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.IsUser)
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
         <p style="font-size: 18px;padding-bottom:5px;"><u>Bank Details</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BankName, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
 
-        @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.BankName, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
-
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.BankAccountNumber, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BankAccountNumber, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
 
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CompanyNameatBank, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CompanyNameatBank, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CompanyNameatBank, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.IFSCCode, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.IFSCCode, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IFSCCode, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.BankBranch, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.BankBranch, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.BankBranch, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.CancelledChequeFile1, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.CancelledChequeFile1, null, htmlAttributes: new { @type = "file", @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CancelledChequeFile1, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.PaymentCycle, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.PaymentCycle, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.PaymentCycle, "", new { @class = "text-danger" })
-
-        </div>
-    </div>
-    <div class="form-group">
-        <p style="font-size: 18px;padding-bottom:5px;">Registration</p>
-
-        @Html.LabelFor(model => model.LuluandSky_Status, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.LuluandSky_Status, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.LuluandSky_Status, "", new { @class = "text-danger" })
-
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Comments, null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CompanyNameatBank, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CompanyNameatBank, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CompanyNameatBank, "", new { @class = "text-danger" })
 
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IFSCCode, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.IFSCCode, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IFSCCode, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BankBranch, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BankBranch, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BankBranch, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CancelledChequeFile1, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.CancelledChequeFile1, null, htmlAttributes: new { @type = "file", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CancelledChequeFile1, "", new { @class = "text-danger" })
+
+            </div>
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @*<span class="input-group-addon"></span>*@
-            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                         {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.PaymentCycle, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.PaymentCycle, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PaymentCycle, "", new { @class = "text-danger" })
 
-                  }, "Select", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
-            @Html.CheckBoxFor(model => model.IsActive)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <p style="font-size: 18px;padding-bottom:5px;"><u>Registration</u></p>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.LuluandSky_Status, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.LuluandSky_Status, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LuluandSky_Status, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Comments, null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @*<span class="input-group-addon"></span>*@
+                @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                             {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+
+                      }, "Select", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.IsActive)
+            </div>
         </div>
     </div>
 

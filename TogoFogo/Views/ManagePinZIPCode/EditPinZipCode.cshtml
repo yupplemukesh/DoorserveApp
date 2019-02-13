@@ -8,26 +8,30 @@
 {
     @Html.HiddenFor(m => m.Pin_ZIP_ID)
 <div class="form-group">
+
     <p style="font-size: 17px;"><u>Select Courier:</u></p>
-
-    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
-    <div class="input-group">
-        <span class="input-group-addon"></span>
-        @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
-        @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+            <span class="input-group-addon"></span>
+            @Html.DropDownListFor(model => model.Country, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "control-label" })
+        <div class="input-group">
+            <span class="input-group-addon"></span>
+            @Html.DropDownListFor(model => model.Courier, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+            @Html.ValidationMessageFor(model => model.Courier, "", new { @class = "text-danger" })
+        </div>
     </div>
 </div>
+    
+
 <div class="form-group">
-    @Html.LabelFor(model => model.Courier, htmlAttributes: new { @class = "control-label" })
-    <div class="input-group">
-        <span class="input-group-addon"></span>
-        @Html.DropDownListFor(model => model.Courier, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
-        @Html.ValidationMessageFor(model => model.Courier, "", new { @class = "text-danger" })
-    </div>
-</div>
     <p style="font-size: 17px;"><u>PIN/ZIP Code Details:</u></p>
-
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.PIN_Country1, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -35,7 +39,7 @@
             @Html.ValidationMessageFor(model => model.PIN_Country1, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.PIN_State1, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -43,7 +47,9 @@
             @Html.ValidationMessageFor(model => model.PIN_State1, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+</div>
+<div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.PIN_City1, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -51,7 +57,7 @@
             @Html.ValidationMessageFor(model => model.PIN_City1, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.Pin_Region, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -59,7 +65,10 @@
             @Html.ValidationMessageFor(model => model.Pin_Region, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+</div>
+
+<div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.Pin_Zone, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -67,7 +76,7 @@
             @Html.ValidationMessageFor(model => model.Pin_Zone, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.Pin_Code, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -75,7 +84,10 @@
             @Html.ValidationMessageFor(model => model.Pin_Code, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+</div>
+
+<div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.ShortCode, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -83,7 +95,7 @@
             @Html.ValidationMessageFor(model => model.ShortCode, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.Pin_TAT, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -91,7 +103,11 @@
             @Html.ValidationMessageFor(model => model.Pin_TAT, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+</div>
+
+
+<div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.Pin_Cod, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -104,7 +120,7 @@
             @Html.ValidationMessageFor(model => model.Pin_Cod, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.ISExpress, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -117,7 +133,11 @@
             @Html.ValidationMessageFor(model => model.ISExpress, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+</div>
+
+
+<div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.ReverseLogistics, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -130,7 +150,7 @@
             @Html.ValidationMessageFor(model => model.ReverseLogistics, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.OrderPreference, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -144,8 +164,10 @@
             @Html.ValidationMessageFor(model => model.OrderPreference, "", new { @class = "text-danger" })
         </div>
     </div>
+</div>
 
-    <div class="form-group">
+<div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -159,7 +181,7 @@
 
         </div>
     </div>
-    <div class="form-group">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
@@ -168,11 +190,12 @@
 
         </div>
     </div>
+</div>
 
 
 
 
-   
+
     <div class="row ">
         <div class="ln_solid"></div>
         <div class="form-group">
@@ -182,4 +205,4 @@
         </div>
     </div>
 
-}
+    }

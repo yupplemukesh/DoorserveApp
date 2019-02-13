@@ -53,15 +53,17 @@ namespace TogoFogo.Controllers
               
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
+                    if (ModelState.IsValid)
+                    {
+                        var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
                         new
                         {
                             model.Pin_ZIP_ID,
-                            CountryID=model.Country,
-                            CourierID=model.Courier,
-                            Pin_CountryID=model.PIN_Country1,
-                            Pin_State=model.PIN_State1,
-                            Pin_City=model.PIN_City1,
+                            CountryID = model.Country,
+                            CourierID = model.Courier,
+                            Pin_CountryID = model.PIN_Country1,
+                            Pin_State = model.PIN_State1,
+                            Pin_City = model.PIN_City1,
                             model.Pin_Region,
                             model.Pin_Zone,
                             model.Pin_Code,
@@ -78,16 +80,21 @@ namespace TogoFogo.Controllers
                             model.ModifyDate,
                             model.DeleteBy,
                             model.DeleteDate,
-                            User="",
-                            Action="add"
+                            User = "",
+                            Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 1)
-                    {
-                        TempData["Message"] = "Successfully Added";
+                        if (result == 1)
+                        {
+                            TempData["Message"] = "Successfully Added";
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Pin Region Already Exist";
+                        }
                     }
                     else
                     {
-                        TempData["Message"] = "Pin Region Already Exist";
+                        TempData["Message"] = "Please fill the required fields.";
                     }
                 }
 

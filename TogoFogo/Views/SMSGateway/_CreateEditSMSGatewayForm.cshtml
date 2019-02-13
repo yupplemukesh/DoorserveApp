@@ -1,97 +1,91 @@
 ﻿@model TogoFogo.Models.SMSGatewayModel
 
 
-                    <form class="form-horizontal ">
+@Html.HiddenFor(x => x.GatewayId)
+@Html.HiddenFor(x => x.GatewayTypeId)
 
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="control-label" for="form-control-9">SMS Gateway Name</label>
-                                <input id="form-control-1" class="form-control" type="text">
-                                @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "GatewayName" })
-                            </div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">SMS Gateway Name</label>
+        @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "Gateway Name" })
+        @Html.ValidationMessageFor(model => model.GatewayName, "", new { @class = "text-danger" })
+    </div>
 
-                        </div>
-
-
-
-                        <div class="row form-group">
-                            <div class="col-sm-12 ">
-                                <label class="control-label" for="form-control-9">Header</p></label>
-                                <textarea id="form-control-8" class="form-control" rows="3"></textarea>
-                                @Html.TextAreaFor(model => model.Header, new { @class = "form-control input-md", @placeholder = "Header" })
-                            </div>
-                        </div>
+</div>
 
 
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="control-label" for="form-control-9">Trans Api key</label>
-                                <input id="form-control-1" class="form-control" type="text">
-                                @Html.TextBoxFor(model => model.TransApikey, new { @class = "form-control input-md", @placeholder = "Trans Api key" })
-                            </div>
 
-                        </div>
-
-
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="control-label" for="form-control-9">OTP Api key</label>
-                                <input id="form-control-1" class="form-control" type="text">
-                                @Html.TextBoxFor(model => model.OTPApikey, new { @class = "form-control input-md", @placeholder = "OTP Api key" })
-                            </div>
-
-                        </div>
+<div class="row form-group">
+    <div class="col-sm-12 ">
+        <label class="control-label" for="form-control-9">URL Setting</p></label>
+        @Html.TextAreaFor(model => model.URL, new { @class = "form-control input-md", @placeholder = "URL" })
+        @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
+    </div>
+</div>
 
 
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="control-label" for="form-control-9">Success Message</label>
-                                <input id="form-control-1" class="form-control" type="text">
-                                @Html.TextBoxFor(model => model.SuccessMessage, new { @class = "form-control input-md", @placeholder = "Success Message" })
-                            </div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Trans Api key</label>
+        @Html.TextBoxFor(model => model.TransApikey, new { @class = "form-control input-md", @placeholder = "Trans Api key" })
+        @Html.ValidationMessageFor(model => model.TransApikey, "", new { @class = "text-danger" })
+    </div>
 
-                        </div>
+</div>
 
-                        <div class="row form-group">
-                            <div class="col-md-12"><label class=" control-label" for="form-control-9">Is Active</label></div>
-                            <div class="col-md-12">
-                                <label class="custom-control custom-control-primary custom-checkbox active">
-                                    <input class="custom-control-input" type="checkbox" name="mode">
-                                    @Html.CheckBoxFor(x => x.IsActive)
-                                    <span class="custom-control-indicator"></span>
 
-                                </label>
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">OTP Api key</label>
+        @Html.TextBoxFor(model => model.OTPApikey, new { @class = "form-control input-md", @placeholder = "OTP Api key" })
+    </div>
 
-                            </div>
+</div>
 
-                        </div>
+
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Success Message</label>
+        @Html.TextBoxFor(model => model.SuccessMessage, new { @class = "form-control input-md", @placeholder = "Success Message" })
+        @Html.ValidationMessageFor(model => model.SuccessMessage, "", new { @class = "text-danger" })
+    </div>
+
+</div>
+
+<div class="row form-group">
+    <div class="col-md-12"><label class=" control-label" for="form-control-9">Is Active</label></div>
+    <div class="col-md-12">
+        @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control custom-control-primary custom-checkbox active" })
+
+
+    </div>
+
+</div>
 
 
 
 
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <label class="control-label" for="form-control-9">OTP Sender</label>
-                                <select id="form-control-9" class="form-control">
-                                    <option value="corporate">**** Select OTP Sender****</option>
-                                    <option value="creative">Creative</option>
-                                    <option value="ecommerce">eCommerce</option>
-                                    <option value="mobile">Mobile</option>
-                                    <option value="retail">Retail</option>
-                                    <option value="technology">Technology</option>
-                                    <option value="wedding">Wedding</option>
-                                </select>
-                            </div>
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">OTP Sender</label>
 
-                        </div>
+        @Html.DropDownListFor(x => x.OTPSender, Model.GatewayList, "Select", new { @class = "form-control" })
+    </div>
+
+</div>
 
 
 
-                        <div class="row">
-                            <div class="col-md-12 ">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
+<div class="row">
+    <div class="col-md-12 ">
+        <button class="btn btn-primary">
+            Reset
+        </button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</div>
 
-                    </form>
+
+
+
 

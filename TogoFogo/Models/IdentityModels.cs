@@ -1,8 +1,10 @@
 ﻿using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using TogoFogo.Models.Gateway;
 
 namespace TogoFogo.Models
 {
@@ -27,7 +29,10 @@ namespace TogoFogo.Models
 
         public static ApplicationDbContext Create()
         {
+
             return new ApplicationDbContext();
+
+
         }
     }
 }

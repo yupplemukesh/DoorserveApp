@@ -39,7 +39,9 @@ namespace TogoFogo
                       "~/content/js/cosmos.min.js",
                       "~/content/js/application.min.js",
                       "~/content/js/tables-datatables.min.js",
-                         "~/content/js/ui-notifications.min.js"
+                         "~/content/js/ui-notifications.min.js",
+                           "~/content/scripts/jquery.table2excel.js"
+
                        ));
         }
     }
