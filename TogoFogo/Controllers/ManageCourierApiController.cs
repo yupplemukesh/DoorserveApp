@@ -38,7 +38,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -61,13 +62,14 @@ namespace TogoFogo.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
+                            model.CreatedBy,
                             model.CreatedDate,
                             model.ModifyBy,
                             model.ModifyDate,
                             model.DeleteBy,
                             model.DeleteDate,
                             User = "",
-                            Action = "add",
+                            Action = "I",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 0)
                         {
@@ -120,7 +122,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     if (ModelState.IsValid)
@@ -141,13 +144,14 @@ namespace TogoFogo.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
+                            model.CreatedBy,
                             model.CreatedDate,
                             model.ModifyBy,
                             model.ModifyDate,
                             model.DeleteBy,
                             model.DeleteDate,
                             User = "",
-                            Action = "edit",
+                            Action = "U",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
                         {

@@ -100,7 +100,30 @@ namespace TogoFogo
             }
         }
 
-      
+        public static async Task<List<CheckBox>> GetAWBNumberUsedTypes()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _addressTypes =await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='AWB Number Used' and isActive=1").ToListAsync();
+                return _addressTypes;
+            }
+        }
+        public static async Task<List<CheckBox>> GetLegalDocumentVerification()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _addressTypes = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Legal Document Verification' and isActive=1").ToListAsync();
+                return _addressTypes;
+            }
+        }
+        public static async Task<List<CheckBox>> GetAgreementSignup()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _addressTypes = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Agreement Signup' and isActive=1").ToListAsync();
+                return _addressTypes;
+            }
+        }
     }
 
 

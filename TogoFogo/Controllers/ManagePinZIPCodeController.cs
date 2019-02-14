@@ -45,7 +45,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-              
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     if (ModelState.IsValid)
@@ -62,21 +63,22 @@ namespace TogoFogo.Controllers
                             model.Pin_Region,
                             model.Pin_Zone,
                             model.Pin_Code,
+                            model.ShortCode,
                             model.Pin_TAT,
                             model.Pin_Cod,
-                            model.ShortCode,
                             model.ISExpress,
                             model.ReverseLogistics,
                             model.OrderPreference,
                             model.IsActive,
                             model.Comments,
+                            model.CreatedBy,
                             model.CreatedDate,
                             model.ModifyBy,
                             model.ModifyDate,
                             model.DeleteBy,
                             model.DeleteDate,
                             User = "",
-                            Action = "add"
+                            Action = "I"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
                         {
@@ -123,6 +125,7 @@ namespace TogoFogo.Controllers
                     result.PIN_State1 = result.Pin_State.ToString();
                     result.PIN_City1 = result.Pin_City.ToString();
                 }
+                TempData["PinZipId"] = pinZipId;
                 return View(result);
             }
         }
@@ -132,7 +135,10 @@ namespace TogoFogo.Controllers
         {
             try
             {
-
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                int PinZipId = Convert.ToInt32(TempData["PinZipId"]);
+                model.Pin_ZIP_ID = PinZipId;
                 using (var con = new SqlConnection(_connectionString))
                 {
                     if (ModelState.IsValid)
@@ -149,21 +155,22 @@ namespace TogoFogo.Controllers
                                 model.Pin_Region,
                                 model.Pin_Zone,
                                 model.Pin_Code,
+                                model.ShortCode,
                                 model.Pin_TAT,
                                 model.Pin_Cod,
-                                model.ShortCode,
                                 model.ISExpress,
                                 model.ReverseLogistics,
                                 model.OrderPreference,
                                 model.IsActive,
                                 model.Comments,
+                                model.CreatedBy,
                                 model.CreatedDate,
                                 model.ModifyBy,
                                 model.ModifyDate,
                                 model.DeleteBy,
                                 model.DeleteDate,
                                 User = "",
-                                Action = "edit"
+                                Action = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
                         {

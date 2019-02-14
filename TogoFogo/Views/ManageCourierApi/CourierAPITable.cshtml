@@ -80,10 +80,12 @@
                 @Html.DisplayFor(modelItem => item.AccountCountryCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsLargePacket)
+                @*@Html.DisplayFor(modelItem => item.IsLargePacket)*@
+                @(item.IsLargePacket == true ? "Yes" : "No")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
+                @*@Html.DisplayFor(modelItem => item.IsActive)*@
+                @(item.IsActive == true ? "Yes" : "No")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)

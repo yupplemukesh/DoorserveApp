@@ -45,10 +45,10 @@ namespace TogoFogo.Models
         public string AccountCountryCode      {get;set;}
         [Required]
         [DisplayName("Is Large Packet?")]
-        public string IsLargePacket     {get;set;}
+        public Boolean IsLargePacket     {get;set;}
         [Required]
         [DisplayName("Is Active?")]
-        public string IsActive    {get;set;}
+        public Boolean IsActive    {get;set;}
         public string Comments    {get;set;}
         public string CreatedBy {get;set;}
         public string CreatedDate {get; set; }

@@ -76,22 +76,22 @@ namespace TogoFogo.Models
         public string Pin_TAT { get; set; }
         [Required]
         [DisplayName("Is COD?")]
-        public string Pin_Cod { get; set; }
+        public Boolean Pin_Cod { get; set; }
         [Required]
         [DisplayName("Short Code")]
         public string ShortCode { get; set; }
         [Required]
         [DisplayName("Is Express?")]
-        public string ISExpress { get; set; }
+        public Boolean ISExpress { get; set; }
         [Required]
         [DisplayName("Is Reverse Logistics?")]
-        public string ReverseLogistics { get; set; }
+        public Boolean ReverseLogistics { get; set; }
         [Required]
         [DisplayName("Is Allow Order Preference?")]
-        public string OrderPreference { get; set; }
+        public Boolean OrderPreference { get; set; }
         [Required]
         [DisplayName("Is Active?")]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         [DisplayName("Comments")]
         public string Comments { get; set; }
         public string CreatedBy { get; set; }

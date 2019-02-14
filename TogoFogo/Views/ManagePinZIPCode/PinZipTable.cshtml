@@ -89,19 +89,19 @@
             @Html.DisplayFor(modelItem => item.Pin_TAT)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Pin_Cod)
+            @(item.Pin_Cod == true ? "Yes" : "No")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ShortCode)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ISExpress)
+            @(item.ISExpress == true ? "Yes" : "No")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ReverseLogistics)
+            @(item.ReverseLogistics == true ? "Yes" : "No")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OrderPreference)
+            @(item.OrderPreference == true ? "Yes" : "No")
         </td>
 
         <td style="display: inline-flex">       

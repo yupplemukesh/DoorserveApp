@@ -47,12 +47,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.AWBNumber, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.AWBNumber, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "ApiUsed", Value = "ApiUsed"},
-                        new SelectListItem {Text = "ManualUsed", Value = "ManualUsed"}
-
-                    }, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AWBNumber, Model.AWBNumberUsedList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.AWBNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -144,11 +139,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.ApplicableTaxType, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
-{
-    new SelectListItem {Text = "Indian Gst", Value = "Indian Gst"},
-    new SelectListItem {Text = "Gst", Value = "Gst"},
-}, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.ApplicableTaxType, Model.ApplicableTaxTypeList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.ApplicableTaxType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -199,7 +190,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.SC_CountryDropdown, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.SC_CountryDropdown, Model.CountryList, htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.SC_CountryDropdown, Model.CountryList, htmlAttributes: new { @class = "form-control" , onchange = "AjaxWithValue('BindPinCode', 'SC_PincodeDropdown', this)" })
                     @Html.ValidationMessageFor(model => model.SC_CountryDropdown, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -297,12 +288,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.PersonAddresstype, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.PersonAddresstype, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Home", Value = "Home"},
-                        new SelectListItem {Text = "Office", Value = "Office"},
-                        new SelectListItem {Text = "Neighbour", Value = "Neighbour"}
-                    }, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.PersonAddresstype, Model.PersonAddressTypeList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.PersonAddresstype, "", new { @class = "text-danger" })
 
                 </div>
@@ -447,12 +433,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.LegalDocumentVerificationStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.LegalDocumentVerificationStatus, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Correct", Value = "Correct"},
-                        new SelectListItem {Text = "Incorrect", Value = "Incorrect"}
-
-                    }, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.LegalDocumentVerificationStatus, Model.LegalDocumentVerificationList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.LegalDocumentVerificationStatus, "", new { @class = "text-danger" })
 
                 </div>
@@ -460,12 +441,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.AgreementSignupStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.AgreementSignupStatus, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "All Correct", Value = "All Correct"},
-                        new SelectListItem {Text = "Need correction", Value = "Need correction"}
-
-                    }, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.AgreementSignupStatus, Model.AgreementSignupList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.AgreementSignupStatus, "", new { @class = "text-danger" })
 
                 </div>
@@ -598,11 +574,4 @@
 
     </div>
     <div class="ln_solid"></div>
-    <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            @*<button class="btn btn-primary" type="button">Cancel</button>*@
-            <button class="btn btn-primary" type="reset">Reset</button>
-            <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
-        </div>
-    </div>
 </div>

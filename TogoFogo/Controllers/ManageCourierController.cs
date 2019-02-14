@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Dapper;
 using Microsoft.Ajax.Utilities;
 using TogoFogo.Models;
+using System.Threading.Tasks;
 
 namespace TogoFogo.Controllers
 {
@@ -50,25 +51,18 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             ManageCourierModel courierModel = new ManageCourierModel();
             courierModel.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             courierModel.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
             courierModel.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
             courierModel.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
-            //ViewBag.COUNTRY = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            //ViewBag.StateDropdown = new SelectList(dropdown.BindState(), "Value", "Text");
-            //ViewBag.CityDropdown = new SelectList(dropdown.BindLocation(), "Value", "Text");
-            //ViewBag.PinCodeDropdown = new SelectList(dropdown.BindPinCode(), "Value", "Text");
-            //ViewBag.PersonCountry = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            //ViewBag.PersonState = new SelectList(dropdown.BindState(), "Value", "Text");
-            //ViewBag.PersonCity = new SelectList(dropdown.BindLocation(), "Value", "Text");
-            //ViewBag.SC_CountryDropdown = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            //ViewBag.SC_PincodeDropdown = new SelectList(dropdown.BindPinCode(), "Value", "Text");
-            //ViewBag.PersonStateDropdown = new SelectList(dropdown.BindState(), "Value", "Text");
-            //ViewBag.PersonCityDropdown = new SelectList(dropdown.BindLocation(), "Value", "Text");
-            //ViewBag.PersonCountryDropdown = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            courierModel.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
+            courierModel.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(),"Value","Text");
+            courierModel.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(),"Value","Text");
+            courierModel.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(),"Value","Text");
+            courierModel.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
             return View(courierModel);
         }
         [HttpPost]
@@ -76,6 +70,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     if (ModelState.IsValid)
@@ -152,8 +148,7 @@ namespace TogoFogo.Controllers
                                 model.LuluandSky_Status,
                                 model.IsActive,
                                 model.Comments,
-
-                                Action = "add",
+                                Action = "I",
                                 User = ""
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
@@ -188,25 +183,13 @@ namespace TogoFogo.Controllers
 
         }
 
-        public ActionResult Edit(int? courierId)
+        public async Task<ActionResult> Edit(int? courierId)
         {
 
             using (var con = new SqlConnection(_connectionString))
-            {
-                ViewBag.COUNTRY = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                ViewBag.StateDropdown = new SelectList(dropdown.BindState(), "Value", "Text");
-                ViewBag.CityDropdown = new SelectList(dropdown.BindLocation(), "Value", "Text");
-                ViewBag.PinCodeDropdown = new SelectList(dropdown.BindPinCode(), "Value", "Text");
-                ViewBag.PersonCountry = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                ViewBag.PersonCity = new SelectList(dropdown.BindLocation(), "Value", "Text");
-                ViewBag.SC_CountryDropdown = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                ViewBag.SC_PincodeDropdown = new SelectList(dropdown.BindPinCode(), "Value", "Text");
-                ViewBag.PersonStateDropdown = new SelectList(dropdown.BindState(), "Value", "Text");
-                ViewBag.PersonCityDropdown = new SelectList(dropdown.BindLocation(), "Value", "Text");
-                ViewBag.PersonCountryDropdown = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            {    
                 var result = con.Query<ManageCourierModel>("SELECT * from Courier_Master WHERE CourierId=@CourierId", new { CourierId = courierId },
-                commandType: CommandType.Text).FirstOrDefault();
-                ViewBag.PersonState = new SelectList(dropdown.BindState(), "Value", "Text");
+                commandType: CommandType.Text).FirstOrDefault();               
                 if (result != null)
                 {
 
@@ -219,6 +202,15 @@ namespace TogoFogo.Controllers
                     result.PersonCityDropdown = result.PersonCity;
                     result.PersonStateDropdown = result.PersonState;
                     string volume = result.Volume.ToString();
+                    result.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                    result.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+                    result.CityList = new SelectList(dropdown.BindLocation(), "Value", "Text");
+                    result.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    result.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
+                    result.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text");
+                    result.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text");
+                    result.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(), "Value", "Text");
+                    result.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
                     string[] parts = volume.ToString().Split('-');
                     result.Volumn1 = parts[0];
                     result.Volumn2 = parts[1];
@@ -238,6 +230,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     if (ModelState.IsValid)
@@ -314,7 +308,7 @@ namespace TogoFogo.Controllers
                                 model.LuluandSky_Status,
                                 model.IsActive,
                                 model.Comments,
-                                Action = "edit",
+                                Action = "U",
                                 User = ""
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)

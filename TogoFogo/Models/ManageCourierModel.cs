@@ -14,6 +14,11 @@ namespace TogoFogo.Models
         public SelectList StateList { get; set; }
         public SelectList CityList { get; set; }
         public SelectList PincodeList { get; set; }
+        public SelectList ApplicableTaxTypeList { get; set; }
+        public SelectList PersonAddressTypeList { get; set; }
+        public SelectList AWBNumberUsedList { get; set; }
+        public SelectList AgreementSignupList { get; set; }
+        public SelectList LegalDocumentVerificationList { get; set; }
         [Required]
         public int SerialNo { get; set; }
         [Required]

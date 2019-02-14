@@ -11,6 +11,13 @@
     @using (Html.BeginForm("Create", "ManageCourierApi", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
        @Html.Partial("_AddEditCourierApi",Model)
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button class="btn btn-secondary" type="button">@Html.ActionLink("Cancel", "ManageCourierApi", "ManageCourierApi")</button>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
+            </div>
+        </div>
     }
 </div>
 @section scripts{
