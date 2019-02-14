@@ -8,7 +8,7 @@ using TogoFogo.Models.Gateway;
 
 namespace TogoFogo.Repository.SMSGateway
 {
-    interface IGateway:IDisposable
+      public interface IGateway:IDisposable
     {
         Task<List<GatewayModel>> GetGatewayByType(int GatewayTypeId);
         Task<GatewayModel> GetGatewayById(int GatewayId);

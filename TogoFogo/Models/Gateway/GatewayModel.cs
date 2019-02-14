@@ -18,6 +18,10 @@ namespace TogoFogo.Models.Gateway
         public string GatewayName { get; set; }
         [DisplayName("Gateway Type Id")]
         public Int64 GatewayTypeId { get; set; }
+        [DisplayName("Is Active ?")]
+        public bool IsActive { get; set; }
+
+        // SMS Gateway
         [DisplayName("URL Setting")]
         public string URL { get; set; }
         [DisplayName("Trans Api key")]
@@ -26,8 +30,9 @@ namespace TogoFogo.Models.Gateway
         public string OTPApikey { get; set; }
         [DisplayName("Success Message")]
         public string SuccessMessage { get; set; }
-        [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
+        [DisplayName("OTP Sender")]
+        public int? OTPSender { get; set; }
+        // SMTP Gateway
         [DisplayName("Is Default ?")]
         public bool IsDefault { get; set; }
         [DisplayName("Is Process By AWS ?")]
@@ -39,8 +44,13 @@ namespace TogoFogo.Models.Gateway
         public string SmtpPassword { get; set; }
         public string PortNumber { get; set; }
         public bool SSLEnabled { get; set; }
-        [DisplayName("OTP Sender")]
-        public int? OTPSender { get; set; }
+        // Notification Gateway
+        public string SenderID { get; set; }
+        public string GoogleApikey { get; set; }
+        public string GoogleApiURL { get; set; }
+        public string GoogleProjectID { get; set; }
+        public string GoogleProjectName { get; set; }
+
         public int AddeddBy { get; set; }
         public DateTime LastUpdatedDateTime { get; set; }
         public string LastUpdateBy { get; set; }

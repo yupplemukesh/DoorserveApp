@@ -21,66 +21,66 @@ namespace TogoFogo.Controllers
         {
              _gatewayRepo = new Gateway();
         }
-        //public async Task<ActionResult> Index()
+          public async Task<ActionResult> Index()
 
 
-        //{
-        //    var getwaylist = await CommonModel.GetGatewayType();
+        {
+            var getwaylist = await CommonModel.GetGatewayType();
 
 
-        //    var getwayTypeId = getwaylist.Where(x => x.Text == "SMS Gateway").Select(x => x.Value).SingleOrDefault();
+            var getwayTypeId = getwaylist.Where(x => x.Text == "Notification Gateway").Select(x => x.Value).SingleOrDefault();
 
-        //    var smsgateway = await _gatewayRepo.GetGatewayByType(getwayTypeId);
+            var notificationgateway = await _gatewayRepo.GetGatewayByType(getwayTypeId);
 
-        //    SMSGateWayMainModel model = new SMSGateWayMainModel();
-        //    model.Gateway = new SMSGatewayModel();
-        //    model.mainModel = Mapper.Map<List<SMSGatewayModel>>(smsgateway);
-        //    model.Gateway.GatewayTypeId = getwayTypeId;
-        //    model.Gateway.GatewayList = new SelectList(smsgateway, "GatewayId", "GatewayName");
-        //    return View(model);
-        //}
-        //public async Task<ActionResult> Create()
-        //{
-        //    var smsgatewaymodel = new SMSGatewayModel();
-        //    return View(smsgatewaymodel);
-        //}
-        //[HttpPost]
-        //public async Task<ActionResult> Create(SMSGatewayModel smsgateway)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var gatewayModel = new GatewayModel
-        //        {
-        //            GatewayId = smsgateway.GatewayId,
-        //            GatewayTypeId = smsgateway.GatewayTypeId,
-        //            GatewayName = smsgateway.GatewayName,
-        //            IsActive = smsgateway.IsActive,
-        //            OTPApikey = smsgateway.OTPApikey,
-        //            TransApikey = smsgateway.TransApikey,
-        //            URL = smsgateway.URL,
-        //            OTPSender = smsgateway.OTPSender,
-        //            SuccessMessage = smsgateway.SuccessMessage,
-        //            AddeddBy = Convert.ToInt32(Session["User_ID"])
-        //        };
-        //        ResponseModel response = new ResponseModel();
-        //        if (gatewayModel.GatewayId != 0)
-        //            response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'U');
-        //        else
-        //            response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'I');
-        //        _gatewayRepo.Save();
-        //        TempData["response"] = response;
-        //        TempData.Keep("response");
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //        return View(smsgateway);
+            NotificationGateWayMainModel model = new NotificationGateWayMainModel();
+            model.Gateway = new NotificationGatewayModel();
+            model.mainModel = Mapper.Map<List<NotificationGatewayModel>>(notificationgateway);
+            model.Gateway.GatewayTypeId = getwayTypeId;
+            model.Gateway.GatewayList = new SelectList(notificationgateway, "GatewayId", "GatewayName");
+            return View(model);
+        }
+        public async Task<ActionResult> Create()
+        {
+            var notificationgatewaymodel = new NotificationGatewayModel();
+            return View(notificationgatewaymodel);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Create(NotificationGatewayModel notificationgateway)
+        {
+            if (ModelState.IsValid)
+            {
+                var gatewayModel = new GatewayModel
+                {
+                    GatewayId = notificationgateway.GatewayId,
+                    GatewayTypeId = notificationgateway.GatewayTypeId,
+                    GatewayName = notificationgateway.GatewayName,
+                    IsActive = notificationgateway.IsActive,
+                    SenderID = notificationgateway.SenderID,
+                    GoogleApikey = notificationgateway.GoogleApikey,
+                    GoogleApiURL = notificationgateway.GoogleApiUrl,
+                    GoogleProjectID = notificationgateway.GoogleProjectID,
+                    GoogleProjectName = notificationgateway.GoogleProjectName,
+                    AddeddBy = Convert.ToInt32(Session["User_ID"])
+                };
+                ResponseModel response = new ResponseModel();
+                if (gatewayModel.GatewayId != 0)
+                    response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'U');
+                else
+                    response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'I');
+                _gatewayRepo.Save();
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return RedirectToAction("Index");
+            }
+            else
+                return View(notificationgateway);
 
-        //}
-        //public async Task<ActionResult> Edit(int id)
-        //{
-        //    var smsgateway = await _gatewayRepo.GetGatewayById(id);
-        //    return Json(smsgateway, JsonRequestBehavior.AllowGet);
-        //}
+        }
+        public async Task<ActionResult> Edit(int id)
+        {
+            var notificationgateway = await _gatewayRepo.GetGatewayById(id);
+            return Json(notificationgateway, JsonRequestBehavior.AllowGet);
+        }
 
     }
 

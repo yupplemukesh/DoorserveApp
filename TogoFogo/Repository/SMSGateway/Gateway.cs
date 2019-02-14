@@ -50,10 +50,6 @@ namespace TogoFogo.Repository.SMSGateway
             sp.Add(param);
             param = new SqlParameter("@ISACTIVE", (object)gatewayModel.IsActive);
             sp.Add(param);
-            //param = new SqlParameter("@ACTION", (object)action);
-            //sp.Add(param);
-            //param = new SqlParameter("@USER", (object)smsGatewayModel.AddeddBy);
-            //sp.Add(param);
             param = new SqlParameter("@IsDefault", (object)gatewayModel.IsDefault);
             sp.Add(param);
             param = new SqlParameter("@IsProcessByAWS", (object)gatewayModel.IsProcessByAWS);
@@ -82,22 +78,24 @@ namespace TogoFogo.Repository.SMSGateway
             sp.Add(param);
             param = new SqlParameter("@OtpSender", ToDBNull(gatewayModel.OTPSender));
             sp.Add(param);
-            
-            
             param = new SqlParameter("@USERID", (object)gatewayModel.AddeddBy);
             sp.Add(param);
-            
-            
-           
-            
-            //param = new SqlParameter("@GatewayList", ToDBNull(smsGatewayModel.GatewayList));
-            //sp.Add(param);
-           var sql = "USPGatewayADDUPDATE @GatewayId,@GatewayTypeId,@GatewayName,@ISACTIVE,@IsDefault,@IsProcessByAWS,@Name,@Email,@SmtpServerName,@SmtpUserName,@SmtpPassword,@PortNumber,@SSLEnabled,@URL,@TransApikey,@OTPApikey,@SuccessMessage,@OtpSender,@USERID";
+            param = new SqlParameter("@SenderId", ToDBNull(gatewayModel.SenderID));
+            sp.Add(param);
+            param = new SqlParameter("@GoogleApikey", ToDBNull(gatewayModel.GoogleApikey));
+            sp.Add(param);
+            param = new SqlParameter("@GoogleApiURL", ToDBNull(gatewayModel.GoogleApiURL));
+            sp.Add(param);
+            param = new SqlParameter("@GoogleProjectID", ToDBNull(gatewayModel.GoogleProjectID));
+            sp.Add(param);
+            param = new SqlParameter("@GoogleProjectName", ToDBNull(gatewayModel.GoogleProjectName));
+            sp.Add(param);
 
-
-            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
-            if (res.ResponseCode==0)
-                res.IsSuccess = true;
+            var sql = "USPGatewayADDUPDATE @GatewayId,@GatewayTypeId,@GatewayName,@ISACTIVE,@IsDefault,@IsProcessByAWS,@Name,@Email,@SmtpServerName,@SmtpUserName,@SmtpPassword,@PortNumber,@SSLEnabled," +
+                "@URL,@TransApikey,@OTPApikey,@SuccessMessage,@OtpSender,@USERID,@SenderId,@GoogleApikey,@GoogleApiURL,@GoogleProjectID,@GoogleProjectName";			
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();                                                                                                                                                         			
+            if (res.ResponseCode==0)                                                                                                                                                                                                                                    		
+                res.IsSuccess = true;                                                                                                                                                                                                                               
 
             return res;
         }

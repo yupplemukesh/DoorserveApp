@@ -13,11 +13,11 @@ namespace TogoFogo.Controllers
 {
     public class SMSGatewayController : Controller
     {
-        private readonly IGateway  _smsGatewayModel;
+        private readonly IGateway  _gatewayRepo;
         public SMSGatewayController()
 
         {
-           _smsGatewayModel = new Gateway();
+            _gatewayRepo = new Gateway();
                    }
         public async Task<ActionResult> Index()
 
@@ -28,7 +28,7 @@ namespace TogoFogo.Controllers
 
             var getwayTypeId = getwaylist.Where(x => x.Text == "SMS Gateway").Select(x => x.Value).SingleOrDefault();
             
-            var smsgateway = await _smsGatewayModel.GetGatewayByType(getwayTypeId);
+            var smsgateway = await _gatewayRepo.GetGatewayByType(getwayTypeId);
             
             SMSGateWayMainModel model = new SMSGateWayMainModel();
             model.Gateway = new SMSGatewayModel();
@@ -61,10 +61,10 @@ namespace TogoFogo.Controllers
                 };
                 ResponseModel response= new ResponseModel();
                 if (gatewayModel.GatewayId != 0)
-                     response = await _smsGatewayModel.AddUpdateDeleteGateway(gatewayModel, 'U');
+                     response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'U');
                 else
-                    response = await _smsGatewayModel.AddUpdateDeleteGateway(gatewayModel, 'I');
-                _smsGatewayModel.Save();
+                    response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'I');
+                _gatewayRepo.Save();
                 TempData["response"] = response;
                 TempData.Keep("response");
                 return RedirectToAction("Index");
@@ -75,7 +75,7 @@ namespace TogoFogo.Controllers
         }
         public async Task<ActionResult> Edit(int id)
         {
-            var smsgateway = await _smsGatewayModel.GetGatewayById(id);
+            var smsgateway = await _gatewayRepo.GetGatewayById(id);
             return Json(smsgateway,JsonRequestBehavior.AllowGet);
         }
       

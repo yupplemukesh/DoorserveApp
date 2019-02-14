@@ -1,11 +1,22 @@
 ﻿
 @model TogoFogo.Models.Gateway.NotificationGatewayModel
+@Html.HiddenFor(x => x.GatewayId)
+@Html.HiddenFor(x => x.GatewayTypeId)
 
-@*<div class="row form-group">
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Gateway Name</label>
+        @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "Gateway Name" })
+        @Html.ValidationMessageFor(model => model.GatewayName, "", new { @class = "text-danger" })
+    </div>
+
+</div>
+
+<div class="row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Sender ID</label>
-        @Html.TextBoxFor(model => model, new { @class = "form-control input-md", @placeholder = "Gateway Name" })
-        @Html.ValidationMessageFor(model => model.GatewayName, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.SenderID, new { @class = "form-control input-md", @placeholder = "Sender ID" })
+        @Html.ValidationMessageFor(model => model.SenderID, "", new { @class = "text-danger" })
     </div>
 
 </div>
@@ -15,7 +26,8 @@
 <div class="row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Google Api key</label>
-        <input id="form-control-1" class="form-control" type="text">
+        @Html.TextBoxFor(model => model.GoogleApikey, new { @class = "form-control input-md", @placeholder = "Google Api key" })
+        @Html.ValidationMessageFor(model => model.GoogleApikey, "", new { @class = "text-danger" })
     </div>
 
 </div>
@@ -24,7 +36,8 @@
 <div class="row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Api Url (Google)</label>
-        <input id="form-control-1" class="form-control" type="text">
+        @Html.TextBoxFor(model => model.GoogleApiUrl, new { @class = "form-control input-md", @placeholder = "Google Api Url" })
+        @Html.ValidationMessageFor(model => model.GoogleApiUrl, "", new { @class = "text-danger" })
     </div>
 
 </div>
@@ -33,7 +46,8 @@
 <div class="row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Project ID (in Google)</label>
-        <input id="form-control-1" class="form-control" type="text">
+        @Html.TextBoxFor(model => model.GoogleProjectID, new { @class = "form-control input-md", @placeholder = "Google Project ID" })
+        @Html.ValidationMessageFor(model => model.GoogleProjectID, "", new { @class = "text-danger" })
     </div>
 
 </div>
@@ -41,7 +55,8 @@
 <div class="row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Project Name (in Google)</label>
-        <input id="form-control-1" class="form-control" type="text">
+        @Html.TextBoxFor(model => model.GoogleProjectName, new { @class = "form-control input-md", @placeholder = "Google Project Name" })
+        @Html.ValidationMessageFor(model => model.GoogleProjectName, "", new { @class = "text-danger" })
     </div>
 
 </div>
@@ -50,7 +65,7 @@
     <div class="col-md-12"><label class=" control-label" for="form-control-9">Is Active</label></div>
     <div class="col-md-12">
         <label class="custom-control custom-control-primary custom-checkbox active">
-            <input class="custom-control-input" type="checkbox" name="mode">
+            @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input" })
             <span class="custom-control-indicator"></span>
 
         </label>
@@ -63,4 +78,5 @@
 <div class="row">
     <div class="col-md-12 ">
         <button type="submit" class="btn btn-primary">Submit</button>
-    </div>*@
+    </div>
+</div>

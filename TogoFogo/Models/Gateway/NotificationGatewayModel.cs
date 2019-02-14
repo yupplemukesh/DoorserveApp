@@ -10,6 +10,11 @@ namespace TogoFogo.Models.Gateway
 {
     public class NotificationGatewayModel
     {
+        public NotificationGatewayModel()
+        {
+            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
+
+        }
         public Int64 GatewayId { get; set; }
         [Required]
         [DisplayName("Gateway Name")]
@@ -33,5 +38,14 @@ namespace TogoFogo.Models.Gateway
         [Required]
         [DisplayName("Google Project Name")]
         public string GoogleProjectName { get; set; }
+        public SelectList GatewayList { get; set; }
+    }
+
+    public class NotificationGateWayMainModel
+    {
+        public List<NotificationGatewayModel> mainModel { get; set; }
+        public NotificationGatewayModel Gateway { get; set; }
+
+
     }
 }
