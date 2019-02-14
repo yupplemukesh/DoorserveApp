@@ -33,6 +33,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddGst(GstCategoryModel model)
         {
+            
             try
             {
                 using (var con = new SqlConnection(_connectionString))
@@ -44,18 +45,21 @@ namespace TogoFogo.Controllers
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User="",
-                            
-                            ACTION = "add"
+                            User=Convert.ToInt32(Session["User_ID"]),
+                            /*model.CreatedBy,
+                           model.CreatedDate,
+                           model.ModifyBy,
+                            model.ModifyDate,*/
+                            ACTION = 'I'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 0)
+                    if (result == 1)
                     {
-                        TempData["Message"] = "Gst Category Already Exist";
+                        TempData["Message"] = "Gst Category Successfully Added " ;
 
                     }
                     else
                     {
-                        TempData["Message"] = "Successfully Added TRC";
+                        TempData["Message"] = "Gst Category Already Exist";
                     }
                 }
 
@@ -67,13 +71,14 @@ namespace TogoFogo.Controllers
                 throw;
             }
             return RedirectToAction("Gst");
+            
         }
 
         public ActionResult GstTable()
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<GstCategoryModel>("Select * from MstGstCategory", new { }, commandType: CommandType.Text).ToList();
+                var result = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new { }, commandType: CommandType.Text).ToList();
                 return View(result);
             }
         }
@@ -101,18 +106,19 @@ namespace TogoFogo.Controllers
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User = "",
+                            User = Convert.ToInt32(Session["User_ID"]),
 
-                            ACTION = "edit"
+
+                            ACTION = 'U'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 2)
                     {
-                        TempData["Message"] = "Updated Successfully";
+                        TempData["Message"] = "Gst Category Updated Successfully";
 
                     }
                     else
                     {
-                        TempData["Message"] = "Something Went Wrong";
+                        TempData["Message"] = "Gst Category Not Updated";
                     }
                 }
 

@@ -15,14 +15,17 @@ namespace TogoFogo.Models
         [DisplayName("Gst Category")]
         public string GSTCategory { get; set; }
         [DisplayName("Is Active")]
-        public string IsActive { get; set; }
+        public Boolean IsActive { get; set; }
         [DisplayName("Comments")]
         public string Comments { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ModifyBy { get; set; }
+        public int ModifyBy { get; set; }
         public string ModifyDate { get; set; }
-        public string DeleteBy { get; set; }
+        public int DeleteBy { get; set; }
+        public string CRBY { get; set; }
+        public string MODBY { get; set; }
+
         public string DeleteDate { get; set; }
     }
 }

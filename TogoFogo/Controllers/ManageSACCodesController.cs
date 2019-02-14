@@ -68,12 +68,12 @@ namespace TogoFogo.Controllers
                             model.Description_Of_Goods,
                             model.IsActive,
                             model.Comments,                         
-                            User = "",
-                            ACTION = "add"
+                            User = Convert.ToInt32(Session["User_ID"]),
+                            ACTION = "I"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 1)
                     {
-                        TempData["Message"] = "Submitted Successfully";
+                        TempData["Message"] = "Successfully Added";
 
                     }
                     else
@@ -95,7 +95,8 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<SacCodesModel>("Select * from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
+                //var result = con.Query<SacCodesModel>("Select * from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
+                var result= con.Query < SacCodesModel >("select m.Applicable_Tax_Type,m.GstCategoryid,m.GstHeading,m.Gst_HSN_Code,m.CTH_Number,m.SAC,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, m.GstProductSubCat, m.Description_Of_Goods,m.IsActive, m.Comments, m.CreatedDate, m.ModifyDate, u.Username Cby, u1.Username Mby from MstSacCodes m join create_User_Master u on u.id = m.CreatedBy left outer join create_User_Master u1 on m.ModifyBy = u1.id ", new { }, commandType: CommandType.Text).ToList();
                 return View(result);
             }
         }
@@ -143,8 +144,8 @@ namespace TogoFogo.Controllers
                                 model.Description_Of_Goods,
                                 model.IsActive,
                                 model.Comments,
-                                User = "",
-                                ACTION = "edit"
+                                User = Convert.ToInt32(Session["User_ID"]),
+                                ACTION = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
                         {
