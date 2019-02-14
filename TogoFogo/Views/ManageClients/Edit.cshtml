@@ -11,56 +11,177 @@
     @Html.HiddenFor(x => x.ClientId)
 
     <div class="panel-heading">
-      
-                <h3 class="m-y-0">Edit Client</h3>
-                
+
+        <h3 class="m-y-0">Edit Client</h3>
+
     </div>
     <div class="panel-body">
-        
+
         @Html.Partial("_CreateEditClientForm", Model)
+    </div>
+}
+
+
+
+
+<div class="modal fade" id="BankModel" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header  bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Bank Details</h4>
+            </div>
+            <div class="modal-body" id="BankInfo">
+
+            </div>
         </div>
-        }
 
-        @section scripts{
+    </div>
+</div>
 
-            <script>
+<div class="modal fade" id="ContactModel" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
 
-                function AjaxWithValue(method, ddl, e) {
-                    var val = e.value;
-                    if (ddl == "ConState")
-                        $("#ConCity").empty();
-                    $.ajax({
-                        type: "GET",
-                        url: "/DropdownBind/" + method + "?value=" + val,
-                        data: '{}',
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            $("#" + ddl).empty();
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header  bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Contact Details </h4>
+            </div>
+            <div class="modal-body" id="ContactInfo">
 
-                            //var sel = new Option('-Select-', '');
-                            //$('#' + ddl).append(sel);
-                            for (var i = 0; i < data.length; i++) {
-                                var opt = new Option(data[i].Text, data[i].Value);
-                                $('#' + ddl).append(opt);
-                            }
-                        }
-                    });
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts{
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+
+
+            var DivName = $('.nav-tabs .active a').attr('href');
+            console.log(DivName);
+            activaTab(DivName);
+
+
+        function activaTab(tab) {
+
+            $(tab).addClass("active in");
+        };
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            if (ddl == "ConState")
+                $("#ConCity").empty();
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
                 }
-                $(".reset").click(function () {
-                    $(this).closest('form').find("input[type=text], textarea,select").val("");
-                    $("#ConCity").empty();
-                    $("#ConState").empty();
-                    $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
-                    $('.selectpicker').selectpicker('refresh');
-
-                });
-
-                $("#IsUser").change(function (e) {
-                    if ($(this).prop("checked"))
-                        $("#userDetails").show();
-                    else
-                        $("#userDetails").hide();
-                })
-            </script>
+            });
         }
+
+
+            $(".reset").click(function () {
+                $(this).closest('form').find("input[type=text], textarea,select").val("");
+                $("#ConCity").empty();
+                $("#ConState").empty();
+                $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
+                $('.selectpicker').selectpicker('refresh');
+            });
+
+            $('a[data-toggle="tab"]').click(function (e) {
+            if ($(this).hasClass("disabled")) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+                e.stopImmediatePropagation();
+
+                return false;
+
+            }
+        });
+
+        function AddOrEditContact(contact) {
+
+
+            var clientId = $("#ClientId").val();
+            console.log(clientId);
+            contact.clientId=clientId;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AddorUpdateContact","manageClients")',
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                data: JSON.stringify(contact),
+                success: function (response) {
+                    $("#ContactInfo").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        };
+
+
+        function AddOrEditBank(bank) {
+            var clientId = $("#ClientId").val();
+            bank.clientId = clientId;
+            console.log(clientId);
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AddorEditBankDetails","manageClients")',
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                data: JSON.stringify(bank),
+                success: function (response) {
+                    $("#BankInfo").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        };
+
+
+    </script>
+
+
+}
+
+
+
+
+

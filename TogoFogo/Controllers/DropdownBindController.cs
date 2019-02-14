@@ -1339,7 +1339,7 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.dist_Name, //Value Field(ID)
+                        Value = val.ID, //Value Field(ID)
                         Text = val.dist_Name //Text Field(Name)
                     });
                 }
@@ -1357,7 +1357,7 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.state_Name, //Value Field(ID)
+                        Value = val.ID, //Value Field(ID)
                         Text = val.state_Name //Text Field(Name)
                     });
                 }

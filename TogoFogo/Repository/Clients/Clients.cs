@@ -33,7 +33,8 @@ namespace TogoFogo.Repository.Clients
             {
                 connection.Open();
                 var command = connection.CreateCommand();
-                command.CommandText = "EXEC USPGetClientById";
+                command.CommandText = "USPGetClientById";
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(client);
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -83,36 +84,33 @@ namespace TogoFogo.Repository.Clients
             cat = cat.TrimEnd(',');
 
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@CLIENTID",client.ClientId);
+            SqlParameter param = new SqlParameter("@CLIENTID",client.ClientId);          
             sp.Add(param);
-            param = new SqlParameter("@PROCESSNAME", (object)client.ProcessName);
+            param = new SqlParameter("@PROCESSID", ToDBNull(client.ProcessId));
             sp.Add(param);
-            param = new SqlParameter("@CLIENTCODE", (object)client.ClientCode);
+            param = new SqlParameter("@CLIENTCODE", ToDBNull(client.ClientCode));
             sp.Add(param);
-            param = new SqlParameter("@ClientName", (object)client.ClientName);
+            param = new SqlParameter("@CLIENTNAME", ToDBNull(client.ClientName));
             sp.Add(param);
        
-            param = new SqlParameter("@DeviceCategories", (object)cat);
+            param = new SqlParameter("@DEVICECATEGORIES", ToDBNull(cat));
+            sp.Add(param);         
+        
+            param = new SqlParameter("@ORGNAME", ToDBNull(client.Organization.OrgName));
             sp.Add(param);
-            param = new SqlParameter("@ServiceDeliveryType", (object)client.ServiceDeliveryTypes);
+            param = new SqlParameter("@ORGCODE", ToDBNull(client.Organization.OrgCode));
             sp.Add(param);
-            param = new SqlParameter("@ServiceType", (object)client.ServiceTypes);
+            param = new SqlParameter("@ORGIECNUMBER", ToDBNull(client.Organization.OrgIECNumber));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTCATEGORY", (object)client.Organization.OrgGSTCategory);
+            param = new SqlParameter("@ORGSTATUTORYTYPE", ToDBNull(client.Organization.OrgStatutoryType));
             sp.Add(param);
-            param = new SqlParameter("@OrgName", (object)client.Organization.OrgName);
+            param = new SqlParameter("@ORGAPPLICATIONTAXTYPE", ToDBNull(client.Organization.OrgApplicationTaxType));
             sp.Add(param);
-            param = new SqlParameter("@OrgCode", (object)client.Organization.OrgCode);
+            param = new SqlParameter("@ORGGSTCATEGORY", ToDBNull(client.Organization.OrgGSTCategory));
             sp.Add(param);
-            param = new SqlParameter("@OrgIECNumber", ToDBNull(client.Organization.OrgIECNumber));
+            param = new SqlParameter("@ORGGSTNUMBER", ToDBNull(client.Organization.OrgGSTNumber));
             sp.Add(param);
-            param = new SqlParameter("@OrgStatutoryType", ToDBNull(client.Organization.OrgStatutoryType));
-            sp.Add(param);
-            param = new SqlParameter("@OrgApplicationTaxType", ToDBNull(client.Organization.OrgApplicationTaxType));
-            sp.Add(param);
-            param = new SqlParameter("@OrgGSTNumber", ToDBNull(client.Organization.OrgGSTNumber));
-            sp.Add(param);
-            param = new SqlParameter("@OrgGSTFilePath", ToDBNull(client.Organization.OrgGSTFileName));
+            param = new SqlParameter("@ORGGSTFILEPATH", ToDBNull(client.Organization.OrgGSTFileName));
             sp.Add(param);
             param = new SqlParameter("@ORGPANNUMBER", ToDBNull(client.Organization.OrgPanNumber));
             sp.Add(param);
@@ -120,20 +118,23 @@ namespace TogoFogo.Repository.Clients
             sp.Add(param);
             param = new SqlParameter("@ISACTIVE", (object)client.IsActive);
             sp.Add(param);
+            param = new SqlParameter("@REMARKS", ToDBNull(client.Remarks));
+            sp.Add(param);
             param = new SqlParameter("@ACTION", (object)client.action);
             sp.Add(param);
             param = new SqlParameter("@USER", (object)client.CreatedBy);
+            sp.Add(param);            
+            param = new SqlParameter("@SERVICETYPE", ToDBNull(client.ServiceTypes));
             sp.Add(param);
-            param = new SqlParameter("@REMARKS", ToDBNull(client.Remarks));
+            param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(client.ServiceDeliveryTypes));
             sp.Add(param);
-         
 
-            var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSNAME,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ServiceType,@ServiceDeliveryType,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER ";
+            var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSID,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE,@SERVICEDELIVERYTYPE";
        
 
-            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
-            if (res.Response == "Ok")
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;

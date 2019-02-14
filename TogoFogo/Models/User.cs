@@ -10,6 +10,7 @@ namespace TogoFogo.Models
     {
         public Int64 UserId { get; set; }
         [Required(ErrorMessage ="Enter User Name")]
+        [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", ErrorMessage = "User Name already exists!")]
         public  string UserName { get; set; }
         public string Password { get; set; }
         public Boolean IsActive { get; set; }
@@ -17,6 +18,7 @@ namespace TogoFogo.Models
         public string ModifyBy { get; set; }
         public string CreatedDate { get; set; }
         public string ModifyDate { get; set; }
+        public int UserLoginId { get; set; }
         public ContactPersonModel _ContactPerson { get;set;} 
         public AddressDetail _AddressDetail { get; set; }
     }

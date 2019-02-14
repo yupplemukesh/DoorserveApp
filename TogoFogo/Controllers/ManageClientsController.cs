@@ -81,6 +81,15 @@ namespace TogoFogo.Controllers
             var Addresses =  CommonModel.GetAddressTypes();
             model.AddressTypelist = new SelectList(Addresses, "Value", "Text");
             model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+           
+            if (model.ContactId !=null)
+            {
+                model.StateList = new SelectList(dropdown.BindState(model.ConCountry), "Value", "Text");
+                model.CityList = new SelectList(dropdown.BindLocation(), "Value", "Text");
+
+            }
+            model.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+            model.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView("~/views/common/_AddEditContactPerson.cshtml", model);
         }
         [HttpPost]
@@ -91,19 +100,23 @@ namespace TogoFogo.Controllers
             {
                 var client = TempData["client"] as ClientModel;
                 bank.Action = 'I';
-                var clnt = await _client.AddUpdateBankDetails(bank);
+                var Response = await _client.AddUpdateBankDetails(bank);
                 var clientModel = await _client.GetClientByClientId(bank.ClientId);
                
                     clientModel.Activetab = "tab-5";
                     TempData["client"] = clientModel;
                     clientModel.action = 'I';
                     TempData.Keep("client");
-                    return View("Create", client);
+                    TempData["response"] = Response;
+                    TempData.Keep("response");
+                return View("Create", client);
                
             }
             else
             {
-                var clnt = await _client.AddUpdateBankDetails(bank);
+                var response=  await _client.AddUpdateBankDetails(bank);
+                TempData["response"] = Response;
+                TempData.Keep("response");
                 return RedirectToAction("edit", bank.ClientId);
             }
 
@@ -111,26 +124,34 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(ContactPersonModel contact)
         {
-         
-            
-            if ( TempData["client"] !=null)
+
+
+            if (TempData["client"] != null)
             {
-              
+
                 var client = TempData["client"] as ClientModel;
                 contact.Action = 'I';
-                var clnt = await _client.AddUpdateContactDetails(contact);
+                var response = await _client.AddUpdateContactDetails(contact);
                 var clientModel = await _client.GetClientByClientId(contact.ClientId);
-              
-                    clientModel.action = 'I';
-                    clientModel.Activetab = "tab-4";
-                    TempData["client"] = clientModel;
-                    TempData.Keep("client");
-                    return View("Create", clientModel);
-               
-             
-                
+
+                clientModel.action = 'I';
+                clientModel.Activetab = "tab-4";
+                TempData["client"] = clientModel;
+                TempData.Keep("client");
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return View("Create", clientModel);
+
+
+
             }
-            return RedirectToAction("edit", contact.ClientId);
+            else
+            {
+                var response = await _client.AddUpdateContactDetails(contact);
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return RedirectToAction("edit", contact.ClientId);
+            }
         }
 
         // GET: ManageClient/Create
@@ -164,9 +185,10 @@ namespace TogoFogo.Controllers
             if (org.OrgName == null || cltns ==null)
             {
 
-                
-                client.Organization = new OrganizationModel();
-
+                if (org == null)
+                    client.Organization = new OrganizationModel();
+                else
+                    client.Organization = org;
                 client.Activetab = "tab-2";
 
                 string _servicetype = "";
@@ -225,6 +247,7 @@ namespace TogoFogo.Controllers
                     _client.Save();
                     client.ClientId = new Guid(response.result);
                     // TODO: Add insert logic here
+                   
                     TempData["response"] = response;
                     TempData.Keep("response");
                 if (client.Activetab == "tab-5")
@@ -232,14 +255,10 @@ namespace TogoFogo.Controllers
                 else
                     return View(client);
                               
-
             }
             catch(Exception ex)
             {
-
-               
-
-                return View(client);
+             return View(client);
             }
         }
 
