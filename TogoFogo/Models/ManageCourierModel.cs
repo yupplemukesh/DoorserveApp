@@ -19,7 +19,6 @@ namespace TogoFogo.Models
         public SelectList AWBNumberUsedList { get; set; }
         public SelectList AgreementSignupList { get; set; }
         public SelectList LegalDocumentVerificationList { get; set; }
-        [Required]
         public int SerialNo { get; set; }
         [Required]
         public string Country { get; set; }
@@ -27,7 +26,7 @@ namespace TogoFogo.Models
         public string StateDropdown { get; set; }
         [Required]
         public string CityDropdown { get; set; }
-        [Required]
+        
         public string PinCodeDropdown { get; set; }
         [Required]
         [DisplayName("Courier Logo")]
@@ -73,10 +72,8 @@ namespace TogoFogo.Models
         [DisplayName("Country")]
         public string PersonCountryDropdown { get; set; }
 
-
-        [Required]
         public string CourierId { get; set; }
-        [Required]
+        
         [DisplayName("Courier Logo")]
         public string UploadedCourierFile { get; set; }
         [Required]
@@ -87,6 +84,7 @@ namespace TogoFogo.Models
         public string CourierBrandName { get; set; }
         [Required]
         public string Priority { get; set; }
+        [Required]
         [DisplayName("Courier TAT in days")]
         public string CourierTAT { get; set; }
         [Required]
@@ -98,11 +96,11 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Is Allow Order Preference")]
         public Boolean IsAllowPreference { get; set; }
-        [Required]
+        
         public string CountryId { get; set; }
-        [Required]
+        
         public string StateId { get; set; }
-        [Required]
+        
         public string CityId { get; set; }
         [Required]
         [DisplayName("Courier Name")]
@@ -119,28 +117,25 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("GST Number")]
         public string GSTNumber { get; set; }
-        [Required]
         public string UploadedGSTFile { get; set; }
         [Required]
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
         public string PANCardNumber { get; set; }
-        [Required]
         public string PANCardFile { get; set; }
         [Required]
         [DisplayName("Bike Make and Model")]
         public string BikeMakeandModel { get; set; }
+        [Required]
         [DisplayName("Bike Number")]
         public string BikeNumber { get; set; }
+        [Required]
         [DisplayName("Address type")]
         public string PersonAddresstype { get; set; }
-        [Required]
         [DisplayName("Country")]
-        public string PersonCountry { get; set; }
-        [Required]
+        public string PersonCountry { get; set; }       
         [DisplayName("State/Province/Union Territory")]
-        public string PersonState { get; set; }
-        [Required]
+        public string PersonState { get; set; }      
         [DisplayName("City/Location")]
         public string PersonCity { get; set; }
         [Required]
@@ -159,8 +154,10 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
+        [Required]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
+        [Required]
         [DisplayName("Mobile Number")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string MobileNumber { get; set; }
@@ -175,17 +172,17 @@ namespace TogoFogo.Models
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
         public string UserPANCard { get; set; }
-        [Required]
+        
         public string UserPANCardFile { get; set; }
-        [Required]
+      
         [DisplayName("Voter ID Card Number")]
         public string VoterIDCardNo { get; set; }
-        [Required]
+   
         public string VoterIDFile { get; set; }
-        [Required]
+       
         [DisplayName("Aadhaar Card Number")]
         public string AadhaarCardNo { get; set; }
-        [Required]
+        
         public string AadhaarCardFile { get; set; }
         [DisplayName("Item Type")]
         public Boolean ItemType { get; set; }
@@ -193,7 +190,9 @@ namespace TogoFogo.Models
         public string SC_Country { get; set; }
         [DisplayName("PIN Code")]
         public string SC_Pincode { get; set; }
+        [Required]
         public string Currency { get; set; }
+        [Required]
         [DisplayName("Service Charge Type")]
         public string ServiceChargeType { get; set; }
         [DisplayName("Value")]
@@ -237,7 +236,6 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Bank Branch")]
         public string BankBranch { get; set; }
-        [Required]
         public string CancelledChequeFile { get; set; }
         [DisplayName("Payment Cycle")]
         public string PaymentCycle { get; set; }

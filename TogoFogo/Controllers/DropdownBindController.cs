@@ -1364,5 +1364,55 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult BindPinCodeByCountry(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var pincodes = con.Query<BindPinCodeModel>("SELECT  ID, pin_code FROM Pincode_Master where CountryId=@CountryId", new { @CountryId = value },
+                        commandType: CommandType.Text);
+                List <ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in pincodes)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.ID.ToString(), //Value Field(ID)
+                        Text = val.pin_code //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public List<ListItem> BindPincodeListByCountry(int CountryId)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                List<BindDropdown> company = con
+                    .Query<BindDropdown>(
+                        "SELECT  ID St_ID, pin_code St_Name FROM Pincode_Master where CountryId=@CountryId", new { @CountryId = CountryId },
+                        commandType: CommandType.Text).ToList();
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "Select " //Text Field(Name)
+                });
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.St_ID.ToString(), //Value Field(ID)
+                        Text = val.St_Name //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
     }
 }

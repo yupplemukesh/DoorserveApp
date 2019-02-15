@@ -53,6 +53,7 @@ namespace TogoFogo.Controllers
         }
         public async Task<ActionResult> Create()
         {
+            DropdownBindController drop = new DropdownBindController();
             ManageCourierModel courierModel = new ManageCourierModel();
             courierModel.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             courierModel.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -70,39 +71,50 @@ namespace TogoFogo.Controllers
         {
             try
             {
+                
                 model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     if (ModelState.IsValid)
                     {
+                        string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier");
+                        string UploadedGSTFile= SaveImageFile(model.UploadedGSTFile1, "Courier");
+                        string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier");
+                        string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier");
+                        string VoterIDFile = SaveImageFile(model.VoterIDFile1, "Courier");
+                        string AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1, "Courier");
+                        string AgreementScanFile = SaveImageFile(model.AgreementScanFile1, "Courier");
+                        string CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1, "Courier");
                         var result = con.Query<int>("Add_Modify_Delete_Courier",
                             new
                             {
-
+                                //Settings
                                 model.CourierId,
-                                model.UploadedCourierFile,
                                 model.CourierName,
                                 model.CourierCode,
                                 model.CourierBrandName,
                                 model.Priority,
                                 model.CourierTAT,
-                                model.AWBNumber,
-                                model.IsReverse,
-                                model.IsAllowPreference,
+                                model.AWBNumber, 
                                 CountryId = model.Country,
                                 StateId = model.StateDropdown,
                                 CityId = model.CityDropdown,
+                                UploadedCourierFile,
+                                model.IsReverse,
+                                model.IsAllowPreference,
+                                //Organisation
                                 model.CourierCompanyName,
                                 model.OrganizationCode,
                                 model.StatutoryType,
                                 model.ApplicableTaxType,
                                 model.GSTNumber,
-                                model.UploadedGSTFile,
+                                UploadedGSTFile,
                                 model.PANCardNumber,
-                                model.PANCardFile,
+                                PANCardFile,
                                 model.BikeMakeandModel,
                                 model.BikeNumber,
+                                //Address and Contact Person
                                 model.PersonAddresstype,
                                 PersonCountry = model.PersonCountryDropdown,
                                 PersonState = model.PersonStateDropdown,
@@ -115,14 +127,14 @@ namespace TogoFogo.Controllers
                                 model.LastName,
                                 model.MobileNumber,
                                 model.EmailAddress,
-                                model.IsUser,
                                 model.UserPANCard,
-                                model.UserPANCardFile,
+                                UserPANCardFile,
                                 model.VoterIDCardNo,
-                                model.VoterIDFile,
+                                VoterIDFile,
                                 model.AadhaarCardNo,
-                                model.AadhaarCardFile,
-                                model.ItemType,
+                                AadhaarCardFile,
+                                model.IsUser,
+                                //Service Charge
                                 SC_Country = model.SC_CountryDropdown,
                                 SC_Pincode = model.SC_PincodeDropdown,
                                 model.Currency,
@@ -132,22 +144,28 @@ namespace TogoFogo.Controllers
                                 Volume = model.Volumn1 + "-" + model.Volumn2,
                                 model.ServiceCharge,
                                 model.ApplicableFromDate,
+                                model.ItemType,
+                                //Agreement
                                 model.LegalDocumentVerificationStatus,
                                 model.AgreementSignupStatus,
                                 model.AgreementStartDate,
                                 model.AgreementEndDate,
                                 model.AgreementNumber,
-                                model.AgreementScanFile,
+                                AgreementScanFile,
+                                //Bank Details
                                 model.BankName,
                                 model.BankAccountNumber,
                                 model.CompanyNameatBank,
                                 model.IFSCCode,
                                 model.BankBranch,
-                                model.CancelledChequeFile,
+                                CancelledChequeFile,
                                 model.PaymentCycle,
+                                //Registration
                                 model.LuluandSky_Status,
-                                model.IsActive,
                                 model.Comments,
+                                model.IsActive,
+                                model.CreatedBy,
+                                model.ModifyBy,
                                 Action = "I",
                                 User = ""
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -158,6 +176,7 @@ namespace TogoFogo.Controllers
                     }
                     else
                     {
+                        var errors = ModelState.Values.SelectMany(v => v.Errors);
                         return View(model);
                     }
                 }
@@ -187,9 +206,18 @@ namespace TogoFogo.Controllers
         {
 
             using (var con = new SqlConnection(_connectionString))
-            {    
+            {
+                string folder = "~/UploadedImages/Courier/";
                 var result = con.Query<ManageCourierModel>("SELECT * from Courier_Master WHERE CourierId=@CourierId", new { CourierId = courierId },
-                commandType: CommandType.Text).FirstOrDefault();               
+                commandType: CommandType.Text).FirstOrDefault();
+                result.UploadedCourierFile = folder + result.UploadedCourierFile;
+                
+                result.UploadedGSTFile = folder + result.UploadedGSTFile;                
+                result.UserPANCardFile = folder + result.UserPANCardFile;
+                result.VoterIDFile = folder + result.VoterIDFile;
+                result.AadhaarCardFile = folder + result.AadhaarCardFile;
+                result.AgreementScanFile = folder + result.AgreementScanFile;
+                result.CancelledChequeFile = folder + result.CancelledChequeFile;
                 if (result != null)
                 {
 
@@ -201,11 +229,12 @@ namespace TogoFogo.Controllers
                     result.PersonCountryDropdown = result.PersonCountry;
                     result.PersonCityDropdown = result.PersonCity;
                     result.PersonStateDropdown = result.PersonState;
+                    result.SC_PincodeDropdown = result.SC_Pincode;
                     string volume = result.Volume.ToString();
                     result.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                     result.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                     result.CityList = new SelectList(dropdown.BindLocation(), "Value", "Text");
-                    result.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    result.PincodeList = new SelectList(dropdown.BindPincodeListByCountry(Convert.ToInt32(result.SC_Country)), "Value", "Text");
                     result.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
                     result.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text");
                     result.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text");
@@ -222,7 +251,7 @@ namespace TogoFogo.Controllers
 
                 }
 
-                return PartialView("Edit", result);
+                return View(result);
             }
         }
         [HttpPost]
@@ -234,35 +263,45 @@ namespace TogoFogo.Controllers
                 model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
+                    string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier");
+                    string UploadedGSTFile = SaveImageFile(model.UploadedGSTFile1, "Courier");
+                    string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier");
+                    string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier");
+                    string VoterIDFile = SaveImageFile(model.VoterIDFile1, "Courier");
+                    string AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1, "Courier");
+                    string AgreementScanFile = SaveImageFile(model.AgreementScanFile1, "Courier");
+                    string CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1, "Courier");
                     if (ModelState.IsValid)
                     {
                         var result = con.Query<int>("Add_Modify_Delete_Courier",
                             new
                             {
-
+                                //Settings
                                 model.CourierId,
-                                model.UploadedCourierFile,
                                 model.CourierName,
                                 model.CourierCode,
                                 model.CourierBrandName,
                                 model.Priority,
                                 model.CourierTAT,
                                 model.AWBNumber,
-                                model.IsReverse,
-                                model.IsAllowPreference,
                                 CountryId = model.Country,
                                 StateId = model.StateDropdown,
                                 CityId = model.CityDropdown,
+                                UploadedCourierFile,
+                                model.IsReverse,
+                                model.IsAllowPreference,
+                                //Organisation
                                 model.CourierCompanyName,
                                 model.OrganizationCode,
                                 model.StatutoryType,
                                 model.ApplicableTaxType,
                                 model.GSTNumber,
-                                model.UploadedGSTFile,
+                                UploadedGSTFile,
                                 model.PANCardNumber,
-                                model.PANCardFile,
+                                PANCardFile,
                                 model.BikeMakeandModel,
                                 model.BikeNumber,
+                                //Address and Contact Person
                                 model.PersonAddresstype,
                                 PersonCountry = model.PersonCountryDropdown,
                                 PersonState = model.PersonStateDropdown,
@@ -275,14 +314,14 @@ namespace TogoFogo.Controllers
                                 model.LastName,
                                 model.MobileNumber,
                                 model.EmailAddress,
-                                model.IsUser,
                                 model.UserPANCard,
-                                model.UserPANCardFile,
+                                UserPANCardFile,
                                 model.VoterIDCardNo,
-                                model.VoterIDFile,
+                                VoterIDFile,
                                 model.AadhaarCardNo,
-                                model.AadhaarCardFile,
-                                model.ItemType,
+                                AadhaarCardFile,
+                                model.IsUser,
+                                //Service Charge
                                 SC_Country = model.SC_CountryDropdown,
                                 SC_Pincode = model.SC_PincodeDropdown,
                                 model.Currency,
@@ -292,22 +331,28 @@ namespace TogoFogo.Controllers
                                 Volume = model.Volumn1 + "-" + model.Volumn2,
                                 model.ServiceCharge,
                                 model.ApplicableFromDate,
+                                model.ItemType,
+                                //Agreement
                                 model.LegalDocumentVerificationStatus,
                                 model.AgreementSignupStatus,
                                 model.AgreementStartDate,
                                 model.AgreementEndDate,
                                 model.AgreementNumber,
-                                model.AgreementScanFile,
+                                AgreementScanFile,
+                                //Bank Details
                                 model.BankName,
                                 model.BankAccountNumber,
                                 model.CompanyNameatBank,
                                 model.IFSCCode,
                                 model.BankBranch,
-                                model.CancelledChequeFile,
+                                CancelledChequeFile,
                                 model.PaymentCycle,
+                                //Registration
                                 model.LuluandSky_Status,
-                                model.IsActive,
                                 model.Comments,
+                                model.IsActive,
+                                model.CreatedBy,
+                                model.ModifyBy,
                                 Action = "U",
                                 User = ""
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -330,6 +375,28 @@ namespace TogoFogo.Controllers
             }
 
             return RedirectToAction("ManageCourier");
+        }
+        private string SaveImageFile(HttpPostedFileBase file,string folderName)
+        {
+            try
+            {
+                string path = Server.MapPath("~/UploadedImages/"+ folderName);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileFullName = file.FileName;
+                var fileExtention = Path.GetExtension(fileFullName);
+                var fileName = Guid.NewGuid();
+                var savedFileName = fileName + fileExtention;
+                file.SaveAs(Path.Combine(path, savedFileName));
+                return savedFileName;
+            }
+            catch (Exception ex)
+            {
+
+                return ViewBag.Message = ex.Message;
+            }
         }
     }
 }

@@ -26,7 +26,6 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         function AjaxWithValue(method, ddl, e) {
-                debugger
                 var val = e.value;
                 $.ajax({
                     type: "GET",
@@ -35,6 +34,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         $("#" + ddl).empty();
 
                         //var sel = new Option('-Select-', '');
@@ -43,7 +43,7 @@
                             var opt = new Option(data[i].Text, data[i].Value);
                             $('#' + ddl).append(opt);
                         }
-                    }
+                    }                
                 });
             }
     </script>
