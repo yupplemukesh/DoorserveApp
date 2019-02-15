@@ -1,74 +1,95 @@
 ﻿@model TogoFogo.Models.BankDetailModel
 <!-- Text input-->
 
-@using (Html.BeginForm("AddOrEditBank", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "bankForm" }))
+@using (Html.BeginForm("AddOrEditBank", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.HiddenFor(x => x.RefKey)
     @Html.HiddenFor(x => x.bankId)
-    <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">Bank Name</label>
-        <div class="col-md-9">
-            @Html.DropDownListFor(model => model.BankName, Model.BankList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+    @Html.HiddenFor(x => x.Action)
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.BankNameId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.BankNameId, Model.BankList, "Select", new { @class = "form-control" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BankNameId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "form-control", placeholder = "Bank Account Number" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.BankCompanyName, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(model => model.BankCompanyName, htmlAttributes: new { @class = "form-control", placeholder = "Company Name at Bank Account" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BankCompanyName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.BankIFSCCode, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(model => model.BankIFSCCode, htmlAttributes: new { @class = "form-control input-md", placeholder = "IFSC Code" })
 
-    <!-- Text input-->
-    <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">Bank Account Number</label>
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "form-control input-md", placeholder = "Bank Account Number" })
-            @Html.ValidationMessageFor(model => model.BankAccountNumber, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <!-- Text input-->
-    <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">Company Name at Bank Account</label>
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.BankCompanyName, htmlAttributes: new { @class = "form-control input-md", placeholder = "Company Name at Bank Account" })
-            @Html.ValidationMessageFor(model => model.BankCompanyName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-
-    <!-- Text input-->
-    <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">IFSC Code</label>
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.BankIFSCCode, htmlAttributes: new { @class = "form-control input-md", placeholder = "IFSC Code" })
-
-            @Html.ValidationMessageFor(model => model.BankIFSCCode, "", new { @class = "text-danger" })
-        </div>
-
-    </div>
-
-
-    <!-- Text input-->
-    <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">Bank Branch</label>
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.BankName, htmlAttributes: new { @class = "form-control input-md", placeholder = "Bank Branch" })
-            @Html.ValidationMessageFor(model => model.BankBranchName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    
-    <!-- file input-->
-    <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">Upload Cancelled Cheque</label>
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.BankCancelledChequeFilePath, htmlAttributes: new { @type = "file", @class = "form-control input-md" })
-            @Html.ValidationMessageFor(model => model.BankCancelledChequeFilePath, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BankIFSCCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        <div class="input-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.BankBranchName, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(model => model.BankBranchName, htmlAttributes: new { @class = "form-control", placeholder = "Bank Branch" })
 
-            <button type="submit"  class="btn btn-success">Submit</button>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BankBranchName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.BankCancelledChequeFilePath, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(model => model.BankCancelledChequeFilePath, htmlAttributes: new { @type = "file", @class = "form-control" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.BankCancelledChequeFilePath, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+
+                <button type="submit" class="btn btn-success">Submit</button>
+
+            </div>
         </div>
     </div>
 }

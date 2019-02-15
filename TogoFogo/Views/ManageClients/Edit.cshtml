@@ -54,7 +54,6 @@
 
             </div>
         </div>
-
     </div>
 </div>
 @section scripts{
@@ -76,8 +75,8 @@
         };
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
-            if (ddl == "ConState")
-                $("#ConCity").empty();
+            if (ddl == "ConAddress_StateId")
+                $("#ConAddress_CityId").empty();
             $.ajax({
                 type: "GET",
                 url: "/DropdownBind/" + method + "?value=" + val,
@@ -108,32 +107,30 @@
 
             $('a[data-toggle="tab"]').click(function (e) {
             if ($(this).hasClass("disabled")) {
-
                 e.preventDefault();
-
                 e.stopPropagation();
-
                 e.stopImmediatePropagation();
-
                 return false;
 
             }
         });
 
         function AddOrEditContact(contact) {
-
-
+           
             var clientId = $("#ClientId").val();
-            console.log(clientId);
-            contact.clientId=clientId;
+           
+            console.log(contact);
+            console.log(contact.ConAddress.Address);
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("AddorUpdateContact","manageClients")',
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
-                data: JSON.stringify(contact),
+                data: { model: JSON.stringify(contact) },
                 success: function (response) {
-                    $("#ContactInfo").html(response);
+                    $("#ContactInfo").html(response);                   
+                    $("#RefKey").val(clientId);
+                  
                 },
                 error: function (e) {
                     console.log(e);
@@ -150,9 +147,8 @@
 
 
         function AddOrEditBank(bank) {
-            var clientId = $("#ClientId").val();
-            bank.clientId = clientId;
-            console.log(clientId);
+            var clientId = $("#ClientId").val(); 
+           
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("AddorEditBankDetails","manageClients")',
@@ -161,6 +157,11 @@
                 data: JSON.stringify(bank),
                 success: function (response) {
                     $("#BankInfo").html(response);
+                    $("#RefKey").val(clientId);
+                    if (bank.BankNameId != null)
+                        $("#Action").val('U');
+                    else
+                        $("#Action").val('I');
                 },
                 error: function (e) {
                     console.log(e);

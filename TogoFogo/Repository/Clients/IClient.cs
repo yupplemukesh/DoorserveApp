@@ -7,13 +7,11 @@ using TogoFogo.Models;
 
 namespace TogoFogo.Repository.Clients
 {
-    public interface IClients: IDisposable
+    public interface IClient: IDisposable
     {
         Task<List<ClientModel>> GetClients();
         Task<ClientModel> GetClientByClientId(Guid clientId);
-        Task<ResponseModel> AddUpdateDeleteClient(ClientModel client);
-        Task<ResponseModel> AddUpdateBankDetails(BankDetailModel bank);
-        Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact);
+        Task<ResponseModel> AddUpdateDeleteClient(ClientModel client);    
         void Save();
     }
 }

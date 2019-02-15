@@ -338,49 +338,34 @@
 
 
                     </div>
-                    <div class="tab-pane fade" id="tab-3">
-
-                        <!-- <h2>Organization</h2>-->
-
-                        <div class="container-fluid tab-form-control">
-                            <div class="row">
+                    <div class="tab-pane fade" id="tab-3">                        
+                        <div class="container-fluid tab-form-control">                            
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-                                <div class="row"> 
-                                    @if (Model.ContactPersons != null)
-                                    {
-                                        <div class="col-9">
-                                            <div class="row">
-                                                <div class="col-12" id="contactDetails">
-
-                                                    @foreach (var item in Model.ContactPersons)
-                                                    {
-                                                        @Html.Partial("~/Views/Common/_ContactDetails.cshtml",item)
-                                                    }
-
-
-
-                                                </div>
-                                            </div>
+                                    <div class="row margin-bottom-sm">
+                                        <div class="col-12 pull-right align-text-top  ">
+                                            <input type="button" class="btn btn-primary " href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(new TogoFogo.Models.ContactPersonModel())))' value="add  Contact" />
                                         </div>
 
-                                    }
-                                    else
-                                    {
-
-                                        <div class="col--md-9 col-lg-offset-9">
-
-                                        </div>
-
-                                    }
-                                    <div class="col-3 pull-md-right"  >
-                                        <input type="button" class="btn btn-primary" href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(new TogoFogo.Models.ContactPersonModel())))' value="add  Contact" />
                                     </div>
-                            </div>
+                                    <div class="row">
+
+                                      
+                                        @if (Model.ContactPersons != null)
+                                        {
+                                            <div class="col-12">
+                                                @foreach (var item in Model.ContactPersons)
+                                                {
+                                                    @Html.Partial("~/Views/Common/_ContactDetails.cshtml", item)
+                                                }
+                                            </div>
+                                        }
+                                        
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
-                    </div>
+          
 
                     <div class="tab-pane fade" id="tab-4">
                         <!--<h2>Bank Details</h2>-->
@@ -388,37 +373,30 @@
                       
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 
-                                    <div class="row">
+                                    <div class="row" id="bankDetails">
+
                                         @if (Model.BankDetails != null)
                                         {
                                             <div class="col-9">
-                                                <div class="row">
-                                                    <div class="col-12" id="bankDetails">
+                                                @foreach (var item in Model.BankDetails)
+                                                {
+                                                @Html.Partial("~/Views/Common/_bankDetails.cshtml", item)
 
-                                                        @foreach (var item in Model.BankDetails)
-                                                        {
-                                                            @Html.Partial("~/Views/Common/_bankDetails.cshtml", item)
-
-                                                        }
-
-
-
-                                                    </div>
+                                                }
                                                 </div>
-                                            </div>
-
                                         }
                                         else
                                         {
-                                            <div class="col--md-9 col-md-offset-9">
-                                            </div>
+                                                <div class="col--md-9 col-md-offset-9">
+                                                </div>
                                         }
-                                        <div class="col-3 pull-md-right">
-                                            <input type="button" class="btn btn-primary" href="#BankModel" data-toggle="modal" onclick='AddOrEditBank(@Html.Raw(Json.Encode(new TogoFogo.Models.BankDetailModel())))' value="add  Bank" />
+                                                <div class="col-3 pull-md-right">
+                                                    <input type="button" class="btn btn-primary" href="#BankModel" data-toggle="modal" onclick='AddOrEditBank(@Html.Raw(Json.Encode(new TogoFogo.Models.BankDetailModel())))' value="add  Bank" />
 
-                                        </div>
+                                                </div>
+                                                                            
                                     </div>
-                                        </div>
+                                 </div>
 
 
 

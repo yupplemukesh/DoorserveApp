@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Repository;
 using TogoFogo.Repository.Clients;
 
 namespace TogoFogo.Controllers
@@ -15,12 +16,17 @@ namespace TogoFogo.Controllers
 
     public class ManageClientsController : Controller
     {
-        private readonly IClients _client;
-       private readonly DropdownBindController dropdown;
+        private readonly IClient _client;
+        private readonly IBank _bank;
+        private readonly IContactPerson _contactPerson;
+
+        private readonly DropdownBindController dropdown;
         public ManageClientsController()
         {
-            _client = new Clients() ;
+            _client = new Client() ;
            dropdown= new DropdownBindController();
+            _bank = new Bank();
+            _contactPerson = new ContactPerson();
         }
 
         // GET: ManageClient
@@ -56,7 +62,12 @@ namespace TogoFogo.Controllers
         {
             var banks=  CommonModel.GetBanks();
             model.BankList = new SelectList(banks, "Value", "Text");
-            return PartialView("~/views/common/_AddOrUpdateBankDetails.cshtml",model);
+            if (model.bankId != null)
+                model.Action = 'U';
+            else
+                model.Action = 'I';
+        
+                return PartialView("~/views/common/_AddOrUpdateBankDetails.cshtml",model);
         }
 
         public ActionResult DeleteBank(BankDetailModel model)
@@ -76,20 +87,34 @@ namespace TogoFogo.Controllers
             TempData.Keep("ContactPersons");
             return Json("Sucessfully", JsonRequestBehavior.AllowGet);
         }
-        public  ActionResult AddorUpdateContact(ContactPersonModel model)
-        {
-            var Addresses =  CommonModel.GetAddressTypes();
-            model.AddressTypelist = new SelectList(Addresses, "Value", "Text");
-            model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-           
-            if (model.ContactId !=null)
-            {
-                model.StateList = new SelectList(dropdown.BindState(model.ConCountry), "Value", "Text");
-                model.CityList = new SelectList(dropdown.BindLocation(), "Value", "Text");
 
-            }
-            model.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
-            model.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+        public  ActionResult AddorUpdateContact(string model)
+        {
+
+          
+            //var Addresses =  CommonModel.GetAddressTypes();
+            //model.ConAddress.AddressTypelist = new SelectList(Addresses, "Value", "Text");
+            //model.ConAddress.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+
+            //if (model.ContactId != null)
+            //{
+            //    model.Action = 'U';
+            //    model.ConAddress.StateList = new SelectList(dropdown.BindState(model.ConAddress.CountryId), "Value", "Text");
+            //    model.ConAddress.CityList = new SelectList(dropdown.BindLocation(model.ConAddress.StateId), "Value", "Text");
+
+            //}
+            //else
+            //{
+
+            //    model.Action = 'I';
+            //    model.ConAddress = new AddressDetail();
+            //    model.ConAddress.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+            //    model.ConAddress.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+
+            //}
+
+
+
             return PartialView("~/views/common/_AddEditContactPerson.cshtml", model);
         }
         [HttpPost]
@@ -100,8 +125,8 @@ namespace TogoFogo.Controllers
             {
                 var client = TempData["client"] as ClientModel;
                 bank.Action = 'I';
-                var Response = await _client.AddUpdateBankDetails(bank);
-                var clientModel = await _client.GetClientByClientId(bank.ClientId);
+                var Response = await _bank.AddUpdateBankDetails(bank);
+                var clientModel = await _client.GetClientByClientId(bank.RefKey);
                
                     clientModel.Activetab = "tab-5";
                     TempData["client"] = clientModel;
@@ -109,15 +134,15 @@ namespace TogoFogo.Controllers
                     TempData.Keep("client");
                     TempData["response"] = Response;
                     TempData.Keep("response");
-                return View("Create", client);
+                    return View("Create", client);
                
             }
             else
             {
-                var response=  await _client.AddUpdateBankDetails(bank);
+                var response=  await _bank.AddUpdateBankDetails(bank);
                 TempData["response"] = Response;
                 TempData.Keep("response");
-                return RedirectToAction("edit", bank.ClientId);
+                return RedirectToAction("edit", bank.RefKey);
             }
 
         }
@@ -131,8 +156,8 @@ namespace TogoFogo.Controllers
 
                 var client = TempData["client"] as ClientModel;
                 contact.Action = 'I';
-                var response = await _client.AddUpdateContactDetails(contact);
-                var clientModel = await _client.GetClientByClientId(contact.ClientId);
+                var response = await _contactPerson.AddUpdateContactDetails(contact);
+                var clientModel = await _client.GetClientByClientId(contact.RefKey);
 
                 clientModel.action = 'I';
                 clientModel.Activetab = "tab-4";
@@ -147,10 +172,12 @@ namespace TogoFogo.Controllers
             }
             else
             {
-                var response = await _client.AddUpdateContactDetails(contact);
+              
+                var response = await _contactPerson.AddUpdateContactDetails(contact);
                 TempData["response"] = response;
                 TempData.Keep("response");
-                return RedirectToAction("edit", contact.ClientId);
+                return RedirectToAction("edit", "manageClients", new { id=contact.RefKey});
+   
             }
         }
 
@@ -384,12 +411,5 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-      
-        
-        
-     
-
     }
 }

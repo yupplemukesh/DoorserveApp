@@ -23478,3 +23478,8 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     opacity: 0.5;
     text-decoration: none;
 }
+
+.edit-padd{padding:4px;border:1px solid #ccc; margin-left:2px}
+.margin-bottom-sm {
+    margin-bottom: 18px;
+}

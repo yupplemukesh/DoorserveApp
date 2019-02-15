@@ -21,7 +21,7 @@
 
 
 <div class="modal fade" id="BankModel" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -38,7 +38,7 @@
 </div>
 
 <div class="modal fade" id="ContactModel" role="dialog" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg"">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -118,10 +118,11 @@
 
         function AddOrEditContact(contact) {
            
-
+            console.log(contact);
             var clientId = $("#ClientId").val();
+    
+            contact.RefKey = clientId;
             console.log(clientId);
-            contact.clientId=clientId;
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("AddorUpdateContact","manageClients")',
@@ -147,7 +148,7 @@
 
         function AddOrEditBank(bank) {
             var clientId = $("#ClientId").val();
-            bank.clientId = clientId;
+            bank.RefKey = clientId;
             console.log(clientId);
             $.ajax({
                 type: 'GET',

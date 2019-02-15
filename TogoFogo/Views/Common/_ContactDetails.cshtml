@@ -1,15 +1,43 @@
 ﻿@model TogoFogo.Models.ContactPersonModel
-<div class="col-3">
-    <span>
-        <strong> Name</strong>:    @Model.ConFirstName @Model.ConLastName
-        <br />
-        <strong> Mobile</strong>:    @Model.ConMobileNumber
-        <br />
-        <strong> Email</strong>:    @Model.ConEmailAddress
-        <br />
-        <strong> Address</strong>:    @Model.ConAddress  
+<div class="col-md-3">
 
-    </span>
-    <a class="btn btn-primary" href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(Model)),this)'> Edit</a>
-    
-</div>
+    <div class="row edit-padd">
+        <div class="col-md-6 col-xs-6 col-sm-6">
+            <h4>
+                Contact Details
+            </h4>
+            </div>
+            <div class="col-md-6 col-xs-6 col-sm-6 text-right ">
+                <a class="btn btn-sm btn-primary" href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(Model)))'> Edit</a>
+
+            </div>
+        </div>
+
+        <div class="row edit-padd">
+            <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Name</strong>:</div>
+            <div class="col-md-6 col-xs-6 col-sm-6">  @Model.ConFirstName @Model.ConLastName</div>
+
+        </div>
+
+        <div class="row edit-padd">
+            <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Mobile</strong>: </div>
+            <div class="col-md-6 col-xs-6 col-sm-6">@Model.ConMobileNumber</div>
+
+        </div>
+
+        <div class="row edit-padd">
+            <div class="col-md-6 col-xs-6 col-sm-6"><strong> Email</strong>:</div>
+            <div class="col-md-6 col-xs-6 col-sm-6"> @Model.ConEmailAddress</div>
+        </div>
+
+        <div class="row edit-padd">
+
+            <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Address</strong>:</div>
+
+            <div class="col-md-6 col-xs-6 col-sm-6">   @Model.ConAddress.Address</div>
+        </div>
+
+
+
+
+    </div>

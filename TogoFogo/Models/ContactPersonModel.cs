@@ -10,25 +10,10 @@ namespace TogoFogo.Models
 {
     public class ContactPersonModel
     {
-      
-        public Guid ContactId { get; set; }
-        public Guid ClientId { get; set; }
-        //[DisplayName("Address Type")]
-        //public int ConAddressType{ get; set; }
-        //[DisplayName("Country")]
-        //public int ConCountry { get; set; }
-        //[DisplayName("State")]
-        //public int ConState { get; set; }
-        //[DisplayName("City")]
-        //public int ConCity { get; set; }
-        //[DisplayName("Address")]
-        //public string ConAddress { get; set; }
-        //[DisplayName("Locality")]
-        //public string ConLocality { get; set; }
-        //[DisplayName("Near By Location")]
-        //public string ConNearByLocation { get; set; }
-        //[DisplayName("Pin Code")]
-        //public string ConPinNumber { get; set; }
+
+        
+        public Guid? ContactId { get; set; }
+        public Guid RefKey { get; set; }       
         [DisplayName("First Name")]
         [Required( ErrorMessage ="Enter Name")]
         public string ConFirstName { get; set; }
@@ -52,19 +37,20 @@ namespace TogoFogo.Models
         public string ConVoterId { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
-        public int UserID { get; set; }
         public char Action { get; set; }
         public string ConVoterIdFileName { get; set; }
         [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", ErrorMessage = "UserName already exists!")]
         public string UserName { get; set; }
         public string Password { get; set; }
-        //[RegularExpression(@"^\d{4}\s\d{4}\s\d{4}", ErrorMessage = "* Invalid Aadhaar Number")]
+        public int UserID { get; set; }
         [DisplayName("Aadhaar Number")]
         public string ConAdhaarNumber { get; set; }
         [DisplayName("Upload Aadhaar Number")]
         public HttpPostedFileBase ConAdhaarNumberFilePath { get; set; }
+        public AddressDetail ConAddress { get; set; }
         [DisplayName("Upload Aadhaar Number")]
         public string ConAdhaarFileName { get; set; }
+        public bool isActive { get; set; }
        
       
     }
