@@ -22,15 +22,21 @@ namespace TogoFogo.Repository.WildCards
             return await _context.Database.SqlQuery<WildCardModel>("USPGetAllWildCards").ToListAsync();
         }
 
-        public async Task<WildCardModel> GetActionByWildCardId(int WildCardId)
+        public async Task<WildCardModel> GetWildCardByWildCardId(int WildCardId)
         {
             SqlParameter wildCard = new SqlParameter("@WildCardId", WildCardId);
-            return await _context.Database.SqlQuery<WildCardModel>("USPGetActionByWildCardId @WildCardId", wildCard).SingleOrDefaultAsync();
+            return await _context.Database.SqlQuery<WildCardModel>("USPGetWildCardByWildCardId @WildCardId", wildCard).SingleOrDefaultAsync();
         }
 
-        public async Task<bool> AddUpdateDeleteWildCards(WildCardModel wildCardModel, char action)
+        public async Task<ResponseModel> AddUpdateDeleteWildCards(WildCardModel wildCardModel, char action)
         {
-            bool result = false;
+            var actionTypeIds = "";
+           foreach(var item in wildCardModel.actionTypes)
+            { 
+                actionTypeIds = actionTypeIds + "," + item;
+            }
+            actionTypeIds = actionTypeIds.TrimStart(',');
+            actionTypeIds = actionTypeIds.TrimEnd(',');
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@WildCardId", wildCardModel.WildCardId);
             sp.Add(param);
@@ -42,14 +48,16 @@ namespace TogoFogo.Repository.WildCards
             sp.Add(param);
             param = new SqlParameter("@USER", (object)wildCardModel.AddedBy);
             sp.Add(param);
-            var sql = "USPInsertUpdateDeleteWildCards @WildCardId,@WildCard,@IsActive,@ACTION,@USER";
+            param = new SqlParameter("@ActionTypeIds", (object)actionTypeIds);
+            sp.Add(param);
+            var sql = "USPInsertUpdateDeleteWildCards @WildCardId,@WildCard,@IsActive,@ACTION,@USER,@ActionTypeIds";
 
 
-            var res = await _context.Database.SqlQuery<string>(sql, sp.ToArray()).FirstOrDefaultAsync();
-            if (res == "Ok")
-                result = true;
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
 
-            return result;
+            return res;
         }
 
         public static object ToDBNull(object value)

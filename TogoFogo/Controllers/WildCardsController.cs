@@ -11,60 +11,77 @@ namespace TogoFogo.Controllers
 {
     public class WildCardsController : Controller
     {
-        private readonly IWildCards _wildCardModel;
+        private readonly IWildCards _wildCardRepo;
         public WildCardsController()
         {
-            _wildCardModel = new WildCards();
+            _wildCardRepo = new WildCards();
 
         }
 
         public async Task<ActionResult> Index()
         {
-            var wildcard = await _wildCardModel.GetWildCards();
+            var wildcard = await _wildCardRepo.GetWildCards();
             return View(wildcard);
         }
 
         public async Task<ActionResult> Create()
         {
             var wildcardmodel = new WildCardModel();
+            wildcardmodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             return View(wildcardmodel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(WildCardModel wildcard)
+        public async Task<ActionResult> Create(WildCardModel wildcardModel)
         {
             if (ModelState.IsValid)
             {
-                wildcard.AddedBy = Convert.ToInt32(Session["User_ID"]);
-                var response = await _wildCardModel.AddUpdateDeleteWildCards(wildcard, 'I');
-                _wildCardModel.Save();
+                wildcardModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+                var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'I');
+                _wildCardRepo.Save();
                 TempData["response"] = response;
                 TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else
-                return View(wildcard);
+            {
+                wildcardModel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
+                return View(wildcardModel);
+            }
 
         }
         public async Task<ActionResult> Edit(int id)
         {
-            var wildcard = await _wildCardModel.GetActionByWildCardId(id);
+            var wildcard = await _wildCardRepo.GetWildCardByWildCardId(id);
+            var array = wildcard.ActionTypeIds.Split(',');
+            List<int> ActionTypes = new List<int>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                ActionTypes.Add(Convert.ToInt32(array[i]));
+
+
+            }
+            wildcard.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
+            wildcard.actionTypes = ActionTypes;
             return View(wildcard);
         }
         [HttpPost]
-        public async Task<ActionResult> Edit(WildCardModel wildcard)
+        public async Task<ActionResult> Edit(WildCardModel wildcardModel)
         {
             if (ModelState.IsValid)
             {
-                var response = await _wildCardModel.AddUpdateDeleteWildCards(wildcard, 'U');
-                _wildCardModel.Save();
+                wildcardModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+
+                var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'U');
+                _wildCardRepo.Save();
+                
                 TempData["response"] = response;
                 TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else
-
-                return View(wildcard);
+                wildcardModel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
+                return View(wildcardModel);
 
         }
     }

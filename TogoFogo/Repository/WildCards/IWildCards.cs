@@ -11,8 +11,8 @@ namespace TogoFogo.Repository.WildCards
       public interface IWildCards:IDisposable
     {
         Task<List<WildCardModel>> GetWildCards();
-        Task<WildCardModel> GetActionByWildCardId(int WildCardId);
-        Task<bool> AddUpdateDeleteWildCards(WildCardModel wildCardModel, char action);
+        Task<WildCardModel> GetWildCardByWildCardId(int WildCardId);
+        Task<ResponseModel> AddUpdateDeleteWildCards(WildCardModel wildCardModel, char action);
         void Save();
     }
 }

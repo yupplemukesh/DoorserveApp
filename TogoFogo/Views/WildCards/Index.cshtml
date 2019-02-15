@@ -1,8 +1,89 @@
-﻿@model TogoFogo.Models.WildCardModel
+﻿@model IEnumerable<TogoFogo.Models.WildCardModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var count = 1;
 }
 
+                            <div class="panel-heading">
+
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <h3 class="m-t-0 m-b-5">Wild Card</h3>
+                                        <p class="text-muted m-b-0"></p>
+                                    </div>
+
+                                    <div class="col-md-6  add-tem-btn-mar-top">
+                                        <div class="panel-tools">
+                                            <a class="btn btn-primary btn-sm" href="@Url.Action("Create","WildCards")">
+                                                <span>
+                                                    Add WildCards
+
+                                                </span>
+
+                                            </a>
+                                           
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="panel-body" style="border:0px solid red">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered dataTable" id="table-1">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayName("#SLNO")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Name")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Is Active")
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayName("Action")
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>
+                                                @count
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WildCard)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsActive)
+                                            </td>
+
+                                            <td style="display: inline-flex">
+                                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "WildCards", new { id = item.WildCardId})'>Edit</a>
+                                            </td>
+                                        </tr>
+                                            count++;
+                                        }
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
 
 
