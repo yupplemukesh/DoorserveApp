@@ -1,56 +1,79 @@
 ﻿
 @model TogoFogo.Models.GstCategoryModel
 @{
+    /**/
+
     Layout = null;
 }
 @using (Html.BeginForm("AddGst", "GstCategory", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-<div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.GSTCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextBoxFor(model => model.GSTCategory, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.GSTCategory, "", new { @class = "text-danger" })
+    <div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.GSTCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.GSTCategory, new { @class = "form-control", @id = "txtgstcategory" })
+                @Html.ValidationMessageFor(model => model.GSTCategory, "", new { @class = "text-danger" })
+                @* <div id="errormsg"></div>*@
+            </div>
         </div>
-    </div>
 
-    @*<div class="row" style="padding-bottom: 5px;">
+        @*<div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "Yes", Value = "Yes"},
+                        new SelectListItem {Text = "No", Value = "No"}
+
+                    }, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
+                @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
 
-                }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
             </div>
-        </div>*@
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.CheckBoxFor(model=> model.IsActive, new { @checked = "checked" })
-            
         </div>
-    </div>
 
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", @cols = 42, @rows = 2 })
-            
-        </div>
-    </div>
-    <div class="ln_solid"></div>
-    <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            @*<button class="btn btn-primary" type="button">Cancel</button>*@
-            <button class="btn btn-primary" type="reset">Reset</button>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", @cols = 42, @rows = 2 })
 
-</div>
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                @*<button class="btn btn-primary" type="button">Cancel</button>*@
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success" id="addbtn">Submit</button>
+            </div>
+        </div>
+
+    </div>
 }
 
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Content/Scripts/jquery.validate.js"></script>
+    <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Content/Scripts/jquery.validate.min.js"></script>}
+@* <script src="~/docs/js/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#addbtn").click(function () {
+                if ($("#txtgstcategory").val() == "") {
+                   alert("Please Enter GST Category");
+                    $("div#errormsg").css("color", "red");
+                    $("div#errormsg").html("Please Enter GST Category");
+                    $("div#errormsg").show(0).delay(500);
+                }
+            });
+        });
+    </script> *@

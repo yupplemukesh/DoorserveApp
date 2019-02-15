@@ -36,6 +36,8 @@ namespace TogoFogo.Controllers
             
             try
             {
+                if (ModelState.IsValid)
+                { 
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_GstCategory",
@@ -59,11 +61,14 @@ namespace TogoFogo.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "Gst Category Already Exist";
-                    }
+                            //TempData["Message"] = "Gst Category Already Exist";
+                            return View(model);
+                        }
+                }
+                    
                 }
 
-            
+
             }
             catch (Exception e)
             {
@@ -95,9 +100,12 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditGst(GstCategoryModel model)
         {
-            try
+           
+                try
             {
-                using (var con = new SqlConnection(_connectionString))
+                if (ModelState.IsValid)
+                {
+                    using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_GstCategory",
                         new
@@ -118,10 +126,14 @@ namespace TogoFogo.Controllers
                     }
                     else
                     {
-                        TempData["Message"] = "Gst Category Not Updated";
+
+                        //TempData["Message"] = "Gst Category Not Updated";
+                            return View(model);
                     }
                 }
+                    
 
+                }
 
             }
             catch (Exception e)
@@ -129,7 +141,10 @@ namespace TogoFogo.Controllers
                 Console.WriteLine(e);
                 throw;
             }
+           
+
             return RedirectToAction("Gst");
-        }
+       
+    }
     }
 }

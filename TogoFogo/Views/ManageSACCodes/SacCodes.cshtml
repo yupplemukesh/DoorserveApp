@@ -117,7 +117,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: "/ManageSACCodes/EditSacCode?sacCodeId=" + sacCodeId,
+                    url: "/ManageSACCodes/EditSacCode?sacCodesId=" + sacCodesId,
                     contentType: 'application/json; charset=utf-8',
                     cache: false,
                     success: function (response) {
@@ -125,6 +125,8 @@
                         $("#datepicker1,#editdatepicker").datepicker({
                             dateFormat: 'dd-M-yy'
                         }).datepicker();;
+                    
+
                     },
                     error: function (e) {
                         console.log(e);

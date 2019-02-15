@@ -51,7 +51,7 @@ namespace TogoFogo.Models
         [DisplayName("GST Applicable Date")]
         public string Gst_Applicable_date {get;set;}
         [DisplayName("Is Active ?")]
-        public string IsActive{get;set;}
+        public Boolean IsActive{get;set;}
         
         public string Comments {get;set;}
     }

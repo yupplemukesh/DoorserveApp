@@ -45,41 +45,45 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                using (var con = new SqlConnection(_connectionString))
+                if (ModelState.IsValid)
                 {
-                    var result = con.Query<int>("Add_Edit_Delete_SACCodes",
-                        new
+                    using (var con = new SqlConnection(_connectionString))
+                    {
+                        var result = con.Query<int>("Add_Edit_Delete_SACCodes",
+                            new
+                            {
+                                model.SacCodesId,
+                                model.CountryId,
+                                model.StateId,
+                                model.Applicable_Tax_Type,
+                                model.GstCategoryId,
+                                model.GstHeading,
+                                model.Gst_HSN_Code,
+                                model.CTH_Number,
+                                model.SAC,
+                                model.Product_Sale_Range,
+                                model.CGST,
+                                model.SGST_UTGST,
+                                model.IGST,
+                                model.GstProductCat,
+                                model.GstProductSubCat,
+                                model.Description_Of_Goods,
+                                model.IsActive,
+                                model.Comments,
+                                User = Convert.ToInt32(Session["User_ID"]),
+                                ACTION = "I"
+                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        if (result == 1)
                         {
-                            model.SacCodesId,
-                            model.CountryId,
-                            model.StateId,
-                            model.Applicable_Tax_Type,
-                            model.GstCategoryId,
-                            model.GstHeading,
-                            model.Gst_HSN_Code,
-                            model.CTH_Number,
-                            model.SAC,
-                            model.Product_Sale_Range,
-                            model.CGST,
-                            model.SGST_UTGST,
-                            model.IGST,
-                            model.GstProductCat,
-                            model.GstProductSubCat,
-                            model.Description_Of_Goods,
-                            model.IsActive,
-                            model.Comments,                         
-                            User = Convert.ToInt32(Session["User_ID"]),
-                            ACTION = "I"
-                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 1)
-                    {
-                        TempData["Message"] = "Successfully Added";
+                            TempData["Message"] = "Successfully Added";
 
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Sorry please try again";
+                        }
                     }
-                    else
-                    {
-                        TempData["Message"] = "Something Went Wrong";
-                    }
+                    return View(model);
                 }
 
 
@@ -154,11 +158,11 @@ namespace TogoFogo.Controllers
                         }
                         else
                         {
-                            TempData["Message"] = "Something Went Wrong";
+                            TempData["Message"] = "Not Updated Successfully";
                         }
                 }
 
-              
+                    return View(model);
                 }
 
 
