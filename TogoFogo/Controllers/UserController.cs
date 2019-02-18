@@ -15,10 +15,42 @@ namespace TogoFogo.Controllers
     public class UserController : Controller
     {
         private readonly string _connectionString =
-     ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public ActionResult AddUser()
+        ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        public ActionResult AddUser(Int64 id)
         {
-            return View();
+            User objUser = new User();
+            Int64 UserId = id;
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+               
+                   
+                    objUser._AddressDetail = new AddressDetail();
+                    objUser._ContactPerson = new ContactPersonModel();
+                   //objUser.SerialNo = result.SerialNo;
+                    objUser.UserId = result.UserId;
+                    objUser.UserName = result.UserName;
+                    objUser.IsActive = result.IsActive;
+                    objUser.CreatedDate = result.CreatedDate;
+                    objUser.ModifyDate = result.ModifyDate;
+                    objUser._AddressDetail.PinNumber = result.PinNumber;
+                    objUser._AddressDetail.Address = result.Address;
+                    objUser._AddressDetail.AddressTypeId = result.AddressTypeId;
+                    objUser._AddressDetail.CityId = result.CityId;
+                    objUser._AddressDetail.StateId = result.StateId;
+                    objUser._AddressDetail.City = result.City;
+                    objUser._AddressDetail.State = result.State;
+                    objUser._ContactPerson.ConFirstName = result.ConFirstName;
+                    objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
+                    objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
+
+                    
+                
+               
+            }
+            return View(objUser);
         }
         [HttpPost]
         public ActionResult AddUser(User objUser)
@@ -73,6 +105,42 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        public ActionResult UserList()
+        {
+            int UserId = 0;
+            List<User> objUserList = new List<User>();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
+                    commandType: CommandType.StoredProcedure).ToList();
 
+                foreach(var item in result)
+                {
+                    User objUser = new User();
+                    objUser._AddressDetail = new AddressDetail();
+                    objUser._ContactPerson = new ContactPersonModel();
+                    objUser.SerialNo = item.SerialNo;
+                    objUser.UserId = item.UserId;
+                    objUser.UserName = item.UserName;
+                    objUser.IsActive = item.IsActive;
+                    objUser.CreatedDate = item.CreatedDate;
+                    objUser.ModifyDate = item.ModifyDate;
+                    objUser._AddressDetail.PinNumber = item.PinNumber;
+                    objUser._AddressDetail.Address = item.Address;
+                    objUser._AddressDetail.AddressTypeId = item.AddressTypeId;
+                    objUser._AddressDetail.CityId = item.CityId;
+                    objUser._AddressDetail.StateId = item.StateId;
+                    objUser._AddressDetail.City = item.City;
+                    objUser._AddressDetail.State = item.State;
+                    objUser._ContactPerson.ConFirstName = item.ConFirstName;
+                    objUser._ContactPerson.ConMobileNumber = item.ConMobileNumber;
+                    objUser._ContactPerson.ConEmailAddress = item.ConEmailAddress;
+
+                    objUserList.Add(objUser);
+                }
+                return View(objUserList);
+            }
+            
+        }
     }
 }

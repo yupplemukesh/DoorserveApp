@@ -133,6 +133,22 @@ namespace TogoFogo
                 return _addressTypes;
             }
         }
+        public static async Task<List<CheckBox>> GetReverseAWBStatus()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _reverseAWBStatus = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Reverse AWB Status' and isActive=1").ToListAsync();
+                return _reverseAWBStatus;
+            }
+        }
+        public static async Task<List<CheckBox>> GetServiceEngineerAction()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _reverseAWBStatus = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Service Engineer Action' and isActive=1").ToListAsync();
+                return _reverseAWBStatus;
+            }
+        }
     }
 
 

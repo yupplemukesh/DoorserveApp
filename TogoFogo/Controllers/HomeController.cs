@@ -72,7 +72,7 @@ namespace TogoFogo.Controllers
                     return View("Login");
                 }
             }
-            return View();
+          
         }
     }
 }

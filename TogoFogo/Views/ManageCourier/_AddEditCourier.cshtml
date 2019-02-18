@@ -85,26 +85,12 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsReverse, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.IsReverse, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.IsReverse, "", new { @class = "text-danger" })*@
                     @Html.CheckBoxFor(model => model.IsReverse)
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsAllowPreference, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.IsAllowPreference, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.IsAllowPreference, "", new { @class = "text-danger" })*@
                     @Html.CheckBoxFor(model => model.IsAllowPreference)
                 </div>
             </div>
@@ -271,13 +257,6 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.ItemType, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.ItemType, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ItemType, "", new { @class = "text-danger" })*@
                     @Html.CheckBoxFor(model => model.ItemType)
 
                 </div>
@@ -416,12 +395,6 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.IsUser, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"},
-                        }, "Select", new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.IsUser, "", new { @class = "text-danger" })*@
                     @Html.CheckBoxFor(model => model.IsUser)
                 </div>
             </div>
@@ -559,13 +532,6 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
                     @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
 
                 </div>

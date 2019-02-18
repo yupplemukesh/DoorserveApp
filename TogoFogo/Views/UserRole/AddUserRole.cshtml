@@ -1,0 +1,221 @@
+﻿@model TogoFogo.Models.UserRole
+@{
+    ViewBag.Title = "Add User Role";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add User Role<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm("AddUserRole", "UserRole", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+                {
+
+                    <div class="form-horizontal">
+                        <div class="col-md-7 col-sm-7 col-lg-7 col-xs-12">
+                            <div class="row" style="padding-bottom: 5px;">
+                                @Html.Label("Role Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px;">
+                                @Html.Label("Comments", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextAreaFor(model => model.Comments, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px;">
+                                @Html.Label("Is Active", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+                                    @Html.HiddenFor(model=>model.RoleId)
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    @*<button class="btn btn-primary" type="button">Cancel</button>*@
+                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <button type="submit" class="btn btn-success" id="btnSubmit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12">
+                            <div class="row">
+                                <table class="table table-bordered table-condensed" style="width:100%" id="tblMenu">
+                                    <thead>
+                                        <tr>
+                                            <th>Check All <input type="checkbox" id="chkAll" /></th>
+                                            <th>Parent Menu</th>
+                                            <th>Submenu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model != null)
+                                        {
+
+                                            for (int i = 0; i < Model._MenuList.Count; i++)
+                                            {
+
+                                                <tr><td>
+    @Html.CheckBoxFor(m => Model._MenuList[i].CheckedStatus, new { @class = "chkMenu", name = "CheckedStatus" })
+                                               
+@Html.HiddenFor(m=>Model._MenuList[i].MenuCap_ID)
+                                            </td><td>@Model._MenuList[i].ParentMenuName</td><td>@Model._MenuList[i].Menu_Name</td></tr>
+
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+
+    //var obj = [];
+    //$(document).ready(function ()
+    //{
+    //    var end = this.value;
+    //    var firstDropVal = $('#UserType').val();
+    //    $("#test1 tbody tr").remove();
+    //    $.ajax({
+    //        type: 'GET',
+    //        url: "/UserRole/BindMenu",
+    //        contentType: 'application/json; charset=utf-8',
+    //        cache: false,
+    //        success: function (response)
+    //        {
+
+    //            // var Quan = 1;
+    //            var trHTML = '';
+    //            var ParentMenuList = $.grep(response, function (v) {
+    //                return v.ParentMenuId === "0";
+    //            });
+    //            if (ParentMenuList.length > 0) {
+    //                for (var i = 0; i < ParentMenuList.length; i++) {
+    //                    var SubmenuList = $.grep(response, function (p) {
+    //                        return p.ParentMenuId === "" + ParentMenuList[i].MenuCap_ID + "";
+    //                    });
+    //                    for (var j = 0; j < SubmenuList.length; j++) {
+    //                        trHTML += '<tr ><td><input type="checkbox" class="chkMenu" id="' + SubmenuList[j].MenuCap_ID + '"  data-val="' + SubmenuList[j].MenuCap_ID + '" /></td><td>' + ParentMenuList[i].Menu_Name + '</td><td hidden>' + SubmenuList[j].MenuCap_ID + '</td><td>' + SubmenuList[j].Menu_Name + '</td></tr>';
+    //                   }
+    //                }
+    //            }
+    //            $('#tblMenu').append(trHTML);
+
+    //        },
+    //        error: function (e) {
+    //            console.log(e);
+
+    //            alert("Something went wrong...");
+    //        },
+    //        complete: function () {
+
+    //        }
+    //    });
+    //});
+    //$(document).on("click", "#btnSubmit", function () {
+       
+    //    debugger
+    //    var valid = true;
+    //    $("#toast-container").fadeIn();
+    //    if ($('#RoleName').val() == '') {
+    //        valid = false;
+    //    }
+    //    if ($('#Comments').val() == '') {
+    //        valid = false;
+    //    }
+    //    if (valid) {
+    //        if ($('#tblMenu input:checkbox:checked').length == 0)
+    //        {
+    //            debugger
+              
+    //            $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');
+    //            $('#msg').children('div').find('.toast-error').css('display', 'block');
+    //            $("#toast-container").fadeOut(5000);
+    //            valid = false;
+    //        }
+
+    //    }
+       
+
+
+    //    return valid;
+    //});
+    $('form').submit(function ()
+    {
+        var valid = true;
+        $("#toast-container").fadeIn();
+        if ($('#RoleName').val() == '')
+        {
+            valid = false;
+            
+        }
+        if ($('#Comments').val() == '')
+        {
+            valid = false;
+        }
+        if (valid) {
+            if ($('#tblMenu input:checkbox:checked').length == 0)
+            {
+                debugger
+
+                $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');
+                $('#msg').children('div').find('.toast-error').css('display', 'block');
+                $("#toast-container").fadeOut(5000);
+                valid = false;
+            }
+
+        }
+        return valid;
+    });
+    $(document).on("change", ".chkMenu", function (e) {
+        debugger
+        //  var menuArray = [];
+
+        if ($(this).prop("checked") == false) {
+            // var Menu_CapId= $(this).attr("data-val")
+            $("#chkAll").prop('checked', false);
+            // obj.splice(obj.findIndex(v => v.MenuCap_ID === Menu_CapId), 1);
+        }
+        else {
+
+            // menuArray = { MenuCap_ID: $(this).attr("data-val") };
+            //  obj.push(menuArray);
+        }
+        //check "select all" if all checkbox items are checked
+        if ($('.chkMenu:checked').length == $('.chkMenu').length) {
+            $("#chkAll").prop('checked', true);
+        }
+    });
+    $(document).on("change", "#chkAll", function (e) {
+
+        $(".chkMenu").prop('checked', $(this).prop("checked"));
+    });
+    $(document).ready(function () {
+        if ($('.chkMenu:checked').length == $('.chkMenu').length) {
+            $("#chkAll").prop('checked', true);
+        }
+    });
+</script>
+
