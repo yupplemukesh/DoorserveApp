@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
@@ -96,14 +97,15 @@ namespace TogoFogo.Controllers
             }
            
         }
-        public ActionResult UREVASform( string CourierId)
+        public async Task<ActionResult> UREVASform( string CourierId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = new UREVASmodel();
-                 result = con.Query<UREVASmodel>("Select CourierName from Courier_Master where CourierId=@CourierId ", new { @CourierId= CourierId }, commandType: CommandType.Text).FirstOrDefault();
+                var result = new ReverseAWBStatusModel();
+                 result = con.Query<ReverseAWBStatusModel>("Select CourierName from Courier_Master where CourierId=@CourierId ", new { @CourierId= CourierId }, commandType: CommandType.Text).FirstOrDefault();
                 var result1 = con.Query<UREVASTable>("UREVAS_Page_Single_Table", null, commandType: CommandType.StoredProcedure).ToList();
                 result.AksTable = result1;
+                result.ReverseAWBStatusList = new SelectList(await CommonModel.GetReverseAWBStatus(), "Value", "Text");
                 return View(result);
             }
         }
@@ -111,28 +113,24 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-        public ActionResult FinalUpdateReverseAWB(string AWB)
+        public async Task<ActionResult> FinalUpdateReverseAWB(string AWB)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<UREVASmodel>("UREVAS_Page_Single_Table1", new { AWBNumber = AWB }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-
-                //result = con.Query<UREVASmodel>("Select * from Courier_Master where CourierId=@CourierId ", new { @CourierId = CourierId }, commandType: CommandType.Text).FirstOrDefault();
-                //var result1 = con.Query<UREVASTable>("UREVAS_Page_Single_Table", null, commandType: CommandType.StoredProcedure).ToList();
-                //result.AksTable = result1;
-                //return View(result);
+                var result = con.Query<ReverseAWBStatusModel>("UREVAS_Page_Single_Table1", new { AWBNumber = AWB }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                result.ReverseAWBStatusList = new SelectList(await CommonModel.GetReverseAWBStatus(), "Value", "Text");
                 return View(result);
             }
         }
         [HttpPost]
-        public ActionResult FinalUpdateReverseAWB(UREVASmodel m)
+        public ActionResult FinalUpdateReverseAWB(ReverseAWBStatusModel m)
         {
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("Insert_into_Reverse_AWB_Allocation_From_UREVAS",
                     new { UREVAS_ReverseAWBStatus =m.ReverseAWBStatus, UREVAS_Status=m.Status, UREVAS_Remarks=m.Remarks,CC_NO=m.CC_NO }
                 , commandType: CommandType.StoredProcedure).FirstOrDefault();
-
+               
                 if (result == 1)
                 {
                     return RedirectToAction("UpdateReverseAWB", "Logistics");
@@ -141,7 +139,7 @@ namespace TogoFogo.Controllers
             }
         }
         [HttpPost]
-        public ActionResult UREVASform(UREVASmodel m)
+        public ActionResult UREVASform(ReverseAWBStatusModel m)
         {
             using (var con = new SqlConnection(_connectionString))
             {
@@ -171,27 +169,35 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
-        public ActionResult AWBStatusform(string AWBNumber)
+        public async Task<ActionResult> AWBStatusform(string AWBNumber)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<UREVASmodel>("GetSingleDataUpdateAWBStatus", new { AWBNumber }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var result = con.Query<AWBStatusModel>("GetSingleDataUpdateAWBStatus", new { AWBNumber }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                result.AWBStatusList =new SelectList(await CommonModel.GetReverseAWBStatus(), "Value", "Text");
                 return View(result);
             }
         }
         [HttpPost]
-        public ActionResult AWBStatusform(UREVASmodel m)
+        public ActionResult AWBStatusform(AWBStatusModel m)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<int>("Insert_Into_UpdateAWBStatusTable", new { m.AWBNumber,m.AWBStatus,m.CourierName }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                if (result == 1)
+                if (ModelState.IsValid)
                 {
-                    TempData["Message"] = "Updated Successfully";
+                    var result = con.Query<int>("Insert_Into_UpdateAWBStatusTable", new { m.AWBNumber, m.AWBStatus, m.CourierName }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    if (result == 1)
+                    {
+                        TempData["Message"] = "Updated Successfully";
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Something Went Wrong";
+                    }
                 }
                 else
                 {
-                    TempData["Message"] = "Something Went Wrong";
+                    return View(m); 
                 }
             }
             return RedirectToAction("UpdateAWBStatus");
