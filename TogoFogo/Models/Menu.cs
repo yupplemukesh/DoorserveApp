@@ -21,5 +21,6 @@ namespace TogoFogo.Models
         public string Dele_By { get; set; }
         public DateTime? Dele_Date { get; set; }
         public string Visibility { get; set; }
+        
     }
 }

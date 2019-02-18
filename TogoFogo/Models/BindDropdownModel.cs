@@ -35,6 +35,7 @@ namespace TogoFogo.Models
         public string PagePath { get; set; }
         public string ParentMenuId { get; set; }
         public string ParentMenuName { get; set; }
+        public Boolean CheckedStatus { get; set; }
     }
     public class BindTrcModel
     {

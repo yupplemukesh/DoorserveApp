@@ -237,6 +237,8 @@
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UnauthorizedController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserPermissionController.cs" />
+    <Compile Include="Controllers\UserRoleController.cs" />
     <Compile Include="Controllers\WebsiteSettingsController.cs" />
     <Compile Include="Encrypt_Decrypt_Code\encrypt_decrypt.cs" />
     <Compile Include="Extended\UserExtended.cs" />
@@ -247,7 +249,6 @@
     <Compile Include="Models\BankDetailModel.cs" />
     <Compile Include="Models\BindAPI.cs" />
     <Compile Include="Models\CJSModel.cs" />
-    <Compile Include="Models\ClientModel.cs" />
     <Compile Include="Models\ColorModel.cs" />
     <Compile Include="Models\CommonModel.cs" />
     <Compile Include="Models\ContactPersonModel.cs" />
@@ -257,7 +258,9 @@
     <Compile Include="Models\Email_send_code.cs" />
     <Compile Include="Models\Encrypt_Decrypt.cs" />
     <Compile Include="Models\Gateway\GatewayModel.cs" />
+    <Compile Include="Models\Gateway\NotificationGatewayModel.cs" />
     <Compile Include="Models\Gateway\SMSGatewayModel.cs" />
+    <Compile Include="Models\Gateway\SMTPGatewayModel.cs" />
     <Compile Include="Models\HFTemplate.cs" />
     <Compile Include="Models\IVRTemplate.cs" />
     <Compile Include="Models\LandingPageModel.cs" />
@@ -314,6 +317,8 @@
     <Compile Include="Models\test.cs" />
     <Compile Include="Models\URSSEModel.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserPermission.cs" />
+    <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
@@ -912,6 +917,10 @@
     <Content Include="Views\SMSGateway\_SMSGatewayTable.cshtml" />
     <Content Include="Views\SMSGateway\_CreateEditSMSGatewayForm.cshtml" />
     <Content Include="Views\User\AddUser.cshtml" />
+    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\UserRole\AddUserRole.cshtml" />
+    <Content Include="Views\UserRole\UserRoleList.cshtml" />
+    <Content Include="Views\UserPermission\AddUserPermission.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
