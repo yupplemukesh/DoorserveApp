@@ -99,7 +99,7 @@
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
             $.ajax({
-                type: "GET",
+                type: "GET",               
                 url: "/DropdownBind/" + method + "?value=" + val,
                 data: '{}',
                 contentType: "application/json; charset=utf-8",
@@ -120,7 +120,8 @@
 
             $.ajax({
                 type: 'GET',
-                url: "/GSTTax/EditGstTax?gsttaxid=" + gsttaxid,
+                 url: '@Url.Action("EditGstTax", "GSTTax")',
+                @*url: "/GSTTax/EditGstTax?gsttaxid=" + gsttaxid,*@
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 success: function (response) {

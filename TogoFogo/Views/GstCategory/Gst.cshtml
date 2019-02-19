@@ -13,7 +13,7 @@
                 <div class="pull-right">
                     <button class="btn btn-primary excel">
                         Export Excel
-                    </button>                 
+                    </button>
                 </div>
             </div>
         </div>
@@ -28,13 +28,13 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2>List Of GST Category</h2>
-                        <ul class="nav navbar-right panel_toolbox">
-                            <li>
-                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                            </li>
-                        </ul>
-                        <div class="clearfix"></div>
-</div>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="x_content" style="overflow-x: scroll;">
                     @Html.Action("GstTable", "GstCategory")
                 </div>
@@ -71,24 +71,27 @@
 
     </script>
 }
+
 @section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         function EditGstCategory(gstCategoryId) {
             $.ajax({
                 type: 'GET',
-                url: "/GstCategory/EditGst?gstCategoryId=" + gstCategoryId,
+                url: '@Url.Action("EditGst", "GstCategory")',
+                @*url: "/GstCategory/EditGst?gstCategoryId=" + gstCategoryId,*@
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
-                success: function(response) {
+                success: function (response) {
                     $("#Info").html(response);
                 },
-                error: function(e) {
+                error: function (e) {
                     console.log(e);
                     $(".submitbutton").attr("disabled", false);
                     alert("Something went wrong...");
 
                 },
-                complete: function() {
+                complete: function () {
 
                     $(".submitbutton").attr("disabled", false);
                 }

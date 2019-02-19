@@ -11,29 +11,38 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
+                    @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'editStateId', this)" })
                     @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control" , id = "editStateId" })
                     @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Applicable_Tax_Type, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Applicable_Tax_Type, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
-                        new SelectListItem {Text = "GST", Value = "GST"}
-
-                    }, "Select", new {@class = "form-control"})
+                    @Html.DropDownListFor(model => model.Applicable_Tax_Type, Model.AplicationTaxTypeList,"Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Applicable_Tax_Type, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            @*<div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Applicable_Tax_Type, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.Applicable_Tax_Type, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
+                    new SelectListItem {Text = "GST", Value = "GST"}
+
+                }, "Select", new {@class = "form-control"})
+                @Html.ValidationMessageFor(model => model.Applicable_Tax_Type, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -169,8 +178,4 @@
         </div>
     </div>
 
-}
-@section Scripts
-{
-    @Scripts.Render("~/bundles/jqueryval")
 }

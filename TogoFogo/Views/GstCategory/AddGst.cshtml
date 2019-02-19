@@ -12,24 +12,12 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.GSTCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model.GSTCategory, new { @class = "form-control", @id = "txtgstcategory" })
+                @Html.TextBoxFor(model => model.GSTCategory, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.GSTCategory, "", new { @class = "text-danger" })
-                @* <div id="errormsg"></div>*@
             </div>
         </div>
 
-        @*<div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
 
-                    }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -57,23 +45,3 @@
     </div>
 }
 
-@section Scripts
-{
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script src="~/Content/Scripts/jquery.validate.js"></script>
-    <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
-    <script src="~/Content/Scripts/jquery.validate.min.js"></script>}
-@* <script src="~/docs/js/jquery-1.11.1.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#addbtn").click(function () {
-                if ($("#txtgstcategory").val() == "") {
-                   alert("Please Enter GST Category");
-                    $("div#errormsg").css("color", "red");
-                    $("div#errormsg").html("Please Enter GST Category");
-                    $("div#errormsg").show(0).delay(500);
-                }
-            });
-        });
-    </script> *@

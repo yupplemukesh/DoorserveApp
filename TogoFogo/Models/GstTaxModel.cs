@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
@@ -9,19 +10,19 @@ namespace TogoFogo.Models
     public class GstTaxModel
     {
         public string State { get; set; }
-        public string GstTaxId {get;set;}
+        public int GstTaxId {get;set;}
         [DisplayName("Country")]
-        public string CountryId {get;set;}
+        public int CountryId {get;set;}
         [DisplayName("State/Province/UT")]
-        public string StateId {get;set;}
+        public int StateId {get;set;}
         [DisplayName("Applicable Tax Type")]
         public string Applicable_Tax {get;set;}
         [DisplayName("GST Category")]
-        public string GstCategoryId {get;set;}
+        public int GstCategoryId {get;set;}
         [DisplayName("Device Category")]
-        public string Device_Cat {get;set;}
+        public int Device_Cat {get;set;}
         [DisplayName("Device Sub Category")]
-        public string Device_SubCat {get;set;}
+        public int Device_SubCat {get;set;}
         [DisplayName("GST Chapter Heading")]
         public string GstHeading {get;set;}
         [DisplayName("GST HSN Code (Chapter Sub-heading)")]
@@ -51,8 +52,25 @@ namespace TogoFogo.Models
         [DisplayName("GST Applicable Date")]
         public string Gst_Applicable_date {get;set;}
         [DisplayName("Is Active ?")]
-        public Boolean IsActive{get;set;}
-        
+        public Boolean IsActive{get;set;}        
         public string Comments {get;set;}
+        public int CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public int ModifyBy { get; set; }
+        public string ModifyDate { get; set; }
+        //public string Cby { get; set; }
+        //public string Mby { get; set; }
+
+
+        public SelectList CountryList { get; set; }
+        public SelectList StateList { get; set; }
+        public SelectList GstcategoryList { get; set; }
+        public SelectList DeviceCategoryList { get; set; }
+        public SelectList DeviceSubCategoryList { get; set; }
+        public SelectList GstHSNCodeList { get; set; }
+        public SelectList ApplicableTaxTypeList { get; set; }
+        public SelectList CTHNumberList { get; set; }
+        public SelectList SACList { get; set; }
+
     }
 }

@@ -61,11 +61,12 @@ namespace TogoFogo.Controllers
                     }
                     else
                     {
-                            //TempData["Message"] = "Gst Category Already Exist";
-                            return View(model);
+                            TempData["Message"] = "Gst Category Already Exist";
+                            
                         }
-                }
-                    
+                        
+                    }
+                    return View(model);
                 }
 
 
@@ -127,11 +128,11 @@ namespace TogoFogo.Controllers
                     else
                     {
 
-                        //TempData["Message"] = "Gst Category Not Updated";
-                            return View(model);
+                        TempData["Message"] = "Gst Category Not Updated";
+                           
                     }
                 }
-                    
+                    return View(model);
 
                 }
 

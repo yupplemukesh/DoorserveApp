@@ -10,13 +10,15 @@ namespace TogoFogo.Models
 {
     public class SacCodesModel
     {
-        public string Id { get; set; }
-        public string SacCodesId { get; set; }
-        [Required]                
+
+        public int SacCodesId { get; set; }
+        [Required]
+        [DisplayName("Country")]
         public int CountryId { get; set; }
         [DisplayName("Country")]
         public string Cnty_Name { get; set; }
-        [Required]                
+        [Required]
+        
         public int StateId { get; set; }
         [DisplayName("State")]
         public string St_Name { get; set; }
@@ -76,8 +78,8 @@ namespace TogoFogo.Models
         public SelectList StateList { get; set; }
         public SelectList GstList { get; set; }
         public SelectList GstHsnCodeList { get; set; }
+        public SelectList AplicationTaxTypeList { get; set; }
         
-
 
     }
 }

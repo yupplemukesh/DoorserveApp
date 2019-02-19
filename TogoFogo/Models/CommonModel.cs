@@ -66,6 +66,15 @@ namespace TogoFogo
             }
         }
 
+        public static  List<CheckBox> GetApplicationTax()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _applicationTaxType =  _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Application Tax Type' and isActive=1").ToList();
+                return _applicationTaxType;
+            }
+        }
+
         public static async Task<List<CheckBox>> GetStatutoryType()
         {
             using (var _context = new ApplicationDbContext())
