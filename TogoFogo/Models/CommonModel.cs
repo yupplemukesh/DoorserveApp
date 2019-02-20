@@ -133,6 +133,15 @@ namespace TogoFogo
                 return _addressTypes;
             }
         }
+
+        public static async Task<List<CheckBox>> GetActionList()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _ActionList = await _context.Database.SqlQuery<CheckBox>("SELECT ACTIONID VALUE, ACTIONNAME TEXT FROM MstAction where ISACTIVE=1").ToListAsync();
+                return _ActionList;
+            }
+        }
     }
 
 
