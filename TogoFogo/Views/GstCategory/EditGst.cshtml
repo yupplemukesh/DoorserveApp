@@ -10,25 +10,12 @@
         @Html.LabelFor(model => model.GSTCategory, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.GSTCategory, new { @class = "form-control", @id = "txtgstcategory" })
+            @Html.TextBoxFor(model => model.GSTCategory, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.GSTCategory, "", new { @class = "text-danger" })
-
         </div>
-        @*<span id="errormsg"></span>*@
-    </div>
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                              {
-                                  new SelectListItem {Text = "Yes", Value = "Yes"},
-                                  new SelectListItem {Text = "No", Value = "No"}
 
-                              }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
@@ -53,37 +40,7 @@
     </div>
 
 
-    
+
 }
 
-
-
-@section scripts{
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")}
-
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
-<script src="~/Content/Scripts/jquery.validate.min.js"></script>
-
-@*<script src="~/docs/js/jquery-1.11.1.js"></script>
-    <script type="text/javascript">
-                         $(document).ready(function () {
-                             $("#Editbtn").click(function () {
-                                 if ($("#txtgstcategory").val() == "") {
-                                    @* alert("Please Enter GST Category");
-    $("span#errormsg").css("color", "red");
-    $("span#errormsg").html("Please Enter GST Category");
-    $("span#errormsg").show(0).delay(9000);
- $("span#errormsg").show(0).delay(9000).hide(0);
-    }
-    else
-    {
-
-    $("span#errormsg").hide();
-
-
-    }
-    });
-    });
-
-    </script>*@
+@Scripts.Render("~/bundles/jqueryval")

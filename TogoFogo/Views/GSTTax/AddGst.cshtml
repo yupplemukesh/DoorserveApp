@@ -12,47 +12,56 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CountryId, null, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'State', this)" })
+                    @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'State', this)" })
                     @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.State, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.State, Model.StateList, new { @class = "form-control", id = "State" })
                     @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Applicable_Tax, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
-                        new SelectListItem {Text = "GST", Value = "GST"}
 
-                    }, "Select", new { @class = "form-control" })
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.DropDownListFor(model => model.Applicable_Tax, Model.ApplicableTaxTypeList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            @*<div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.Applicable_Tax, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
+                    new SelectListItem {Text = "GST", Value = "GST"}
+
+                }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.GstCategoryId, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.GstCategoryId, Model.GstcategoryList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.GstCategoryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Device_Cat, htmlAttributes: new { @class = "col-md-4  col-xs-12", })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Device_Cat, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Device_SubCat', this)" })
+                    @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Device_SubCat', this)" })
                     @Html.ValidationMessageFor(model => model.Device_Cat, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Device_SubCat, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Device_SubCat, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Device_SubCat, Model.DeviceSubCategoryList, new { @class = "form-control",id= "Device_SubCat" })
                     @Html.ValidationMessageFor(model => model.Device_SubCat, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -66,8 +75,8 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Gst_HSNCode_Id, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Gst_HSNCode_Id, null,"Select", new { @class = "form-control" })
-                    
+                    @Html.DropDownListFor(model => model.Gst_HSNCode_Id, Model.GstHSNCodeList, new { @class = "form-control" })
+
                     @Html.ValidationMessageFor(model => model.Gst_HSNCode_Id, "", new { @class = "text-danger" })
                 </div>
             </div>

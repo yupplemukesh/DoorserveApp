@@ -78,14 +78,14 @@ namespace TogoFogo.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier");
-                        string UploadedGSTFile= SaveImageFile(model.UploadedGSTFile1, "Courier");
-                        string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier");
-                        string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier");
-                        string VoterIDFile = SaveImageFile(model.VoterIDFile1, "Courier");
-                        string AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1, "Courier");
-                        string AgreementScanFile = SaveImageFile(model.AgreementScanFile1, "Courier");
-                        string CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1, "Courier");
+                        string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier/Logo");
+                        string UploadedGSTFile= SaveImageFile(model.UploadedGSTFile1, "Courier/Gst");
+                        string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier/PanCards");
+                        string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier/Pancards");
+                        string VoterIDFile = SaveImageFile(model.VoterIDFile1, "Courier/VoterCards");
+                        string AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1, "Courier/AdharCards");
+                        string AgreementScanFile = SaveImageFile(model.AgreementScanFile1, "Courier/ScanAgreement");
+                        string CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1, "Courier/CancelledCheques");
                         var result = con.Query<int>("Add_Modify_Delete_Courier",
                             new
                             {
@@ -210,14 +210,13 @@ namespace TogoFogo.Controllers
                 string folder = "~/UploadedImages/Courier/";
                 var result = con.Query<ManageCourierModel>("SELECT * from Courier_Master WHERE CourierId=@CourierId", new { CourierId = courierId },
                 commandType: CommandType.Text).FirstOrDefault();
-                result.UploadedCourierFile = folder + result.UploadedCourierFile;
-                
-                result.UploadedGSTFile = folder + result.UploadedGSTFile;                
-                result.UserPANCardFile = folder + result.UserPANCardFile;
-                result.VoterIDFile = folder + result.VoterIDFile;
-                result.AadhaarCardFile = folder + result.AadhaarCardFile;
-                result.AgreementScanFile = folder + result.AgreementScanFile;
-                result.CancelledChequeFile = folder + result.CancelledChequeFile;
+                result.UploadedCourierFile = folder+ "Logo/" + result.UploadedCourierFile;               
+                result.UploadedGSTFile = folder+ "Gst/" + result.UploadedGSTFile;                
+                result.UserPANCardFile = folder + "PanCards/" + result.UserPANCardFile;
+                result.VoterIDFile = folder + "VoterCards/" + result.VoterIDFile;
+                result.AadhaarCardFile = folder + "AdharCards/" + result.AadhaarCardFile;
+                result.AgreementScanFile = folder + "ScanAgreement/" + result.AgreementScanFile;
+                result.CancelledChequeFile = folder + "CancelledCheques/" + result.CancelledChequeFile;
                 if (result != null)
                 {
 
@@ -263,16 +262,17 @@ namespace TogoFogo.Controllers
                 model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier");
-                    string UploadedGSTFile = SaveImageFile(model.UploadedGSTFile1, "Courier");
-                    string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier");
-                    string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier");
-                    string VoterIDFile = SaveImageFile(model.VoterIDFile1, "Courier");
-                    string AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1, "Courier");
-                    string AgreementScanFile = SaveImageFile(model.AgreementScanFile1, "Courier");
-                    string CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1, "Courier");
+              
                     if (ModelState.IsValid)
                     {
+                        string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier/Logo");
+                        string UploadedGSTFile = SaveImageFile(model.UploadedGSTFile1, "Courier/Gst");
+                        string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier/PanCards");
+                        string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier/Pancards");
+                        string VoterIDFile = SaveImageFile(model.VoterIDFile1, "Courier/VoterCards");
+                        string AadhaarCardFile = SaveImageFile(model.AadhaarCardFile1, "Courier/AdharCards");
+                        string AgreementScanFile = SaveImageFile(model.AgreementScanFile1, "Courier/ScanAgreement");
+                        string CancelledChequeFile = SaveImageFile(model.CancelledChequeFile1, "Courier/CancelledCheques");
                         var result = con.Query<int>("Add_Modify_Delete_Courier",
                             new
                             {

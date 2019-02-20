@@ -66,6 +66,15 @@ namespace TogoFogo
             }
         }
 
+        public static  List<CheckBox> GetApplicationTax()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _applicationTaxType =  _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Application Tax Type' and isActive=1").ToList();
+                return _applicationTaxType;
+            }
+        }
+
         public static async Task<List<CheckBox>> GetStatutoryType()
         {
             using (var _context = new ApplicationDbContext())
@@ -133,13 +142,20 @@ namespace TogoFogo
                 return _addressTypes;
             }
         }
-
-        public static async Task<List<CheckBox>> GetActionList()
+        public static async Task<List<CheckBox>> GetReverseAWBStatus()
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _ActionList = await _context.Database.SqlQuery<CheckBox>("SELECT ACTIONID VALUE, ACTIONNAME TEXT FROM MstAction where ISACTIVE=1").ToListAsync();
-                return _ActionList;
+                var _reverseAWBStatus = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Reverse AWB Status' and isActive=1").ToListAsync();
+                return _reverseAWBStatus;
+            }
+        }
+        public static async Task<List<CheckBox>> GetServiceEngineerAction()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _reverseAWBStatus = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Service Engineer Action' and isActive=1").ToListAsync();
+                return _reverseAWBStatus;
             }
         }
     }

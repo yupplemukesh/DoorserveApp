@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,14 +10,18 @@ namespace TogoFogo.Models
 {
     public class SacCodesModel
     {
-        public string Id { get; set; }
-        public string SacCodesId { get; set; }
+
+        public int SacCodesId { get; set; }
         [Required]
-        [DisplayName("Country")]        
-        public string CountryId { get; set; }
+        [DisplayName("Country")]
+        public int CountryId { get; set; }
+        [DisplayName("Country")]
+        public string Cnty_Name { get; set; }
         [Required]
-        [DisplayName("State")]        
-        public string StateId { get; set; }
+        
+        public int StateId { get; set; }
+        [DisplayName("State")]
+        public string St_Name { get; set; }
         [Required]
         [DisplayName("Applicable Tax Type")]        
         public string Applicable_Tax_Type { get; set; }
@@ -68,5 +73,13 @@ namespace TogoFogo.Models
         public string Mby { get; set; }
         public int DeleteBy { get; set; }
         public string DeleteDate { get; set; }
+
+        public SelectList CountryList { get; set; }
+        public SelectList StateList { get; set; }
+        public SelectList GstList { get; set; }
+        public SelectList GstHsnCodeList { get; set; }
+        public SelectList AplicationTaxTypeList { get; set; }
+        
+
     }
 }
