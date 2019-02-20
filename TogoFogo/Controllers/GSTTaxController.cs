@@ -57,20 +57,13 @@ namespace TogoFogo.Controllers
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
             gm.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Test");
+            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             gm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
-            gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax());
+            gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
             gm.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(),"Value","Text");
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<string>("select Distinct CTH_Number from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                var result1 = con.Query<string>("select Distinct SAC from MstSacCodes",new { },commandType:CommandType.Text).ToList();
-                gm.CTHNumberList = new SelectList(result);
-                gm.SACList = new SelectList(result1);
-            }
-           
-
-                return View(gm);
+            gm.SACList = new SelectList(CommonModel.SAC_NumberList(), "Text", "Text");
+            gm.CTHNumberList = new SelectList(CommonModel.CTH_NumberList(), "Text", "Text");
+            return View(gm);
         }
 
         [HttpPost]
@@ -87,7 +80,8 @@ namespace TogoFogo.Controllers
                             {
                                 model.GstTaxId,
                                 model.CountryId,
-                                StateId=model.State,
+                                //StateId=model.State,
+                                model.StateId,
                                 model.Applicable_Tax,
                                 model.GstCategoryId,
                                 model.Device_Cat,
@@ -120,7 +114,7 @@ namespace TogoFogo.Controllers
                         }
                     }
 
-                    return RedirectToAction("Gst");
+                    return View(model);
                 }
 
 
@@ -142,50 +136,89 @@ namespace TogoFogo.Controllers
             }
         }
 
-        /*public ActionResult EditGstTax(int gsttaxid)
+        public ActionResult EditGstTax(int Gsttaxid)
         {
-            ViewBag.CountryId = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.State = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.GstCategoryId = new SelectList(dropdown.BindGst(), "Value", "Text");
-            ViewBag.Device_Cat = new SelectList(dropdown.BindCategory(), "Value", "Text");
 
-             using (var con = new SqlConnection(_connectionString))
-             {
-                 var result = con.Query<string>("Select Distinct Gst_HSN_Code from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                 ViewBag.Gst_HSNCode_Id = new SelectList(result);
-                 var cthNumber = con.Query<string>("Select Distinct CTH_Number from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                 ViewBag.CTH_NumberId = new SelectList(cthNumber);
-                 var Sac = con.Query<string>("Select Distinct SAC from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                 ViewBag.SACId = new SelectList(Sac);
-                 var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = gsttaxid },
-                     commandType: CommandType.Text).FirstOrDefault();
-                 ViewBag.Device_SubCat = new SelectList(dropdown.BindSubCategory(Int32.Parse(result2.Device_Cat)),"Value","Text");
+            /* ViewBag.CountryId = new SelectList(dropdown.BindCountry(), "Value", "Text");
+             ViewBag.State = new SelectList(Enumerable.Empty<SelectList>());
+             ViewBag.GstCategoryId = new SelectList(dropdown.BindGst(), "Value", "Text");
+             ViewBag.Device_Cat = new SelectList(dropdown.BindCategory(), "Value", "Text");
 
-                 if (result2 != null)
-                 {
+              using (var con = new SqlConnection(_connectionString))
+              {
+                  var result = con.Query<string>("Select Distinct Gst_HSN_Code from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
+                  ViewBag.Gst_HSNCode_Id = new SelectList(result);
+                  var cthNumber = con.Query<string>("Select Distinct CTH_Number from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
+                  ViewBag.CTH_NumberId = new SelectList(cthNumber);
+                  var Sac = con.Query<string>("Select Distinct SAC from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
+                  ViewBag.SACId = new SelectList(Sac);
+                  var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = gsttaxid },
+                      commandType: CommandType.Text).FirstOrDefault();
+                  ViewBag.Device_SubCat = new SelectList(dropdown.BindSubCategory(Int32.Parse(result2.Device_Cat)),"Value","Text");
 
-                     result2.State = result2.StateId;
-                     if (result2.Product_Sale_Range != null)
-                     {
-                         if (result2.Product_Sale_Range.Contains("-"))
-                         {
-                             string productSale = result2.Product_Sale_Range;
-                             string[] parts = productSale.ToString().Split('-');
-                             result2.Product_Sale_From = parts[0];
-                             result2.Product_Sale_TO = parts[1];
-                         }
-                         else
-                         {
-                             result2.Product_Sale_From = result2.Product_Sale_Range;
-                         }
+                  if (result2 != null)
+                  {
 
-                     }
+                      result2.State = result2.StateId;
+                      if (result2.Product_Sale_Range != null)
+                      {
+                          if (result2.Product_Sale_Range.Contains("-"))
+                          {
+                              string productSale = result2.Product_Sale_Range;
+                              string[] parts = productSale.ToString().Split('-');
+                              result2.Product_Sale_From = parts[0];
+                              result2.Product_Sale_TO = parts[1];
+                          }
+                          else
+                          {
+                              result2.Product_Sale_From = result2.Product_Sale_Range;
+                          }
 
-                 }
-                 ViewBag.State = new SelectList(dropdown.BindState(Int32.Parse(result2.CountryId)),"Value","Text");
-                 return View(result2);
+                      }
+
+                  }
+                  ViewBag.State = new SelectList(dropdown.BindState(Int32.Parse(result2.CountryId)),"Value","Text");*/
+
+           
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = Gsttaxid },
+                commandType: CommandType.Text).FirstOrDefault();
+                result2.SACList = new SelectList(CommonModel.SAC_NumberList(), "Text", "Text");
+                result2.CTHNumberList = new SelectList(CommonModel.CTH_NumberList(), "Text", "Text");
+                result2.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+                result2.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(result2.Device_Cat));
+                result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
+                result2.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
+                if (result2 != null)
+                {
+
+                    if (result2.Product_Sale_Range != null)
+                    {
+                        if (result2.Product_Sale_Range.Contains("-"))
+                        {
+                            string productSale = result2.Product_Sale_Range;
+                            string[] parts = productSale.ToString().Split('-');
+                            result2.Product_Sale_From = parts[0];
+                            result2.Product_Sale_TO = parts[1];
+                        }
+                        else
+                        {
+                            result2.Product_Sale_From = result2.Product_Sale_Range;
+                        }
+
+                    }
+
+                }
+                return View(result2);
+            }
+
+            
              }
-         }
+       
          [HttpPost]
          public ActionResult EditGstTax(GstTaxModel model)
          {
@@ -200,7 +233,8 @@ namespace TogoFogo.Controllers
                              {
                                  model.GstTaxId,
                                  model.CountryId,
-                                 StateId=model.State,
+                                // StateId=model.State,
+                                   model.StateId,
                                  model.Applicable_Tax,
                                  model.GstCategoryId,
                                  model.Device_Cat,
@@ -241,6 +275,6 @@ namespace TogoFogo.Controllers
                  throw;
              }
              return RedirectToAction("Gst");
-         }*/
+         }
     }
 }

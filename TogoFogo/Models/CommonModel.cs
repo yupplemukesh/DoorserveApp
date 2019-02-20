@@ -166,6 +166,25 @@ namespace TogoFogo
                 return _ActionList;
             }
         }
+
+      
+        public static  List<CheckBox> CTH_NumberList()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _CTH_numberList = _context.Database.SqlQuery<CheckBox>("select distinct  CTH_NUMBER Text from MstSacCodes where IsActive = 1 and  CTH_NUMBER is not null").ToList();
+                return _CTH_numberList;
+            }
+        }
+
+        public static List<CheckBox> SAC_NumberList()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _Sac_numberList = _context.Database.SqlQuery<CheckBox>("select distinct SAC Text from MstSacCodes where IsActive = 1 and SAC is not null").ToList();
+                return _Sac_numberList;
+            }
+        }
     }
 
 

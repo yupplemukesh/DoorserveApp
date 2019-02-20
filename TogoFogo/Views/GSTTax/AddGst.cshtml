@@ -17,10 +17,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.State, Model.StateList, new { @class = "form-control", id = "State" })
-                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", id = "State" })
+                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -83,14 +83,14 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.CTH_NumberId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CTH_NumberId, null, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CTH_NumberId,Model.CTHNumberList , "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CTH_NumberId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.SACId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.SACId, null, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.SACId, Model.SACList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.SACId, "", new { @class = "text-danger" })
                 </div>
             </div>
