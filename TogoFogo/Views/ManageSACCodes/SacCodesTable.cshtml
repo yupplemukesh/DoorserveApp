@@ -7,17 +7,16 @@
     <thead>
         <tr>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Cnty_Name)
+            <th @Html.DisplayNameFor(model => model.Cnty_Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.St_Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Applicable_Tax_Type)
+                @Html.DisplayNameFor(model => model.Applicabletax)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GstCategoryId)
+                @Html.DisplayNameFor(model => model.Gstcategory)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.GstHeading)
@@ -70,12 +69,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifyDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteDate)
-            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.DeleteBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeleteDate)
+        </th>*@
             <th></th>
         </tr>
     </thead>
@@ -83,83 +82,83 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cnty_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.St_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Applicable_Tax_Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GstCategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GstHeading)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gst_HSN_Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CTH_Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SAC)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product_Sale_Range)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CGST)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SGST_UTGST)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IGST)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GstProductCat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GstProductSubCat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description_Of_Goods)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cby)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mby)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifyDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeleteDate)
-            </td>
-            <td style="display: inline-flex">
-                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize "onclick="EditSAC(@item.SacCodesId)">Edit</a>
-                <a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
-                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cnty_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.St_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Applicabletax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gstcategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GstHeading)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gst_HSN_Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CTH_Number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SAC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product_Sale_Range)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CGST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SGST_UTGST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IGST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GstProductCat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GstProductSubCat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description_Of_Goods)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mby)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModifyDate)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.DeleteBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeleteDate)
+        </td>*@
+        <td style="display: inline-flex">
+            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSAC(@item.SacCodesId)">Edit</a>
+            <a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
+            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+        </td>
+    </tr>
     }
 
 </table>

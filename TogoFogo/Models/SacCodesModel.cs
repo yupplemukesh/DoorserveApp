@@ -18,16 +18,20 @@ namespace TogoFogo.Models
         [DisplayName("Country")]
         public string Cnty_Name { get; set; }
         [Required]
-        
+        [DisplayName("State")]
         public int StateId { get; set; }
         [DisplayName("State")]
         public string St_Name { get; set; }
         [Required]
         [DisplayName("Applicable Tax Type")]        
-        public string Applicable_Tax_Type { get; set; }
+        public int Applicable_Tax { get; set; }
+        [DisplayName("Applicable Tax Type")]
+        public string Applicabletax { get; set; }
         [Required]
         [DisplayName("Gst Category")]        
         public string GstCategoryId { get; set; }
+        [DisplayName("Gst Category")]
+        public string Gstcategory { get; set; }
         [Required]
         [DisplayName("Gst Chapter Heading")]
         public string GstHeading { get; set; }
@@ -39,10 +43,15 @@ namespace TogoFogo.Models
         public string CTH_Number { get; set; }
         [Required]
         [DisplayName("SAC (Services Accounting Code)")]       
-        public string SAC { get; set; }
-        [Required]
+        public string SAC { get; set; }       
         [DisplayName("Product Sale Range")]
         public string Product_Sale_Range { get; set; }
+        [Required]
+        [DisplayName("From")]
+        public string Product_Sale_From { get; set; }
+        [Required]
+        [DisplayName("To")]
+        public string Product_Sale_TO { get; set; }
         [Required]
         [DisplayName("CGST Rate (%)")]        
         public float CGST { get; set; }
@@ -71,8 +80,8 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string Cby { get; set; }
         public string Mby { get; set; }
-        public int DeleteBy { get; set; }
-        public string DeleteDate { get; set; }
+       // public int DeleteBy { get; set; }
+      //  public string DeleteDate { get; set; }
 
         public SelectList CountryList { get; set; }
         public SelectList StateList { get; set; }

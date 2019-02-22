@@ -12,28 +12,28 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CategoryId, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatId', this)" })
+                    @Html.DropDownListFor(model => model.CategoryId, Model.DeviceCategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'DeviceSub', this)" })
                     @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.SubCatId, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.SubCatId, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.SubCatId, Model.DeviceSubCategoryList, new { @class = "form-control" ,id="DeviceSub"})
                     @Html.ValidationMessageFor(model => model.SubCatId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.BrandId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.BrandId, null, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'ModalNameId', this)" })
+                    @Html.DropDownListFor(model => model.BrandId, Model.BrandList, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'ModelName', this)" })
                     @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.ModalNameId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.ModalNameId, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.ModalNameId, Model.ModelNameList, new { @class = "form-control",id="ModelName" })
                     @Html.ValidationMessageFor(model => model.ModalNameId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -93,19 +93,25 @@
                 </div>
             </div>
 
+            @* <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Yes", Value = "Yes"},
+                new SelectListItem {Text = "No", Value = "No"}
+
+            }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
+                    @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
 
-                }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                 </div>
             </div>
-    
         </div>
 
 
@@ -114,7 +120,7 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                <button class="btn btn-primary" type="button">Cancel</button>
+                @*<button class="btn btn-primary" type="button">Cancel</button>*@
                 <button class="btn btn-primary" type="reset">Reset</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>

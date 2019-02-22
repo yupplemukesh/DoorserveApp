@@ -70,7 +70,7 @@
                 <h4 class="modal-title">Edit Service Charge</h4>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Partial("EditServiceCharge")</div>
+            <div class="modal-body" id="Info">@*@Html.Partial("EditServiceCharge")*@</div>
         </div>
 
     </div>
@@ -91,6 +91,7 @@
     </script>
 }
 @section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
@@ -116,7 +117,9 @@
 
             $.ajax({
                 type: 'GET',
-                url: "/DeviceServiceCharge/EditServiceCharge?serviceChargeId=" + serviceChargeId,
+                 url: '@Url.Action("EditServiceCharge", "DeviceServiceCharge")',
+                data: {ServiceChargeId: serviceChargeId},
+               @* url: "/DeviceServiceCharge/EditServiceCharge?serviceChargeId=" + serviceChargeId,*@
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 success: function (response) {

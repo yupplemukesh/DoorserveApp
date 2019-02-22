@@ -19,14 +19,7 @@ namespace TogoFogo.Controllers
         // GET: GSTTax
         public ActionResult Gst()
         {
-           /* ViewBag.CountryId = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.State = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.GstCategoryId = new SelectList(dropdown.BindGst(), "Value", "Text");
-            ViewBag.Device_Cat = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.Device_SubCat = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.Gst_HSNCode_Id = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.CTH_NumberId = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.SACId = new SelectList(Enumerable.Empty<SelectList>());*/
+         
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
@@ -36,24 +29,9 @@ namespace TogoFogo.Controllers
         }
         public ActionResult AddGst()
         {
-            GstTaxModel gm = new GstTaxModel();
-            /* ViewBag.CountryId = new SelectList(dropdown.BindCountry(), "Value", "Text");
-             ViewBag.State = new SelectList(Enumerable.Empty<SelectList>());
-             ViewBag.GstCategoryId = new SelectList(dropdown.BindGst(), "Value", "Text");
-             ViewBag.Device_Cat = new SelectList(dropdown.BindCategory(), "Value", "Text");
-             ViewBag.Device_SubCat = new SelectList(Enumerable.Empty<SelectList>());
-           
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<string>("Select Distinct Gst_HSN_Code from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                
-                ViewBag.Gst_HSNCode_Id = new SelectList(result);
-                var cthNumber = con.Query<string>("Select Distinct CTH_Number from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                ViewBag.CTH_NumberId = new SelectList(cthNumber);
-                var Sac = con.Query<string>("Select Distinct SAC from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                ViewBag.SACId = new SelectList(Sac);
-            }*/
 
+           
+            GstTaxModel gm = new GstTaxModel();
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
             gm.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
@@ -114,7 +92,8 @@ namespace TogoFogo.Controllers
                         }
                     }
 
-                    return View(model);
+                    //return View(model);
+                    return RedirectToAction("Gst");
                 }
 
 
@@ -137,48 +116,7 @@ namespace TogoFogo.Controllers
         }
 
         public ActionResult EditGstTax(int Gsttaxid)
-        {
-
-            /* ViewBag.CountryId = new SelectList(dropdown.BindCountry(), "Value", "Text");
-             ViewBag.State = new SelectList(Enumerable.Empty<SelectList>());
-             ViewBag.GstCategoryId = new SelectList(dropdown.BindGst(), "Value", "Text");
-             ViewBag.Device_Cat = new SelectList(dropdown.BindCategory(), "Value", "Text");
-
-              using (var con = new SqlConnection(_connectionString))
-              {
-                  var result = con.Query<string>("Select Distinct Gst_HSN_Code from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                  ViewBag.Gst_HSNCode_Id = new SelectList(result);
-                  var cthNumber = con.Query<string>("Select Distinct CTH_Number from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                  ViewBag.CTH_NumberId = new SelectList(cthNumber);
-                  var Sac = con.Query<string>("Select Distinct SAC from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                  ViewBag.SACId = new SelectList(Sac);
-                  var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = gsttaxid },
-                      commandType: CommandType.Text).FirstOrDefault();
-                  ViewBag.Device_SubCat = new SelectList(dropdown.BindSubCategory(Int32.Parse(result2.Device_Cat)),"Value","Text");
-
-                  if (result2 != null)
-                  {
-
-                      result2.State = result2.StateId;
-                      if (result2.Product_Sale_Range != null)
-                      {
-                          if (result2.Product_Sale_Range.Contains("-"))
-                          {
-                              string productSale = result2.Product_Sale_Range;
-                              string[] parts = productSale.ToString().Split('-');
-                              result2.Product_Sale_From = parts[0];
-                              result2.Product_Sale_TO = parts[1];
-                          }
-                          else
-                          {
-                              result2.Product_Sale_From = result2.Product_Sale_Range;
-                          }
-
-                      }
-
-                  }
-                  ViewBag.State = new SelectList(dropdown.BindState(Int32.Parse(result2.CountryId)),"Value","Text");*/
-
+        {          
            
             using (var con = new SqlConnection(_connectionString))
             {
@@ -190,7 +128,7 @@ namespace TogoFogo.Controllers
                 result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 result2.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
-                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(result2.Device_Cat));
+                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
                 result2.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 if (result2 != null)
@@ -266,8 +204,9 @@ namespace TogoFogo.Controllers
                              TempData["Message"] = "Something Went Wrong";
                          }
                      }
-                     return View(model);
-                 }
+                    //return View(model);
+                    return RedirectToAction("Gst");
+                }
              }
              catch (Exception e)
              {

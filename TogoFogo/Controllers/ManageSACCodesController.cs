@@ -23,17 +23,7 @@ namespace TogoFogo.Controllers
         // GET: ManageSACCodes
         public ActionResult SacCodes()
         {
-            /*ViewBag.CountryId = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.StateId = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.GstCategoryId = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.Gst_HSNCode_Id = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.CTH_NumberId = new SelectList(Enumerable.Empty<SelectList>());
-            ViewBag.SACId = new SelectList(Enumerable.Empty<SelectList>());
-
-            sm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            sm.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-            sm.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            sm.GstHsnCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");*/
+           
         
            
             if (TempData["Message"] != null)
@@ -51,8 +41,7 @@ namespace TogoFogo.Controllers
             
             sm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             sm.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            sm.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");
-           
+            sm.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");           
             sm.AplicationTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
             return View(sm);
         }
@@ -71,13 +60,14 @@ namespace TogoFogo.Controllers
                                 model.SacCodesId,
                                 model.CountryId,
                                 model.StateId,
-                                model.Applicable_Tax_Type,
+                                model.Applicable_Tax,
                                 model.GstCategoryId,
                                 model.GstHeading,
                                 model.Gst_HSN_Code,
                                 model.CTH_Number,
                                 model.SAC,
-                                model.Product_Sale_Range,
+                                //model.Product_Sale_Range,
+                                Product_Sale_Range = model.Product_Sale_From + "-" + model.Product_Sale_TO,
                                 model.CGST,
                                 model.SGST_UTGST,
                                 model.IGST,
@@ -116,7 +106,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 //var result = con.Query<SacCodesModel>("Select * from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-               var result= con.Query < SacCodesModel >("select c.Cnty_Name,s.St_Name,m.SacCodesId, m.Applicable_Tax_Type,m.GstCategoryid,m.GstHeading,m.Gst_HSN_Code,m.CTH_Number,m.SAC,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, m.GstProductSubCat, m.Description_Of_Goods, m.IsActive, m.Comments, m.CreatedDate, m.ModifyDate, u.Username Cby,u1.Username Mby from MstSacCodes m join create_User_Master u on u.id = m.CreatedBy left outer join create_User_Master u1 on m.ModifyBy = u1.id left outer join MstCountry c on c.Cnty_ID = m.CountryId left outer join mststate s on s.St_ID = m.StateId", new { }, commandType: CommandType.Text).ToList();
+               var result= con.Query < SacCodesModel >("select c.Cnty_Name,s.St_Name,m.SacCodesId, m.Applicable_Tax,m.GstCategoryid, m.GstHeading, m.Gst_HSN_Code, m.CTH_Number, m.SAC, g.Gstcategory,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, com.name Applicabletax, m.GstProductSubCat, m.Description_Of_Goods, m.IsActive, m.Comments,m.CreatedDate, m.ModifyDate, u.Username Cby, u1.Username Mby from MstSacCodes m  join create_User_Master u on u.id = m.CreatedBy  left outer join create_User_Master u1 on m.ModifyBy = u1.id  left outer join MstCountry c on c.Cnty_ID = m.CountryId left outer join mststate s on s.St_ID = m.StateId left outer join tblcommon com on com.ID = m.Applicable_Tax left outer join MstGstCategory AS g ON g.GstCategoryId = m.GstCategoryId ", new { }, commandType: CommandType.Text).ToList();
                 return View(result);
             }
         }
@@ -135,7 +125,26 @@ namespace TogoFogo.Controllers
                 result.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
                result.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-              
+                if (result != null)
+                {
+
+                    if (result.Product_Sale_Range != null)
+                    {
+                        if (result.Product_Sale_Range.Contains("-"))
+                        {
+                            string productSale = result.Product_Sale_Range;
+                            string[] parts = productSale.ToString().Split('-');
+                            result.Product_Sale_From = parts[0];
+                            result.Product_Sale_TO = parts[1];
+                        }
+                        else
+                        {
+                            result.Product_Sale_From = result.Product_Sale_Range;
+                        }
+
+                    }
+
+                }
                 return View(result);
             }
         }
@@ -154,13 +163,14 @@ namespace TogoFogo.Controllers
                                 model.SacCodesId,
                                 model.CountryId,
                                 model.StateId,
-                                model.Applicable_Tax_Type,
+                                model.Applicable_Tax,
                                 model.GstCategoryId,
                                 model.GstHeading,
                                 model.Gst_HSN_Code,
                                 model.CTH_Number,
                                 model.SAC,
-                                model.Product_Sale_Range,
+                                //model.Product_Sale_Range,
+                                Product_Sale_Range = model.Product_Sale_From + "-" + model.Product_Sale_TO,
                                 model.CGST,
                                 model.SGST_UTGST,
                                 model.IGST,

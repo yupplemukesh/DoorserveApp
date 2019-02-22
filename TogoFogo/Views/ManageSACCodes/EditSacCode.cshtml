@@ -23,32 +23,16 @@
             </div>
         </div>
     </div>
-
-
-
     <div class="form-group">
-
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.Applicable_Tax_Type, htmlAttributes: new { @class = "control-label" })
+            @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.Applicable_Tax_Type, Model.AplicationTaxTypeList, new { @class = "form-control", id = "editStateId" })
-                @Html.ValidationMessageFor(model => model.Applicable_Tax_Type, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.Applicable_Tax, Model.AplicationTaxTypeList,"Select", new { @class = "form-control", id = "editStateId" })
+                @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*<div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.Applicable_Tax_Type, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.Applicable_Tax_Type, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
-                    new SelectListItem {Text = "GST", Value = "GST"}
-
-                }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Applicable_Tax_Type, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+       
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
@@ -78,7 +62,6 @@
         </div>
     </div>
 
-
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.CTH_Number, htmlAttributes: new { @class = "control-label" })
@@ -97,14 +80,19 @@
             </div>
         </div>
     </div>
-
-    <div class="form-group">
+    <div class="form-group">    
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.TextBoxFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Product_Sale_Range, "", new { @class = "text-danger" })
+                <div class="col-md-7 col-sm-7 col-xs-12" style="display: inline-flex">
+                    @Html.LabelFor(model => model.Product_Sale_From, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    @Html.TextBoxFor(model => model.Product_Sale_From, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Product_Sale_From, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.Product_Sale_TO, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    @Html.TextBoxFor(model => model.Product_Sale_TO, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Product_Sale_TO, "", new { @class = "text-danger" })
+
+                </div>
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -116,8 +104,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.SGST_UTGST, htmlAttributes: new { @class = "control-label" })

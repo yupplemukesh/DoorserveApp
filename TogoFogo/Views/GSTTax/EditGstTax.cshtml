@@ -1,135 +1,125 @@
 ﻿@model TogoFogo.Models.GstTaxModel
 @{
-	Layout = null;
+    Layout = null;
 }
 @using (Html.BeginForm("EditGstTax", "GSTTax", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-	@Html.HiddenFor(m => m.GstTaxId)
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.CountryId,Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
-            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.GstTaxId)
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
+                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", id = "StateId" })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.StateId,Model.StateList, new { @class = "form-control", id= "StateId" })
-            @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
 
 
 
-<div class="form-group">
+    <div class="form-group">
 
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.Applicable_Tax, Model.ApplicableTaxTypeList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @*<div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.Applicable_Tax, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
-                    new SelectListItem {Text = "GST", Value = "GST"}
-
-                }, "Select", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Applicable_Tax, Model.ApplicableTaxTypeList,"Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
             </div>
-        </div>*@
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.GstCategoryId, Model.GstcategoryList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.GstCategoryId, "", new { @class = "text-danger" })
         </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Device_Cat, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'editDevice_SubCat', this)" })
-            @Html.ValidationMessageFor(model => model.Device_Cat, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Device_SubCat, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.Device_SubCat, Model.DeviceSubCategoryList, new { @class = "form-control", id = "editDevice_SubCat" })
-            @Html.ValidationMessageFor(model => model.Device_SubCat, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.GstHeading, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.GstHeading, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.GstHeading, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Gst_HSNCode_Id, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.Gst_HSNCode_Id,Model.GstHSNCodeList, new { @class = "form-control" })
-
-            @Html.ValidationMessageFor(model => model.Gst_HSNCode_Id, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.CTH_NumberId, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.CTH_NumberId, Model.CTHNumberList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CTH_NumberId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.SACId, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.SACId, Model.SACList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SACId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">            
-            <div class="col-md-7 col-sm-7 col-xs-12" style="display: inline-flex">
-                @Html.LabelFor(model => model.Product_Sale_From, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-                @Html.TextBoxFor(model => model.Product_Sale_From, new { @class = "form-control" })
-                @Html.LabelFor(model => model.Product_Sale_TO, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-                @Html.TextBoxFor(model => model.Product_Sale_TO, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Product_Sale_Range, "", new { @class = "text-danger" })
+       
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.GstCategoryId, Model.GstcategoryList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GstCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Device_Cat, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'editDevice_SubCat', this)" })
+                @Html.ValidationMessageFor(model => model.Device_Cat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Device_SubCat, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.Device_SubCat, Model.DeviceSubCategoryList, new { @class = "form-control", id = "editDevice_SubCat" })
+                @Html.ValidationMessageFor(model => model.Device_SubCat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.GstHeading, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.GstHeading, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GstHeading, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Gst_HSNCode_Id, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.Gst_HSNCode_Id, Model.GstHSNCodeList,"Select", new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.Gst_HSNCode_Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.CTH_NumberId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CTH_NumberId, Model.CTHNumberList,"select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CTH_NumberId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.SACId, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.SACId, Model.SACList,"Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SACId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <div class="col-md-7 col-sm-7 col-xs-12" style="display: inline-flex">
+                    @Html.LabelFor(model => model.Product_Sale_From, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    @Html.TextBoxFor(model => model.Product_Sale_From, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Product_Sale_From, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.Product_Sale_TO, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    @Html.TextBoxFor(model => model.Product_Sale_TO, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Product_Sale_TO, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+        </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.CGST, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
@@ -140,94 +130,82 @@
         </div>
     </div>
 
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.SGST, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.SGST, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SGST, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.IGST, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.IGST, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IGST, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Product_Cat, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Product_Cat, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Product_Cat, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Product_SubCat, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Product_SubCat, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Product_SubCat, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Description_Goods, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Description_Goods, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Description_Goods, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Gst_Applicable_date, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Gst_Applicable_date, htmlAttributes: new { @class = "form-control", id = "editdatepicker" })
-            @Html.ValidationMessageFor(model => model.Gst_Applicable_date, "", new { @class = "text-danger" })
-        </div>
-    </div>
-</div>
-
-<div class="form-group">
-
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
-
-        </div>
-    </div>
-    @*<div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.SGST, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
-
-            }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.SGST, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SGST, "", new { @class = "text-danger" })
             </div>
-        </div>*@
-    <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IGST, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.IGST, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IGST, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Product_Cat, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Product_Cat, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Product_Cat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Product_SubCat, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Product_SubCat, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Product_SubCat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Description_Goods, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Description_Goods, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description_Goods, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Gst_Applicable_date, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Gst_Applicable_date, htmlAttributes: new { @class = "form-control", id = "datepicker" })
+                @Html.ValidationMessageFor(model => model.Gst_Applicable_date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+
+            </div>
+        </div>
+       
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
 
     <div class="row ">
         <div class="ln_solid"></div>
@@ -238,4 +216,5 @@
         </div>
     </div>
 
-    }
+}
+@Scripts.Render("~/bundles/jqueryval")

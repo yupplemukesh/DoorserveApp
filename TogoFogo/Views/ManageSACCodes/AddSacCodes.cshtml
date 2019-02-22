@@ -24,25 +24,12 @@
             </div>
 
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Applicable_Tax_Type, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Applicable_Tax_Type, Model.AplicationTaxTypeList,"Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Applicable_Tax_Type, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.Applicable_Tax, Model.AplicationTaxTypeList,"Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
                 </div>
-            </div>
-
-            @*<div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.Applicable_Tax_Type, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Applicable_Tax_Type, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Indian GST", Value = "Indian GST"},
-                    new SelectListItem {Text = "GST", Value = "GST"}
-
-                }, "Select", new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.Applicable_Tax_Type, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+            </div>           
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -81,17 +68,18 @@
             </div>
 
         </div>
-        <div class="col-md-6">
-
-
+        <div class="col-md-6">          
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Product_Sale_Range, "", new { @class = "text-danger" })
+                <div class="col-md-6 col-sm-6 col-xs-12" style="display: inline-flex">
+                    @Html.LabelFor(model => model.Product_Sale_From, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    @Html.TextBoxFor(model => model.Product_Sale_From, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Product_Sale_From, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.Product_Sale_TO, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    @Html.TextBoxFor(model => model.Product_Sale_TO, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Product_Sale_TO, "", new { @class = "text-danger" })
                 </div>
             </div>
-
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.CGST, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -133,29 +121,13 @@
                     @Html.TextBoxFor(model => model.Description_Of_Goods, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Description_Of_Goods, "", new { @class = "text-danger" })
                 </div>
-            </div>
-
-            @* <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new {@class = "col-md-3 col-md-offset-1 col-xs-12"})
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new {@class = "form-control"})
-                        @Html.ValidationMessageFor(model => model.IsActive, "", new {@class = "text-danger"})
-                    </div>
-                </div>*@
-
+            </div>          
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
-
                 </div>
             </div>
-
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">

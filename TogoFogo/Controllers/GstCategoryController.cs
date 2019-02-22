@@ -66,7 +66,8 @@ namespace TogoFogo.Controllers
                         }
                         
                     }
-                    return View(model);
+                    //return View(model);
+                    return RedirectToAction("Gst");
                 }
 
 
@@ -89,12 +90,12 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public ActionResult EditGst(int? gstCategoryId)
+        public ActionResult EditGst(int? GstCategoryId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<GstCategoryModel>("Select * from MstGstCategory Where GstCategoryId=@GstCategoryId",
-                    new { @GstCategoryId = gstCategoryId }, commandType: CommandType.Text).FirstOrDefault();
+                 var result = con.Query<GstCategoryModel>("Select * from MstGstCategory Where GstCategoryId=@GstCategoryId",
+                 new { @GstCategoryId = GstCategoryId }, commandType: CommandType.Text).FirstOrDefault();                
                 return View(result);
             }
         }
@@ -132,8 +133,8 @@ namespace TogoFogo.Controllers
                            
                     }
                 }
-                    return View(model);
-
+                    //return View(model);
+                    return RedirectToAction("Gst");
                 }
 
             }
