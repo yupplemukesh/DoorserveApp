@@ -5,6 +5,8 @@
         {
             cs = "active in";
         }
+     
+
     }
 
 <div class="row"> 
@@ -207,9 +209,10 @@
                     <div class="tab-pane fade in @cs" id="tab-1">
                         <div class="container-fluid tab-form-control">
                             <div class="row">
-                                @using (Html.BeginForm("create", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                                @using (Html.BeginForm("AddorEditClient", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
                                 {
-                                   @Html.HiddenFor(x=>x.ClientId)
+                                    @Html.HiddenFor(x => x.ClientId)
+                                    @Html.HiddenFor(x => x.action)
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 
                                         <!-- Select Basic -->
@@ -250,6 +253,7 @@
                                                 <div class="col-md-3">
                                                     <label class="" for="radios-0">
                                                         @Html.CheckBoxFor(p => p.DeliveryServiceList[x].IsChecked)
+                                                        @Html.HiddenFor(p => p.DeliveryServiceList[x].Text)
                                                         @Model.DeliveryServiceList[x].Text
                                                         @Html.HiddenFor(p => p.DeliveryServiceList[x].Value)
 
@@ -286,6 +290,7 @@
                                                 <div class="col-md-3">
                                                     <label class="" for="radios-0">
                                                         @Html.CheckBoxFor(p => p.ServiceList[x].IsChecked)
+                                                        @Html.HiddenFor(p => p.ServiceList[x].Text)
                                                         @Model.ServiceList[x].Text
                                                         @Html.HiddenFor(p => p.ServiceList[x].Value)
 
@@ -303,15 +308,18 @@
 
 
                                         <div class="row form-group pull-right">
-                                            <button type="button" class="btn btn-primary reset">RESET</button>
-                                            <button  class="btn btn-primary">
+                                            @if (Model.action == 'I')
+                                            {
+                                                <button type="button" class="btn btn-primary reset">RESET</button>
+                                            }
+                                            <button class="btn btn-primary">
                                                 SAVE
 
                                             </button>
                                         </div>
                                     </div>
                                 }
-                                </div>
+                            </div>
                         </div>
 
 
@@ -326,14 +334,27 @@
 
                         <div class="container-fluid tab-form-control">
                             <div class="row">
-                                @using (Html.BeginForm("Create", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("AddorEditOrganization", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
-                                  
 
-                                    @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
-                                }
-                            </div>
-                        </div>
+                                    @Html.HiddenFor(x => x.ClientId)
+
+                                    @Html.HiddenFor(x => x.action)
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                                        @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
+                                        <div class="row form-group pull-right">
+                                            @if (Model.action == 'I')
+                                            {
+                                            <button type="button" class="btn btn-primary reset">RESET</button>
+                                            }
+                                            <button type="submit" class="btn btn-primary">
+                                                SAVE
+                                            </button>
+                                        </div>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
 
 
 
@@ -412,10 +433,10 @@
                         <div class="container-fluid tab-form-control">
                             <div class="row">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-                                    @using (Html.BeginForm("create", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                                    @using (Html.BeginForm("AddOrEditClientReg", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
                                     {
                                         @Html.HiddenFor(x => x.ClientId)
-
+                                        @Html.HiddenFor(x => x.action)
                                         <!-- Select Basic -->
                                         <div class="row form-group">
                                             <label class="col-md-3 control-label" for="selectbasic">
@@ -438,7 +459,11 @@
                                         </div>
 
                                         <div class="row form-group pull-right">
-                                            <button type="button" class="btn btn-primary reset">RESET</button>
+                                            @if (Model.action =='I')
+                                            {
+                                                <button type="button" class="btn btn-primary reset">RESET</button>
+                                            }
+
                                             <button class="btn btn-primary">
                                                 SAVE
 

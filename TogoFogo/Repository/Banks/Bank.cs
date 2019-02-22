@@ -19,7 +19,7 @@ namespace TogoFogo.Repository
         public async Task<ResponseModel> AddUpdateBankDetails(BankDetailModel bank)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@BANKID", bank.bankId);
+            SqlParameter param = new SqlParameter("@BANKID", ToDBNull(bank.bankId));
             sp.Add(param);
             param = new SqlParameter("@BANKNAMEID", ToDBNull(bank.BankNameId));
             sp.Add(param);
@@ -41,10 +41,10 @@ namespace TogoFogo.Repository
             param = new SqlParameter("@ACTION", (object)bank.Action);
             sp.Add(param);
 
-            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@REFKEY ,@ACTION";
+            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKACCNUMBER,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@REFKEY ,@ACTION";
 
 
-            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode==0)
                 res.IsSuccess = true;
             else

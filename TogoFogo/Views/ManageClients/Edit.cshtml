@@ -4,12 +4,6 @@
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-
-
-@using (Html.BeginForm("Edit", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.HiddenFor(x => x.ClientId)
-
     <div class="panel-heading">
 
         <h3 class="m-y-0">Edit Client</h3>
@@ -19,7 +13,7 @@
 
         @Html.Partial("_CreateEditClientForm", Model)
     </div>
-}
+
 
 
 
@@ -118,9 +112,8 @@
         function AddOrEditContact(contact) {
            
             var clientId = $("#ClientId").val();
-           
             console.log(contact);
-            console.log(contact.ConAddress.Address);
+
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("AddorUpdateContact","manageClients")',
@@ -134,7 +127,7 @@
                 },
                 error: function (e) {
                     console.log(e);
-                    $(".submitbutton").attr("disabled", false);
+                
                     alert("Something went wrong...");
 
                 },
@@ -148,30 +141,30 @@
 
         function AddOrEditBank(bank) {
             var clientId = $("#ClientId").val(); 
-           
+             
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("AddorEditBankDetails","manageClients")',
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
-                data: JSON.stringify(bank),
-                success: function (response) {
+                data: bank,
+                success: function (response) {                    
                     $("#BankInfo").html(response);
                     $("#RefKey").val(clientId);
-                    if (bank.BankNameId != null)
+                    if (bank.bankId != null) 
                         $("#Action").val('U');
                     else
                         $("#Action").val('I');
                 },
                 error: function (e) {
                     console.log(e);
-                    $(".submitbutton").attr("disabled", false);
+                  
                     alert("Something went wrong...");
 
                 },
                 complete: function () {
 
-                    $(".submitbutton").attr("disabled", false);
+          
                 }
             });
         };

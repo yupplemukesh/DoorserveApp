@@ -56,11 +56,7 @@ namespace TogoFogo.Repository.Clients
                     ClientModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
 
-                    ClientModel.BankDetails =
-                   ((IObjectContextAdapter)_context)
-                       .ObjectContext
-                       .Translate<BankDetailModel>(reader)
-                       .ToList();
+                    ClientModel.BankDetails = ReadBanks(reader);
 
                 }
             }
@@ -88,6 +84,7 @@ namespace TogoFogo.Repository.Clients
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),
                     IsUser = Convert.ToBoolean(reader["IsUser"].ToString()),
+
                     isActive= Convert.ToBoolean(reader["IsActive"].ToString()),
                     ConAddress = new AddressDetail
                     {
@@ -111,19 +108,48 @@ namespace TogoFogo.Repository.Clients
             return contacts;
 
         }
+
+
+        private List<BankDetailModel> ReadBanks(DbDataReader reader)
+        {
+            List<BankDetailModel> banks = new List<BankDetailModel>();
+
+            while (reader.Read())
+            {
+                var bank = new BankDetailModel
+                {
+                    bankId = new Guid(reader["BANKID"].ToString()),
+                    RefKey = new Guid(reader["REFKEY"].ToString()),
+                    BankName = reader["BankName"].ToString(),
+                    BankNameId = Convert.ToInt32(reader["BankNameId"].ToString()),
+                    BankIFSCCode = reader["BankIFSCCode"].ToString(),
+                    BankAccountNumber = reader["BankAccountNumber"].ToString(),
+                    BankCancelledChequeFileName = reader["CancelledChequeFileName"].ToString(),
+                    BankCompanyName = reader["BankCompanyname"].ToString(),
+                    BankBranchName = reader["bankBranchName"].ToString(),
+                    IsActive = bool.Parse(reader["isActive"].ToString())
+            };
+                banks.Add(bank);
+            }
+
+            return banks;
+
+        }
         public async Task<ResponseModel> AddUpdateDeleteClient(ClientModel client)
         {            
             string cat = "";
-           foreach(var item in client.DeviceCategories)
+            if (client.Activetab.ToLower() == "tab-1")
             {
-                cat = cat + "," + item;
+                foreach (var item in client.DeviceCategories)
+                {
+                    cat = cat + "," + item;
 
+                }
+                cat = cat.TrimStart(',');
+                cat = cat.TrimEnd(',');
             }
-            cat = cat.TrimStart(',');
-            cat = cat.TrimEnd(',');
-
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@CLIENTID",client.ClientId);          
+            SqlParameter param = new SqlParameter("@CLIENTID",ToDBNull(client.ClientId));          
             sp.Add(param);
             param = new SqlParameter("@PROCESSID", ToDBNull(client.ProcessId));
             sp.Add(param);
@@ -167,9 +193,11 @@ namespace TogoFogo.Repository.Clients
             sp.Add(param);
             param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(client.ServiceDeliveryTypes));
             sp.Add(param);
+            param = new SqlParameter("@tab", ToDBNull(client.Activetab));
+            sp.Add(param);
 
             var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSID,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE,@SERVICEDELIVERYTYPE";
+                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE,@SERVICEDELIVERYTYPE,@tab";
        
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

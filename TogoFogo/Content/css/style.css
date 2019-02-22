@@ -23479,7 +23479,27 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     text-decoration: none;
 }
 
-.edit-padd{padding:4px;border:1px solid #ccc; margin-left:2px}
-.margin-bottom-sm {
-    margin-bottom: 18px;
+.edit-padd {
+    padding: 4px;
+    border: 1px solid #ccc;
+    margin-left: 2px;
+   
+
 }
+
+.edit-p {
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.edit-p {
+    white-space: nowrap;
+    overflow: auto;
+}
+.edit-p::-webkit-scrollbar {
+    display: none;
+}
+
+    .margin-bottom-sm {
+        margin-bottom: 18px;
+    }

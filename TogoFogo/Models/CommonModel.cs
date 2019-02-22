@@ -88,7 +88,7 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _gstCategory = await _context.Database.SqlQuery<CheckBox>("SELECT GstCategoryId value,GSTCategory text FROM MstGstCategory where IsActive='YES'").ToListAsync();
+                var _gstCategory = await _context.Database.SqlQuery<CheckBox>("SELECT GstCategoryId value,GSTCategory text FROM MstGstCategory where IsActive=1").ToListAsync();
                 return _gstCategory;
             }
         }
@@ -185,6 +185,8 @@ namespace TogoFogo
                 return _Sac_numberList;
             }
         }
+       
+
     }
 
 

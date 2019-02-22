@@ -37,7 +37,7 @@ namespace TogoFogo.Models
         public OrganizationModel Organization { get; set; }
         public List<ContactPersonModel> ContactPersons { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
-        public Guid ClientId { get; set; }
+        public Guid? ClientId { get; set; }
         [Required]
         [DisplayName("Process Name")]
         public int ProcessId { get; set; }

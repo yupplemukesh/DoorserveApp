@@ -39,7 +39,7 @@ namespace TogoFogo.Models
         public HttpPostedFileBase OrgPanNumberFilePath { get; set; }
         public string OrgPanFileName { get; set; }
         public SelectList GstCategoryList { get; set; }
-        public SelectList SatatutoryList { get; set; }
+        public SelectList StatutoryList { get; set; }
         public SelectList AplicationTaxTypeList { get; set; }
        
 

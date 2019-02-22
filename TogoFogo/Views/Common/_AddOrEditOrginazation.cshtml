@@ -2,7 +2,7 @@
 
 
 
-<div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+
    
 
 
@@ -41,7 +41,7 @@
         <div class=" row form-group">
             <label class="col-md-3 control-label" for="selectbasic">Statutory Type	</label>
             <div class="col-md-9">
-                @Html.DropDownListFor(model => model.OrgStatutoryType, Model.SatatutoryList, "Select", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.OrgStatutoryType, Model.StatutoryList, "Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.OrgStatutoryType, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -109,10 +109,4 @@
             </div>
         </div>
 
-        <div class="row form-group pull-right">
-            <button type="button" class="btn btn-primary reset">RESET</button>
-            <button class="btn btn-primary">
-                SAVE
-            </button>
-        </div>    
-</div>
+       

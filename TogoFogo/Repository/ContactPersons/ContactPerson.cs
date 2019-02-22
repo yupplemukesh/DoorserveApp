@@ -63,7 +63,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@CONADHAARNUMBER", ToDBNull(contact.ConAdhaarNumber));
             sp.Add(param);
-            param = new SqlParameter("@CONADHAARFILENAME", ToDBNull(contact.ConAdhaarNumberFilePath));
+            param = new SqlParameter("@CONADHAARFILENAME", ToDBNull(contact.ConAdhaarFileName));
             sp.Add(param);
             param = new SqlParameter("@ACTION", (object)contact.Action);
             sp.Add(param);

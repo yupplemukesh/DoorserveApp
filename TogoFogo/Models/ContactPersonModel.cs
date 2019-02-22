@@ -37,7 +37,7 @@ namespace TogoFogo.Models
         public string ConVoterId { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
-        public char Action { get; set; }
+        public char? Action { get; set; }
         public string ConVoterIdFileName { get; set; }
         [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", ErrorMessage = "UserName already exists!")]
         public string UserName { get; set; }
