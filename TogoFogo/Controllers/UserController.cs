@@ -16,25 +16,29 @@ namespace TogoFogo.Controllers
     {
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public ActionResult AddUser(Int64 id)
+        public ActionResult AddUser(Int64 id=0)
         {
             User objUser = new User();
             Int64 UserId = id;
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
-
-               
-                   
+                dynamic result = null;
+                if (UserId != 0)
+                {
+                    result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
+                        commandType: CommandType.StoredProcedure).FirstOrDefault();
                     objUser._AddressDetail = new AddressDetail();
                     objUser._ContactPerson = new ContactPersonModel();
+                }
+                if(result!=null)
+                { 
                    //objUser.SerialNo = result.SerialNo;
                     objUser.UserId = result.UserId;
                     objUser.UserName = result.UserName;
                     objUser.IsActive = result.IsActive;
                     objUser.CreatedDate = result.CreatedDate;
                     objUser.ModifyDate = result.ModifyDate;
+                    objUser.Password = result.Password;
                     objUser._AddressDetail.PinNumber = result.PinNumber;
                     objUser._AddressDetail.Address = result.Address;
                     objUser._AddressDetail.AddressTypeId = result.AddressTypeId;
@@ -45,10 +49,7 @@ namespace TogoFogo.Controllers
                     objUser._ContactPerson.ConFirstName = result.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
                     objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
-
-                    
-                
-               
+                    }
             }
             return View(objUser);
         }
@@ -56,18 +57,19 @@ namespace TogoFogo.Controllers
         public ActionResult AddUser(User objUser)
         {
             objUser.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
-            Random r = new Random();
-            int randomNumber = r.Next(999, 10000);
-            string Password = randomNumber.ToString();           
+            // Random r = new Random();
+            //int randomNumber = r.Next(999, 10000);
+            //string Password = randomNumber.ToString();
+            ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
             var Status = (int)type.InvokeMember("sendmail_update",
                                     BindingFlags.Instance | BindingFlags.InvokeMethod |
                                     BindingFlags.NonPublic, null, mpc,
-                                    new object[] { objUser._ContactPerson.ConEmailAddress, Password, objUser.UserName });
+                                    new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
             if (Status == 1)
             {
-                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(Password, true);
+                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("UspInsertUser",
@@ -90,17 +92,29 @@ namespace TogoFogo.Controllers
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
-                        TempData["Message"] = "Something went wrong";
-
+                        objResponseModel.IsSuccess = false;
+                        objResponseModel.ResponseCode = 0;
+                        objResponseModel.Response= "Something went wrong";
+                        TempData["response"] = objResponseModel;
                     }
                     else if (result == 1)
                     {
-                        TempData["Message"] = "Successfully Added";
+                        //TempData["Message"] = "Successfully Added";
+                        objResponseModel.IsSuccess = true;
+                        objResponseModel.ResponseCode = 1;
+                        objResponseModel.Response = "Successfully Added";
+                        TempData["response"] = objResponseModel;
                     }
                     else
                     {
-                        TempData["Message"] = "Successfully Updated";
+                        //TempData["Message"] = "Successfully Updated";
+                        objResponseModel.IsSuccess = true;
+                        objResponseModel.ResponseCode = 2;
+                        objResponseModel.Response = "Successfully Updated";
+                        TempData["response"] = objResponseModel;
                     }
+
+                    return RedirectToAction("UserList", "User");
                 }
             }
             return View();

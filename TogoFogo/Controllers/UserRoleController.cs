@@ -31,7 +31,7 @@ namespace TogoFogo.Controllers
             }
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenu",
+                objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenuByRole",
                     new { RoleId }, commandType: CommandType.StoredProcedure).ToList();
             }
             return View(objUserRole);
@@ -41,7 +41,7 @@ namespace TogoFogo.Controllers
         {
             objUserRole.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
             string MenuList = string.Empty;
-           
+            ResponseModel objResponseModel = new ResponseModel();
             var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
             for(int i=0;i< SlectedMenuLis.Count;i++)
             {
@@ -66,19 +66,34 @@ namespace TogoFogo.Controllers
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
-                    TempData["Message"] = "Something went wrong";
-
+                   // TempData["Message"] = "Something went wrong";
+                    objResponseModel.IsSuccess = false;
+                    objResponseModel.ResponseCode = 0;
+                    objResponseModel.Response = "Something went wrong";
+                    TempData["response"] = objResponseModel;
                 }
                 else if (result == 1)
                 {
-                    TempData["Message"] = "Successfully Added";
+                   // TempData["Message"] = "Successfully Added";
+
+                    objResponseModel.IsSuccess = true;
+                    objResponseModel.ResponseCode = 1;
+                    objResponseModel.Response = "Successfully Added";
+                    TempData["response"] = objResponseModel;
                 }
                 else
                 {
-                    TempData["Message"] = "Successfully Updated";
+                    //  TempData["Message"] = "Successfully Updated";
+
+                    objResponseModel.IsSuccess = true;
+                    objResponseModel.ResponseCode = 2;
+                    objResponseModel.Response = "Successfully Updated";
+                    TempData["response"] = objResponseModel;
+
                 }
+                return RedirectToAction("UserRoleList", "UserRole");
             }
-            return View();
+           
         }
         public ActionResult UserRoleList()
         {

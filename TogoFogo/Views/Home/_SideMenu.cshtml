@@ -1,20 +1,21 @@
-﻿@model IEnumerable<TogoFogo.Models.Menu>
+﻿@model TogoFogo.Models.MenuMasterModel
 <div class="custom-scrollbar">
     <ul class="sidebar-menu" id="sideMenu">
 
-        @foreach (var item in Model)
+        @if (Model != null)
         {
-            if (item.ParentMenuID == 0)
-            {
+        foreach (var item in Model.ParentMenuList)
+        {
+        
                 <li class="with-sub active">
                     <a href="#" aria-haspopup="true">
                         <span class="menu-icon">
                             <i class="zmdi zmdi-home"></i>
                         </span>
-                        <span class="menu-text">@item.Menu_Name</span>
+                        <span class="menu-text">@item.ParentMenuName</span>
                     </a>
                     <ul class="sidebar-submenu collapse">
-                        @foreach (var submenu in Model.Where(m => m.ParentMenuID == item.MenuCap_ID))
+                        @foreach (var submenu in Model.SubMenuList.Where(m => m.ParentMenuId == item.ParentMenuId))
                         {
 
                             <li class="menu-subtitl"><a href="@submenu.PagePath">@submenu.Menu_Name </a></li>
@@ -23,7 +24,8 @@
                     </ul>
                 </li>
 
-            }
+            
+        }
         }
     </ul>
 

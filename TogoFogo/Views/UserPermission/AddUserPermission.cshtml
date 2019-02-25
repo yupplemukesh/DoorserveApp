@@ -2,38 +2,42 @@
 @{
     ViewBag.Title = "Add User Permission";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
-}
 <div class="site-content">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="m-y-0">User Permission</h3>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal">
-                <div class="form-group">
+
+            @using (Html.BeginForm("AddUserPermission", "UserPermission", FormMethod.Post, new {id= "form" ,@class = "form-horizontal"}))
+            {
+            <div class="form-group">
                     <label for="form-control-3" class="col-sm-3 col-md-2 control-label"> User Name</label>
                     <div class="col-sm-6 col-md-6">
-                        @*<select id="form-control-3" class="form-control" data-error="This field is required." required>
-            <option value="" selected="selected">Choose User</option>
-            <option value="1">Deepak</option>
-            <option value="2">rahul</option>
-            <option value="3">rakesh</option>
-        </select>*@
-                        @Html.DropDownListFor(x => x.UserId ,new SelectList(Model.UserList, "UserId", "UserName"), "-- Select User Name--",new { @class= "form-control" })
+
+                        @Html.DropDownListFor(x => x.UserId, new SelectList(Model.UserList, "UserId", "UserName"), "-- Select User Name--", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m=>m.UserId,"", new { @class = "text-danger" })
+                        @Html.HiddenFor(m=>m.PermissionId)
+                        @*<label id="lblbErrorUserId" style="color:red;"></label>*@
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="form-control-4" class="col-sm-3 col-md-2 control-label">User Role</label>
-                    <div class="col-sm-6 col-md-6">
-                        @*<select id="form-control-3" class="form-control" data-error="This field is required." required>
-            <option value="" selected="selected">Choose Role</option>
-            <option value="1">Admin Role</option>
-            <option value="2">Client Role</option>
-        </select>*@
-                        @Html.DropDownListFor(x => x.RoleId, new SelectList(Model.UserRoleList, "RoleId", "RoleName"), "-- Select Role Name--", new { @class = "form-control" })
-                    </div>
+            <div class="form-group">
+                <label for="form-control-4" class="col-sm-3 col-md-2 control-label">User Role</label>
+                <div class="col-sm-6 col-md-6">
+
+
+                    @Html.DropDownListFor(x => x.RoleId, new SelectList(Model.UserRoleList, "RoleId", "RoleName"), "-- Select User Role --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+                    @*<label id="lblbErrorRoleId" style="color:red;"></label>*@
                 </div>
-            </form>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6 col-md-6">
+                    @*<a id="btnSubmit" class="btn btn-success">Submit</a>*@
+                    <input type="submit" class="btn btn-success" />
+                </div>
+            </div>
+
             <!--my-content-->
             <div class="panel-body">
                 <div class="row">
@@ -44,79 +48,14 @@
                                 <h3 class="panel-title">Menu List</h3>
                                 <div class="panel-subtitle"></div>
                             </div>
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered dataTable" id="table-1">
-                                        <thead>
-                                            <tr>
-                                                @*<th>
-                                                        <label class="custom-control custom-control-success custom-checkbox">
-                                                            <input class="custom-control-input" type="checkbox" name="custom" checked="checked">
-                                                            <span class="custom-control-indicator"></span>
-                                                        </label>
-                                                    </th>*@
-                                                <th>Check All <input type="checkbox" id="chkAll" /></th>
-                                                <th>Parent Menu</th>
-                                                <th>menu</th>
-                                                <th>View</th>
-                                                <th>Create</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    @*<label class="custom-control custom-control-success custom-checkbox">
-                                                            <input class="custom-control-input" type="checkbox" name="custom" checked="checked">
-                                                            <span class="custom-control-indicator"></span>
-                                                        </label>*@
-                                                    @*@Html.CheckBoxFor(m => Model._MenuList[i].CheckedStatus, new { @class = "chkMenu", name = "CheckedStatus" })*@
-                                                </td>
-
-                                                <td>Rahul</td>
-                                                <td>Rakesh</td>
-
-                                                <td>
-                                                    <label class="custom-control custom-control-success custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" name="custom" checked="checked">
-                                                        <span class="custom-control-indicator"></span>
-                                                    </label>
-                                                </td>
-
-                                                <td>
-                                                    <label class="custom-control custom-control-success custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" name="custom" checked="checked">
-                                                        <span class="custom-control-indicator"></span>
-                                                    </label>
-                                                </td>
-
-                                                <td>
-                                                    <label class="custom-control custom-control-success custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" name="custom" checked="checked">
-                                                        <span class="custom-control-indicator"></span>
-                                                    </label>
-                                                </td>
-
-                                                <td>
-                                                    <label class="custom-control custom-control-success custom-checkbox">
-                                                        <input class="custom-control-input" type="checkbox" name="custom" checked="checked">
-                                                        <span class="custom-control-indicator"></span>
-                                                    </label>
-                                                </td>
-
-                                            </tr>
-
-                                        </tbody>
-
-                                    </table>
-                                </div>
+                            <div class="panel-body" id="divMenu">
+                                @Html.Partial("_Permission", Model._MenuList)
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            }
             <!--my-content-end-->
         </div>
     </div>
@@ -124,3 +63,212 @@
 <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Content/Scripts/jquery.validate.js"></script>
 <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+ 
+    //$(document).ready(function ()
+    //{
+    //    debugger
+    //    if ($('.chkMenu').length != 0) {
+    //        if ($('.chkMenu:checked').length == $('.chkMenu').length) {
+    //            $("#chkAll").prop('checked', true);
+    //        }
+    //    }
+    //});
+
+    $(document).on("change", "#RoleId", function () {
+        $.ajax({
+            type: 'GET',
+            url: "/UserPermission/BindMenu",
+            contentType: 'application/json; charset=utf-8',
+            cache: false,
+            data: { RoleId: $(this).val() },
+            success: function (response) {
+                debugger
+                $("#divMenu").html(response);
+                //var trHTML = '';
+                
+                //if (response.length > 0)
+                //{
+                //    for (var i = 0; i < response.length; i++)
+                //    {
+                //        trHTML += "<tr><td><input type='checkbox' name='Menu' class='chkMenu' value='" + response[i].MenuCap_ID+"' data-capmenuid='" + response[i].MenuCap_ID + "' checked='" + response[i].CheckedStatus + "'/></td><td>" + response[i].ParentMenuName + "</td><td>" + response[i].Menu_Name +"</td><td><input type='checkbox' name='View' value='1' id='chkViewAction' data-viewactionid='1' /></td>";
+                //        trHTML += "<td><input type='checkbox' name='Create' value='1' id='chkCreateAction' data-createactionid='2' /></td><td><input type='checkbox' id='chkEditAction' name='Edit' value='3' data-editactionid='3'/></td><td><input type='checkbox' name='Delete' value='4' id='chkDeleteAction' data-deleteactionid='4' /></td></tr>";
+                //    }
+                //}
+                //$('#tblMenu tbody').append(trHTML);
+                if ($('.chkMenu:checked').length == $('.chkMenu').length) {
+                    $("#chkAll").prop('checked', true);
+                }
+            },
+            error: function (e) {
+                console.log(e);
+
+                alert("Something went wrong...");
+            },
+            complete: function () {
+
+            }
+        });
+    });
+
+    $(document).on("change", ".chkMenu", function (e)
+    {
+        if ($(this).prop("checked") == false)
+        {
+            $("#chkAll").prop('checked', false);
+        }
+        
+        //check "select all" if all checkbox items are checked
+        if ($('.chkMenu:checked').length == $('.chkMenu').length)
+        {
+            $("#chkAll").prop('checked', true);
+        }
+    });
+    $(document).on("change", "#chkAll", function (e) {
+
+        $(".chkMenu").prop('checked', $(this).prop("checked"));
+    });
+
+    $('form').submit(function () {
+        var UserId = $('#UserId').val();
+        var RoleId = $('#RoleId').val();
+        var Valid = true;
+        var MenuActionData = "";
+        debugger
+        if (UserId == "") {
+         
+            Valid = false;
+        }
+
+        if (RoleId == "") {
+          
+            Valid = false;
+        }
+        if (Valid)
+        {
+            
+
+            if ($('.chkMenu:checkbox:checked').length == 0)
+            {
+                $("#toast-container").fadeIn();
+                $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');
+                $('#msg').children('div').find('.toast-error').css('display', 'block');
+                $("#toast-container").fadeOut(5000);
+                Valid = false;
+            }            
+            else
+            {
+               
+                $('.chkMenu:checkbox:checked').each(function ()
+                {
+                    debugger
+                    var ActionCount = 0;
+                    if ($($(this).parent().parent().find('.chkAction')[0]).prop('checked') == true ||
+                        $($(this).parent().parent().find('.chkAction')[1]).prop('checked') == true ||
+                        $($(this).parent().parent().find('.chkAction')[2]).prop('checked') == true ||
+                        $($(this).parent().parent().find('.chkAction')[3]).prop('checked') == true)
+                    {
+                        ActionCount = 1;
+                       
+                    }
+                    if (ActionCount == 0)
+                    {
+                        $("#toast-container").fadeIn();
+                        $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one Action rights checkbox');
+                        $('#msg').children('div').find('.toast-error').css('display', 'block');
+                        $("#toast-container").fadeOut(5000);
+                        Valid = false;
+                        return false;
+                    }
+                   
+                });
+            }
+        }
+        return Valid;
+    });
+
+    @*$(document).on("click", "#btnSubmit", function () {
+        debugger
+        var UserId = $('#UserId').val();
+        var RoleId = $('#RoleId').val();
+       
+        var MenuActionData = "";
+        if (UserId == "")
+        {
+            $('#lblbErrorUserId').text('Select User Name');
+            return false;
+        }
+        
+        if (RoleId == "") {
+            $('#lblbErrorRoleId').text('Select User Role');
+            return false;
+        }
+        if ($('#tblMenu input:checkbox:checked').length == 0)
+        {           
+
+            $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');
+            $('#msg').children('div').find('.toast-error').css('display', 'block');
+            $("#toast-container").fadeOut(5000);
+            return false;
+        }
+        else
+        {
+            var valid = true;
+            $("#toast-container").fadeIn();
+            $.each($("input[name='Menu']:checked"), function ()
+            {
+                debugger
+                var ActionValue = [];               
+                if ($($(this).parent().parent().children()[3]).children('input[type=checkbox]').prop('checked') == true)
+                {
+                    ActionValue.push($($(this).parent().parent().children()[3]).children('input[type=checkbox]').val());                    
+                }
+                if ($($(this).parent().parent().children()[4]).children('input[type=checkbox]').prop('checked') == true) {
+                    ActionValue.push($($(this).parent().parent().children()[4]).children('input[type=checkbox]').val());                    
+                }
+                if ($($(this).parent().parent().children()[5]).children('input[type=checkbox]').prop('checked') == true) {
+                    ActionValue.push($($(this).parent().parent().children()[5]).children('input[type=checkbox]').val());                   
+                }
+                if ($($(this).parent().parent().children()[6]).children('input[type=checkbox]').prop('checked') == true) {
+                    ActionValue.push($($(this).parent().parent().children()[6]).children('input[type=checkbox]').val());                    
+                }
+                if (ActionValue.length == 0)
+                {
+                    $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one Action rights checkbox');
+                    $('#msg').children('div').find('.toast-error').css('display', 'block');
+                    $("#toast-container").fadeOut(5000);
+                    valid = false;
+                    return false;
+                }
+                var menu = "";
+                menu = $(this).val()+',' + ActionValue.join("-");
+                MenuActionData += menu;             
+             });
+            if (valid)
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SaveUserPermission", "UserPermission")',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ MenuActionData: MenuActionData, RoleId: RoleId, UserId: UserId }),
+                    dataType: "json",
+                    success: function (response)
+                    {
+                       
+                    },
+                    error: function (e) {
+
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+            }
+
+        }     
+
+    });*@
+    
+</script>

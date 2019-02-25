@@ -1044,7 +1044,7 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region RemoteValidation
-        public ActionResult RemoteValidationforUserName( string Username)
+        public ActionResult RemoteValidationforUserName(string Username,Int64 UserId)
         {
             bool ifEmailExist = false;
             try
@@ -1052,8 +1052,8 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<string>("select UserName from create_user_Master where UserName=@UserName",
-                    new { @UserName=Username}, commandType: CommandType.Text).FirstOrDefault();
+                    var result = con.Query<string>("select UserName from create_user_Master",
+                    new { @UserName=Username,@Id=UserId}, commandType: CommandType.Text).FirstOrDefault();
                     ifEmailExist = Username.Equals(result) ? true : false;
 
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
@@ -1061,7 +1061,6 @@ namespace TogoFogo.Controllers
             }
 
             catch (Exception ex)
-
             {
 
                 return Json(false, JsonRequestBehavior.AllowGet);

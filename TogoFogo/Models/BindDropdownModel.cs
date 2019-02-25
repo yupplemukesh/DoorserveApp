@@ -36,6 +36,11 @@ namespace TogoFogo.Models
         public string ParentMenuId { get; set; }
         public string ParentMenuName { get; set; }
         public Boolean CheckedStatus { get; set; }
+        public string ActionIds { get; set; }
+        public Int64 ActionRightId { get; set; }
+        public List<CheckBox> RightActionList { get; set; }
+        public List<MenuMasterModel> ParentMenuList { get; set; }
+        public List<MenuMasterModel> SubMenuList { get; set; }
     }
     public class BindTrcModel
     {

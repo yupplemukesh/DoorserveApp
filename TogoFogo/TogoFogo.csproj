@@ -921,6 +921,8 @@
     <Content Include="Views\UserRole\AddUserRole.cshtml" />
     <Content Include="Views\UserRole\UserRoleList.cshtml" />
     <Content Include="Views\UserPermission\AddUserPermission.cshtml" />
+    <Content Include="Views\Shared\_Permission.cshtml" />
+    <Content Include="Views\UserPermission\UserPermissionList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
