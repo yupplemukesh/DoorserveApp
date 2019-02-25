@@ -322,6 +322,7 @@
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
+    <Compile Include="Permission\PermissionBasedAuthorize .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />

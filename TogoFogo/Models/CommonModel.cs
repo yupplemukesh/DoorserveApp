@@ -35,8 +35,6 @@ namespace TogoFogo
                 return _servicetype;
             }
         }
-
-
         public static async Task<List<CheckBox>> GetServiceType()
         {
             using (var _context = new ApplicationDbContext())
@@ -45,9 +43,6 @@ namespace TogoFogo
                 return _servicetype;
             }
         }
-
-
-
         public static async Task<List<CheckBox>> GetDeliveryServiceType()
         {
             using (var _context = new ApplicationDbContext())
@@ -56,7 +51,6 @@ namespace TogoFogo
                 return _deliveryType;
             }
         }
-
         public static async Task<List<CheckBox>> GetApplicationTaxType()
         {
             using (var _context = new ApplicationDbContext())
@@ -65,7 +59,6 @@ namespace TogoFogo
                 return _applicationTaxType;
             }
         }
-
         public static  List<CheckBox> GetApplicationTax()
         {
             using (var _context = new ApplicationDbContext())
@@ -74,7 +67,6 @@ namespace TogoFogo
                 return _applicationTaxType;
             }
         }
-
         public static async Task<List<CheckBox>> GetStatutoryType()
         {
             using (var _context = new ApplicationDbContext())
@@ -83,7 +75,6 @@ namespace TogoFogo
                 return _statutoryType;
             }
         }
-
         public static async Task<List<CheckBox>> GetGstCategory()
         {
             using (var _context = new ApplicationDbContext())
@@ -108,7 +99,6 @@ namespace TogoFogo
                 return _banksDetails;
             }
         }
-
         public static  List<CheckBox> GetAddressTypes()
         {
             using (var _context = new ApplicationDbContext())
@@ -117,7 +107,6 @@ namespace TogoFogo
                 return _addressTypes;
             }
         }
-
         public static async Task<List<CheckBox>> GetAWBNumberUsedTypes()
         {
             using (var _context = new ApplicationDbContext())
@@ -166,8 +155,6 @@ namespace TogoFogo
                 return _ActionList;
             }
         }
-
-      
         public static  List<CheckBox> CTH_NumberList()
         {
             using (var _context = new ApplicationDbContext())
@@ -176,7 +163,6 @@ namespace TogoFogo
                 return _CTH_numberList;
             }
         }
-
         public static List<CheckBox> SAC_NumberList()
         {
             using (var _context = new ApplicationDbContext())
@@ -185,11 +171,7 @@ namespace TogoFogo
                 return _Sac_numberList;
             }
         }
-       
-
-    }
-
-
+     }
     public class CheckBox
     {
         public string Text { get; set; }

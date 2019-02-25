@@ -13,6 +13,7 @@ using TogoFogo.Extension;
 using TogoFogo.SaveImageCode;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -28,11 +29,10 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region BRAND
-        [CustomAuthorize]
+       // [PermissionBasedAuthorize("1")]
         public ActionResult Brand()
         {
-            var name = User.Identity.Name;
-           
+            var name = User.Identity.Name;      
             if (TempData["SubmitBrand"] != null)
             {
                 ViewBag.SubmitBrand = TempData["SubmitBrand"].ToString();
@@ -41,7 +41,6 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-
             return View();
         }
         public ActionResult AddBrand()

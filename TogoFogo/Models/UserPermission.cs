@@ -29,4 +29,10 @@ namespace TogoFogo.Models
         public List<MenuMasterModel> _MenuList { get; set; }
         public List<UserPermission> _UserPermissionList { get; set; }
     }
+
+    public  enum Actions
+    {
+        View=1,Create=2,Edit=3,Delete=4,History=5
+
+    }
 }

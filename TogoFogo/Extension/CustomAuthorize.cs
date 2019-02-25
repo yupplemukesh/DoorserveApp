@@ -18,7 +18,7 @@ namespace TogoFogo.Extension
         {
             try
             {
-
+               
                 if (!filterContext.HttpContext.Request.IsAuthenticated)
                 {
                     //Redirect user to login page if not yet authenticated.  This is a protected resource!
