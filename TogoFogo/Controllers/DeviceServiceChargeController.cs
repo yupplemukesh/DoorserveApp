@@ -19,11 +19,7 @@ namespace TogoFogo.Controllers
         // GET: DeviceServiceCharge
         public ActionResult ServiceCharge()
         {
-            /* ViewBag.CategoryId = new SelectList(Enumerable.Empty<SelectListItem>());
-             ViewBag.SubCatId = new SelectList(Enumerable.Empty<SelectListItem>());
-             ViewBag.BrandId = new SelectList(Enumerable.Empty<SelectListItem>());
-             ViewBag.ModalNameId = new SelectList(Enumerable.Empty<SelectListItem>());*/
-            if (TempData["Message"] != null)
+           if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
 
@@ -33,16 +29,11 @@ namespace TogoFogo.Controllers
 
         public ActionResult AddServiceCharge()
         {
-            /* ViewBag.CategoryId = new SelectList(dropdown.BindCategory(), "Value", "Text");
-             ViewBag.SubCatId = new SelectList(Enumerable.Empty<SelectListItem>());
-             ViewBag.BrandId = new SelectList(dropdown.BindBrand(), "Value", "Text");
-             ViewBag.ModalNameId = new SelectList(Enumerable.Empty<SelectListItem>());*/
-
             ServiceChargeModel scm = new ServiceChargeModel();
             scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             scm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
             scm.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            scm.ModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            scm.ModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());           
             return View(scm);
         }
         [HttpPost]
@@ -109,23 +100,11 @@ namespace TogoFogo.Controllers
         }
         public ActionResult EditServiceCharge(int? ServiceChargeId)
         {
-            /* ViewBag.CategoryId = new SelectList(dropdown.BindCategory(), "Value", "Text");
-
-             ViewBag.BrandId = new SelectList(dropdown.BindBrand(), "Value", "Text");
-             ViewBag.ModalNameId = new SelectList(Enumerable.Empty<SelectListItem>());
-             using (var con = new SqlConnection(_connectionString))
-             {
-                 var result = con.Query<ServiceChargeModel>("SELECT * from MstDeviceServiceCharge Where ServiceChargeId=@serviceChargeId", new { @serviceChargeId = serviceChargeId },
-                     commandType: CommandType.Text).FirstOrDefault();
-                 ViewBag.SubCatId = new SelectList(dropdown.BindSubCategory(result.CategoryId), "Value", "Text");
-                 //
-                     ViewBag.ModalNameId = new SelectList(dropdown.BindProduct(result.BrandId), "Value", "Text");
-
-             }*/
+           
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<ServiceChargeModel>("SELECT * from MstDeviceServiceCharge Where ServiceChargeId=@serviceChargeId", new { @serviceChargeId = ServiceChargeId },
-                commandType: CommandType.Text).FirstOrDefault();
+                commandType: CommandType.Text).FirstOrDefault();               
                 result.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
                 result.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 result.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
@@ -185,6 +164,11 @@ namespace TogoFogo.Controllers
                 throw;
             }
             return RedirectToAction("ServiceCharge");
-        }
+        }                   
+                 
+       
     }
 }
+ 
+ 
+ 

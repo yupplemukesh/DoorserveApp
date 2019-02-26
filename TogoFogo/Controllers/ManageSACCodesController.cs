@@ -37,12 +37,13 @@ namespace TogoFogo.Controllers
         
         public ActionResult AddSacCodes()
         {
-            SacCodesModel sm = new SacCodesModel();
-            
-            sm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            sm.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            sm.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");           
-            sm.AplicationTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
+           SacCodesModel sm = new SacCodesModel
+            {
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                GstList = new SelectList(dropdown.BindGst(), "Value", "Text"),
+                AplicationTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text"),
+            };
             return View(sm);
         }
         [HttpPost]
@@ -125,6 +126,7 @@ namespace TogoFogo.Controllers
                 result.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
                result.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+                result.InitialHSNCode = result.Gst_HSN_Code;
                 if (result != null)
                 {
 
@@ -213,6 +215,47 @@ namespace TogoFogo.Controllers
                 throw;
             }
             
+        }
+
+
+       public JsonResult IsHSNCodeAlreadyExist(string Gst_HSN_Code, string InitialHSNCode)
+        {
+            try
+            {
+                if (Gst_HSN_Code == InitialHSNCode)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+
+                }
+                return IsExist(Gst_HSN_Code) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
+        public bool IsExist(string Hsncode)
+        {
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+
+                var result = con.Query<int>("SELECT count(*) from MstSacCodes where Gst_HSN_Code like " + Hsncode + " ").SingleOrDefault();
+                if (result > 0)
+                {
+
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+
+            }
+
         }
     }
 }

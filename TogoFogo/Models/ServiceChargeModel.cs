@@ -31,12 +31,11 @@ namespace TogoFogo.Models
         [DisplayName("Model Name")]
         public int ModalNameId {get;set;}
         [DisplayName("Model Name")]
-        public String ModelName { get; set; }
-        [Required]
-       // [Remote("HSNCode","Validation",HttpMethod ="POST", ErrorMessage ="HSNCode Already Exist")]
+        public String ModelName { get; set; }       
+        [Required]        
         [DisplayName("HSN Code")]
-        public int HSNCode {get;set;}
-       // [DisplayName("HSN Code")]
+        public int HSNCode {get;set;}          
+        // [DisplayName("HSN Code")]
         //public string HsnCodeName { get; set; }
         [Required] 
         [DisplayName("SAC Code")]
