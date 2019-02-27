@@ -473,7 +473,7 @@ namespace TogoFogo.Controllers
 
                 return View(result);
             }
-            return View();
+            
         }
         [HttpPost]
         public ActionResult EditDeviceProblem(DeviceProblemModel model)
@@ -1048,13 +1048,12 @@ namespace TogoFogo.Controllers
         {
             bool ifEmailExist = false;
             try
-
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<string>("select UserName from create_user_Master",
+                    var result = con.Query<int>("UspCheckUserExists",
                     new { @UserName=Username,@Id=UserId}, commandType: CommandType.Text).FirstOrDefault();
-                    ifEmailExist = Username.Equals(result) ? true : false;
+                    ifEmailExist = result==0 ? true : false;
 
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
                 }                  
