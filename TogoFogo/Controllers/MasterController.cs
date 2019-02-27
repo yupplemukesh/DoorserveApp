@@ -1046,14 +1046,14 @@ namespace TogoFogo.Controllers
         #region RemoteValidation
         public ActionResult RemoteValidationforUserName(string Username,Int64 UserId=0)
         {
-            bool ifEmailExist = false;
+           // bool ifEmailExist = false;
             try
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("UspCheckUserExists",
-                    new { @UserName=Username,@Id=UserId}, commandType: CommandType.Text).FirstOrDefault();
-                    ifEmailExist = result==0 ? true : false;
+                    var ifEmailExist = con.Query<bool>("UspCheckUserExists",
+                    new { Username, UserId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    //ifEmailExist = result==0 ? false : true;
 
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
                 }                  
