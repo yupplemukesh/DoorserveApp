@@ -1,13 +1,13 @@
 ﻿@model TogoFogo.Models.UserRole
 @{
-    ViewBag.Title = "Add User Role";
+    ViewBag.Title = "Edit User Role";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 <div class="panel-heading">
     <div class="row">
         <div class="col-lg-12">
             <div class="col-md-6">
-                <h3 class="m-y-0">Add User Role</h3>
+                <h3 class="m-y-0">Edit User Role</h3>
             </div>
         </div>
     </div>
@@ -17,10 +17,10 @@
         <div class="x_panel">
 
             <div class="x_content">
-                @using (Html.BeginForm("AddUserRole", "UserRole", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("EditUserRole", "UserRole", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
                 {
 
-                    @Html.Partial("_ManageUserRole",Model)
+                    @Html.Partial("_ManageUserRole", Model)
                 }
             </div>
         </div>

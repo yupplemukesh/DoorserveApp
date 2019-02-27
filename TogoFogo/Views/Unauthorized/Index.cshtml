@@ -1,14 +1,40 @@
 ﻿@{
     Layout = null;
 }
-<div class="col-md-12">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <img src="~/ErrorPageImages/ux-error-401.png" style="margin-left:83px;margin-top:55px;"  />
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="">
+    <title>Togofogo</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
+
+    @Styles.Render("~/Content/css")
+
+</head>
+<body class="error-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="error">
+                    <div class="e-icon text-primary">
+                        <i class="zmdi zmdi-alert-circle-o"></i>
+                    </div>
+                    <h1>401</h1>
+                    <h2>unauthorized</h2>
+                    <div class="e-text">you are not authorized to access this web page</div>
+                    <a href="@Url.Action("Index","Home")" class="btn btn-primary btn-lg">Go to home page</a>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-3"></div>
-</div>
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Scripts/jquery.validate.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="js/vendor.min.js"></script>
+    <script src="js/cosmos.min.js"></script>
+    <script src="js/application.min.js"></script>
+</body>
+</html>

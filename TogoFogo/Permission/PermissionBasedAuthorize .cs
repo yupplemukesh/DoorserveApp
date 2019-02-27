@@ -1,37 +1,69 @@
 ﻿using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using TogoFogo.Models;
+using Dapper;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace TogoFogo.Permission
 {
 
-    public class AuthorizeUserAttribute : AuthorizeAttribute
+    public class PermissionBasedAuthorize : AuthorizeAttribute
     {
         // Custom property
-        public string AccessLevel { get; set; }
+        private readonly string _connectionString =
+           ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
+        public Actions[] AccessLevel { get; set; }
+        public string  MenuName { get; set; }
+
+        public PermissionBasedAuthorize(Actions[] actionRights, string menu)
+        {
+            AccessLevel = actionRights;
+            MenuName = menu;
+
+        }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var isAuthorized = base.AuthorizeCore(httpContext);
-            if (!isAuthorized)
-            {
-                return false;
-            }
+            bool Valid = false;
+            if (!isAuthorized)          
+                Valid = false;
             if (HttpContext.Current.Session["User_ID"] != null)
             {
                 int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
-                string privilegeLevels = string.Join("", GetUserRights(UserId)); // Call another method to get rights of the user from DB
-
-                return privilegeLevels.Contains(this.AccessLevel);
+                var privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                
+                if (AccessLevel.Length > 0)
+                {
+                    if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
+                    {
+                        httpContext.Items["ActionsRights"] = privilegeLevels;
+                        Valid = true;
+                    }
+                    else
+                        Valid = false;                  
+                }
             }
-            else
-            return false;
-        }
+            else          
+                Valid = false;            
 
-        private  string GetUserRights(int userID)
+            return Valid;           
+        }
+        private  List<MenuMasterModel> GetUserRights(int userId)
         {
-            return "";
+            MenuMasterModel objMenuMaster = new MenuMasterModel();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objMenuMaster.SubMenuList = con.Query<MenuMasterModel>("UspGetMenuListByUser",
+              new { userId }, commandType: CommandType.StoredProcedure).ToList();
+            }
+            return objMenuMaster.SubMenuList;
         }
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
@@ -39,14 +71,12 @@ namespace TogoFogo.Permission
                         new RouteValueDictionary(
                             new
                             {
-                                controller = "Error",
-                                action = "Unauthorised"
+                                controller = "Unauthorized",
+                                action = "Index"
                             })
                         );
         }
     }
-
-
     //public class MyCustomAuthAttribute : FilterAttribute, IAuthorizationFilter
     //{
     //    public string Permission { get; set; }

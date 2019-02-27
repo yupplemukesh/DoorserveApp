@@ -29,7 +29,8 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region BRAND
-       // [PermissionBasedAuthorize("1")]
+        // [PermissionBasedAuthorize("1")]
+        [CustomAuthorize]
         public ActionResult Brand()
         {
             var name = User.Identity.Name;      

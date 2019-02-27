@@ -924,6 +924,12 @@
     <Content Include="Views\UserPermission\AddUserPermission.cshtml" />
     <Content Include="Views\Shared\_Permission.cshtml" />
     <Content Include="Views\UserPermission\UserPermissionList.cshtml" />
+    <Content Include="Views\User\_ManageUser.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\UserPermission\_ManageUserPermission.cshtml" />
+    <Content Include="Views\UserPermission\EditUserPermission.cshtml" />
+    <Content Include="Views\UserRole\EditUserRole.cshtml" />
+    <Content Include="Views\UserRole\_ManageUserRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
