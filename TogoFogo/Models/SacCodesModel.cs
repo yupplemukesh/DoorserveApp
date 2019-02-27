@@ -35,9 +35,12 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Gst Chapter Heading")]
         public string GstHeading { get; set; }
+        [Remote("IsHSNCodeAlreadyExist", "ManageSACCodes", HttpMethod = "GET", AdditionalFields = "InitialHSNCode", ErrorMessage = "HSNCode Already Exist Please Try Another HSNCode")]
         [Required]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Please Enter Number")]
         [DisplayName("Gst HSN Code")]        
         public string Gst_HSN_Code { get; set; }
+        public string InitialHSNCode { get; set; }
         [Required]
         [DisplayName("CTH Number")]        
         public string CTH_Number { get; set; }

@@ -8,6 +8,8 @@
     <title>Togofogo</title>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
+    <script src="/ckeditor/ckeditor.js"></script>
+    <script src="/ckeditor/js/sample.js"></script>
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -130,8 +132,9 @@
 
 
     @Scripts.Render("~/bundles/customBundle")
-
+ 
     @Scripts.Render("~/bundles/bootstrap")
+
     <script>
 
         $(document).ready(function (e) {
@@ -335,12 +338,12 @@
     {
         <div class="tox tox-silver-sink tox-tinymce-aux" style="position: relative;" id="msg">
             <div id="toast-container" class="toast-top-right">
-                     <div class="toast toast-success" aria-live="polite" style="display:none;">
-                        <div class="toast-message"></div>
-                    </div>            
-                    <div class="toast toast-error" aria-live="polite" style="display:none;">
-                        <div class="toast-message"></div>
-                    </div>               
+                <div class="toast toast-success" aria-live="polite" style="display:none;">
+                    <div class="toast-message"></div>
+                </div>
+                <div class="toast toast-error" aria-live="polite" style="display:none;">
+                    <div class="toast-message"></div>
+                </div>
             </div>
         </div>
     }

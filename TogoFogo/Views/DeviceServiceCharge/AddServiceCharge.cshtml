@@ -5,7 +5,7 @@
 }
 @using (Html.BeginForm("AddServiceCharge", "DeviceServiceCharge", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-
+  
     <div class="row">
         <div class="col-md-6">
 
@@ -19,7 +19,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.SubCatId, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.SubCatId, Model.DeviceSubCategoryList, new { @class = "form-control" ,id="DeviceSub"})
+                    @Html.DropDownListFor(model => model.SubCatId, Model.DeviceSubCategoryList, new { @class = "form-control", id = "DeviceSub" })
                     @Html.ValidationMessageFor(model => model.SubCatId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.ModalNameId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.ModalNameId, Model.ModelNameList, new { @class = "form-control",id="ModelName" })
+                    @Html.DropDownListFor(model => model.ModalNameId, Model.ModelNameList, new { @class = "form-control", id = "ModelName" })
                     @Html.ValidationMessageFor(model => model.ModalNameId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     @Html.ValidationMessageFor(model => model.SAC, "", new { @class = "text-danger" })
                 </div>
             </div>
-           
+
 
         </div>
         <div class="col-md-6">
@@ -93,18 +93,7 @@
                 </div>
             </div>
 
-            @* <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
 
-            }, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -128,3 +117,5 @@
     </div>
 
 }
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

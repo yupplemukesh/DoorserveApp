@@ -4,7 +4,7 @@
 }
 @using (Html.BeginForm("AddSacCodes", "ManageSACCodes", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-
+    @Html.HiddenFor(x => x.InitialHSNCode)
     <div class="row">
         <div class="col-md-6">
 
@@ -18,7 +18,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control" , id = "editStateId" })
+                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", id = "editStateId" })
                     @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -26,10 +26,10 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Applicable_Tax, Model.AplicationTaxTypeList,"Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Applicable_Tax, Model.AplicationTaxTypeList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
                 </div>
-            </div>           
+            </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -68,7 +68,7 @@
             </div>
 
         </div>
-        <div class="col-md-6">          
+        <div class="col-md-6">
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12" style="display: inline-flex">
@@ -121,7 +121,7 @@
                     @Html.TextBoxFor(model => model.Description_Of_Goods, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Description_Of_Goods, "", new { @class = "text-danger" })
                 </div>
-            </div>          
+            </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
