@@ -1044,7 +1044,7 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region RemoteValidation
-        public ActionResult RemoteValidationforUserName(string Username,Int64 UserId)
+        public ActionResult RemoteValidationforUserName(string Username,Int64 UserId=0)
         {
             bool ifEmailExist = false;
             try

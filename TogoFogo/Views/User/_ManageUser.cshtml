@@ -27,7 +27,7 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", @onchange = "remoteValidation()", tabindex = "4" })
+                @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", tabindex = "4" })
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
             </div>
         </div>

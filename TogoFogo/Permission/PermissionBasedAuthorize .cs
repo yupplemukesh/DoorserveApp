@@ -39,8 +39,9 @@ namespace TogoFogo.Permission
                 int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
                 var privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
                 
-                if (AccessLevel.Length > 0)
+                if (AccessLevel.Length > 0 && privilegeLevels!=null)
                 {
+
                     if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
                     {
                         httpContext.Items["ActionsRights"] = privilegeLevels;
