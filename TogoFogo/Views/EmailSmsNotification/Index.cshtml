@@ -1,0 +1,90 @@
+﻿@model IEnumerable<TogoFogo.Models.Template.TemplateModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var count = 1;
+}
+
+
+<div class="panel-heading">
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <h3 class="m-t-0 m-b-5">Email,SMS & Notification Template List</h3>
+            <p class="text-muted m-b-0"></p>
+        </div>
+
+        <div class="col-md-6  add-tem-btn-mar-top">
+            <div class="panel-tools">
+                <a href="template-create-action.html" class="tools-icon">
+                    <button type="submit" class="btn btn-primary btn-sm">Add New Template</button>
+                </a>
+                <a href="#" class="tools-icon">
+                    <button type="submit" class="btn btn-primary btn-sm">Export to Excel</button>
+                </a>
+                <a href="#" class="tools-icon">
+                    <i class="zmdi zmdi-refresh"></i>
+                </a>
+                <a href="#" class="tools-icon">
+                    <i class="zmdi zmdi-close"></i>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="panel-body" style="border:0px solid red">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered dataTable" id="table-1">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("SLNo")
+                    </th>
+                    <th>
+
+                        @Html.DisplayName("Mailer Template Type")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Message Type")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Action Type")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Template Name")
+
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemplateType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MessageType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionTypeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemplateName)
+                    </td>
+                </tr>
+                count++;
+             }
+
+        </table>
+    </div>
+
+</div>
+
