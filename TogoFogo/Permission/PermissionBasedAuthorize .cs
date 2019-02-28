@@ -12,7 +12,6 @@ using System.Collections.Generic;
 
 namespace TogoFogo.Permission
 {
-
     public class PermissionBasedAuthorize : AuthorizeAttribute
     {
         // Custom property
@@ -25,7 +24,6 @@ namespace TogoFogo.Permission
         {
             AccessLevel = actionRights;
             MenuName = menu;
-
         }
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
@@ -35,20 +33,25 @@ namespace TogoFogo.Permission
                 Valid = false;
             if (HttpContext.Current.Session["User_ID"] != null)
             {
-                int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
-                var privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
-                
-                if (AccessLevel.Length > 0 && privilegeLevels!=null)
+                if (Convert.ToString(HttpContext.Current.Session["RoleName"]).ToLower() == "supper admin")
                 {
-
-                    if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
-                    {
-                        httpContext.Items["ActionsRights"] = privilegeLevels;
-                        Valid = true;
-                    }
-                    else
-                        Valid = false;                  
+                    return true;
                 }
+                else
+                { 
+                    int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
+                    var privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                    if (AccessLevel.Length > 0 && privilegeLevels != null)
+                    {
+                        if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
+                        {
+                            httpContext.Items["ActionsRights"] = privilegeLevels;
+                            Valid = true;
+                        }
+                        else
+                            Valid = false;
+                    }
+                }                
             }
             else          
                 Valid = false;            

@@ -12,12 +12,10 @@ namespace TogoFogo.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
-
     public class ExternalLoginListViewModel
     {
         public string ReturnUrl { get; set; }
     }
-
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
@@ -25,7 +23,6 @@ namespace TogoFogo.Models
         public string ReturnUrl { get; set; }
         public bool RememberMe { get; set; }
     }
-
     public class VerifyCodeViewModel
     {
         [Required]
@@ -41,14 +38,12 @@ namespace TogoFogo.Models
 
         public bool RememberMe { get; set; }
     }
-
     public class ForgotViewModel
     {
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
-
     public class LoginViewModel
     {
         public Int64 UserId { get; set; }
@@ -67,7 +62,6 @@ namespace TogoFogo.Models
     {
         public string Menu_Name { get; set; }
     }
-
     public class RegisterViewModel
     {
         [Required]
@@ -95,7 +89,6 @@ namespace TogoFogo.Models
         public SelectList StateList { get; set; }
         public string STATE { get; set; }
     }
-
     public class ResetPasswordViewModel
     {
         [Required]
@@ -116,7 +109,6 @@ namespace TogoFogo.Models
 
         public string Code { get; set; }
     }
-
     public class ForgotPasswordViewModel
     {
         [Required]

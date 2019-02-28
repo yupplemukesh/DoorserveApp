@@ -30,13 +30,11 @@ namespace TogoFogo.Controllers
         {
             context = new ApplicationDbContext();
         }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -48,7 +46,6 @@ namespace TogoFogo.Controllers
                 _signInManager = value;
             }
         }
-
         public ApplicationUserManager UserManager
         {
             get
@@ -60,8 +57,7 @@ namespace TogoFogo.Controllers
                 _userManager = value;
             }
         }
-
-        //
+        
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login()
@@ -69,8 +65,7 @@ namespace TogoFogo.Controllers
             //ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
-        //
+        
        // POST: /Account/Login
        [HttpPost]
        [AllowAnonymous]
@@ -81,7 +76,6 @@ namespace TogoFogo.Controllers
         //    {
         //        return View(model);
         //    }
-
         //    // This doesn't count login failures towards account lockout
         //    // To enable password failures to trigger account lockout, change to shouldLockout: true
         //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -101,26 +95,14 @@ namespace TogoFogo.Controllers
         //}
         public ActionResult Login(LoginViewModel m)
         {
-   
             var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);
             using (var con = new SqlConnection(_connectionString))
             {
 
                 dynamic result = con.Query<dynamic>("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
-
-                if (result == 0)
+                if(result!=null)
                 {
-                    ViewBag.Message = "UserName is not correct";
-                }
-                else if (result == 1)
-                {
-                    ViewBag.Message = "Password is not correct";
-                }
-                else
-                {
-                    //var user = con.Query<int>("select Id from create_user_master where UserName=@UserName", new { Username = m.Email },
-                    //commandType: CommandType.Text).FirstOrDefault();
                     Session["User_ID"] = result.UserId;
                     Session["RoleName"] = result.RoleName;
                     var claims = new List<Claim>();
@@ -133,18 +115,13 @@ namespace TogoFogo.Controllers
                     authenticationManager.SignIn(id);
                     return RedirectToAction("Index", "Home");
                 }
-                //if (result == null)
-                //{
-                //    ViewBag.Message = "Please Check UserName or Password Correctly";
-                //    return View("Login");
-                //}
-
-                // }
-
+                else
+                {
+                    ViewBag.Message = "User Name or Password is not correct";
+                }         
             }
             return View();
             }
-
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -159,8 +136,7 @@ namespace TogoFogo.Controllers
             }
 
             return View("Login",null);
-        }
-       
+        }       
         //GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -172,7 +148,6 @@ namespace TogoFogo.Controllers
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
         //
         // POST: /Account/VerifyCode
         [HttpPost]
@@ -202,7 +177,6 @@ namespace TogoFogo.Controllers
                     return View(model);
             }
         }
-
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -211,7 +185,6 @@ namespace TogoFogo.Controllers
             ViewBag.Name = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
-
         //
         // POST: /Account/Register
         [HttpPost]
@@ -263,7 +236,7 @@ namespace TogoFogo.Controllers
             return View();
 
         }
-        //
+        
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -275,7 +248,6 @@ namespace TogoFogo.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
-
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -283,7 +255,6 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -311,7 +282,6 @@ namespace TogoFogo.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
@@ -319,7 +289,6 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
@@ -327,7 +296,6 @@ namespace TogoFogo.Controllers
         {
             return code == null ? View("Error") : View();
         }
-
         //
         // POST: /Account/ResetPassword
         [HttpPost]

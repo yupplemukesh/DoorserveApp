@@ -25,28 +25,29 @@
                 <div class="pull-left">
                     <a class="authentication-logo" href="@Url.Action("Index","Home")">
                         <img src="~/Content/img/logo.png" alt="" style="width:100%">
-
                     </a>
-                </div>
+                </div>                
                 @*<div class="pull-right">
-                    <a href="http://big-bang-studio.com/pages-signup.html" class="btn btn-outline-info">Sign up</a>
-                </div>*@
+            <a href="http://big-bang-studio.com/pages-signup.html" class="btn btn-outline-info">Sign up</a>
+        </div>*@
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
+              
                 <div class="authentication-content m-b-30">
                     <h3 class="m-t-0 m-b-30 text-center">You look great today!</h3>
+                    <div class="text-danger">@(ViewBag.Message)</div>
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form" }))
                     {@Html.AntiForgeryToken()
                     <div class="form-group">
                         <label for="form-control-1">User Name</label>
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter username" })                    
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter username" })
                     </div>
                     <div class="form-group">
                         <label for="form-control-2">Password</label>
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter password" })
-                    
+
                     </div>
                     <div class="form-group">
                         <label class="custom-control custom-control-info custom-checkbox active">
@@ -57,7 +58,7 @@
                         <a href="void()" class="text-info pull-right">Forgot password?</a>
                     </div>
                     <button type="submit" class="btn btn-info btn-block">Submit</button>
-                    }
+                }
                 </div>
             </div>
         </div>
@@ -65,8 +66,6 @@
             <span class="text-muted">Need help? Contact us mail@example.com</span>
         </div>*@
     </div>
-
-
     @Scripts.Render("~/bundles/customBundle")
 </body>
 
