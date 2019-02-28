@@ -29,7 +29,8 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region BRAND
-       // [PermissionBasedAuthorize("1")]
+        // [PermissionBasedAuthorize("1")]
+        [CustomAuthorize]
         public ActionResult Brand()
         {
             var name = User.Identity.Name;      
@@ -472,7 +473,7 @@ namespace TogoFogo.Controllers
 
                 return View(result);
             }
-            return View();
+            
         }
         [HttpPost]
         public ActionResult EditDeviceProblem(DeviceProblemModel model)
@@ -1043,17 +1044,16 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region RemoteValidation
-        public ActionResult RemoteValidationforUserName(string Username,Int64 UserId)
+        public ActionResult RemoteValidationforUserName(string Username,Int64 UserId=0)
         {
-            bool ifEmailExist = false;
+           // bool ifEmailExist = false;
             try
-
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<string>("select UserName from create_user_Master",
-                    new { @UserName=Username,@Id=UserId}, commandType: CommandType.Text).FirstOrDefault();
-                    ifEmailExist = Username.Equals(result) ? true : false;
+                    var ifEmailExist = con.Query<bool>("UspCheckUserExists",
+                    new { Username, UserId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    //ifEmailExist = result==0 ? false : true;
 
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
                 }                  

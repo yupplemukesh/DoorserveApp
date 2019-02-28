@@ -30,9 +30,10 @@ namespace TogoFogo.Models
         public List<UserPermission> _UserPermissionList { get; set; }
     }
 
-    public  enum Actions
+    public  enum  Actions:int
     {
         View=1,Create=2,Edit=3,Delete=4,History=5
 
     }
+   
 }

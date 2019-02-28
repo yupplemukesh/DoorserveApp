@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -33,7 +34,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Cities/Locations")]
         public ActionResult AddCityLocation()
         {
             ViewBag.CountryName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -49,7 +50,6 @@ namespace TogoFogo.Controllers
 
             }
         }
-
         [HttpPost]
         public ActionResult AddCityLocation(ManageLocation model)
         {
@@ -94,7 +94,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageCityLocation");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Cities/Locations")]
         public ActionResult ManageCityTable()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -103,11 +103,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
-        //[HttpPost]
-        //public ActionResult ManageCityTable()
-        //{
-        //    return View();
-        //}
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Cities/Locations")]
         public ActionResult EditCityLocation(int LocationId)
         {
             using (var con = new SqlConnection(_connectionString))

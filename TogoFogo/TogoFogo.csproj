@@ -203,8 +203,6 @@
     <Compile Include="Controllers\CPCAPController.cs" />
     <Compile Include="Controllers\CustomerSupportController.cs" />
     <Compile Include="Controllers\DeviceServiceChargeController.cs" />
-    <Compile Include="Controllers\EmailHeaderFooterController.cs" />
-    <Compile Include="Controllers\EmailSmsNotificationController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\GstCategoryController.cs" />
     <Compile Include="Controllers\GSTTaxController.cs" />
@@ -230,7 +228,6 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ServiceCenterController.cs" />
     <Compile Include="Controllers\SMSGatewayController.cs" />
-    <Compile Include="Controllers\SMTPGatewayController.cs" />
     <Compile Include="Controllers\Trc_PFELSController.cs" />
     <Compile Include="Controllers\Trc_PFQCController.cs" />
     <Compile Include="Controllers\Trc_PFRController.cs" />
@@ -243,7 +240,6 @@
     <Compile Include="Controllers\UserPermissionController.cs" />
     <Compile Include="Controllers\UserRoleController.cs" />
     <Compile Include="Controllers\WebsiteSettingsController.cs" />
-    <Compile Include="Controllers\WildCardsController.cs" />
     <Compile Include="Encrypt_Decrypt_Code\encrypt_decrypt.cs" />
     <Compile Include="Extended\UserExtended.cs" />
     <Compile Include="Extension\CheckUrl.cs" />
@@ -259,7 +255,6 @@
     <Compile Include="Models\CreateUserModel.cs" />
     <Compile Include="Models\DynamicCrouselModel.cs" />
     <Compile Include="Models\EmailGateway.cs" />
-    <Compile Include="Models\EmailHeaderFooterModel.cs" />
     <Compile Include="Models\Email_send_code.cs" />
     <Compile Include="Models\Encrypt_Decrypt.cs" />
     <Compile Include="Models\Gateway\GatewayModel.cs" />
@@ -278,10 +273,6 @@
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\ReverseAWB_AllocationModel.cs" />
     <Compile Include="Models\SMSGateway.cs" />
-    <Compile Include="Models\Template\EmailModel.cs" />
-    <Compile Include="Models\Template\NotificationTemplateModel.cs" />
-    <Compile Include="Models\Template\SMSModel.cs" />
-    <Compile Include="Models\Template\TemplateModel.cs" />
     <Compile Include="Models\UAWBS.cs" />
     <Compile Include="Models\UREVASmodel.cs" />
     <Compile Include="Global.asax.cs">
@@ -331,19 +322,12 @@
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
-    <Compile Include="Models\WildCardModel.cs" />
     <Compile Include="Permission\PermissionBasedAuthorize .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
-    <Compile Include="Repository\EmailHeaderFooters\EmailHeaderFooters.cs" />
-    <Compile Include="Repository\EmailHeaderFooters\IEmailHeaderFooters.cs" />
-    <Compile Include="Repository\EmailSmsTemplate\ITemplate.cs" />
-    <Compile Include="Repository\EmailSmsTemplate\Template.cs" />
     <Compile Include="Repository\SMSGateway\Gateway.cs" />
     <Compile Include="Repository\SMSGateway\IGateway.cs" />
-    <Compile Include="Repository\WildCards\IWildCards.cs" />
-    <Compile Include="Repository\WildCards\WildCards.cs" />
     <Compile Include="SaveImageCode\SaveImage.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -807,9 +791,6 @@
     <Content Include="Content\Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Content\Scripts\bootstrap.js" />
     <Content Include="Content\Scripts\bootstrap.min.js" />
-    <Content Include="ckeditor\.vs\ckeditor\v15\.suo" />
-    <Content Include="ckeditor\.vs\slnx.sqlite" />
-    <Content Include="ckeditor\.vs\VSWorkspaceState.json" />
     <Content Include="ckeditor\CHANGES.md" />
     <Content Include="ckeditor\LICENSE.md" />
     <Content Include="ckeditor\plugins\scayt\CHANGELOG.md" />
@@ -1323,22 +1304,12 @@
     <Content Include="Views\UserPermission\AddUserPermission.cshtml" />
     <Content Include="Views\Shared\_Permission.cshtml" />
     <Content Include="Views\UserPermission\UserPermissionList.cshtml" />
-    <Content Include="Views\EmailHeaderFooter\Index.cshtml" />
-    <Content Include="Views\EmailHeaderFooter\_CreateEditEmailHeaderFooterForm.cshtml" />
-    <Content Include="Views\EmailHeaderFooter\_EmailHeaderFooterTable.cshtml" />
-    <Content Include="Views\NotificationGateway\Index.cshtml" />
-    <Content Include="Views\NotificationGateway\_CreateEditNotificationGatewayForm.cshtml" />
-    <Content Include="Views\NotificationGateway\_NotificationGatewayTabel.cshtml" />
-    <Content Include="Views\SMTPGateway\Create.cshtml" />
-    <Content Include="Views\SMTPGateway\Edit.cshtml" />
-    <Content Include="Views\SMTPGateway\Index.cshtml" />
-    <Content Include="Views\SMTPGateway\_CreateEditSMTPGatewayForm.cshtml" />
-    <Content Include="Views\WildCards\Create.cshtml" />
-    <Content Include="Views\WildCards\Edit.cshtml" />
-    <Content Include="Views\WildCards\Index.cshtml" />
-    <Content Include="Views\WildCards\_CreateEditWildCardsForm.cshtml" />
-    <Content Include="Views\EmailSmsNotification\Index.cshtml" />
-    <Content Include="Views\EmailSmsNotification\_CreateEditEmailSmsNotificationForm.cshtml" />
+    <Content Include="Views\User\_ManageUser.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\UserPermission\_ManageUserPermission.cshtml" />
+    <Content Include="Views\UserPermission\EditUserPermission.cshtml" />
+    <Content Include="Views\UserRole\EditUserRole.cshtml" />
+    <Content Include="Views\UserRole\_ManageUserRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
