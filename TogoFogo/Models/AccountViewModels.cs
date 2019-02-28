@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
@@ -50,16 +51,15 @@ namespace TogoFogo.Models
 
     public class LoginViewModel
     {
+        public Int64 UserId { get; set; }
         [Required]
-        [Display(Name = "User Name")]
-        //[EmailAddress]
+        [Display(Name = "User Name")]       
         public string Email { get; set; }
-
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
+        public string UserRoleName { get; set; }
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }

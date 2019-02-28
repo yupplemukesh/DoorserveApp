@@ -102,41 +102,48 @@ namespace TogoFogo.Controllers
         public ActionResult Login(LoginViewModel m)
         {
    
-            var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);           
+            var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);
             using (var con = new SqlConnection(_connectionString))
             {
-             
-                   var result = con.Query<string>("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
-               
-                if (result == null)
-                {
-                    ViewBag.Message = "Please Check UserName or Password Correctly";
-                    return View("Login");
-                }
-                else if ((Request.Form["Email"] == m.Email) && (Request.Form["Password"] == m.Password))
-                {
-                    var user = con.Query<int>("select Id from create_user_master where UserName=@UserName", new { Username = m.Email },
-                  commandType: CommandType.Text).FirstOrDefault();
-                    Session["User_ID"] = user.ToString();
-                    //FormsAuthentication.SetAuthCookie(user.ToString(), false);
 
+                dynamic result = con.Query<dynamic>("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
+                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                if (result == 0)
+                {
+                    ViewBag.Message = "UserName is not correct";
+                }
+                else if (result == 1)
+                {
+                    ViewBag.Message = "Password is not correct";
+                }
+                else
+                {
+                    //var user = con.Query<int>("select Id from create_user_master where UserName=@UserName", new { Username = m.Email },
+                    //commandType: CommandType.Text).FirstOrDefault();
+                    Session["User_ID"] = result.UserId;
+                    Session["RoleName"] = result.RoleName;
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, m.Email));
-                    claims.Add(new Claim(ClaimTypes.Email, user.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Email, result.UserName.ToString()));
                     var id = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
                     var ctx = Request.GetOwinContext();
                     var authenticationManager = ctx.Authentication;
                     authenticationManager.SignIn(id);
-
                     return RedirectToAction("Index", "Home");
-                    //return View("About");
-                }             
+                }
+                //if (result == null)
+                //{
+                //    ViewBag.Message = "Please Check UserName or Password Correctly";
+                //    return View("Login");
+                //}
+
+                // }
+
             }
             return View();
-
-        }
+            }
 
         public ActionResult Logout()
         {

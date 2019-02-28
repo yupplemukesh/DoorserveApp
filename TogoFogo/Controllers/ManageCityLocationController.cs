@@ -97,6 +97,27 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Cities/Locations")]
         public ActionResult ManageCityTable()
         {
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        ViewBag.Create = 2;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        ViewBag.Edit = 3;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        ViewBag.Delete = 4;
+                    }
+                }
+            }
+
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();

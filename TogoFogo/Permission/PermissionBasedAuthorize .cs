@@ -21,7 +21,6 @@ namespace TogoFogo.Permission
 
         public Actions[] AccessLevel { get; set; }
         public string  MenuName { get; set; }
-
         public PermissionBasedAuthorize(Actions[] actionRights, string menu)
         {
             AccessLevel = actionRights;

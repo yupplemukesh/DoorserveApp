@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -32,7 +33,7 @@ namespace TogoFogo.Controllers
 
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Device Category")]
         public ActionResult AddCategory()
         {
             return View();
@@ -82,22 +83,42 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("DeviceCategory");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Category")]
         public ActionResult DeviceCategoryTable()
         {
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        ViewBag.Create = 2;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        ViewBag.Edit = 3;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        ViewBag.Delete = 4;
+                    }
+                }
+            }
+
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
                 return View(result);
             }
         }
-
         [HttpPost]
         public ActionResult DeviceCategoryTable(int CatId)
         {
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Device Category")]
         public ActionResult EditDeviceCategory(int CatId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -107,7 +128,6 @@ namespace TogoFogo.Controllers
                 return PartialView("EditDeviceCategory", result);
             }
         }
-
         [HttpPost]
         public ActionResult EditDeviceCategory(DeviceCategoryModel model)
         {
@@ -148,9 +168,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("DeviceCategory");
         }
 
-
         //Manage Sub Category
-
         public ActionResult DeviceSubCategory()
         {
             ViewBag.DeviceCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -165,7 +183,7 @@ namespace TogoFogo.Controllers
 
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Device Sub Category")]
         public ActionResult AddSubCategory()
         {
             ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(), "Value", "Text");
@@ -228,9 +246,29 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("DeviceSubCategory");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Sub Category")]
         public ActionResult DeviceSubCategoryTable()
         {
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        ViewBag.Create = 2;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        ViewBag.Edit = 3;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        ViewBag.Delete = 4;
+                    }
+                }
+            }
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new { }, commandType: CommandType.StoredProcedure).ToList();
@@ -238,6 +276,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             };
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Sub Category")]
         public ActionResult EditDeviceSubCategory(int SubCatId)
         {
             using (var con = new SqlConnection(_connectionString))

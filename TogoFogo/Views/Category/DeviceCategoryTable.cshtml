@@ -29,9 +29,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifyDate)
             </th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.ModifyBy)
-        </th>*@
+          
 
             <th>Actions</th>
         </tr>
@@ -51,11 +49,11 @@
         </td>
         <td>
             @(item.IsRepair == true ? "Yes" : "No")
-            @*@Html.DisplayFor(modelItem => item.IsRepair)*@
+           
         </td>
         <td>
             @(item.IsActive == true ? "Active" : "InActive")
-            @*@Html.DisplayFor(modelItem => item.IsActive)*@
+           
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comments)
@@ -63,15 +61,19 @@
         <td>
             @Html.DisplayFor(modelItem => item.ModifyDate)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.ModifyBy)
-        </td>*@
+       
         <td style="display: inline-flex">
             @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCategory(@item.CatId)">Edit</a>
             @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-        </td>
+            @if (ViewBag.Create == 3)
+            {
+                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCategory(@item.CatId)">Edit</a>
+            }
+            @if (ViewBag.Create == 4)
+            {
+                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+            }
+            </td>
     </tr>
     }
 

@@ -28,9 +28,7 @@ namespace TogoFogo.Controllers
 
         #endregion
 
-        #region BRAND
-        // [PermissionBasedAuthorize("1")]
-        [CustomAuthorize]
+        #region BRAND      
         public ActionResult Brand()
         {
             var name = User.Identity.Name;      
@@ -44,6 +42,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Brands")]
         public ActionResult AddBrand()
         {
             return View();
@@ -113,6 +112,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("Brand");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Brands")]
         public ActionResult EditBrand(int BrandId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -169,8 +169,29 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("Brand", "Master");
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Brands")]
         public ActionResult BrandTable()
         {
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        ViewBag.Create = 2;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        ViewBag.Edit = 3;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        ViewBag.Delete = 4;
+                    }
+                }
+            }
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
@@ -197,6 +218,7 @@ namespace TogoFogo.Controllers
 
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Products")]
         public ActionResult AddProduct()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -285,8 +307,29 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("Product");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Products")]
         public ActionResult ProductTable()
         {
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        ViewBag.Create = 2;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        ViewBag.Edit = 3;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        ViewBag.Delete = 4;
+                    }
+                }
+            }
             using (var con = new SqlConnection(_connectionString))
             {               
                 var result = con.Query<ProductModel>("GetProductDetail", new { },
@@ -294,6 +337,7 @@ namespace TogoFogo.Controllers
                return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Products")]
         public ActionResult EditProduct(int? ProductId, int? BrandID, string ProductName, int? CategoryID)
         {
             if (ProductId == 0 || ProductId == null)
@@ -390,7 +434,7 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region ManageDeviceProblems
-        [CustomAuthorize]
+        
         public ActionResult ManageDeviceProblems()
         {
             ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());

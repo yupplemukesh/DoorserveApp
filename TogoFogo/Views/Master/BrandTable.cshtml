@@ -16,9 +16,6 @@
                 @Html.DisplayNameFor(model => model.BrandName)
             </th>
 
-            @*<th>
-            @Html.DisplayNameFor(model => model.BrandDescription)
-        </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.IsRepair)
             </th>
@@ -31,24 +28,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifyDate)
             </th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.MetaKeyword)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MetaDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MetaTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UrlName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Header)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Footer)
-        </th>*@
+           
 
             <th>Actions</th>
         </tr>
@@ -74,16 +54,14 @@
             @Html.DisplayFor(modelItem => item.BrandName)
         </td>
 
-        @*<td>
-            @Html.DisplayFor(modelItem => item.BrandDescription)
-        </td>*@
+     
         <td>
             @(item.IsRepair == true ? "Yes" : "No")
-            @*@Html.DisplayFor(modelItem => item.IsRepair)*@
+            
         </td>
         <td>
             @(item.IsActive == true ? "Active" : "InActive")
-            @*@Html.DisplayFor(modelItem => item.IsActive)*@
+            
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Comments)
@@ -91,31 +69,20 @@
         <td>
             @Html.DisplayFor(modelItem => item.ModifyDate)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.MetaKeyword)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MetaDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MetaTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UrlName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Header)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Footer)
-        </td>*@
+       
 
         <td style="display: inline-flex">
             @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditBrand(@item.BrandId)">Edit</a>
             @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-        </td>
+            @if (ViewBag.Create == 3)
+            {
+                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditBrand(@item.BrandId)">Edit</a>
+            }
+            @if (ViewBag.Create == 4)
+            {
+                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+            }
+            </td>
     </tr>
     }
 
