@@ -8,8 +8,6 @@
     <title>Togofogo</title>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
-    @*<script src="/ckeditor/ckeditor.js"></script>
-    <script src="/ckeditor/js/sample.js"></script>*@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -245,13 +243,16 @@
             var startDate = $(".startDate").val();
             var endDate = $(".endDate").val();
 
-            $(".excel").click(function () {
-                var obj = $("#myTable").DataTable().$('tr').clone();
+            $(".tamplate").click(function () {
+                var obj = $("#myTable").DataTable().$('tr:first').clone();
                 var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                var lstchl = $(obj1).find("th:last-child").html();
+                if (lstchl.indexOf("action") != -1) {
+                    $(obj1).find("th:last-child").remove();
+                    $(obj).find("td:last-child").remove();
 
+                }
 
-                $(obj1).find("th:last-child").remove();
-                $(obj).find("td:last-child").remove();
                 $('<table>')
                     .append(
                         obj1
@@ -266,6 +267,29 @@
                     });
             });
 
+
+            $(".excel").click(function () {
+                var obj = $("#myTable").DataTable().$('tr').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                var lstchl = $(obj1).find("th:last-child").html();
+                if (lstchl.indexOf("action") != -1) {
+                    $(obj1).find("th:last-child").remove();
+                    $(obj).find("td:last-child").remove();
+
+                }
+                $('<table>')
+                    .append(
+                        obj1
+                    )
+                    .append(
+                        obj
+                    )
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "Excel.xls" //do not include extension
+                    });
+            });
             $("#myTable").dataTable();
         });
 
