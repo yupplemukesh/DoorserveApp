@@ -26,37 +26,7 @@
     </div>
 </div>
 <div class="panel-body">
-    @using (Html.BeginForm("Upload", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-
-        <div class="row" style="padding-bottom: 5px">
-            @Html.LabelFor(model => model.client.ClientId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-
-                @Html.DropDownListFor(model => model.client.ClientId, Model.client.ClientList, new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(model => model.client.ClientList, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 5px">
-            @Html.LabelFor(model => model.client.ServiceTypeId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-
-                @Html.DropDownListFor(model => model.client.ServiceTypeId, Model.client.ServiceTypeList, new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(model => model.client.ServiceTypeList, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 5px;">
-            @Html.Label("Browse File", htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model.client.DataFile, htmlAttributes: new { @type = "file", @class = "form-control" })
-            </div>
-        </div>
-        <div class="row col-md-offset-9" style="padding-bottom: 5px;">
-            <button type="submit" class="btn btn-success">Upload</button>
-        </div>
-        <span>@ViewBag.Error</span>
-    }
-
+    @Html.Partial("_Createform", Model.client)
 
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">

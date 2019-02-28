@@ -1,0 +1,31 @@
+﻿@model TogoFogo.Models.ClientDataModel
+
+@using (Html.BeginForm("Upload", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="row" style="padding-bottom: 5px">
+        @Html.LabelFor(model => model.ClientId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            @Html.DropDownListFor(model => model.ClientId, Model.ClientList, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.ClientList, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px">
+        @Html.LabelFor(model => model.ServiceTypeId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceTypeList, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.ServiceTypeList, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.Label("Browse File", htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.DataFile, htmlAttributes: new { @type = "file", @class = "form-control" })
+        </div>
+    </div>
+    <div class="row col-md-offset-9" style="padding-bottom: 5px;">
+        <button type="submit" class="btn btn-success">Upload</button>
+    </div>
+}
