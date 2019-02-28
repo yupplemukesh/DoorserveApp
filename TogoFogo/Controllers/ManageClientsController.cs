@@ -132,7 +132,6 @@ namespace TogoFogo.Controllers
             if (TempData["client"] != null)
             {
                 var client = TempData["client"] as ClientModel;
-                bank.Action = 'I';
                 var Response = await _bank.AddUpdateBankDetails(bank);
                 var clientModel = await _client.GetClientByClientId(bank.RefKey);
                 clientModel.ProcessList = client.ProcessList;
@@ -142,8 +141,7 @@ namespace TogoFogo.Controllers
                 clientModel.Organization.AplicationTaxTypeList = client.Organization.AplicationTaxTypeList;
                 clientModel.ServiceList = client.ServiceList;
                 clientModel.DeliveryServiceList = client.DeliveryServiceList;
-                clientModel.Activetab = "tab-5";                    
-                    clientModel.action = 'I';
+                 clientModel.Activetab = "tab-5";                    
                     TempData["client"] = clientModel;
                     TempData.Keep("client");
                     TempData["response"] = Response;
