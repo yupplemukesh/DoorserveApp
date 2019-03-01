@@ -181,7 +181,16 @@ namespace TogoFogo
                 return _Sac_numberList;
             }
         }
-     }
+
+        public static async Task<List<CheckBox>> GetServiceProviders()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>("SELECT Id Value,ProviderName Text FROM MstServiceProvider where IsActive=1").ToListAsync();
+                return _serviceProvider;
+            }
+        }
+    }
     public class CheckBox
     {
         public string Text { get; set; }
