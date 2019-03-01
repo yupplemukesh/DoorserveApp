@@ -23507,3 +23507,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 #myTable_wrapper > div{
     padding-top:5px;
 }
+
+.thumb-img-width img {
+    width: 100%;
+}

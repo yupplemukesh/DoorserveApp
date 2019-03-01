@@ -40,6 +40,7 @@ namespace TogoFogo.Models
         public bool IsActive { get; set; }
         [DisplayName("Upload Cancelled Cheque")]
         public string BankCancelledChequeFileName { get; set; }
+        public string BankCancelledChequeFileUrl { get; set; }
         public SelectList BankList { get; set; }
     }
 }

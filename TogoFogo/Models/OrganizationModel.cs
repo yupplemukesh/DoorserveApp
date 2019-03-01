@@ -33,11 +33,13 @@ namespace TogoFogo.Models
         public string OrgGSTNumber { get; set; }
         public HttpPostedFileBase OrgGSTNumberFilePath { get; set; }
         public string OrgGSTFileName { get; set; }
+        public string OrgGSTFileUrl { get; set; }
         [DisplayName("Organisation PAN Number")]
         [Required]
         public string OrgPanNumber { get; set; }
         public HttpPostedFileBase OrgPanNumberFilePath { get; set; }
         public string OrgPanFileName { get; set; }
+        public string OrgPanFileUrl { get; set; }
         public SelectList GstCategoryList { get; set; }
         public SelectList StatutoryList { get; set; }
         public SelectList AplicationTaxTypeList { get; set; }

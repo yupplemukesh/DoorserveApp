@@ -32,9 +32,31 @@
         <div class="col-md-6 col-xs-6 col-sm-6"><strong>Account Number </strong>:</div>
         <div class="col-md-6 col-xs-6 col-sm-6 edit-p"> @Model.BankAccountNumber</div>
     </div>
+    @if (!string.IsNullOrEmpty(Model.BankCancelledChequeFileName))
+    {
+    <div class="row edit-padd">
+        <div class="col-md-6 col-xs-6 col-sm-6"><strong>Cancelled Cheque</strong>:</div>
+        <div class="col-md-6 col-xs-6 col-sm-6">            
+            <a data-target="#modalIMGCheque" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
+                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
+                    <img alt="Cancelled Cheque File" class="card-img-top" src="@Model.BankCancelledChequeFileUrl">
+                </div>
+            </a>
+            </div>
+        </div>
+        }
+    </div>
 
-   
 
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGCheque" role="dialog" tabindex="-1" target="_blank">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-body mb-0 p-0">
+            <img src="@Model.BankCancelledChequeFileUrl" alt="" style="width:100%">
+        </div>
+
+    </div>
+</div>
 </div>
 
 

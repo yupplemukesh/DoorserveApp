@@ -7,7 +7,6 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using TogoFogo.Models;
 
 namespace TogoFogo.Repository.Clients
@@ -52,6 +51,9 @@ namespace TogoFogo.Repository.Clients
                             .ObjectContext
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
+
+                    ClientModel.Organization.OrgGSTFileUrl = "/Uploaded Images/Clients/Gsts/"+ ClientModel.Organization.OrgGSTFileName;
+                    ClientModel.Organization.OrgPanFileUrl ="/Uploaded Images/Clients/PANCards/" + ClientModel.Organization.OrgPanFileName;
                     reader.NextResult();
                     ClientModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
@@ -102,6 +104,10 @@ namespace TogoFogo.Repository.Clients
 
 
             };
+
+                person.ConVoterIdFileUrl = "/Uploaded Images/Clients/VoterIds/" + person.ConVoterIdFileName;
+                person.ConAdhaarFileUrl = "/Uploaded Images/Clients/ADHRS/" + person.ConAdhaarFileName;
+                person.ConPanFileUrl = "/Uploaded Images/Clients/PANCards/" + person.ConPanFileName;
                 contacts.Add(person);
             }
 
@@ -129,6 +135,8 @@ namespace TogoFogo.Repository.Clients
                     BankBranchName = reader["bankBranchName"].ToString(),
                     IsActive = bool.Parse(reader["isActive"].ToString())
             };
+
+                bank.BankCancelledChequeFileUrl = "/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName;
                 banks.Add(bank);
             }
 

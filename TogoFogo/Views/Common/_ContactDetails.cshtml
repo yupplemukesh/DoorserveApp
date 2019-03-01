@@ -6,38 +6,115 @@
             <h4>
                 Contact Details
             </h4>
-            </div>
-            <div class="col-md-6 col-xs-6 col-sm-6 text-right ">
-                <a class="btn btn-sm btn-primary" href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(Model)))'> Edit</a>
-
-            </div>
         </div>
-
-        <div class="row edit-padd">
-            <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Name</strong>:</div>
-            <div class="col-md-6 col-xs-6 col-sm-6 edit-p">  @Model.ConFirstName @Model.ConLastName</div>
+        <div class="col-md-6 col-xs-6 col-sm-6 text-right ">
+            <a class="btn btn-sm btn-primary" href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(Model)))'> Edit</a>
 
         </div>
+    </div>
 
-        <div class="row edit-padd">
-            <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Mobile</strong>: </div>
-            <div class="col-md-6 col-xs-6 col-sm-6">@Model.ConMobileNumber</div>
-
-        </div>
-
-        <div class="row edit-padd">
-            <div class="col-md-6 col-xs-6 col-sm-6"><strong> Email</strong>:</div>
-            <div class="col-md-6 col-xs-6 col-sm-6 edit-p"> @Model.ConEmailAddress</div>
-        </div>
-
-        <div class="row edit-padd">
-
-            <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Address</strong>:</div>
-
-            <div class="col-md-6 col-xs-6 col-sm-6 edit-p">   @Model.ConAddress.Address</div>
-        </div>
-
-
-
+    <div class="row edit-padd">
+        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Name</strong>:</div>
+        <div class="col-md-6 col-xs-6 col-sm-6 edit-p">  @Model.ConFirstName @Model.ConLastName</div>
 
     </div>
+
+    <div class="row edit-padd">
+        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Mobile</strong>: </div>
+        <div class="col-md-6 col-xs-6 col-sm-6">@Model.ConMobileNumber</div>
+
+    </div>
+
+    <div class="row edit-padd">
+        <div class="col-md-6 col-xs-6 col-sm-6"><strong> Email</strong>:</div>
+        <div class="col-md-6 col-xs-6 col-sm-6 edit-p"> @Model.ConEmailAddress</div>
+    </div>
+
+    <div class="row edit-padd">
+
+        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Address</strong>:</div>
+
+        <div class="col-md-6 col-xs-6 col-sm-6 edit-p">   @Model.ConAddress.Address</div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ConPanFileName))
+    {
+    <div class="row edit-padd">
+
+        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Pan File</strong>:</div>
+        <div class="col-md-6 col-xs-6 col-sm-6">
+            <a data-target="#modalIMGConPAN" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
+                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
+                    <img alt="Contact PAN File" class="card-img-top" src="@Model.ConPanFileUrl" />
+                </div>
+            </a>
+           
+
+        </div>
+        </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ConAdhaarFileName))
+        {
+    <div class="row edit-padd">
+
+        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Adhaar File</strong>:</div>
+        <div class="col-md-6 col-xs-6 col-sm-6">            
+            <a data-target="#modalIMGConAdhr" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
+                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
+                    <img alt="Contact Adhaar File" class="card-img-top" src="@Model.ConAdhaarFileUrl" />
+                </div>
+            </a>
+       </div>
+        </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ConVoterIdFileName))
+        {
+    <div class="row edit-padd">
+
+        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Voter Id File</strong>:</div>
+        <div class="col-md-6 col-xs-6 col-sm-6">            
+            <a data-target="#modalIMGConVoterId" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
+                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
+                    <img alt="Contact VoterId File" class="card-img-top" src="@Model.ConVoterIdFileUrl" />
+                </div>
+            </a>
+            </div>
+        </div>
+        }
+
+    </div>
+
+
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGConPAN" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                <img src="@Model.ConPanFileUrl" alt="" style="width:100%">
+            </div>
+
+        </div>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGConAdhr" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                <img src="@Model.ConAdhaarFileUrl" alt="" style="width:100%">
+            </div>
+
+        </div>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGConVoterId" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                <img src="@Model.ConVoterIdFileUrl" alt="" style="width:100%">
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -33,12 +33,14 @@ namespace TogoFogo.Models
         [DisplayName("Upload Pan Card")]
         public HttpPostedFileBase ConPanNumberFilePath { get; set; }
         public string ConPanFileName { get; set; }
+        public string ConPanFileUrl { get; set; }
         [DisplayName("Voter ID Card Number")]
         public string ConVoterId { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
         public char? Action { get; set; }
         public string ConVoterIdFileName { get; set; }
+        public string ConVoterIdFileUrl { get; set; }
         [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", ErrorMessage = "UserName already exists!")]
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -50,6 +52,7 @@ namespace TogoFogo.Models
         public AddressDetail ConAddress { get; set; }
         [DisplayName("Upload Aadhaar Number")]
         public string ConAdhaarFileName { get; set; }
+        public string ConAdhaarFileUrl { get; set; }
         public bool isActive { get; set; }
        
       

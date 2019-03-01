@@ -166,7 +166,7 @@ namespace TogoFogo.Controllers
             if (contact.ConAdhaarNumberFilePath != null)
                 contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
             if (contact.ConVoterIdFilePath != null)
-                contact.ConAdhaarFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
+                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
             if (TempData["client"] != null)
@@ -365,7 +365,7 @@ namespace TogoFogo.Controllers
             if (client.Organization.OrgGSTNumberFilePath != null)
                 client.Organization.OrgGSTFileName = SaveImageFile(client.Organization.OrgGSTNumberFilePath, "Gsts");
             if (client.Organization.OrgPanNumberFilePath != null)
-                client.Organization.OrgGSTFileName = SaveImageFile(client.Organization.OrgPanNumberFilePath, "Gsts");
+                client.Organization.OrgPanFileName = SaveImageFile(client.Organization.OrgPanNumberFilePath, "PANCards");
             var statutory = await CommonModel.GetStatutoryType();
             client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
