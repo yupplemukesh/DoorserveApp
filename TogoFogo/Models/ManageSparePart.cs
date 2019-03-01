@@ -76,5 +76,7 @@ namespace TogoFogo.Models
         public string DeleteBy {get;set;}
         public string DeleteDate { get; set; }
         public HttpPostedFileBase PartImage1 { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+        public List<ManageSparePart> _ManageSparePartList { get; set; }
     }
 }

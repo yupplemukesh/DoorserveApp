@@ -11,7 +11,6 @@ namespace TogoFogo.Models
     public class BrandModel
     {
         public int SerialNo { get; set; }
-
         public int BrandId { get; set; }
         [DisplayName("Brand Name")]
         [Required]
@@ -46,5 +45,7 @@ namespace TogoFogo.Models
         public int DeleteBy { get; set; }
         public string DeleteDate { get; set; }
         public HttpPostedFileBase BrandIMG { get; set; }
+        public List<BrandModel> ListBrandModel { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
 }

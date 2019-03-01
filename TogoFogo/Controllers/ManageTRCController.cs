@@ -192,17 +192,53 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("TRC");
         }
-
         public ActionResult TRCTable()
         {
+            ManageTRCModel objManageTRCModel = new ManageTRCModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageTRCModel>("GETTRCDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                objManageTRCModel.ManageTRCModelList = con.Query<ManageTRCModel>("GETTRCDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+              
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageTRCModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objManageTRCModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objManageTRCModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objManageTRCModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageTRCModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objManageTRCModel._UserActionRights.Create = true;
+                objManageTRCModel._UserActionRights.Edit = true;
+                objManageTRCModel._UserActionRights.Delete = true;
+                objManageTRCModel._UserActionRights.View = true;
+                objManageTRCModel._UserActionRights.History = true;
+                objManageTRCModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objManageTRCModel);
         }
-
-
         public ActionResult EditTRC(int TRCID)
         {
             ViewBag.Supported_Category = new SelectList(dropdown.BindCategorySelectpicker(), "Value", "Text");

@@ -35,17 +35,12 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-primary excel">Export to Excel</button>
+                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
 <div class="panel-body">
     @Html.Action("AddSubCategory", "Category")
     <div class="row">
@@ -69,72 +64,75 @@
     </div>
 </div>
 
-    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Sub Category</h4>
-                </div>
-
-                <div class="modal-body" id="Info">@Html.Partial("EditDeviceSubCategory")</div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Sub Category</h4>
             </div>
 
+            <div class="modal-body" id="Info">@Html.Partial("EditDeviceSubCategory")</div>
         </div>
+
     </div>
+</div>
 
-    @if (ViewBag.AddSubCategory != null)
+@if (ViewBag.AddSubCategory != null)
+{
+    <div id="snackbar">@ViewBag.AddSubCategory</div>
+}
+@if (ViewBag.EditSubCategory != null)
+{
+    <div id="snackbar">@ViewBag.EditSubCategory</div>
+}
+@*@if (ViewBag.SortOrder != null)
     {
-        <div id="snackbar">@ViewBag.AddSubCategory</div>
-    }
-    @if (ViewBag.EditSubCategory != null)
-    {
-        <div id="snackbar">@ViewBag.EditSubCategory</div>
-    }
-    @*@if (ViewBag.SortOrder != null)
-        {
 
-            <script>
-                document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
-
-            </script>
-        }*@
-    @if (ViewBag.AddSubCategory != null || ViewBag.EditSubCategory != null)
-    {
         <script>
-
-            var x = document.getElementById("snackbar");
-            x.className = "show";
-            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+            document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
 
         </script>
-    }
+    }*@
+@if (ViewBag.AddSubCategory != null || ViewBag.EditSubCategory != null)
+{
+    <script>
 
-    @section scripts{
-        <script>
-            function EditSubCategory(SubCatId) {
-                $.ajax({
-                    type: 'GET',
-                    url: "/Category/EditDeviceSubCategory?SubCatId=" + SubCatId,
-                    contentType: 'application/json; charset=utf-8',
-                    cache: false,
-                    success: function (response) {
-                        $("#Info").html(response);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        $(".submitbutton").attr("disabled", false);
-                        alert("Something went wrong...");
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-                    },
-                    complete: function () {
+    </script>
+}
 
-                        $(".submitbutton").attr("disabled", false);
-                    }
-                });
-            }
+@section scripts{
+    <script>
+        function EditSubCategory(SubCatId) {
+            $.ajax({
+                type: 'GET',
+                url: "/Category/EditDeviceSubCategory?SubCatId=" + SubCatId,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
 
-        </script>
-    }
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+
+    </script>
+}
+<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

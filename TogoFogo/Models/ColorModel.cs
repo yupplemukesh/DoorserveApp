@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -26,5 +27,8 @@ namespace TogoFogo.Models
         public string ModifyBy { get; set; }
         public string CreatedDate { get; set; }
         public string ModifyDate { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+        public List<ColorModel> _ColorModelList { get; set; }
+
     }
 }

@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Uploaded Images");
+                string path = Server.MapPath("~/UploadedImages");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -116,12 +116,51 @@ namespace TogoFogo.Controllers
         }
         public ActionResult SpareTypeTable()
         {
+            ManageSpareType objManageSpareType = new ManageSpareType();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageSpareType>("GetSpareTypeDetail", new { }, commandType: CommandType.StoredProcedure).ToList();
+                objManageSpareType._ManageSpareTypeList = con.Query<ManageSpareType>("GetSpareTypeDetail", new { }, commandType: CommandType.StoredProcedure).ToList();
 
-                return View(result);
+               // return View(result);
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageSpareType._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objManageSpareType._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objManageSpareType._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objManageSpareType._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageSpareType._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objManageSpareType._UserActionRights.Create = true;
+                objManageSpareType._UserActionRights.Edit = true;
+                objManageSpareType._UserActionRights.Delete = true;
+                objManageSpareType._UserActionRights.View = true;
+                objManageSpareType._UserActionRights.History = true;
+                objManageSpareType._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objManageSpareType);
         }
 
         public ActionResult EditSpareType(int SpareTypeId)
@@ -290,12 +329,52 @@ namespace TogoFogo.Controllers
 
         public ActionResult AddSparePartNametable()
         {
+            ManageSparePart objManageSparePart = new ManageSparePart();
+            
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageSparePart>("GetSparePartDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                objManageSparePart._ManageSparePartList = con.Query<ManageSparePart>("GetSparePartDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
 
-                return View(result);
+                
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageSparePart._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objManageSparePart._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objManageSparePart._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objManageSparePart._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageSparePart._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objManageSparePart._UserActionRights.Create = true;
+                objManageSparePart._UserActionRights.Edit = true;
+                objManageSparePart._UserActionRights.Delete = true;
+                objManageSparePart._UserActionRights.View = true;
+                objManageSparePart._UserActionRights.History = true;
+                objManageSparePart._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objManageSparePart);
         }
         public ActionResult EditSpareName(int? SpareTypeId)
         {

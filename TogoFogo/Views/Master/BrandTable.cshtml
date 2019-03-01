@@ -1,91 +1,100 @@
-﻿@model IEnumerable<TogoFogo.Models.BrandModel>
+﻿@model TogoFogo.Models.BrandModel
 @{
-    Layout = null;                                         
+    Layout = null;
 }
-<table class="table table-striped table-bordered table-condensed" id="myTable">
-    <thead>
-        <tr>
-            
-            <th>
-                @Html.DisplayName("Serial No")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandImage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrandName)
-            </th>
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">List Of All Brands</h3>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Model._UserActionRights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-condensed" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Serial No")
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BrandImage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BrandName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsRepair)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifyDate)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.ListBrandModel)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNo)
+                </td>
+                <td>
+                    @if (item.BrandImage != null)
+                    {
+                        <img src="~/UploadedImages/@item.BrandImage" width="50" height="50" />
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.BrandImage)
+                    }
 
-            <th>
-                @Html.DisplayNameFor(model => model.IsRepair)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifyDate)
-            </th>
-           
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrandName)
+                </td>
+                <td>
+                    @(item.IsRepair == true ? "Yes" : "No")
 
-            <th>Actions</th>
-        </tr>
-    </thead>
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SerialNo)
-        </td>
-        <td>
-            @if (item.BrandImage != null)
-            {
-                <img src="~/UploadedImages/@item.BrandImage" width="50" height="50" />
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => item.BrandImage)
-            }
+                </td>
+                <td>
+                    @(item.IsActive == true ? "Active" : "InActive")
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BrandName)
-        </td>
-
-     
-        <td>
-            @(item.IsRepair == true ? "Yes" : "No")
-            
-        </td>
-        <td>
-            @(item.IsActive == true ? "Active" : "InActive")
-            
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifyDate)
-        </td>
-       
-
-        <td style="display: inline-flex">
-            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-            @if (ViewBag.Create == 3)
-            {
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditBrand(@item.BrandId)">Edit</a>
-            }
-            @if (ViewBag.Create == 4)
-            {
-                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-            }
-            </td>
-    </tr>
-    }
-
-</table>
-
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyDate)
+                </td>
+                <td style="display: inline-flex">
+                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
+                    @if (Model._UserActionRights.Edit)
+                    {
+                        <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditBrand(@item.BrandId)">Edit</a>
+                    }
+                    @if (Model._UserActionRights.Delete)
+                    {
+                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
 

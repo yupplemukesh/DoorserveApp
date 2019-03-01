@@ -1,9 +1,26 @@
-﻿@model IEnumerable<TogoFogo.Models.DeviceProblemModel>
+﻿@model TogoFogo.Models.DeviceProblemModel
 
 @{
     Layout = null;
 }
-<div class="row" style="overflow-x: scroll">
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">List Of device Problems</h3>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Model._UserActionRights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table table-striped table-bordered table-condensed" id="myTable">
         <thead>
             <tr>
@@ -16,11 +33,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.SubCatName)
                 </th>
-
-
-                @*<th>
-            @Html.DisplayNameFor(model => model.ProblemID)
-        </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Problem)
                 </th>
@@ -45,50 +57,54 @@
                 <th>Action</th>
             </tr>
         </thead>
-        @foreach (var item in Model)
+        @foreach (var item in Model._DeviceProblemModelList)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SerialNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CatName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCatName)
-            </td>
-            @*<td>
-            @Html.DisplayFor(modelItem => item.ProblemID)
-        </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Problem)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SortOrder)
-            </td>
-            <td>
-                @(item.IsActive == true ? "Active" : "InActive")
-                @*@Html.DisplayFor(modelItem => item.IsActive)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifyBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifyDate)
-            </td>
-            <td style="display: inline-flex;">
-                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProblemID)">Edit</a>
-                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
-                <input type="button" value="Delete" class="btn btn-danger btnSize " />
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CatName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubCatName)
+                </td>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Problem)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SortOrder)
+                </td>
+                <td>
+                    @(item.IsActive == true ? "Active" : "InActive")
+                    
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyDate)
+                </td>
+                <td style="display: inline-flex;">
+                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
+                    @if (Model._UserActionRights.Edit)
+                    {
+                        <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProblemID)">Edit</a>
+                    }
+                    @if (Model._UserActionRights.Delete)
+                    {
+                        <input type="button" value="Delete" class="btn btn-danger btnSize " />
+                    }
+                    </td>
+            </tr>
         }
 
     </table>

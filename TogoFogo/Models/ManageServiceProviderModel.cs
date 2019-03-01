@@ -127,5 +127,7 @@ namespace TogoFogo.Models
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
         public int  User { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+        public List<ManageServiceProviderModel> ManageServiceProviderModelList { get; set; }
     }
 }

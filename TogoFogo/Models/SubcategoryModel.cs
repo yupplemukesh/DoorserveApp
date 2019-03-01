@@ -50,5 +50,8 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Device Category")]
         public string DeviceCategory { get; set; }
+        public List<SubcategoryModel> SubcategoryModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+
     }
 }

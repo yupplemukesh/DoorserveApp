@@ -1,111 +1,129 @@
-﻿@model IEnumerable<TogoFogo.Models.ProductModel>
+﻿@model TogoFogo.Models.ProductModel
 @{
     Layout = null;
 }
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">List Of All Products</h3>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Model._UserActionRights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+        <table class="table table-striped table-bordered table-condensed" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Serial No")
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductImage)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BrandName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MRP)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MarketPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TUPC)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsRepair)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Comments)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedBy)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ModifyBy)
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model._ProductModelList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SerialNo)
+                    </td>
+                    <td>
+                        @if (item.ProductImage != null)
+                        {
+                            <img src="~/UploadedImages/@item.ProductImage" width="50" height="50" />
+                        }
 
-<div class="row" style="overflow-x: scroll">
-    <table class="table table-striped table-bordered table-condensed" id="myTable">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayName("Serial No")
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductImage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BrandName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MRP)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MarketPrice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TUPC)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsRepair)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comments)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreatedBy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ModifyBy)
-                </th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerialNo)
-                </td>
-                <td>
-                    @if (item.ProductImage != null)
-                    {
-                        <img src="~/UploadedImages/@item.ProductImage" width="50" height="50" />
-                    }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrandName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MRP)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MarketPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TUPC)
+                    </td>
+                    <td>
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BrandName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MRP)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MarketPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TUPC)
-                </td>
-                <td>
+                        @(item.IsRepair == true ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @(item.IsActive == true ? "Active" : "InActive")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBy)
 
-                    @(item.IsRepair == true ? "Yes" : "No")
-                </td>
-                <td>
-                    @(item.IsActive == true ? "Active" : "InActive")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModifyBy)
+                    </td>
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyBy)
-                </td>
+                    <td style="display: inline-flex;">
+                        @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                        @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
+                        @if (Model._UserActionRights.Edit)
+                        {
+                            <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.BrandID, '@item.ProductName','@item.CategoryID')">Edit</a>
+                        }
+                        @if (Model._UserActionRights.Delete)
+                        {
+                            <input type="button" value="Delete" class="btn btn-danger btnSize " />
+                        }
+                    </td>
+                </tr>
+            }
 
-                <td style="display: inline-flex;">
-                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
-                    @if (ViewBag.Create == 3)
-                    {
-                        <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.BrandID, '@item.ProductName','@item.CategoryID')">Edit</a>
-                    }
-                    @if (ViewBag.Create == 4)
-                    {
-                        <input type="button" value="Delete" class="btn btn-danger btnSize " />
-                    }
-                </td>
-            </tr>
-        }
-
-    </table>
-</div>
+        </table>
+    </div>
+   
