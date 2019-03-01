@@ -20,7 +20,7 @@
                 <div class="x_content">
                     <br />
                     @Html.Partial("FindCPCAP")
-                    @Html.Action("CPCAPForm", "CPCAP")
+                     @Html.Action("CPCAPForm", "CPCAP")
                 </div>
             </div>
         </div>
@@ -29,12 +29,14 @@
 
     @section Scripts{
 
-        <script>
+<script>
 
 
             function CCno(ccNo) {
                 $.ajax({
                     type: 'POST',
+                     @*url: '@Url.Action("FindPOOWRR", "CustomerSupport")',
+                    data: { cc_No: ccNo},*@
                     url: "/CustomerSupport/FindPOOWRR?CcNO=" + ccNo,
                     contentType: 'application/json; charset=utf-8',
                     cache: false,
@@ -66,5 +68,5 @@
                     }
                 });
             }
-        </script>
+</script>
     }

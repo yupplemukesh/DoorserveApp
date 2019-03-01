@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -54,12 +55,12 @@ namespace TogoFogo.Models
         public string TUPCModel { get; set; }
         public string SchedulePickupDateandTime { get; set; }
         [DisplayName("Repair Warranty ")]
-        public string WS { get; set; }
+        public virtual string WS { get; set; }
         [DisplayName("Customer Pickup Date ")]
         public string customerPickupdate { get; set; }
         public string CallRequestRejectReason { get; set; }
-        
-       
+
+
         public List<CourierValuesModel> NewGetTableData { get; set; }
         public string AWBNumber { get; set; }
         public string ModelColor { get; set; }
@@ -79,125 +80,123 @@ namespace TogoFogo.Models
         public string AWBNo { get; set; }
         public string ProcessName { get; set; }
         [DisplayName("Call Request Number")]
-        public string CcNo { get; set; }
+        public virtual string CcNo { get; set; }
         [DisplayName("Call Request Number")]
-        public string CC_NO { get; set; }
+        public virtual string CC_NO { get; set; }
         [DisplayName("Name")]
-        public string Customer_Name { get; set; }
+        public virtual string Customer_Name { get; set; }
         [DisplayName("Mobile Number")]
-        public string Mobile_No { get; set; }
+        public virtual string Mobile_No { get; set; }
         [DisplayName("E-Mail Address")]
-        public string Email_Id { get; set; }
+        public virtual string Email_Id { get; set; }
         [DisplayName("Pin Code")]
-        public string Pincode { get; set; }
+        public virtual int Pincode { get; set; }
         [DisplayName("State")]
-        public string Cust_State { get; set; }
+        public virtual string Cust_State { get; set; }
         [DisplayName("City / Location")]
-        public string Cust_City { get; set; }
+        public virtual string Cust_City { get; set; }
         [DisplayName("Address")]
-        public string Cust_Add { get; set; }
-        public string Brand { get; set; }
+        public virtual string Cust_Add { get; set; }
+        public virtual string Brand { get; set; }
         [DisplayName("Model Name")]
-        public string Model { get; set; }
+        public virtual string Model { get; set; }
         [DisplayName("Problem")]
-        public string Problem { get; set; }
+        public virtual string Problem { get; set; }
 
-        public string CatName { get; set; }
-
-        public string StatusName { get; set; }
+        public virtual string CatName { get; set; }        
         [DisplayName("Call Request Date")]
-        public string Pickup_Date { get; set; }
-        
-        public string CustomerId { get; set; }
+        public virtual string Pickup_Date { get; set; }
+
+        public virtual string CustomerId { get; set; }
         public string Current_Status { get; set; }
 
         [DisplayName("Device Type")]
-        public string DeviceType { get; set; }
+        public virtual string DeviceType { get; set; }
         [DisplayName("Alternate Number")]
-        public string AltNo { get; set; }
+        public virtual string AltNo { get; set; }
         [DisplayName("Service Charge")]
-        public string BillServiceCharge { get; set; }
+        public virtual string BillServiceCharge { get; set; }
         [DisplayName("Spare Cost")]
-        public string BillSpareCost { get; set; }
+        public virtual string BillSpareCost { get; set; }
         [DisplayName("Estimated Cost")]
-        public string BillEstimatedCost { get; set; }
+        public virtual string BillEstimatedCost { get; set; }
         [DisplayName("Estimated Cost Approved")]
-        public string IsEstimatedCostApproved { get; set; }
+        public virtual string IsEstimatedCostApproved { get; set; }
         [DisplayName("Repair Status")]
-        public string RepairStatus1 { get; set; }
+        public virtual string RepairStatus1 { get; set; }
         [DisplayName("Collectable Amount")]
-        public string CollectableAmount { get; set; }
+        public virtual string CollectableAmount { get; set; }
         [DisplayName("Payment Mode")]
-        public string PaymentMode1 { get; set; }
+        public virtual string PaymentMode1 { get; set; }
         //Submit Data Model
         [DisplayName("Message To Customer")]
-        public string MsgToCust { get; set; }
-        public string SERemarks { get; set; }
+        public virtual string MsgToCust { get; set; }
+        public virtual string SERemarks { get; set; }
         [DisplayName("Serial Number")]
-        public string Serial_No { get; set; }
-        public string IMEI1 { get; set; }
-        public string IMEI2 { get; set; }
+        public virtual string Serial_No { get; set; }
+        public virtual string IMEI1 { get; set; }
+        public virtual string IMEI2 { get; set; }
         [DisplayName("Service Engineer Action")]
-        public string SE_Action { get; set; }
+        public virtual string SE_Action { get; set; }
         [DisplayName("Engineer Visit Date and Time")]
-        public string VisitDatetime { get; set; }
+        public virtual string VisitDatetime { get; set; }
         [DisplayName("Engineer Name")]
-        public string Engg_Name { get; set; }
+        public virtual string Engg_Name { get; set; }
         [DisplayName("Reverse Pickup Date and Time")]
-        public string Pickupdatetime { get; set; }
+        public virtual string Pickupdatetime { get; set; }
         [DisplayName("Courier Name")]
-        public string CourierName { get; set; }
+        public virtual  string CourierName { get; set; }
         [DisplayName("Physically Damaged?")]
-        public string PhysicalDamage { get; set; }
+        public virtual string PhysicalDamage { get; set; }
 
         [DisplayName("Problem Observed")]
-        public string PrblmObsrvd { get; set; }
+        public virtual string PrblmObsrvd { get; set; }
 
         [DisplayName("Service Charge (INR)")]
-        public string ServiceCharge { get; set; }
+        public virtual decimal ServiceCharge { get; set; }
         [DisplayName("Spare Cost (INR)")]
-        public string SpareCost { get; set; }
+        public virtual decimal SpareCost { get; set; }
         [DisplayName("Estimated Cost (INR)")]
-        public string EstimatedCost { get; set; }
+        public virtual decimal EstimatedCost { get; set; }
         [DisplayName("Is Estimated Cost Approved?")]
-        public string IsApproved { get; set; }
+        public virtual string IsApproved { get; set; }
         [DisplayName("Repair Status")]
-        public string RepairStatus { get; set; }
+        public virtual string RepairStatus { get; set; }
         [DisplayName("Collectable Amount (INR)")]
-        public string CllectableAmt { get; set; }
+        public virtual string CllectableAmt { get; set; }
         [DisplayName("Payment Mode")]
-        public string PaymentMode { get; set; }
+        public virtual string PaymentMode { get; set; }
         [DisplayName("Cash Received (INR)")]
-        public string CashRecvd { get; set; }
+        public virtual string CashRecvd { get; set; }
         [DisplayName("Balance Amount")]
-        public string BalanceAmt { get; set; }
+        public virtual string BalanceAmt { get; set; }
         [DisplayName("Transaction Amount (INR)")]
-        public string TransAmt { get; set; }
+        public virtual string TransAmt { get; set; }
         [DisplayName("Transaction Date and Time")]
-        public string TransDateTime { get; set; }
+        public virtual string TransDateTime { get; set; }
         [DisplayName("Transaction Number")]
-        public string TransNumber { get; set; }
+        public virtual string TransNumber { get; set; }
         [DisplayName("Re-Visit Date and Time")]
-        public string RevisitDatetime { get; set; }
-        public string CreatedBy { get; set; }
-        public string CourierActive { get; set; }
+        public virtual string RevisitDatetime { get; set; }
+        public virtual string CreatedBy { get; set; }
+        public virtual string CourierActive { get; set; }
         [DisplayName("Bike Make")]
-        public string BikeMake { get; set; }
+        public virtual string BikeMake { get; set; }
         [DisplayName("Message To Customer")]
-        public string MessageCusto { get; set; }
-        public string CourierLogo { get; set; }
-        public string CourierContact { get; set; }
-        public string BikeNumber { get; set; }
-        public string Remarks { get; set; }
-        public string EngineerVisitDate { get; set; }
-        public string UploadedCourierFile { get; set; }
-        public string MobileNumber { get; set; }
-        public string DeviceWarranty { get; set; }
+        public virtual string MessageCusto { get; set; }
+        public virtual string CourierLogo { get; set; }
+        public virtual string CourierContact { get; set; }
+        public virtual string BikeNumber { get; set; }
+        public virtual string Remarks { get; set; }
+        public virtual string EngineerVisitDate { get; set; }
+        public virtual string UploadedCourierFile { get; set; }
+        public virtual string MobileNumber { get; set; }
+        public virtual string DeviceWarranty { get; set; }
 
 
 
-        public string TRCFullAddr { get; set; }
-        public string ReversePickupDate { get; set; }
+        public virtual string TRCFullAddr { get; set; }
+        public virtual string ReversePickupDate { get; set; }
         public string TrcProcess_Name { get; set; }
         public string TrcName { get; set; }
         public string TrcMobile { get; set; }
@@ -206,9 +205,9 @@ namespace TogoFogo.Models
         public string TrcPinCode { get; set; }
         public string TrcLocality { get; set; }
         public string TrcNear_By_Location { get; set; }
-        public string WarrantyStatus { get; set; }
-        public string WarrantyExpiryDate { get; set; }
-        public string EstimatedCostApproved { get; set; }
+        public virtual string WarrantyStatus { get; set; }
+        public virtual string WarrantyExpiryDate { get; set; }
+        public  string EstimatedCostApproved { get; set; }
         [DisplayName("TRC City/Location")]
         public string TRCCity { get; set; }
 
@@ -266,21 +265,21 @@ namespace TogoFogo.Models
         [DisplayName("Job Date")]
         public string JOBDate { get; set; }
         [DisplayName("Call Status")]
-        public string CallStatus { get; set; }
+        public virtual string CallStatus { get; set; }
         [DisplayName("Warranty Sticker Tempered")]
         public string WarrantyStickerTempered { get; set; }
         [DisplayName("Current Status")]
-        public string CurrentStatus { get; set; }
-        public string CallBackDatetime { get; set; }
+        public virtual string CurrentStatus { get; set; }
+        public virtual string CallBackDatetime { get; set; }
         [DisplayName("Job Number")]
         public string JobNumber { get; set; }
         [DisplayName("Device Water Damaged")]
         public string DeviceWaterDamaged { get; set; }
         [DisplayName("Spare Type")]
-        public string SpareType { get; set; }
+        public virtual string SpareType { get; set; }
         [DisplayName("Spare Name")]
-        public string SpareName { get; set; }
-        public string Quantity { get; set; }
+        public virtual string SpareName { get; set; }
+        public virtual string Quantity { get; set; }
         [DisplayName("Engineer Remarks")]
         public string EngineerRemarks { get; set; }
         [DisplayName("Engineer Remarks")]
@@ -306,7 +305,7 @@ namespace TogoFogo.Models
         [DisplayName("Total Estimated Repair Cost")]
         public string TotalEstimatedRepairCost { get; set; }
         [DisplayName("Device Warranty Void?")]
-        public string WarrantyVoid { get; set; }
+        public virtual string WarrantyVoid { get; set; }
         [DisplayName("Problem Found")]
         public string[] ProblemFound { get; set; }
         public string probF { get; set; }
@@ -320,7 +319,7 @@ namespace TogoFogo.Models
         [DisplayName("Installed OS/Software Name and Version")]
         public string InstalledOS_Software { get; set; }
         [DisplayName("Service Provider Name")]
-        public string ServiceProviderName { get; set; }
+        public virtual string ServiceProviderName { get; set; }
         [DisplayName("Call Request Date and Time")]
         public string CallRequestDateTime { get; set; }
         [DisplayName("Call Status")]
@@ -370,7 +369,7 @@ namespace TogoFogo.Models
         [DisplayName("Transaction Date")]
         public string TransactionDate { get; set; }
         [DisplayName("Cheque Number")]
-        public string ChequeNumber { get; set; }
+        public virtual string ChequeNumber { get; set; }
         [DisplayName("Cash Deposited By Mobile Number on Slip")]
         public string CashDepositedByMobileNumberonSlip { get; set; }
         [DisplayName("Is Advance Payment Received")]
@@ -380,7 +379,7 @@ namespace TogoFogo.Models
         [DisplayName("Is Customer want to Reject Advance Payment?")]
         public string IsCustomerwanttoRejectAdvancePayment { get; set; }
         [DisplayName("Accounts Remarks")]
-        public string AccountsRemarks { get; set; }
+        public virtual string AccountsRemarks { get; set; }
         [DisplayName("Is Approval Required for Additional Cost?")]
         public string IsApprovalRequiredforAdditionalCost { get; set; }
         [DisplayName("Is Device Functioning Normally?")]
@@ -394,7 +393,7 @@ namespace TogoFogo.Models
         [DisplayName("Pending JOBs of the QC Person")]
         public string PendingJOBsoftheQCPerson { get; set; }
         [DisplayName("Problem Observed")]
-        public string[] PrblmObsrvdPoowrr { get; set; }
+        public virtual string PrblmObsrvdPoowrr { get; set; }
         [DisplayName("Box Condition")]
         public string BoxCondition { get; set; }
         public string ReceivingDocument { get; set; }
@@ -505,7 +504,7 @@ namespace TogoFogo.Models
         [DisplayName("Previous AWB Status")]
         public string Previous_AWB_Status { get; set; }
         [DisplayName("Bill/Invoice Date")]
-        
+
         public string Bill_Invoice_Date { get; set; }
         [DisplayName("Spare Parts Cost (INR)")]
         public int Spare_Parts_Cost { get; set; }
@@ -518,7 +517,7 @@ namespace TogoFogo.Models
         [DisplayName("Courier Type")]
         public string Courier_Type { get; set; }
         [DisplayName("Courier Name")]
-        public string CourierID { get; set; }
+        public int CourierID { get; set; }
         public string ImagePath { get; set; }
         public float Weight { get; set; }
         [DisplayName("Call Request Date")]
@@ -527,11 +526,40 @@ namespace TogoFogo.Models
         public string IsRepairCost_is_Less_than_Approved_Cost { get; set; }
         public string Prpose { get; set; }
         public string getServiceCharge { get; set; }
-
+       
         // Testing Correction
         public string OnclickTRC_Name { get; set; }
         [DisplayName("Problem Observed")]
         public string Onclick_ProblemObserved { get; set; }
+
+
+        //POWRR SelectList
+        public virtual  string SelectTrc { get; set; }
+        public virtual SelectList SpareTypeList { get; set; }
+        public virtual SelectList SpareNameList { get; set; }
+        public virtual SelectList SelectTrcList { get; set; }
+        public virtual SelectList CourierNameList { get; set; }
+        public virtual SelectList CallStatusList { get; set; }
+        public virtual SelectList ServiceProviderNameList { get; set; }
+        public virtual SelectList ProblemList { get; set; }
+        public virtual SelectList WSList { get; set; }
+
+       
+        //PIWRRSelectList
+        public  virtual string ProblemObserved { get; set; }
+        public  SelectList ProblemObservedList { get; set; }
+        //PRCC()
+        public virtual  string ReceivedDevice { get; set; }
+        public SelectList ReceivedDeviceList { get; set; }
+        public SelectList Engg_NameList { get; set; }
+        public SelectList RecvdModelList { get; set; }
+        public virtual SelectList RecvdBrandlList { get; set; }
+        public SelectList ProblemFoundList { get; set; }
+
+        //FindPOOWRR
+
+        public virtual string StatusName { get; set; }
+
     }
 
 }

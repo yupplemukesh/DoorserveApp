@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web.Mvc;
 using System.Linq;
 using System.Web;
 
@@ -25,9 +26,9 @@ namespace TogoFogo.Models
         public string TablesparePriceField { get; set; }
         public string TablespareTotalField { get; set; }
     }
-    public class ReceiveMaterials:AllData
+    public class ReceiveMaterials : AllData
     {
-      
+
         public string ProblemDropdown { get; set; }
         public string DEVWarranty { get; set; }
 
@@ -64,7 +65,7 @@ namespace TogoFogo.Models
         [DisplayName("Problem Reported")]
         public string ProblemReported { get; set; }
         [DisplayName("Problem Observed")]
-        public string ProblemObserved { get; set; }
+        public override string ProblemObserved { get; set; }
         [DisplayName("Warrenty Expiry Date")]
         public string WarrentyExpiryDate { get; set; }
         [DisplayName("Warrenty Status")]
@@ -82,12 +83,12 @@ namespace TogoFogo.Models
 
         public HttpPostedFileBase PhotoOfDevice1 { get; set; }
         public HttpPostedFileBase DamagedBox1 { get; set; }
-        
+
         //old
-       
+
         public string CallRequest { get; set; }
         //public string CallRequestDate { get; set; }
-       
+
         public string Device { get; set; }
 
         public string TUPC { get; set; }
@@ -98,11 +99,11 @@ namespace TogoFogo.Models
         public string BatteryRequired { get; set; }
         public string DiffDeviceReceived { get; set; }
         [DisplayName("Received Device")]
-        public string ReceivedDevice { get; set; }
+        public override string ReceivedDevice { get; set; }
         public string ReceivedDeviceBrand { get; set; }
         public string ReceivedDeviceModel { get; set; }
         public string ReceivedDeviceDamaged { get; set; }
-      
+
         public string ReceiverRemarks { get; set; }
         public string IssuetoEngineer { get; set; }
         public string BatteryReceived { get; set; }
@@ -118,14 +119,30 @@ namespace TogoFogo.Models
         public string ReceiveApprovalDate { get; set; }
 
         // for PRCC FOrm
-        public string SelectTrc { get; set; }
+        public override string SelectTrc { get; set; }
+        public override SelectList SelectTrcList { get; set; }
         [DisplayName("Call Request Reject Reason")]
         public string Reject { get; set; }
         public string Pending { get; set; }
         public string EngineerVisit { get; set; }
         public string SchedulePickup { get; set; }
 
-        //
-       
+        //POOWRRForm()
+        public override string PrblmObsrvdPoowrr { get;set;}
+        public override string SpareType { get;set;}
+        public override string SpareName { get;set;}       
+        public override string CourierName { get;set;}
+        public override string CallStatus { get;set;}
+        public override string ServiceProviderName { get;set;}
+        public override string Problem { get;set;}
+        public override string WS { get;set;}
+        public  SelectList PrblmObsrvdPoowrrList { get; set; }
+        public override SelectList SpareTypeList { get; set; }
+        public override SelectList SpareNameList { get; set; }       
+        public override SelectList CourierNameList { get; set; }
+        public override SelectList CallStatusList { get; set; }
+        public override SelectList ServiceProviderNameList { get; set; }
+        public override SelectList ProblemList { get; set; }
+        public override SelectList WSList { get; set; }
     }
 }

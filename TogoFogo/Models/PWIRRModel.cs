@@ -13,21 +13,21 @@ namespace TogoFogo.Models
         [DisplayName("Is customer agree to wipe device data?")]
         public string wipedevicedata { get; set; }
         [DisplayName("Select TRC")]
-        public string SelectTrc { get; set; }
+        public override  string SelectTrc { get; set; }
         public string Pending { get; set; }
         public string Reject { get; set; }
         [DisplayName("Engineer Visit Date and Time")]
         public string EngineerVisit { get; set; }
         public string SchedulePickup { get; set; }
         [DisplayName("Warranty Status")]
-        public string WarrantyStatus { get; set; }
+        public override string WarrantyStatus { get; set; }
         [DisplayName("Warranty Expiry Date")]
-        public string WarrantyExpiryDate { get; set; }
+        public override string WarrantyExpiryDate { get; set; }
         [DisplayName("Call Request Reject Reason")]
         public string CallRequestReject { get; set; }
         [DisplayName("Problem Observed")]
         [Required]
-        public string[] ProblemObserved { get; set; }
+        public new  string[] ProblemObserved { get; set; }
     }
     public class GetTrcAddressInfo
     {

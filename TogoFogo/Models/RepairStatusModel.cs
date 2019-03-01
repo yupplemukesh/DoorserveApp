@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Web.Mvc;
 using System.Linq;
 using System.Web;
 
@@ -65,7 +66,8 @@ namespace TogoFogo.Models
         public string Problem { get; set; }
 
         public string CatName { get; set; }
-
+        public string SpareType { get; set; }
+        public string SpareName { get; set; }
         public string StatusName { get; set; }
         [DisplayName("Call Request Date")]
         public string Pickup_Date { get; set; }
@@ -114,10 +116,8 @@ namespace TogoFogo.Models
         public string WarrantyVoid { get; set; }
         [DisplayName("Problem Observed")]
         public string[] PrblmObsrvd { get; set; }
-        [DisplayName("Spare Type")]
-        public string SpareType { get; set; }
-        [DisplayName("Spare Name")]
-        public string SpareName { get; set; }
+      
+
         public string Quantity { get; set; }
         [DisplayName("Service Charge (INR)")]
         public string ServiceCharge { get; set; }
@@ -162,6 +162,9 @@ namespace TogoFogo.Models
 
         public string CallStatus { get; set; }
         public string CallBackDatetime { get; set; }
+
+        public SelectList CallStatusList {get; set;}
+        public SelectList ProblemList {get; set;}
     }
 
     public class CourierValuesModel
