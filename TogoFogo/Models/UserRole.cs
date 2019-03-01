@@ -22,6 +22,8 @@ namespace TogoFogo.Models
         public DateTime ModifyDate { get; set; }
         public MenuMasterModel _Menu { get; set; }
         public List<MenuMasterModel> _MenuList { get; set; }
-       
+        public List<UserRole> RoleList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+
     }
 }

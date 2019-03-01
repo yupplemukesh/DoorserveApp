@@ -102,10 +102,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage User Roles")]
         public ActionResult EditUserRole(Int64 id = 0)
         {
-            UserRole objUserRole = new UserRole();
-            //objUserRole.IsActive = true;
-            Int64 RoleId = id;
-           
+            UserRole objUserRole = new UserRole();           
+            Int64 RoleId = id;           
                 using (var con = new SqlConnection(_connectionString))
                 {
                     objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
@@ -189,6 +187,16 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Roles")]
         public ActionResult UserRoleList()
         {
+           
+            Int64 RoleId = 0;
+            UserRole objUserRole = new UserRole();            
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objUserRole.RoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
+                    commandType: CommandType.StoredProcedure).ToList();                             
+            }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objUserRole._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -197,29 +205,35 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objUserRole._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objUserRole._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objUserRole._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objUserRole._UserActionRights.ExcelExport = true;
                     }
                 }
             }
-            Int64 RoleId = 0;
-            
-            using (var con = new SqlConnection(_connectionString))
+            else
             {
-                var result = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
-                    commandType: CommandType.StoredProcedure).ToList();
 
-                
-                return View(result);
+                objUserRole._UserActionRights.Create = true;
+                objUserRole._UserActionRights.Edit = true;
+                objUserRole._UserActionRights.Delete = true;
+                objUserRole._UserActionRights.View = true;
+                objUserRole._UserActionRights.History = true;
+                objUserRole._UserActionRights.ExcelExport = true;
+
             }
-          
+            return View(objUserRole);
+
         }
        // [HttpPost]
        // public ActionResult SaveUserRole(List<Menu> objMenu,UserRole objUserRole)

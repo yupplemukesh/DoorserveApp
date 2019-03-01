@@ -40,6 +40,8 @@ namespace TogoFogo.Models
         public string DeleteBy { get; set; }
         [DisplayName("Delete Date")]
         public string DeleteDate {get;set;}
+       public List<ManageLocation> ManageLocationList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
 
     }
 }

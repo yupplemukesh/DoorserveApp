@@ -97,6 +97,15 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Cities/Locations")]
         public ActionResult ManageCityTable()
         {
+            ManageLocation objManageLocation = new ManageLocation();
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objManageLocation.ManageLocationList = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+               
+            }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageLocation._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -105,24 +114,36 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objManageLocation._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objManageLocation._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objManageLocation._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageLocation._UserActionRights.Delete = true;
                     }
                 }
             }
-
-            using (var con = new SqlConnection(_connectionString))
+            else
             {
-                var result = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+
+                objManageLocation._UserActionRights.Create = true;
+                objManageLocation._UserActionRights.Edit = true;
+                objManageLocation._UserActionRights.Delete = true;
+                objManageLocation._UserActionRights.View = true;
+                objManageLocation._UserActionRights.History = true;
+                objManageLocation._UserActionRights.ExcelExport = true;
+
             }
+
+            return View(objManageLocation);
+
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Cities/Locations")]
         public ActionResult EditCityLocation(int LocationId)

@@ -175,6 +175,8 @@ namespace TogoFogo.Controllers
                     {
                         if (item.ActionIds.Contains(tom.Value.ToString()))
                             action.IsChecked = true;
+                        else
+                            action.IsChecked = false;
                     }
                     actions.Add(action);
                 }
@@ -298,6 +300,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Permission")]
         public ActionResult UserPermissionList()
         {
+            UserPermission objUserPermission = new UserPermission();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objUserPermission._UserPermissionList = con.Query<UserPermission>("UspGetActionPermissionDetail", new {  },
+                    commandType: CommandType.StoredProcedure).ToList();
+           }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objUserPermission._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -306,26 +316,34 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objUserPermission._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objUserPermission._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objUserPermission._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objUserPermission._UserActionRights.Delete = true;
                     }
                 }
             }
-            using (var con = new SqlConnection(_connectionString))
+            else
             {
-                var result = con.Query<UserPermission>("UspGetActionPermissionDetail", new {  },
-                    commandType: CommandType.StoredProcedure).ToList();
 
+                objUserPermission._UserActionRights.Create = true;
+                objUserPermission._UserActionRights.Edit = true;
+                objUserPermission._UserActionRights.Delete = true;
+                objUserPermission._UserActionRights.View = true;
+                objUserPermission._UserActionRights.History = true;
+                objUserPermission._UserActionRights.ExcelExport = true;
 
-                return View(result);
             }
+            return View(objUserPermission);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace TogoFogo.Models
         public int UserLoginId { get; set; }
         public ContactPersonModel _ContactPerson { get;set;} 
         public AddressDetail _AddressDetail { get; set; }
-      
+        public UserActionRights _UserActionRights { get; set; }
+        public List<User> objUserList { get; set; }
     }
  }

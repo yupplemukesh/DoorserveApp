@@ -66,7 +66,7 @@ namespace TogoFogo.Controllers
                     }
                     else if (result == 1)
                     {
-                        //TempData["Message"] = "Successfully Added";
+                        
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";
@@ -103,7 +103,7 @@ namespace TogoFogo.Controllers
                 }
                 if (result != null)
                 {
-                    //objUser.SerialNo = result.SerialNo;
+                    
                     objUser.UserId = result.UserId;
                     objUser.UserName = result.UserName;
                     objUser.IsActive = result.IsActive;
@@ -189,36 +189,17 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Users")]
         public ActionResult UserList()
-        {        
-            string rights =Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if(!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for(int i=0;i<arrRights.Length;i++)
-                {
-                    if(Convert.ToInt32(arrRights[i])==2)
-                    {
-                        ViewBag.Create = 2;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        ViewBag.Edit = 3;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        ViewBag.Delete = 4;
-                    }
-                }
-            }
-            int UserId = 0;
-            List<User> objUserList = new List<User>();
+        {
+            int UserId = 0;            
+            User objUser = new User();
+            List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
                 {
-                    User objUser = new User();
+                    objUser = new User();
                     objUser._AddressDetail = new AddressDetail();
                     objUser._ContactPerson = new ContactPersonModel();
                     objUser.SerialNo = item.SerialNo;
@@ -237,10 +218,51 @@ namespace TogoFogo.Controllers
                     objUser._ContactPerson.ConFirstName = item.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = item.ConMobileNumber;
                     objUser._ContactPerson.ConEmailAddress = item.ConEmailAddress;
-                    objUserList.Add(objUser);
+                    UserList.Add(objUser);
                 }
-                return View(objUserList);
-            }            
+                objUser.objUserList = UserList;
+
+
+            }
+
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objUser._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objUser._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objUser._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objUser._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objUser._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objUser._UserActionRights.Create = true;
+                objUser._UserActionRights.Edit = true;
+                objUser._UserActionRights.Delete = true;
+                objUser._UserActionRights.View = true;
+                objUser._UserActionRights.History = true;
+                objUser._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objUser);
         }
     }
 }

@@ -86,6 +86,15 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Category")]
         public ActionResult DeviceCategoryTable()
         {
+            DeviceCategoryModel objDeviceCategoryModel = new DeviceCategoryModel();
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
+               
+            }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objDeviceCategoryModel._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -94,24 +103,34 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objDeviceCategoryModel._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objDeviceCategoryModel._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objDeviceCategoryModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objDeviceCategoryModel._UserActionRights.Delete = true;
                     }
                 }
             }
-
-            using (var con = new SqlConnection(_connectionString))
+            else
             {
-                var result = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
-                return View(result);
+
+                objDeviceCategoryModel._UserActionRights.Create = true;
+                objDeviceCategoryModel._UserActionRights.Edit = true;
+                objDeviceCategoryModel._UserActionRights.Delete = true;
+                objDeviceCategoryModel._UserActionRights.View = true;
+                objDeviceCategoryModel._UserActionRights.History = true;
+                objDeviceCategoryModel._UserActionRights.ExcelExport = true;
+
             }
+            return View(objDeviceCategoryModel);
         }
         [HttpPost]
         public ActionResult DeviceCategoryTable(int CatId)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.User>
+﻿@model TogoFogo.Models.User
 @{
     ViewBag.Title = "User List";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -11,7 +11,7 @@
             </div>
             <div class="col-md-3 ">
                 <div class="pull-right">
-                    @if (ViewBag.Create == 2)
+                    @if (Model._UserActionRights.Create)
                     {
                     <a href="@Url.Action("AddUser", "User")" class="btn btn-primary">Add User</a>
                     }
@@ -19,12 +19,14 @@
             </div>
             <div class="col-md-3 ">
                 <div class="pull-left">
-                    <button class="btn btn-primary excel">Export to Excel</button>
-                </div>
+                    @if (Model._UserActionRights.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
+                  </div>
             </div>
         </div>
     </div>
-
 </div>
 <div class="panel-body">
     <div class="x_content" style="overflow-x: scroll;">
@@ -73,8 +75,8 @@
             </thead>
 
 
-            @foreach (var item in Model)
-    {
+            @foreach (var item in Model.objUserList)
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.SerialNo)
@@ -104,7 +106,7 @@
                         @Html.DisplayFor(modelItem => item._AddressDetail.Address)
                     </td>
                     <td>
-                       
+
                         @(item.IsActive == true ? "Active" : "InActive ")
                     </td>
                     <td>
@@ -114,7 +116,7 @@
                         @Html.DisplayFor(modelItem => item.ModifyDate)
                     </td>
                     <td style="display: inline-flex">
-                        @if (ViewBag.Create == 3)
+                        @if (Model._UserActionRights.Edit)
                         {
                             <a href="@Url.Action("EditUser","User",new { id=item.UserId})" class="btn btn-small btn-info btnSize">Edit</a>
                         }
@@ -128,5 +130,5 @@
             }
 
         </table>
-        </div>
     </div>
+</div>

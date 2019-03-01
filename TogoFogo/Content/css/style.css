@@ -23503,3 +23503,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     .margin-bottom-sm {
         margin-bottom: 18px;
     }
+
+#myTable_wrapper > div{
+    padding-top:5px;
+}

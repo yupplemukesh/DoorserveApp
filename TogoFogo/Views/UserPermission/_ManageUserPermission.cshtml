@@ -20,104 +20,114 @@
 
     </div>
 </div>
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
-<script>
-    $(document).ready(function () {
-
-        if ($('.chkMenu:checked').length == $('.chkMenu').length) {
-            $("#chkAll").prop('checked', true);
-        }
-    });
-    $(document).on("change", "#RoleId", function () {
-        $.ajax({
-            type: 'GET',
-            url: "/UserPermission/BindMenu",
-            contentType: 'application/json; charset=utf-8',
-            cache: false,
-            data: { RoleId: $(this).val() },
-            success: function (response) {
+<div class="form-group">
+    <label for="form-control-4" class="col-sm-3 col-md-2 control-label">User Role</label>
+    <div class="col-sm-6 col-md-6">
+        <button class="btn btn-primary" type="reset">Reset</button>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+    </div>
+        <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Content/Scripts/jquery.validate.js"></script>
+        <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+        <script>
+            $(document).ready(function () {
                 
-                $("#divMenu").html(response);
+                if ($('.chkMenu:checked').length > 0) {
+                    if ($('.chkMenu:checked').length == $('.chkMenu').length) {
+                        $("#chkAll").prop('checked', true);
+                    }
+                }
+            });
+            $(document).on("change", "#RoleId", function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "/UserPermission/BindMenu",
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    data: { RoleId: $(this).val() },
+                    success: function (response) {
 
+                        $("#divMenu").html(response);
+                        if ($('.chkMenu:checked').length > 0) {
+                            if ($('.chkMenu:checked').length == $('.chkMenu').length) {
+                                $("#chkAll").prop('checked', true);
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e);
+
+                        alert("Something went wrong...");
+                    },
+                    complete: function () {
+
+                    }
+                });
+            });
+            $(document).on("change", ".chkMenu", function (e) {
+                if ($(this).prop("checked") == false) {
+                    $("#chkAll").prop('checked', false);
+                }
+
+                //check "select all" if all checkbox items are checked
                 if ($('.chkMenu:checked').length == $('.chkMenu').length) {
                     $("#chkAll").prop('checked', true);
                 }
-            },
-            error: function (e) {
-                console.log(e);
+            });
+            $(document).on("change", "#chkAll", function (e) {
 
-                alert("Something went wrong...");
-            },
-            complete: function () {
+                $(".chkMenu").prop('checked', $(this).prop("checked"));
+            });
+            $('form').submit(function () {
+                var UserId = $('#UserId').val();
+                var RoleId = $('#RoleId').val();
+                var Valid = true;
+                var MenuActionData = "";
 
-            }
-        });
-    });
-    $(document).on("change", ".chkMenu", function (e) {
-        if ($(this).prop("checked") == false) {
-            $("#chkAll").prop('checked', false);
-        }
+                if (UserId == "") {
 
-        //check "select all" if all checkbox items are checked
-        if ($('.chkMenu:checked').length == $('.chkMenu').length) {
-            $("#chkAll").prop('checked', true);
-        }
-    });
-    $(document).on("change", "#chkAll", function (e) {
+                    Valid = false;
+                }
 
-        $(".chkMenu").prop('checked', $(this).prop("checked"));
-    });
-    $('form').submit(function () {
-        var UserId = $('#UserId').val();
-        var RoleId = $('#RoleId').val();
-        var Valid = true;
-        var MenuActionData = "";
-        
-        if (UserId == "") {
+                if (RoleId == "") {
 
-            Valid = false;
-        }
-
-        if (RoleId == "") {
-
-            Valid = false;
-        }
-        if (Valid) {
+                    Valid = false;
+                }
+                if (Valid) {
 
 
-            if ($('.chkMenu:checkbox:checked').length == 0) {
-                $("#toast-container").fadeIn();
-                $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');
-                $('#msg').children('div').find('.toast-error').css('display', 'block');
-                $("#toast-container").fadeOut(5000);
-                Valid = false;
-            }
-            else {
-
-                $('.chkMenu:checkbox:checked').each(function () {
-                    
-                    var ActionCount = 0;
-                    if ($($(this).parent().parent().find('.chkAction')[0]).prop('checked') == true ||
-                        $($(this).parent().parent().find('.chkAction')[1]).prop('checked') == true ||
-                        $($(this).parent().parent().find('.chkAction')[2]).prop('checked') == true ||
-                        $($(this).parent().parent().find('.chkAction')[3]).prop('checked') == true) {
-                        ActionCount = 1;
-
-                    }
-                    if (ActionCount == 0) {
+                    if ($('.chkMenu:checkbox:checked').length == 0) {
                         $("#toast-container").fadeIn();
-                        $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one Action rights checkbox');
+                        $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');
                         $('#msg').children('div').find('.toast-error').css('display', 'block');
                         $("#toast-container").fadeOut(5000);
                         Valid = false;
-                        return false;
                     }
+                    else {
 
-                });
-            }
-        }
-        return Valid;
-    });
-</script>
+                        $('.chkMenu:checkbox:checked').each(function () {
+
+                            var ActionCount = 0;
+                            if ($($(this).parent().parent().find('.chkAction')[0]).prop('checked') == true ||
+                                $($(this).parent().parent().find('.chkAction')[1]).prop('checked') == true ||
+                                $($(this).parent().parent().find('.chkAction')[2]).prop('checked') == true ||
+                                $($(this).parent().parent().find('.chkAction')[3]).prop('checked') == true) {
+                                ActionCount = 1;
+
+                            }
+                            if (ActionCount == 0) {
+                                $("#toast-container").fadeIn();
+                                $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one Action rights checkbox');
+                                $('#msg').children('div').find('.toast-error').css('display', 'block');
+                                $("#toast-container").fadeOut(5000);
+                                Valid = false;
+                                return false;
+                            }
+
+                        });
+                    }
+                }
+                return Valid;
+            });
+        </script>
