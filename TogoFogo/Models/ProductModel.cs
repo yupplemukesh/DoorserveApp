@@ -50,7 +50,6 @@ namespace TogoFogo.Models
         public string CreatedBy { get; set; }
         [DisplayName("Modify By")]
         public string ModifyBy { get; set; }
-
         [DisplayName("Delete By")]
         public string DeleteBy { get; set; }
         [DisplayName("Delete Date")]
@@ -64,5 +63,7 @@ namespace TogoFogo.Models
         public string SubCategoryId { get; set; }
         public string User { get; set; }
         public string Action { get; set; }
+        public List<ProductModel> _ProductModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
 }

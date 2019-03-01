@@ -10,7 +10,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
 {
    public interface ITemplate:IDisposable
     {
-        Task<List<TemplateModel>> GetTemplateByType(int TemplateType);
+        Task<TemplateListModel> GetTemplates();
         Task<TemplateModel> GetTemplateById(int TemplateId);
         Task<ResponseModel> AddUpdateDeleteTemplate(TemplateModel templateModel, char action);
         void Save();

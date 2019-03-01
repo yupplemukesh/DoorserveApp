@@ -27,7 +27,6 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
 
         #endregion
-
         #region BRAND      
         public ActionResult Brand()
         {
@@ -172,6 +171,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Brands")]
         public ActionResult BrandTable()
         {
+            BrandModel objBrandModel = new BrandModel();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objBrandModel.ListBrandModel = con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
+                
+            }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objBrandModel._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -180,27 +187,37 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objBrandModel._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objBrandModel._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objBrandModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objBrandModel._UserActionRights.Delete = true;
                     }
                 }
             }
-            using (var con = new SqlConnection(_connectionString))
+            else
             {
-                var result = con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+
+                objBrandModel._UserActionRights.Create = true;
+                objBrandModel._UserActionRights.Edit = true;
+                objBrandModel._UserActionRights.Delete = true;
+                objBrandModel._UserActionRights.View = true;
+                objBrandModel._UserActionRights.History = true;
+                objBrandModel._UserActionRights.ExcelExport = true;
+
             }
+            return View(objBrandModel);
 
         }
         #endregion
-
         #region PRODUCT
         public ActionResult Product()
         {
@@ -310,6 +327,15 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Products")]
         public ActionResult ProductTable()
         {
+            ProductModel objProductModel = new ProductModel();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objProductModel._ProductModelList = con.Query<ProductModel>("GetProductDetail", new { },
+                    commandType: CommandType.StoredProcedure).ToList();           
+              
+            }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objProductModel._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -318,24 +344,35 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objProductModel._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objProductModel._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objProductModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objProductModel._UserActionRights.Delete = true;
                     }
                 }
             }
-            using (var con = new SqlConnection(_connectionString))
-            {               
-                var result = con.Query<ProductModel>("GetProductDetail", new { },
-                    commandType: CommandType.StoredProcedure).ToList();           
-               return View(result);
+            else
+            {
+
+                objProductModel._UserActionRights.Create = true;
+                objProductModel._UserActionRights.Edit = true;
+                objProductModel._UserActionRights.Delete = true;
+                objProductModel._UserActionRights.View = true;
+                objProductModel._UserActionRights.History = true;
+                objProductModel._UserActionRights.ExcelExport = true;
+
             }
+
+            return View(objProductModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Products")]
         public ActionResult EditProduct(int? ProductId, int? BrandID, string ProductName, int? CategoryID)
@@ -432,7 +469,6 @@ namespace TogoFogo.Controllers
             }
         }
         #endregion
-
         #region ManageDeviceProblems
         
         public ActionResult ManageDeviceProblems()
@@ -493,12 +529,52 @@ namespace TogoFogo.Controllers
 
         public ActionResult DeviceProblemtable()
         {
+            DeviceProblemModel objDeviceProblemModel = new DeviceProblemModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<DeviceProblemModel>("GetProblemDetail", new { },
+                objDeviceProblemModel._DeviceProblemModelList = con.Query<DeviceProblemModel>("GetProblemDetail", new { },
                     commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+              
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objDeviceProblemModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objDeviceProblemModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objDeviceProblemModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objDeviceProblemModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objDeviceProblemModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objDeviceProblemModel._UserActionRights.Create = true;
+                objDeviceProblemModel._UserActionRights.Edit = true;
+                objDeviceProblemModel._UserActionRights.Delete = true;
+                objDeviceProblemModel._UserActionRights.View = true;
+                objDeviceProblemModel._UserActionRights.History = true;
+                objDeviceProblemModel._UserActionRights.ExcelExport = true;
+
+            }
+
+            return View(objDeviceProblemModel);
         }
         public ActionResult EditDeviceProblem(int? ProblemID)
         {
@@ -553,9 +629,8 @@ namespace TogoFogo.Controllers
             }
         }
         #endregion
-
         #region ColorMaster
-        [CustomAuthorize]
+        
         public ActionResult ColorMaster()
         {
             ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -652,441 +727,54 @@ namespace TogoFogo.Controllers
 
         public ActionResult ColorTable()
         {
+            ColorModel objColorModel = new ColorModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CreatedBy',cum1.UserName 'ModifyBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
+                objColorModel._ColorModelList = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CreatedBy',cum1.UserName 'ModifyBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
                     commandType: CommandType.Text).ToList();              
-                return View(result);
+              
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objColorModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objColorModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objColorModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objColorModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objColorModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objColorModel._UserActionRights.Create = true;
+                objColorModel._UserActionRights.Edit = true;
+                objColorModel._UserActionRights.Delete = true;
+                objColorModel._UserActionRights.View = true;
+                objColorModel._UserActionRights.History = true;
+                objColorModel._UserActionRights.ExcelExport = true;
+
+            }
+
+            return View(objColorModel);
         }
         #endregion
-
-        #region UserRole
-
-        [CustomAuthorize]
-        public ActionResult UserRole()
-        {
-            ViewBag.UserType = new SelectList(Enumerable.Empty<SelectListItem>());
-            if (TempData["Message"] != null)
-            {
-                ViewBag.Message = TempData["Message"].ToString();
-            }
-            return View();
-        }
-        public ActionResult CreateUserRole()
-        {
-            var name = User.Identity.Name;
-            if (name != null)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<string>("select UserType from User_Type where UserTypeId in (select UserType from Create_User_Master where UserName=@UserName)", new{ @UserName=name },
-                       commandType: CommandType.Text).FirstOrDefault();
-                    if (result == "Admin")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeAdmin(), "Value", "Text");
-                    }
-                    else if (result == "Client")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeClient(), "Value", "Text");
-                    }
-                    else if (result == "Service Center")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeServiceCenter(), "Value", "Text");
-                    }
-                    else if (result == "Service Provider")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeService_Provider(), "Value", "Text");
-                    }
-                    else if (result == "Customer")
-                    {
-                        ViewBag.UserType = new SelectList(Enumerable.Empty<SelectListItem>());
-                    }
-                    else
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-                    }
-                }
-            }           
-         return View();
-        }
-        [HttpPost]
-        public ActionResult CreateUserRole(UserRoleModel m)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<int>("Insert_into_User_Role_Master",
-                        new {
-                            m.UserType,
-                            m.UserRole,
-                            m.IsActive,
-                            m.CreatedBy,
-                            Action="add",
-                            ModifiedBy="",
-                            m.RoleId
-                        },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 1)
-                    {
-                        foreach (var item in m.TableData)
-                        {
-                            var RoleId = con.Query<int>("select RoleId from User_Role_Master where UserRole=@UserRole", new { @UserRole = m.UserRole }, commandType: CommandType.Text).FirstOrDefault();
-                            var result1 = con.Execute("insert into User_Role_rights values(@RoleId,@MenuId,@ParentMenu_id)", new { RoleId = RoleId, MenuID = item.MenuId, ParentMenu_id = item.ParentMenu_id },
-                            commandType: CommandType.Text);
-                           
-                        }
-                        TempData["Message"] = " User Role Added Successfully";
-                    }
-                    else
-                    {
-                        TempData["Message"] = "Something went wrong";
-                    }
-                }
-            }
-            return RedirectToAction("UserRole");
-        }
-        public JsonResult EditUserRole(int ? RoleId)
-        {
-            ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserRoleModel>("Select * from User_Role_Master where RoleId=@RoleId", new { RoleId },
-                    commandType: CommandType.Text).FirstOrDefault();
-
-
-                result.UserType = result.UserTypeId;
-                var result1 = con.Query<UserRolrightsModel>("select MenuId,ParentMenu_id from User_Role_rights where RoleId=@RoleId", new { RoleId },
-                   commandType: CommandType.Text).ToList();
-                if (result1 != null)
-                {
-                    result.TableData = result1;
-                }
-                return Json(result,JsonRequestBehavior.AllowGet);
-            }
-        }
-        [HttpPost]
-        public ActionResult EditUserRole(UserRoleModel m)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<int>("Insert_into_User_Role_Master",
-                        new
-                        {
-                            m.UserType,
-                            m.RoleId,
-                            m.UserRole,
-                            m.IsActive,
-                            m.CreatedBy,
-                            Action = "edit",
-                            m.ModifiedBy
-                        },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 2)
-                    {
-                        TempData["Message"] = "Updated Successfully";
-                    }
-                }
-            }
-            return RedirectToAction("UserRole", "Master");
-        }
-        public ActionResult TableRole()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserRoleModel>("Tableview_User_Role_Master", new { },
-                    commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
-            }
-        }
-        public ActionResult UserRoleAddRights(int RoleId)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserRoleModel>("select * from User_Role_Master where RoleId=@RoleId", new { RoleId },
-                    commandType: CommandType.Text).FirstOrDefault();
-                var resultUserType = con.Query<string>("select userType from User_Type where UserTypeId=@UserTypeId", new { result.UserTypeId }, commandType: CommandType.Text).FirstOrDefault();
-                result.UserType = resultUserType;
-                ViewBag.MenuMasters = new SelectList(dropdown.MenuMaster(), "Value", "Text");
-                return View(result);
-            }
-        }
-        [HttpPost]
-        public ActionResult UserRoleAddRights(UserRoleModel m)
-        {
-            if (m == null || m.foo == null || string.IsNullOrEmpty(m.RoleId))
-            {
-                return View(m);
-            }
-            foreach (var item in m.foo)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Execute("insert into User_Role_rights values(@RoleId,@MenuId,@ParentMenu_id)", new { RoleId = m.RoleId, MenuID = item, ParentMenu_id = m.MenuMasters },
-                        commandType: CommandType.Text);
-                }
-            }
-            return RedirectToAction("CreateUserType", "Master");
-
-        }
-
-        #endregion
-
-        #region UserMaster
-        [CustomAuthorize]
-        public ActionResult UserMaster()
-        {
-            ViewBag.TRC = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ServiceProvider = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.MenuMasters = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.UserType = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.UserRole = new SelectList(Enumerable.Empty<SelectListItem>());
-            if (TempData["Message"] != null)
-            {
-                ViewBag.Message = TempData["Message"].ToString();
-            }
-            return View();
-        }
-        public ActionResult CreateUser()
-        {           
-            ViewBag.TRC = new SelectList(dropdown.BindTrc(), "Value", "Text");
-            ViewBag.ServiceProvider = new SelectList(dropdown.BindServiceProvider(), "Value", "Text");
-            ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-            ViewBag.UserRole = new SelectList(dropdown.BindUserRole(), "Value", "Text");
-            return View();
-        }
-       
-        [HttpPost]
-        public ActionResult CreateUser(CreateUserModel m)
-        {
-            if (ModelState.IsValid)
-            {
-                Random r = new Random();
-                int randomNumber = r.Next(999, 10000);
-                string Password=randomNumber.ToString();
-                string Passwrd = "";
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-                var Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { m.Email_Address,Password,m.UserName });
-                if (Status == 1)
-                {                 
-                    Passwrd =TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(Password,true);
-                    using (var con = new SqlConnection(_connectionString))
-                    {
-                        var result = con.Query<string>("Insert_Into_Create_User_Master",
-                            new
-                            {
-                                m.UserRole,
-                                m.ID,
-                                m.UserType,
-                                m.Name,
-                                m.Address,
-                                m.Mobile,
-                                m.Email_Address,
-                                m.UserName,
-                                m.ServiceProvider,
-                                m.ServiceProviderType,
-                                TrcId = m.TRC,
-                                Password = Passwrd,
-                                m.IsActive,
-                                m.CreatedBy,
-                                m.ModifiedBy,
-                                Action = "add"
-                            },
-                            commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        if (result != null)
-                        {                            
-                            foreach (var item in m.TableData)
-                            {
-                                var USERID = con.Query<int>("select Id from Create_User_Master where UserName=@User", new { @User = m.UserName },
-                                    commandType: CommandType.Text).FirstOrDefault();
-
-                                var AddRights = con.Execute("insert into user_rights_Test values(@UserId,@MenuId,@ParentMenu_id)",
-                                    new { UserId = USERID, MenuID = item.MenuId, ParentMenu_id = item.ParentMenu_id },
-                                    commandType: CommandType.Text);
-                            }
-                            TempData["Message"] = result;
-                        }
-                    }
-                }
-            }
-            return RedirectToAction("UserMaster","Master");
-        }
-        public ActionResult EditUser(int ID)
-        {
-            ViewBag.TRC = new SelectList(dropdown.BindTrc(), "Value", "Text");
-            ViewBag.ServiceProvider = new SelectList(dropdown.BindServiceProvider(), "Value", "Text");
-            ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-            ViewBag.UserRole = new SelectList(dropdown.BindUserRole(), "Value", "Text");
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<CreateUserModel>("select * from create_user_master where Id=@ID", new {ID},
-                    commandType: CommandType.Text).FirstOrDefault();
-                result.UserRole = result.RoleId;
-                return PartialView("EditUser", result);
-            }
-        }
-        [HttpPost]
-        public ActionResult EditUser(CreateUserModel m)
-        {            
-            if (ModelState.IsValid)
-            {               
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<string>("Insert_Into_Create_User_Master",
-                        new
-                        {
-                            m.UserRole, m.ID,m.UserType,m.Name,m.Address,m.Mobile,m.Email_Address,m.UserName,m.ServiceProvider,m.ServiceProviderType,TrcId = m.TRC,
-                            m.Password,m.IsActive,m.CreatedBy,m.ModifiedBy,Action = "edit"
-                        },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-                }
-            }
-            return RedirectToAction("UserMaster","Master");
-        }
-        public ActionResult EditPassword(int? Id,string Email,string username)
-        {
-            var NewPassword = "";
-            int Status = 0;
-            if (Id != null)
-            {               
-                Random r = new Random();
-                NewPassword = r.Next(999, 10000).ToString();
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-                 Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { Email, NewPassword, username });
-                if (Status == 1)
-                {
-                    NewPassword = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(NewPassword, true);/* base64Encode(randomNumber)*/;
-                    using (var con = new SqlConnection(_connectionString))
-                    {
-                        var result = con.Query<string>("ChangePassword_In_Create_User_Master", new { ID = Id, Password = NewPassword, Action = "ChangePassword" },
-                            commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    }
-                }                               
-            }
-            return RedirectToAction("UserMaster", "Master");
-        }
-        public ActionResult UserTable()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<CreateUserModel>("Proc_create_user_master_List", null,
-                    commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
-            }
-        }
-        public ActionResult AddRights(int ID)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<CreateUserModel>("select * from create_user_master where Id=@ID", new { ID },
-                    commandType: CommandType.Text).FirstOrDefault();
-                var result1 = con.Query<string>("select UserType from User_Type where UserTypeId=@UserTypeId", new { UserTypeId = result.UserType }, commandType: CommandType.Text).FirstOrDefault();
-                result.UserType = result1;
-                var result2 = con.Query<string>("select UserRole from user_role_master where RoleId=@RoleId", new { RoleId = result.RoleId }, commandType: CommandType.Text).FirstOrDefault();
-                result.UserRole = result2;
-                ViewBag.MenuMasters = new SelectList(dropdown.MenuMaster(), "Value", "Text");
-                return View(result);
-            }
-        }
-        [HttpPost]
-        public ActionResult AddRights(CreateUserModel m)
-        {
-            if (m == null || m.foo == null || string.IsNullOrEmpty(m.ID))
-            {
-                return View(m);
-            }
-            //using (var con = new SqlConnection(_connectionString))
-            //{
-            //    var result = con.Execute("insert into user_rights values(@UserId,@MenuId)", new { UserId = m.ID, MenuID = m.MenuMasters },
-            //        commandType: CommandType.Text);
-
-            //    //  ViewBag.MenuMasters = new SelectList(dropdown.MenuMaster(), "Value", "Text");
-
-            //}
-            foreach (var item in m.foo)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Execute("insert into user_rights_Test values(@UserId,@MenuId,@ParentMenu_id)", new { UserId = m.ID,MenuID=item, ParentMenu_id =m.MenuMasters},
-                        commandType: CommandType.Text);
-
-                  //  ViewBag.MenuMasters = new SelectList(dropdown.MenuMaster(), "Value", "Text");
-                }
-            }
-            return RedirectToAction("UserMaster", "Master");
-        }
-        public JsonResult SubMenu(int? MainMenuId)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<MenuMasterModel>("select * from menuTable where parentMenuId=@parentMenuId",
-                    new { @parentMenuId =MainMenuId }, commandType: CommandType.Text).ToList();
-               
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public JsonResult SubMenuUserType(int? UserTypeID)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<MenuMasterModel>("select * from menuTable where MenuCap_ID in (select menuId from user_type_rights where usertypeId=@usertypeId ) ",
-                    new { @usertypeId = UserTypeID }, commandType: CommandType.Text).ToList();
-                foreach (var item in result)
-                {
-                    var parent = item.ParentMenuId;
-                    var ParentMenuName = con.Query<string>(" select Menu_Name from menuTable where MenuCap_ID=@MenuCap_ID", new { MenuCap_ID = parent }, commandType: CommandType.Text).FirstOrDefault();
-                    item.ParentMenuName = ParentMenuName;
-                }
-               
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public JsonResult SubMenuRole(int? RoleID)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<MenuMasterModel>("select * from menuTable where MenuCap_ID in (select menuId from user_role_rights where RoleId=@RoleId ) ",
-                    new { @RoleId = RoleID }, commandType: CommandType.Text).ToList();
-                foreach (var item in result)
-                {
-                    var parent = item.ParentMenuId;
-                    var ParentMenuName = con.Query<string>(" select Menu_Name from menuTable where MenuCap_ID=@MenuCap_ID", new { MenuCap_ID = parent }, commandType: CommandType.Text).FirstOrDefault();
-                    item.ParentMenuName = ParentMenuName;
-                }
-
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public JsonResult GetSelectedView(int? UserId, int? MainMenuId)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<submenuModel>("select MenuId from user_rights_Test where UserId=@UserId and ParentMenu_id=@ParentMenu_id",
-                    new {UserId,@ParentMenu_id=MainMenuId }, commandType: CommandType.Text).ToList();
-                //foreach (var item in result)
-                //{
-                //    var result1 = con.Query<submenuModel>("select Menu_Name,ID from mstmenu where ID=@ID",
-                //    new { @ID = item.MenuId }, commandType: CommandType.Text).ToList();
-                //}
-                
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        #endregion
-
         #region RemoteValidation
         public ActionResult RemoteValidationforUserName(string Username,Int64 UserId=0)
         {
@@ -1112,662 +800,6 @@ namespace TogoFogo.Controllers
         }
 
         #endregion
-
-        #region UserType
-        public ActionResult CreateUserType()
-        {
-            if (TempData["Message"] != null)
-            {
-                ViewBag.Message = TempData["Message"].ToString();
-            }
-            return View();
-        }
-        public ActionResult UserType()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult UserType(UserTypeModel m)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<int>("Insert_into_User_Type",
-                        new
-                        {
-                            m.UserType,
-                            m.IsActive,
-                            m.CreatedBy,
-                            Action = "add",
-                            ModifiedBy = "",
-                            m.UserTypeId
-                        },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 0)
-                    {
-                        TempData["Message"] = "User Type Already Exist";
-
-                    }
-                    else
-                    {
-                        TempData["Message"] = "Successfully Added";
-                    }
-                }
-            }
-            return View();
-        }
-        public ActionResult TableUserType()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserTypeModel>("Select * from User_Type", new { },
-                    commandType: CommandType.Text).ToList();
-                return View(result);
-            }
-        }
-        public ActionResult EditUserType(int UserTypeId)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserTypeModel>("Select * from User_Type where UserTypeId=@UserTypeId", new { UserTypeId },
-                    commandType: CommandType.Text).FirstOrDefault();
-                return PartialView("EditUserType", result);
-            }
-        }
-        [HttpPost]
-        public ActionResult EditUserType(UserTypeModel m)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<int>("Insert_into_User_Type",
-                        new
-                        {
-                            m.UserType,
-                            m.IsActive,
-                            m.CreatedBy,
-                            Action = "edit",
-                            ModifiedBy = "",
-                            m.UserTypeId
-                        },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 2)
-                    {
-                        TempData["Message"] = "Updated Successfully";
-                    }
-                }
-            }
-            return RedirectToAction("CreateUserType", "Master");
-        }
-
-        public ActionResult UserTypeAddRights(int UserTypeId)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserTypeModel>("select * from user_type where UserTypeId=@UserTypeId", new { UserTypeId },
-                    commandType: CommandType.Text).FirstOrDefault();
-
-                ViewBag.MenuMasters = new SelectList(dropdown.MenuMaster(), "Value", "Text");
-                return View(result);
-            }
-        }
-
-        [HttpPost]
-        public ActionResult UserTypeAddRights(UserTypeModel m)
-        {
-            if (m == null || m.foo == null || string.IsNullOrEmpty(m.UserTypeId))
-            {
-                return View(m);
-            }
-            foreach (var item in m.foo)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Execute("insert into User_Type_rights values(@UserTypeId,@MenuId,@ParentMenu_id)", new { UserTypeId = m.UserTypeId, MenuID = item, ParentMenu_id = m.MenuMasters },
-                        commandType: CommandType.Text);
-                }
-            }
-            return RedirectToAction("CreateUserType", "Master");
-
-        }
-
-        #endregion
-
-        #region UserType1
-        public ActionResult CreateUserType1()
-        {
-            return View();
-        }
-        public ActionResult UserTypeTable()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserTypeModel>("select * from User_Type order by CreatedDate Desc", new { },
-                    commandType: CommandType.Text).ToList();
-
-                return View(result);
-            }
-        }
-        public ActionResult EditUserType1( int? UserTypeId)
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = new UserTypeModel();
-                result = con.Query<UserTypeModel>("Select * from User_Type where UserTypeId=@UserTypeId", new { UserTypeId },
-                    commandType: CommandType.Text).FirstOrDefault();
-            
-                
-                
-                var result1 = con.Query<TableMenuModel>("TableMenuListGrid",
-                    new { }, commandType: CommandType.Text).ToList();
-                
-                result.TableMenu = result1;
-                var checkedBox = con.Query<ViewStatusCheck>("select MenuId from User_Type_rights where UserTypeId=@UserTypeId", new { @UserTypeId = UserTypeId },
-                    commandType: CommandType.Text).ToList();
-                foreach (var i in result.TableMenu)
-                {
-                    foreach (var item in checkedBox)
-                    {
-                        if (item.MenuId == i.MenuCap_ID)
-                        {
-                            i.isNewlyEnrolled = true;
-                            break;
-                        }
-                        
-                    }
-                }
-             
-                return View(result);
-            }
-        }
-        public ActionResult AddNewUserType1()
-        {
-            var result = new UserTypeModel();
-            using (var con = new SqlConnection(_connectionString))
-            {
-                
-
-                var result1 = con.Query<TableMenuModel>("TableMenuListGrid",
-                    new { }, commandType: CommandType.Text).ToList();
-
-                result.TableMenu = result1;
-            }
-                return View(result);
-        }
-        [HttpPost]
-        public ActionResult AddNewUserType1(UserTypeModel m)
-        {
-            if (m == null || m.TableMenu == null )
-            {
-                return View(m);
-            }
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<string>("Insert_Into_User_type_Table"
-                    , new
-                    {
-
-                        UserTypeId = m.UserTypeId,
-                        UserType = m.UserType,
-                        IsActive = m.IsActive,
-                        Comments = m.Comments,
-                        Action = "Add"
-                    },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
-                if (result == "Inserted")
-                {
-                    var UserTypeId = con.Query<string>("select UserTypeId from User_type where UserType=@UserType", new{ UserType = m.UserType},commandType: CommandType.Text).FirstOrDefault();
-
-                    
-                    foreach (var item in m.TableMenu)
-                    {
-
-                        if (item.isNewlyEnrolled == true)
-                        {
-
-                            var result1 = con.Query<int>("Insert_into_User_type_rights", new { UserTypeId = UserTypeId, MenuID = item.MenuCap_ID, ParentMenu_id = item.ParentMenuID, Action="Add" },
-                                commandType: CommandType.StoredProcedure);
-
-                        }
-
-                    }
-                }
-            }
-
-            return RedirectToAction("CreateUserType1");
-        }
-        [HttpPost]
-        public ActionResult EditUserType1(UserTypeModel m)
-        {
-            if (m == null || m.TableMenu == null || string.IsNullOrEmpty(m.UserTypeId))
-            {
-                return View(m);
-            }
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<string>("Insert_Into_User_type_Table"
-                    , new {
-                     
-                        UserTypeId = m.UserTypeId,
-                        UserType = m.UserType,
-                        IsActive=m.IsActive,
-                        Comments=m.Comments,
-                        Action="Edit"
-                        },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
-                if (result == "Updated")
-                {
-                    foreach (var item in m.TableMenu)
-                    {
-                        if (item.isNewlyEnrolled == true)
-                        {
-
-                            var result1 = con.Query<string>("Insert_into_User_type_rights", new { UserTypeId = m.UserTypeId, MenuID = item.MenuCap_ID, ParentMenu_id = item.ParentMenuID, Action = "Edit" },
-                                commandType: CommandType.StoredProcedure);
-
-                        }
-                        else
-                        {
-                            var result1 = con.Execute("Delete from User_Type_Rights where UserTypeId=@UserTypeId and MenuID=@MenuID", new { UserTypeId = m.UserTypeId, MenuID = item.MenuCap_ID },
-                                commandType: CommandType.Text);
-                        }
-
-                    }
-                }
-            }
-           
-            return RedirectToAction("CreateUserType1");
-        }
-
-        #endregion
-
-        #region Role1
-        public ActionResult CreateRole1()
-        {
-            ViewBag.UserType = new SelectList(Enumerable.Empty<SelectListItem>());
-            return View();
-        }
-        public ActionResult RoleTable1()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<UserRoleModel>("List_of_User_Role_master", new { },
-                    commandType: CommandType.StoredProcedure).ToList();
-
-                return View(result);
-            }
-        }
-        [HttpGet]
-        public ActionResult EditUserRole1(int? RoleID)
-        {
-            ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = new UserRole1();
-                result = con.Query<UserRole1>("Select * from User_Role_master where RoleId=@RoleId", new { @RoleId= RoleID },
-                    commandType: CommandType.Text).FirstOrDefault();
-                result.UserType = result.UserTypeId;
-
-                var result2 = con.Query<TableMenuModel>("select * from menuTable where MenuCap_ID in (select menuId from user_type_rights where usertypeId=@usertypeId ) ",
-                   new { @usertypeId = result.UserTypeId }, commandType: CommandType.Text).ToList();
-                var menu = "";
-                foreach (var item in result2)
-                {
-                    var parent = item.ParentMenuID;
-
-                    menu = item.Menu_Name;
-                    var ParentMenuName = con.Query<string>(" select Menu_Name from menuTable where MenuCap_ID=@MenuCap_ID", new { MenuCap_ID = parent }, commandType: CommandType.Text).FirstOrDefault();
-                    item.Menu_Name = ParentMenuName;
-                    item.SubMenuName = menu;
-                    var result3 = con.Query<string>("select MenuId from User_Role_rights where RoleId=@RoleId",
-                    new { @RoleId = RoleID }, commandType: CommandType.Text).ToList();
-                    if(result3.Any(m=>m==item.MenuCap_ID))
-                    {
-                        item.isNewlyEnrolled = true;
-                    }
-
-                }
-                result.TableMenu = result2;
-                //var result3 = con.Query<TableMenuModel>("select MenuId from User_Role_rights where RoleId@RoleId",
-                //   new { @RoleId = RoleID }, commandType: CommandType.Text).ToList();
-                
-                return View(result);
-            }
-        }
-        [HttpPost]
-        public ActionResult EditUserRole1(UserRole1 m)
-        {
-            if (m == null || m.TableMenu == null || string.IsNullOrEmpty(m.RoleId))
-            {
-                return View(m);
-            }
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<int>("Insert_into_User_Role_Master"
-                    , new
-                    {
-
-                        m.UserType,
-                        m.UserRole,
-                        m.IsActive,
-                        m.CreatedBy,
-                        Action = "edit",
-                        ModifiedBy = "",
-                        m.RoleId,
-                        m.Comments
-                    },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
-                if (result == 2)
-                {
-                    foreach (var item in m.TableMenu)
-                    {
-                        if (item.isNewlyEnrolled == true)
-                        {
-
-                            var result1 = con.Query<string>("Insert_into_User_Role_rights", new { RoleId = m.RoleId, MenuID = item.MenuCap_ID, ParentMenu_id = item.ParentMenuID, Action = "Edit" },
-                                commandType: CommandType.StoredProcedure);
-
-                        }
-                        else
-                        {
-                            var result1 = con.Execute("Delete from User_Role_rights where RoleId=@RoleId and MenuID=@MenuID", new { RoleId = m.RoleId, MenuID = item.MenuCap_ID },
-                                commandType: CommandType.Text);
-                        }
-
-                    }
-                }
-            }
-
-            return RedirectToAction("CreateRole1");
-        }
-        public ActionResult AddNewRole1()
-        {
-            var name = User.Identity.Name;
-            var result = "";
-            if (name != null)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                     result = con.Query<string>("select UserType from User_Type where UserTypeId in (select UserType from Create_User_Master where UserName=@UserName)", new { @UserName = name },
-                       commandType: CommandType.Text).FirstOrDefault();
-                    if (result == "Admin")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeAdmin(), "Value", "Text");
-
-                    }
-                    else if (result == "Client")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeClient(), "Value", "Text");
-                    }
-                    else if (result == "Service Center")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeServiceCenter(), "Value", "Text");
-                    }
-                    else if (result == "Service Provider")
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserTypeService_Provider(), "Value", "Text");
-                    }
-                    else if (result == "Customer")
-                    {
-                        ViewBag.UserType = new SelectList(Enumerable.Empty<SelectListItem>());
-                    }
-                    else
-                    {
-                        ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-                    }
-                }
-            }
-          
-            var result1 = new UserRole1();
-            result1.TableMenu = new System.Collections.Generic.List<TableMenuModel>();
-            return View(result1);
-        }
-        [HttpPost]
-        public ActionResult AddNewRole1(UserRole1 m)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<int>("Insert_into_User_Role_Master",
-                        new
-                        {
-                            m.UserType,
-                            m.UserRole,
-                            m.IsActive,
-                            m.CreatedBy,
-                            Action = "add",
-                            ModifiedBy = "",
-                            m.RoleId,
-                            m.Comments
-                        },
-                        commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 1)
-                    {
-                        foreach (var item in m.TableMenu)
-                        {
-                            var RoleId = con.Query<int>("select RoleId from User_Role_Master where UserRole=@UserRole", new { @UserRole = m.UserRole }, commandType: CommandType.Text).FirstOrDefault();
-                            if (item.isNewlyEnrolled == true)
-                            {
-                                var result1 = con.Execute("insert into User_Role_rights values(@RoleId,@MenuId,@ParentMenu_id)", new { RoleId = RoleId, MenuID = item.SubMenuName, ParentMenu_id = item.MenuCap_ID },
-                            commandType: CommandType.Text);
-                            }
-                            
-
-                        }
-                        TempData["Message"] = " User Role Added Successfully";
-                    }
-                    else
-                    {
-                        TempData["Message"] = "Something went wrong";
-                    }
-                }
-            }
-            return RedirectToAction("CreateRole1");
-        }
-
-        #endregion
-
-        #region User1
-        public ActionResult CreateUser1()
-        {
-            return View();
-        }
-        public ActionResult UserTable1()
-        {
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<CreateUserModel>("Proc_create_user_master_List", null,
-                   commandType: CommandType.StoredProcedure).ToList();
-
-                return View(result);
-            }
-        }
-        public ActionResult AddNewUser1()
-        {
-            ViewBag.UserRole = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-            var result = new User1();
-            result.TableMenu = new System.Collections.Generic.List<TableMenuModel>();
-            return View(result);
-        }
-        [HttpPost]
-        public ActionResult AddNewUser1(User1 m)
-        {
-
-            if (ModelState.IsValid)
-            {
-                Random r = new Random();
-                int randomNumber = r.Next(999, 10000);
-                string Password = randomNumber.ToString();
-                string Passwrd = "";
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-
-                var Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { m.Email_Address, Password, m.UserName });
-                if (Status == 1)
-                {
-                    Passwrd = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(Password, true);
-                    using (var con = new SqlConnection(_connectionString))
-                    {
-                        var result = con.Query<string>("Insert_Into_Create_User_Master",
-                            new
-                            {
-                                m.UserRole,
-                                m.ID,
-                                m.UserType,
-                                m.Name,
-                                m.Address,
-                                m.Mobile,
-                                m.Email_Address,
-                                m.UserName,
-                                m.ServiceProvider,
-                                m.ServiceProviderType,
-                                TrcId = m.TRC,
-                                Password = Passwrd,
-                                m.IsActive,
-                                m.CreatedBy,
-                                m.ModifiedBy,
-                                Action = "add",
-                                m.EmployeeId ,
-                                m.AddressType,
-                                m.Pincode,
-                                m.City,
-                                m.State,
-                                m.Comments
-
-                            },
-                            commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        if (result != null)
-                        {
-
-                            foreach (var item in m.TableMenu)
-                            {
-                                var USERID = con.Query<int>("select Id from Create_User_Master where UserName=@User", new { @User = m.UserName }, commandType: CommandType.Text).FirstOrDefault();
-
-                                if (item.isNewlyEnrolled == true)
-                                {
-
-                                    var AddRights = con.Execute("insert into user_rights_Test values(@UserId,@MenuId,@ParentMenu_id)", new { UserId = USERID, MenuID = item.SubMenuName, ParentMenu_id = item.MenuCap_ID },
-                                            commandType: CommandType.Text);
-                                }
-                            }
-                            TempData["Message"] = result;
-                        }
-                    }
-                }
-
-            }
-
-            return RedirectToAction("CreateUser1");
-        }
-        public ActionResult EditUser1(int? UserId)
-        {
-            //ViewBag.UserRole = new SelectList(Enumerable.Empty<SelectListItem>());
-            
-            ViewBag.UserType = new SelectList(dropdown.BindUserType(), "Value", "Text");
-            var result = new User1();
-           
-            using (var con = new SqlConnection(_connectionString))
-            {
-                 result = con.Query<User1>("select * from create_user_master where Id=@ID", new { @ID =UserId },
-                    commandType: CommandType.Text).FirstOrDefault();
-                result.UserRole = result.RoleId;
-                result.ID = UserId.ToString();
-                ViewBag.UserRole = new SelectList(dropdown.BindUserRoleBYUserType(result.UserType), "Value", "Text");
-                var result2 = con.Query<TableMenuModel>("select * from menuTable where MenuCap_ID in (select MenuId from User_Role_rights where RoleId=@RoleId ) ",
-                   new { @RoleId = result.RoleId }, commandType: CommandType.Text).ToList();
-                var menu = "";
-                foreach (var item in result2)
-                {
-                    var parent = item.ParentMenuID;
-                    menu = item.Menu_Name;
-                    var ParentMenuName = con.Query<string>(" select Menu_Name from menuTable where MenuCap_ID=@MenuCap_ID", new { MenuCap_ID = parent }, commandType: CommandType.Text).FirstOrDefault();
-                    item.Menu_Name = ParentMenuName;
-                    item.SubMenuName = menu;
-                    var result3 = con.Query<string>("select MenuId from user_rights_test where UserId=@UserId",
-                     new { @UserId = UserId }, commandType: CommandType.Text).ToList();
-                    if (result3.Any(m => m == item.MenuCap_ID))
-                    {
-                        item.isNewlyEnrolled = true;
-                    }
-
-                }
-                result.TableMenu = result2;
-               
-            }
-
-            //result.TableMenu = new System.Collections.Generic.List<TableMenuModel>();
-            return View(result);
-        }
-        [HttpPost]
-        public ActionResult EditUser1(User1 m)
-        {
-            if (m == null || m.TableMenu == null || string.IsNullOrEmpty(m.ID))
-            {
-                return View(m);
-            }
-            using (var con = new SqlConnection(_connectionString))
-            {
-                var result = con.Query<string>("Insert_Into_Create_User_Master",
-                             new
-                             {
-                                 m.UserRole,
-                                 m.ID,
-                                 m.UserType,
-                                 m.Name,
-                                 m.Address,
-                                 m.Mobile,
-                                 m.Email_Address,
-                                 m.UserName,
-                                 m.ServiceProvider,
-                                 m.ServiceProviderType,
-                                 TrcId = m.TRC,
-                                 Password = "",
-                                 m.IsActive,
-                                 m.CreatedBy,
-                                 m.ModifiedBy,
-                                 Action = "edit",
-                                 m.EmployeeId,
-                                 m.AddressType,
-                                 m.Pincode,
-                                 m.City,
-                                 m.State,
-                                 m.Comments
-
-                             },
-                     commandType: CommandType.StoredProcedure).FirstOrDefault();
-                if (result == "Updated")
-                {
-                    foreach (var item in m.TableMenu)
-                    {
-                        if (item.isNewlyEnrolled == true)
-                        {
-
-                            var result1 = con.Query<string>("Insert_into_user_rights_Test", new { UserId = m.ID, MenuID = item.MenuCap_ID, ParentMenu_id = item.ParentMenuID, Action = "Edit" },
-                                commandType: CommandType.StoredProcedure);
-
-                        }
-                        else
-                        {
-                            var result1 = con.Execute("Delete from user_rights_Test where UserId=@UserId and MenuID=@MenuID", new { UserId = m.ID, MenuID = item.MenuCap_ID },
-                                commandType: CommandType.Text);
-                        }
-
-                    }
-                }
-            }
-
-            return RedirectToAction("CreateUser1");
-        }
-
-        #endregion
-
         #region WebsiteProblemList
         public ActionResult Probs_price_Matrix()
         {

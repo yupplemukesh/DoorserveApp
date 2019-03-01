@@ -130,7 +130,7 @@ namespace TogoFogo.Models
         public string MODIFY_DATE { get; set; }
         public int DELETE_BY { get; set; }
         public string DELETE_DATE { get; set; }
-       
-        
+        public UserActionRights _UserActionRights { get; set; }
+        public List<ManageTRCModel> ManageTRCModelList { get; set; }
     }
 }

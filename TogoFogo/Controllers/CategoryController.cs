@@ -268,6 +268,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Sub Category")]
         public ActionResult DeviceSubCategoryTable()
         {
+            SubcategoryModel objSubcategoryModel = new SubcategoryModel();
+            using (var con = new SqlConnection(_connectionString))
+            {
+                objSubcategoryModel.SubcategoryModelList = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new { }, commandType: CommandType.StoredProcedure).ToList();
+            };
+
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objSubcategoryModel._UserActionRights = objUserActiobRight;
             string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
@@ -276,24 +284,34 @@ namespace TogoFogo.Controllers
                 {
                     if (Convert.ToInt32(arrRights[i]) == 2)
                     {
-                        ViewBag.Create = 2;
+                        objSubcategoryModel._UserActionRights.Create = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 3)
                     {
-                        ViewBag.Edit = 3;
+                        objSubcategoryModel._UserActionRights.Edit = true;
                     }
                     else if (Convert.ToInt32(arrRights[i]) == 4)
                     {
-                        ViewBag.Delete = 4;
+                        objSubcategoryModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objSubcategoryModel._UserActionRights.Delete = true;
                     }
                 }
             }
-            using (var con = new SqlConnection(_connectionString))
+            else
             {
-                var result = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new { }, commandType: CommandType.StoredProcedure).ToList();
 
-                return View(result);
-            };
+                objSubcategoryModel._UserActionRights.Create = true;
+                objSubcategoryModel._UserActionRights.Edit = true;
+                objSubcategoryModel._UserActionRights.Delete = true;
+                objSubcategoryModel._UserActionRights.View = true;
+                objSubcategoryModel._UserActionRights.History = true;
+                objSubcategoryModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objSubcategoryModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Sub Category")]
         public ActionResult EditDeviceSubCategory(int SubCatId)

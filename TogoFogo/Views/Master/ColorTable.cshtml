@@ -1,81 +1,102 @@
-﻿@model IEnumerable<TogoFogo.Models.ColorModel>
+﻿@model TogoFogo.Models.ColorModel
 @{ 
     Layout = null;
     int Count = 0;
 }
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">List Of Color</h3>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Model._UserActionRights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-condensed" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Serial No")
+                </th>
 
-<table class="table table-striped table-bordered table-condensed" id="myTable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayName("Serial No")
-            </th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.ColorId)
-        </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.ColorName)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ColorName)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayName("Created By")
-            </th>
-            <th>
-                @Html.DisplayName("Modify By")
-            </th>
-            <th>
-                @Html.DisplayName("Created Date")
-            </th>
-            <th>
-                @Html.DisplayName("Modify Date")
-            </th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    
+                <th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayName("Created By")
+                </th>
+                <th>
+                    @Html.DisplayName("Modify By")
+                </th>
+                <th>
+                    @Html.DisplayName("Created Date")
+                </th>
+                <th>
+                    @Html.DisplayName("Modify Date")
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
 
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @(Count=Count+1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ColorName)
-        </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.IsActive)*@
-            @(item.IsActive == true ? "Active" : "InActive")
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifyBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifyDate)
-        </td>
-        <td style="display: inline-flex">
+        @foreach (var item in Model._ColorModelList)
+        {
+            <tr>
+                <td>
+                    @(Count = Count + 1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ColorName)
+                </td>
 
-            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditColor(@item.ColorId)">Edit</a>
-            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-        </td>
-    </tr>
-    }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
 
-</table>
+                    @(item.IsActive == true ? "Active" : "InActive")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifyDate)
+                </td>
+                <td style="display: inline-flex">
+                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
+                    @if (Model._UserActionRights.Edit)
+                    {
+                        <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditColor(@item.ColorId)">Edit</a>
+                    }
+                    @if (Model._UserActionRights.Delete)
+                    {
+                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+                    }
+                    </td>
+            </tr>
+        }
+
+    </table>
+    </div>

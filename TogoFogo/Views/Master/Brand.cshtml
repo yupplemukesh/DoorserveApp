@@ -8,44 +8,7 @@
         border-bottom: none !important;
     }
 </style>
-
-@*<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>Add Brand<small></small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    @*<li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li>
-                                    <a href="#">Settings 1</a>
-                                </li>
-                                <li>
-                                    <a href="#">Settings 2</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <br />
-                @Html.Partial("AddBrand")
-            </div>
-        </div>
-    </div>
-</div>
-*@
-
 <div class="panel-heading">
-   
     <div class="row">
         <div class="col-lg-12">
             <div class="col-md-6">
@@ -53,7 +16,7 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-primary excel">Export to Excel</button>
+                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
                 </div>
             </div>
         </div>
@@ -66,25 +29,11 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>List Of All Brands<small></small></h2>
+                    @*<h2>List Of All Brands<small></small></h2>*@
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         </li>
-                        @*<li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="#">Settings 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Settings 2</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="close-link"><i class="fa fa-close"></i></a>
-                            </li>*@
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -93,82 +42,68 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Brand</h4>
+            </div>
+
+            <div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>
+        </div>
 
     </div>
 </div>
-    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
+<br />
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+@if (ViewBag.SubmitBrand != null)
+{
+    <div id="snackbar">@ViewBag.SubmitBrand</div>
+}
+@section Scripts{
+    <script>
+        function EditBrand(BrandId) {
+            $.ajax({
+                type: 'GET',
+                url: "/Master/EditBrand?BrandId=" + BrandId,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Brand</h4>
-                </div>
-                @*<div class="modal-body"> @Html.Action("EditBrand","Master")</div>*@
-                <div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>
-            </div>
+                },
+                complete: function () {
 
-        </div>
-    </div>
-    <br />
-    @if (ViewBag.Message != null)
-    {
-        <div id="snackbar">@ViewBag.Message</div>
-    }
-    @if (ViewBag.SubmitBrand != null)
-    {
-        <div id="snackbar">@ViewBag.SubmitBrand</div>
-    }
-    @section Scripts{
-
-        @*@if (ViewBag.SubmitBrand != null)
-            {
-                <script>
-                    alert('@ViewBag.SubmitBrand');
-                </script>
-            }
-            @if (ViewBag.BrandId != null)
-            {
-                <script>
-
-                    document.getElementById('BrandId').value = '@ViewBag.BrandId';
-                </script>
-            }*@
-        <script>
-            function EditBrand(BrandId) {
-                $.ajax({
-                    type: 'GET',
-                    url: "/Master/EditBrand?BrandId=" + BrandId,
-                    contentType: 'application/json; charset=utf-8',
-                    cache: false,
-                    success: function (response) {
-                        $("#Info").html(response);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        $(".submitbutton").attr("disabled", false);
-                        alert("Something went wrong...");
-
-                    },
-                    complete: function () {
-
-                        $(".submitbutton").attr("disabled", false);
-                    }
-                });
-            }
-
-        </script>
-        @if (ViewBag.Message != null || ViewBag.SubmitBrand != null)
-        {
-            <script>
-
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-
-            </script>
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
         }
 
+    </script>
+    @if (ViewBag.Message != null || ViewBag.SubmitBrand != null)
+    {
+        <script>
 
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+        </script>
     }
+}
+
+<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Content/Scripts/jquery.validate.js"></script>
+<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

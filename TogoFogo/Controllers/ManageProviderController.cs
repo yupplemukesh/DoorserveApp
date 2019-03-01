@@ -192,12 +192,49 @@ namespace TogoFogo.Controllers
         }
         public ActionResult ServiceProviderTable()
         {
+            ManageServiceProviderModel objManageServiceProviderModel = new ManageServiceProviderModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageServiceProviderModel>("GetProviderDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-
-                return View(result);
+                objManageServiceProviderModel.ManageServiceProviderModelList = con.Query<ManageServiceProviderModel>("GetProviderDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageServiceProviderModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objManageServiceProviderModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objManageServiceProviderModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objManageServiceProviderModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageServiceProviderModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objManageServiceProviderModel._UserActionRights.Create = true;
+                objManageServiceProviderModel._UserActionRights.Edit = true;
+                objManageServiceProviderModel._UserActionRights.Delete = true;
+                objManageServiceProviderModel._UserActionRights.View = true;
+                objManageServiceProviderModel._UserActionRights.History = true;
+                objManageServiceProviderModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objManageServiceProviderModel);
         }
         public ActionResult EditServiceProvider(int ProviderId)
         {

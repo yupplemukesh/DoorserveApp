@@ -89,11 +89,50 @@ namespace TogoFogo.Controllers
 
         public ActionResult ProblemObservedtable()
         {
+            ManageProblemObserved objManageProblemObserved = new ManageProblemObserved();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                objManageProblemObserved.ManageProblemObservedList = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+            
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageProblemObserved._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objManageProblemObserved._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objManageProblemObserved._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objManageProblemObserved._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageProblemObserved._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objManageProblemObserved._UserActionRights.Create = true;
+                objManageProblemObserved._UserActionRights.Edit = true;
+                objManageProblemObserved._UserActionRights.Delete = true;
+                objManageProblemObserved._UserActionRights.View = true;
+                objManageProblemObserved._UserActionRights.History = true;
+                objManageProblemObserved._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objManageProblemObserved);
         }
         public ActionResult EditProblemObserved(int ProblemId)
         {
@@ -111,7 +150,7 @@ namespace TogoFogo.Controllers
                 }
                 return View(result);
             }
-            return View();
+           
         }
         [HttpPost]
         public ActionResult EditProblemObserved(ManageProblemObserved model)

@@ -1,0 +1,159 @@
+﻿@model TogoFogo.Models.Template.TemplateModel
+
+
+
+<div class="row">
+
+    <div class="col-md-6 form-group">
+
+        <label class=" control-label" for="form-control-9">Mailer Template Type</label>
+        @Html.DropDownListFor(model => model.TemplateTypeId, Model.TemplateTypeList, "Select", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.TemplateTypeList, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="col-md-6 form-group" id="actions">
+
+        <label class=" control-label" for="form-control-9">Action Type</label>
+        @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.ActionTypeList, "", new { @class = "text-danger" })
+    </div>
+
+</div>
+    <div class="row">
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9"> Template Name </label>
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control input-md", @placeholder = "Mailer Template Name" })
+                @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">Message Type </label>
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.MessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.MessageTypeList, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">Mailer Getway</label>
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.GatewayId, Model.GatewayList, "Select", new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.GatewayList, "", new { @class = "text-danger" })
+
+            </div>
+
+
+
+        </div>
+
+
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">Email Header Footer template</label>
+
+
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.MessageTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.EmailHeaderFooterList, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label class=" control-label" for="form-control-9">Is System Email</label>
+            <div class="form-group">
+                <label class="custom-control custom-control-primary custom-checkbox active">
+                    @Html.CheckBoxFor(x => x.IsSystemDefined, new { @class = "custom-control-input" })
+                    <span class="custom-control-indicator"></span>
+                </label>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">BCC Email ID</label>
+            @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC_Email_ID" })
+            @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">Email Subject</label>
+            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
+            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+
+
+
+        </div>
+
+    </div>
+
+    
+
+
+    <div class="row">
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">Priority</label>
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.PriorityTypeList, "", new { @class = "text-danger" })
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="col-md-6 form-group">
+
+            <label class=" control-label" for="form-control-9">Is Active </label>
+
+
+            <div class="form-group">
+                <label class="custom-control custom-control-primary custom-checkbox active">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input" })
+                    <span class="custom-control-indicator"></span>
+                </label>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-sm-12 form-group">
+            <label class="control-label" for="form-control-9">E-mail Body</p></label>
+            @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
+            <script>
+                CKEDITOR.replace('editor1', {
+                    height: 300,
+                    extraPlugins: 'colorbutton,colordialog'
+                });
+            </script>
+        </div>
+    </div>
