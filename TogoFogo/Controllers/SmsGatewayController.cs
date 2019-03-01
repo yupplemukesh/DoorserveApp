@@ -18,7 +18,7 @@ namespace TogoFogo.Controllers
 
         {
             _gatewayRepo = new Gateway();
-                   }
+        }
         public async Task<ActionResult> Index()
 
 

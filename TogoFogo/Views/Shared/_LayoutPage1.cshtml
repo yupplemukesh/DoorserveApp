@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="">
     <title>Togofogo</title>
-
+    <link rel="/ckeditor/stylesheet" href="css/samples.css">
+    <link rel="/ckeditor/stylesheet" href="toolbarconfigurator/lib/codemirror/neo.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
-
+    <script src="/ckeditor/ckeditor.js"></script>
+    <script src="/ckeditor/js/sample.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -157,6 +159,7 @@
         });
         $(document).ready(function () {
             $('#myTable').DataTable();
+            $('#myTable1').DataTable();
 
 
 

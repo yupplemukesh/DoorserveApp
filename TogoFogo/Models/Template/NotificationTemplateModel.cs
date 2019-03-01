@@ -14,11 +14,11 @@ namespace TogoFogo.Models.Template
         [DisplayName("Template Name")]
         public string TemplateName { get; set; }
         [Required]
-        [DisplayName("Template Type")]
-        public string TemplateType { get; set; }
+        [DisplayName("Template Type Id")]
+        public int TemplateTypeId { get; set; }
         [Required]
-        [DisplayName("Message Type")]
-        public string MessageType { get; set; }
+        [DisplayName("Message Type Id")]
+        public int MessageTypeId { get; set; }
         [Required]
         [DisplayName("Priority Type")]
         public string PriorityType { get; set; }

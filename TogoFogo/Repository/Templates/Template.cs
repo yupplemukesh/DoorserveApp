@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,33 +20,48 @@ namespace TogoFogo.Repository.EmailSmsTemplate
 
         }
 
-        public async Task<List<TemplateModel>> GetTemplateByType(int TemplateType)
+        public async Task<TemplateListModel> GetTemplates()
         {
+            TemplateListModel list = new TemplateListModel();
+            var param = new SqlParameter("@TEMPLATEID", DBNull.Value);
+            using (var connection = _context.Database.Connection)
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "USPTemplateDetail";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(param);
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    list.Templates =
+                       ((IObjectContextAdapter)_context)
+                           .ObjectContext
+                           .Translate<TemplateModel>(reader)
+                           .ToList();
+                    reader.NextResult();
 
-            List<SqlParameter> sp = new List<SqlParameter>();
+                    list.NonActionTemplates =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<TemplateModel>(reader)
+                            .ToList();
+                }
+            }
 
-            SqlParameter param = new SqlParameter("@TemplateId", DBNull.Value);
-            sp.Add(param);
-            param = new SqlParameter("@TemplateType", TemplateType);
-            sp.Add(param);
-            return await _context.Database.SqlQuery<TemplateModel>("USPTemplateDetail @TemplateId,@TemplateType", sp.ToArray()).ToListAsync();
+            return list;
         }
         public async Task<TemplateModel> GetTemplateById(int TemplateId)
         {
-            List<SqlParameter> sp = new List<SqlParameter>();
 
             SqlParameter param = new SqlParameter("@TemplateId", TemplateId);
-            sp.Add(param);
-            param = new SqlParameter("@TemplateType", DBNull.Value);
-            sp.Add(param);
-            return await _context.Database.SqlQuery<TemplateModel>("USPTemplateDetail @TemplateId,@TemplateType", sp.ToArray()).SingleOrDefaultAsync();
+            return await _context.Database.SqlQuery<TemplateModel>("USPTemplateDetail  @TemplateId", param).SingleOrDefaultAsync();
         }
         public async Task<ResponseModel> AddUpdateDeleteTemplate(TemplateModel templateModel, char action)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@TemplateId", templateModel.TemplateId);
             sp.Add(param);
-            param = new SqlParameter("@TemplateType", (object)templateModel.TemplateType);
+            param = new SqlParameter("@TemplateTypeId", (object)templateModel.TemplateTypeId);
             sp.Add(param);
             param = new SqlParameter("@TemplateName", (object)templateModel.TemplateName);
             sp.Add(param);
@@ -56,7 +73,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@Subject", ToDBNull(templateModel.Subject));
             sp.Add(param);
-            param = new SqlParameter("@MessageType", ToDBNull(templateModel.MessageType));
+            param = new SqlParameter("@MessageTypeId", ToDBNull(templateModel.MessageTypeId));
             sp.Add(param);
             param = new SqlParameter("@PriorityType", ToDBNull(templateModel.PriorityType));
             sp.Add(param);
@@ -85,7 +102,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             param = new SqlParameter("@PhoneNumber", ToDBNull(templateModel.PhoneNumber));
             sp.Add(param);
 
-           var sql = "USPTemplateADDUPDATE @TemplateId,@TemplateType,@TemplateName,@ISACTIVE,@IsDeleted,@IsSystemDefined,@Subject,@MessageType,@PriorityType,@Content,@ContentMeta,@ToEmail,@BccEmails," +
+           var sql = "USPTemplateADDUPDATE @TemplateId,@TemplateTypeId,@TemplateName,@ISACTIVE,@IsDeleted,@IsSystemDefined,@Subject,@MessageTypeId,@PriorityType,@Content,@ContentMeta,@ToEmail,@BccEmails," +
                 "@EmailFrom,@EmailTo,@EmailBCC,@EmailBody,@MessageText,@USERID,@SmsFrom,@PhoneNumber";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)

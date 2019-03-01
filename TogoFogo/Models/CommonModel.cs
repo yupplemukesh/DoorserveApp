@@ -19,6 +19,16 @@ namespace TogoFogo
                 return _actionTypes;
             }
         }
+
+        public static async Task<List<CheckBox>> GetLookup( string type)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _type = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='"+type+"' and isActive=1").ToListAsync();
+                return _type;
+            }
+        }
+
         public static async Task<List<CheckBox>> GetClientData()
         {
             using (var _context = new ApplicationDbContext())
