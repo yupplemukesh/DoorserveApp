@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -17,14 +18,56 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         // GET: ManageCourierApi
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Courier API")]
         public ActionResult ManageCourierApi()
         {
+            ManageCourierApiModel objManageCourierApiModel = new ManageCourierApiModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                objManageCourierApiModel._ManageCourierApiModelList = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+               
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objManageCourierApiModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objManageCourierApiModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objManageCourierApiModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objManageCourierApiModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objManageCourierApiModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objManageCourierApiModel._UserActionRights.Create = true;
+                objManageCourierApiModel._UserActionRights.Edit = true;
+                objManageCourierApiModel._UserActionRights.Delete = true;
+                objManageCourierApiModel._UserActionRights.View = true;
+                objManageCourierApiModel._UserActionRights.History = true;
+                objManageCourierApiModel._UserActionRights.ExcelExport = true;
+
+            }
+
+            return View(objManageCourierApiModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier API")]
         public ActionResult Create()
         {
             ManageCourierApiModel courierApiModel = new ManageCourierApiModel();
@@ -32,7 +75,6 @@ namespace TogoFogo.Controllers
             courierApiModel.CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text");
             return View(courierApiModel);
         }
-
         [HttpPost]
         public ActionResult Create(ManageCourierApiModel model)
         {
@@ -95,8 +137,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageCourierApi");
         }
-
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Courier API")]
         public ActionResult Edit(int apiId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -116,7 +157,6 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
-
         [HttpPost]
         public ActionResult Edit(ManageCourierApiModel model)
         {

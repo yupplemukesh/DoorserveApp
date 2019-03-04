@@ -12,6 +12,8 @@ namespace TogoFogo.Models
         public string AverageRepairTAT { get; set; }
         public string MaximumOpenTAT { get; set; }
         public string Status { get; set; }
+        public List<MainTableURSSE> _MainTableURSSEList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
     public class ReverseAWB_AllocationModel
     {
@@ -89,6 +91,8 @@ namespace TogoFogo.Models
         [DisplayName("AWB Number")]
         public string AWBNumber { get; set; }
         public string Pincode { get; set; }
+        public List<ReverseAWB_AllocationModel> _ReverseAWB_AllocationModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
 
     }
 }

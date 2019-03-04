@@ -222,7 +222,7 @@ namespace TogoFogo.Controllers
                     result.WSList = new System.Web.Mvc.SelectList(dropdown.BindWarrantyDropdown(Convert.ToInt32(item.ModelId)), "Value", "Text");
                     TempData["ModelID"] = item.ModelId;
                 }
-                if (Problem != null)
+                if (Problem != null && Problem.Count>0)
                 {
                     result.ChildtableDataProblem = Problem;
                 }

@@ -91,7 +91,10 @@ namespace TogoFogo.Models
         public SelectList GstList { get; set; }
         public SelectList GstHsnCodeList { get; set; }
         public SelectList AplicationTaxTypeList { get; set; }
-        
+        public List<SacCodesModel> _SacCodesModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+
+
 
     }
 }

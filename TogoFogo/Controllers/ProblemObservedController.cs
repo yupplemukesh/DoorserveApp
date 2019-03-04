@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
 using System.Data;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -30,7 +31,7 @@ namespace TogoFogo.Controllers
             //}
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Problem Observed")]
         public ActionResult AddProblemObserved()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -45,7 +46,6 @@ namespace TogoFogo.Controllers
             }
 
         }
-
         [HttpPost]
         public ActionResult AddProblemObserved(ManageProblemObserved model)
         {
@@ -86,7 +86,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("ManageProblemObserved");
            }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Problem Observed")]
         public ActionResult ProblemObservedtable()
         {
             ManageProblemObserved objManageProblemObserved = new ManageProblemObserved();
@@ -134,6 +134,7 @@ namespace TogoFogo.Controllers
             }
             return View(objManageProblemObserved);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Problem Observed")]
         public ActionResult EditProblemObserved(int ProblemId)
         {
             ViewBag.Device_Category = new SelectList(dropdown.BindCategory(), "Value", "Text");

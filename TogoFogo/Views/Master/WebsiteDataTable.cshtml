@@ -11,10 +11,10 @@
                 </div>
                 <div class="col-md-6 ">
                     <div class="pull-right">
-                        @*@if (Model._UserActionRights.ExcelExport)
+                        @if (Model._UserActionRights.ExcelExport)
                         {
                             <button class="btn btn-primary excel">Export to Excel</button>
-                        }*@
+                        }
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
         </thead>
 
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model._Prob_Vs_price_matrixList)
             {
                 <tr>
 
@@ -102,11 +102,15 @@
                     </td>
                     <td style="display: inline-flex">
                         @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-
-                        <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="WebsitePriceProb('@item.Model_Id','@item.Problem_Id')">Edit</a>
-
-                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-                    </td>
+                        @if (Model._UserActionRights.Edit)
+                        {
+                            <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="WebsitePriceProb('@item.Model_Id','@item.Problem_Id')">Edit</a>
+                        }
+                        @if (Model._UserActionRights.Delete)
+                        {
+                            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+                        }
+                        </td>
                 </tr>
             }
         </tbody>

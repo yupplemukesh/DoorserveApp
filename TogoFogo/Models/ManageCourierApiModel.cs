@@ -56,6 +56,8 @@ namespace TogoFogo.Models
         public string ModifyDate {get; set; }
         public string DeleteBy {get; set; }
         public string DeleteDate {get; set; }
+        public List<ManageCourierApiModel> _ManageCourierApiModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
 
     }
 }

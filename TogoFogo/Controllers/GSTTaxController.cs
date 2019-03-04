@@ -108,11 +108,50 @@ namespace TogoFogo.Controllers
 
         public ActionResult GstTaxtable()
         {
+            GstTaxModel objGstTaxModel = new GstTaxModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<GstTaxModel>("Get_GstTax", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                objGstTaxModel ._GstTaxModelList= con.Query<GstTaxModel>("Get_GstTax", new { }, commandType: CommandType.StoredProcedure).ToList();
+              
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objGstTaxModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objGstTaxModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objGstTaxModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objGstTaxModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objGstTaxModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objGstTaxModel._UserActionRights.Create = true;
+                objGstTaxModel._UserActionRights.Edit = true;
+                objGstTaxModel._UserActionRights.Delete = true;
+                objGstTaxModel._UserActionRights.View = true;
+                objGstTaxModel._UserActionRights.History = true;
+                objGstTaxModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objGstTaxModel);
         }
 
         public ActionResult EditGstTax(int Gsttaxid)

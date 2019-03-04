@@ -470,7 +470,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region ManageDeviceProblems
-        
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Device Problem")]
         public ActionResult ManageDeviceProblems()
         {
             ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -526,7 +526,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("ManageDeviceProblems");
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Problem")]
         public ActionResult DeviceProblemtable()
         {
             DeviceProblemModel objDeviceProblemModel = new DeviceProblemModel();
@@ -576,6 +576,7 @@ namespace TogoFogo.Controllers
 
             return View(objDeviceProblemModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Device Problem")]
         public ActionResult EditDeviceProblem(int? ProblemID)
         {
             ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
@@ -630,7 +631,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region ColorMaster
-        
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Color Master")]
         public ActionResult ColorMaster()
         {
             ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -680,6 +681,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("ColorMaster", "Master");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Color Master")]
         public ActionResult EditColorMaster(int ColorId)
         {
             ViewBag.pd = new SelectList(dropdown.BindModelName(), "Value", "Text");
@@ -724,7 +726,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("ColorMaster", "Master");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Color Master")]
         public ActionResult ColorTable()
         {
             ColorModel objColorModel = new ColorModel();
@@ -798,9 +800,10 @@ namespace TogoFogo.Controllers
 
             }
         }
-
         #endregion
+
         #region WebsiteProblemList
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Spare Problem Price matrix")]
         public ActionResult Probs_price_Matrix()
         {
             ViewBag.BrandName= new SelectList(dropdown.BindBrand(), "Value", "Text");                        
@@ -835,6 +838,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("Probs_price_Matrix");
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Spare Problem Price matrix")]
         public ActionResult EditWebsiteData(int websitePriceProblem, int ProblemId)
         {
             var result = new Prob_Vs_price_matrix();
@@ -877,15 +881,57 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("Probs_price_Matrix");
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Problem Price matrix")]
         public ActionResult WebsiteDataTable()
          {
+            Prob_Vs_price_matrix objProb_Vs_price_matrix = new Prob_Vs_price_matrix();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", null,
+                objProb_Vs_price_matrix._Prob_Vs_price_matrixList = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", null,
                    commandType: CommandType.StoredProcedure).ToList();
 
-                return View(result);
+                
             }
+
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objProb_Vs_price_matrix._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objProb_Vs_price_matrix._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objProb_Vs_price_matrix._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objProb_Vs_price_matrix._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objProb_Vs_price_matrix._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objProb_Vs_price_matrix._UserActionRights.Create = true;
+                objProb_Vs_price_matrix._UserActionRights.Edit = true;
+                objProb_Vs_price_matrix._UserActionRights.Delete = true;
+                objProb_Vs_price_matrix._UserActionRights.View = true;
+                objProb_Vs_price_matrix._UserActionRights.History = true;
+                objProb_Vs_price_matrix._UserActionRights.ExcelExport = true;
+
+            }
+
+            return View(objProb_Vs_price_matrix);
         }
 
         #endregion

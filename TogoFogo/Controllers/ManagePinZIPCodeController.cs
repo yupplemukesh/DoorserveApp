@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Extension;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -20,16 +21,56 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         // GET: ManagePinZIPCode
-      [CustomAuthorize]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Pin/Zip Code")]
         public ActionResult PinZIPCode()
         {
+            CourierPinZipCode objCourierPinZipCode = new CourierPinZipCode();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<CourierPinZipCode>("GetDataFrm_MstCourierPINzip", null, commandType: CommandType.StoredProcedure).ToList();
+                objCourierPinZipCode._CourierPinZipCodeList = con.Query<CourierPinZipCode>("GetDataFrm_MstCourierPINzip", null, commandType: CommandType.StoredProcedure).ToList();
 
-                return View(result);
+                
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objCourierPinZipCode._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objCourierPinZipCode._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objCourierPinZipCode._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objCourierPinZipCode._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objCourierPinZipCode._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objCourierPinZipCode._UserActionRights.Create = true;
+                objCourierPinZipCode._UserActionRights.Edit = true;
+                objCourierPinZipCode._UserActionRights.Delete = true;
+                objCourierPinZipCode._UserActionRights.View = true;
+                objCourierPinZipCode._UserActionRights.History = true;
+                objCourierPinZipCode._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objCourierPinZipCode);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Pin/Zip Code")]
         public ActionResult Create()
         {
             CourierPinZipCode courierPinZipCode = new CourierPinZipCode();
@@ -104,7 +145,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("PinZIPCode");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Pin/Zip Code")]
         public ActionResult Edit(int pinZipId)
         {
             DropdownBindController dropdownBindController=new DropdownBindController();

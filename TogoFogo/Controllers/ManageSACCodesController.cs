@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -34,7 +35,7 @@ namespace TogoFogo.Controllers
             return View();
         }
 
-        
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST HSN/SAC Codes")]
         public ActionResult AddSacCodes()
         {
            SacCodesModel sm = new SacCodesModel
@@ -102,16 +103,56 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("SacCodes");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST HSN/SAC Codes")]
         public ActionResult SacCodesTable()
         {
+            SacCodesModel objSacCodesModel = new SacCodesModel();
             using (var con = new SqlConnection(_connectionString))
             {
                 //var result = con.Query<SacCodesModel>("Select * from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-               var result= con.Query < SacCodesModel >("select c.Cnty_Name,s.St_Name,m.SacCodesId, m.Applicable_Tax,m.GstCategoryid, m.GstHeading, m.Gst_HSN_Code, m.CTH_Number, m.SAC, g.Gstcategory,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, com.name Applicabletax, m.GstProductSubCat, m.Description_Of_Goods, m.IsActive, m.Comments,m.CreatedDate, m.ModifyDate, u.Username Cby, u1.Username Mby from MstSacCodes m  join create_User_Master u on u.id = m.CreatedBy  left outer join create_User_Master u1 on m.ModifyBy = u1.id  left outer join MstCountry c on c.Cnty_ID = m.CountryId left outer join mststate s on s.St_ID = m.StateId left outer join tblcommon com on com.ID = m.Applicable_Tax left outer join MstGstCategory AS g ON g.GstCategoryId = m.GstCategoryId ", new { }, commandType: CommandType.Text).ToList();
-                return View(result);
+                objSacCodesModel._SacCodesModelList = con.Query <SacCodesModel>("select c.Cnty_Name,s.St_Name,m.SacCodesId, m.Applicable_Tax,m.GstCategoryid, m.GstHeading, m.Gst_HSN_Code, m.CTH_Number, m.SAC, g.Gstcategory,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, com.name Applicabletax, m.GstProductSubCat, m.Description_Of_Goods, m.IsActive, m.Comments,m.CreatedDate, m.ModifyDate, u.Username Cby, u1.Username Mby from MstSacCodes m  join create_User_Master u on u.id = m.CreatedBy  left outer join create_User_Master u1 on m.ModifyBy = u1.id  left outer join MstCountry c on c.Cnty_ID = m.CountryId left outer join mststate s on s.St_ID = m.StateId left outer join tblcommon com on com.ID = m.Applicable_Tax left outer join MstGstCategory AS g ON g.GstCategoryId = m.GstCategoryId ", new { }, commandType: CommandType.Text).ToList();
+               
             }
-        }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objSacCodesModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objSacCodesModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objSacCodesModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objSacCodesModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objSacCodesModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
 
+                objSacCodesModel._UserActionRights.Create = true;
+                objSacCodesModel._UserActionRights.Edit = true;
+                objSacCodesModel._UserActionRights.Delete = true;
+                objSacCodesModel._UserActionRights.View = true;
+                objSacCodesModel._UserActionRights.History = true;
+                objSacCodesModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objSacCodesModel);
+        }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST HSN/SAC Codes")]
         public async Task<ActionResult> EditSacCode(int sacCodeId)
         {
           
