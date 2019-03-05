@@ -10,9 +10,10 @@
 
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
-                <a href="sms-template.html" class="tools-icon">
-                    <button type="submit" class="btn btn-primary btn-sm">Back to Template List</button>
-                </a>
+                @*<a href="sms-template.html" class="tools-icon">
+                        <button type="submit" class="btn btn-primary btn-sm">Back to Template List</button>
+                    </a>*@
+                @Html.ActionLink("Back to Template List", "Index")
 
                 <a href="#" class="tools-icon">
                     <i class="zmdi zmdi-refresh"></i>
@@ -32,7 +33,7 @@
     {
         @Html.HiddenFor(x => x.TemplateId)
         <!--/.row-->
-        @Html.Partial("_CreateEditEmailSmsNotificationForm", Model)      
+        @Html.Partial("_CreateEditEmailSmsNotificationForm", Model)
         <div class="row">
             <div class="col-md-12 ">
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -41,9 +42,7 @@
         </div>
     }
 </div>
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
 
 
 

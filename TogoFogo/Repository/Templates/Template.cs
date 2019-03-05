@@ -67,6 +67,8 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@ISACTIVE", (object)templateModel.IsActive);
             sp.Add(param);
+            param = new SqlParameter("@ACTION", (object)action);
+            sp.Add(param);
             param = new SqlParameter("@IsDeleted", (object)templateModel.IsDeleted);
             sp.Add(param);
             param = new SqlParameter("@IsSystemDefined", (object)templateModel.IsSystemDefined);
@@ -95,7 +97,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@MessageText", ToDBNull(templateModel.MessageText));
             sp.Add(param);
-            param = new SqlParameter("@USERID", (object)templateModel.AddedBy);
+            param = new SqlParameter("@USER", (object)templateModel.AddedBy);
             sp.Add(param);
             param = new SqlParameter("@SmsFrom", ToDBNull(templateModel.SmsFrom));
             sp.Add(param);

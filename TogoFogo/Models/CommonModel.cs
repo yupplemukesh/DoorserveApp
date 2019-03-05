@@ -19,6 +19,14 @@ namespace TogoFogo
                 return _actionTypes;
             }
         }
+        public static async Task<List<CheckBox>> GetHeaderFooter()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _headerTypes = await _context.Database.SqlQuery<CheckBox>("select emailHeaderFooterId value,name text from EmailHeaderFooter where isActive=1").ToListAsync();
+                return _headerTypes;
+            }
+        }
 
         public static async Task<List<CheckBox>> GetLookup( string type)
         {

@@ -24,6 +24,7 @@ namespace TogoFogo.Models.Template
         }
         [Required]
         public int GatewayId { get; set; }
+        [Required]
         public string Subject { get; set; }
         public Guid GUID { get; set; }
         [Required]
@@ -43,6 +44,8 @@ namespace TogoFogo.Models.Template
         public string MessageTypeName { get; set; }
         [DisplayName("Action Type Name")]
         public string ActionTypeName { get; set; }
+        public List<int> actionTypes { get; set; }
+        public string ActionTypeIds { get; set; }
         [Required]
         [DisplayName("Template Type Id")]
         public int TemplateTypeId { get; set; }
@@ -58,6 +61,7 @@ namespace TogoFogo.Models.Template
         public string Content {get;set;}
         public string ContentMeta { get; set; }
         public string ToEmail { get; set; }
+        [Required]
         public string BccEmails { get; set; }
         [DisplayName("Is System Defined ?")]
         public bool IsSystemDefined { get; set; }
@@ -79,6 +83,7 @@ namespace TogoFogo.Models.Template
         public string EmailTo { get; set; }
         [DisplayName("Email BCC")]
         public string EmailBCC { get; set; }
+        [AllowHtml]
         public string EmailBody { get; set; }
         
         //SMS
@@ -101,4 +106,20 @@ namespace TogoFogo.Models.Template
 
 
     }
+
+    public class BindGateway
+    {
+        public int Id { get; set; }
+        public string GatewayName { get; set; }
+
+    }
+
+    public class BindHeaderFooter
+    {
+        public int HeaderFooterId { get; set; }
+        public string HeaderFooterName { get; set; }
+
+    }
+
+
 }
