@@ -62,7 +62,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.ModifyDate)
                 </th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         @foreach (var item in Model.SubcategoryModelList)
@@ -121,14 +121,14 @@
 
                     {<a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSubCategory(@item.SubCatId)">Edit</a>}
 
-                    @if (Model._UserActionRights.Delete)
-                    {
-                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-                    }
+                    @*@if (Model._UserActionRights.Delete)
+        {
+            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+        }*@
                 </td>
-            </tr>
-        }
+                    </tr>
+                }
 
-    </table>
+            </table>
 
-</div>
+        </div>

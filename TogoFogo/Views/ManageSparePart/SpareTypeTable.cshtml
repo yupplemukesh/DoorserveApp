@@ -55,7 +55,7 @@
                 <th>
                     @Html.DisplayName("Modify By")
                 </th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         @foreach (var item in Model._ManageSpareTypeList)
@@ -101,15 +101,15 @@
                     {
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSpareType(@item.SpareTypeId)">Edit</a>
                     }
-                    @if (Model._UserActionRights.Delete)
-                    {
-                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-                    }
-                    </td>
-            </tr>
-        }
+                    @* @if (Model._UserActionRights.Delete)
+        {
+            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+        }*@
+                </td>
+                </tr>
+            }
 
-    </table>
+        </table>
 
-    </div>
+        </div>
 

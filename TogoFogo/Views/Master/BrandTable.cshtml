@@ -44,7 +44,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.ModifyDate)
                 </th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
         </thead>
         @foreach (var item in Model.ListBrandModel)
@@ -88,13 +88,13 @@
                     {
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditBrand(@item.BrandId)">Edit</a>
                     }
-                    @if (Model._UserActionRights.Delete)
-                    {
-                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-                    }
+                    @* @if (Model._UserActionRights.Delete)
+        {
+            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+        }*@
                 </td>
-            </tr>
-        }
-    </table>
-</div>
+                    </tr>
+                }
+            </table>
+        </div>
 

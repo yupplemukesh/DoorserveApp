@@ -116,14 +116,13 @@
                         {
                             <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.BrandID, '@item.ProductName','@item.CategoryID')">Edit</a>
                         }
-                        @if (Model._UserActionRights.Delete)
-                        {
-                            <input type="button" value="Delete" class="btn btn-danger btnSize " />
-                        }
+                        @*@if (Model._UserActionRights.Delete)
+        {
+            <input type="button" value="Delete" class="btn btn-danger btnSize " />
+        }*@
                     </td>
-                </tr>
-            }
+                    </tr>
+                }
 
-        </table>
-    </div>
-   
+            </table>
+        </div>
