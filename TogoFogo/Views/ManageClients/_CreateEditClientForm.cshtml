@@ -338,22 +338,21 @@
                                 {
 
                                     @Html.HiddenFor(x => x.ClientId)
-
                                     @Html.HiddenFor(x => x.action)
                                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
                                         @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
                                         <div class="row form-group pull-right">
                                             @if (Model.action == 'I')
                                             {
-                                            <button type="button" class="btn btn-primary reset">RESET</button>
+                                                <button type="button" class="btn btn-primary reset">RESET</button>
                                             }
                                             <button type="submit" class="btn btn-primary">
                                                 SAVE
                                             </button>
                                         </div>
-                                        </div>
-                                        }
                                     </div>
+                                }
+                            </div>
                                 </div>
 
 

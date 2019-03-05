@@ -10,24 +10,25 @@ using System.Xml.Serialization;
 using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Repository.Customer_Support;
-
 namespace TogoFogo.Controllers
 {
-    public class CallToASPController : Controller
+    public class CallToASCController : Controller
     {
         private readonly ICustomerSupport _customerSupport;
-        public CallToASPController()
+        public CallToASCController()
         {
 
             _customerSupport = new CustomerSupport();
         }
-        // GET: CallToASP
+        // GET: CallToASC
+
         public async Task<ActionResult> Index()
         {
-            var calls = await _customerSupport.GetASPCalls();
+            var calls = await _customerSupport.GetASCCalls();
             calls.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(),"Value","Text") };
+            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Value", "Text");
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(), "Value", "Text") };
             return View(calls);
         }
         [HttpPost]
@@ -36,9 +37,9 @@ namespace TogoFogo.Controllers
 
             try
             {
-                allocate.AllocateTo = "ASP";
+                allocate.AllocateTo = "ASC";
                 allocate.UserId = Convert.ToInt32(Session["User_ID"]);
-                 var response = await _customerSupport.AllocateCall(allocate);
+                var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 TempData.Keep("response");
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -50,10 +51,7 @@ namespace TogoFogo.Controllers
                 TempData.Keep("response");
                 return Json("ex", JsonRequestBehavior.AllowGet);
             }
-          
-        }
-       
-     
 
+        }      
     }
 }

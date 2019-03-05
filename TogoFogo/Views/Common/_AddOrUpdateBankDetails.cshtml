@@ -4,11 +4,11 @@
 @using (Html.BeginForm("AddOrEditBank", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-  
+
     @Html.HiddenFor(x => x.RefKey)
     @Html.HiddenFor(x => x.bankId)
     @Html.HiddenFor(x => x.Action)
-  
+    @Html.HiddenFor(x => x.BankCancelledChequeFileName)
     <div class="form-group">
         <div class="row">
             <div class="col-md-12">

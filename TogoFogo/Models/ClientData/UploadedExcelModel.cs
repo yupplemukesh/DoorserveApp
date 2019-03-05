@@ -8,9 +8,10 @@ namespace TogoFogo.Models.ClientData
 {
     public class UploadedExcelModel
     {
+        public Guid Id { get; set; }
         public Guid ClientId { get; set; }
         public Guid DeviceId { get; set; }
-        public int SERVICETYPEID  { get; set; }
+        public string ServiceTypeName { get; set; }
         [DisplayName("Client Name")]
         public string ClientName { get; set; }
         [DisplayName("Uploaded Date")]

@@ -1,0 +1,477 @@
+﻿@model TogoFogo.Models.Customer_Support.CallToASCModel
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var count = 1;
+    var count1 = 1;
+}
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-md-6"><h3 class="m-y-0">Assign Call To ASC</h3></div>
+
+        <div class="col-md-6  add-tem-btn-mar-top">
+            <div class="panel-tools">
+                <a href="#" class="tools-icon btn btn-primary btn-sm excel">
+                    Excel
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="panel-body">
+    <div class="text-center">
+        <div class="form-group ">
+            <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Authorized Service Center</label>
+            <div class="col-sm-8 col-md-8">
+                @Html.DropDownListFor(x => x.CallAllocate.AllocateId, Model.CallAllocate.ToAllocateList, new { @class = "custom-select",@id= "AllocateId" })
+            </div>
+
+        </div>      
+        <button type="button" id="allocateASP" class="btn btn-primary">Assign To ASC</button>
+    </div>
+    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs m-b-15">
+
+
+                    <li class="active">
+                        <a href="#tab-5" role="tab" data-toggle="tab">
+                            <button type="submit" class="btn btn-primary btn-sm"> PANDING REQUEST </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-6" role="tab" data-toggle="tab">
+                            <button type="submit" class="btn btn-primary btn-sm"> ASSIGNED REQUEST  </button>
+                        </a>
+                    </li>
+
+
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="tab-5">
+
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="panel panel-default panel-table">
+                                        <div class="panel-body">
+                                            <div class="text-center">
+                                                <div class="form-group ">
+                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Client</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.ClientId, Model.ClientList, "Select", new { @class = "custom-select" })
+                                                    </div>
+
+
+                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Type</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.ServiceTypeId, Model.ServiceTypeList, "Select", new { @class = "custom-select" })
+                                                    </div>
+
+
+                                                    <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Service Provider</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.ServiceProviderId, Model.ServiceProviderList, "Select", new { @class = "custom-select" })                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered dataTable" id="myTable">
+
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <label class="custom-control custom-control-success custom-checkbox">
+                                                                    <input class="custom-control-input" id="chkAll" type="checkbox">
+                                                                    <span class="custom-control-indicator"></span>
+                                                                </label>
+                                                            </th>
+                                                            <th>#SLN</th>
+                                                            <th>Call Id</th>
+                                                            <th>Client Name</th>
+                                                            <th>Upload Date</th>
+                                                            <th>Service Type</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Customer Mob</th>
+                                                            <th>Customer E-mail</th>
+                                                            <th>Address</th>
+                                                            <th>Location</th>
+                                                            <th>PinCode</th>
+                                                            <th>Device Category</th>
+                                                            <th>Device Brand</th>
+                                                            <th>Device Model</th>
+                                                            <th>Device DOP</th>
+                                                            <th>Device Purchase Form</th>
+                                                            <th>ASP Name</th>
+                                                            <th>Process Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.PendingCalls)
+                                                        {
+
+
+                                                            <tr>
+                                                                <td>
+                                                                    <label class="custom-control custom-control-success custom-checkbox">
+                                                                        <input class="custom-control-input chk-item" type="checkbox" data-val="@item.DeviceId" data-id="@item.Id">
+                                                                        <span class="custom-control-indicator"></span>
+                                                                    </label>
+                                                                </td>
+                                                                <td>@count</td>
+                                                                <td>
+                                                                    @item.CRN
+                                                                </td>
+                                                                <td>@item.ClientName</td>
+                                                                <td>@item.CreatedOn</td>
+                                                                <td>
+                                                                    @item.ServiceTypeName
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerName
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerContactNumber
+
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerEmail
+                                                                </td>
+
+                                                                <td>
+                                                                    @item.CustomerAddress
+                                                                </td>
+
+
+                                                                <td>
+                                                                    @item.CustomerCity
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerPincode
+                                                                </td>
+
+                                                                <td>
+                                                                    @item.DeviceCategory
+                                                                </td>
+                                                                <td>
+                                                                    @item.DeviceBrand
+                                                                </td>
+                                                                <td>
+                                                                    @item.DeviceModel
+                                                                </td>
+                                                                <td>
+                                                                    @item.DOP
+                                                                </td>
+                                                                <td>
+                                                                    @item.PurchaseFrom
+                                                                </td>
+                                                                <td>
+                                                                    @item.ProviderName
+                                                                </td>
+                                                                <td>
+                                                                    @item.ProviderProcessName
+                                                                </td>
+
+                                                            </tr>
+                                                            count++;
+                                                        }
+
+
+
+
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div role="tabpanel" class="tab-pane fade in" id="tab-6">
+
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="panel panel-default panel-table">
+                                        <div class="panel-body">
+                                            <div class="text-center">
+
+
+                                                <div class="form-group ">
+                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Client</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.AClientId, Model.ClientList, "Select", new { @class = "custom-select" })
+                                                    </div>
+
+                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Type</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.AServiceTypeId, Model.ServiceTypeList, "select", new { @class = "custom-select" })
+
+                                                    </div>
+                                                    <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Service Provider</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.AServiceProviderId, Model.ServiceProviderList, "Select", new { @class = "custom-select" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered dataTable" id="myTable1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#SLN</th>
+                                                            <th>CC NO</th>
+                                                            <th>Client Name</th>
+                                                            <th>Upload Date</th>
+                                                            <th>Service Type</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Customer Mob</th>
+                                                            <th>Customer E-mail</th>
+                                                            <th>Address</th>
+                                                            <th>Location</th>
+                                                            <th>PinCode</th>
+                                                            <th>Device Category</th>
+                                                            <th>Device Brand</th>
+                                                            <th>Device Model</th>
+                                                            <th>Device DOP</th>
+                                                            <th>Device Purchase Form</th>
+                                                            <th>Provider Name</th>
+                                                            <th>Process Name</th>
+                                                            <th>ASC Name</th>
+                                                            <th>ASC Process</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.AllocatedCalls)
+                                                        {
+                                                            <tr>
+                                                                <td>@count1</td>
+                                                                <td>@item.CRN</td>
+                                                                <td>@item.ClientName</td>
+                                                                <td>
+                                                                    @item.CreatedOn
+                                                                </td>
+                                                                <td>
+                                                                    @item.ServiceTypeName
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerName
+
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerContactNumber
+                                                                </td>
+
+                                                                <td>
+                                                                    @item.CustomerEmail
+                                                                </td>
+
+
+                                                                <td>
+                                                                    @item.CustomerAddress
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerCity
+                                                                </td>
+                                                                <td>
+                                                                    @item.CustomerPincode
+                                                                </td>
+                                                                <td>
+                                                                    @item.DeviceCategory
+                                                                </td>
+                                                                <td>
+                                                                    @item.DeviceBrand
+                                                                </td>
+                                                                <td>
+                                                                    @item.DeviceModel
+                                                                </td>
+                                                                <td>
+                                                                    @item.DOP
+                                                                </td>
+
+                                                                <td>
+                                                                    @item.PurchaseFrom
+                                                                </td>
+                                                                <td>
+                                                                    @item.ProviderName
+                                                                </td>
+                                                                <td>
+                                                                    @item.ProviderProcessName
+                                                                </td>
+
+                                                                <td>
+                                                                    @item.ServiceCenterName
+                                                                </td>
+                                                                <td>
+                                                                    @item.ServiceCenterProcessName
+                                                                </td>
+                                                            </tr>
+                                                            count1++;
+                                                        }
+
+                                                    </tbody>
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        @section scripts{
+            @Scripts.Render("~/bundles/jqueryval")
+            <script>
+        var table1 = $('#myTable1').DataTable();
+        var table = $('#myTable').DataTable();
+        $(document).on("change", "#chkAll", function (e) {
+
+            $(".chk-item").prop('checked', $(this).prop("checked"));
+        });
+
+            $("#AClientId").on("change", function () {
+
+                table1.draw();
+
+            });
+
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var value1 = $("#AClientId option:selected").text().toLowerCase();
+                var servicetype1 = $("#AServiceTypeId option:selected").text().toLowerCase();
+                var serviceProvider1 = $("#AServiceProviderId option:selected").text().toLowerCase();
+                var value = $("#ClientId option:selected").text().toLowerCase();
+                var servicetype = $("#ServiceTypeId option:selected").text().toLowerCase();
+                var serviceProvider = $("#ServiceProviderId option:selected").text().toLowerCase();
+                if ($("#tab-5").hasClass("active")) {
+                    if (value.toLowerCase() != "select" || servicetype.toLowerCase() != "select" || serviceProvider.toLowerCase() == "select") {
+                        var client = data[3]
+                        var servicet = data[5]; //
+                        var SP = data[17]; //
+                        if (client.toLowerCase() == value && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype && value.toLowerCase() == "select" &&  serviceProvider.toLowerCase() == "select" )
+                            return true;
+                        else if (SP.toLowerCase() == serviceProvider && servicetype.toLowerCase() == "select" && value.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype && client.toLowerCase() == value && serviceProvider.toLowerCase() == "select" )
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == client)
+                            return true;
+                    }
+                    return false;
+                }
+                else {
+                    if (value1.toLowerCase() != "select" || servicetype1.toLowerCase() != "select") {
+                        var client = data[2];
+                        var servicet = data[4];
+                        var SP = data[16]; 
+                        if (client.toLowerCase() == value1 && servicetype1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype1 && value1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
+                            return true;
+                        else if (SP.toLowerCase() == serviceProvider1 && servicetype1.toLowerCase() == "select" && value1.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype1 && client.toLowerCase() == value1 && serviceProvider1.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == "select")
+                            return true;
+                        else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == client)
+                            return true;
+                    }
+                    return false;
+                }
+            }
+        );
+
+
+
+            $("#AServiceTypeId").on("change", function () {
+                table1.draw();
+            });
+            $("#ClientId").on("change", function () {
+                table.draw();
+            });
+            $("#ServiceTypeId").on("change", function () {
+                table.draw();
+            });
+           $(document).on("click", "#allocateASP", function (e) {
+            var obj = [];
+            $('#myTable > tbody  > tr').each(function () {
+                var check = $(this).find('[type=checkbox]');
+                if ($(check).prop("checked")) {
+                    var deviceId = $(check).attr("data-val");
+                    var DataId = $(check).attr("data-id");
+                    var item = { DeviceId: deviceId, DataId: DataId };
+                    obj.push(item);
+                }
+            });
+            console.log(obj);
+            if (obj.length > 0) {
+                var data = {
+                    AllocateId: $("#AllocateId").val(), SelectedDevices: obj
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Allocate","CallToASC")',
+                    data: data,
+                    dataType: "json",
+                    success: function (resultData) {                       
+                        console.log(resultData);
+                        if (resultData == "Ok")
+                            window.location.reload();
+
+                    },
+                    error: (function () {
+                        alert("Something went wrong");
+                    })
+                });
+            }
+        })
+            </script>
+        }

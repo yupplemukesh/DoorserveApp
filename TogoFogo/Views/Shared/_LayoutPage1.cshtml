@@ -159,9 +159,6 @@
         $(document).ready(function () {
             $('#myTable').DataTable();
             $('#myTable1').DataTable();
-
-
-
         });
         $(document).ready(function () {
             $('#OOWRRTable').DataTable({
@@ -271,28 +268,52 @@
 
 
             $(".excel").click(function () {
-                var obj = $("#myTable").DataTable().$('tr').clone();
-                var obj1 = $('<tr>').append($("#myTable thead tr").html());
-                var lstchl = $(obj1).find("th:last-child").html();
-                if (lstchl.indexOf("action") != -1) {
-                    $(obj1).find("th:last-child").remove();
-                    $(obj).find("td:last-child").remove();
+                if ($("#tab-6").hasClass("active")) {
+                    var obj = $("#myTable1").DataTable().$('tr').clone();
+                    var obj1 = $('<tr>').append($("#myTable1 thead tr").html());
+                    var lstchl = $(obj1).find("th:last-child").html();
+                    if (lstchl.indexOf("action") != -1) {
+                        $(obj1).find("th:last-child").remove();
+                        $(obj).find("td:last-child").remove();
 
+                    }
+                    $('<table>')
+                        .append(
+                            obj1
+                        )
+                        .append(
+                            obj
+                        )
+                        .table2excel({
+                            exclude: ".excludeThisClass",
+                            name: "Worksheet Name",
+                            filename: "Excel.xls" //do not include extension
+                        });
                 }
-                $('<table>')
-                    .append(
-                        obj1
-                    )
-                    .append(
-                        obj
-                    )
-                    .table2excel({
-                        exclude: ".excludeThisClass",
-                        name: "Worksheet Name",
-                        filename: "Excel.xls" //do not include extension
-                    });
-            });
-            $("#myTable").dataTable();
+                else {
+                    var obj = $("#myTable").DataTable().$('tr').clone();
+                    var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                    var lstchl = $(obj1).find("th:last-child").html();
+                    if (lstchl.indexOf("action") != -1) {
+                        $(obj1).find("th:last-child").remove();
+                        $(obj).find("td:last-child").remove();
+
+                    }
+                    $('<table>')
+                        .append(
+                            obj1
+                        )
+                        .append(
+                            obj
+                        )
+                        .table2excel({
+                            exclude: ".excludeThisClass",
+                            name: "Worksheet Name",
+                            filename: "Excel.xls" //do not include extension
+                        });
+                }
+                });         
+           
         });
 
         //$(function () {

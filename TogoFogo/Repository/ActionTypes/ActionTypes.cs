@@ -26,9 +26,9 @@ namespace TogoFogo.Repository
             SqlParameter actionTypes = new SqlParameter("@ActionTypeId", ActionTypeId);
             return await _context.Database.SqlQuery<ActionTypeModel>("USPGetActionByActionId @ActionTypeId", actionTypes).SingleOrDefaultAsync();
         }
-        public async Task<bool> AddUpdateDeleteActionTypes(ActionTypeModel actionTypeModel, char action)
+        public async Task<ResponseModel> AddUpdateDeleteActionTypes(ActionTypeModel actionTypeModel, char action)
         {
-            bool result = false;
+
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@ACTIONTYPEID", actionTypeModel.ActionTypeId);
             sp.Add(param);
@@ -40,18 +40,18 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@USER", (object)actionTypeModel.AddeddBy);
             sp.Add(param);
-            param = new SqlParameter("@Comments", (object)actionTypeModel.Comments);
+            param = new SqlParameter("@Comments", ToDBNull(actionTypeModel.Comments));
             sp.Add(param);
 
 
             var sql = "USPInsertUpdateDeleteActionType @ACTIONTYPEID,@Name,@ISACTIVE,@ACTION,@USER,@Comments";
 
 
-            var res = await _context.Database.SqlQuery<string>(sql, sp.ToArray()).FirstOrDefaultAsync();
-            if (res == "Ok")
-                result = true;
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.ResponseCode==0)
+                res.IsSuccess=true;
 
-            return result;
+            return res;
         }
 
         public static object ToDBNull(object value)

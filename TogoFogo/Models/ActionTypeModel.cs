@@ -14,7 +14,6 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Name")]
         public string Name { get; set; }
-        [Required]
         [DisplayName("Code")]
         public string Code { get; set; }
         [DisplayName("Is Active ?")]

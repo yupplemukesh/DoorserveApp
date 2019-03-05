@@ -121,11 +121,11 @@ namespace TogoFogo.Controllers
             {
                 clientDataModel.UserId=Convert.ToInt32(Session["User_ID"]);
                 var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
-                    return View(clientDataModel);
+                    return RedirectToAction("index");
             }
             catch(Exception ex)
             {
-                return View(clientDataModel);
+                return View("create",clientDataModel);
 
             }
 

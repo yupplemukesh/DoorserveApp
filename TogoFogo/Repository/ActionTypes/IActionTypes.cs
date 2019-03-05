@@ -11,7 +11,7 @@ namespace TogoFogo.Repository
     {
         Task<List<ActionTypeModel>> GetActiontypes();
         Task<ActionTypeModel> GetActionByActionId(int ActionTypeId);
-        Task<bool> AddUpdateDeleteActionTypes(ActionTypeModel actionTypeModel, char action);
+        Task<ResponseModel> AddUpdateDeleteActionTypes(ActionTypeModel actionTypeModel, char action);
         void Save();
 
     }

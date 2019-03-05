@@ -10,9 +10,9 @@ namespace TogoFogo.Repository.Customer_Support
 {
    public interface ICustomerSupport:IDisposable
     {
-        Task<CallToASPModel> GetCalls();
-        Task<ResponseModel> AllocateCallASP(AllocateCallModel allocateCalls);
-        Task<ResponseModel> AllocateCallASC(AllocateCallModel allocateCalls);
+        Task<CallToASPModel> GetASPCalls();
+        Task<CallToASCModel> GetASCCalls();
+        Task<ResponseModel> AllocateCall(AllocateCallModel allocateCalls);    
         void Save();
     }
 }
