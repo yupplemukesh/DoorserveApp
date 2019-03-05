@@ -100,6 +100,8 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+        public List<CourierPinZipCode> _CourierPinZipCodeList { get; set; }
     }
 
     public class GetData

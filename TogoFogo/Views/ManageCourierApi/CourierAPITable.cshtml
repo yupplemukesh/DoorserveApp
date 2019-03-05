@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.ManageCourierApiModel>
+﻿@model TogoFogo.Models.ManageCourierApiModel
 @{
     Layout = null;
 }
@@ -48,7 +48,7 @@
         <th>Actions</th>
     </tr>
     </thead>
-    @foreach (var item in Model)
+    @foreach (var item in Model._ManageCourierApiModelList)
     {
         <tr>
             <td>
@@ -80,19 +80,22 @@
                 @Html.DisplayFor(modelItem => item.AccountCountryCode)
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.IsLargePacket)*@
+                
                 @(item.IsLargePacket == true ? "Yes" : "No")
             </td>
             <td>
-                @*@Html.DisplayFor(modelItem => item.IsActive)*@
+              
                 @(item.IsActive == true ? "Yes" : "No")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
-            <td style="display: inline-flex">             
-                <a href='@Url.Action("Edit", "ManageCourierApi",new { @apiId=item.API_ID })'  class="btn btn-small btn-info btnSize " >Edit</a>
-            </td>
+            <td style="display: inline-flex">
+                @if (Model._UserActionRights.Edit)
+                {
+                    <a href='@Url.Action("Edit", "ManageCourierApi", new { @apiId = item.API_ID })' class="btn btn-small btn-info btnSize ">Edit</a>
+                }
+                </td>
         </tr>
     }
 

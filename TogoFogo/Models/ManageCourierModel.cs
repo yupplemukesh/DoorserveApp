@@ -255,5 +255,7 @@ namespace TogoFogo.Models
         public string St_Name { get; set; }
         public string LocationName { get; set; }
         public string DaysRemaining { get; set; }
+        public List<ManageCourierModel> _ManageCourierModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
 }

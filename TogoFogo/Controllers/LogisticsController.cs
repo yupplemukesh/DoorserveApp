@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -51,26 +52,26 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-       
+
         //[HttpPost]
         //public ActionResult PFRAWBAForm(PFRAWBAModel m)
         //{
         //    using (var con = new SqlConnection(_connectionString))
         //    {
-               
+
         //        var result = con.Query<int>("InsertServiceActionDetails"
         //            , new
         //            {
-                    
+
         //               CC_No= m.CC_NO,
         //                m.SE_Action,
         //                m.Pickupdatetime,
         //                m.CourierName,
         //               MsgToCusto= m.MessageCusto,
         //                SE_Remarks= m.SERemarks,
-                       
+
         //                CreatedBy = "",
-                       
+
         //                Action = "add"
         //            },
         //            commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -84,19 +85,60 @@ namespace TogoFogo.Controllers
         //}
 
         // Update Reverse AWB Status
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Update Reverse AWB Status")]
         public ActionResult UpdateReverseAWB()
         {
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
+            UREVASmodel objUREVASmodel = new UREVASmodel();
             using (var con = new SqlConnection(_connectionString))
             {
-              var result = con.Query<UREVASmodel>("GetCourierCount", null, commandType: CommandType.StoredProcedure).ToList();
-              return View(result);
+                objUREVASmodel._UREVASmodelList = con.Query<UREVASmodel>("GetCourierCount", null, commandType: CommandType.StoredProcedure).ToList();
+              
             }
-           
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objUREVASmodel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objUREVASmodel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objUREVASmodel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objUREVASmodel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objUREVASmodel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objUREVASmodel._UserActionRights.Create = true;
+                objUREVASmodel._UserActionRights.Edit = true;
+                objUREVASmodel._UserActionRights.Delete = true;
+                objUREVASmodel._UserActionRights.View = true;
+                objUREVASmodel._UserActionRights.History = true;
+                objUREVASmodel._UserActionRights.ExcelExport = true;
+
+            }
+
+            return View(objUREVASmodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Update Reverse AWB Status")]
         public async Task<ActionResult> UREVASform( string CourierId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -113,6 +155,7 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
+       
         public async Task<ActionResult> FinalUpdateReverseAWB(string AWB)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -161,13 +204,52 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
+            UREVASmodel objUREVASmodel = new UREVASmodel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<UREVASmodel>("GetDataUREVAS", null, commandType: CommandType.StoredProcedure).ToList();
+                objUREVASmodel._UREVASmodelList = con.Query<UREVASmodel>("GetDataUREVAS", null, commandType: CommandType.StoredProcedure).ToList();
                 var result1 = con.Query<int>("select COUNT(courierId) from Repair_Request_Details", null, commandType: CommandType.Text).FirstOrDefault();
                 ViewBag.TotalOpenAWBStatus = result1;
-                return View(result);
+               
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objUREVASmodel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objUREVASmodel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objUREVASmodel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objUREVASmodel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objUREVASmodel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objUREVASmodel._UserActionRights.Create = true;
+                objUREVASmodel._UserActionRights.Edit = true;
+                objUREVASmodel._UserActionRights.Delete = true;
+                objUREVASmodel._UserActionRights.View = true;
+                objUREVASmodel._UserActionRights.History = true;
+                objUREVASmodel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objUREVASmodel);
         }
         public async Task<ActionResult> AWBStatusform(string AWBNumber)
         {
@@ -202,6 +284,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("UpdateAWBStatus");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, " Reverse AWB Allocation")]
         public ActionResult Reverse_AWB_Allocation()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -209,12 +292,49 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
+            ReverseAWB_AllocationModel objReverseAWB_AllocationModel = new ReverseAWB_AllocationModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
-               
-                return View(result);
+                objReverseAWB_AllocationModel._ReverseAWB_AllocationModelList = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objReverseAWB_AllocationModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objReverseAWB_AllocationModel._UserActionRights.Create = true;
+                objReverseAWB_AllocationModel._UserActionRights.Edit = true;
+                objReverseAWB_AllocationModel._UserActionRights.Delete = true;
+                objReverseAWB_AllocationModel._UserActionRights.View = true;
+                objReverseAWB_AllocationModel._UserActionRights.History = true;
+                objReverseAWB_AllocationModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objReverseAWB_AllocationModel);
         }
         public ActionResult PFRAWBAForm(string CC_NO)
         {
@@ -268,6 +388,7 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, " Update Reverse AWB Status (Biker)")]
         public ActionResult UAWBSB()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -275,12 +396,49 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
+            ReverseAWB_AllocationModel objReverseAWB_AllocationModel = new ReverseAWB_AllocationModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
-
-                return View(result);
+                objReverseAWB_AllocationModel._ReverseAWB_AllocationModelList = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objReverseAWB_AllocationModel._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objReverseAWB_AllocationModel._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objReverseAWB_AllocationModel._UserActionRights.Create = true;
+                objReverseAWB_AllocationModel._UserActionRights.Edit = true;
+                objReverseAWB_AllocationModel._UserActionRights.Delete = true;
+                objReverseAWB_AllocationModel._UserActionRights.View = true;
+                objReverseAWB_AllocationModel._UserActionRights.History = true;
+                objReverseAWB_AllocationModel._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objReverseAWB_AllocationModel);
         }
         public ActionResult UAWBSBForm()
         {
@@ -305,6 +463,7 @@ namespace TogoFogo.Controllers
                 return View();
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, " Update Reverse AWB Status (Biker)")]
         public ActionResult URSSE()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -312,12 +471,51 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
+            MainTableURSSE objMainTableURSSE = new MainTableURSSE();
             using (var con = new SqlConnection(_connectionString))
             {
                 //var result = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
-                var result = con.Query<MainTableURSSE>("URSSE_pendingCases", null, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                objMainTableURSSE._MainTableURSSEList = con.Query<MainTableURSSE>("URSSE_pendingCases", null, commandType: CommandType.StoredProcedure).ToList();
+               
             }
+            UserActionRights objUserActiobRight = new UserActionRights();
+            objMainTableURSSE._UserActionRights = objUserActiobRight;
+            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            if (!string.IsNullOrEmpty(rights))
+            {
+                string[] arrRights = rights.ToString().Split(',');
+                for (int i = 0; i < arrRights.Length; i++)
+                {
+                    if (Convert.ToInt32(arrRights[i]) == 2)
+                    {
+                        objMainTableURSSE._UserActionRights.Create = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 3)
+                    {
+                        objMainTableURSSE._UserActionRights.Edit = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 4)
+                    {
+                        objMainTableURSSE._UserActionRights.Delete = true;
+                    }
+                    else if (Convert.ToInt32(arrRights[i]) == 6)
+                    {
+                        objMainTableURSSE._UserActionRights.Delete = true;
+                    }
+                }
+            }
+            else
+            {
+
+                objMainTableURSSE._UserActionRights.Create = true;
+                objMainTableURSSE._UserActionRights.Edit = true;
+                objMainTableURSSE._UserActionRights.Delete = true;
+                objMainTableURSSE._UserActionRights.View = true;
+                objMainTableURSSE._UserActionRights.History = true;
+                objMainTableURSSE._UserActionRights.ExcelExport = true;
+
+            }
+            return View(objMainTableURSSE);
         }
         public ActionResult URSSEForm()
         {

@@ -25,7 +25,8 @@ namespace TogoFogo.Models
         public int DeleteBy { get; set; }
         public string CRBY { get; set; }
         public string MODBY { get; set; }
-
         public string DeleteDate { get; set; }
+        public List<GstCategoryModel> _GstCategoryModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
 }

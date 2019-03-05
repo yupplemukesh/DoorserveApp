@@ -62,6 +62,8 @@ namespace TogoFogo.Models
         public string AvgOPenTAT { get; set; }
         public string Status { get; set; }
         public string CourierId { get; set; }
+        public List<UREVASmodel> _UREVASmodelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
     public class  AWBStatusModel : UREVASmodel
     {

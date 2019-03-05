@@ -122,17 +122,18 @@
                     @Html.ValidationMessageFor(model => model.Description_Of_Goods, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
-                </div>
-            </div>
+
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.Comments, htmlAttributes: new { @class = "form-control" })
                     @*@Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })*@
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
                 </div>
             </div>
         </div>

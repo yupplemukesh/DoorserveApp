@@ -40,7 +40,10 @@ namespace TogoFogo.Models
         public string ModifyBy { get; set; }
         public string CreatedDate { get; set; }
         public string ModifyDate { get; set; }
+        public List<Prob_Vs_price_matrix> _Prob_Vs_price_matrixList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
 
-        
+
+
     }
 }

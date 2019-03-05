@@ -1,26 +1,8 @@
-﻿@model IEnumerable<TogoFogo.Models.UREVASmodel>
+﻿@model TogoFogo.Models.UREVASmodel
 
 @{
     ViewBag.Title = "UpdateReverseAWB";
 }
-
-@*<div class="row">
-
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h3 class="m-y-0">Update AWB Status</h3>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-        </div>
-    </div>*@
 
 
 <div class="panel-heading">
@@ -32,8 +14,11 @@
 
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-primary excel">Export to Excel</button>
-                </div>
+                    @if (Model._UserActionRights.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
+                    </div>
             </div>
         </div>
     </div>
@@ -68,7 +53,7 @@
             </thead>
 
 
-            @foreach (var item in Model)
+            @foreach (var item in Model._UREVASmodelList)
             {
                 var Source = "";
                 if (item.CourierLogo != null)
@@ -102,9 +87,11 @@
                         @Html.DisplayFor(modelItem => item.AWBNumber)
                     </td>
                     <td>
-
-                        @Html.ActionLink("Update", "AWBStatusform", new { AWBNumber = item.AWBNumber }, new { @class = "btn btn-sm btn-size btn-primary" })
-                    </td>
+                        @if (Model._UserActionRights.Edit)
+                        {
+                            @Html.ActionLink("Update", "AWBStatusform", new { AWBNumber = item.AWBNumber }, new { @class = "btn btn-sm btn-size btn-primary" })
+                        }
+                        </td>
                 </tr>
             }
 

@@ -1,6 +1,6 @@
-﻿@model  IEnumerable<TogoFogo.Models.ManageCourierModel>
+﻿@model  TogoFogo.Models.ManageCourierModel
 @{
-    ViewBag.Title = "ManageCourier";
+    ViewBag.Title = "Manage Courier";
 }
 
 <div class="panel-heading">
@@ -11,19 +11,23 @@
             </div>  
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn" style="text-decoration-color:white">@Html.ActionLink("New Courier", "Create", "ManageCourier")</button>
-                    <button class="btn btn-primary excel">Export to Excel</button>
-                </div>
+                        @if (Model._UserActionRights.Create)
+                          {
+                        <button class="btn" style="text-decoration-color:white">@Html.ActionLink("New Courier", "Create", "ManageCourier")</button>
+                          }
+                        @if (Model._UserActionRights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
             </div>
         </div>
     </div>
 </div>
-
 <div class="panel-body">
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-             
+            <div class="x_panel">             
                 <div class="x_content" style="overflow-x: scroll;">
                     @Html.Partial("CourierTable", Model)
                 </div>

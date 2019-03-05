@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.ManageCourierModel>
+﻿@model TogoFogo.Models.ManageCourierModel
 @{
     Layout = null;
 }
@@ -6,7 +6,7 @@
 
 <table class="table table-striped table-bordered table-condensed" id="myTable">
     <thead>
-        <tr>
+     <tr>
             <th>
                 @Html.DisplayName("Serial No")
             </th>
@@ -80,7 +80,7 @@
             <th>Actions</th>
         </tr>
     </thead>
-    @foreach (var item in Model)
+    @foreach (var item in Model._ManageCourierModelList)
     {
     <tr>
         <td>
@@ -89,7 +89,7 @@
         <td>
             @if (item.UploadedCourierFile != null)
             {
-                <img src="~/Uploaded Images/@item.UploadedCourierFile" width="50" height="50" />
+                <img src="~/UploadedImages/@item.UploadedCourierFile" width="50" height="50" />
             }
             else
             {
@@ -160,8 +160,11 @@
             @Html.DisplayFor(modelItem => item.ModifyDate)
         </td>
         <td style="display: inline-flex">
-            <a href='@Url.Action("Edit", "ManageCourier",new { @courierId=item.CourierId })' class="btn btn-small btn-info btnSize ">Edit</a>
-        </td>
+            @if (Model._UserActionRights.Edit)
+            {
+                <a href='@Url.Action("Edit", "ManageCourier", new { @courierId = item.CourierId })' class="btn btn-small btn-info btnSize ">Edit</a>
+            }
+            </td>
     </tr>
     }
 
