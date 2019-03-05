@@ -189,13 +189,21 @@ namespace TogoFogo
                 return _Sac_numberList;
             }
         }
-
         public static async Task<List<CheckBox>> GetServiceProviders()
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>("SELECT Id Value,ProviderName Text FROM MstServiceProvider where IsActive=1").ToListAsync();
-                return _serviceProvider;
+                var _serviceProviders = await _context.Database.SqlQuery<CheckBox>("SELECT Id Value,ProviderName Text FROM MstServiceProvider where IsActive=1").ToListAsync();
+                return _serviceProviders;
+            }
+        }
+
+        public static async Task<List<CheckBox>> GetServiceCenters()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _serviceCeters = await _context.Database.SqlQuery<CheckBox>("SELECT TRC_ID Value,TRC_NAME Text FROM msttrc where IsActive=1").ToListAsync();
+                return _serviceCeters;
             }
         }
     }
