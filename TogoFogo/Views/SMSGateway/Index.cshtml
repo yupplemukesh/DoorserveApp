@@ -42,8 +42,10 @@
 
                 <div class="panel-body" id="Info" style="border:0px solid red">
                     <div class="table-responsive">
-
-                        @Html.Partial("_SMSGatewayTable", Model.mainModel)
+                        @if (Model.Rights.View)
+                        {
+                        @Html.Partial("_SMSGatewayTable", Model.mainModel, new ViewDataDictionary { { "rights", Model.Rights } })
+                        }
                     </div>
                 </div>
             </div>
@@ -71,15 +73,18 @@
                 <div class="panel-body" style="border:0px solid red">
                     <div class="row ">
                         <div class="col-md-12 ">
-                            @using (Html.BeginForm("create", "SMSGateway", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form - horizontal" }))
+                            @if (Model.Rights.Create)
                             {
+                                using (Html.BeginForm("create", "SMSGateway", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form - horizontal" }))
+                                {
 
-                                @Html.Partial("_CreateEditSMSGatewayForm", Model.Gateway)
+                                    @Html.Partial("_CreateEditSMSGatewayForm", Model.Gateway);
 
 
-                            }
+                                }
+                                }
 
-                        </div>
+                            </div>
 
                     </div>
 

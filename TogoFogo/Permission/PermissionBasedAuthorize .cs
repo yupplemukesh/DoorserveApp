@@ -35,19 +35,41 @@ namespace TogoFogo.Permission
             {
                 if (Convert.ToString(HttpContext.Current.Session["RoleName"]).ToLower() == "supper admin")
                 {
+                    httpContext.Items["ActionsRights"] = new UserActionRights { Create = true, Edit = true, ExcelExport = true, History = true, View = true };
                     return true;
+
+
                 }
                 else
                 { 
                     int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
-                    var privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                    string privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {
-                        if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
+                        string[] items = privilegeLevels.Split(',');
+                        var UserActionRights = new UserActionRights();
+                        for (int i = 0; i < items.Length; i++)
                         {
-                            httpContext.Items["ActionsRights"] = privilegeLevels;
-                            Valid = true;
+
+                            if (Convert.ToInt32(items[i]) == 1)
+                                UserActionRights.View = true;
+                            if (Convert.ToInt32(items[i]) == 2)
+                                UserActionRights.Create = true;
+                            if (Convert.ToInt32(items[i]) == 3)
+                                UserActionRights.Edit = true;
+                            if (Convert.ToInt32(items[i]) == 4)
+                                UserActionRights.Delete = true;
+                            if (Convert.ToInt32(items[i]) == 5)
+                                UserActionRights.History = true;
+                            if (Convert.ToInt32(items[i]) == 6)
+                                UserActionRights.ExcelExport = true;
+
+
                         }
+                        httpContext.Items["ActionsRights"] = UserActionRights;
+
+                        if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
+                            Valid = true;
                         else
                             Valid = false;
                     }

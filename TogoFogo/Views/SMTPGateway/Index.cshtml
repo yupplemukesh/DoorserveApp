@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.SMTPGatewayModel>
+﻿@model TogoFogo.Models.Gateway.SMTPGatewayList
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -15,17 +15,21 @@
 
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
-                <a href='@Url.Action("Create","smtpGateway")' class="tools-icon">
-                    <button type="submit" class="btn btn-primary btn-sm">Add New Smtp Gateway</button>
-                </a>
+                @if (Model.Rights.Create)
+                {
 
-                <!--<a href="#" class="tools-icon">
-              <i class="zmdi zmdi-refresh"></i>
-            </a>
-            <a href="#" class="tools-icon">
-              <i class="zmdi zmdi-close"></i>
-            </a>-->
-            </div>
+                    <a href='@Url.Action("Create", "smtpGateway")' class="tools-icon">
+                        <button type="submit" class="btn btn-primary btn-sm">Add New Smtp Gateway</button>
+                    </a>
+                }
+
+                    <!--<a href="#" class="tools-icon">
+          <i class="zmdi zmdi-refresh"></i>
+        </a>
+        <a href="#" class="tools-icon">
+          <i class="zmdi zmdi-close"></i>
+        </a>-->
+                </div>
         </div>
         
 
@@ -66,7 +70,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.SMTPGateway)
                         {
                         <tr>
                             <td>
@@ -91,8 +95,11 @@
                                 @Html.DisplayFor(modelItem => item.IsDefault)
                             </td>
                             <td style="display: inline-flex">
-                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "SMTPGateway", new { id = item.GatewayId })'>Edit</a>
-                            </td>
+                                @if (Model.Rights.Edit)
+                                {
+                                    <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "SMTPGateway", new { id = item.GatewayId })'>Edit</a>
+                                }
+                                </td>
 
                         </tr>
                             count++;

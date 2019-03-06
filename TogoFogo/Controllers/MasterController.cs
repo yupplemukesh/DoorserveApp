@@ -219,6 +219,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region PRODUCT
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Products")]
         public ActionResult Product()
         {
             ViewBag.BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -233,7 +234,9 @@ namespace TogoFogo.Controllers
                 ViewBag.EditProduct = TempData["EditProduct"].ToString();
             }
 
-            return View();
+
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Products")]
         public ActionResult AddProduct()
@@ -245,6 +248,7 @@ namespace TogoFogo.Controllers
                 ViewBag.Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
                 //ViewBag.Sub_Cat_Id = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(), "Value", "Text");
+
                 return PartialView();
             }
         }
@@ -334,43 +338,8 @@ namespace TogoFogo.Controllers
                     commandType: CommandType.StoredProcedure).ToList();           
               
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objProductModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objProductModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objProductModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objProductModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objProductModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
 
-                objProductModel._UserActionRights.Create = true;
-                objProductModel._UserActionRights.Edit = true;
-                objProductModel._UserActionRights.Delete = true;
-                objProductModel._UserActionRights.View = true;
-                objProductModel._UserActionRights.History = true;
-                objProductModel._UserActionRights.ExcelExport = true;
-
-            }
+            objProductModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
 
             return View(objProductModel);
         }

@@ -195,43 +195,8 @@ namespace TogoFogo.Controllers
                 objUserRole.RoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
                     commandType: CommandType.StoredProcedure).ToList();                             
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objUserRole._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objUserRole._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objUserRole._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objUserRole._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objUserRole._UserActionRights.ExcelExport = true;
-                    }
-                }
-            }
-            else
-            {
+            objUserRole._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
 
-                objUserRole._UserActionRights.Create = true;
-                objUserRole._UserActionRights.Edit = true;
-                objUserRole._UserActionRights.Delete = true;
-                objUserRole._UserActionRights.View = true;
-                objUserRole._UserActionRights.History = true;
-                objUserRole._UserActionRights.ExcelExport = true;
-
-            }
             return View(objUserRole);
 
         }

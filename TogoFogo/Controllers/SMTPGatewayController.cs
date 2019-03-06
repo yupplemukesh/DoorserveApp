@@ -8,6 +8,7 @@ using TogoFogo.Models;
 using TogoFogo.Models.Gateway;
 using TogoFogo.Repository.SMSGateway;
 using AutoMapper;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -19,14 +20,20 @@ namespace TogoFogo.Controllers
         {
             _gatewayRepo = new Gateway();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "E-Mail Gateway Settings")]
         public async Task<ActionResult> Index()
         {
+
+            var smtpgateway = new SMTPGatewayList();
             var Gatewaylist = await CommonModel.GetGatewayType();
             var GatewayTypeId = Gatewaylist.Where(x => x.Text == "SMTP Gateway").Select(x => x.Value).SingleOrDefault();
             var GatewayModel = await _gatewayRepo.GetGatewayByType(GatewayTypeId);
-            var SmtpGatewayModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
-            return View(SmtpGatewayModel);
+           // var SmtpGatewayModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
+           smtpgateway.SMTPGateway= Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
+            smtpgateway.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(smtpgateway);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "E-Mail Gateway Settings")]
         public async Task<ActionResult> Create()
         {
             var smtpgatewaymodel = new SMTPGatewayModel();
@@ -65,6 +72,7 @@ namespace TogoFogo.Controllers
                 return View(smtpgateway);
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "E-Mail Gateway Settings")]
         public async Task<ActionResult> Edit(int id)
         {
             var GatewayModel = await _gatewayRepo.GetGatewayById(id);

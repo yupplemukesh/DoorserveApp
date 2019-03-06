@@ -51,6 +51,7 @@ namespace TogoFogo.Models
     {
         public List<SMSGatewayModel> mainModel { get; set; }
         public SMSGatewayModel Gateway { get; set; }
+        public UserActionRights Rights { get; set; }
 
 
     }

@@ -224,44 +224,7 @@ namespace TogoFogo.Controllers
 
 
             }
-
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objUser._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objUser._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objUser._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objUser._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objUser._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objUser._UserActionRights.Create = true;
-                objUser._UserActionRights.Edit = true;
-                objUser._UserActionRights.Delete = true;
-                objUser._UserActionRights.View = true;
-                objUser._UserActionRights.History = true;
-                objUser._UserActionRights.ExcelExport = true;
-
-            }
+            objUser._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objUser);
         }
     }

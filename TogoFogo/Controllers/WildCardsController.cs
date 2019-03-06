@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Models.WildCards;
+using TogoFogo.Permission;
 using TogoFogo.Repository.WildCards;
 
 namespace TogoFogo.Controllers
@@ -17,13 +19,16 @@ namespace TogoFogo.Controllers
             _wildCardRepo = new WildCards();
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Wild Cards")]
         public async Task<ActionResult> Index()
         {
-            var wildcard = await _wildCardRepo.GetWildCards();
-            return View(wildcard);
-        }
+            var wildcards = new WildCardList();
+            wildcards.WildCards = await _wildCardRepo.GetWildCards();
+            wildcards.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
 
+            return View(wildcards);
+        }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Wild Cards")]
         public async Task<ActionResult> Create()
         {
             var wildcardmodel = new WildCardModel();
@@ -50,6 +55,7 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Wild Cards")]
         public async Task<ActionResult> Edit(int id)
         {
             var wildcard = await _wildCardRepo.GetWildCardByWildCardId(id);

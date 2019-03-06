@@ -1,8 +1,9 @@
-﻿@model IEnumerable<TogoFogo.Models.WildCardModel>
+﻿@model TogoFogo.Models.WildCards.WildCardList
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
     var count = 1;
+
 }
 
                             <div class="panel-heading">
@@ -16,16 +17,19 @@
 
                                     <div class="col-md-6  add-tem-btn-mar-top">
                                         <div class="panel-tools">
-                                            <a class="btn btn-primary btn-sm" href="@Url.Action("Create","WildCards")">
-                                                <span>
-                                                    Add WildCards
+                                            @if (Model.Rights.Create)
+                                            {
+                                                <a class="btn btn-primary btn-sm" href="@Url.Action("Create", "WildCards")">
+                                                    <span>
+                                                        Add WildCards
 
-                                                </span>
+                                                    </span>
 
-                                            </a>
-                                           
+                                                </a>
+                                            }
 
-                                        </div>
+
+                                            </div>
                                     </div>
 
 
@@ -56,7 +60,7 @@
 
                                             </tr>
                                         </thead>
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.WildCards)
                                         {
                                         <tr>
                                             <td>
@@ -70,8 +74,11 @@
                                             </td>
 
                                             <td style="display: inline-flex">
-                                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "WildCards", new { id = item.WildCardId})'>Edit</a>
-                                            </td>
+                                                @if (Model.Rights.Edit)
+                                                {
+                                                    <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "WildCards", new { id = item.WildCardId })'>Edit</a>
+                                                }
+                                                </td>
                                         </tr>
                                             count++;
                                         }
