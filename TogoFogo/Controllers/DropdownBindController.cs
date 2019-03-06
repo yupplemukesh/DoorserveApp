@@ -239,7 +239,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 List<BindColor> color = con
-                    .Query<BindColor>("select ColorId,ColorName from Color_Master", null, commandType: CommandType.Text).ToList();
+                    .Query<BindColor>("select ColorId,ColorName from Color_Master where isactive=1", null, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
            
                 foreach (var val in color)
@@ -586,7 +586,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 List<BindDropdownModel> company = con
-                    .Query<BindDropdownModel>("SELECT DISTINCT BrandId, BrandName FROM MstBrand  where BrandId IS NOT NULL ORDER BY BrandName",
+                    .Query<BindDropdownModel>("SELECT DISTINCT BrandId, BrandName FROM MstBrand  where isActive=1  ORDER BY BrandName",
                         null, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
@@ -634,7 +634,7 @@ namespace TogoFogo.Controllers
             {
                 List<BindDropdownModel> company = con
                     .Query<BindDropdownModel>(
-                        "SELECT DISTINCT CatName,CatId FROM MstCategory ORDER BY CatName", null,
+                        "SELECT DISTINCT CatName,CatId FROM MstCategory where isactive=1 ORDER BY CatName", null,
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem

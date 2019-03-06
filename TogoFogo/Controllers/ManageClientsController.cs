@@ -125,12 +125,16 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
-            if(bank.BankCancelledChequeFilePath !=null)         
-               bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
+
+            if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
+                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName));
+
+            if (bank.BankCancelledChequeFilePath != null)
+                bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
 
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
             if (TempData["client"] != null)
-            {
+            {             
                 var client = TempData["client"] as ClientModel;
                 var Response = await _bank.AddUpdateBankDetails(bank);
                 var clientModel = await _client.GetClientByClientId(bank.RefKey);
@@ -151,6 +155,7 @@ namespace TogoFogo.Controllers
             }
             else
             {
+               
                 var response=  await _bank.AddUpdateBankDetails(bank);
                 TempData["response"] = response;
                 TempData.Keep("response");
@@ -161,6 +166,14 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(ContactPersonModel contact)
         {
+
+
+            if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
+                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/ADHRS/" + contact.ConAdhaarFileName));
+            if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
+                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/VoterIds/" + contact.ConVoterIdFileName));
+            if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
+                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + contact.ConPanFileName));
 
 
             if (contact.ConAdhaarNumberFilePath != null)
@@ -178,8 +191,7 @@ namespace TogoFogo.Controllers
                 {
                     contact.Action = 'I';
                     contact.RefKey = client.ClientId ?? Guid.Empty;
-                }
-
+                }            
                 var response = await _contactPerson.AddUpdateContactDetails(contact);
                 var clientModel = await _client.GetClientByClientId(contact.RefKey);
                 clientModel.ProcessList = client.ProcessList;
@@ -215,6 +227,8 @@ namespace TogoFogo.Controllers
             }
             else
             {
+               
+
 
                 if (contact.ContactId != null)
                     contact.Action = 'U';
@@ -361,6 +375,11 @@ namespace TogoFogo.Controllers
             }
             else          
                 client.Organization = org;
+
+            if (client.Organization.OrgGSTNumberFilePath != null && client.Organization.OrgGSTFileName != null)
+                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Gsts/" + client.Organization.OrgGSTFileName));
+            if (client.Organization.OrgPanNumberFilePath != null && client.Organization.OrgPanFileName != null)
+                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + client.Organization.OrgPanFileName));
 
             if (client.Organization.OrgGSTNumberFilePath != null)
                 client.Organization.OrgGSTFileName = SaveImageFile(client.Organization.OrgGSTNumberFilePath, "Gsts");

@@ -15,7 +15,7 @@
                     <button class="btn btn-secondary excel" type="button">
                         Export Excel
                     </button>
-                    <a class="btn btn-primary" href="@Url.Action("Create","ActionTypes")">
+                    <a class="btn btn-primary template">
                         <span>
                             Template
                         </span>
@@ -48,3 +48,8 @@
         </div>
     </div>
 </div>
+@section scripts{
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+}
