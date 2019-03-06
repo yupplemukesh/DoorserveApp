@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,10 +14,14 @@ namespace TogoFogo.Models
                   
         public SelectList ClientList { get; set; }
         public SelectList ServiceTypeList { get; set; }
+        [Required]
+        [DisplayName("Upload file")]
         public HttpPostedFileBase DataFile { get; set; }
-        [DisplayName("Select Client")]
+        [DisplayName("Client")]
+        [Required]
         public Guid ClientId { get; set; }
-        [DisplayName("Select ServiceType")]
+        [Required]
+        [DisplayName("Service Type")]
         public int ServiceTypeId { get; set; }
         public int UserId { get; set; }
 
