@@ -43,6 +43,7 @@
             @Html.LabelFor(model => model.SpareTypeName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.DropDownListFor(model => model.SpareTypeName, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SpareTypeName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
@@ -55,6 +56,7 @@
             @Html.LabelFor(model => model.SpareCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.TextBoxFor(model => model.SpareCode, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SpareCode, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -68,6 +70,7 @@
             @Html.LabelFor(model => model.PartName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.TextBoxFor(model => model.PartName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PartName, "", new { @class = "text-danger" })
             </div>
         </div>
 

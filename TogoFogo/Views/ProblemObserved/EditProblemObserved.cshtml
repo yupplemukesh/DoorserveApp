@@ -1,7 +1,12 @@
 ﻿
 @using System.Web.UI.WebControls
 @model TogoFogo.Models.ManageProblemObserved
+@{
+                /**/
 
+
+                Layout = null;
+}
 
 @using (Html.BeginForm("EditProblemObserved", "ProblemObserved", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -12,24 +17,24 @@
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.Device_Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
-            @Html.ValidationMessageFor(model => model.Device_Category, "", new { @class = "text-danger" })
         </div>
+        @Html.ValidationMessageFor(model => model.Device_Category, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.DropDownListFor(model => model.SubCategory, null, new { @class = "form-control", id = "EditSubCategory" })
-            @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
         </div>
+        @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ProblemCode, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.ProblemCode, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProblemCode, "", new { @class = "text-danger" })
         </div>
+        @Html.ValidationMessageFor(model => model.ProblemCode, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
@@ -37,28 +42,28 @@
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.ProblemObserved, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProblemObserved, "", new { @class = "text-danger" })
         </div>
+        @Html.ValidationMessageFor(model => model.ProblemObserved, "", new { @class = "text-danger" })
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "control-label" })
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
         </div>
+        @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
     </div>
 
-
+   
     <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
 
-            @Html.CheckBoxFor(model => model.IsActive)
-            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                @Html.CheckBoxFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-    
+
     <div class="row ">
         <div class="ln_solid"></div>
         <div class="form-group">
@@ -77,4 +82,4 @@
 
     </script>
 }
-
+@Scripts.Render("~/bundles/jqueryval")

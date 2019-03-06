@@ -18,7 +18,7 @@ namespace TogoFogo.Models
         [Required(ErrorMessage ="Enter Color Name")]
         public string  ColorName { get; set; }
         public Boolean IsActive { get; set; }
-        [Required(ErrorMessage = "Enter Comments")]
+        //[Required(ErrorMessage = "Enter Comments")]
         public string Comments { get; set; }
         public string[] pd { get; set; }
         public string[] Brand { get; set; }

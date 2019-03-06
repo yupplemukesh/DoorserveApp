@@ -7,7 +7,7 @@ using System.Web;
 
 namespace TogoFogo.Models
 {
-    public class ManageLocation
+    public class ManageLocation: UserActionRights
     {
         [DisplayName("Serial No")]
         public Int32 SerialNo { get; set; }

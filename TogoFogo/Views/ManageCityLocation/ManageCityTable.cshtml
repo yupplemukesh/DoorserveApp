@@ -43,7 +43,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Comments)
                 </th>
-
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ModifyBy)
                 </th>
@@ -59,51 +61,54 @@
         </thead>
         @foreach (var item in Model.ManageLocationList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerialNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CountryName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StateName)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateName)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td>
-                    @(item.IsActive == true ? "Active" : "InActive")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>
+            <td>
+                @(item.IsActive == true ? "Active" : "InActive")
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyDate)
-                </td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
 
-                <td style="display: inline-flex">
+            <td style="display: inline-flex">
 
-                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-                    @if (Model._UserActionRights.Edit)
-                    {
-                        <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCity(@item.LocationId)">Edit</a>
-                    }
-                    @* @if (Model._UserActionRights.Delete)
-        {
-            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-        }*@
-                </td>
-                </tr>
+                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
+                @if (Model._UserActionRights.Edit)
+                {
+                    <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCity(@item.LocationId)">Edit</a>
+                }
+                @* @if (Model._UserActionRights.Delete)
+            {
+                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+            }*@
+            </td>
+        </tr>
             }
 
         </table>

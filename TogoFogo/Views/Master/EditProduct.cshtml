@@ -12,16 +12,17 @@
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
+            </div>
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
-        </div>
+      
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(model => model.SubCategoryId, null, new { @class = "form-control", @id = "SubCat" })
-                @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
             </div>
+                @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })            
         </div>
     </div>
 
@@ -31,16 +32,16 @@
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })            
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
             </div>
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })           
         </div>
     </div>
 
@@ -51,8 +52,8 @@
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.ListBoxFor(model => model.ProductColor, null, new { @class = "selectpicker1", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
-                @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
             </div>
+                @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })           
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.AlternateProductName, htmlAttributes: new { @class = "control-label" })
@@ -99,7 +100,7 @@
     </div>
 
 
-   @* <div class="form-group">
+    @* <div class="form-group">
             @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
@@ -131,20 +132,20 @@
                 @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
             </div>
         </div>
-            <div class="row">
-                <div class="col-md-3">
-                    @if (Model != null)
-                    {
+        <div class="row">
+            <div class="col-md-3">
+                @if (Model != null)
+                {
 
-                        <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" style="margin-top:15px"/>
-                    }
-                    else
-                    {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" style="margin-top:15px"/>
-                    }
-                </div>
-                </div>          
+                    <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" style="margin-top:15px" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" style="margin-top:15px" />
+                }
+            </div>
         </div>
+    </div>
 
 
 
@@ -199,3 +200,4 @@
 <script src="~/Scripts/jquery.validate.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 
+@Scripts.Render("~/bundles/jqueryval")

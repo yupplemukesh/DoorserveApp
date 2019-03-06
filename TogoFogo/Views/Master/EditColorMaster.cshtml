@@ -26,8 +26,8 @@
         <div class="input-group">
             <span class="input-group-addon"></span>
             @Html.TextBoxFor(model => model.ColorName, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ColorName, "", new { @class = "text-danger" })
         </div>
+            @Html.ValidationMessageFor(model => model.ColorName, "", new { @class = "text-danger" })       
     </div>
 
     <div class="form-group">
@@ -70,6 +70,6 @@
 <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
 <script src="~/Content/Scripts/jquery.validate.js"></script>
 <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
-
+@Scripts.Render("~/bundles/jqueryval")
 
 

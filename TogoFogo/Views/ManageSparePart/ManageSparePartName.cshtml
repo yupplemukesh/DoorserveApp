@@ -38,90 +38,91 @@
     </div>
 </div>
 
-    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-        <div class="modal-dialog  modal-lg">
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog  modal-lg">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Spare Name</h4>
-                </div>
-
-                <div class="modal-body" id="Info">@Html.Action("EditSpareName", "ManageSparePart")</div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Spare Name</h4>
             </div>
 
+            <div class="modal-body" id="Info">@Html.Action("EditSpareName", "ManageSparePart")</div>
         </div>
+
     </div>
-    @if (ViewBag.AddSparePart != null)
-    {
-        <div id="snackbar">@ViewBag.AddSparePart</div>
-    }
-    @if (ViewBag.EditSparePart != null)
-    {
-        <div id="snackbar">@ViewBag.EditSparePart</div>
-    }
-    @if (ViewBag.AddSpareName != null)
-    {
-        <div id="snackbar">@ViewBag.AddSpareName</div>
-    }
-    @if (ViewBag.EditSpareName != null)
-    {
-        <div id="snackbar">@ViewBag.EditSpareName</div>
-    }
-    @if (ViewBag.AddSparePart != null || ViewBag.EditSparePart != null || ViewBag.AddSpareName != null || ViewBag.EditSpareName != null)
-    {
-        <script>
+</div>
+@if (ViewBag.AddSparePart != null)
+{
+    <div id="snackbar">@ViewBag.AddSparePart</div>
+}
+@if (ViewBag.EditSparePart != null)
+{
+    <div id="snackbar">@ViewBag.EditSparePart</div>
+}
+@if (ViewBag.AddSpareName != null)
+{
+    <div id="snackbar">@ViewBag.AddSpareName</div>
+}
+@if (ViewBag.EditSpareName != null)
+{
+    <div id="snackbar">@ViewBag.EditSpareName</div>
+}
+@if (ViewBag.AddSparePart != null || ViewBag.EditSparePart != null || ViewBag.AddSpareName != null || ViewBag.EditSpareName != null)
+{
+    <script>
 
-            var x = document.getElementById("snackbar");
-            x.className = "show";
-            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-        </script>
-    }
+    </script>
+}
 
-    @section scripts{
-        <script>
-            function EditSpareName(SpareTypeId) {
-                $.ajax({
-                    type: 'GET',
-                    url: "/ManageSparePart/EditSpareName?SpareTypeId=" + SpareTypeId,
-                    contentType: 'application/json; charset=utf-8',
-                    cache: false,
-                    success: function (response) {
-                        $("#Info").html(response);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        $(".submitbutton").attr("disabled", false);
-                        alert("Something went wrong...");
+@section scripts{
+   
+    <script>
+        function EditSpareName(SpareTypeId) {
+            $.ajax({
+                type: 'GET',
+                url: "/ManageSparePart/EditSpareName?SpareTypeId=" + SpareTypeId,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
 
-                    },
-                    complete: function () {
+                },
+                complete: function () {
 
-                        $(".submitbutton").attr("disabled", false);
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
                     }
-                });
-            }
-            function AjaxWithValue(method, ddl, e) {
-                var val = e.value;
-                $.ajax({
-                    type: "GET",
-                    url: "/DropdownBind/" + method + "?value=" + val,
-                    data: '{}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $("#" + ddl).empty();
-
-                        //var sel = new Option('-Select-', '');
-                        //$('#' + ddl).append(sel);
-                        for (var i = 0; i < data.length; i++) {
-                            var opt = new Option(data[i].Text, data[i].Value);
-                            $('#' + ddl).append(opt);
-                        }
-                    }
-                });
-            }
-        </script>
-    }
+                }
+            });
+        }
+    </script>
+}

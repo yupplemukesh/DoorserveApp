@@ -31,8 +31,8 @@
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
-                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })            
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "control-label" })
@@ -129,31 +129,31 @@
         </div>
     </div>
     @* <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
-        </div>
-    </div>
-    </div>
-
-    <div class="form-group">
-        <div class="input-group">
-            <div class="col-md-3">
-                @if (Model != null)
-                {
-
-                    <img id="blah" src="/UploadedImages/@Model.BrandImage" width="50" height="50" />
-
-                }
-                else
-                {
-                    <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
-
-                }
+            @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
             </div>
         </div>
-    </div>*@
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <div class="col-md-3">
+                    @if (Model != null)
+                    {
+
+                        <img id="blah" src="/UploadedImages/@Model.BrandImage" width="50" height="50" />
+
+                    }
+                    else
+                    {
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
+
+                    }
+                </div>
+            </div>
+        </div>*@
 
 
     <div class="form-group">
@@ -173,7 +173,7 @@
                 }
                 else
                 {
-                    <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" style="margin-top:15px"/>
+                    <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" style="margin-top:15px" />
                 }
             </div>
         </div>
@@ -181,7 +181,7 @@
 
 
 
-        @*  <div class="form-group">
+    @*  <div class="form-group">
             @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
@@ -206,7 +206,7 @@
 
 
 
-        @*<div class="form-group">
+    @*<div class="form-group">
             @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
 
@@ -225,34 +225,34 @@
         </div>*@
 
 
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
+
+            @Html.CheckBoxFor(model => model.IsRepair)
+            @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+
+
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="row ">
+        <div class="ln_solid"></div>
         <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
-
-                @Html.CheckBoxFor(model => model.IsRepair)
-                @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
+        </div>
+    </div>
 
-            <div class="col-md-6 col-sm-6 col-xs-12">
+}
 
-                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-
-
-                @Html.CheckBoxFor(model => model.IsActive)
-                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-            <div class="row ">
-                <div class="ln_solid"></div>
-                <div class="form-group">
-                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </div>
-            </div>
-
-            }
-
-
+@Scripts.Render("~/bundles/jqueryval")
