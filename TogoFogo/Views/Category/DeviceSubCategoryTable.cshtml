@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="col-md-6">
-                    <h3 class="m-y-0">List Of Sub Category</h3>
+                     <h3 class="m-y-0">List Of Sub Category</h3>
                 </div>
                 <div class="col-md-6 ">
                     <div class="pull-right">
@@ -59,6 +59,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.IsActive)
                 </th>
+                <th>@Html.DisplayNameFor(model=>model.CreatedBy)</th>
+                <th>@Html.DisplayNameFor(model=>model.CreatedDate)</th>
+                <th>@Html.DisplayNameFor(model=>model.ModifyBy)</th>
                 <th>
                     @Html.DisplayNameFor(model => model.ModifyDate)
                 </th>
@@ -110,6 +113,9 @@
                     @(item.IsActive == true ? "Active" : "InActive")
 
                 </td>
+                <td>@Html.DisplayFor(modelItem=>item.CreatedBy)</td>
+                <td>@Html.DisplayFor(modelItem=>item.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem=>item.ModifyBy)</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ModifyDate)
                 </td>

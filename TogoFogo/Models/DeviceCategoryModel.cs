@@ -23,7 +23,8 @@ namespace TogoFogo.Models
         public Boolean IsActive { get; set; }
         public string Comments { get; set; }
         public string CreatedBy { get; set; }
-        public string ModifyBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string ModifyBy { get; set; }       
         public string DeleteBy { get; set; }
         public string Action { get; set; }
         [Required(ErrorMessage ="Enter Sort Order Number")]

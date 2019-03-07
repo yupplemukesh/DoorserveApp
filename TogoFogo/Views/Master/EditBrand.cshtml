@@ -1,29 +1,11 @@
 ﻿@model TogoFogo.Models.BrandModel
+@{
+    Layout = null;
+}
 @using (Html.BeginForm("EditBrand", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(m => m.BrandId)
     @Html.HiddenFor(m => m.BrandImage)
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
-                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-
-
-            </div>
-        </div>
-        <div class="form-group">
-
-            @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-            </div>
-        </div>*@
-
-
 
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,7 +14,7 @@
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
             </div>
-                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })            
+            @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "control-label" })
@@ -42,27 +24,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label" })
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-            </div>
-        </div>*@
-
-
 
 
     <div class="form-group">

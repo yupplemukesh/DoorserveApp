@@ -41,9 +41,8 @@ namespace TogoFogo.Models
         [DisplayName("Comments")]
         public string Comments { get; set; }
         public string CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
-        public string ModifyBy { get; set; }
-        [DisplayName("Last Update Date and Time")]
+        public DateTime CreatedDate { get; set; }
+        public string ModifyBy { get; set; }        
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }

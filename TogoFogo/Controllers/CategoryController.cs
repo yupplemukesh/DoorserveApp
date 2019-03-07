@@ -95,8 +95,8 @@ namespace TogoFogo.Controllers
 
             using (var con = new SqlConnection(_connectionString))
             {
-                objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
-               
+                //objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
+                objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("SELECT mst.Id, mst.CatId, mst.CatName, mst.IsRepair, mst.Comments, mst.CreatedDate, mst.ModifyDate, mst.SortOrder, mst.IsActive, u.UserName CreatedBy, u1.Username ModifyBy FROM MstCategory mst JOIN create_User_Master u ON u.Id = mst.CreatedBy LEFT OUTER JOIN create_user_master u1 ON mst.ModifyBy = u1.id ORDER BY CASE WHEN SortOrder > 0 THEN 1 ELSE 2 END, SortOrder ASC; ", new { }, commandType: CommandType.Text).ToList();
             }
             objDeviceCategoryModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             
@@ -213,10 +213,8 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Comments,
                             model.IMEILength,
-                            model.CreatedBy,
-                            Action = "add",
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
+                            Action = "add"                         
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -289,10 +287,8 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Comments,
                             model.IMEILength,
-                            model.CreatedBy,
                             Action = "edit",
-                            model.ModifyBy,
-                            model.DeleteBy
+                            User = Convert.ToInt32(Session["User_Id"])                           
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 2)
                     {
