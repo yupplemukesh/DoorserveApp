@@ -8,7 +8,7 @@
     <link rel="/ckeditor/stylesheet" href="css/samples.css">
     <link rel="/ckeditor/stylesheet" href="toolbarconfigurator/lib/codemirror/neo.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
-    <script src="/ckeditor/ckeditor.js"></script>
+    @*<script src="/ckeditor/ckeditor.js"></script>*@
     @*  <script src="/ckeditor/js/sample.js"></script>*@
 
     @Styles.Render("~/Content/css")
@@ -130,6 +130,8 @@
             2019 Â© Togofogo.com
         </div>
     </div>
+    @Scripts.Render("~/bundles/customBundle")
+    @Scripts.Render("~/bundles/bootstrap")
     <script>
 
         $(document).ready(function (e) {
@@ -370,9 +372,8 @@
         </div>
     }
 
-    @Scripts.Render("~/bundles/customBundle")
-    @Scripts.Render("~/bundles/bootstrap")
-  
+
+
     @RenderSection("scripts", required: false)
 
 

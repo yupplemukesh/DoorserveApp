@@ -40,9 +40,8 @@ namespace TogoFogo
                       "~/content/js/application.min.js",
                       "~/content/js/tables-datatables.min.js",
                       "~/content/js/ui-notifications.min.js",
-                     "~/content/scripts/jquery.table2excel.js",
-                    "~/ckeditor/samples/js/ckeditor.js",
-                     "~/ckeditor/samples/js/sample.js"
+                     "~/content/scripts/jquery.table2excel.js"
+                    
 
                        ));
         }

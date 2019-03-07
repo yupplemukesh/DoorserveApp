@@ -13,17 +13,19 @@ namespace TogoFogo.Models.Template
         public TemplateModel()
         {
 
-            TemplateList = new SelectList(Enumerable.Empty<SelectListItem>());
-            TemplateTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
-            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
+            
+            TemplateTypeList = new SelectList(Enumerable.Empty<SelectListItem>());            
             ActionTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             MessageTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             PriorityTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             EmailHeaderFooterList = new SelectList(Enumerable.Empty<SelectListItem>());
+            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
+            //TemplateList = new SelectList(Enumerable.Empty<SelectListItem>());
+            //EmailHeaderFooterList = new SelectList(Enumerable.Empty<SelectListItem>());
 
         }
         [Required]
-        public int GatewayId { get; set; }
+        public Int64 GatewayId { get; set; }
         [Required]
         public string Subject { get; set; }
         public Guid GUID { get; set; }
@@ -102,7 +104,7 @@ namespace TogoFogo.Models.Template
 
     public class BindGateway
     {
-        public int GatewayId { get; set; }
+        public Int64 GatewayId { get; set; }
         public string GatewayName { get; set; }
 
     }

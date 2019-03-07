@@ -17,9 +17,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
         public Template()
         {
             _context = new ApplicationDbContext();
-
         }
-
         public async Task<TemplateListModel> GetTemplates()
         {
             TemplateListModel list = new TemplateListModel();
@@ -50,6 +48,48 @@ namespace TogoFogo.Repository.EmailSmsTemplate
 
             return list;
         }
+        //public async Task<TemplateListModel> GetTemplatesByMessageTypeActionType(int MessageTypeId,int ActionTypeId,string MailerTemplateName)
+        //{
+        //    TemplateListModel list = new TemplateListModel();
+        //    var param = new SqlParameter("@MessageTypeId", MessageTypeId);
+        //    var param1 = new SqlParameter("@ActionTypeId", ActionTypeId);
+        //    var param2 = new SqlParameter("@MailerTemplateName", MailerTemplateName);
+        //    using (var connection = _context.Database.Connection)
+        //    {
+        //        connection.Open();
+        //        var command = connection.CreateCommand();
+        //        command.CommandText = "UspGetTemplateDetailsByMsgTypeActionType";
+        //        command.CommandType = CommandType.StoredProcedure;
+        //        command.Parameters.Add(param);
+        //        command.Parameters.Add(param1);
+        //        command.Parameters.Add(param2);
+        //        if (MailerTemplateName == "ActionBased")
+        //        {
+        //            using (var reader = await command.ExecuteReaderAsync())
+        //            {
+        //                list.Templates =
+        //                   ((IObjectContextAdapter)_context)
+        //                       .ObjectContext
+        //                       .Translate<TemplateModel>(reader)
+        //                       .ToList();
+        //                reader.NextResult();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            using (var reader = await command.ExecuteReaderAsync())
+        //            {
+        //                list.NonActionTemplates =
+        //                    ((IObjectContextAdapter)_context)
+        //                        .ObjectContext
+        //                        .Translate<TemplateModel>(reader)
+        //                        .ToList();
+        //            }
+        //        }
+        //    }
+
+        //    return list;
+        //}
         public async Task<TemplateModel> GetTemplateById(int TemplateId)
         {
 

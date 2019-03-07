@@ -23,9 +23,6 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "SMS Gateway")]
         public async Task<ActionResult> Index()
-
-
-
         {
             var getwaylist = await CommonModel.GetGatewayType();
 
