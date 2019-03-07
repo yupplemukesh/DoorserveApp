@@ -200,7 +200,6 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartsPriceandStock");
         }
-
         public ActionResult RCE()
         {
             ViewBag.ReceivedDevice = new SelectList(Enumerable.Empty<SelectListItem>());

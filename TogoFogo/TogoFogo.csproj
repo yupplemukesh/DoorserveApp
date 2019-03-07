@@ -198,6 +198,7 @@
     <Compile Include="AutoMapper\AutoMapperConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActionTypesController.cs" />
+    <Compile Include="Controllers\CallToASCController.cs" />
     <Compile Include="Controllers\CallToASPController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ClientDataController.cs" />
@@ -265,8 +266,10 @@
     <Compile Include="Models\ContactPersonModel.cs" />
     <Compile Include="Models\CreateUserModel.cs" />
     <Compile Include="Models\Customer Support\AllocateCallModel.cs" />
+    <Compile Include="Models\Customer Support\CallAllocatedToASCModel.cs" />
+    <Compile Include="Models\Customer Support\CallAllocatedToASPModel.cs" />
+    <Compile Include="Models\Customer Support\CallToASCModel.cs" />
     <Compile Include="Models\Customer Support\CallToASPModel.cs" />
-    <Compile Include="Models\Customer Support\RequestModel.cs" />
     <Compile Include="Models\DynamicCrouselModel.cs" />
     <Compile Include="Models\EmailGateway.cs" />
     <Compile Include="Models\EmailHeaderFooterModel.cs" />
@@ -275,6 +278,7 @@
     <Compile Include="Models\Gateway\GatewayModel.cs" />
     <Compile Include="Models\Gateway\NotificationGatewayModel.cs" />
     <Compile Include="Models\Gateway\SMSGatewayModel.cs" />
+    <Compile Include="Models\Gateway\SMTPGatewayList.cs" />
     <Compile Include="Models\Gateway\SMTPGatewayModel.cs" />
     <Compile Include="Models\HFTemplate.cs" />
     <Compile Include="Models\IVRTemplate.cs" />
@@ -344,7 +348,8 @@
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
-    <Compile Include="Models\WildCardModel.cs" />
+    <Compile Include="Models\WildCards\WildCardList.cs" />
+    <Compile Include="Models\WildCards\WildCardModel.cs" />
     <Compile Include="Permission\PermissionBasedAuthorize .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
@@ -1362,6 +1367,26 @@
     <Content Include="Views\ManageCourier\Edit.cshtml" />
     <Content Include="Views\ManagePinZIPCode\Create.cshtml" />
     <Content Include="Views\ManagePinZIPCode\Edit.cshtml" />
+    <Content Include="Views\Templates\Create.cshtml" />
+    <Content Include="Views\Templates\Edit.cshtml" />
+    <Content Include="Views\Templates\Index.cshtml" />
+    <Content Include="Views\Templates\_CreateEditEmailSmsNotificationForm.cshtml" />
+    <Content Include="Views\SMTPGateway\Create.cshtml" />
+    <Content Include="Views\SMTPGateway\Edit.cshtml" />
+    <Content Include="Views\SMTPGateway\Index.cshtml" />
+    <Content Include="Views\SMTPGateway\_CreateEditSMTPGatewayForm.cshtml" />
+    <Content Include="Views\NotificationGateway\Index.cshtml" />
+    <Content Include="Views\NotificationGateway\_CreateEditNotificationGatewayForm.cshtml" />
+    <Content Include="Views\NotificationGateway\_NotificationGatewayTabel.cshtml" />
+    <Content Include="Views\WildCards\Create.cshtml" />
+    <Content Include="Views\WildCards\Edit.cshtml" />
+    <Content Include="Views\WildCards\Index.cshtml" />
+    <Content Include="Views\WildCards\_CreateEditWildCardsForm.cshtml" />
+    <Content Include="Views\CallToASC\index.cshtml" />
+    <Content Include="Views\CallToASP\index.cshtml" />
+    <Content Include="Views\Common\_AssignCall.cshtml" />
+    <Content Include="Views\Common\_bankDetails.cshtml" />
+    <Content Include="Views\Common\_ContactDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

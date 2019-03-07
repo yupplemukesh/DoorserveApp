@@ -1,43 +1,23 @@
 ﻿@model TogoFogo.Models.Template.TemplateModel
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Template";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-
 <div class="panel-heading">
-
-    <h3 class="m-y-0">Edit Template</h3>
-</div>
-@using (Html.BeginForm("Edit", "Templates", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.HiddenFor(x => x.TemplateId)
-    <!--/.row-->
-
-
-    <div class="panel-body">
-
-
-        @Html.Partial("_CreateEditEmailSmsNotificationForm", Model)
-        <div class=" row form-group">
-            <div class="pull-right">
-                <button class="btn btn-secondary">
-                    Reset
-                </button>
-                <button class="btn btn-primary">
-                    Save
-                </button>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Edit Template </h3>
             </div>
         </div>
-
     </div>
-}
+</div>
+<div class="panel-body">
 
+    @using (Html.BeginForm("Edit", "Templates", FormMethod.Post, new { id = "form" }))
+    {
 
-
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-
+        @Html.Partial("_CreateEditEmailSmsNotificationForm", Model)
+    }
+</div>

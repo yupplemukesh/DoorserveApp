@@ -59,27 +59,26 @@ namespace TogoFogo.Repository.EmailSmsTemplate
         public async Task<ResponseModel> AddUpdateDeleteTemplate(TemplateModel templateModel, char action)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
+
             SqlParameter param = new SqlParameter("@TemplateId", templateModel.TemplateId);
             sp.Add(param);
-            param = new SqlParameter("@TemplateTypeId", (object)templateModel.TemplateTypeId);
-            sp.Add(param);
-            param = new SqlParameter("@TemplateName", (object)templateModel.TemplateName);
-            sp.Add(param);
-            param = new SqlParameter("@ISACTIVE", (object)templateModel.IsActive);
-            sp.Add(param);
-            param = new SqlParameter("@ACTION", (object)action);
-            sp.Add(param);
-            param = new SqlParameter("@IsDeleted", (object)templateModel.IsDeleted);
-            sp.Add(param);
-            param = new SqlParameter("@IsSystemDefined", (object)templateModel.IsSystemDefined);
-            sp.Add(param);
-            param = new SqlParameter("@Subject", ToDBNull(templateModel.Subject));
+            param = new SqlParameter("@TemplateName", templateModel.TemplateName);
             sp.Add(param);
             param = new SqlParameter("@MessageTypeId", ToDBNull(templateModel.MessageTypeId));
             sp.Add(param);
-            param = new SqlParameter("@PriorityType", ToDBNull(templateModel.PriorityType));
+            param = new SqlParameter("@TemplateTypeId", templateModel.TemplateTypeId);
             sp.Add(param);
-            param = new SqlParameter("@Content", ToDBNull(templateModel.Content));
+            param = new SqlParameter("@PriorityTypeId", ToDBNull(templateModel.PriorityTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@GatewayId", ToDBNull(templateModel.GatewayId));
+            sp.Add(param);
+            param = new SqlParameter("@EmailHeaderFooterId", ToDBNull(templateModel.EmailHeaderFooterId));
+            sp.Add(param);
+            param = new SqlParameter("@ActionTypeId", ToDBNull(templateModel.ActionTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@Subject", ToDBNull(templateModel.Subject));
+            sp.Add(param);
+            param = new SqlParameter("@Content", ToDBNull(templateModel.EmailBody));
             sp.Add(param);
             param = new SqlParameter("@ContentMeta", ToDBNull(templateModel.ContentMeta));
             sp.Add(param);
@@ -87,25 +86,13 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@BccEmails", ToDBNull(templateModel.BccEmails));
             sp.Add(param);
-            param = new SqlParameter("@EmailFrom", ToDBNull(templateModel.EmailFrom));
+            param = new SqlParameter("@IsSystemDefined", templateModel.IsSystemDefined);
             sp.Add(param);
-            param = new SqlParameter("@EmailTo", ToDBNull(templateModel.EmailTo));
+            param = new SqlParameter("@ISACTIVE", templateModel.IsActive);
             sp.Add(param);
-            param = new SqlParameter("@EmailBCC", ToDBNull(templateModel.EmailBCC));
+            param = new SqlParameter("@UserId", templateModel.AddedBy);
             sp.Add(param);
-            param = new SqlParameter("@EmailBody", ToDBNull(templateModel.EmailBody));
-            sp.Add(param);
-            param = new SqlParameter("@MessageText", ToDBNull(templateModel.MessageText));
-            sp.Add(param);
-            param = new SqlParameter("@USER", (object)templateModel.AddedBy);
-            sp.Add(param);
-            param = new SqlParameter("@SmsFrom", ToDBNull(templateModel.SmsFrom));
-            sp.Add(param);
-            param = new SqlParameter("@PhoneNumber", ToDBNull(templateModel.PhoneNumber));
-            sp.Add(param);
-
-           var sql = "USPTemplateADDUPDATE @TemplateId,@TemplateTypeId,@TemplateName,@ISACTIVE,@IsDeleted,@IsSystemDefined,@Subject,@MessageTypeId,@PriorityType,@Content,@ContentMeta,@ToEmail,@BccEmails," +
-                "@EmailFrom,@EmailTo,@EmailBCC,@EmailBody,@MessageText,@USERID,@SmsFrom,@PhoneNumber";
+            var sql = "UspInsertTemplateDetail   @TemplateId,@TemplateName,@MessageTypeId,@TemplateTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@ToEmail,@BccEmails,@IsSystemDefined,@ISACTIVE,@UserId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

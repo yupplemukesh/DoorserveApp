@@ -3,167 +3,200 @@
 @{
     Layout = null;
 }
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">List Of GST Tax</h3>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Model._UserActionRights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered table-condensed" id="myTable">
+        <thead>
+            <tr>
+                <th>Serial No</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cnty_Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.St_Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.APPLICABLETAX)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GSTCATEGORY)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Devicecategory)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Devicesubcategory)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GstHeading)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gst_HSNCode_Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CTH_NumberId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SACId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product_Sale_Range)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CGST)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SGST)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IGST)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product_Cat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product_SubCat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description_Goods)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gst_Applicable_date)
+                </th>
 
-<table class="table table-striped table-bordered table-condensed" id="myTable">
-	<thead>
+                <th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifyDate)
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model._GstTaxModelList)
+        {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cnty_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.St_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.APPLICABLETAX)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GSTCATEGORY)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Devicecategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Devicesubcategory)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GstHeading)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gst_HSNCode_Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CTH_NumberId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SACId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product_Sale_Range)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CGST)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SGST)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IGST)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product_Cat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product_SubCat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description_Goods)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gst_Applicable_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifyDate)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cnty_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.St_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.APPLICABLETAX)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GSTCATEGORY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Devicecategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Devicesubcategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GstHeading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gst_HSNCode_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CTH_NumberId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SACId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Sale_Range)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CGST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SGST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IGST)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Cat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_SubCat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description_Goods)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gst_Applicable_date)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
+            <td style="display: inline-flex;">
+                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                @if (Model._UserActionRights.Edit)
+                {
+                    <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditGstTax(@item.GstTaxId)">Edit</a>
+                }
+                @if (Model._UserActionRights.History)
+                {
+                    <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
+                }
+                @if (Model._UserActionRights.Delete)
+                {
+                    <input type="button" value="Delete" class="btn btn-danger btnSize" />
+                }
+            </td>
         </tr>
-</thead>
-@foreach (var item in Model) {
-    <tr>
+        }
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Cnty_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.St_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.APPLICABLETAX)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GSTCATEGORY)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Devicecategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Devicesubcategory)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.GstHeading)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gst_HSNCode_Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CTH_NumberId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SACId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product_Sale_Range)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CGST)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SGST)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IGST)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product_Cat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product_SubCat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description_Goods)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gst_Applicable_date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifyDate)
-        </td>
-        <td style="display: inline-flex;">
-            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditGstTax(@item.GstTaxId)">Edit</a>
-            <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-            <input type="button" value="Delete" class="btn btn-danger btnSize " />
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</div>

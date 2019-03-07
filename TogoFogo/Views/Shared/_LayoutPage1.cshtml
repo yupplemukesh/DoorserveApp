@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,9 +9,11 @@
     <link rel="/ckeditor/stylesheet" href="toolbarconfigurator/lib/codemirror/neo.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
     <script src="/ckeditor/ckeditor.js"></script>
-    <script src="/ckeditor/js/sample.js"></script>
+    @*  <script src="/ckeditor/js/sample.js"></script>*@
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body class="layout layout-header-fixed layout-left-sidebar-fixed">
 
@@ -128,12 +130,6 @@
             2019 Â© Togofogo.com
         </div>
     </div>
-
-
-    @Scripts.Render("~/bundles/customBundle")
- 
-    @Scripts.Render("~/bundles/bootstrap")
-
     <script>
 
         $(document).ready(function (e) {
@@ -159,6 +155,9 @@
         $(document).ready(function () {
             $('#myTable').DataTable();
             $('#myTable1').DataTable();
+
+
+
         });
         $(document).ready(function () {
             $('#OOWRRTable').DataTable({
@@ -268,52 +267,28 @@
 
 
             $(".excel").click(function () {
-                if ($("#tab-6").hasClass("active")) {
-                    var obj = $("#myTable1").DataTable().$('tr').clone();
-                    var obj1 = $('<tr>').append($("#myTable1 thead tr").html());
-                    var lstchl = $(obj1).find("th:last-child").html();
-                    if (lstchl.indexOf("action") != -1) {
-                        $(obj1).find("th:last-child").remove();
-                        $(obj).find("td:last-child").remove();
+                var obj = $("#myTable").DataTable().$('tr').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                var lstchl = $(obj1).find("th:last-child").html();
+                if (lstchl.indexOf("action") != -1) {
+                    $(obj1).find("th:last-child").remove();
+                    $(obj).find("td:last-child").remove();
 
-                    }
-                    $('<table>')
-                        .append(
-                            obj1
-                        )
-                        .append(
-                            obj
-                        )
-                        .table2excel({
-                            exclude: ".excludeThisClass",
-                            name: "Worksheet Name",
-                            filename: "Excel.xls" //do not include extension
-                        });
                 }
-                else {
-                    var obj = $("#myTable").DataTable().$('tr').clone();
-                    var obj1 = $('<tr>').append($("#myTable thead tr").html());
-                    var lstchl = $(obj1).find("th:last-child").html();
-                    if (lstchl.indexOf("action") != -1) {
-                        $(obj1).find("th:last-child").remove();
-                        $(obj).find("td:last-child").remove();
-
-                    }
-                    $('<table>')
-                        .append(
-                            obj1
-                        )
-                        .append(
-                            obj
-                        )
-                        .table2excel({
-                            exclude: ".excludeThisClass",
-                            name: "Worksheet Name",
-                            filename: "Excel.xls" //do not include extension
-                        });
-                }
-                });         
-           
+                $('<table>')
+                    .append(
+                        obj1
+                    )
+                    .append(
+                        obj
+                    )
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "Excel.xls" //do not include extension
+                    });
+            });
+            $("#myTable").dataTable();
         });
 
         //$(function () {
@@ -339,7 +314,7 @@
 
 
         $(document).ready(function () {
-            $("#toast-container").fadeOut(10000);
+            $("#toast-container").fadeOut(5000);
             $("#filter").keyup(function () {
                 var filter = $(this).val();
                 $("#sideMenu").find('li').each(function () {
@@ -395,7 +370,9 @@
         </div>
     }
 
-
+    @Scripts.Render("~/bundles/customBundle")
+    @Scripts.Render("~/bundles/bootstrap")
+  
     @RenderSection("scripts", required: false)
 
 
