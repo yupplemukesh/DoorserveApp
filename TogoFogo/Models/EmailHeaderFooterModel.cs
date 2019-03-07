@@ -39,6 +39,7 @@ namespace TogoFogo.Models
     {
         public List<EmailHeaderFooterModel> mainModel { get; set; }
         public EmailHeaderFooterModel EmailHeaderFooter { get; set; }
+        public UserActionRights Rights { get; set; }
 
 
     }

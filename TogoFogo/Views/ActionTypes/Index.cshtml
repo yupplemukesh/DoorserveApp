@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<TogoFogo.Models.ActionTypeModel>
+@model TogoFogo.Models.ActionTypes.ActionTypeList
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -13,19 +13,25 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-secondary">
-                        Export Excel
-                    </button>
+                    @if (Model.Rights.ExcelExport)
+                    {
+                        <button class="btn btn-secondary">
+                            Export Excel
+                        </button>
+                    }
+                        @if (Model.Rights.Create)
+                        {
 
-                    <a class="btn btn-primary" href="@Url.Action("Create","ActionTypes")">
-                        <span>
-                            Add ActionTypes
+                            <a class="btn btn-primary" href="@Url.Action("Create", "ActionTypes")">
+                                <span>
+                                    Add ActionTypes
 
-                        </span>
+                                </span>
 
-                    </a>
+                            </a>
+                        }
 
-                </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -46,7 +52,7 @@
                         <th>
                             @Html.DisplayName("Name")
                         </th>
-                      
+
                         <th>
                             @Html.DisplayName("Is Active")
                         </th>
@@ -56,13 +62,16 @@
                         <th>
                             @Html.DisplayName("Last Updated Details")
                         </th>
-                       
+
                         <th>
                             @Html.DisplayName("Comments")
                         </th>
+                        <th>
+                            @Html.DisplayName("Action")
+                        </th>
                     </tr>
                 </thead>
-                @foreach (var item in Model)
+                @foreach (var item in Model.ActionTypes)
                 {
                     <tr>
                         <td>
@@ -71,7 +80,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                      
+
                         <td>
                             @Html.DisplayFor(modelItem => item.IsActive)
                         </td>
@@ -82,13 +91,16 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.LastUpdateBy)
                         </td>
-                      
+
                         <td>
                             @Html.DisplayFor(modelItem => item.Comments)
                         </td>
                         <td style="display: inline-flex">
-                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ActionTypes", new { id = item.ActionTypeId })'>Edit</a>
-                        </td>
+                            @if (Model.Rights.Edit)
+                            {
+                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ActionTypes", new { id = item.ActionTypeId })'>Edit</a>
+                            }
+                            </td>
                     </tr>
                     count++;
                 }

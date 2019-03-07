@@ -9,6 +9,7 @@ using TogoFogo.Models.Gateway;
 using TogoFogo.Repository;
 using TogoFogo.Repository.SMSGateway;
 using AutoMapper;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -21,7 +22,8 @@ namespace TogoFogo.Controllers
         {
              _gatewayRepo = new Gateway();
         }
-          public async Task<ActionResult> Index()
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Notification Gateway")]
+        public async Task<ActionResult> Index()
 
 
         {
@@ -37,8 +39,10 @@ namespace TogoFogo.Controllers
             model.mainModel = Mapper.Map<List<NotificationGatewayModel>>(notificationgateway);
             model.Gateway.GatewayTypeId = getwayTypeId;
             model.Gateway.GatewayList = new SelectList(notificationgateway, "GatewayId", "GatewayName");
+            model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Notification Gateway")]
         public async Task<ActionResult> Create()
         {
             var notificationgatewaymodel = new NotificationGatewayModel();
@@ -76,6 +80,7 @@ namespace TogoFogo.Controllers
                 return View(notificationgateway);
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Notification Gateway")]
         public async Task<ActionResult> Edit(int id)
         {
             var notificationgateway = await _gatewayRepo.GetGatewayById(id);

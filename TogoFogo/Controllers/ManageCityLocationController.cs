@@ -19,20 +19,21 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
 
         // GET: ManageCityLocation
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Cities/Locations")]
         public ActionResult ManageCityLocation()
         {
-            ViewBag.CountryName = new SelectList(Enumerable.Empty<SelectListItem>());
+            LocationViewModel ls = new LocationViewModel();
+            ls.Rights  = (UserActionRights)HttpContext.Items["ActionsRights"];
 
-            ViewBag.StateName = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["AddLocation"] != null)
             {
-                ViewBag.AddLocation = TempData["AddLocation"].ToString();
+                ls.AddLocation = TempData["AddLocation"].ToString();
             }
             if (TempData["EditLocation"] != null)
             {
-                ViewBag.AddLocation = TempData["EditLocation"].ToString();
+                ls.EditLocation = TempData["EditLocation"].ToString();
             }
-            return View();
+            return View(ls);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Cities/Locations")]
         public ActionResult AddCityLocation()
@@ -104,44 +105,7 @@ namespace TogoFogo.Controllers
                 objManageLocation.ManageLocationList = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
                
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objManageLocation._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objManageLocation._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objManageLocation._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objManageLocation._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objManageLocation._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objManageLocation._UserActionRights.Create = true;
-                objManageLocation._UserActionRights.Edit = true;
-                objManageLocation._UserActionRights.Delete = true;
-                objManageLocation._UserActionRights.View = true;
-                objManageLocation._UserActionRights.History = true;
-                objManageLocation._UserActionRights.ExcelExport = true;
-
-            }
-
+            objManageLocation._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objManageLocation);
 
         }

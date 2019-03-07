@@ -28,9 +28,12 @@
                 </div>
                 <div class="panel-body" style="border:0px solid red">
                     <div class="table-responsive">
+                        @if (Model.Rights.View)
+                        {
 
-                        @Html.Partial("_EmailHeaderFooterTable", Model.mainModel)
-                    </div>
+                            @Html.Partial("_EmailHeaderFooterTable", Model.mainModel, new ViewDataDictionary { { "rights", Model.Rights } })
+                        }
+                        </div>
                 </div>
             </div>
 
@@ -55,16 +58,19 @@
                 <div class="panel-body" style="border:0px solid red">
                     <div class="row ">
                         <div class="col-md-12 ">
-
-                            @using (Html.BeginForm("create", "EmailHeaderFooter", FormMethod.Post, new {   @class = "form - horizontal" }))
+                            @if (Model.Rights.Create)
                             {
 
-                                @Html.Partial("_CreateEditEmailHeaderFooterForm", Model.EmailHeaderFooter)
+                                using (Html.BeginForm("create", "EmailHeaderFooter", FormMethod.Post, new { @class = "form - horizontal" }))
+                                {
+
+                                    @Html.Partial("_CreateEditEmailHeaderFooterForm", Model.EmailHeaderFooter)
 
 
+                                }
                             }
 
-                        </div>
+                            </div>
 
                     </div>
 
