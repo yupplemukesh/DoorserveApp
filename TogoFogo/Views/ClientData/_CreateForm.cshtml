@@ -8,7 +8,7 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
 
             @Html.DropDownListFor(model => model.ClientId, Model.ClientList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(x=>x.ClientId)
+            @Html.ValidationMessageFor(x=>x.ClientId,"", new { @class = "text-danger" })
         </div>
     </div>
     <div class="row" style="padding-bottom: 5px">
@@ -16,13 +16,14 @@
         <div class="col-md-6 col-sm-6 col-xs-12">
 
             @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceTypeList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.ServiceTypeId)
+            @Html.ValidationMessageFor(x => x.ServiceTypeId, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="row" style="padding-bottom: 5px;">
         @Html.Label("Browse File", htmlAttributes: new { @class = "col-md-4  col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
             @Html.TextBoxFor(model => model.DataFile, htmlAttributes: new { @type = "file", @class = "form-control" })
+               @Html.ValidationMessageFor(x => x.DataFile, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="row col-md-offset-9" style="padding-bottom: 5px;">

@@ -30,10 +30,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Bank Details</h4>
             </div>
-            <div class="modal-body" id="BankInfo">
+            @using (Html.BeginForm("AddOrEditBank", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-body" id="BankInfo">
 
+                </div>
+            }
             </div>
-        </div>
 
     </div>
 </div>
@@ -48,10 +51,13 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Contact Details </h4>
             </div>
-            <div class="modal-body" id="ContactInfo">
+            @using (Html.BeginForm("AddOrPersonContactDetails", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", }))
+            {
+                <div class="modal-body" id="ContactInfo">
 
+                </div>
+            }
             </div>
-        </div>
 
     </div>
 </div>
@@ -61,7 +67,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
 
-            var DivName = $('.nav-tabs .active a').attr('href');           
+            var DivName = $('.nav-tabs .active a').attr('href');
             activaTab(DivName);
 
 
@@ -114,8 +120,6 @@
         function AddOrEditContact(contact) {
 
             var clientId = $("#ClientId").val();
-            console.log(contact);
-
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("AddorUpdateContact","manageClients")',
@@ -139,7 +143,15 @@
                 }
             });
         };
+        $("#IsUser").change(function (e) {
+            if ($(this).prop("checked")) {
+                $("#userDetails").show();
+            }
+            else {
+                $("#userDetails").hide();
+            }
 
+        })
 
         function AddOrEditBank(bank) {
             var clientId = $("#ClientId").val();
@@ -173,6 +185,7 @@
 
 
     </script>
+  
 
 
 }

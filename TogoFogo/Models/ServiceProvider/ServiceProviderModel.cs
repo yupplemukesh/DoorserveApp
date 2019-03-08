@@ -8,11 +8,11 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class ClientModel
+    public class ServiceProviderModel
     {
        
 
-        public ClientModel()
+        public ServiceProviderModel()
         {
             Activetab = "tab-1";
 
@@ -37,7 +37,7 @@ namespace TogoFogo.Models
         public OrganizationModel Organization { get; set; }
         public List<ContactPersonModel> ContactPersons { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
-        public Guid? ClientId { get; set; }
+        public Guid? ProviderId { get; set; }
         [Required]
         [DisplayName("Process Name")]
         public int ProcessId { get; set; }
@@ -45,13 +45,13 @@ namespace TogoFogo.Models
         public string ProcessName { get; set; }
 
         [Required]
-        [DisplayName("Client Code")]
-        public string ClientCode { get; set; }
+        [DisplayName("Service Provider Code")]
+        public string ProviderCode { get; set; }
         [Required]
-        [DisplayName("Client Name")]
-        [System.Web.Mvc.Remote("RemoteValidationClientName", "Master", AdditionalFields =  "CurrentClientName", ErrorMessage = "Client Name already exists!")]
-        public string ClientName { get; set; }
-        public string CurrentClientName { get; set; }
+        [DisplayName("Service Provider Name")]
+        [System.Web.Mvc.Remote("RemoteValidationProviderName", "Master", AdditionalFields =  "CurrentProviderName", ErrorMessage = "Provider Name already exists!")]
+        public string ProviderName { get; set; }
+        public string CurrentProviderName { get; set; }
         [DisplayName("Organization Name")]
         public string ORGNAME { get; set; }
 
@@ -80,18 +80,5 @@ namespace TogoFogo.Models
 
     }
 
-    public class SkillValidation : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            List<TogoFogo.CheckBox> instance = value as List<TogoFogo.CheckBox>;
-            int count = instance == null ? 0 : (from p in instance
-                                                where p.IsChecked == true
-                                                select p).Count();
-            if (count >= 1)
-                return ValidationResult.Success;
-            else
-                return new ValidationResult(ErrorMessage);
-        }
-    }
+   
 }

@@ -13,7 +13,7 @@
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
                 <a href="#" class="tools-icon btn btn-primary btn-sm excel">
-                    Excel
+                   Export to Excel
                 </a>
 
             </div>
@@ -367,7 +367,7 @@
             <script>
         var table1 = $('#myTable1').DataTable();
         var table = $('#myTable').DataTable();
-        $(document).on("change", "#chkAll", function (e) {
+                $("#chkAll").on("change", function (e) {
 
             $(".chk-item").prop('checked', $(this).prop("checked"));
         });
@@ -380,6 +380,7 @@
 
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
+
                 var value1 = $("#AClientId option:selected").text().toLowerCase();
                 var servicetype1 = $("#AServiceTypeId option:selected").text().toLowerCase();
                 var serviceProvider1 = $("#AServiceProviderId option:selected").text().toLowerCase();
@@ -387,27 +388,32 @@
                 var servicetype = $("#ServiceTypeId option:selected").text().toLowerCase();
                 var serviceProvider = $("#ServiceProviderId option:selected").text().toLowerCase();
                 if ($("#tab-5").hasClass("active")) {
-                    if (value.toLowerCase() != "select" || servicetype.toLowerCase() != "select" || serviceProvider.toLowerCase() == "select") {
+                    debugger
+                    if (value.toLowerCase() != "select" || servicetype.toLowerCase() != "select" || serviceProvider.toLowerCase() != "select") {
                         var client = data[3]
                         var servicet = data[5]; //
                         var SP = data[17]; //
                         if (client.toLowerCase() == value && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
                             return true;
-                        else if (servicet.toLowerCase() == servicetype && value.toLowerCase() == "select" &&  serviceProvider.toLowerCase() == "select" )
+                        else if (servicet.toLowerCase() == servicetype && value.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
                             return true;
                         else if (SP.toLowerCase() == serviceProvider && servicetype.toLowerCase() == "select" && value.toLowerCase() == "select")
                             return true;
-                        else if (servicet.toLowerCase() == servicetype && client.toLowerCase() == value && serviceProvider.toLowerCase() == "select" )
+                        else if (servicet.toLowerCase() == servicetype && client.toLowerCase() == value && serviceProvider.toLowerCase() == "select")
                             return true;
                         else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == "select")
                             return true;
                         else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == client)
                             return true;
+                     
                     }
-                    return false;
+                   else if (value.toLowerCase() == "select" && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select") 
+                        return true;
+                    else
+                        return false;
                 }
                 else {
-                    if (value1.toLowerCase() != "select" || servicetype1.toLowerCase() != "select") {
+                    if (value1.toLowerCase() != "select" || servicetype1.toLowerCase() != "select" || serviceProvider1.toLowerCase() != "select" ) {
                         var client = data[2];
                         var servicet = data[4];
                         var SP = data[16]; 
@@ -423,8 +429,12 @@
                             return true;
                         else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == client)
                             return true;
+                       
                     }
-                    return false;
+                    else if (value1.toLowerCase() == "select" && servicetype1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
+                        return true;
+                    else
+                        return false;
                 }
             }
         );

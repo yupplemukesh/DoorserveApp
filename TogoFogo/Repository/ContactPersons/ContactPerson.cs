@@ -46,13 +46,7 @@ namespace TogoFogo.Repository
             param = new SqlParameter("@CONNUMBER", ToDBNull(contact.ConMobileNumber));
             sp.Add(param);
             param = new SqlParameter("@CONEMAIL", ToDBNull(contact.ConEmailAddress));
-            sp.Add(param);
-            param = new SqlParameter("@ISUSER", (object)contact.IsUser);
-            sp.Add(param);
-            param = new SqlParameter("@USERNAME", ToDBNull(contact.UserName));
-            sp.Add(param);
-            param = new SqlParameter("@PASSWORD", ToDBNull(contact.Password));
-            sp.Add(param);
+            sp.Add(param);          
             param = new SqlParameter("@CONPANNUMBER", ToDBNull(contact.ConPanNumber));
             sp.Add(param);
             param = new SqlParameter("@CONPANFILENAME", ToDBNull(contact.ConPanFileName));
@@ -71,7 +65,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
 
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
-                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@ISUSER,@USERNAME,@PASSWORD,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER";
+                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();

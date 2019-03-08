@@ -1,21 +1,14 @@
 ﻿@model TogoFogo.Models.OrganizationModel
-
-
-
-
 @Html.HiddenFor(x => x.OrgPanFileName)
 @Html.HiddenFor(x => x.OrgGSTFileName)
-
 <!-- Text input-->
 <div class=" row form-group">
-    <label class="col-md-3 " for="textinput">Organization Name of Client</label>
+    <label class="col-md-3 " for="textinput">Organization Name </label>
     <div class="col-md-9">
         @Html.TextBoxFor(x => x.OrgName, new { @class = "form-control input-md", @placeholder = "Organization Name of Client" })
         @Html.ValidationMessageFor(model => model.OrgName, "", new { @class = "text-danger" })
     </div>
 </div>
-
-
 <!-- Text input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">Organization Code (CIN)</label>
@@ -24,7 +17,6 @@
         @Html.ValidationMessageFor(model => model.OrgCode, "", new { @class = "text-danger" })
     </div>
 </div>
-
 <!-- Text input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">Organization IEC Number</label>
@@ -34,9 +26,6 @@
         @Html.ValidationMessageFor(model => model.OrgIECNumber, "", new { @class = "text-danger" })
     </div>
 </div>
-
-
-
 <!-- Select Basic -->
 <div class=" row form-group">
     <label class="col-md-3 control-label" for="selectbasic">Statutory Type	</label>
@@ -45,50 +34,36 @@
         @Html.ValidationMessageFor(model => model.OrgStatutoryType, "", new { @class = "text-danger" })
     </div>
 </div>
-
-
 <!-- Select Basic -->
 <div class=" row form-group">
     <label class="col-md-3 control-label" for="selectbasic">Applicable Tax Type	</label>
     <div class="col-md-9">
-
-
         @Html.DropDownListFor(model => model.OrgApplicationTaxType, Model.AplicationTaxTypeList, "Select", new { @class = "form-control" })
-
     </div>
 </div>
-
-
 <div class=" row form-group">
     <label class="col-md-3 control-label" for="selectbasic">GST Category	</label>
     <div class="col-md-9">
-
         @Html.DropDownListFor(model => model.OrgGSTCategory, Model.GstCategoryList, new { @class = "form-control" })
-
     </div>
 </div>
 <!-- Text input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">GST Number</label>
     <div class="col-md-9">
-
         @Html.TextBoxFor(x => x.OrgGSTNumber, new { @class = "form-control input-md", @placeholder = "GST Number" })
         @Html.ValidationMessageFor(model => model.OrgGSTNumber, "", new { @class = "text-danger" })
     </div>
 </div>
-
-
 <!-- file input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">Upload GST Number</label>
     @if (!string.IsNullOrEmpty(Model.OrgGSTFileName))
     {
-
         <div class="col-md-5">
             @Html.TextBoxFor(model => model.OrgGSTNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
             @Html.ValidationMessageFor(model => model.OrgGSTNumberFilePath, "", new { @class = "text-danger" })
         </div>
-
         <div class="col-md-4">
             <a data-target="#modalIMGOrgGST" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
                 <div class="ba-0 tp-s img-thumbnail">
@@ -103,29 +78,20 @@
             @Html.TextBoxFor(model => model.OrgGSTNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
             @Html.ValidationMessageFor(model => model.OrgGSTNumberFilePath, "", new { @class = "text-danger" })
         </div>
-
     }
 
 </div>
-
 <!-- Text input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">PAN Card Number</label>
     <div class="col-md-9">
-
         @Html.TextBoxFor(x => x.OrgPanNumber, new { @class = "form-control input-md", @placeholder = "PAN Number" })
         @Html.ValidationMessageFor(model => model.OrgPanNumber, "", new { @class = "text-danger" })
-
     </div>
 </div>
-
-
-
 <!-- Text input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">PAN Card Number</label>
-
-
     @if (!string.IsNullOrEmpty(Model.OrgPanFileName))
     {
         <div class="col-md-5">
@@ -140,20 +106,14 @@
             </a>
         </div>
     }
-
     else
     {
         <div class="col-md-9">
             @Html.TextBoxFor(model => model.OrgPanNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
             @Html.ValidationMessageFor(model => model.OrgPanNumberFilePath, "", new { @class = "text-danger" })
         </div>
-
     }
 </div>
-
-
-
-
 <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgPan" role="dialog" tabindex="-1" target="_blank">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -164,7 +124,6 @@
         </div>
     </div>
 </div>
-
 <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgGST" role="dialog" tabindex="-1" target="_blank">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

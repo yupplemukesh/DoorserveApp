@@ -27,7 +27,7 @@ namespace TogoFogo.Models
         ErrorMessage = "Please Enter Correct Email Address")]
         [Required(ErrorMessage = "Enter Email")]
         public string ConEmailAddress { get; set; }
-        public bool IsUser { get; set; }
+   
         [DisplayName("Client PAN Card Number")]
         public string ConPanNumber { get; set; }
         [DisplayName("Upload Pan Card")]
@@ -41,9 +41,7 @@ namespace TogoFogo.Models
         public char? Action { get; set; }
         public string ConVoterIdFileName { get; set; }
         public string ConVoterIdFileUrl { get; set; }
-        [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", ErrorMessage = "UserName already exists!")]
-        public string UserName { get; set; }
-        public string Password { get; set; }
+       
         public int UserID { get; set; }
         [DisplayName("Aadhaar Number")]
         public string ConAdhaarNumber { get; set; }

@@ -129,13 +129,16 @@ namespace TogoFogo.Controllers
                 {
                     clientDataModel.UserId = Convert.ToInt32(Session["User_ID"]);
                     var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
+                    if(!response.IsSuccess)
+                        System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
                     TempData.Keep("response");
                     return RedirectToAction("index");
                 }
                 catch (Exception ex)
                 {
-                    System.IO.File.Delete(excelPath);
+                    if(System.IO.File.Exists(Server.MapPath(excelPath)))
+                       System.IO.File.Delete(Server.MapPath(excelPath));
                     return RedirectToAction("index");
 
                 }

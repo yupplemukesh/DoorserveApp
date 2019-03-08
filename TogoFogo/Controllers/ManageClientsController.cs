@@ -127,10 +127,14 @@ namespace TogoFogo.Controllers
         {
 
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
+            {  
+                if(System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName)))
                 System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName));
+            } 
 
             if (bank.BankCancelledChequeFilePath != null)
                 bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
+            
 
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
             if (TempData["client"] != null)
@@ -140,12 +144,13 @@ namespace TogoFogo.Controllers
                 var clientModel = await _client.GetClientByClientId(bank.RefKey);
                 clientModel.ProcessList = client.ProcessList;
                 clientModel.SupportedCategoryList = client.SupportedCategoryList;
+                clientModel.DeviceCategories = client.DeviceCategories;
                 clientModel.Organization.GstCategoryList = client.Organization.GstCategoryList;
                 clientModel.Organization.StatutoryList = client.Organization.StatutoryList;
                 clientModel.Organization.AplicationTaxTypeList = client.Organization.AplicationTaxTypeList;
                 clientModel.ServiceList = client.ServiceList;
                 clientModel.DeliveryServiceList = client.DeliveryServiceList;
-                 clientModel.Activetab = "tab-5";                    
+                clientModel.Activetab = "tab-5";                    
                     TempData["client"] = clientModel;
                     TempData.Keep("client");
                     TempData["response"] = Response;
@@ -169,13 +174,22 @@ namespace TogoFogo.Controllers
 
 
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
-                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/ADHRS/" + contact.ConAdhaarFileName));
+            {
+
+                if  (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/ADHRS/" + contact.ConAdhaarFileName)))
+                     System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/ADHRS/" + contact.ConAdhaarFileName));
+            }
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
-                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/VoterIds/" + contact.ConVoterIdFileName));
+            {
+                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/VoterIds/" + contact.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/VoterIds/" + contact.ConVoterIdFileName));
+            }
             if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
-                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + contact.ConPanFileName));
-
-
+            {
+                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + contact.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + contact.ConPanFileName));      
+            }
+         
             if (contact.ConAdhaarNumberFilePath != null)
                 contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
             if (contact.ConVoterIdFilePath != null)
@@ -195,6 +209,7 @@ namespace TogoFogo.Controllers
                 var response = await _contactPerson.AddUpdateContactDetails(contact);
                 var clientModel = await _client.GetClientByClientId(contact.RefKey);
                 clientModel.ProcessList = client.ProcessList;
+                clientModel.DeviceCategories = client.DeviceCategories;
                 clientModel.SupportedCategoryList = client.SupportedCategoryList;
                 clientModel.Organization.GstCategoryList = client.Organization.GstCategoryList;              
                 clientModel.Organization.StatutoryList = client.Organization.StatutoryList;          
@@ -377,9 +392,15 @@ namespace TogoFogo.Controllers
                 client.Organization = org;
 
             if (client.Organization.OrgGSTNumberFilePath != null && client.Organization.OrgGSTFileName != null)
-                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Gsts/" + client.Organization.OrgGSTFileName));
+            {
+                if(System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/Gsts/" + client.Organization.OrgGSTFileName)))
+                   System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Gsts/" + client.Organization.OrgGSTFileName));
+            }
             if (client.Organization.OrgPanNumberFilePath != null && client.Organization.OrgPanFileName != null)
-                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + client.Organization.OrgPanFileName));
+            {
+                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + client.Organization.OrgPanFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + client.Organization.OrgPanFileName));                
+            }
 
             if (client.Organization.OrgGSTNumberFilePath != null)
                 client.Organization.OrgGSTFileName = SaveImageFile(client.Organization.OrgGSTNumberFilePath, "Gsts");
@@ -428,6 +449,8 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {
 
+            if (client.IsUser && !string.IsNullOrEmpty(client.Password))
+                client.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(client.Password, true);
 
             var cltns = TempData["client"] as ClientModel;
             client.Organization = new OrganizationModel();
@@ -435,10 +458,11 @@ namespace TogoFogo.Controllers
             {
                 cltns.Remarks = client.Remarks;
                 cltns.IsActive = client.IsActive;
-                client = cltns;
-               
-            }
-                    
+                cltns.IsUser = client.IsUser;
+                cltns.UserName = client.UserName;
+                cltns.Password = client.Password;
+                client = cltns;               
+            }                    
             try
             {
 
@@ -450,8 +474,6 @@ namespace TogoFogo.Controllers
                 TempData["response"] = response;
                 TempData.Keep("response");              
                return RedirectToAction("Index");
-
-
 
             }
             catch (Exception ex)
