@@ -10,19 +10,15 @@
 <div class="panel-heading">
 
     <div class="row">
-
         <div class="col-md-6">
             <h3 class="m-t-0 m-b-5">Email,SMS & Notification Template List</h3>
             <p class="text-muted m-b-0"></p>
         </div>
-
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
-                <a href='@Url.Action("Create","templates")' class="btn btn-primary btn-sm">
-                    <span>
-                        Add New Template
-                    </span>
-                    @*<button type="submit" class="btn btn-primary btn-sm">Add New Template</button>*@
+                <a href='@Url.Action("Create","templates")' class="tools-icon">
+
+                    <button type="submit" class="btn btn-primary btn-sm">Add New Template</button>
                 </a>
                 <a href="#" class="tools-icon">
                     <button type="submit" class="btn btn-primary btn-sm">Export to Excel</button>
@@ -35,60 +31,42 @@
                 </a>
             </div>
         </div>
-
-
     </div>
 </div>
-
 <div class="panel-body">
-
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav nav-tabs m-b-15">
-
-
                     <li class="active">
-                        <a href="#tab-5" role="tab" data-toggle="tab">
+                        <a href="#tab-5" role="tab" data-toggle="tab"  >
                             <button type="submit" class="btn btn-primary btn-sm">Non Action Type</button>
                         </a>
                     </li>
                     <li>
-                        <a href="#tab-6" role="tab" data-toggle="tab">
-                            <button type="submit" class="btn btn-primary btn-sm">Action Type</button>
+                        <a href="#tab-6" role="tab" data-toggle="tab" >
+                            <button  type="submit" class="btn btn-primary btn-sm">Action Type</button>                      
                         </a>
                     </li>
-
-
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="tab-5">
-
                         <div class="row">
-
-
                             <div class="col-md-6 form-group">
-
                                 <label class=" control-label" for="form-control-9">Message Type </label>
-
-
                                 <div class="form-group">
                                     @Html.DropDownListFor(model => model.NonMessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
                                 </div>
-
-
                             </div>
                         </div>
-
                         <div class="table-responsive m-t-5">
-                            <table class="table table-striped table-bordered dataTable" id="myTable1">
+                            <table class="table table-striped table-bordered dataTable" id="NonActionBasedTable">
                                 <thead>
                                     <tr>
                                         <th>
                                             @Html.DisplayName("SLNo")
                                         </th>
                                         <th>
-
                                             @Html.DisplayName("Mailer Template Type")
                                         </th>
                                         <th>
@@ -126,99 +104,80 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                @foreach (var item in Model.NonActionTemplates)
-                                {
-                                    <tr>
-                                        <td>
-                                            @count
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.MailerTemplateName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.MessageTypeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ActionTypeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TemplateName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Subject)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ToEmail)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BccEmails)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsSystemDefined)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsActive)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.AddedOn)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-                                        </td>
-                                        <td style="display: inline-flex">
-                                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "Templates", new { id = item.TemplateId })'>Edit</a>
-                                        </td>
-                                    </tr>
-                                    count++;
-                                }
-
+                                <tbody>
+                                    @foreach (var item in Model.NonActionTemplates)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @count
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MailerTemplateName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MessageTypeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ActionTypeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TemplateName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Subject)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToEmail)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BccEmails)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsSystemDefined)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsActive)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AddedOn)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+                                            </td>
+                                            <td style="display: inline-flex">
+                                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "Templates", new { id = item.TemplateId })'>Edit</a>
+                                            </td>
+                                        </tr>
+                                        count++;
+                                    }
+                                </tbody>
                             </table>
                         </div>
-
-
-                        
-
-
-                    </div><!--tab-pane-->
-
-
-
-
+                    </div>
+                    <!--tab-pane-->
                     <div role="tabpanel" class="tab-pane fade in" id="tab-6">
-
                         <div class="row">
                             <div class="col-md-6 form-group">
-
                                 <label class=" control-label" for="form-control-9">Message Type </label>
                                 <div class="form-group">
                                     @Html.DropDownListFor(model => model.MessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
                                 </div>
                             </div>
-
-
                             <div class="col-md-6 form-group">
                                 <label class=" control-label" for="form-control-9">Action Type </label>
                                 <div class="form-group">
                                     @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "Select", new { @class = "form-control", @readonly = "readonly" })
                                 </div>
-
                             </div>
-
-
-
                         </div>
-
-
-
                         <div class="table-responsive m-t-5">
-                            <table class="table table-striped table-bordered dataTable" id="myTable">
+                            <table class="table table-striped table-bordered dataTable" id="ActionBasedTable">
                                 <thead>
                                     <tr>
                                         <th>
                                             @Html.DisplayName("SLNo")
                                         </th>
                                         <th>
-
                                             @Html.DisplayName("Mailer Template Type")
                                         </th>
                                         <th>
@@ -256,94 +215,108 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                @foreach (var item in Model.Templates)
-                                {
-                                    <tr>
-                                        <td>
-                                            @count1
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.MailerTemplateName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.MessageTypeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ActionTypeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TemplateName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Subject)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ToEmail)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BccEmails)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsSystemDefined)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IsActive)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.AddedOn)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-                                        </td>
-                                        <td style="display: inline-flex">
-                                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "Templates", new { id = item.TemplateId })'>Edit</a>
-                                        </td>
-                                    </tr>
-                                    count1++;
-                                }
-
+                                <tbody>
+                                    @foreach (var item in Model.Templates)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @count1
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MailerTemplateName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MessageTypeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ActionTypeName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.TemplateName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Subject)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ToEmail)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BccEmails)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsSystemDefined)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsActive)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AddedOn)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+                                            </td>
+                                            <td style="display: inline-flex">
+                                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "Templates", new { id = item.TemplateId })'>Edit</a>
+                                            </td>
+                                        </tr>
+                                        count1++;
+                                    }
+                                    </tbody>
                             </table>
                         </div>
-
-
-
                     </div><!--tab-6-->
-
                 </div>
             </div>
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-
     </div>
 </div>
-
-
-
-
-
 @section scripts{
     <script>
-        $("#TemplateTypeId").on("change", function (e) {
-            debugger
-            var thisvalue = $(this).find("option:selected").text();
-            if (thisvalue == "ActionBased") {
-                console.log("hi");
-                $("#actions").show();
+        //$("#TemplateTypeId").on("change", function (e) {
+        //    debugger
+        //    var thisvalue = $(this).find("option:selected").text();
+        //    if (thisvalue == "ActionBased") {
+        //        $("#actions").show();
+        //    }
+        //    else
+        //        $("#actions").hide();
+        //});
+        //$(document).on('change', '#NonMessageTypeId', function () {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Templates/GetTemplatefilterData?MessageTypeId=" + $(this).val() + "&ActionTypeId=" + 0 + "&MailerTemplateName=" +"NonActionBased",
+        //        data: '{}',
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (data) {
+        //        }
+        //    });
+        //});
 
-            }
-            else
-                $("#actions").hide();
-        })
-        </script>
+        //$(document).on('change', '#MessageTypeId', function () {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Templates/GetTemplatefilterData?MessageTypeId=" + $(this).val() + "&ActionTypeId=" + 0 + "&MailerTemplateName=" + "ActionBased",
+        //        data: '{}',
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (data) {
+                    
+        //        }
+        //    });
+        //});
+
+        //$(document).on('change', '#ActionTypeId', function () {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/Templates/GetTemplatefilterData?MessageTypeId=" + $('#MessageTypeId').val() + "&ActionTypeId=" + $(this).val() + "&MailerTemplateName=" + "ActionBased",
+        //        data: '{}',
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (data) {                    
+        //        }
+        //    });
+        //});
+
+</script>
 }

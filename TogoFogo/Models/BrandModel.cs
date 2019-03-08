@@ -40,6 +40,9 @@ namespace TogoFogo.Models
         public int CreatedBy { get; set; }
         public string CreatedDate { get; set; }
         public int ModifyBy { get; set; }
+        [DisplayName("Last Update By")]
+        public string CBy { get; set; }
+        public string MBy { get; set; }
         [DisplayName("Last Update Date and Time")]
         public string ModifyDate { get; set; }
         public int DeleteBy { get; set; }

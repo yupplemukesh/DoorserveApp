@@ -7,7 +7,7 @@ using System.Web;
 
 namespace TogoFogo.Models
 {
-    public class ManageLocation: UserActionRights
+    public class ManageLocation
     {
         [DisplayName("Serial No")]
         public Int32 SerialNo { get; set; }
@@ -40,7 +40,7 @@ namespace TogoFogo.Models
         public string DeleteBy { get; set; }
         [DisplayName("Delete Date")]
         public string DeleteDate {get;set;}
-       public List<ManageLocation> ManageLocationList { get; set; }
+        public List<ManageLocation> ManageLocationList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
 
     }

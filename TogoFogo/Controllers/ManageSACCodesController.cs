@@ -19,20 +19,22 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-       
-      
+
+
         // GET: ManageSACCodes
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST HSN/SAC Codes")]
         public ActionResult SacCodes()
         {
-           
-        
-           
+            ManageSACCodesViewModel Ms = new ManageSACCodesViewModel();
+            Ms.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+
+
             if (TempData["Message"] != null)
             {
-                ViewBag.Message = TempData["Message"].ToString();
+                Ms.Message = TempData["Message"].ToString();
 
             }
-            return View();
+            return View(Ms);
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST HSN/SAC Codes")]
@@ -113,43 +115,44 @@ namespace TogoFogo.Controllers
                 objSacCodesModel._SacCodesModelList = con.Query <SacCodesModel>("select c.Cnty_Name,s.St_Name,m.SacCodesId, m.Applicable_Tax,m.GstCategoryid, m.GstHeading, m.Gst_HSN_Code, m.CTH_Number, m.SAC, g.Gstcategory,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, com.name Applicabletax, m.GstProductSubCat, m.Description_Of_Goods, m.IsActive, m.Comments,m.CreatedDate, m.ModifyDate, u.Username Cby, u1.Username Mby from MstSacCodes m  join create_User_Master u on u.id = m.CreatedBy  left outer join create_User_Master u1 on m.ModifyBy = u1.id  left outer join MstCountry c on c.Cnty_ID = m.CountryId left outer join mststate s on s.St_ID = m.StateId left outer join tblcommon com on com.ID = m.Applicable_Tax left outer join MstGstCategory AS g ON g.GstCategoryId = m.GstCategoryId ", new { }, commandType: CommandType.Text).ToList();
                
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objSacCodesModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objSacCodesModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objSacCodesModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objSacCodesModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objSacCodesModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
+            objSacCodesModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            //UserActionRights objUserActiobRight = new UserActionRights();
+            //objSacCodesModel._UserActionRights = objUserActiobRight;
+            //string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+            //if (!string.IsNullOrEmpty(rights))
+            //{
+            //    string[] arrRights = rights.ToString().Split(',');
+            //    for (int i = 0; i < arrRights.Length; i++)
+            //    {
+            //        if (Convert.ToInt32(arrRights[i]) == 2)
+            //        {
+            //            objSacCodesModel._UserActionRights.Create = true;
+            //        }
+            //        else if (Convert.ToInt32(arrRights[i]) == 3)
+            //        {
+            //            objSacCodesModel._UserActionRights.Edit = true;
+            //        }
+            //        else if (Convert.ToInt32(arrRights[i]) == 4)
+            //        {
+            //            objSacCodesModel._UserActionRights.Delete = true;
+            //        }
+            //        else if (Convert.ToInt32(arrRights[i]) == 6)
+            //        {
+            //            objSacCodesModel._UserActionRights.Delete = true;
+            //        }
+            //    }
+            //}
+            //else
+            //{
 
-                objSacCodesModel._UserActionRights.Create = true;
-                objSacCodesModel._UserActionRights.Edit = true;
-                objSacCodesModel._UserActionRights.Delete = true;
-                objSacCodesModel._UserActionRights.View = true;
-                objSacCodesModel._UserActionRights.History = true;
-                objSacCodesModel._UserActionRights.ExcelExport = true;
+            //    objSacCodesModel._UserActionRights.Create = true;
+            //    objSacCodesModel._UserActionRights.Edit = true;
+            //    objSacCodesModel._UserActionRights.Delete = true;
+            //    objSacCodesModel._UserActionRights.View = true;
+            //    objSacCodesModel._UserActionRights.History = true;
+            //    objSacCodesModel._UserActionRights.ExcelExport = true;
 
-            }
+            //}
             return View(objSacCodesModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST HSN/SAC Codes")]

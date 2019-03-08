@@ -1,66 +1,44 @@
 ﻿@model TogoFogo.Models.Template.TemplateModel
 
 <div class="row">
-
     <div class="col-md-6 form-group">
-
         <label class=" control-label" for="form-control-9">Mailer Template Type</label>
+        @Html.HiddenFor(model=>model.TemplateId)
         @Html.DropDownListFor(model => model.TemplateTypeId, Model.TemplateTypeList, "Select", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.TemplateTypeId, "", new { @class = "text-danger" })
     </div>
-
     <div class="col-md-6 form-group" id="actions">
-
         <label class=" control-label" for="form-control-9">Action Type</label>
         @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "Select", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
     </div>
-
 </div>
 <div class="row">
     <div class="col-md-6 form-group">
-
         <label class=" control-label" for="form-control-9"> Template Name </label>
         <div class="form-group">
             @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control input-md", @placeholder = "Mailer Template Name" })
             @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
         </div>
     </div>
-
-
     <div class="col-md-6 form-group">
-
         <label class=" control-label" for="form-control-9">Message Type </label>
         <div class="form-group">
             @Html.DropDownListFor(model => model.MessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.MessageTypeId, "", new { @class = "text-danger" })
-
         </div>
     </div>
 </div>
-
-
-
 <div class="row">
-    <div class="col-md-6 form-group"id="mailerGateway">
-
+    <div class="col-md-6 form-group" id="mailerGateway">
         <label class=" control-label" for="form-control-9">Mailer Gateway</label>
         <div class="form-group">
-            @Html.DropDownListFor(model => model.GatewayId, Enumerable.Empty<SelectListItem>(), "Select", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.GatewayId, Model.GatewayList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.GatewayId, "", new { @class = "text-danger" })
-
         </div>
-
-
-
     </div>
-
-
     <div class="col-md-6 form-group" id="header">
-
         <label class=" control-label" for="form-control-9">Header Footer Template</label>
-
-
         <div class="form-group">
             @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
@@ -68,191 +46,198 @@
     </div>
 </div>
 
-<div class="row" id="isSystemEmail">
-    <div class="col-md-6 form-group" >
-        <label class=" control-label" for="form-control-9">Is System Email</label>
-        <div class="form-group">
-            <label class="custom-control custom-control-primary custom-checkbox active">
-                @Html.CheckBoxFor(x => x.IsSystemDefined, new { @class = "custom-control-input" })
-                <span class="custom-control-indicator"></span>
-            </label>
-        </div>
-    </div>
-
-
-
-</div>
-
-<div class="row" >
+<div class="row">
     <div class="col-md-6 form-group" id="bccEmail">
-
         <label class=" control-label" for="form-control-9">BCC Email ID</label>
         @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC_Email_ID" })
         @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
     </div>
-
-
     <div class="col-md-6 form-group" id="emailSubject">
-
         <label class=" control-label" for="form-control-9">Email Subject</label>
         @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
         @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
-
-
-
     </div>
-
 </div>
-
-
-
-
 <div class="row">
     <div class="col-md-6 form-group">
-
-        <label class=" control-label" for="form-control-9">Priority</label>
+        <label class=" control-label" for="form-control-9">To Email</label>
         <div class="form-group">
-            @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(model=>model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
+            </div>
         </div>
-
-
-
-    </div>
-
-
-
+            <div class="col-md-6 form-group">
+                <label class="control-label" for="form-control-9">Priority</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+<div class="row">
     <div class="col-md-6 form-group">
-
         <label class=" control-label" for="form-control-9">Is Active </label>
-
-
         <div class="form-group">
-            <label class="custom-control custom-control-primary custom-checkbox active">
-                @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input" })
-                <span class="custom-control-indicator"></span>
-            </label>
-
+            @*<label class="form-control">*@
+            @Html.CheckBoxFor(x => x.IsActive)
+            @*<span class="custom-control-indicator"></span>
+                </label>*@
         </div>
-
-
-
     </div>
-
+    <div class="col-md-6 form-group" id="isSystemEmail">
+        <label class="control-label" for="form-control-9">Is System Email</label>
+        <div class="form-group">
+            @*<label class="form-control">*@
+            @Html.CheckBoxFor(x => x.IsSystemDefined)
+            @*<span class="custom-control-indicator"></span>*@
+            @*</label>*@
+        </div>
+    </div>
 </div>
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                <label class="control-label" for="form-control-9"> Body</label>
+                @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
 
-
-<div class="row">
-
-    <div class="col-sm-12 form-group">
-        <label class="control-label" for="form-control-9">E-mail Body</p></label>
-        @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+        <script src="/ckeditor/ckeditor.js"></script>
+        @*<script src="../ckeditor/samples/js/sample.js"></script>*@
         <script>
+            $(document).ready(function () {
+                if ($("#TemplateTypeId").val() == 72) {
+                    $("#actions").hide();
+                    $("#bccEmail").css("display", "none");
+
+                }
+                else {
+                    $("#actions").show();
+                    $("#bccEmail").css("display", "block");
+                }
+                if ($("#MessageTypeId").val() == 52) {
+                    $("#header").css("display", "none");
+                    $("#bccEmail").css("display", "none");
+                    $("#emailSubject").css("display", "none");
+                    $("#isSystemEmail").css("display", "block");
+
+                }
+                else if ($("#MessageTypeId").val() == 53) {
+                    $("#header").css("display", "block");
+                    $("#bccEmail").css("display", "block");
+                    $("#emailSubject").css("display", "block");
+                    $("#isSystemEmail").css("display", "block");
+                    $("#mailerGateway").css("display", "block");
+                }
+                else if ($("#MessageTypeId").val() == 54) {
+                    $("#header").css("display", "none");
+                    $("#bccEmail").css("display", "none");
+                    $("#emailSubject").css("display", "none");
+                    $("#isSystemEmail").css("display", "none");
+                    $("#mailerGateway").css("display", "none");
+                }
+            });
+
             CKEDITOR.replace('editor1', {
                 height: 300,
                 extraPlugins: 'colorbutton,colordialog'
             });
-        </script>
-    </div>
-</div>
 
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
-<script>
+            $("#TemplateTypeId").change(function () {
 
-
-    $("#TemplateTypeId").change(function () {
-
-        if ($("#TemplateTypeId").val() == 72) {
-            $("#actions").hide();
-        }
-        else {
-            $("#actions").show();
-        }
-    });
-
-    $("#MessageTypeId").change(function () {
-
-        if ($("#MessageTypeId").val() == 52) {
-            //$("#header").hide();
-            $("#header").css("display", "none");
-            $("#bccEmail").css("display", "none");
-            $("#emailSubject").css("display", "none");
-            $("#isSystemEmail").css("display", "block");
-            
-        }
-        else if ($("#MessageTypeId").val() == 53) {
-            $("#header").css("display", "block");
-            $("#bccEmail").css("display", "block");
-            $("#emailSubject").css("display", "block");
-            $("#isSystemEmail").css("display", "block");
-            $("#mailerGateway").css("display", "block");
-        }
-        else if ($("#MessageTypeId").val() == 54) {
-            $("#header").css("display", "none");
-            $("#bccEmail").css("display", "none");
-            $("#emailSubject").css("display", "none");
-            $("#isSystemEmail").css("display", "none");
-            $("#mailerGateway").css("display", "none");
-        }
-        
-        
-       
-    });
-
-
-    $(document).on("change", "#MessageTypeId", function () {
-        $.ajax({
-            type: "GET",
-            url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
-            data: '{}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                debugger
-                $('#GatewayId').html('');
-                var opt = new Option("--Select--",0);
-                $('#GatewayId').append(opt)
-                if (data.length > 0) {
-                    for (var i = 0; i < data.length; i++) {
-                        opt = new Option(data[i].Text, data[i].Value);
-                        $('#GatewayId').append(opt);
-                    }
+                if ($("#TemplateTypeId").val() == 72) {
+                    $("#actions").hide();
+                    $("#bccEmail").css("display", "none");
                 }
+                else {
+                    $("#actions").show();
+                    $("#bccEmail").css("display", "block");
+                }
+            });
+            $("#MessageTypeId").change(function () {
+
+                if ($("#MessageTypeId").val() == 52) {
+                    $("#header").css("display", "none");
+                    $("#bccEmail").css("display", "none");
+                    $("#emailSubject").css("display", "none");
+                    $("#isSystemEmail").css("display", "block");
+
+                }
+                else if ($("#MessageTypeId").val() == 53) {
+                    $("#header").css("display", "block");
+                    $("#bccEmail").css("display", "block");
+                    $("#emailSubject").css("display", "block");
+                    $("#isSystemEmail").css("display", "block");
+                    $("#mailerGateway").css("display", "block");
+                }
+                else if ($("#MessageTypeId").val() == 54) {
+                    $("#header").css("display", "none");
+                    $("#bccEmail").css("display", "none");
+                    $("#emailSubject").css("display", "none");
+                    $("#isSystemEmail").css("display", "none");
+                    $("#mailerGateway").css("display", "none");
+                }
+
+
+
+            });
+            $(document).on("change", "#MessageTypeId", function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        debugger
+                        $('#GatewayId').html('');
+                        var opt = new Option("--Select--", 0);
+                        $('#GatewayId').append(opt)
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                opt = new Option(data[i].Text, data[i].Value);
+                                $('#GatewayId').append(opt);
+                            }
+                        }
+                    }
+                });
+
+
+            });
+            function BindGateway(method, ddl, e) {
+                $('#' + ddl).empty();
+                var val = e.value;
+                if (val == "E-Mail") {
+                    method = "BindEmailGateway";
+                    $('#HeaderFooterTemplate').prop('disabled', true);
+                    $('#BCCEmailID').prop('disabled', true);
+                    $('#MailerGateway').prop('disabled', true);
+                    $('#EmailSubject').prop('disabled', true);
+                    $('#IsSystemEmail').prop('disabled', true);
+
+                }
+                else if (val == "SMS") {
+                    method = "BindSMSGateway";
+                    $('#HeaderFooterTemplate').prop('disabled', false);
+                    $('#BCCEmailID').prop('disabled', false);
+                    $('#EmailSubject</').prop('disabled', false);
+
+                }
+                else {
+                    $('#HeaderFooterTemplate').prop('disabled', false);
+                    $('#BCCEmailID').prop('disabled', false);
+                    $('#EmailSubject').prop('disabled', false);
+                    $('#IsSystemEmail').prop('disabled', false);
+                    $('#MailerGateway').prop('disabled', false);
+                }
+
             }
-        });
-        
+        </script>
 
-    });
-
-    function BindGateway(method, ddl, e) {
-        $('#' + ddl).empty();
-        var val = e.value;
-        if (val == "E-Mail") {
-            method = "BindEmailGateway";
-            $('#HeaderFooterTemplate').prop('disabled', true);
-            $('#BCCEmailID').prop('disabled', true);
-            $('#MailerGateway').prop('disabled', true);
-            $('#EmailSubject').prop('disabled', true);
-            $('#IsSystemEmail').prop('disabled', true);
-
-        }
-        else if (val == "SMS") {
-            method = "BindSMSGateway";
-            $('#HeaderFooterTemplate').prop('disabled', false);
-            $('#BCCEmailID').prop('disabled', false);
-            $('#EmailSubject</').prop('disabled', false);
-
-        }
-        else {
-            $('#HeaderFooterTemplate').prop('disabled', false);
-            $('#BCCEmailID').prop('disabled', false);
-            $('#EmailSubject').prop('disabled', false);
-            $('#IsSystemEmail').prop('disabled', false);
-            $('#MailerGateway').prop('disabled', false);
-        }
-
-    }
-
-</script>
+        <script src="~/Content/Scripts/jquery.validate.js"></script>
+        <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

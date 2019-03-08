@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Models.Template;
 
 namespace TogoFogo
 {
@@ -27,6 +28,15 @@ namespace TogoFogo
                 return _headerTypes;
             }
         }
+        public static async Task<List<BindGateway>> GetMailerGatewayList(Int64 GatewayTypeId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _Gateways = await _context.Database.SqlQuery<BindGateway>("select GatewayId, GatewayName from MSTGateway where GatewayTypeId = " + GatewayTypeId + " AND IsActive=1").ToListAsync();
+                return _Gateways;
+            }
+        }
+
 
         public static async Task<List<CheckBox>> GetLookup( string type)
         {
@@ -36,7 +46,6 @@ namespace TogoFogo
                 return _type;
             }
         }
-
         public static async Task<List<CheckBox>> GetClientData()
         {
             using (var _context = new ApplicationDbContext())
@@ -193,11 +202,10 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceProviders = await _context.Database.SqlQuery<CheckBox>("SELECT Id Value,ProviderName Text FROM MstServiceProvider where IsActive=1").ToListAsync();
-                return _serviceProviders;
+                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>("SELECT Id Value,ProviderName Text FROM MstServiceProvider where IsActive=1").ToListAsync();
+                return _serviceProvider;
             }
         }
-
         public static async Task<List<CheckBox>> GetServiceCenters()
         {
             using (var _context = new ApplicationDbContext())

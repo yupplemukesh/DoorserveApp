@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Models.ActionTypes;
+using TogoFogo.Permission;
 using TogoFogo.Repository;
 
 namespace TogoFogo.Controllers
@@ -17,13 +19,15 @@ namespace TogoFogo.Controllers
             _actionTypeModel = new ActionTypes();
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Action Types")]
         public async Task<ActionResult> Index()
         {
-            var actiontypes = await _actionTypeModel.GetActiontypes();
+            var actiontypes = new ActionTypeList();
+            actiontypes.ActionTypes = await _actionTypeModel.GetActiontypes();
+            actiontypes.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(actiontypes);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Action Types")]
         public async Task<ActionResult> Create()
         {
             var actiontypemodel = new ActionTypeModel();
@@ -45,6 +49,7 @@ namespace TogoFogo.Controllers
                 return View(actiontype);
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Action Types")]
         public async Task<ActionResult> Edit(int id)
         {
             var actiontype = await _actionTypeModel.GetActionByActionId(id);

@@ -1,5 +1,8 @@
 ﻿@model IList<TogoFogo.Models.EmailHeaderFooterModel>
 
+@{  var rights = ViewData["rights"] as TogoFogo.Models.UserActionRights;
+ }
+
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered dataTable" id="table-1">
@@ -28,9 +31,12 @@
                         @Html.DisplayFor(modelItem => item.AddedOn)
                     </td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetEmailHeaderFooterDetails(@item.EmailHeaderFooterId)"><i class="glyphicon glyphicon-pencil"></i></button>
+                        @if (rights.Edit)
+                        {
+                            <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetEmailHeaderFooterDetails(@item.EmailHeaderFooterId)"><i class="glyphicon glyphicon-pencil"></i></button>
+                        }
 
-                    </td>
+                        </td>
 
                 </tr>
 

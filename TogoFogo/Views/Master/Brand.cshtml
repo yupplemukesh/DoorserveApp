@@ -53,7 +53,8 @@
                 <h4 class="modal-title">Edit Brand</h4>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>
+            @*<div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>*@
+            <div class="modal-body" id="Info"></div>
         </div>
 
     </div>
@@ -72,7 +73,9 @@
         function EditBrand(BrandId) {
             $.ajax({
                 type: 'GET',
-                url: "/Master/EditBrand?BrandId=" + BrandId,
+                url: '@Url.Action("EditBrand", "Master")',
+                data: { brandId: BrandId},
+                @*url: "/Master/EditBrand?BrandId=" + BrandId,*@
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 success: function (response) {

@@ -86,9 +86,10 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,
-                            model.CreatedBy,
-                            model.ModifyBy ,
-                            model.DeleteBy ,
+                            // model.CreatedBy,
+                            //model.ModifyBy ,
+                            //model.DeleteBy ,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
@@ -112,12 +113,12 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Brand");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Brands")]
-        public ActionResult EditBrand(int BrandId)
+        public ActionResult EditBrand(int brandId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<BrandModel>("Get_Single_Brand", new { BrandId = BrandId },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+                 var result = con.Query<BrandModel>("Get_Single_Brand", new { BrandId = brandId },
+                     commandType: CommandType.StoredProcedure).FirstOrDefault();                
                 return PartialView("EditBrand", result);
             }
         }
@@ -154,9 +155,10 @@ namespace TogoFogo.Controllers
                         model.UrlName,
                         model.Header,
                         model.Footer,
-                        model.CreatedBy,
-                        model.ModifyBy,
-                        model.DeleteBy,
+                        // model.CreatedBy,
+                        // model.ModifyBy,
+                        //model.DeleteBy,
+                        User = Convert.ToInt32(Session["User_Id"]),
                         Action = "edit"
                     },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -179,7 +181,7 @@ namespace TogoFogo.Controllers
             }
             UserActionRights objUserActiobRight = new UserActionRights();
             objBrandModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+           /* string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
                 string[] arrRights = rights.ToString().Split(',');
@@ -204,7 +206,7 @@ namespace TogoFogo.Controllers
                 }
             }
             else
-            {
+            {*/
 
                 objBrandModel._UserActionRights.Create = true;
                 objBrandModel._UserActionRights.Edit = true;
@@ -213,7 +215,7 @@ namespace TogoFogo.Controllers
                 objBrandModel._UserActionRights.History = true;
                 objBrandModel._UserActionRights.ExcelExport = true;
 
-            }
+           // }
             return View(objBrandModel);
 
         }

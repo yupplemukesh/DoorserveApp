@@ -10,7 +10,7 @@ namespace TogoFogo.Models
 {
     public class ServiceChargeModel
     {
-
+        public int SerialNo { get; set; }
         public int ServiceChargeId {get;set;}
         [Required]
         [DisplayName("Device Category")]
@@ -70,8 +70,9 @@ namespace TogoFogo.Models
         public SelectList DeviceSubCategoryList {get; set;}
         public SelectList BrandList {get; set;}
         public SelectList ModelNameList {get; set;}
+        public List<ServiceChargeModel> _ServiceChargeModelList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
 
-       
 
 
     }

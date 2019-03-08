@@ -13,9 +13,8 @@ namespace TogoFogo.Models.Template
         public int? NonMessageTypeId { get; set; }
         public SelectList ActionTypeList { get; set; }
         public SelectList MessageTypeList { get; set; }
-
         public List<TemplateModel> NonActionTemplates { get; set; }
         public List<TemplateModel> Templates { get; set; }
-
+        public UserActionRights _UserActionRights { get; set; }
     }
 }

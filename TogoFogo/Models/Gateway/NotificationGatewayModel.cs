@@ -45,6 +45,7 @@ namespace TogoFogo.Models.Gateway
     {
         public List<NotificationGatewayModel> mainModel { get; set; }
         public NotificationGatewayModel Gateway { get; set; }
+        public UserActionRights Rights { get; set; }
 
 
     }

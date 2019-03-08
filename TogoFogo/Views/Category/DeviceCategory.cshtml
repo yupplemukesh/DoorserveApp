@@ -1,4 +1,5 @@
-﻿
+﻿@model TogoFogo.Models.CategoryViewModel
+
 @{
     ViewBag.Title = "DeviceCategory";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -10,113 +11,121 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="col-md-6">
-                <h3 class="m-y-0">Add Category</h3>
+                <h3 class="m-y-0">Manage  Category</h3>
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
+                    <button class="btn btn-primary excel">Export to Excel</button>
                 </div>
             </div>
         </div>
+       
     </div>
 
 </div>
 
 
 <div class="panel-body">
-    @Html.Partial("AddCategory")
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    @*<h2>List Of All Brands</h2>*@
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
+    @if (Model.Rights.Create)
+    {
+        
+            @Html.Action("AddCategory", "Category")
+            }
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            @*<h2>List Of All Brands</h2>*@
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li>
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="overflow-x: scroll;">
+                            @if (Model.Rights.View)
+                            {
+                                @Html.Action("DeviceCategoryTable", "Category")
+                            }
+                        </div>
+                    </div>
                 </div>
-                <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("DeviceCategoryTable", "Category")
+
+            </div>
+        </div>
+        <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit Device Category</h4>
+                    </div>
+
+                    <div class="modal-body" id="Info"></div>
                 </div>
+
             </div>
         </div>
 
-    </div>
-</div>
-<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+        @if (Model.AddCategory != null)
+        {
+            <div id="snackbar">@Model.AddCategory</div>
+        }
+        @if (Model.EditCategory != null)
+        {
+            <div id="snackbar">@Model.EditCategory</div>
+        }
+        @if (Model.AddCategory != null || Model.EditCategory != null)
+        {
+            <script>
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Device Category</h4>
-            </div>
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
 
-            <div class="modal-body" id="Info">@Html.Partial("EditDeviceCategory")</div>
-        </div>
+            </script>
+        }
+        @section scripts{
+            <script>
+                function EditCategory(CatId) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "/Category/EditDeviceCategory?CatId=" + CatId,
+                        contentType: 'application/json; charset=utf-8',
+                        cache: false,
+                        success: function (response) {
+                            $("#Info").html(response);
+                        },
+                        error: function (e) {
+                            console.log(e);
+                            $(".submitbutton").attr("disabled", false);
+                            alert("Something went wrong...");
 
-    </div>
-</div>
+                        },
+                        complete: function () {
 
-@if (ViewBag.AddCategory != null)
-{
-    <div id="snackbar">@ViewBag.AddCategory</div>
-}
-@if (ViewBag.EditCategory != null)
-{
-    <div id="snackbar">@ViewBag.EditCategory</div>
-}
-@if (ViewBag.AddCategory != null || ViewBag.EditCategory != null)
-{
-    <script>
+                            $(".submitbutton").attr("disabled", false);
+                        }
+                    });
+                }
 
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-
-    </script>
-}
-@section scripts{
-    <script>
-        function EditCategory(CatId) {
-            $.ajax({
-                type: 'GET',
-                url: "/Category/EditDeviceCategory?CatId=" + CatId,
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                success: function (response) {
-                    $("#Info").html(response);
-                },
-                error: function (e) {
-                    console.log(e);
-                    $(".submitbutton").attr("disabled", false);
-                    alert("Something went wrong...");
-
-                },
-                complete: function () {
-
-                    $(".submitbutton").attr("disabled", false);
+            </script>
+        }
+        <script>
+            $(document).on("keypress", "#SortOrder", function (e) {
+                //if (event.keyCode < 48 || event.keyCode > 57) {
+                //    event.preventDefault();
+                //}
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    //$("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    return false;
                 }
             });
-        }
-
-    </script>
-}
-<script>
-    $(document).on("keypress", "#SortOrder", function (e) {
-        //if (event.keyCode < 48 || event.keyCode > 57) {
-        //    event.preventDefault();
-        //}
-        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-            //display error message
-            //$("#errmsg").html("Digits Only").show().fadeOut("slow");
-            return false;
-        }
-    });
-</script>
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+        </script>
+        <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
+        <script src="~/Content/Scripts/jquery.validate.js"></script>
+        <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
