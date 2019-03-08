@@ -4,11 +4,18 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
     public class Prob_Vs_price_matrix
     {
+        public Prob_Vs_price_matrix()
+        {
+            BrandList= new SelectList(Enumerable.Empty<SelectListItem>());
+            ProblemList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ModelList=new SelectList(Enumerable.Empty<SelectListItem>());           
+        }
         public int SerialNo { get; set; }
         [DisplayName("Brand")]
         [Required(ErrorMessage = "Select Brand Name")]
@@ -42,6 +49,9 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public List<Prob_Vs_price_matrix> _Prob_Vs_price_matrixList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
+        public SelectList BrandList { get; set; }
+        public SelectList ProblemList { get; set; }
+        public SelectList ModelList { get; set; }
 
 
 

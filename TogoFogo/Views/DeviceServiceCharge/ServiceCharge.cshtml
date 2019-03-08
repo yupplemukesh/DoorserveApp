@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TogoFogo.Models.ManageGSTViewModel
+@{
     ViewBag.Title = "ServiceCharge";
 }
 
@@ -19,27 +20,33 @@
 </div>
 
 <div class="panel-body">
-    @Html.Action("AddServiceCharge", "DeviceServiceCharge")
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    @*<h3 class="m-y-0">List Service Charge</h3>*@
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
+    @if (Model.Rights.Create)
+    {
+        @Html.Action("AddServiceCharge", "DeviceServiceCharge")
+    }
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        @*<h3 class="m-y-0">List Service Charge</h3>*@
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
 
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("ServiceChargeTable", "DeviceServiceCharge")
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="overflow-x: scroll;">
+                        @if (Model.Rights.View)
+                        {
+                            @Html.Action("ServiceChargeTable", "DeviceServiceCharge")
+                        }
+                        </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg">
 
@@ -55,12 +62,12 @@
 
     </div>
 </div>
-@if (ViewBag.Message != null)
+@if (Model.Message != null)
 {
-    <div id="snackbar">@ViewBag.Message</div>
+    <div id="snackbar">@Model.Message</div>
 }
 
-@if (ViewBag.Message != null)
+@if (Model.Message != null)
 {
     <script>
 

@@ -8,6 +8,8 @@ using TogoFogo.Models;
 using Dapper;
 using System.Data.SqlClient;
 using System.Data;
+using TogoFogo.Permission;
+
 namespace TogoFogo.Controllers
 {
     public class DeviceServiceChargeController : Controller
@@ -17,16 +19,19 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
 
         // GET: DeviceServiceCharge
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
         public ActionResult ServiceCharge()
         {
-           if (TempData["Message"] != null)
+            ManageGSTViewModel Msc = new ManageGSTViewModel();
+            Msc.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            if (TempData["Message"] != null)
             {
-                ViewBag.Message = TempData["Message"].ToString();
+                Msc.Message = TempData["Message"].ToString();
 
             }
-            return View();
+            return View(Msc);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, "Device Service Charge")]
         public ActionResult AddServiceCharge()
         {
             ServiceChargeModel scm = new ServiceChargeModel();
@@ -88,16 +93,20 @@ namespace TogoFogo.Controllers
             return RedirectToAction("ServiceCharge");
         }
 
-      
 
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
         public ActionResult ServiceChargeTable()
         {
+            ServiceChargeModel objServiceChargeModel = new ServiceChargeModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ServiceChargeModel>("Get_ServiceCharge", new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                objServiceChargeModel._ServiceChargeModelList = con.Query<ServiceChargeModel>("Get_ServiceCharge", new { }, commandType: CommandType.StoredProcedure).ToList();
+                
             }
+            objServiceChargeModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(objServiceChargeModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Service Charge")]
         public ActionResult EditServiceCharge(int? ServiceChargeId)
         {
            

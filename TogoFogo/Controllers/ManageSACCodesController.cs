@@ -116,43 +116,7 @@ namespace TogoFogo.Controllers
                
             }
             objSacCodesModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            //UserActionRights objUserActiobRight = new UserActionRights();
-            //objSacCodesModel._UserActionRights = objUserActiobRight;
-            //string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            //if (!string.IsNullOrEmpty(rights))
-            //{
-            //    string[] arrRights = rights.ToString().Split(',');
-            //    for (int i = 0; i < arrRights.Length; i++)
-            //    {
-            //        if (Convert.ToInt32(arrRights[i]) == 2)
-            //        {
-            //            objSacCodesModel._UserActionRights.Create = true;
-            //        }
-            //        else if (Convert.ToInt32(arrRights[i]) == 3)
-            //        {
-            //            objSacCodesModel._UserActionRights.Edit = true;
-            //        }
-            //        else if (Convert.ToInt32(arrRights[i]) == 4)
-            //        {
-            //            objSacCodesModel._UserActionRights.Delete = true;
-            //        }
-            //        else if (Convert.ToInt32(arrRights[i]) == 6)
-            //        {
-            //            objSacCodesModel._UserActionRights.Delete = true;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-
-            //    objSacCodesModel._UserActionRights.Create = true;
-            //    objSacCodesModel._UserActionRights.Edit = true;
-            //    objSacCodesModel._UserActionRights.Delete = true;
-            //    objSacCodesModel._UserActionRights.View = true;
-            //    objSacCodesModel._UserActionRights.History = true;
-            //    objSacCodesModel._UserActionRights.ExcelExport = true;
-
-            //}
+          
             return View(objSacCodesModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST HSN/SAC Codes")]

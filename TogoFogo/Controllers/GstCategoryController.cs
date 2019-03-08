@@ -17,14 +17,17 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         // GET: GstCategory
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Gst Category")]
         public ActionResult Gst()
         {
+            ManageGSTViewModel Mgc = new ManageGSTViewModel();
+            Mgc.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             if (TempData["Message"] != null)
             {
-                ViewBag.Message = TempData["Message"].ToString();
+                Mgc.Message = TempData["Message"].ToString();
                 
             }
-            return View();
+            return View(Mgc);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Gst Category")]
         public ActionResult AddGst()
@@ -82,7 +85,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Gst");
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Gst Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Gst Category")]
         public ActionResult GstTable()
         {
             GstCategoryModel objGstCategoryModel = new GstCategoryModel();
@@ -91,46 +94,11 @@ namespace TogoFogo.Controllers
                 objGstCategoryModel._GstCategoryModelList = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new { }, commandType: CommandType.Text).ToList();
                 
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objGstCategoryModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objGstCategoryModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objGstCategoryModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objGstCategoryModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objGstCategoryModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
+            objGstCategoryModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
 
-                objGstCategoryModel._UserActionRights.Create = true;
-                objGstCategoryModel._UserActionRights.Edit = true;
-                objGstCategoryModel._UserActionRights.Delete = true;
-                objGstCategoryModel._UserActionRights.View = true;
-                objGstCategoryModel._UserActionRights.History = true;
-                objGstCategoryModel._UserActionRights.ExcelExport = true;
-
-            }
             return View(objGstCategoryModel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Gst Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Gst Category")]
         public ActionResult EditGst(int? GstCategoryId)
         {
             using (var con = new SqlConnection(_connectionString))

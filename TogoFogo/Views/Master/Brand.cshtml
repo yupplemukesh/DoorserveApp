@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TogoFogo.Models.UserActionRights
+@{
     ViewBag.Title = "Brand";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
@@ -16,15 +17,21 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
-                </div>
+                    @if (Model.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
+                    </div>
             </div>
         </div>
     </div>
 </div>
 
 <div class="panel-body">
-    @Html.Partial("AddBrand")
+    @if (Model.Create)
+    {
+        @Html.Action("AddBrand", "Master")
+    }
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -38,7 +45,10 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("BrandTable", "Master")
+                    @if (Model.View)
+                    {
+                        @Html.Action("BrandTable", "Master")
+                    }
                 </div>
             </div>
         </div>
@@ -54,7 +64,12 @@
             </div>
 
             @*<div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>*@
-            <div class="modal-body" id="Info"></div>
+            <div class="modal-body" id="Info">
+                @if (Model.Edit)
+                {
+                    @Html.Action("EditBrand", "Master")
+                }
+            </div>
         </div>
 
     </div>

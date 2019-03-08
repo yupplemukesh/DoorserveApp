@@ -27,7 +27,8 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
 
         #endregion
-        #region BRAND      
+        #region BRAND   
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Brands")]
         public ActionResult Brand()
         {
             var name = User.Identity.Name;      
@@ -39,12 +40,13 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Brands")]
         public ActionResult AddBrand()
         {
-            return View();
+            return PartialView();
         }
         [HttpPost]
         public ActionResult AddBrand(BrandModel model)
@@ -113,7 +115,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Brand");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Brands")]
-        public ActionResult EditBrand(int brandId)
+        public ActionResult EditBrand(int brandId=0)
         {
             using (var con = new SqlConnection(_connectionString))
             {
@@ -121,6 +123,7 @@ namespace TogoFogo.Controllers
                      commandType: CommandType.StoredProcedure).FirstOrDefault();                
                 return PartialView("EditBrand", result);
             }
+           
         }
         [HttpPost]
         public ActionResult EditBrand(BrandModel model)
@@ -179,43 +182,10 @@ namespace TogoFogo.Controllers
                 objBrandModel.ListBrandModel = con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
                 
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objBrandModel._UserActionRights = objUserActiobRight;
-           /* string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objBrandModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objBrandModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objBrandModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objBrandModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {*/
+            objBrandModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            //UserActionRights objUserActiobRight = new UserActionRights();
+            //objBrandModel._UserActionRights = objUserActiobRight;
 
-                objBrandModel._UserActionRights.Create = true;
-                objBrandModel._UserActionRights.Edit = true;
-                objBrandModel._UserActionRights.Delete = true;
-                objBrandModel._UserActionRights.View = true;
-                objBrandModel._UserActionRights.History = true;
-                objBrandModel._UserActionRights.ExcelExport = true;
-
-           // }
             return View(objBrandModel);
 
         }
@@ -441,7 +411,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region ManageDeviceProblems
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Device Problem")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Problem")]
         public ActionResult ManageDeviceProblems()
         {
             ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -449,8 +419,10 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.DeviceProblem = TempData["DeviceProblem"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Device Problem")]
         public ActionResult AddDeviceProblem()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -458,7 +430,7 @@ namespace TogoFogo.Controllers
                 ViewBag.Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
                // var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstDeviceProblem", null, commandType: CommandType.Text).FirstOrDefault();
                // ViewBag.SortOrder = result + 1;
-                return View();
+                return PartialView();
             }
         }
         [HttpPost]
@@ -507,44 +479,7 @@ namespace TogoFogo.Controllers
                     commandType: CommandType.StoredProcedure).ToList();
               
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objDeviceProblemModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objDeviceProblemModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objDeviceProblemModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objDeviceProblemModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objDeviceProblemModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objDeviceProblemModel._UserActionRights.Create = true;
-                objDeviceProblemModel._UserActionRights.Edit = true;
-                objDeviceProblemModel._UserActionRights.Delete = true;
-                objDeviceProblemModel._UserActionRights.View = true;
-                objDeviceProblemModel._UserActionRights.History = true;
-                objDeviceProblemModel._UserActionRights.ExcelExport = true;
-
-            }
-
+            objDeviceProblemModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objDeviceProblemModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Device Problem")]
@@ -602,7 +537,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region ColorMaster
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Color Master")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Color Master")]
         public ActionResult ColorMaster()
         {
             ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -614,14 +549,16 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Color Master")]
         public ActionResult AddColorMaster()
         {
             ViewBag.Brand = new SelectList(dropdown.BindBrand(), "Value", "Text");
             //ViewBag.Model = new SelectList(dropdown.BindModelName(), "Value", "Text");
             ViewBag.Model = new SelectList(Enumerable.Empty<SelectListItem>());
-            return View();
+            return PartialView();
         }
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
@@ -707,44 +644,7 @@ namespace TogoFogo.Controllers
                     commandType: CommandType.Text).ToList();              
               
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objColorModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objColorModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objColorModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objColorModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objColorModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objColorModel._UserActionRights.Create = true;
-                objColorModel._UserActionRights.Edit = true;
-                objColorModel._UserActionRights.Delete = true;
-                objColorModel._UserActionRights.View = true;
-                objColorModel._UserActionRights.History = true;
-                objColorModel._UserActionRights.ExcelExport = true;
-
-            }
-
+            objColorModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objColorModel);
         }
         #endregion
@@ -853,7 +753,7 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region WebsiteProblemList
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Spare Problem Price matrix")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Problem Price matrix")]
         public ActionResult Probs_price_Matrix()
         {
             ViewBag.BrandName= new SelectList(dropdown.BindBrand(), "Value", "Text");                        
@@ -863,12 +763,17 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Spare Problem Price matrix")]
         public ActionResult AddWebsiteData()
         {
-            
-            return View();
+            var parts = new Prob_Vs_price_matrix();
+            parts.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            parts.ProblemList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
+            parts.ModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+            return PartialView();
         }
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)
@@ -943,44 +848,7 @@ namespace TogoFogo.Controllers
                 
             }
 
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objProb_Vs_price_matrix._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objProb_Vs_price_matrix._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objProb_Vs_price_matrix._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objProb_Vs_price_matrix._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objProb_Vs_price_matrix._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objProb_Vs_price_matrix._UserActionRights.Create = true;
-                objProb_Vs_price_matrix._UserActionRights.Edit = true;
-                objProb_Vs_price_matrix._UserActionRights.Delete = true;
-                objProb_Vs_price_matrix._UserActionRights.View = true;
-                objProb_Vs_price_matrix._UserActionRights.History = true;
-                objProb_Vs_price_matrix._UserActionRights.ExcelExport = true;
-
-            }
-
+            objProb_Vs_price_matrix._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objProb_Vs_price_matrix);
         }
 

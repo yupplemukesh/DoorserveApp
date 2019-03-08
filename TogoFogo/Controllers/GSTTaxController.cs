@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -17,16 +18,20 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         // GET: GSTTax
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST Tax")]
         public ActionResult Gst()
         {
-         
+            ManageGSTViewModel Mgt = new ManageGSTViewModel();
+            Mgt.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+
             if (TempData["Message"] != null)
             {
-                ViewBag.Message = TempData["Message"].ToString();
+                Mgt.Message = TempData["Message"].ToString();
 
             }
-            return View();
+            return View(Mgt);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST Tax")]
         public ActionResult AddGst()
         {
 
@@ -105,7 +110,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("Gst");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View}, "GST Tax")]
         public ActionResult GstTaxtable()
         {
             GstTaxModel objGstTaxModel = new GstTaxModel();
@@ -114,46 +119,11 @@ namespace TogoFogo.Controllers
                 objGstTaxModel ._GstTaxModelList= con.Query<GstTaxModel>("Get_GstTax", new { }, commandType: CommandType.StoredProcedure).ToList();
               
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objGstTaxModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objGstTaxModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objGstTaxModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objGstTaxModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objGstTaxModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objGstTaxModel._UserActionRights.Create = true;
-                objGstTaxModel._UserActionRights.Edit = true;
-                objGstTaxModel._UserActionRights.Delete = true;
-                objGstTaxModel._UserActionRights.View = true;
-                objGstTaxModel._UserActionRights.History = true;
-                objGstTaxModel._UserActionRights.ExcelExport = true;
-
-            }
+            objGstTaxModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+         
             return View(objGstTaxModel);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST Tax")]
         public ActionResult EditGstTax(int Gsttaxid)
         {          
            

@@ -9,7 +9,7 @@
                 @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'Model_Id', this)" })
+                @Html.DropDownListFor(model => model.BrandName, Model.BrandList, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'Model_Id', this)" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
 
             </div>
@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
 
-                @Html.DropDownListFor(model => model.Model_Id, null, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                @Html.DropDownListFor(model => model.Model_Id, Model.ModelList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
                 @Html.ValidationMessageFor(model => model.Model_Id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -29,7 +29,7 @@
                 @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Problem, null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Problem, Model.ProblemList, "Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
             </div>
         </div>
