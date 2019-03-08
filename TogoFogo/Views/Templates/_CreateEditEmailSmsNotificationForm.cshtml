@@ -4,6 +4,7 @@
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Mailer Template Type</label>
         @Html.HiddenFor(model=>model.TemplateId)
+        @Html.HiddenFor(model=>model.MailerTemplateName)
         @Html.DropDownListFor(model => model.TemplateTypeId, Model.TemplateTypeList, "Select", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.TemplateTypeId, "", new { @class = "text-danger" })
     </div>
@@ -17,6 +18,8 @@
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9"> Template Name </label>
         <div class="form-group">
+            
+            @Html.HiddenFor(model => model.MessageTypeName)
             @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control input-md", @placeholder = "Mailer Template Name" })
             @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
         </div>
@@ -49,7 +52,7 @@
 <div class="row">
     <div class="col-md-6 form-group" id="bccEmail">
         <label class=" control-label" for="form-control-9">BCC Email ID</label>
-        @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC_Email_ID" })
+        @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
         @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
     </div>
     <div class="col-md-6 form-group" id="emailSubject">
@@ -58,21 +61,52 @@
         @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
     </div>
 </div>
-<div class="row">
+<div class="row" id="toEmailFiledv">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">To Email</label>
         <div class="form-group">
-            @Html.TextBoxFor(model=>model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
-            </div>
+            @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
         </div>
-            <div class="col-md-6 form-group">
-                <label class="control-label" for="form-control-9">Priority</label>
-                <div class="form-group">
-                    @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
-                </div>
-            </div>
+    </div>
+    
+    <div class="col-md-6 form-group">
+        @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.ToEmailFile, htmlAttributes: new { @type = "file", @class = "form-control" })
         </div>
+    </div>
+</div>
+<div class="row" id="toMobilefiledv">
+    <div class="col-md-6 form-group">
+        <label class=" control-label" for="form-control-9">To Mobile</label>
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="col-md-6 form-group">
+        @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.ToMobileNoFile, htmlAttributes: new { @type = "file", @class = "form-control" })
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 form-group">
+        <label class="control-label" for="form-control-9">Priority</label>
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    
+    <div class="col-md-6 form-group">
+        <label class=" control-label" for="form-control-9">To CC Email</label>
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.ToCCEmail, new { @placeholder = "To CC Email", @class = "form-control" })
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Is Active </label>
@@ -111,35 +145,50 @@
         @*<script src="../ckeditor/samples/js/sample.js"></script>*@
         <script>
             $(document).ready(function () {
-                if ($("#TemplateTypeId").val() == 72) {
-                    $("#actions").hide();
-                    $("#bccEmail").css("display", "none");
+                if ($("#TemplateTypeId").val() != '')
+                {
+                    if ($("#TemplateTypeId").val() == 72)
+                    {
+                        $("#actions").hide();
+                        $("#bccEmail").css("display", "none");
+                        if ($("#MessageTypeId").val() == 53)
+                        $("#toEmailFiledv").css("display", "block");
 
+                        $("#toMobilefiledv").css("display", "block");
+                        
+                    }
+                    else
+                    {
+                        $("#actions").show();
+                        $("#bccEmail").css("display", "block");
+                        $("#toEmailFiledv").css("display", "none");
+                        $("#toMobilefiledv").css("display", "none");
+                    }
                 }
-                else {
-                    $("#actions").show();
-                    $("#bccEmail").css("display", "block");
-                }
-                if ($("#MessageTypeId").val() == 52) {
-                    $("#header").css("display", "none");
-                    $("#bccEmail").css("display", "none");
-                    $("#emailSubject").css("display", "none");
-                    $("#isSystemEmail").css("display", "block");
+                if ($("#MessageTypeId").val() != '')
+                {
+                    if ($("#MessageTypeId").val() == 52)
+                    {
+                        $("#header").css("display", "none");
+                        $("#bccEmail").css("display", "none");
+                        $("#emailSubject").css("display", "none");
+                        $("#isSystemEmail").css("display", "block");
 
-                }
-                else if ($("#MessageTypeId").val() == 53) {
-                    $("#header").css("display", "block");
-                    $("#bccEmail").css("display", "block");
-                    $("#emailSubject").css("display", "block");
-                    $("#isSystemEmail").css("display", "block");
-                    $("#mailerGateway").css("display", "block");
-                }
-                else if ($("#MessageTypeId").val() == 54) {
-                    $("#header").css("display", "none");
-                    $("#bccEmail").css("display", "none");
-                    $("#emailSubject").css("display", "none");
-                    $("#isSystemEmail").css("display", "none");
-                    $("#mailerGateway").css("display", "none");
+                    }
+                    else if ($("#MessageTypeId").val() == 53) {
+                        $("#header").css("display", "block");
+                        $("#bccEmail").css("display", "block");
+                        $("#emailSubject").css("display", "block");
+                        $("#isSystemEmail").css("display", "block");
+                        $("#mailerGateway").css("display", "block");
+                    }
+                    else if ($("#MessageTypeId").val() == 54) {
+                        $("#header").css("display", "none");
+                        $("#bccEmail").css("display", "none");
+                        $("#emailSubject").css("display", "none");
+                        $("#isSystemEmail").css("display", "none");
+                        $("#mailerGateway").css("display", "none");
+                    }
                 }
             });
 
@@ -148,39 +197,69 @@
                 extraPlugins: 'colorbutton,colordialog'
             });
 
-            $("#TemplateTypeId").change(function () {
-
-                if ($("#TemplateTypeId").val() == 72) {
+            $("#TemplateTypeId").change(function ()
+            {
+                debugger
+                $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
+                if ($("#TemplateTypeId").val() == 72)
+                {
                     $("#actions").hide();
                     $("#bccEmail").css("display", "none");
+                    if ($("#MessageTypeId").val() == 53)
+                    $("#toEmailFiledv").css("display", "block");
+                    $("#toMobilefiledv").css("display", "block");
                 }
-                else {
+                else
+                {
                     $("#actions").show();
+                    if ($("#MessageTypeId").val() == 53)
                     $("#bccEmail").css("display", "block");
+                    $("#toEmailFiledv").css("display", "none");
+                    $("#toMobilefiledv").css("display", "none");
+                }
+                if ($("#MessageTypeId").val() == 53)
+                {
+                    $("#toMobilefiledv").css("display", "none");
                 }
             });
-            $("#MessageTypeId").change(function () {
-
-                if ($("#MessageTypeId").val() == 52) {
-                    $("#header").css("display", "none");
+            $("#MessageTypeId").change(function ()
+            {
+                
+                $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
+                if ($("#MessageTypeId").val() == 52)
+                {
+                    $("#header").css("display", "none");                    
                     $("#bccEmail").css("display", "none");
                     $("#emailSubject").css("display", "none");
                     $("#isSystemEmail").css("display", "block");
-
+                    $("#toEmailFiledv").css("display", "none");
+                    if ($("#TemplateTypeId").val() == 72) 
+                        $("#toMobilefiledv").css("display", "block");
+                    
                 }
-                else if ($("#MessageTypeId").val() == 53) {
+                else if ($("#MessageTypeId").val() == 53)
+                {
                     $("#header").css("display", "block");
+                    if ($("#TemplateTypeId").val() == 72) 
+                    $("#bccEmail").css("display", "none");
+                    else
                     $("#bccEmail").css("display", "block");
                     $("#emailSubject").css("display", "block");
                     $("#isSystemEmail").css("display", "block");
                     $("#mailerGateway").css("display", "block");
+                    $("#toMobilefiledv").css("display", "none");
                 }
-                else if ($("#MessageTypeId").val() == 54) {
-                    $("#header").css("display", "none");
+                else if ($("#MessageTypeId").val() == 54)
+                {
+                    $("#header").css("display", "none");                  
                     $("#bccEmail").css("display", "none");
                     $("#emailSubject").css("display", "none");
                     $("#isSystemEmail").css("display", "none");
                     $("#mailerGateway").css("display", "none");
+                    $("#toEmailFiledv").css("display", "none");
+                    if ($("#TemplateTypeId").val() == 72) 
+                    $("#toMobilefiledv").css("display", "block");
+                    
                 }
 
 
@@ -238,6 +317,5 @@
 
             }
         </script>
-
         <script src="~/Content/Scripts/jquery.validate.js"></script>
         <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
