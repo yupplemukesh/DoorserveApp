@@ -33,8 +33,8 @@
                     @Html.DisplayName("Sub Category")
                 </th>
                 @*<th>
-                        @Html.DisplayName("Problem Code")
-                    </th>*@
+            @Html.DisplayName("Problem Code")
+        </th>*@
                 <th>
                     @Html.DisplayName("Problem Observed")
                 </th>
@@ -46,6 +46,9 @@
                 </th>
                 <th>
                     @Html.DisplayName("Created By")
+                </th>
+                <th>
+                    @Html.DisplayName("Created Date")
                 </th>
                 <th>
                     @Html.DisplayName("Modify By")
@@ -83,10 +86,13 @@
                     @*@Html.DisplayFor(modelItem => item.IsActive)*@
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                    @Html.DisplayFor(modelItem => item.CBy)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ModifyBy)
+                    @Html.DisplayFor(modelItem=>item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MBy)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ModifyDate)

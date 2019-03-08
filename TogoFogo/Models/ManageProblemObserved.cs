@@ -29,9 +29,13 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Is Active?")]
         public Boolean IsActive { get; set; }
-        public string CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
-        public string ModifyBy { get; set; }
+        public long CreatedBy { get; set; }
+        [DisplayName("Created By")]
+        public string CBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public long ModifyBy { get; set; }
+        [DisplayName("Modify By")]
+        public string MBy { get; set; }
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }

@@ -56,8 +56,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+               // model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_Location",
@@ -69,10 +69,8 @@ namespace TogoFogo.Controllers
                             CountryId=model.CountryName,
                             model.IsActive,
                             model.Comments,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
-                            Action="add"
+                            User = Convert.ToInt32(Session["User_Id"]),
+                            Action ="add"
                            
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 1)
@@ -133,7 +131,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_Location",
@@ -145,9 +143,7 @@ namespace TogoFogo.Controllers
                             CountryId = model.CountryName,
                             model.IsActive,
                             model.Comments,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();

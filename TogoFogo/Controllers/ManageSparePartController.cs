@@ -74,8 +74,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
 
                 using (var con = new SqlConnection(_connectionString))
                 {
@@ -88,9 +88,7 @@ namespace TogoFogo.Controllers
                             SubCategoryid = model.SubCategory,
                             model.SortOrder,
                             model.IsActive,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -197,7 +195,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_SpareType",
@@ -209,9 +207,7 @@ namespace TogoFogo.Controllers
                             SubCategoryid = model.SubCategory,
                             model.SortOrder,
                             model.IsActive,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -274,8 +270,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -298,9 +294,7 @@ namespace TogoFogo.Controllers
                             model.PartName,
                             model.SortOrder,
                             model.IsActive,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add",
                             TGFGCode="",
                             model.TUPC
@@ -415,7 +409,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -438,9 +432,7 @@ namespace TogoFogo.Controllers
                             model.PartName,
                             model.SortOrder,
                             model.IsActive,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit",
                             TGFGCode = "",
                             model.TUPC

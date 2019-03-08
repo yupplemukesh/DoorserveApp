@@ -43,13 +43,13 @@
                     @Html.DisplayNameFor(model => model.IsActive)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CreatedBy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ModifyBy)
+                    @Html.DisplayNameFor(model => model.CBy)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MBy)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ModifyDate)
@@ -59,52 +59,52 @@
         </thead>
         @foreach (var item in Model._DeviceProblemModelList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerialNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CatName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubCatName)
-                </td>
-              
-                <td>
-                    @Html.DisplayFor(modelItem => item.Problem)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SortOrder)
-                </td>
-                <td>
-                    @(item.IsActive == true ? "Active" : "InActive")
-                    
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyDate)
-                </td>
-                <td style="display: inline-flex;">
-                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
-                    @if (Model._UserActionRights.Edit)
-                    {
-                        <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProblemID)">Edit</a>
-                    }
-                    @*@if (Model._UserActionRights.Delete)
-        {
-            <input type="button" value="Delete" class="btn btn-danger btnSize " />
-        }*@
-                </td>
-                    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCatName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Problem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SortOrder)
+            </td>
+            <td>
+                @(item.IsActive == true ? "Active" : "InActive")
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
+            <td style="display: inline-flex;">
+                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
+                @if (Model._UserActionRights.Edit)
+                {
+                    <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProblemID)">Edit</a>
+                }
+                @*@if (Model._UserActionRights.Delete)
+            {
+                <input type="button" value="Delete" class="btn btn-danger btnSize " />
+            }*@
+            </td>
+        </tr>
                 }
 
             </table>

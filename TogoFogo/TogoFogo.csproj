@@ -252,10 +252,12 @@
     <Compile Include="Extended\UserExtended.cs" />
     <Compile Include="Extension\CheckUrl.cs" />
     <Compile Include="Extension\CustomAuthorize.cs" />
-    <Compile Include="Models\ActionTypeModel.cs" />
+    <Compile Include="Models\ActionTypes\ActionTypeList.cs" />
+    <Compile Include="Models\ActionTypes\ActionTypeModel.cs" />
     <Compile Include="Models\AddressDetail.cs" />
     <Compile Include="Models\BankDetailModel.cs" />
     <Compile Include="Models\BindAPI.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\CJSModel.cs" />
     <Compile Include="Models\ClientData\ClientDataModel.cs" />
     <Compile Include="Models\ClientData\MainClientDataModel.cs" />
@@ -283,6 +285,8 @@
     <Compile Include="Models\HFTemplate.cs" />
     <Compile Include="Models\IVRTemplate.cs" />
     <Compile Include="Models\LandingPageModel.cs" />
+    <Compile Include="Models\LocationViewModel.cs" />
+    <Compile Include="Models\ManageSACCodesViewModel.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\OrganizationModel.cs" />
     <Compile Include="Models\Prob_Vs_price_matrix.cs" />

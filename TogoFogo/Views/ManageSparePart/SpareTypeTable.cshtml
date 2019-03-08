@@ -44,69 +44,73 @@
                     @Html.DisplayNameFor(model => model.IsActive)
                 </th>
                 <th>
-                    @Html.DisplayName("Created Date")
-                </th>
-                <th>
-                    @Html.DisplayName("Modify Date")
-                </th>
-                <th>
                     @Html.DisplayName("Created By")
+                </th>
+                <th>
+                    @Html.DisplayName("Created Date")
                 </th>
                 <th>
                     @Html.DisplayName("Modify By")
                 </th>
+                <th>
+                    @Html.DisplayName("Modify Date")
+                </th>
+
+
                 <th>Action</th>
             </tr>
         </thead>
         @foreach (var item in Model._ManageSpareTypeList)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SerialNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CatName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SubCatName)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCatName)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SpareTypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SortOrder)
-                </td>
-                <td>
-                    @*@Html.DisplayFor(modelItem => item.IsActive)*@
-                    @(item.IsActive == true ? "Active" : "InActive")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyBy)
-                </td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpareTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SortOrder)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.IsActive)*@
+                @(item.IsActive == true ? "Active" : "InActive")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
 
-                <td style="display: inline-flex">
-                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-                    @if (Model._UserActionRights.Edit)
-                    {
-                        <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSpareType(@item.SpareTypeId)">Edit</a>
-                    }
-                    @* @if (Model._UserActionRights.Delete)
-        {
-            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-        }*@
-                </td>
-                </tr>
+
+
+            <td style="display: inline-flex">
+                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
+                @if (Model._UserActionRights.Edit)
+                {
+                    <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSpareType(@item.SpareTypeId)">Edit</a>
+                }
+                @* @if (Model._UserActionRights.Delete)
+            {
+                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+            }*@
+            </td>
+        </tr>
             }
 
         </table>

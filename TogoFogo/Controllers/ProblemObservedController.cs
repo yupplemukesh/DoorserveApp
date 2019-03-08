@@ -49,8 +49,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddProblemObserved(ManageProblemObserved model)
         {
-            model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ?"0" : Convert.ToString(Session["User_ID"]));
-            model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ?"0" : Convert.ToString(Session["User_ID"]));
+           // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemObserved == null)
@@ -68,10 +68,8 @@ namespace TogoFogo.Controllers
                            model.ProblemObserved,
                            model.IsActive,                            
                            model.SortOrder,
-                           model.CreatedBy,
-                           model.ModifyBy,
-                           model.DeleteBy,
-                           Action="add"
+                            User = Convert.ToInt32(Session["User_Id"]),
+                            Action ="add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 1)
@@ -97,7 +95,7 @@ namespace TogoFogo.Controllers
             }
             UserActionRights objUserActiobRight = new UserActionRights();
             objManageProblemObserved._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
+           /* string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
             if (!string.IsNullOrEmpty(rights))
             {
                 string[] arrRights = rights.ToString().Split(',');
@@ -122,7 +120,7 @@ namespace TogoFogo.Controllers
                 }
             }
             else
-            {
+            {*/
 
                 objManageProblemObserved._UserActionRights.Create = true;
                 objManageProblemObserved._UserActionRights.Edit = true;
@@ -131,7 +129,7 @@ namespace TogoFogo.Controllers
                 objManageProblemObserved._UserActionRights.History = true;
                 objManageProblemObserved._UserActionRights.ExcelExport = true;
 
-            }
+            //}
             return View(objManageProblemObserved);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Problem Observed")]
@@ -156,7 +154,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditProblemObserved(ManageProblemObserved model)
         {
-            model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemId == null)
@@ -175,9 +173,7 @@ namespace TogoFogo.Controllers
                             model.ProblemObserved,
                             model.IsActive,
                             model.SortOrder,
-                            model.CreatedBy,
-                            model.ModifyBy,
-                            model.DeleteBy,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();

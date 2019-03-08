@@ -37,13 +37,14 @@ namespace TogoFogo.Models
         [DisplayName("Header Description")]
         public string Header { get; set; }
         public string Footer { get; set; }
-        public int CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
-        public int ModifyBy { get; set; }
-        [DisplayName("Last Update By")]
+        public long CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public long ModifyBy { get; set; }
+        [DisplayName("Created By")]
         public string CBy { get; set; }
+        [DisplayName("Modify By")]
         public string MBy { get; set; }
-        [DisplayName("Last Update Date and Time")]
+        [DisplayName("Modify Date")]
         public string ModifyDate { get; set; }
         public int DeleteBy { get; set; }
         public string DeleteDate { get; set; }

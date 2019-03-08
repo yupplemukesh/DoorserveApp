@@ -42,6 +42,8 @@
                     @Html.DisplayNameFor(model => model.Comments)
                 </th>
                 <th>@Html.DisplayNameFor(model=>model.CBy)</th>
+                <th>@Html.DisplayNameFor(model=>model.CreatedDate)</th>
+                <th>@Html.DisplayNameFor(model=>model.MBy)</th>
                 <th>
                     @Html.DisplayNameFor(model => model.ModifyDate)
                 </th>
@@ -82,6 +84,8 @@
                 <td>@Html.DisplayFor(modelItem=>item.CBy)
               
                 </td>
+                <td>@Html.DisplayFor(modelItem=>item.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem=>item.MBy)</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ModifyDate)
                 </td>

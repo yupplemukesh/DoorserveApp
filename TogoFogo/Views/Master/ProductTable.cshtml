@@ -21,108 +21,113 @@
         </div>
     </div>
   
-        <table class="table table-striped table-bordered table-condensed" id="myTable">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayName("Serial No")
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProductImage)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ProductName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.BrandName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MRP)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.MarketPrice)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.TUPC)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsRepair)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsActive)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Comments)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreatedBy)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ModifyBy)
-                    </th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            @foreach (var item in Model._ProductModelList)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SerialNo)
-                    </td>
-                    <td>
-                        @if (item.ProductImage != null)
-                        {
-                            <img src="~/UploadedImages/@item.ProductImage" width="50" height="50" />
-                        }
+    <table class="table table-striped table-bordered table-condensed" id="myTable">
+        @*<thead>*@
+        <tr>
+            <th>
+                @Html.DisplayName("Serial No")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MRP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MarketPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TUPC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRepair)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CBy)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.MBy)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.ModifyDate)</th>
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BrandName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MRP)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MarketPrice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TUPC)
-                    </td>
-                    <td>
-
-                        @(item.IsRepair == true ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @(item.IsActive == true ? "Active" : "InActive")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comments)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedBy)
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ModifyBy)
-                    </td>
-
-                    <td style="display: inline-flex;">
-                        @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                        @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
-                        @if (Model._UserActionRights.Edit)
-                        {
-                            <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.BrandID, '@item.ProductName','@item.CategoryID')">Edit</a>
-                        }
-                        @*@if (Model._UserActionRights.Delete)
+            <th>Action</th>
+        </tr>
+        @*</thead>*@
+        @foreach (var item in Model._ProductModelList)
         {
-            <input type="button" value="Delete" class="btn btn-danger btnSize " />
-        }*@
-                    </td>
-                    </tr>
-                }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SerialNo)
+                </td>
+                <td>
+                    @if (item.ProductImage != null)
+                    {
+                        <img src="~/UploadedImages/@item.ProductImage" width="50" height="50" />
+                    }
 
-            </table>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MRP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MarketPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TUPC)
+                </td>
+                <td>
+
+                    @(item.IsRepair == true ? "Yes" : "No")
+                </td>
+                <td>
+                    @(item.IsActive == true ? "Active" : "InActive")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CBy)
+
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MBy)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.ModifyDate)</td>
+
+                <td style="display: inline-flex;">
+                    @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>*@
+                    @if (Model._UserActionRights.Edit)
+                    {
+                        <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditProduct(@item.ProductId, @item.BrandID, '@item.ProductName','@item.CategoryID')">Edit</a>
+                    }
+                    @*@if (Model._UserActionRights.Delete)
+                    {
+                        <input type="button" value="Delete" class="btn btn-danger btnSize " />
+                    }*@
+                </td>
+            </tr>
+        }
+
+    </table>
         </div>

@@ -28,12 +28,14 @@ namespace TogoFogo.Models
         public Boolean IsActive {get;set;}
         [DisplayName("Comments")]
         public string Comments {get;set;}
+        public long CreatedBy { get; set; }
         [DisplayName("Created By")]
-        public string CreatedBy {get;set;}
+        public string CBy {get;set;}
         [DisplayName("Created Date")]
         public string CreatedDate { get; set; }
+        public long ModifyBy { get; set; }
         [DisplayName("Modify By")]
-        public string ModifyBy {get;set;}
+        public string MBy {get;set;}
         [DisplayName("Modify Date")]
         public string ModifyDate { get; set; }
         [DisplayName("Delete By")]

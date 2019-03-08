@@ -1,11 +1,9 @@
 ﻿@model TogoFogo.Models.BrandModel
-@{
-    Layout = null;
-}
+
 @using (Html.BeginForm("EditBrand", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.HiddenFor(m => m.BrandId)
-    @Html.HiddenFor(m => m.BrandImage)
+    @Html.HiddenFor(m=>m.BrandId)
+    @Html.HiddenFor(m=>m.BrandImage)
 
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
