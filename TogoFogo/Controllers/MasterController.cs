@@ -749,19 +749,98 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region RemoteValidation
-        public ActionResult RemoteValidationforUserName(string Username,Int64 UserId=0)
+        public ActionResult RemoteValidationforUserName(string Username, string CurrentUserName, Int64 UserId = 0)
         {
-           // bool ifEmailExist = false;
+
+            // bool ifEmailExist = false;
             try
             {
+                if (Username == CurrentUserName)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var ifEmailExist = con.Query<bool>("UspCheckUserExists",
-                    new { Username, UserId}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    new { Username, UserId }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     //ifEmailExist = result==0 ? false : true;
 
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
-                }                  
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        public ActionResult RemoteValidationClientName(string ClientName, string CurrentClientName)
+        {
+
+            // bool ifEmailExist = false;
+            try
+            {
+                if (ClientName == CurrentClientName)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var ifEmailExist = con.Query<bool>("Select 1 from MSTCLIENTS WHERE ISACTIVE=1 and ClientName=@ClientName",
+                  new { ClientName }).FirstOrDefault();
+                    //ifEmailExist = result==0 ? false : true;
+
+                    return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        public ActionResult RemoteValidationProviderName(string ProviderName, string CurrentProviderName)
+        {
+
+            // bool ifEmailExist = false;
+            try
+            {
+                if (ProviderName == CurrentProviderName)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var ifEmailExist = con.Query<bool>("Select 1 from MstServiceProviders WHERE ISACTIVE=1 and ProviderName=@ProviderName",
+                    new { ProviderName }).FirstOrDefault();
+                    return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        public ActionResult RemoteValidationCenterName(string CenterName, string CurrentCenterName)
+        {
+
+            // bool ifEmailExist = false;
+            try
+            {
+                if (CenterName == CurrentCenterName)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var ifEmailExist = con.Query<bool>("Select 1 from MSTServiceCenters WHERE ISACTIVE=1 and CenterName=@CenterName",
+                    new { CenterName }).FirstOrDefault();
+                    return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
+                }
             }
 
             catch (Exception ex)
