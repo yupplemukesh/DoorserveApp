@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models.Customer_Support
 {
-    public class CallToASCModel
+    public class CallToASCModel:Rights
     {
         public List<CallAllocatedToASCModel> AllocatedCalls { get; set; }
         public List<CallAllocatedToASPModel> PendingCalls { get; set; }
@@ -16,9 +16,9 @@ namespace TogoFogo.Models.Customer_Support
         public AllocateCallModel CallAllocate { get; set; }
         public Guid ClientId { get; set; }
         public int ServiceTypeId { get; set; }
-        public int ServiceProviderId { get; set; }
+        public Guid ServiceProviderId { get; set; }
         public Guid AClientId { get; set; }
         public int AServiceTypeId { get; set; }
-        public int AServiceProviderId { get; set; }
+        public Guid AServiceProviderId { get; set; }
     }
 }

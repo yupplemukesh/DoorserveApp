@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 using TogoFogo.Repository;
 using TogoFogo.Repository.ServiceCenters;
 
@@ -29,10 +30,13 @@ namespace TogoFogo.Controllers
             _contactPerson = new ContactPerson();
         }
 
-        // GET: ManageClient
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Center/TRC")]
         public  async Task<ActionResult> Index()
         {
-            var Centers = await _Center.GetCenters();
+            var Centers = new ServiceCenterList();
+            Centers.serviceCenters = await _Center.GetCenters();
+            Centers.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(Centers);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)
@@ -149,6 +153,7 @@ namespace TogoFogo.Controllers
                 CenterModel.Organization.AplicationTaxTypeList = Center.Organization.AplicationTaxTypeList;
                 CenterModel.ServiceList = Center.ServiceList;
                 CenterModel.DeliveryServiceList = Center.DeliveryServiceList;
+                CenterModel.action = Center.action;
                 CenterModel.Activetab = "tab-5";                    
                     TempData["Center"] = CenterModel;
                     TempData.Keep("Center");
@@ -256,7 +261,8 @@ namespace TogoFogo.Controllers
             }
         }
 
-        // GET: ManageClient/Create
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Service Center/TRC")]
         public async Task<ActionResult> Create()
         {
             var CenterModel = new ServiceCenterModel()
@@ -484,7 +490,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-        // GET: ManageClient/Edit/5
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Service Center/TRC")]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["Center"] = null;
@@ -531,7 +537,7 @@ namespace TogoFogo.Controllers
 
         }
 
-        // POST: ManageClient/Edit/5
+
         [HttpPost]
         public async Task<ActionResult> Edit(ServiceCenterModel Center, OrganizationModel org)
         {

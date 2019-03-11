@@ -9,6 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
+using TogoFogo.Permission;
 using TogoFogo.Repository.Customer_Support;
 
 namespace TogoFogo.Controllers
@@ -22,14 +23,17 @@ namespace TogoFogo.Controllers
             _customerSupport = new CustomerSupport();
         }
         // GET: CallToASP
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Call Allocate To ASP")]
         public async Task<ActionResult> Index()
         {
             var calls = await _customerSupport.GetASPCalls();
             calls.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(),"Value","Text") };
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(),"Name","Text") };
+            calls.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(calls);
         }
+
         [HttpPost]
         public async Task<ActionResult> Allocate(AllocateCallModel allocate)
         {

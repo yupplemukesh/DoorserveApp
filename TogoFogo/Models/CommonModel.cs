@@ -202,7 +202,7 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>("SELECT Id Value,ProviderName Text FROM MstServiceProvider where IsActive=1").ToListAsync();
+                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>("SELECT ProviderId Name,ProviderName Text FROM MstServiceProviders where IsActive=1").ToListAsync();
                 return _serviceProvider;
             }
         }
@@ -210,7 +210,7 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceCeters = await _context.Database.SqlQuery<CheckBox>("SELECT TRC_ID Value,TRC_NAME Text FROM msttrc where IsActive=1").ToListAsync();
+                var _serviceCeters = await _context.Database.SqlQuery<CheckBox>("SELECT CenterId Name ,CenterName Text FROM MSTServiceCenters where IsActive=1").ToListAsync();
                 return _serviceCeters;
             }
         }

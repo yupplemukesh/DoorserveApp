@@ -8,9 +8,7 @@ namespace TogoFogo.Models.Customer_Support
     public class CallAllocatedToASCModel:CallAllocatedToASPModel
     {
         public string ServiceCenterName { get; set; }
-        public int ServiceCenterId { get; set; }    
-        public string ServiceCenterOrgName { get; set; }
-        public string ServiceCenterProcessName { get; set; }
-        public string ServiceCenterContactNumber { get; set; }
+        public Guid  ServiceCenterId { get; set; }    
+     
     }
 }

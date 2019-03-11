@@ -244,8 +244,6 @@ namespace TogoFogo.Controllers
                     finalValue = string.Join(",", model.ProductColor);
                 }
 
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
 
                 using (var con = new SqlConnection(_connectionString))
                 {
@@ -374,7 +372,7 @@ namespace TogoFogo.Controllers
                 {
                     finalValue = string.Join(",", model.ProductColor);
                 }
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+
 
                 var result = con.Query<int>("Add_Edit_Delete_Products",
                     new

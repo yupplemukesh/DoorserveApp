@@ -130,198 +130,7 @@
             2019 Â© Togofogo.com
         </div>
     </div>
-    @Scripts.Render("~/bundles/customBundle")
-    @Scripts.Render("~/bundles/bootstrap")
-    <script>
 
-        $(document).ready(function (e) {
-            $('.selectpicker').selectpicker();
-
-            $(".bootstrap-select").click(function () {
-                $(this).addClass("open");
-
-                $('#CountryList').attr('data-live-search', true);
-            });
-            $(document).click(function () {
-                $(".bootstrap-select").removeClass("open");
-                $('.selectpicker').attr("data-live-search", true);
-
-            });
-            $(".bootstrap-select").click(function (e) {
-                e.stopPropagation();
-
-
-            });
-
-        });
-        $(document).ready(function () {
-            $('#myTable').DataTable();
-            $('#myTable1').DataTable();
-
-
-
-        });
-        $(document).ready(function () {
-            $('#OOWRRTable').DataTable({
-
-                dom: 'Bfrtip',
-
-                buttons: [
-                    {
-                        extend: 'excel',
-                        title: 'OOWR report',
-                        exportOptions: {
-                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-                        }
-                    },
-
-                ],
-                initComplete: function () {
-                    //$(".buttons-html5").css("background-color", "green","color","white");
-                    $('.buttons-html5').html('<b><span class="glyphicon glyphicon-file" data-toggle="tooltip" title="Export To Excel" style="font-size: 15px;color: darkgreen;font-weight: 600;">Export To Excel</span></b>');
-                    $('#hideLink').hide()
-                }
-            });
-        });
-        $(document).ready(function () {
-            //$('#SC_PincodeDropdown').select2();
-            $("#datepicker,#AgreementStartDate,#AgreementEndDate,#editAgreementStartDate,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
-                .datepicker({
-                    dateFormat: 'dd-M-yy',
-                }).datepicker("setDate", new Date());
-            $('#date_begin,#date_end').datetimepicker();
-            $("#form_datetime,#form_datetime1,#form_datetime2").datetimepicker({ format: 'yyyy-mm-dd hh:ii' });
-        });
-        $(document).ready(function () {
-
-            $('#ReportFromDate,#ReportToDate').datepicker({
-                dateFormat: 'dd-M-yy',
-            }).datepicker("setDate", new Date());
-
-            $('#LandingToDate,#LandingFromDate').datepicker({
-                dateFormat: 'dd-M-yy',
-                maxDate: new Date(),
-            }).datepicker("setDate", new Date());
-        });
-        $(document).ready(function () {
-            $("#datepicker1,#FromDate,#ToDate").datepicker({
-                dateFormat: 'dd-M-yy',
-                minDate: 0
-            }).datepicker("setDate", new Date());;
-        });
-        $(document).ready(function () {
-            $("#datepicker1").datepicker({
-                dateFormat: 'dd-M-yy',
-            }).datepicker("setDate", new Date());;
-        });
-
-        function readURL(input) {
-            var _this = input;
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    //$('#blah')
-                    //    .attr('src', e.target.result);
-                    $(_this).parent('div').next('div').find('img').attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        var loadFile = function (event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('editblah');
-                output.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        };
-
-
-        $(function () {
-            var startDate = $(".startDate").val();
-            var endDate = $(".endDate").val();
-            $(".template").click(function () {
-                var obj = $("#myTable").DataTable().$('tr:first').clone();
-                var obj1 = $('<tr>').append($("#myTable thead tr").html());
-
-
-                $(obj1).find("th:eq(0)").remove();
-                $(obj1).find("th:eq(0)").remove();
-                $(obj1).find("th:eq(0)").remove();
-                $(obj1).find("th:eq(0)").remove();
-
-                $(obj).find("td:eq(0)").remove();
-                $(obj).find("td:eq(0)").remove();
-                $(obj).find("td:eq(0)").remove();
-                $(obj).find("td:eq(0)").remove();
-
-
-
-                $('<table>')
-                    .append(
-                        obj1
-                    )
-                    .append(
-                        obj
-                    )
-                    .table2excel({
-                        exclude: ".excludeThisClass",
-                        name: "Worksheet Name",
-                        filename: "Excel.xls" //do not include extension
-                    });
-            });
-
-
-            $(".excel").click(function () {
-        });
-
-        //$(function () {
-        //    var startDate = $(".startDate").val();
-        //    var endDate = $(".endDate").val();
-
-        //    $(".excel").click(function () {
-        //        $('<table>')
-        //            .append(
-        //                $("#myTable").DataTable().$('tr').clone()
-        //            )
-        //            .table2excel({
-        //                exclude: ".excludeThisClass",
-        //                name: "Worksheet Name",
-        //                filename: "SomeFile" //do not include extension
-        //            });
-        //    });
-
-        //    $("#myTable").dataTable();
-        //});
-
-
-
-
-        $(document).ready(function () {
-            $("#toast-container").fadeOut(5000);
-            $("#filter").keyup(function () {
-                var filter = $(this).val();
-                $("#sideMenu").find('li').each(function () {
-                    if (filter == "") {
-                        $(this).css("visibility", "visible");
-                        $(this).fadeIn();
-                    } else if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-                        $(this).css("visibility", "hidden");
-                        $(this).fadeOut();
-
-                    } else {
-                        $(this).css("visibility", "visible");
-                        $(this).fadeIn();
-                    }
-                });
-            });
-        });
-
-
-
-    </script>
     @if (TempData["response"] != null)
     {
         var resp = TempData["response"] as TogoFogo.Models.ResponseModel;
@@ -355,6 +164,152 @@
             </div>
         </div>
     }
+    @Scripts.Render("~/bundles/customBundle")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+
+        $(document).ready(function (e) {
+            $('#myTable').DataTable();
+            $('#myTable1').DataTable();
+            $('.selectpicker').selectpicker();
+
+            $(".bootstrap-select").click(function () {
+                $(this).addClass("open");
+
+                $('#CountryList').attr('data-live-search', true);
+            });
+            $(document).click(function () {
+                $(".bootstrap-select").removeClass("open");
+                $('.selectpicker').attr("data-live-search", true);
+
+            });
+            $(".bootstrap-select").click(function (e) {
+                e.stopPropagation();
+
+
+            });
+            $("#toast-container").fadeOut(5000);
+            $("#filter").keyup(function () {
+                var filter = $(this).val();
+                $("#sideMenu").find('li').each(function () {
+                    if (filter == "") {
+                        $(this).css("visibility", "visible");
+                        $(this).fadeIn();
+                    } else if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                        $(this).css("visibility", "hidden");
+                        $(this).fadeOut();
+
+                    } else {
+                        $(this).css("visibility", "visible");
+                        $(this).fadeIn();
+                    }
+                });
+            });
+            $('#OOWRRTable').DataTable({
+
+                dom: 'Bfrtip',
+
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: 'OOWR report',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+                        }
+                    },
+
+                ],
+                initComplete: function () {
+                    //$(".buttons-html5").css("background-color", "green","color","white");
+                    $('.buttons-html5').html('<b><span class="glyphicon glyphicon-file" data-toggle="tooltip" title="Export To Excel" style="font-size: 15px;color: darkgreen;font-weight: 600;">Export To Excel</span></b>');
+                    $('#hideLink').hide()
+                }
+            });
+            $("#datepicker,#AgreementStartDate,#AgreementEndDate,#editAgreementStartDate,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
+                .datepicker({
+                    dateFormat: 'dd-M-yy',
+                }).datepicker("setDate", new Date());
+            $('#date_begin,#date_end').datetimepicker();
+            $("#form_datetime,#form_datetime1,#form_datetime2").datetimepicker({ format: 'yyyy-mm-dd hh:ii' });
+            $('#ReportFromDate,#ReportToDate').datepicker({
+                dateFormat: 'dd-M-yy',
+            }).datepicker("setDate", new Date());
+
+            $('#LandingToDate,#LandingFromDate').datepicker({
+                dateFormat: 'dd-M-yy',
+                maxDate: new Date(),
+            }).datepicker("setDate", new Date());
+            $("#datepicker1,#FromDate,#ToDate").datepicker({
+                dateFormat: 'dd-M-yy',
+                minDate: 0
+            }).datepicker("setDate", new Date());
+            $("#datepicker1").datepicker({
+                dateFormat: 'dd-M-yy',
+            }).datepicker("setDate", new Date());
+            var startDate = $(".startDate").val();
+            var endDate = $(".endDate").val();
+            $(".template").click(function () {
+                var obj = $("#myTable").DataTable().$('tr:first').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+
+
+                $(obj1).find("th:eq(0)").remove();
+                $(obj1).find("th:eq(0)").remove();
+                $(obj1).find("th:eq(0)").remove();
+                $(obj1).find("th:eq(0)").remove();
+
+                $(obj).find("td:eq(0)").remove();
+                $(obj).find("td:eq(0)").remove();
+                $(obj).find("td:eq(0)").remove();
+                $(obj).find("td:eq(0)").remove();
+
+
+
+                $('<table>')
+                    .append(
+                        obj1
+                    )
+                    .append(
+                        obj
+                    )
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "Excel.xls" //do not include extension
+                    });
+            });
+            $(".excel").click(function () {
+            });
+        });             
+        
+        function readURL(input) {
+            var _this = input;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    //$('#blah')
+                    //    .attr('src', e.target.result);
+                    $(_this).parent('div').next('div').find('img').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('editblah');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+
+       
+
+
+            </script>
 
 
 

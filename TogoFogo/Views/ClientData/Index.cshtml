@@ -12,22 +12,28 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-secondary excel" type="button">
-                        Export Excel
-                    </button>
-                    <a class="btn btn-primary template">
-                        <span>
-                            Template
-                        </span>
-                    </a>
+                    @if (Model.rights.ExcelExport)
+                    {
+                        <button class="btn btn-secondary excel" type="button">
+                            Export Excel
+                        </button>
+                        <a class="btn btn-primary template">
+                            <span>
+                                Template
+                            </span>
+                        </a>
+                    }
+                   
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="panel-body">
+    @if (Model.rights.Create)
+    {
     @Html.Partial("_Createform", Model.client)
-
+    }
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
@@ -42,8 +48,11 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Partial("_tableList", Model.uploadedData)
-                </div>
+                    @if (Model.rights.View)
+                    {
+                        @Html.Partial("_tableList", Model.uploadedData)
+                    }
+                    </div>
             </div>
         </div>
     </div>

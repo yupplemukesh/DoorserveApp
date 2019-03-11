@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 using TogoFogo.Repository;
 using TogoFogo.Repository.ServiceProviders;
 
@@ -29,10 +30,12 @@ namespace TogoFogo.Controllers
             _contactPerson = new ContactPerson();
         }
 
-        // GET: ManageClient
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Provider")]
         public  async Task<ActionResult> Index()
         {
-            var Providers = await _provider.GetProviders();
+            var Providers = new ServiceProviderList();
+            Providers.Providers = await _provider.GetProviders();
+            Providers.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(Providers);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)
@@ -149,6 +152,7 @@ namespace TogoFogo.Controllers
                 ProviderModel.Organization.AplicationTaxTypeList = provider.Organization.AplicationTaxTypeList;
                 ProviderModel.ServiceList = provider.ServiceList;
                 ProviderModel.DeliveryServiceList = provider.DeliveryServiceList;
+                ProviderModel.action = provider.action;
                 ProviderModel.Activetab = "tab-5";                    
                     TempData["provider"] = ProviderModel;
                     TempData.Keep("provider");
@@ -255,7 +259,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-        // GET: ManageClient/Create
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Service Provider")]
         public async Task<ActionResult> Create()
         {
             var ProviderModel = new ServiceProviderModel()
@@ -483,7 +487,8 @@ namespace TogoFogo.Controllers
             }
         }
 
-        // GET: ManageClient/Edit/5
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Service Provider")]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["provider"] = null;

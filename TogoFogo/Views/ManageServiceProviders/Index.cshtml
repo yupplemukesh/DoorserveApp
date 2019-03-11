@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.ServiceProviderModel>
+﻿@model TogoFogo.Models.ServiceProviderList
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -12,15 +12,21 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-secondary excel">
-                        Export Excel
-                    </button>
-                    <a class="btn btn-primary" href="@Url.Action("Create","ManageServiceProviders")">
-                        <span>
-                            Add ASP 
-                        </span>
-                    </a>
-                </div>
+                    @if (Model.rights.ExcelExport)
+                    {
+                        <button class="btn btn-secondary excel">
+                            Export Excel
+                        </button>
+                    }
+                    @if (Model.rights.Create)
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("Create", "ManageServiceProviders")">
+                            <span>
+                                Add ASP
+                            </span>
+                        </a>
+                    }
+                    </div>
             </div>
         </div>
     </div>
@@ -29,84 +35,90 @@
 <div class="panel-body">
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-striped table-bordered table-condensed" id="myTable">
+            @if (Model.rights.View)
+            {
+                <table class="table table-striped table-bordered table-condensed" id="myTable">
 
-                <thead>
-                    <tr>
+                    <thead>
+                        <tr>
 
-                        <th>
-                            @Html.DisplayName("#SN")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Process Name")
-                        </th>
-                        <th>
-                            @Html.DisplayName("ASP Code")
-                        </th>
-                        <th>
-                            @Html.DisplayName("ASP Name")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Organization Name")
-                        </th>
-                       
-                        <th>
-                            @Html.DisplayName("Is Active")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Comments")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Last Updated Date Time")
-                        </th>
-                        <th>
-                            @Html.DisplayName("Last Updated Details")
-                        </th>
+                            <th>
+                                @Html.DisplayName("#SN")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Process Name")
+                            </th>
+                            <th>
+                                @Html.DisplayName("ASP Code")
+                            </th>
+                            <th>
+                                @Html.DisplayName("ASP Name")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Organization Name")
+                            </th>
 
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => Count)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProcessName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProviderCode)
+                            <th>
+                                @Html.DisplayName("Is Active")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Comments")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Last Updated Date Time")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Last Updated Details")
+                            </th>
 
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ProviderName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ORGNAME)
-                        </td>                        
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.Providers)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => Count)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProcessName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProviderCode)
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IsActive)
-                        </td>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProviderName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ORGNAME)
+                            </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Remarks)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ModifyBy)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ModifyDate)
-                        </td>
-                        <td style="display: inline-flex">
-                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT","ManageServiceProviders",new {id = item.ProviderId})'>Edit</a>
-                        </td>
-                    </tr>
-                    Count++;
-                }
-            </table>
-        </div>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsActive)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Remarks)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifyBy)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifyDate)
+                            </td>
+                            @if (Model.rights.Edit)
+                            {
+                            <td style="display: inline-flex">
+                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ManageServiceProviders", new { id = item.ProviderId })'>Edit</a>
+                            </td>
+                            }
+                        </tr>
+                        Count++;
+                    }
+                </table>
+            }
+            </div>
         <!--/.panel
         </div><!--/.col-->
     </div>

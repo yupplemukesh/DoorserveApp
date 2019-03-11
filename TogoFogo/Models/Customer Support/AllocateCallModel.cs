@@ -10,7 +10,7 @@ namespace TogoFogo.Models.Customer_Support
     {
         public List<DeviceModel> SelectedDevices { get; set; }
         public SelectList ToAllocateList { get; set; }
-        public int AllocateId  { get; set; }
+        public Guid AllocateId  { get; set; }
         public string AllocateTo { get; set; }
         public int UserId { get; set; }
     }

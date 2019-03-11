@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 using TogoFogo.Repository;
 using TogoFogo.Repository.Clients;
 
@@ -30,10 +31,13 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Clients")]
         public  async Task<ActionResult> Index()
         {
-            var clients = await _client.GetClients();
-            return View(clients);
+            var ClientList = new ClientList();
+            ClientList.Clients = await _client.GetClients();
+            ClientList.rights =  (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(ClientList);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)
         {
@@ -150,6 +154,7 @@ namespace TogoFogo.Controllers
                 clientModel.Organization.AplicationTaxTypeList = client.Organization.AplicationTaxTypeList;
                 clientModel.ServiceList = client.ServiceList;
                 clientModel.DeliveryServiceList = client.DeliveryServiceList;
+                clientModel.action = client.action;
                 clientModel.Activetab = "tab-5";                    
                     TempData["client"] = clientModel;
                     TempData.Keep("client");
@@ -258,6 +263,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient/Create
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Clients")]
         public async Task<ActionResult> Create()
         {
             var clientModel = new ClientModel()
@@ -486,6 +492,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient/Edit/5
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Clients")]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["client"] = null;

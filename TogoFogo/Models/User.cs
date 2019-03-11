@@ -24,7 +24,7 @@ namespace TogoFogo.Models
         public string CreatedBy { get; set; }
         public string ModifyBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime ModifyDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
         public int UserLoginId { get; set; }
         public ContactPersonModel _ContactPerson { get;set;} 
         public AddressDetail _AddressDetail { get; set; }

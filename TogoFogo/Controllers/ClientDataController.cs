@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
+using TogoFogo.Permission;
 using TogoFogo.Repository;
 using TogoFogo.Repository.ImportFiles;
 
@@ -23,6 +24,7 @@ namespace TogoFogo.Controllers
         {
             _RepoUploadFile = new UploadFiles();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
         public async Task<ActionResult> Index()
         {
             var clientData = new MainClientDataModel();
@@ -32,6 +34,7 @@ namespace TogoFogo.Controllers
                 clientData.client = (ClientDataModel)TempData["clientData"];
             else
                 clientData.client = new ClientDataModel();
+            clientData.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             clientData.client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             clientData.client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             return View(clientData);
@@ -60,6 +63,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Import Customers")]
         public async Task<ActionResult> Create()
         {
             var clientDate = new ClientDataModel();
