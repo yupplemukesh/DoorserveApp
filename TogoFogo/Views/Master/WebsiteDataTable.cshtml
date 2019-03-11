@@ -49,10 +49,10 @@
                     @Html.DisplayName("Created By")
                 </th>
                 <th>
-                    @Html.DisplayName("Modify By")
+                    @Html.DisplayName("Created Date")
                 </th>
                 <th>
-                    @Html.DisplayName("Created Date")
+                    @Html.DisplayName("Modify By")
                 </th>
                 <th>
                     @Html.DisplayName("Modify Date")
@@ -89,13 +89,13 @@
                         @Html.DisplayFor(modelItem => item.Max_Price)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreatedBy)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ModifyBy)
+                        @Html.DisplayFor(modelItem => item.CBy)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MBy)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ModifyDate)

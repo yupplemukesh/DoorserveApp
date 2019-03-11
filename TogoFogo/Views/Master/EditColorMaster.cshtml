@@ -42,16 +42,7 @@
 
 
     <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-
-        @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
-
-                }, "Select", new { @class = "form-control" })
-
-            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })        
         @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
     </div>
 

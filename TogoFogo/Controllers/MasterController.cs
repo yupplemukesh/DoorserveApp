@@ -65,8 +65,8 @@ namespace TogoFogo.Controllers
                     //model.BrandImage = SaveImageFile(model.BrandIMG);
 
                 }
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+               // model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
 
                 using (var con = new SqlConnection(_connectionString))
                 {
@@ -141,7 +141,7 @@ namespace TogoFogo.Controllers
                                             BindingFlags.NonPublic, null, mpc,
                                             new object[] { model.BrandIMG });
                 }
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
                 var result = con.Query<int>("Add_Modify_Delete_Brand"
                     , new
                     {
@@ -244,6 +244,8 @@ namespace TogoFogo.Controllers
                     finalValue = string.Join(",", model.ProductColor);
                 }
 
+                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
 
                 using (var con = new SqlConnection(_connectionString))
                 {
@@ -264,9 +266,8 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,
-                            model.User,
-                            model.CreatedBy,
-                            model.ModifyBy,
+                           // model.User,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result !=0)
@@ -372,7 +373,7 @@ namespace TogoFogo.Controllers
                 {
                     finalValue = string.Join(",", model.ProductColor);
                 }
-
+               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
 
                 var result = con.Query<int>("Add_Edit_Delete_Products",
                     new
@@ -391,9 +392,7 @@ namespace TogoFogo.Controllers
                         model.IsRepair,
                         model.IsActive,
                         model.Comments,
-                        model.User,
-                        model.CreatedBy,
-                        model.ModifyBy,
+                        User = Convert.ToInt32(Session["User_Id"]),
                         Action = "edit"
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 2)
@@ -434,7 +433,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddDeviceProblem(DeviceProblemModel model)
         {
-            model.User = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            //model.User = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.Problem == null)
@@ -451,7 +450,7 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
-                            model.User,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -520,7 +519,7 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
-                            model.User,
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -561,20 +560,19 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
         {
-            m.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-            m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+           // m.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            //m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
                            new
                            {
+                               m.ColorId,
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
-                               m.CreatedBy,
-                               m.ModifyBy,
-                               Action = "add",
-                               m.ColorId
+                               User = Convert.ToInt32(Session["User_Id"]),
+                               Action = "add"                               
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result1 == 1)
                 {
@@ -604,21 +602,19 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult EditColorMaster(ColorModel m)
-        {
-         
-            m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {         
+            //m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
                            new
                            {
+                               m.ColorId,
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
-                               m.CreatedBy,
-                               m.ModifyBy,
-                               Action = "edit",
-                               m.ColorId,
+                               User = Convert.ToInt32(Session["User_Id"]),
+                               Action = "edit",                            
 
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result1 == 2)
@@ -628,9 +624,10 @@ namespace TogoFogo.Controllers
                 else
                 {
                     TempData["Message"] = "Something went wrong";
-                }
+                }              
+
             }
-            return RedirectToAction("ColorMaster", "Master");
+            return RedirectToAction("ColorMaster", "Master");           
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Color Master")]
         public ActionResult ColorTable()
@@ -638,7 +635,7 @@ namespace TogoFogo.Controllers
             ColorModel objColorModel = new ColorModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                objColorModel._ColorModelList = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CreatedBy',cum1.UserName 'ModifyBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
+                objColorModel._ColorModelList = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
                     commandType: CommandType.Text).ToList();              
               
             }
@@ -771,7 +768,7 @@ namespace TogoFogo.Controllers
             parts.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
             parts.ProblemList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
             parts.ModelList = new SelectList(Enumerable.Empty<SelectListItem>());
-            return PartialView();
+            return PartialView(parts);
         }
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)

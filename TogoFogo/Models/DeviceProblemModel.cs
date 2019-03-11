@@ -37,7 +37,9 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
+        [DisplayName("Sub Category Name")]
         public string SubCatName { get; set; }
+        [DisplayName("Category Name")]
         public string CatName { get; set; }
         public string User { get; set; }
         public UserActionRights _UserActionRights { get; set; }

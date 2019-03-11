@@ -23,9 +23,13 @@ namespace TogoFogo.Models
         public string[] pd { get; set; }
         public string[] Brand { get; set; }
         public string BrandId { get; set; }
-        public string CreatedBy { get; set; }
-        public string ModifyBy { get; set; }
-        public string CreatedDate { get; set; }
+        public long CreatedBy { get; set; }
+        [DisplayName("Created By")]
+        public string CBy { get; set; }
+        public long ModifyBy { get; set; }
+        [DisplayName("Modify By")]
+        public string MBy { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string ModifyDate { get; set; }
         public UserActionRights _UserActionRights { get; set; }
         public List<ColorModel> _ColorModelList { get; set; }
