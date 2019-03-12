@@ -23512,3 +23512,6 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     width: 100%;
     height:20px;
 }
+.menu-icon img {
+    width: 17px
+}

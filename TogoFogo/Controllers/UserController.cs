@@ -106,9 +106,7 @@ namespace TogoFogo.Controllers
                     
                     objUser.UserId = result.UserId;
                     objUser.UserName = result.UserName;
-                    objUser.IsActive = result.IsActive;
-                    objUser.CreatedDate = result.CreatedDate;
-                    objUser.ModifyDate = result.ModifyDate;
+                    objUser.IsActive = result.IsActive;                    
                     objUser.Password = result.Password;
                     objUser._AddressDetail.PinNumber = result.PinNumber;
                     objUser._AddressDetail.Address = result.Address;
@@ -195,14 +193,13 @@ namespace TogoFogo.Controllers
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
+                var result = con.Query<dynamic>("GETUSERLIST",
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
                 {
                     objUser = new User();
                     objUser._AddressDetail = new AddressDetail();
                     objUser._ContactPerson = new ContactPersonModel();
-                    objUser.SerialNo = item.SerialNo;
                     objUser.UserId = item.UserId;
                     objUser.UserName = item.UserName;
                     objUser.IsActive = item.IsActive;

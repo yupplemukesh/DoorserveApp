@@ -1,5 +1,6 @@
 ﻿@model TogoFogo.Models.User
 @{
+    var count = 1;
     ViewBag.Title = "User List";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
@@ -79,7 +80,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.SerialNo)
+                        @count
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item._ContactPerson.ConFirstName)
@@ -127,6 +128,7 @@
                         @*<input type="button" class="btn btn-small btn-success btnSize" value="Update Password" onclick="@("window.location.href='" + @Url.Action("EditPassword", "Master",new {Id=item.ID,Email=item.Email_Address,username=item.UserName}) + "'");" />*@
                     </td>
                 </tr>
+                count++;
             }
 
         </table>
