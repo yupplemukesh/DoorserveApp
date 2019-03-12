@@ -85,76 +85,79 @@
 
     </script>
 }
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function EditColor(ColorId) {
+            debugger;
+            $.ajax({
+                type: 'GET',
+                url: "/Master/EditColorMaster?ColorId=" + ColorId,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                    $('.selectpicker').selectpicker();
+                    var previous_value;
+                    $(".selectpicker").on('shown.bs.select', function (e) {
+                        previous_value = $(this).val();
+                    }).change(function () {
 
-<script>
-    function EditColor(ColorId) {
-        debugger;
-        $.ajax({
-            type: 'GET',
-            url: "/Master/EditColorMaster?ColorId=" + ColorId,
-            contentType: 'application/json; charset=utf-8',
-            cache: false,
-            success: function (response) {
-                $("#Info").html(response);
-                $('.selectpicker').selectpicker();
-                var previous_value;
-                $(".selectpicker").on('shown.bs.select', function (e) {
-                    previous_value = $(this).val();
-                }).change(function () {
-
-                    previous_value = $(this).val();
-                });
+                        previous_value = $(this).val();
+                    });
 
 
-                $(".bootstrap-select").click(function () {
-                    $(this).addClass("open");
+                    $(".bootstrap-select").click(function () {
+                        $(this).addClass("open");
 
-                    //$('#CountryList').attr('data-live-search', true);
-                });
-                $(document).click(function () {
-                    $(".bootstrap-select").removeClass("open");
-                    $('.selectpicker').attr("data-live-search", true);
-                });
-                $(".bootstrap-select").click(function (e) {
-                    e.stopPropagation();
-                });
+                        //$('#CountryList').attr('data-live-search', true);
+                    });
+                    $(document).click(function () {
+                        $(".bootstrap-select").removeClass("open");
+                        $('.selectpicker').attr("data-live-search", true);
+                    });
+                    $(".bootstrap-select").click(function (e) {
+                        e.stopPropagation();
+                    });
 
-            },
-            error: function (e) {
-                console.log(e);
-                $(".submitbutton").attr("disabled", false);
-                alert("Something went wrong...");
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
 
-            },
-            complete: function () {
+                },
+                complete: function () {
 
-                $(".submitbutton").attr("disabled", false);
-            }
-        });
-    }
-    function AjaxWithValue(method, ddl, e) {
-
-        var val1 = $(e).val();
-
-        $.ajax({
-            type: "GET",
-            url: "/DropdownBind/" + method + "?value=" + val1,
-            data: '{}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                $("#" + ddl).empty();
-
-                //var sel = new Option('-Select-', '');
-                //$('#' + ddl).append(sel);
-                for (var i = 0; i < data.length; i++) {
-                    var opt = new Option(data[i].Text, data[i].Value);
-                    //$('#' + ddl).append(opt);
-                    $('#' + ddl).append(opt);
+                    $(".submitbutton").attr("disabled", false);
                 }
+            });
+        }
+        function AjaxWithValue(method, ddl, e) {
 
-            }
-        });
-        $('.selectpicker').selectpicker('refresh');
-    }
-</script>
+            var val1 = $(e).val();
+
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val1,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        //$('#' + ddl).append(opt);
+                        $('#' + ddl).append(opt);
+                    }
+
+                }
+            });
+            $('.selectpicker').selectpicker('refresh');
+        }
+    </script>
+
+}

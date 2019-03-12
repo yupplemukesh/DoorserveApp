@@ -8,14 +8,11 @@
     @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
     @Html.HiddenFor(model => model.BrandId)
     <div class="col-md-8 col-sm-8 col-lg-8">
-
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-
-
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
@@ -117,15 +114,7 @@
 
                 @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-
-                @*@Html.DropDownListFor(model => model.IsRepair, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
-                    }, "Select", new {@class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.Is_repair, "", new { @class = "text-danger" })*@
+            <div class="col-md-6 col-sm-6 col-xs-12">                
                 @Html.CheckBoxFor(model => model.IsRepair)
             </div>
         </div>
@@ -134,15 +123,7 @@
 
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-
-                @*@Html.DropDownListFor(model => model.Is_Active, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
-                    }, "Select", new {@class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.Is_Active, "", new { @class = "text-danger" })*@
+            <div class="col-md-6 col-sm-6 col-xs-12">             
 
                 @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
             </div>

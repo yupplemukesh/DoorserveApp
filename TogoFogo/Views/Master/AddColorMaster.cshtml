@@ -41,15 +41,7 @@
                 @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
-                @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+                @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })                
             </div>
         </div>
         <div class="ln_solid"></div>
@@ -63,7 +55,5 @@
     </div>
 
 }
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+
 

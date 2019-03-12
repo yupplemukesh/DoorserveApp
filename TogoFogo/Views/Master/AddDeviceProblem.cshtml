@@ -39,14 +39,7 @@
     </div>
     <div class="row" style="padding-bottom: 5px;">
         @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
-
-            }, "Select Status", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+        <div class="col-md-6 col-sm-6 col-xs-12">           
             @Html.CheckBoxFor(model=>model.IsActive,new { @checked="checked"})
         </div>
     </div>

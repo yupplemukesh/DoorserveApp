@@ -3,48 +3,47 @@
 @using (Html.BeginForm("AddWebsiteData", "Master", FormMethod.Post))
 {
 
-    <div class="col-md-6 col-sm-6 col-lg-6">
-        <div class="row" style="padding-bottom: 5px;">
+<div class="col-md-6 col-sm-6 col-lg-6">    
+    <div class="row" style="padding-bottom: 5px;">
             <div class="col-md-3 col-md-offset-1 col-xs-12">
                 @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.BrandName, Model.BrandList, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'Model_Id', this)" })
+                @Html.DropDownListFor(model => model.BrandName, Model.BrandList,  new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'Model_Id', this)" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
-
             </div>
         </div>
-        <div class="row" style="padding-bottom: 5px;">
-            <div class="col-md-3 col-md-offset-1 col-xs-12">
-                @Html.LabelFor(model => model.Model_Id, htmlAttributes: new { @class = "" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-
-                @Html.DropDownListFor(model => model.Model_Id, Model.ModelList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
-                @Html.ValidationMessageFor(model => model.Model_Id, "", new { @class = "text-danger" })
-            </div>
+    <div class="row" style="padding-bottom: 5px;">
+        <div class="col-md-3 col-md-offset-1 col-xs-12">
+            @Html.LabelFor(model => model.Model_Id, htmlAttributes: new { @class = "" })
         </div>
-        <div class="row" style="padding-bottom: 5px;">
-            <div class="col-md-3 col-md-offset-1 col-xs-12">
-                @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Problem, Model.ProblemList, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 5px;">
-            <div class="col-md-3 col-md-offset-1 col-xs-12">
-                @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
 
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model.Market_Price, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Market_Price, "", new { @class = "text-danger" })
-            </div>
+            @Html.DropDownListFor(model => model.Model_Id, Model.ModelList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
+            @Html.ValidationMessageFor(model => model.Model_Id, "", new { @class = "text-danger" })
         </div>
-
     </div>
+    <div class="row" style="padding-bottom: 5px;">
+        <div class="col-md-3 col-md-offset-1 col-xs-12">
+            @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "" })
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.Problem, Model.ProblemList, "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        <div class="col-md-3 col-md-offset-1 col-xs-12">
+            @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "" })
+
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.Market_Price, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Market_Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+</div>
     <div class="col-md-6 col-sm-6 col-lg-6">
         <div class="row" style="padding-bottom: 5px;">
             <div class="col-md-3 col-md-offset-1 col-xs-12">
@@ -86,7 +85,5 @@
         </div>
     </div>
 }
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+
 

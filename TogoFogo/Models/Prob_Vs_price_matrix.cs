@@ -19,6 +19,8 @@ namespace TogoFogo.Models
         public int SerialNo { get; set; }
         [DisplayName("Brand")]
         [Required(ErrorMessage = "Select Brand Name")]
+        public int BrandId { get; set; }
+        [DisplayName("Brand")]        
         public string BrandName { get; set; }
         [DisplayName("Model")]
         [Required(ErrorMessage = "Select Model")]

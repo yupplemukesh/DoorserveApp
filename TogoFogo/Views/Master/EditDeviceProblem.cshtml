@@ -10,47 +10,66 @@
 @using (Html.BeginForm("EditDeviceProblem", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(m => m.ProblemID)
-    <div class="form-group">
-        @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
             </div>
-            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })        
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.DropDownListFor(model => model.SubCategory, null, new { @class = "form-control", @id = "EditSubCategory" })
+            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
         </div>
-            @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })        
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.Problem, htmlAttributes: new { @class = "form-control" })
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.SubCategory, null, new { @class = "form-control", @id = "EditSubCategory" })
+            </div>
+            @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
         </div>
-            @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })        
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-            <span class="input-group-addon"></span>
-            @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control" })
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.Problem, htmlAttributes: new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
         </div>
-            @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })        
     </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
-        <div class="input-group">
-
-            @Html.CheckBoxFor(model => model.IsActive)
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                @Html.CheckBoxFor(model => model.IsActive)
+            </div>
             @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
         </div>
     </div>
+</div>
 
 
     <div class="row ">
@@ -61,21 +80,8 @@
             </div>
         </div>
     </div>
-}
+    }
 
 
-@if (ViewBag.SortOrder != null)
-{
-    <script>
-            document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
 
-    </script>
-}
-
-@if (ViewBag.Message != null)
-{
-    <script>
-        alert('@ViewBag.Message');
-    </script>
-}
-@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")

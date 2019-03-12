@@ -21,7 +21,7 @@
                     {
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
 
             @*<div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>*@
             <div class="modal-body" id="Info">
-                
+
             </div>
         </div>
 
@@ -81,6 +81,7 @@
     <div id="snackbar">@ViewBag.SubmitBrand</div>
 }
 @section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         function EditBrand(BrandId) {
             $.ajax({
@@ -119,6 +120,4 @@
     }
 }
 
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+

@@ -12,8 +12,11 @@ namespace TogoFogo.Models
     {
         
         public int SerialNo { get; set; }
-        public string Device_Category { get; set; }
+       
+        public string Device_Category { get; set; }       
         public string CatName { get; set; }
+        [Required]
+        [DisplayName("Device Category")]
         public int CatId { get; set; }
         [Required]
         [DisplayName("Sub Category")]
@@ -46,8 +49,7 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
-        [Required]
-        [DisplayName("Device Category")]
+        
         public string DeviceCategory { get; set; }
         public List<SubcategoryModel> SubcategoryModelList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
