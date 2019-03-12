@@ -17,6 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Problem Observed")]
         public ActionResult ManageProblemObserved()
         {
             ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -29,19 +30,21 @@ namespace TogoFogo.Controllers
             //{
             //    ViewBag.EditProblemObserved = TempData["EditProblemObserved"].ToString();
             //}
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Problem Observed")]
         public ActionResult AddProblemObserved()
         {
+            var problemobserved = new ManageProblemObserved();
             using (var con = new SqlConnection(_connectionString))
             {
-                ViewBag.Device_Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
-                ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
+                problemobserved.CategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                problemobserved.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
                 //var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstProblemObserved", null, commandType: CommandType.Text).FirstOrDefault();
                 //ViewBag.SortOrder = result + 1;
-                return View();
+                return PartialView(problemobserved);
 
             }
 
@@ -93,43 +96,7 @@ namespace TogoFogo.Controllers
                 objManageProblemObserved.ManageProblemObservedList = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
             
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objManageProblemObserved._UserActionRights = objUserActiobRight;
-           /* string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objManageProblemObserved._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objManageProblemObserved._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objManageProblemObserved._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objManageProblemObserved._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {*/
-
-                objManageProblemObserved._UserActionRights.Create = true;
-                objManageProblemObserved._UserActionRights.Edit = true;
-                objManageProblemObserved._UserActionRights.Delete = true;
-                objManageProblemObserved._UserActionRights.View = true;
-                objManageProblemObserved._UserActionRights.History = true;
-                objManageProblemObserved._UserActionRights.ExcelExport = true;
-
-            //}
+            objManageProblemObserved._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objManageProblemObserved);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Problem Observed")]

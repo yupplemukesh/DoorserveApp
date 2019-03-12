@@ -27,44 +27,7 @@ namespace TogoFogo.Controllers
                 objManageCourierApiModel._ManageCourierApiModelList = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
                
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objManageCourierApiModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objManageCourierApiModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objManageCourierApiModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objManageCourierApiModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objManageCourierApiModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objManageCourierApiModel._UserActionRights.Create = true;
-                objManageCourierApiModel._UserActionRights.Edit = true;
-                objManageCourierApiModel._UserActionRights.Delete = true;
-                objManageCourierApiModel._UserActionRights.View = true;
-                objManageCourierApiModel._UserActionRights.History = true;
-                objManageCourierApiModel._UserActionRights.ExcelExport = true;
-
-            }
-
+            objManageCourierApiModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objManageCourierApiModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier API")]

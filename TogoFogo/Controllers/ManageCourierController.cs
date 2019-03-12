@@ -53,43 +53,7 @@ namespace TogoFogo.Controllers
                 objManageCourierModel._ManageCourierModelList = con.Query<ManageCourierModel>("GETCourierMasterData", null, commandType: CommandType.StoredProcedure).ToList();
                
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objManageCourierModel._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objManageCourierModel._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objManageCourierModel._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objManageCourierModel._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objManageCourierModel._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objManageCourierModel._UserActionRights.Create = true;
-                objManageCourierModel._UserActionRights.Edit = true;
-                objManageCourierModel._UserActionRights.Delete = true;
-                objManageCourierModel._UserActionRights.View = true;
-                objManageCourierModel._UserActionRights.History = true;
-                objManageCourierModel._UserActionRights.ExcelExport = true;
-
-            }
+            objManageCourierModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objManageCourierModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier")]

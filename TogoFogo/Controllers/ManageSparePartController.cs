@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -40,6 +41,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Type")]
         public ActionResult SpareIndex()
         {
             ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -53,10 +55,10 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.EditSparePart = TempData["EditSparePart"].ToString();
             }
-            
-
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, "Manage Spare Type")]
         public ActionResult AddSpareType()
         {
             //using (var con = new SqlConnection(_connectionString))
@@ -64,10 +66,11 @@ namespace TogoFogo.Controllers
             //    var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstSpareType", null, commandType: CommandType.Text).FirstOrDefault();
             //    ViewBag.SortOrder = result + 1;
             //}
-            ViewBag.Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
+            var sparetype = new ManageSpareType();
+            sparetype.CategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            sparetype.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
-            return View();
+            return PartialView(sparetype);
         }
         [HttpPost]
         public ActionResult AddSpareType(ManageSpareType model)
@@ -112,6 +115,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("SpareIndex");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Type")]
         public ActionResult SpareTypeTable()
         {
             ManageSpareType objManageSpareType = new ManageSpareType();
@@ -121,46 +125,10 @@ namespace TogoFogo.Controllers
 
                // return View(result);
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objManageSpareType._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objManageSpareType._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objManageSpareType._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objManageSpareType._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objManageSpareType._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objManageSpareType._UserActionRights.Create = true;
-                objManageSpareType._UserActionRights.Edit = true;
-                objManageSpareType._UserActionRights.Delete = true;
-                objManageSpareType._UserActionRights.View = true;
-                objManageSpareType._UserActionRights.History = true;
-                objManageSpareType._UserActionRights.ExcelExport = true;
-
-            }
-            return View(objManageSpareType);
+            objManageSpareType._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+           return View(objManageSpareType);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Type")]
         public ActionResult EditSpareType(int SpareTypeId)
         {
             if (SpareTypeId == 0)
@@ -227,7 +195,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("SpareIndex");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Part Name")]
         public ActionResult ManageSparePartName()
         {
             ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -244,11 +212,14 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.EditSpareName = TempData["EditSpareName"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Spare Part Name")]
         public ActionResult AddSparePartName()
         {
-            ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
+            var sparepart = new ManageSparePart();
+            sparepart.CTHNoList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
             //using (var con = new SqlConnection(_connectionString))
             //{
             //    var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstSparePart", null,
@@ -258,11 +229,11 @@ namespace TogoFogo.Controllers
             //}
 
             //ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-            ViewBag.Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.Brand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.DeviceModelName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.SpareTypeName = new SelectList(dropdown.BindSpareType(), "Value", "Text");
-            return View();
+            sparepart.CategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            sparepart.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            sparepart.DeviceModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            sparepart.SpareTypeNameList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            return PartialView(sparepart);
         }
 
         [HttpPost]
@@ -320,7 +291,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartName");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Part Name")]
         public ActionResult AddSparePartNametable()
         {
             ManageSparePart objManageSparePart = new ManageSparePart();
@@ -331,45 +302,11 @@ namespace TogoFogo.Controllers
 
                 
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objManageSparePart._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objManageSparePart._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objManageSparePart._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objManageSparePart._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objManageSparePart._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objManageSparePart._UserActionRights.Create = true;
-                objManageSparePart._UserActionRights.Edit = true;
-                objManageSparePart._UserActionRights.Delete = true;
-                objManageSparePart._UserActionRights.View = true;
-                objManageSparePart._UserActionRights.History = true;
-                objManageSparePart._UserActionRights.ExcelExport = true;
-
-            }
+            objManageSparePart._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+           
             return View(objManageSparePart);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Part Name")]
         public ActionResult EditSpareName(int? SpareTypeId)
         {
             if (SpareTypeId == 0)

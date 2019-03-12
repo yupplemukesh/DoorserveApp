@@ -31,43 +31,7 @@ namespace TogoFogo.Controllers
 
                 
             }
-            UserActionRights objUserActiobRight = new UserActionRights();
-            objCourierPinZipCode._UserActionRights = objUserActiobRight;
-            string rights = Convert.ToString(HttpContext.Items["ActionsRights"]);
-            if (!string.IsNullOrEmpty(rights))
-            {
-                string[] arrRights = rights.ToString().Split(',');
-                for (int i = 0; i < arrRights.Length; i++)
-                {
-                    if (Convert.ToInt32(arrRights[i]) == 2)
-                    {
-                        objCourierPinZipCode._UserActionRights.Create = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 3)
-                    {
-                        objCourierPinZipCode._UserActionRights.Edit = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 4)
-                    {
-                        objCourierPinZipCode._UserActionRights.Delete = true;
-                    }
-                    else if (Convert.ToInt32(arrRights[i]) == 6)
-                    {
-                        objCourierPinZipCode._UserActionRights.Delete = true;
-                    }
-                }
-            }
-            else
-            {
-
-                objCourierPinZipCode._UserActionRights.Create = true;
-                objCourierPinZipCode._UserActionRights.Edit = true;
-                objCourierPinZipCode._UserActionRights.Delete = true;
-                objCourierPinZipCode._UserActionRights.View = true;
-                objCourierPinZipCode._UserActionRights.History = true;
-                objCourierPinZipCode._UserActionRights.ExcelExport = true;
-
-            }
+            objCourierPinZipCode._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objCourierPinZipCode);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Pin/Zip Code")]

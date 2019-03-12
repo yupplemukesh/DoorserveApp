@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TogoFogo.Models.UserActionRights
+@{
     ViewBag.Title = "";
 }
 <div class="panel-heading">
@@ -17,26 +18,32 @@
 </div>
 
 <div class="panel-body">
-    @Html.Action("AddSparePartName", "ManageSparePart")
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    @*<h2>List Of All Spare Name<small></small></h2>*@
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("AddSparePartNametable", "ManageSparePart")
+    @if (Model.Create)
+    {
+        @Html.Action("AddSparePartName", "ManageSparePart")
+    }
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        @*<h2>List Of All Spare Name<small></small></h2>*@
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="overflow-x: scroll;">
+                        @if (Model.View)
+                        {
+                            @Html.Action("AddSparePartNametable", "ManageSparePart")
+                        }
+                        </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
     <div class="modal-dialog  modal-lg">
@@ -48,7 +55,7 @@
                 <h4 class="modal-title">Edit Spare Name</h4>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Action("EditSpareName", "ManageSparePart")</div>
+            <div class="modal-body" id="Info">@*@Html.Action("EditSpareName", "ManageSparePart")*@</div>
         </div>
 
     </div>
@@ -81,7 +88,7 @@
 }
 
 @section scripts{
-   
+
     <script>
         function EditSpareName(SpareTypeId) {
             $.ajax({

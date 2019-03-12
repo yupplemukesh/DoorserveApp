@@ -9,28 +9,28 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.CatName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.CatName, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatName', this)" })
+                @Html.DropDownListFor(model => model.CatName, Model.CatNameList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatName', this)" })
                 @Html.ValidationMessageFor(model => model.CatName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.SubCatName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.SubCatName,null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SubCatName,Model.SubCatNameList,"Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubCatName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Brand, null,new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'ProductName', this)"  })
+                @Html.DropDownListFor(model => model.Brand, Model.BrandList,"Select",new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'ProductName', this)"  })
                 @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.ProductName,null, new { @class = "form-control"})
+                @Html.DropDownListFor(model => model.ProductName,Model.ProductNameList,"Select", new { @class = "form-control"})
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -45,14 +45,14 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.SpareTypeName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12"})
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.SpareTypeName, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'PartName', this)" })
+                @Html.DropDownListFor(model => model.SpareTypeName, Model.SpareTypeNameList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'PartName', this)" })
                 @Html.ValidationMessageFor(model => model.SpareTypeName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.PartName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.PartName,null, htmlAttributes: new { @class = "form-control",onchange="partNameCodeGenerate(this)" })
+                @Html.DropDownListFor(model => model.PartName,Model.PartNameList,"Select", htmlAttributes: new { @class = "form-control",onchange="partNameCodeGenerate(this)" })
                 @Html.ValidationMessageFor(model => model.PartName, "", new { @class = "text-danger" })
             </div>
         </div>

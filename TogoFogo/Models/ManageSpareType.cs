@@ -4,11 +4,18 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
     public class ManageSpareType
     {
+        public ManageSpareType()
+        {
+            CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+
+        }
         public int SerialNo { get; set; }
         public int SpareTypeId { get; set; }
         [Required]
@@ -45,5 +52,7 @@ namespace TogoFogo.Models
         public string SubCatName { get; set; }
         public UserActionRights _UserActionRights { get; set; }
         public List<ManageSpareType> _ManageSpareTypeList { get; set; }
+        public SelectList CategoryList { get; set; }
+        public SelectList SubCategoryList { get; set; }
     }
 }

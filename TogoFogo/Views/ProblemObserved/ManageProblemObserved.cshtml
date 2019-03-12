@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TogoFogo.Models.UserActionRights
+@{
     ViewBag.Title = "ManageProblemObserved";
 
 }
@@ -11,35 +12,46 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
+                    @if (Model.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="panel-body">
-    @Html.Action("AddProblemObserved", "ProblemObserved")
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    @*<h2>List Of Problem Observed<small></small></h2>*@
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
+    @if (Model.Create)
+    {
 
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content" style="overflow-x: scroll;">
-                    @Html.Action("ProblemObservedtable", "ProblemObserved")
+        @Html.Action("AddProblemObserved", "ProblemObserved")
+    }
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        @*<h2>List Of Problem Observed<small></small></h2>*@
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="overflow-x: scroll;">
+                        @if (Model.View)
+                        {
+
+                            @Html.Action("ProblemObservedtable", "ProblemObserved")
+                        }
+                        </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -49,7 +61,7 @@
                 <h4 class="modal-title">Edit Problem Observed </h4>
             </div>
 
-            <div class="modal-body" id="Info">@Html.Partial("EditProblemObserved")</div>
+            <div class="modal-body" id="Info">@*@Html.Partial("EditProblemObserved")*@</div>
         </div>
     </div>
 </div>

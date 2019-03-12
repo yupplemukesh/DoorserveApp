@@ -4,11 +4,17 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
     public class ManageProblemObserved
     {
+        public ManageProblemObserved()
+        {
+            CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+        }
         public int SerialNo { get; set; }
         [Required]
         public string Device_Category { get; set; }
@@ -43,5 +49,7 @@ namespace TogoFogo.Models
         public string SubCatName { get; set; }
         public UserActionRights _UserActionRights { get; set; }
         public List<ManageProblemObserved> ManageProblemObservedList { get; set; }
+        public SelectList CategoryList { get; set; }
+        public SelectList SubCategoryList { get; set; }
     }
 }

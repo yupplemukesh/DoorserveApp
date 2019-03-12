@@ -4,11 +4,21 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
     public class SparePartsPriceStockModel
     {
+        public SparePartsPriceStockModel()
+        {
+            CatNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SubCatNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            BrandList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ProductNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            PartNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SpareTypeNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+        }
         public int ModelName { get; set; }
         public int BrandId { get; set; }
         public int CategoryId { get; set; }
@@ -59,6 +69,14 @@ namespace TogoFogo.Models
         public string IsActive { get; set; }
         [DisplayName("Spare Part Photo")]
         public string Part_Image { get; set; }
+        public List<SparePartsPriceStockModel> _SparePartsPriceStockList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
+        public SelectList CatNameList { get; set; }
+        public SelectList SubCatNameList { get; set; }
+        public SelectList BrandList { get; set; }
+        public SelectList ProductNameList { get; set; }
+        public SelectList PartNameList { get; set; }
+        public SelectList SpareTypeNameList { get; set; }
 
     }
 }

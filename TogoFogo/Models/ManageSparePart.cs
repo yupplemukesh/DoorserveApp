@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
@@ -29,6 +30,16 @@ namespace TogoFogo.Models
     }
     public class ManageSparePart
     {
+        public ManageSparePart()
+        {
+            CTHNoList = new SelectList(Enumerable.Empty<SelectListItem>());
+            CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            BrandList = new SelectList(Enumerable.Empty<SelectListItem>());
+            DeviceModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SpareTypeNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+
+        }
         public int SerialNo { get; set; }
         [DisplayName("Device Model Name")]
         public string ProductName { get; set; }
@@ -82,5 +93,13 @@ namespace TogoFogo.Models
         public HttpPostedFileBase PartImage1 { get; set; }
         public UserActionRights _UserActionRights { get; set; }
         public List<ManageSparePart> _ManageSparePartList { get; set; }
+        public SelectList CTHNoList { get; set; }
+        public SelectList CategoryList { get; set; }
+        public SelectList BrandList { get; set; }
+        public SelectList DeviceModelNameList { get; set; }
+        public SelectList SpareTypeNameList { get; set; }
+        public SelectList SubCategoryList { get; set; }
+
+
     }
 }

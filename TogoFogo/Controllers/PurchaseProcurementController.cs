@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -17,6 +18,7 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         // GET: PurchaseProcurement
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Parts Price & Stock")]
         public ActionResult ManageSparePartsPriceandStock()
         {
             ViewBag.CatName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -29,25 +31,28 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.AddPriceandStock = TempData["AddPriceandStock"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Spare Parts Price & Stock")]
         public ActionResult AddSparePartsPriceandStock()
         {
             //using (var con = new SqlConnection(_connectionString))
             //{
             //    var result = con.Query<SparePartsPriceStockModel>("GetSparePriceData",
             //            new{ID=1}, commandType: CommandType.StoredProcedure).FirstOrDefault();
-              
+
 
             //    return View(result);
             //}
-            ViewBag.CatName = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.SubCatName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Brand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.ProductName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.PartName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.SpareTypeName = new SelectList(dropdown.BindSpareType(), "Value", "Text");
-            return View();
+            var sparepartspricestock = new SparePartsPriceStockModel();
+            sparepartspricestock.CatNameList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            sparepartspricestock.SubCatNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            sparepartspricestock.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            sparepartspricestock.ProductNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            sparepartspricestock.PartNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            sparepartspricestock.SpareTypeNameList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            return PartialView(sparepartspricestock);
         }
         [HttpPost]
         public ActionResult AddSparePartsPriceandStock(SparePartsPriceStockModel model)
@@ -99,15 +104,18 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartsPriceandStock");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View}, "Manage Spare Parts Price & Stock")]
         public ActionResult PriceAndStockTable()
         {
+            SparePartsPriceStockModel objSparePartsPriceStockModel = new SparePartsPriceStockModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<SparePartsPriceStockModel>("Get_price_stock", null, commandType: CommandType.Text).ToList();
+                objSparePartsPriceStockModel._SparePartsPriceStockList = con.Query<SparePartsPriceStockModel>("Get_price_stock", null, commandType: CommandType.Text).ToList();
 
-                return View(result);
+                //return View(result);
             }
+            objSparePartsPriceStockModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(objSparePartsPriceStockModel);
         }
 
         public JsonResult GetSpareCode(int partId)
@@ -119,6 +127,7 @@ namespace TogoFogo.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Parts Price & Stock")]
         public ActionResult EditSparePartsPriceandStock(int sparePriceStockId)
         {
            
@@ -200,6 +209,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartsPriceandStock");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
         public ActionResult RCE()
         {
             ViewBag.ReceivedDevice = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -214,31 +224,38 @@ namespace TogoFogo.Controllers
                 ViewBag.Message = TempData["Message"].ToString();
 
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
         public ActionResult FindRCE()
         {
             return View();
         }
+
         public ActionResult RCEForm()
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
-            ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            return View();
+            var rpcap = new RPCAPModel();
+            rpcap.ReceivedDeviceList1 = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            rpcap.RecvdBrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            rpcap.RecvdModelList1 = new SelectList(dropdown.BindProduct(), "Value", "Text");
+            rpcap.Engg_NameList1 = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+            rpcap.SpareTypeList1 = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            rpcap.SpareNameList1 = new SelectList(Enumerable.Empty<SelectListItem>());
+            rpcap.ProblemFoundList1 = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
+            return PartialView(rpcap);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
         public ActionResult TableRCE()
         {
+            RPCAPModel objRpcaModel = new RPCAPModel();
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<AllData>("GetTableDataForAllPages",
                    new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
+                //return View(result);
             }
+            objRpcaModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(objRpcaModel);
 
         }
         public ActionResult SPPLtable()

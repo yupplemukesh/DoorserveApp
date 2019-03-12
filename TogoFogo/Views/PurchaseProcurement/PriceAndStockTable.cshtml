@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.SparePartsPriceStockModel>
+﻿@model TogoFogo.Models.SparePartsPriceStockModel
 @{
     Layout = null;
 }
@@ -57,7 +57,7 @@
     </thead>
     
 
-    @foreach (var item in Model)
+    @foreach (var item in Model._SparePartsPriceStockList)
     {
 	<tr>
 		<td>
@@ -117,10 +117,13 @@
 		</td>
         <td style="display: inline-flex;">
             @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditPriceStock(@item.SparePriceStockId)">Edit</a>
-            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-        <input type="button" value="Delete" class="btn btn-danger btnSize " />*@
-        </td>
+            @if (Model._UserActionRights.Edit)
+            {
+                <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditPriceStock(@item.SparePriceStockId)">Edit</a>
+            }
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
+            <input type="button" value="Delete" class="btn btn-danger btnSize " />*@
+            </td>
             </tr>
             }
 
