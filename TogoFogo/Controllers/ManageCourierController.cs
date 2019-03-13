@@ -60,16 +60,18 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Create()
         {
             DropdownBindController drop = new DropdownBindController();
-            ManageCourierModel courierModel = new ManageCourierModel();
-            courierModel.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            courierModel.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
-            courierModel.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
-            courierModel.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
-            courierModel.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
-            courierModel.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(),"Value","Text");
-            courierModel.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(),"Value","Text");
-            courierModel.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(),"Value","Text");
-            courierModel.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
+            ManageCourierModel courierModel = new ManageCourierModel
+            {
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                PincodeList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text"),
+                PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text"),
+                AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text"),
+                AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(), "Value", "Text"),
+                LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text")
+            };
             return View(courierModel);
         }
         [HttpPost]
@@ -78,11 +80,12 @@ namespace TogoFogo.Controllers
             try
             {
                 
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                using (var con = new SqlConnection(_connectionString))
-                {
+               // model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                
                     if (ModelState.IsValid)
+                    {
+                    using (var con = new SqlConnection(_connectionString))
                     {
                         string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier/Logo");
                         string UploadedGSTFile= SaveImageFile(model.UploadedGSTFile1, "Courier/Gst");
@@ -103,9 +106,9 @@ namespace TogoFogo.Controllers
                                 model.Priority,
                                 model.CourierTAT,
                                 model.AWBNumber, 
-                                CountryId = model.Country,
+                                CountryId = model.Country,                             
                                 StateId = model.StateDropdown,
-                                CityId = model.CityDropdown,
+                                CityId = model.CityDropdown,                            
                                 UploadedCourierFile,
                                 model.IsReverse,
                                 model.IsAllowPreference,
@@ -169,22 +172,24 @@ namespace TogoFogo.Controllers
                                 //Registration
                                 model.LuluandSky_Status,
                                 model.Comments,
-                                model.IsActive,
-                                model.CreatedBy,
-                                model.ModifyBy,
-                                Action = "I",
-                                User = ""
+                                model.IsActive,                               
+                                User = Convert.ToInt32(Session["User_ID"]),
+                                Action = "I",                              
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
                         {
                             TempData["AddCourier"] = "Successfully Added";
                         }
-                    }
+                    
                     else
                     {
-                        var errors = ModelState.Values.SelectMany(v => v.Errors);
-                        return View(model);
+                            //var errors = ModelState.Values.SelectMany(v => v.Errors);
+                            TempData["AddCourier"] = "Please try again";
+                      }
+                        
                     }
+                    //return View(model);
+                    return RedirectToAction("ManageCourier");
                 }
 
             }
@@ -264,8 +269,8 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
               
@@ -356,11 +361,9 @@ namespace TogoFogo.Controllers
                                 //Registration
                                 model.LuluandSky_Status,
                                 model.Comments,
-                                model.IsActive,
-                                model.CreatedBy,
-                                model.ModifyBy,
-                                Action = "U",
-                                User = ""
+                                model.IsActive,                              
+                                User = Convert.ToInt32(Session["User_ID"]),
+                                Action = "U",                               
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
                         {

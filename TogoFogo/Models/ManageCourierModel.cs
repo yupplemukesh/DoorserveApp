@@ -72,7 +72,7 @@ namespace TogoFogo.Models
         [DisplayName("Country")]
         public string PersonCountryDropdown { get; set; }
 
-        public string CourierId { get; set; }
+        public int CourierId { get; set; }
         
         [DisplayName("Courier Logo")]
         public string UploadedCourierFile { get; set; }
@@ -95,13 +95,19 @@ namespace TogoFogo.Models
         public Boolean IsReverse { get; set; }
         [Required]
         [DisplayName("Is Allow Order Preference")]
-        public Boolean IsAllowPreference { get; set; }
+        public Boolean IsAllowPreference { get; set; } 
         
         public string CountryId { get; set; }
-        
+        [DisplayName("Country Name")]
+        public string Cnty_Name { get; set; }
+       
         public string StateId { get; set; }
-        
+        [DisplayName("State Name")]
+        public string St_Name { get; set; }
+      
         public string CityId { get; set; }
+        [DisplayName("Location Name")]
+        public string City_Name { get; set; }
         [Required]
         [DisplayName("Courier Name")]
         public string CourierCompanyName { get; set; }
@@ -203,6 +209,7 @@ namespace TogoFogo.Models
         public string Volume { get; set; }
         [DisplayName("Service Charge (Selected Currency)")]
         public string ServiceCharge { get; set; }
+        [Required]
         [DisplayName("Applicable From Date")]
         public string ApplicableFromDate { get; set; }
         [Required]
@@ -217,7 +224,7 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Agreement End Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime? AgreementEndDate { get; set; }
+        public DateTime AgreementEndDate { get; set; }
         [DisplayName("Agreement Number")]
         public string AgreementNumber { get; set; }
         public string AgreementScanFile { get; set; }
@@ -245,15 +252,16 @@ namespace TogoFogo.Models
         [Required]
         public Boolean IsActive { get; set; }
         public string Comments { get; set; }
-        public string CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
-        public string ModifyBy { get; set; }
+        public int CreatedBy { get; set; }
+        [DisplayName("Created By")]
+        public string CBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public int ModifyBy { get; set; }
+        [DisplayName("Modify By")]
+        public string MBy { get; set; }
         public string ModifyDate { get; set; }
-        public string DeleteBy { get; set; }
-        public string DeleteDate { get; set; }
-        public String Cnty_Name { get; set; }
-        public string St_Name { get; set; }
-        public string LocationName { get; set; }
+        public int DeleteBy { get; set; }
+        public string DeleteDate { get; set; }        
         public string DaysRemaining { get; set; }
         public List<ManageCourierModel> _ManageCourierModelList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
