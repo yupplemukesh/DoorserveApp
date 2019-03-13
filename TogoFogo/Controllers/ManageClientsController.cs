@@ -43,7 +43,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Uploaded Images/Clients/"+ folderName);
+                string path = Server.MapPath("~/UploadedImages/Clients/"+ folderName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -132,8 +132,8 @@ namespace TogoFogo.Controllers
 
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
             {  
-                if(System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName)))
-                System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName));
+                if(System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/Banks/" + bank.BankCancelledChequeFileName)))
+                System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/Banks/" + bank.BankCancelledChequeFileName));
             } 
 
             if (bank.BankCancelledChequeFilePath != null)
@@ -181,18 +181,18 @@ namespace TogoFogo.Controllers
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
-                if  (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/ADHRS/" + contact.ConAdhaarFileName)))
-                     System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/ADHRS/" + contact.ConAdhaarFileName));
+                if  (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/ADHRS/" + contact.ConAdhaarFileName)))
+                     System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/ADHRS/" + contact.ConAdhaarFileName));
             }
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/VoterIds/" + contact.ConVoterIdFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/VoterIds/" + contact.ConVoterIdFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/VoterIds/" + contact.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/VoterIds/" + contact.ConVoterIdFileName));
             }
             if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + contact.ConPanFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + contact.ConPanFileName));      
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/PANCards/" + contact.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/PANCards/" + contact.ConPanFileName));      
             }
          
             if (contact.ConAdhaarNumberFilePath != null)
@@ -399,13 +399,13 @@ namespace TogoFogo.Controllers
 
             if (client.Organization.OrgGSTNumberFilePath != null && client.Organization.OrgGSTFileName != null)
             {
-                if(System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/Gsts/" + client.Organization.OrgGSTFileName)))
-                   System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/Gsts/" + client.Organization.OrgGSTFileName));
+                if(System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/Gsts/" + client.Organization.OrgGSTFileName)))
+                   System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/Gsts/" + client.Organization.OrgGSTFileName));
             }
             if (client.Organization.OrgPanNumberFilePath != null && client.Organization.OrgPanFileName != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + client.Organization.OrgPanFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + client.Organization.OrgPanFileName));                
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/PANCards/" + client.Organization.OrgPanFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/PANCards/" + client.Organization.OrgPanFileName));                
             }
 
             if (client.Organization.OrgGSTNumberFilePath != null)

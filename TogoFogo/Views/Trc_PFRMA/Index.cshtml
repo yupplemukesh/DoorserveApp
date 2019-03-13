@@ -99,8 +99,8 @@
                     success: function (response) {
                         debugger;
                         $('#TUPCModel').val(response.TUPCModel);
-                        var DamagedBoxImage = 'http://crm.togofogo.com/Uploaded Images/' + response.DamagedBoxImage;
-                        var url = 'http://crm.togofogo.com/Uploaded Images/' + response.PhotoOfDevice;
+                        var DamagedBoxImage = 'http://crm.togofogo.com/UploadedImages/' + response.DamagedBoxImage;
+                        var url = 'http://crm.togofogo.com/UploadedImages/' + response.PhotoOfDevice;
                         $('#TRCInfoFull').val("Trc Name:" + response.TrcName + ",Mobile No:" + response.TrcMobile + " , Email:" + response.TrcEmail, " , Address:" + response.TrcAddress +
                             ", Pincode:" + response.TrcPinCode + " ,Location:" + response.TrcLocality + ", Near By Location :" + response.TrcNear_By_Location);
                         $('#CustoFullInfo').val("Name:" + response.Customer_Name + ", Mobile No.:" + response.Mobile_No + ", E-Mail: " + response.Email_Id + ", Customer Address:" + response.Cust_Add +

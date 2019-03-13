@@ -209,8 +209,8 @@
                             '<tr  id=databaseValues style="padding-top:5px"><td>' + item.TablespaceCC_NOField1 + '</td><td>' + item.TablespaceJobNumberField1 + '</td><td>' + item.TablespareTypeField1 + '</td><td>' + item.TablespareCodeField1 + '</td><td><img src="" id="foo" alt="" width=100 height=100></td><td id="PartName">' + item.TablespareNameField1 + '</td><td class="editableColumns" id="editableColumns">' + item.TablesparePriceField1 + '</td><td>' + item.TablespareQuantityField1 + '</td><td>' + item.TablespareTotalField1 + '</td><td>' + "<input class=editValues form-control type=button value=Edit style=margin-right:5px;;color:white;background-color:#31b0d5>" + "<input class=saveValues type=button value=Save style=background-color:green;color:white>" + '</td></tr>';
                     });
                     $('#test1').append(trHTML);
-                    var DamagedBoxImage = 'http://crm.togofogo.com/Uploaded Images/' + response.DamagedBoxImage;
-                    var url = 'http://crm.togofogo.com/Uploaded Images/' + response.PhotoOfDevice;
+                    var DamagedBoxImage = 'http://crm.togofogo.com/UploadedImages/' + response.DamagedBoxImage;
+                    var url = 'http://crm.togofogo.com/UploadedImages/' + response.PhotoOfDevice;
                     $('#TRCInfoFull').val("Trc Name:" + response.TrcName + ",Mobile No:" + response.TrcMobile + " , Email:" + response.TrcEmail, " , Address:" + response.TrcAddress +
                         ", Pincode:" + response.TrcPinCode + " ,Location:" + response.TrcLocality + ", Near By Location :" + response.TrcNear_By_Location);
                     $('#CustoFullInfo').val("Name:" + response.Customer_Name + ", Mobile No.:" + response.Mobile_No + ", E-Mail: " + response.Email_Id + ", Customer Address:" + response.Cust_Add +

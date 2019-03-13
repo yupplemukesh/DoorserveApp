@@ -87,7 +87,7 @@
 				cache: false,
 				success: function(response) {
 					$('#courierimg').attr('src',
-						'http://crm.togofogo.com/Uploaded Images/' + response.UploadedCourierFile);
+						'http://crm.togofogo.com/UploadedImages/' + response.UploadedCourierFile);
 					document.getElementById('MobileNumber').value = response.MobileNumber;
 					document.getElementById('BikeNumber').value = response.BikeNumber;
 				},

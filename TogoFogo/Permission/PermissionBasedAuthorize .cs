@@ -92,7 +92,10 @@ namespace TogoFogo.Permission
         }
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new RedirectToRouteResult(
+
+            if (HttpContext.Current.Session["User_ID"] != null)
+            {
+                filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary(
                             new
                             {
@@ -100,6 +103,19 @@ namespace TogoFogo.Permission
                                 action = "Index"
                             })
                         );
+            }
+            else
+            {
+                filterContext.Result = new RedirectToRouteResult(
+                                       new RouteValueDictionary(
+                                           new
+                                           {
+                                               controller = "Account",
+                                               action = "Login"
+                                           })
+                                       );
+
+            }
         }
     }
     //public class MyCustomAuthAttribute : FilterAttribute, IAuthorizationFilter

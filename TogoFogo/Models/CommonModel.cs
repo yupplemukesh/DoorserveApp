@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -212,6 +213,16 @@ namespace TogoFogo
             {
                 var _serviceCeters = await _context.Database.SqlQuery<CheckBox>("SELECT CenterId Name ,CenterName Text FROM MSTServiceCenters where IsActive=1").ToListAsync();
                 return _serviceCeters;
+            }
+        }
+
+        public static async Task<string> GetProviderIdByUser(int userId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _serviceProvider = await _context.Database.SqlQuery<string>("SELECT ProviderId FROM MSTServiceCenters where IsActive=1 and Userid=@userId",
+                    new SqlParameter("userId",userId)).SingleOrDefaultAsync();
+                return _serviceProvider;
             }
         }
     }

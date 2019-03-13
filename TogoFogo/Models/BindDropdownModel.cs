@@ -34,6 +34,7 @@ namespace TogoFogo.Models
         public string Menu_Name { get; set; }
         public string PagePath { get; set; }
         public string ParentMenuId { get; set; }
+        public string IconFileName { get; set; }
         public string ParentMenuName { get; set; }
         public Boolean CheckedStatus { get; set; }
         public string ActionIds { get; set; }

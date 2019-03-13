@@ -39,6 +39,9 @@ namespace TogoFogo.Models
         public List<BankDetailModel> BankDetails { get; set; }
         public Guid? CenterId { get; set; }
         [Required]
+        [DisplayName("Service Provider")]
+        public Guid ProviderId { get; set; }
+        [Required]
         [DisplayName("Process Name")]
         public int ProcessId { get; set; }
            
@@ -70,7 +73,7 @@ namespace TogoFogo.Models
         public DateTime ModifyDate { get; set; }
         
         public SelectList SupportedCategoryList { get; set; }
-
+        public SelectList ProviderList { get; set; }
         [SkillValidation(ErrorMessage = "Select at least 1 Service Type")]
         public List<TogoFogo.CheckBox> ServiceList { get; set; }
         [SkillValidation(ErrorMessage = "Select at least 1 Service Delivery Type")]

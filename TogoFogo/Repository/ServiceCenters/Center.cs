@@ -54,8 +54,8 @@ namespace TogoFogo.Repository.ServiceCenters
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
 
-                    CenterModel.Organization.OrgGSTFileUrl = "/Uploaded Images/Centers/Gsts/"+ CenterModel.Organization.OrgGSTFileName;
-                    CenterModel.Organization.OrgPanFileUrl = "/Uploaded Images/Centers/PANCards/" + CenterModel.Organization.OrgPanFileName;
+                    CenterModel.Organization.OrgGSTFileUrl = "/UploadedImages/Centers/Gsts/"+ CenterModel.Organization.OrgGSTFileName;
+                    CenterModel.Organization.OrgPanFileUrl = "/UploadedImages/Centers/PANCards/" + CenterModel.Organization.OrgPanFileName;
                     reader.NextResult();
                     CenterModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
@@ -105,9 +105,9 @@ namespace TogoFogo.Repository.ServiceCenters
 
             };
 
-                person.ConVoterIdFileUrl = "/Uploaded Images/Centers/VoterIds/" + person.ConVoterIdFileName;
-                person.ConAdhaarFileUrl = "/Uploaded Images/Centers/ADHRS/" + person.ConAdhaarFileName;
-                person.ConPanFileUrl = "/Uploaded Images/Centers/PANCards/" + person.ConPanFileName;
+                person.ConVoterIdFileUrl = "/UploadedImages/Centers/VoterIds/" + person.ConVoterIdFileName;
+                person.ConAdhaarFileUrl = "/UploadedImages/Centers/ADHRS/" + person.ConAdhaarFileName;
+                person.ConPanFileUrl = "/UploadedImages/Centers/PANCards/" + person.ConPanFileName;
                 contacts.Add(person);
             }
 
@@ -136,19 +136,19 @@ namespace TogoFogo.Repository.ServiceCenters
                     IsActive = bool.Parse(reader["isActive"].ToString())
             };
 
-                bank.BankCancelledChequeFileUrl = "/Uploaded Images/Centers/Banks/" + bank.BankCancelledChequeFileName;
+                bank.BankCancelledChequeFileUrl = "/UploadedImages/Centers/Banks/" + bank.BankCancelledChequeFileName;
                 banks.Add(bank);
             }
 
             return banks;
 
         }
-        public async Task<ResponseModel> AddUpdateDeleteCenter(ServiceCenterModel provider)
+        public async Task<ResponseModel> AddUpdateDeleteCenter(ServiceCenterModel center)
         {            
             string cat = "";
-            if (provider.Activetab.ToLower() == "tab-1")
+            if (center.Activetab.ToLower() == "tab-1")
             {
-                foreach (var item in provider.DeviceCategories)
+                foreach (var item in center.DeviceCategories)
                 {
                     cat = cat + "," + item;
 
@@ -157,60 +157,60 @@ namespace TogoFogo.Repository.ServiceCenters
                 cat = cat.TrimEnd(',');
             }
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@CENTERID",ToDBNull(provider.CenterId));          
+            SqlParameter param = new SqlParameter("@CENTERID",ToDBNull(center.CenterId));          
             sp.Add(param);
-            param = new SqlParameter("@PROCESSID", ToDBNull(provider.ProcessId));
+            param = new SqlParameter("@PROVIDERID", ToDBNull(center.ProviderId));
             sp.Add(param);
-            param = new SqlParameter("@CENTERCODE", ToDBNull(provider.CenterCode));
+            param = new SqlParameter("@PROCESSID", ToDBNull(center.ProcessId));
             sp.Add(param);
-            param = new SqlParameter("@CENTERNAME", ToDBNull(provider.CenterName));
+            param = new SqlParameter("@CENTERCODE", ToDBNull(center.CenterCode));
             sp.Add(param);
-       
+            param = new SqlParameter("@CENTERNAME", ToDBNull(center.CenterName));
+            sp.Add(param);       
             param = new SqlParameter("@DEVICECATEGORIES", ToDBNull(cat));
-            sp.Add(param);         
-        
-            param = new SqlParameter("@ORGNAME", ToDBNull(provider.Organization.OrgName));
+            sp.Add(param);                 
+            param = new SqlParameter("@ORGNAME", ToDBNull(center.Organization.OrgName));
             sp.Add(param);
-            param = new SqlParameter("@ORGCODE", ToDBNull(provider.Organization.OrgCode));
+            param = new SqlParameter("@ORGCODE", ToDBNull(center.Organization.OrgCode));
             sp.Add(param);
-            param = new SqlParameter("@ORGIECNUMBER", ToDBNull(provider.Organization.OrgIECNumber));
+            param = new SqlParameter("@ORGIECNUMBER", ToDBNull(center.Organization.OrgIECNumber));
             sp.Add(param);
-            param = new SqlParameter("@ORGSTATUTORYTYPE", ToDBNull(provider.Organization.OrgStatutoryType));
+            param = new SqlParameter("@ORGSTATUTORYTYPE", ToDBNull(center.Organization.OrgStatutoryType));
             sp.Add(param);
-            param = new SqlParameter("@ORGAPPLICATIONTAXTYPE", ToDBNull(provider.Organization.OrgApplicationTaxType));
+            param = new SqlParameter("@ORGAPPLICATIONTAXTYPE", ToDBNull(center.Organization.OrgApplicationTaxType));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTCATEGORY", ToDBNull(provider.Organization.OrgGSTCategory));
+            param = new SqlParameter("@ORGGSTCATEGORY", ToDBNull(center.Organization.OrgGSTCategory));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTNUMBER", ToDBNull(provider.Organization.OrgGSTNumber));
+            param = new SqlParameter("@ORGGSTNUMBER", ToDBNull(center.Organization.OrgGSTNumber));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTFILEPATH", ToDBNull(provider.Organization.OrgGSTFileName));
+            param = new SqlParameter("@ORGGSTFILEPATH", ToDBNull(center.Organization.OrgGSTFileName));
             sp.Add(param);
-            param = new SqlParameter("@ORGPANNUMBER", ToDBNull(provider.Organization.OrgPanNumber));
+            param = new SqlParameter("@ORGPANNUMBER", ToDBNull(center.Organization.OrgPanNumber));
             sp.Add(param);
-            param = new SqlParameter("@ORGPANFILEPATH", ToDBNull(provider.Organization.OrgPanFileName));
+            param = new SqlParameter("@ORGPANFILEPATH", ToDBNull(center.Organization.OrgPanFileName));
             sp.Add(param);
-            param = new SqlParameter("@ISACTIVE", (object)provider.IsActive);
+            param = new SqlParameter("@ISACTIVE", (object)center.IsActive);
             sp.Add(param);
-            param = new SqlParameter("@REMARKS", ToDBNull(provider.Remarks));
+            param = new SqlParameter("@REMARKS", ToDBNull(center.Remarks));
             sp.Add(param);
-            param = new SqlParameter("@ACTION", (object)provider.action);
+            param = new SqlParameter("@ACTION", (object)center.action);
             sp.Add(param);
-            param = new SqlParameter("@USER", (object)provider.CreatedBy);
+            param = new SqlParameter("@USER", (object)center.CreatedBy);
             sp.Add(param);            
-            param = new SqlParameter("@SERVICETYPE", ToDBNull(provider.ServiceTypes));
+            param = new SqlParameter("@SERVICETYPE", ToDBNull(center.ServiceTypes));
             sp.Add(param);
-            param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(provider.ServiceDeliveryTypes));
+            param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(center.ServiceDeliveryTypes));
             sp.Add(param);
-            param = new SqlParameter("@tab", ToDBNull(provider.Activetab));
+            param = new SqlParameter("@tab", ToDBNull(center.Activetab));
             sp.Add(param);
-            param = new SqlParameter("@ISUSER", ToDBNull(provider.IsUser));
+            param = new SqlParameter("@ISUSER", ToDBNull(center.IsUser));
             sp.Add(param);
-            param = new SqlParameter("@USERNAME", ToDBNull(provider.UserName));
+            param = new SqlParameter("@USERNAME", ToDBNull(center.UserName));
             sp.Add(param);
-            param = new SqlParameter("@Password", ToDBNull(provider.Password));
+            param = new SqlParameter("@Password", ToDBNull(center.Password));
             sp.Add(param);
 
-            var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROCESSID,@CENTERCODE,@CENTERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+            var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROVIDERID, @PROCESSID,@CENTERCODE,@CENTERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
                         ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password";
        

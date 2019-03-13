@@ -54,8 +54,8 @@ namespace TogoFogo.Repository.Clients
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
 
-                    ClientModel.Organization.OrgGSTFileUrl = "/Uploaded Images/Clients/Gsts/"+ ClientModel.Organization.OrgGSTFileName;
-                    ClientModel.Organization.OrgPanFileUrl ="/Uploaded Images/Clients/PANCards/" + ClientModel.Organization.OrgPanFileName;
+                    ClientModel.Organization.OrgGSTFileUrl = "/UploadedImages/Clients/Gsts/"+ ClientModel.Organization.OrgGSTFileName;
+                    ClientModel.Organization.OrgPanFileUrl ="/UploadedImages/Clients/PANCards/" + ClientModel.Organization.OrgPanFileName;
                     reader.NextResult();
                     ClientModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
@@ -105,9 +105,9 @@ namespace TogoFogo.Repository.Clients
 
             };
 
-                person.ConVoterIdFileUrl = "/Uploaded Images/Clients/VoterIds/" + person.ConVoterIdFileName;
-                person.ConAdhaarFileUrl = "/Uploaded Images/Clients/ADHRS/" + person.ConAdhaarFileName;
-                person.ConPanFileUrl = "/Uploaded Images/Clients/PANCards/" + person.ConPanFileName;
+                person.ConVoterIdFileUrl = "/UploadedImages/Clients/VoterIds/" + person.ConVoterIdFileName;
+                person.ConAdhaarFileUrl = "/UploadedImages/Clients/ADHRS/" + person.ConAdhaarFileName;
+                person.ConPanFileUrl = "/UploadedImages/Clients/PANCards/" + person.ConPanFileName;
                 contacts.Add(person);
             }
 
@@ -136,7 +136,7 @@ namespace TogoFogo.Repository.Clients
                     IsActive = bool.Parse(reader["isActive"].ToString())
             };
 
-                bank.BankCancelledChequeFileUrl = "/Uploaded Images/Clients/Banks/" + bank.BankCancelledChequeFileName;
+                bank.BankCancelledChequeFileUrl = "/UploadedImages/Clients/Banks/" + bank.BankCancelledChequeFileName;
                 banks.Add(bank);
             }
 

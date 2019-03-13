@@ -19,22 +19,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
              ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-        //[Authorize]
-        //public ActionResult DynamicLinks()
-        //{
-        //    using (var con = new SqlConnection(_connectionString))
-        //    {
-        //        var uuuu = User.Identity.Name;
-        //        var id = User.GetId();
-        //        var UserId = Session["User_ID"];
-        //        //var result=con.Query<Menu>("select distinct * from menuTable where Id in(select MenuID from user_rights where UserId=@UserID) Or MenuCap_ID in(select distinct parentmenu_id from user_rights where UserID=@UserID)", new {UserID=UserId}, commandType: CommandType.Text).ToList();
-        //        //var result = con.Query<Menu>("Get_SideNav_Test", new { UserId }, commandType: CommandType.StoredProcedure).ToList();
-        //        var result = con.Query<Menu>("select distinct * from menuTable where MenuCap_ID in(select MenuID from user_rights_Test where UserId=@UserID) Or" +
-        //            " MenuCap_ID in(select distinct parentmenu_id from user_rights_Test where UserID=@UserID)",
-        //            new { UserID = id }, commandType: CommandType.Text).ToList();
-        //        return PartialView("_SideMenu", result);
-        //    }
-        //}
+        
         [Authorize]
         public ActionResult DynamicLinks()
         {
@@ -44,7 +29,7 @@ namespace TogoFogo.Controllers
 
                 var UserId = Session["User_ID"];
 
-                //List<MenuMasterModel> objMenuMasterModelList = new List<MenuMasterModel>();
+             
                 objMenuMaster.ParentMenuList = con.Query<MenuMasterModel>("UspGetMenu",
                new {  }, commandType: CommandType.StoredProcedure).ToList();
 

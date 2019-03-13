@@ -43,7 +43,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Uploaded Images/Centers/"+ folderName);
+                string path = Server.MapPath("~/UploadedImages/Centers/"+ folderName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -132,8 +132,8 @@ namespace TogoFogo.Controllers
 
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Centers/Banks/" + bank.BankCancelledChequeFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Centers/Banks/" + bank.BankCancelledChequeFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Centers/Banks/" + bank.BankCancelledChequeFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Centers/Banks/" + bank.BankCancelledChequeFileName));
             }
 
             if (bank.BankCancelledChequeFilePath != null)
@@ -180,18 +180,18 @@ namespace TogoFogo.Controllers
             if(contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Centers/ADHRS/" + contact.ConAdhaarFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Centers/ADHRS/" + contact.ConAdhaarFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Centers/ADHRS/" + contact.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Centers/ADHRS/" + contact.ConAdhaarFileName));
             }
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Centers/VoterIds/" + contact.ConVoterIdFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Centers/VoterIds/" + contact.ConVoterIdFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Centers/VoterIds/" + contact.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Centers/VoterIds/" + contact.ConVoterIdFileName));
             }
             if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Centers/PANCards/" + contact.ConPanFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Centers/PANCards/" + contact.ConPanFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Centers/PANCards/" + contact.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Centers/PANCards/" + contact.ConPanFileName));
             }
 
             if (contact.ConAdhaarNumberFilePath != null)
@@ -280,6 +280,7 @@ namespace TogoFogo.Controllers
                 var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
                 CenterModel.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 CenterModel.ServiceList = await CommonModel.GetServiceType();
+                CenterModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
                 CenterModel.DeliveryServiceList = await CommonModel.GetDeliveryServiceType();
                 CenterModel.action = 'I';
             
@@ -347,6 +348,7 @@ namespace TogoFogo.Controllers
                     Center.ServiceDeliveryTypes = __deliveryType;
                 
             }
+
             Center.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
@@ -354,11 +356,18 @@ namespace TogoFogo.Controllers
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
             try
             {
                     Center.Activetab = "tab-1";
-                    Center.CreatedBy = Convert.ToInt32(Session["User_ID"]);              
-                    var response = await _Center.AddUpdateDeleteCenter(Center);
+                    Center.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+                if (Session["RoleName"].ToString().ToLower().Contains("provider"))
+                {
+                    string ProviderId = await CommonModel.GetProviderIdByUser(Center.CreatedBy);
+                    if (!string.IsNullOrEmpty(ProviderId))
+                     Center.ProviderId = new Guid(ProviderId);
+                }
+                      var response = await _Center.AddUpdateDeleteCenter(Center);
                     _Center.Save();
                     Center.CenterId = new Guid(response.result);
                 TempData["response"] = response;
@@ -398,13 +407,13 @@ namespace TogoFogo.Controllers
 
             if (Center.Organization.OrgGSTNumberFilePath != null && Center.Organization.OrgGSTFileName != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Centers/Gsts/" + Center.Organization.OrgGSTFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Centers/Gsts/" + Center.Organization.OrgGSTFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Centers/Gsts/" + Center.Organization.OrgGSTFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Centers/Gsts/" + Center.Organization.OrgGSTFileName));
             }
             if (Center.Organization.OrgPanNumberFilePath != null && Center.Organization.OrgPanFileName != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + Center.Organization.OrgPanFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/Uploaded Images/Clients/PANCards/" + Center.Organization.OrgPanFileName));
+                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/PANCards/" + Center.Organization.OrgPanFileName)))
+                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/PANCards/" + Center.Organization.OrgPanFileName));
             }
 
             if (Center.Organization.OrgGSTNumberFilePath != null)
@@ -508,6 +517,7 @@ namespace TogoFogo.Controllers
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Center.ServiceList = await TogoFogo.CommonModel.GetServiceType();
             Center.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();
+            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
             Center.action = 'U';
             List<int> List        =new  List<int>(); 
             for (int i = 0; i < _deviceCat.Length; i++)

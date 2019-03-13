@@ -54,8 +54,8 @@ namespace TogoFogo.Repository.ServiceProviders
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
 
-                    ProviderModel.Organization.OrgGSTFileUrl = "/Uploaded Images/Providers/Gsts/"+ ProviderModel.Organization.OrgGSTFileName;
-                    ProviderModel.Organization.OrgPanFileUrl = "/Uploaded Images/Providers/PANCards/" + ProviderModel.Organization.OrgPanFileName;
+                    ProviderModel.Organization.OrgGSTFileUrl = "/UploadedImages/Providers/Gsts/"+ ProviderModel.Organization.OrgGSTFileName;
+                    ProviderModel.Organization.OrgPanFileUrl = "/UploadedImages/Providers/PANCards/" + ProviderModel.Organization.OrgPanFileName;
                     reader.NextResult();
                     ProviderModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
@@ -105,9 +105,9 @@ namespace TogoFogo.Repository.ServiceProviders
 
             };
 
-                person.ConVoterIdFileUrl = "/Uploaded Images/Providers/VoterIds/" + person.ConVoterIdFileName;
-                person.ConAdhaarFileUrl = "/Uploaded Images/Providers/ADHRS/" + person.ConAdhaarFileName;
-                person.ConPanFileUrl = "/Uploaded Images/Providers/PANCards/" + person.ConPanFileName;
+                person.ConVoterIdFileUrl = "/UploadedImages/Providers/VoterIds/" + person.ConVoterIdFileName;
+                person.ConAdhaarFileUrl = "/UploadedImages/Providers/ADHRS/" + person.ConAdhaarFileName;
+                person.ConPanFileUrl = "/UploadedImages/Providers/PANCards/" + person.ConPanFileName;
                 contacts.Add(person);
             }
 
@@ -136,7 +136,7 @@ namespace TogoFogo.Repository.ServiceProviders
                     IsActive = bool.Parse(reader["isActive"].ToString())
             };
 
-                bank.BankCancelledChequeFileUrl = "/Uploaded Images/Providers/Banks/" + bank.BankCancelledChequeFileName;
+                bank.BankCancelledChequeFileUrl = "/UploadedImages/Providers/Banks/" + bank.BankCancelledChequeFileName;
                 banks.Add(bank);
             }
 

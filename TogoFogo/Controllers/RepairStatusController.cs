@@ -227,7 +227,7 @@ namespace TogoFogo.Controllers
             {
                 var result = con.Query<CourierValuesModel>("getDateInPOOWRR_Table",
                     new { Sparetype = spareType, Sparename = spareName }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                var url = "http://crm.togofogo.com/Uploaded Images/"+result.Part_Image;
+                var url = "http://crm.togofogo.com/UploadedImages/"+result.Part_Image;
                 result.Part_Image = url;
 
                 return Json(result, JsonRequestBehavior.AllowGet);

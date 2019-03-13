@@ -113,7 +113,7 @@ namespace TogoFogo.Controllers
                     result.Courier = result.CourierID.ToString();
                     result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
                     result.CourierList= new SelectList(dropdown.BindCourier(), "Value", "Text");
-                    ViewBag.CourierImage = "http://crm.togofogo.com/Uploaded Images/" + result.CourierImage;
+                    ViewBag.CourierImage = "http://crm.togofogo.com/UploadedImages/" + result.CourierImage;
                 }
 
 

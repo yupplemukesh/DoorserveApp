@@ -25,7 +25,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Uploaded Images");
+                string path = Server.MapPath("~/UploadedImages");
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);

@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="description" content="">
     <title>Togofogo</title>
-    <link rel="/ckeditor/stylesheet" href="css/samples.css">
-    <link rel="/ckeditor/stylesheet" href="toolbarconfigurator/lib/codemirror/neo.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
-    @*<script src="/ckeditor/ckeditor.js"></script>*@
-    @*  <script src="/ckeditor/js/sample.js"></script>*@
-
+   
+    @Scripts.Render("~/bundles/ckEditorJS")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -172,7 +169,6 @@
             $('#myTable').DataTable();
             $('#myTable1').DataTable();
             $('.selectpicker').selectpicker();
-
             $(".bootstrap-select").click(function () {
                 $(this).addClass("open");
 
@@ -239,15 +235,14 @@
                 dateFormat: 'dd-M-yy',
                 maxDate: new Date(),
             }).datepicker("setDate", new Date());
-            $("#datepicker1,#FromDate,#ToDate").datepicker({
-                dateFormat: 'dd-M-yy',
-                minDate: 0
-            }).datepicker("setDate", new Date());
+            //$("#datepicker1,#FromDate,#ToDate").datepicker({
+            //    dateFormat: 'dd-M-yy',
+            //    minDate: 0
+            //}).datepicker("setDate", new Date());
             $("#datepicker1").datepicker({
                 dateFormat: 'dd-M-yy',
             }).datepicker("setDate", new Date());
-            var startDate = $(".startDate").val();
-            var endDate = $(".endDate").val();
+
             $(".template").click(function () {
                 var obj = $("#myTable").DataTable().$('tr:first').clone();
                 var obj1 = $('<tr>').append($("#myTable thead tr").html());
@@ -279,9 +274,38 @@
                     });
             });
             $(".excel").click(function () {
+                var obj = $("#myTable").DataTable().$('tr').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                var lstchl = $(obj1).find("th:last-child").html();
+                if (lstchl.indexOf("Action") != -1) {
+                    $(obj1).find("th:last-child").remove();
+                    $(obj).find("td:last-child").remove();
+                }
+
+                if ($("#tab-6").hasClass("active")) {
+                    obj = $("#myTable1").DataTable().$('tr').clone();
+                    obj1 = $('<tr>').append($("#myTable1 thead tr").html());
+                    lstchl = $(obj1).find("th:last-child").html();
+                    if (lstchl.indexOf("Action") != -1) {
+                        $(obj1).find("th:last-child").remove();
+                        $(obj).find("td:last-child").remove();
+                    }
+                }
+                $('<table>')
+                    .append(
+                        obj1
+                    )
+                    .append(
+                        obj
+                    )
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "Excel.xls" //do not include extension
+                    });
             });
-        });             
-        
+
+        });
         function readURL(input) {
             var _this = input;
             if (input.files && input.files[0]) {
@@ -304,15 +328,7 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         };
-
-
-       
-
-
             </script>
-
-
-
     @RenderSection("scripts", required: false)
 
 

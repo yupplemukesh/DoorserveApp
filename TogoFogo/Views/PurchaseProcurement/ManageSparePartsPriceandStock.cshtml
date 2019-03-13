@@ -149,7 +149,7 @@
                 success: function (data) {
                     console.log(data.Part_Image);
                     document.getElementById('SpareCode').value = data.SpareCode;
-                    var url = "http://crm.togofogo.com/Uploaded Images/" + data.Part_Image;
+                    var url = "http://crm.togofogo.com/UploadedImages/" + data.Part_Image;
                     console.log(url);
                     $("#Part_Image").attr("src", url);
                 }

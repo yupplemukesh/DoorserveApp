@@ -916,6 +916,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+              
                 var state = con.Query<BindDeviceModel>("GetProductByBrand", new { brand = value },
                     commandType: CommandType.StoredProcedure);
                 List<ListItem> items = new List<ListItem>();

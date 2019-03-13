@@ -154,7 +154,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
-        [CustomAuthorize]
+
         public ActionResult POOWRR()
         {
             //ViewBag.PrblmObsrvdPoowrr = new SelectList(Enumerable.Empty<SelectListItem>());

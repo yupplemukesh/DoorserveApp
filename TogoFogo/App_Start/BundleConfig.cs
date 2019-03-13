@@ -25,6 +25,11 @@ namespace TogoFogo
                                               "~/Content/js/bootstrap-select.js"
                
                ));
+            // Ck editor js
+            bundles.Add(new ScriptBundle("~/bundles/ckEditorJS").Include(
+                      "~/ckeditor/ckeditor.js",
+                                             "~/ckeditor/samples/js/sample.js"
+              ));          
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -33,6 +38,13 @@ namespace TogoFogo
                                   "~/Content/css/bootstrap-datetimepicker.css",
                                      "~/Content/css/bootstrap-select.min.css",
                       "~/Content/css/style.css"));
+            // ck editor css
+            bundles.Add(new StyleBundle("~/Content/CKEditorCSS").Include(
+                     "~/ckeditor/samples/css/samples.css",
+                                          "~/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css"
+                                ));
+
+
             bundles.Add(new ScriptBundle("~/bundles/customBundle").Include(
 
                       "~/content/js/vendor.min.js",

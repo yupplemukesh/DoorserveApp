@@ -106,8 +106,8 @@
                         $('#IsDeviceislookingEqualToNew').val(response.IsDeviceislookingEqualToNew);
                         $('#QCPersonName').val(response.QCPersonName);
                         $('#PendingJOBsoftheQCPerson').val(response.PendingJOBsoftheQCPerson);
-                        var DamagedBoxImage = 'http://crm.togofogo.com/Uploaded Images/' + response.DamagedBoxImage;
-                        var url = 'http://crm.togofogo.com/Uploaded Images/' + response.PhotoOfDevice;
+                        var DamagedBoxImage = 'http://crm.togofogo.com/UploadedImages/' + response.DamagedBoxImage;
+                        var url = 'http://crm.togofogo.com/UploadedImages/' + response.PhotoOfDevice;
                         $('#TRCInfoFull').val("Trc Name:" + response.TrcName + ",Mobile No:" + response.TrcMobile + " , Email:" + response.TrcEmail, " , Address:" + response.TrcAddress +
                             ", Pincode:" + response.TrcPinCode + " ,Location:" + response.TrcLocality + ", Near By Location :" + response.TrcNear_By_Location);
                         $('#CustoFullInfo').val("Name:" + response.Customer_Name + ", Mobile No.:" + response.Mobile_No + ", E-Mail: " + response.Email_Id + ", Customer Address:" + response.Cust_Add +
@@ -203,7 +203,7 @@
                         $('#QUTrust').val(response.Is_Device_Tested_by_QUTrust);
                         $('#QUTrustCertificateNumber').val(response.QUTrust_Certificate_Number);
                         $('#QUTrustScore').val(response.QUTrust_Score);
-                        var urlQC = 'http://crm.togofogo.com/Uploaded Images/' + response.QUTrust_Certificate;
+                        var urlQC = 'http://crm.togofogo.com/UploadedImages/' + response.QUTrust_Certificate;
                         $('#QUTrust_Certificate').attr('src', urlQC);
 
                         $('#FunctionalityTest').val(response.Functionality_Test);
