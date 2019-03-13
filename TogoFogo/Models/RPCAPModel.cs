@@ -10,14 +10,15 @@ namespace TogoFogo.Models
     {
         public RPCAPModel()
         {
-            ReceivedDeviceList1 = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>());
             RecvdBrandList = new SelectList(Enumerable.Empty<SelectListItem>());
-            RecvdModelList1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            Engg_NameList1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            SpareTypeList1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            SpareNameList1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            ProblemFoundList1 = new SelectList(Enumerable.Empty<SelectListItem>());
+            RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+            Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>());
         }
+
         public string EMail_SMSMessage { get; set; }
         public string AccHolder { get; set; }
         public string CashDepositedByName { get; set; }
@@ -30,13 +31,7 @@ namespace TogoFogo.Models
         public string CustomerSupportRemarks { get; set; }
         public List<RPCAPModel> _RpcapModelList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
-        public SelectList ReceivedDeviceList1 { get; set; }
-        public SelectList RecvdBrandList { get; set; }
-        public SelectList RecvdModelList1 { get; set; }
-        public SelectList Engg_NameList1 { get; set; }
-        public SelectList SpareTypeList1 { get; set; }
-        public SelectList SpareNameList1 { get; set; }
-        public SelectList ProblemFoundList1 { get; set; }
 
+        public SelectList RecvdBrandList { get; set; }
     }
 }

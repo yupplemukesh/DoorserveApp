@@ -1,6 +1,7 @@
-﻿
+﻿@model TogoFogo.Models.UserActionRights
+
 @{
-	ViewBag.Title = "Index";
+    ViewBag.Title = "Index";
 }
 
 <div class="panel-body">
@@ -19,17 +20,21 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    @Html.Partial("FindCPCAP")
-                     @Html.Action("CPCAPForm", "CPCAP")
+                    @if (Model.Create)
+                    {
+                        @Html.Partial("FindCPCAP",new TogoFogo.Models.RmFormModel())
+
+                        @Html.Action("CPCAPForm", "CPCAP")
+                    }
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-    @section Scripts{
+@section Scripts{
 
-<script>
+    <script>
 
 
             function CCno(ccNo) {
@@ -68,5 +73,5 @@
                     }
                 });
             }
-</script>
-    }
+    </script>
+}

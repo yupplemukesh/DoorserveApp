@@ -112,7 +112,7 @@ namespace TogoFogo.Controllers
             {
                 objSparePartsPriceStockModel._SparePartsPriceStockList = con.Query<SparePartsPriceStockModel>("Get_price_stock", null, commandType: CommandType.Text).ToList();
 
-                //return View(result);
+                
             }
             objSparePartsPriceStockModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objSparePartsPriceStockModel);
@@ -231,17 +231,17 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Repair Cost Estimation")]
         public ActionResult RCEForm()
         {
             var rpcap = new RPCAPModel();
-            rpcap.ReceivedDeviceList1 = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            rpcap.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             rpcap.RecvdBrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            rpcap.RecvdModelList1 = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            rpcap.Engg_NameList1 = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            rpcap.SpareTypeList1 = new SelectList(dropdown.BindSpareType(), "Value", "Text");
-            rpcap.SpareNameList1 = new SelectList(Enumerable.Empty<SelectListItem>());
-            rpcap.ProblemFoundList1 = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
+            rpcap.RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text");
+            rpcap.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+            rpcap.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            rpcap.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            rpcap.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
             return PartialView(rpcap);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
@@ -250,7 +250,9 @@ namespace TogoFogo.Controllers
             RPCAPModel objRpcaModel = new RPCAPModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<AllData>("GetTableDataForAllPages",
+                //var result = con.Query<AllData>("GetTableDataForAllPages",
+                //  new { }, commandType: CommandType.StoredProcedure).ToList();
+                objRpcaModel._RpcapModelList = con.Query<RPCAPModel>("GetTableDataForAllPages",
                    new { }, commandType: CommandType.StoredProcedure).ToList();
                 //return View(result);
             }

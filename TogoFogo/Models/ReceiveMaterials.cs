@@ -144,5 +144,7 @@ namespace TogoFogo.Models
         public override SelectList ServiceProviderNameList { get; set; }
         public override SelectList ProblemList { get; set; }
         public override SelectList WSList { get; set; }
+        public List<ReceiveMaterials> _ReceiveMaterials { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
 }

@@ -12,6 +12,8 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
+
 namespace TogoFogo.Controllers
 {
   
@@ -45,6 +47,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ReceiveMaterials
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Receive Materials")]
         public ActionResult Index()
         {
 
@@ -57,12 +60,14 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
 
         public ActionResult RmForm()
         {
-            return View();
+            var alldata = new AllData();
+            return PartialView(alldata);
         }
         [HttpPost]
         public ActionResult RmForm(string CcNO)
@@ -91,13 +96,15 @@ namespace TogoFogo.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Receive Materials")]
         public ActionResult RM()
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.EnggName = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            return View();
+            var receivematerials = new ReceiveMaterials();
+            receivematerials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            receivematerials.RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            receivematerials.RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+            receivematerials.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+            return PartialView(receivematerials);
         }
         [HttpPost]
         public ActionResult RM(ReceiveMaterials m)
@@ -239,14 +246,20 @@ namespace TogoFogo.Controllers
 
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Receive Materials")]
         public ActionResult TableRM()
         {
+            ReceiveMaterials obj_receivematerials = new ReceiveMaterials();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<AllData>("GetTableDataForRM",
+                //var result = con.Query<AllData>("GetTableDataForRM",
+                //   new { }, commandType: CommandType.StoredProcedure).ToList();
+                //return View(result);
+               obj_receivematerials._ReceiveMaterials = con.Query<ReceiveMaterials>("GetTableDataForRM",
                    new { }, commandType: CommandType.StoredProcedure).ToList();
-                return View(result);
             }
+            obj_receivematerials._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(obj_receivematerials);
 
         }
     }

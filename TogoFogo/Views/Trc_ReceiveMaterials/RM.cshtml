@@ -373,7 +373,7 @@
 				@Html.LabelFor(model => model.ReceivedDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.DropDownListFor(model => model.ReceivedDevice, null, new { @class = "form-control btn-warning" })
+					@Html.DropDownListFor(model => model.ReceivedDevice,Model.ReceivedDeviceList,"Select", new { @class = "form-control btn-warning" })
 					@Html.ValidationMessageFor(model => model.ReceivedDevice, "", new { @class = "text-danger" })
 				</div>
 			</div>
@@ -381,14 +381,14 @@
 				@Html.LabelFor(model => model.RecvdBrand, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.DropDownListFor(model => model.RecvdBrand, null, new { @class = "form-control btn-warning", onchange = "AjaxWithValue('BindModelNameJson', 'RecvdModel', this)" })
+					@Html.DropDownListFor(model => model.RecvdBrand, Model.RecvdBrandlList,"Select", new { @class = "form-control btn-warning", onchange = "AjaxWithValue('BindModelNameJson', 'RecvdModel', this)" })
 					@Html.ValidationMessageFor(model => model.RecvdBrand, "", new { @class = "text-danger" })
 				</div>
 			</div>
 			<div class="row" style="padding-bottom: 5px">
 				@Html.LabelFor(model => model.RecvdModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.DropDownListFor(model => model.RecvdModel, null, new { @class = "form-control btn-warning" })
+					@Html.DropDownListFor(model => model.RecvdModel, Model.RecvdModelList,"Select", new { @class = "form-control btn-warning" })
 					@Html.ValidationMessageFor(model => model.RecvdModel, "", new { @class = "text-danger" })
 				</div>
 			</div>
@@ -421,7 +421,7 @@
 			<div class="row" style="padding-bottom: 5px">
 				@Html.LabelFor(model => model.EnggName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.DropDownListFor(model => model.EnggName, null, new { @class = "form-control btn-warning" })
+					@Html.DropDownListFor(model => model.EnggName, Model.Engg_NameList,"Select", new { @class = "form-control btn-warning" })
 					@Html.ValidationMessageFor(model => model.EnggName, "", new { @class = "text-danger" })
 				</div>
 			</div>

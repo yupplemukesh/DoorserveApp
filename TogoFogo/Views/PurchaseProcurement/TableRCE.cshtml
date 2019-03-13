@@ -1,6 +1,6 @@
 ﻿
 
-@model IEnumerable<TogoFogo.Models.AllData>
+@model TogoFogo.Models.RPCAPModel
 @{
 	Layout = null;
 }
@@ -214,7 +214,7 @@
 	</thead>
 
 
-	@foreach (var item in Model)
+	@foreach (var item in Model._RpcapModelList)
 	{
 		<tr>
 			<td>

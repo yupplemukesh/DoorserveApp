@@ -48,7 +48,7 @@ namespace TogoFogo.Models
         public string Price { get; set; }
         public string Total { get; set; }
     }
-    public class AllData
+    public class AllData:Rights
     {
         public List<New_Auto_Fill_Table> New_Auto_Table { get; set; }
         [DisplayName("TUPC")]

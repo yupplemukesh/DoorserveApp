@@ -1,0 +1,49 @@
+﻿@model IList<TogoFogo.Models.TemplatePartModel>
+
+@{  var rights = ViewData["rights"] as TogoFogo.Models.UserActionRights;
+ }
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered dataTable" id="table-1">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Template Part Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Date Of Creation")
+                </th>
+                <th>
+                    @Html.DisplayName("Action")
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TemplatePartName) 
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddedOn)
+                    </td>
+                    <td class="text-center">
+                        @if (rights.Edit)
+                        {
+                            <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetTemplatePartDetails(@item.TemplatePartId)"><i class="glyphicon glyphicon-pencil"></i></button>
+                        }
+
+                        </td>
+
+                </tr>
+
+            }
+
+        </tbody>
+
+    </table>
+</div>
+
