@@ -20,15 +20,13 @@ namespace TogoFogo.Repository.EmailSmsTemplate
         }
         public async Task<TemplateListModel> GetTemplates()
         {
-            TemplateListModel list = new TemplateListModel();
-            var param = new SqlParameter("@TEMPLATEID", DBNull.Value);
+            TemplateListModel list = new TemplateListModel();        
             using (var connection = _context.Database.Connection)
             {
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "USPTemplateDetail";
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(param);
+                command.CommandType = CommandType.StoredProcedure;                
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     list.Templates =
@@ -48,54 +46,45 @@ namespace TogoFogo.Repository.EmailSmsTemplate
 
             return list;
         }
-        //public async Task<TemplateListModel> GetTemplatesByMessageTypeActionType(int MessageTypeId,int ActionTypeId,string MailerTemplateName)
-        //{
-        //    TemplateListModel list = new TemplateListModel();
-        //    var param = new SqlParameter("@MessageTypeId", MessageTypeId);
-        //    var param1 = new SqlParameter("@ActionTypeId", ActionTypeId);
-        //    var param2 = new SqlParameter("@MailerTemplateName", MailerTemplateName);
-        //    using (var connection = _context.Database.Connection)
-        //    {
-        //        connection.Open();
-        //        var command = connection.CreateCommand();
-        //        command.CommandText = "UspGetTemplateDetailsByMsgTypeActionType";
-        //        command.CommandType = CommandType.StoredProcedure;
-        //        command.Parameters.Add(param);
-        //        command.Parameters.Add(param1);
-        //        command.Parameters.Add(param2);
-        //        if (MailerTemplateName == "ActionBased")
-        //        {
-        //            using (var reader = await command.ExecuteReaderAsync())
-        //            {
-        //                list.Templates =
-        //                   ((IObjectContextAdapter)_context)
-        //                       .ObjectContext
-        //                       .Translate<TemplateModel>(reader)
-        //                       .ToList();
-        //                reader.NextResult();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            using (var reader = await command.ExecuteReaderAsync())
-        //            {
-        //                list.NonActionTemplates =
-        //                    ((IObjectContextAdapter)_context)
-        //                        .ObjectContext
-        //                        .Translate<TemplateModel>(reader)
-        //                        .ToList();
-        //            }
-        //        }
-        //    }
-
-        //    return list;
-        //}
-        public async Task<TemplateModel> GetTemplateById(int TemplateId)
+        public async Task<TemplateModel> GetTemplateByGUID(int TemplateId,Guid? GUID)
         {
-
+            List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@TemplateId", TemplateId);
-            return await _context.Database.SqlQuery<TemplateModel>("USPTemplateDetail  @TemplateId", param).SingleOrDefaultAsync();
+            sp.Add(param);
+            param = new SqlParameter("@GUID", GUID);
+            sp.Add(param);
+       
+            return await _context.Database.SqlQuery<TemplateModel>("UspGetActionNonActionListByGUID  @TemplateId,@GUID", sp.ToArray()).SingleOrDefaultAsync();
         }
+        public async Task<List<TemplateModel>> GetUploadedExcelListByGUID(Guid GUID,string MessageTypeName)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@GUID", GUID);
+            sp.Add(param);
+            param = new SqlParameter("@MessageTypeName", MessageTypeName);
+            sp.Add(param);
+           
+               List<TemplateModel> list = new List<TemplateModel>();
+                using (var connection = _context.Database.Connection)
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = "UspGetUploadedExcelListByGUID";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddRange(sp.ToArray());
+                    using (var reader =await  command.ExecuteReaderAsync())
+                    {
+                        list =
+                           ((IObjectContextAdapter)_context)
+                               .ObjectContext
+                               .Translate<TemplateModel>(reader)
+                               .ToList();
+                              reader.NextResult();
+                    }
+                }
+               return list;
+
+            }
         public async Task<ResponseModel> AddUpdateDeleteTemplate(TemplateModel templateModel, char action)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
@@ -104,10 +93,14 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@TemplateName", templateModel.TemplateName);
             sp.Add(param);
-            param = new SqlParameter("@MessageTypeId", ToDBNull(templateModel.MessageTypeId));
+            param = new SqlParameter("@MailerTemplateName", templateModel.MailerTemplateName);
             sp.Add(param);
             param = new SqlParameter("@TemplateTypeId", templateModel.TemplateTypeId);
             sp.Add(param);
+            param = new SqlParameter("@MessageTypeName", templateModel.MessageTypeName);
+            sp.Add(param);
+            param = new SqlParameter("@MessageTypeId", ToDBNull(templateModel.MessageTypeId));
+            sp.Add(param);          
             param = new SqlParameter("@PriorityTypeId", ToDBNull(templateModel.PriorityTypeId));
             sp.Add(param);
             param = new SqlParameter("@GatewayId", ToDBNull(templateModel.GatewayId));
@@ -122,17 +115,33 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@ContentMeta", ToDBNull(templateModel.ContentMeta));
             sp.Add(param);
-            param = new SqlParameter("@ToEmail", ToDBNull(templateModel.ToEmail));
-            sp.Add(param);
             param = new SqlParameter("@BccEmails", ToDBNull(templateModel.BccEmails));
             sp.Add(param);
             param = new SqlParameter("@IsSystemDefined", templateModel.IsSystemDefined);
             sp.Add(param);
             param = new SqlParameter("@ISACTIVE", templateModel.IsActive);
             sp.Add(param);
-            param = new SqlParameter("@UserId", templateModel.AddedBy);
+            param = new SqlParameter("@AddedBy", templateModel.AddedBy);
             sp.Add(param);
-            var sql = "UspInsertTemplateDetail   @TemplateId,@TemplateName,@MessageTypeId,@TemplateTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@ToEmail,@BccEmails,@IsSystemDefined,@ISACTIVE,@UserId";
+            param = new SqlParameter("@GUID", ToDBNull(templateModel.GUID));
+            sp.Add(param);
+            param = new SqlParameter("@ToEmail", ToDBNull(templateModel.ToEmail));
+            sp.Add(param);
+            param = new SqlParameter("@ToEmailCC", ToDBNull(templateModel.ToCCEmail));
+            sp.Add(param);
+            param = new SqlParameter("@UploadedEmail", ToDBNull(templateModel.UploadedEmail));
+            sp.Add(param);
+            param = new SqlParameter("@ToMobileNo", ToDBNull(templateModel.PhoneNumber));
+            sp.Add(param);
+            param = new SqlParameter("@UploadedMobile", ToDBNull(templateModel.UploadedMobile));
+            sp.Add(param);
+            param = new SqlParameter("@ScheduleTime", ToDBNull(templateModel.ScheduleTime));
+            sp.Add(param);
+            param = new SqlParameter("@TotalCount", ToDBNull(templateModel.TotalCount));
+            sp.Add(param);
+
+
+            var sql = "UspInsertTemplateSave   @TemplateId,@TemplateName,@MailerTemplateName,@TemplateTypeId,@MessageTypeName,@MessageTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@BccEmails,@IsSystemDefined,@IsActive,@AddedBy,@GUID,@ToEmail,@ToEmailCC,@UploadedEmail,@ToMobileNo,@UploadedMobile,@ScheduleTime,@TotalCount";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
@@ -166,6 +175,16 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        void ITemplate.Save()
+        {
+            throw new NotImplementedException();
+        }
+        void IDisposable.Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }
 

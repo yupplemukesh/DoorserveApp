@@ -17,20 +17,16 @@ namespace TogoFogo.Models.Template
             MessageTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             PriorityTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             EmailHeaderFooterList = new SelectList(Enumerable.Empty<SelectListItem>());
-            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
-            //TemplateList = new SelectList(Enumerable.Empty<SelectListItem>());
-            //EmailHeaderFooterList = new SelectList(Enumerable.Empty<SelectListItem>());
-
+            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());            
         }
         [Required(ErrorMessage = "Select Mailer Gateway")]
         public Int64 GatewayId { get; set; }
         [Required(ErrorMessage = "Enter Subject")]
         public string Subject { get; set; }
-        public Guid GUID { get; set; }
+        public Guid? GUID { get; set; }
         [Required(ErrorMessage = "Select Priority")]
         public int PriorityTypeId { get; set; }
-        public DateTime DatePooled { get; set; }
-        
+        public DateTime DatePooled { get; set; }       
         public int TemplateId { get; set; }
         [Required(ErrorMessage = "Enter Template Name")]
         [DisplayName("Template Name")]
@@ -55,9 +51,10 @@ namespace TogoFogo.Models.Template
         [Required(ErrorMessage = "Select Email Header Footer Template")]
         public int? EmailHeaderFooterId { get; set; }
         [Required(ErrorMessage = "Select Action Type")]
-        public int ActionTypeId { get; set; }
+        public int? ActionTypeId { get; set; }
         public string Content {get;set;}
         public string ContentMeta { get; set; }
+        [DisplayName("Email To")]
         public string ToEmail { get; set; }
         [Required(ErrorMessage = "Enter BCC Email")]
         public string BccEmails { get; set; }
@@ -68,15 +65,13 @@ namespace TogoFogo.Models.Template
         [DisplayName("Is Deleted ?")]
         public bool IsDeleted { get; set; }
         public DateTime AddedOn { get; set; }
-        public Int64 AddedBy { get; set; }
+        public int AddedBy { get; set; }
         public string LastUpdatedBy { get; set; }
         //Email
         public Int64 EmailId { get; set; }
         public Int64 PixelId { get; set; }
         [DisplayName("Email From")]
-        public string EmailFrom { get; set; }
-        [DisplayName("Email To")]
-        public string EmailTo { get; set; }
+        public string EmailFrom { get; set; }        
         [DisplayName("Email BCC")]
         public string EmailBCC { get; set; }
         [DisplayName("Email CC")]
@@ -93,6 +88,11 @@ namespace TogoFogo.Models.Template
         public string PhoneNumber { get; set; }
         public HttpPostedFileBase ToEmailFile { get; set; }
         public HttpPostedFileBase ToMobileNoFile { get; set; }
+        public string UploadedEmail { get; set; }
+        public string UploadedMobile { get; set; }
+        public int TotalCount { get; set; }
+        public int TotalTemplateSchedule { get; set; }
+        public DateTime? ScheduleTime { get; set; }
         public SelectList TemplateList { get; set; }
         public SelectList ActionTypeList { get; set; }
         public SelectList MessageTypeList { get; set; }

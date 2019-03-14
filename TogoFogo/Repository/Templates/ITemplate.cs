@@ -11,10 +11,9 @@ namespace TogoFogo.Repository.EmailSmsTemplate
    public interface ITemplate:IDisposable
     {
         Task<TemplateListModel> GetTemplates();
-        Task<TemplateModel> GetTemplateById(int TemplateId);
-        //Task<TemplateListModel> GetTemplatesByMessageTypeActionType(int MessageTypeId, int ActionTypeId, string MailerTemplateName);
+        Task<TemplateModel> GetTemplateByGUID(int TemplateId,Guid? GUID);        
         Task<ResponseModel> AddUpdateDeleteTemplate(TemplateModel templateModel, char action);
-      
-        void Save();
+        Task<List<TemplateModel>> GetUploadedExcelListByGUID(Guid GUID,string MessageTypeName);
+        void Save(); 
     }
 }

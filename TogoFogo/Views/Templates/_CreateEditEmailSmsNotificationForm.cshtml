@@ -1,10 +1,10 @@
 ﻿@model TogoFogo.Models.Template.TemplateModel
-
 <div class="row">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Mailer Template Type</label>
-        @Html.HiddenFor(model=>model.TemplateId)
-        @Html.HiddenFor(model=>model.MailerTemplateName)
+        @Html.HiddenFor(model => model.TemplateId)
+        @Html.HiddenFor(model => model.MailerTemplateName)
+        @Html.HiddenFor(model => model.GUID)
         @Html.DropDownListFor(model => model.TemplateTypeId, Model.TemplateTypeList, "Select", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.TemplateTypeId, "", new { @class = "text-danger" })
     </div>
@@ -18,7 +18,6 @@
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9"> Template Name </label>
         <div class="form-group">
-            
             @Html.HiddenFor(model => model.MessageTypeName)
             @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control input-md", @placeholder = "Mailer Template Name" })
             @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
@@ -48,7 +47,6 @@
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-6 form-group" id="bccEmail">
         <label class=" control-label" for="form-control-9">BCC Email ID</label>
@@ -67,8 +65,8 @@
         <div class="form-group">
             @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
         </div>
+        <div><a href="javascript:void(0)" id="popupList" data-guid="@Model.GUID">Total Count: @(Model.TotalCount)</a></div>
     </div>
-    
     <div class="col-md-6 form-group">
         @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
         <div class="form-group">
@@ -83,7 +81,6 @@
             @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
         </div>
     </div>
-
     <div class="col-md-6 form-group">
         @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
         <div class="form-group">
@@ -99,8 +96,7 @@
             @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
         </div>
     </div>
-    
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 form-group" id="ToCCEmaildv">
         <label class=" control-label" for="form-control-9">To CC Email</label>
         <div class="form-group">
             @Html.TextBoxFor(model => model.ToCCEmail, new { @placeholder = "To CC Email", @class = "form-control" })
@@ -111,211 +107,263 @@
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Is Active </label>
         <div class="form-group">
-            @*<label class="form-control">*@
             @Html.CheckBoxFor(x => x.IsActive)
-            @*<span class="custom-control-indicator"></span>
-                </label>*@
         </div>
     </div>
     <div class="col-md-6 form-group" id="isSystemEmail">
         <label class="control-label" for="form-control-9">Is System Email</label>
         <div class="form-group">
-            @*<label class="form-control">*@
             @Html.CheckBoxFor(x => x.IsSystemDefined)
-            @*<span class="custom-control-indicator"></span>*@
-            @*</label>*@
         </div>
     </div>
 </div>
-        <div class="row">
-            <div class="col-sm-12 form-group">
-                <label class="control-label" for="form-control-9"> Body</label>
-                @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
+<div class="row">
+    <div class="col-sm-12 form-group">
+        <label class="control-label" for="form-control-9"> Body</label>
+        @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 ">
+        <button class="btn btn-primary" type="reset">Reset</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</div>
+<div class="modal" id="UploadedData" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header  bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                @*<h4 class="modal-title">Bank Details</h4>*@
+            </div>
+            <div class="modal-body" id="UploadedExcelList">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <a href="javascript:void(0)" class="btn btn-primary btn-sm float-right">Delete</a>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-8">
 
+                            <table class="table table-striped table-bordered table-condensed" id="tblUpload"></table>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 ">
-                <button class="btn btn-primary" type="reset">Reset</button>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-        <script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-        <script src="/ckeditor/ckeditor.js"></script>
-        @*<script src="../ckeditor/samples/js/sample.js"></script>*@
-        <script>
-            $(document).ready(function () {
-                if ($("#TemplateTypeId").val() != '')
-                {
-                    if ($("#TemplateTypeId").val() == 72)
-                    {
-                        $("#actions").hide();
-                        $("#bccEmail").css("display", "none");
-                        if ($("#MessageTypeId").val() == 53)
-                        $("#toEmailFiledv").css("display", "block");
+    </div>
+</div>
 
-                        $("#toMobilefiledv").css("display", "block");
-                        
-                    }
-                    else
-                    {
-                        $("#actions").show();
-                        $("#bccEmail").css("display", "block");
-                        $("#toEmailFiledv").css("display", "none");
-                        $("#toMobilefiledv").css("display", "none");
-                    }
-                }
-                if ($("#MessageTypeId").val() != '')
-                {
-                    if ($("#MessageTypeId").val() == 52)
-                    {
-                        $("#header").css("display", "none");
-                        $("#bccEmail").css("display", "none");
-                        $("#emailSubject").css("display", "none");
-                        $("#isSystemEmail").css("display", "block");
+@Scripts.Render("~/bundles/jqueryval")
 
-                    }
-                    else if ($("#MessageTypeId").val() == 53) {
-                        $("#header").css("display", "block");
-                        $("#bccEmail").css("display", "block");
-                        $("#emailSubject").css("display", "block");
-                        $("#isSystemEmail").css("display", "block");
-                        $("#mailerGateway").css("display", "block");
-                    }
-                    else if ($("#MessageTypeId").val() == 54) {
-                        $("#header").css("display", "none");
-                        $("#bccEmail").css("display", "none");
-                        $("#emailSubject").css("display", "none");
-                        $("#isSystemEmail").css("display", "none");
-                        $("#mailerGateway").css("display", "none");
-                    }
-                }
-            });
-
-            CKEDITOR.replace('editor1', {
-                height: 300,
-                extraPlugins: 'colorbutton,colordialog'
-            });
-
-            $("#TemplateTypeId").change(function ()
-            {
-                debugger
-                $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
-                if ($("#TemplateTypeId").val() == 72)
-                {
-                    $("#actions").hide();
-                    $("#bccEmail").css("display", "none");
-                    if ($("#MessageTypeId").val() == 53)
+<script>
+    $(document).ready(function () {
+        $('#tblUpload').dataTable();
+        if ($("#TemplateTypeId").val() != '') {
+            if ($("#TemplateTypeId").val() == 72) {
+                $("#actions").hide();
+                $("#bccEmail").css("display", "none");
+                if ($("#MessageTypeId").val() == 53) {
+                    $("#toMobilefiledv").css("display", "none");
                     $("#toEmailFiledv").css("display", "block");
-                    $("#toMobilefiledv").css("display", "block");
-                }
-                else
-                {
-                    $("#actions").show();
-                    if ($("#MessageTypeId").val() == 53)
-                    $("#bccEmail").css("display", "block");
-                    $("#toEmailFiledv").css("display", "none");
-                    $("#toMobilefiledv").css("display", "none");
-                }
-                if ($("#MessageTypeId").val() == 53)
-                {
-                    $("#toMobilefiledv").css("display", "none");
-                }
-            });
-            $("#MessageTypeId").change(function ()
-            {
-                
-                $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
-                if ($("#MessageTypeId").val() == 52)
-                {
-                    $("#header").css("display", "none");                    
-                    $("#bccEmail").css("display", "none");
-                    $("#emailSubject").css("display", "none");
-                    $("#isSystemEmail").css("display", "block");
-                    $("#toEmailFiledv").css("display", "none");
-                    if ($("#TemplateTypeId").val() == 72) 
-                        $("#toMobilefiledv").css("display", "block");
-                    
-                }
-                else if ($("#MessageTypeId").val() == 53)
-                {
-                    $("#header").css("display", "block");
-                    if ($("#TemplateTypeId").val() == 72) 
-                    $("#bccEmail").css("display", "none");
-                    else
-                    $("#bccEmail").css("display", "block");
-                    $("#emailSubject").css("display", "block");
-                    $("#isSystemEmail").css("display", "block");
-                    $("#mailerGateway").css("display", "block");
-                    $("#toMobilefiledv").css("display", "none");
-                }
-                else if ($("#MessageTypeId").val() == 54)
-                {
-                    $("#header").css("display", "none");                  
-                    $("#bccEmail").css("display", "none");
-                    $("#emailSubject").css("display", "none");
-                    $("#isSystemEmail").css("display", "none");
-                    $("#mailerGateway").css("display", "none");
-                    $("#toEmailFiledv").css("display", "none");
-                    if ($("#TemplateTypeId").val() == 72) 
-                    $("#toMobilefiledv").css("display", "block");
-                    
-                }
-
-
-
-            });
-            $(document).on("change", "#MessageTypeId", function () {
-                $.ajax({
-                    type: "GET",
-                    url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
-                    data: '{}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        debugger
-                        $('#GatewayId').html('');
-                        var opt = new Option("--Select--", 0);
-                        $('#GatewayId').append(opt)
-                        if (data.length > 0) {
-                            for (var i = 0; i < data.length; i++) {
-                                opt = new Option(data[i].Text, data[i].Value);
-                                $('#GatewayId').append(opt);
-                            }
-                        }
-                    }
-                });
-
-
-            });
-            function BindGateway(method, ddl, e) {
-                $('#' + ddl).empty();
-                var val = e.value;
-                if (val == "E-Mail") {
-                    method = "BindEmailGateway";
-                    $('#HeaderFooterTemplate').prop('disabled', true);
-                    $('#BCCEmailID').prop('disabled', true);
-                    $('#MailerGateway').prop('disabled', true);
-                    $('#EmailSubject').prop('disabled', true);
-                    $('#IsSystemEmail').prop('disabled', true);
-
-                }
-                else if (val == "SMS") {
-                    method = "BindSMSGateway";
-                    $('#HeaderFooterTemplate').prop('disabled', false);
-                    $('#BCCEmailID').prop('disabled', false);
-                    $('#EmailSubject</').prop('disabled', false);
-
                 }
                 else {
-                    $('#HeaderFooterTemplate').prop('disabled', false);
-                    $('#BCCEmailID').prop('disabled', false);
-                    $('#EmailSubject').prop('disabled', false);
-                    $('#IsSystemEmail').prop('disabled', false);
-                    $('#MailerGateway').prop('disabled', false);
+                    $("#toMobilefiledv").css("display", "block");
+                    $("#toEmailFiledv").css("display", "none");
                 }
 
             }
-        </script>
-        <script src="~/Content/Scripts/jquery.validate.js"></script>
-        <script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+            else {
+                $("#actions").show();
+                $("#bccEmail").css("display", "block");
+                $("#toEmailFiledv").css("display", "none");
+                $("#toMobilefiledv").css("display", "none");
+            }
+        }
+        if ($("#MessageTypeId").val() != '') {
+            if ($("#MessageTypeId").val() == 52) {
+                $("#header").css("display", "none");
+                $("#bccEmail").css("display", "none");
+                $("#emailSubject").css("display", "none");
+                $("#isSystemEmail").css("display", "block");
+
+            }
+            else if ($("#MessageTypeId").val() == 53) {
+                $("#header").css("display", "block");
+                if ($("#TemplateTypeId").val() != 72)
+                    $("#bccEmail").css("display", "block");
+                else
+                    $("#bccEmail").css("display", "none");
+                $("#emailSubject").css("display", "block");
+                $("#isSystemEmail").css("display", "block");
+                $("#mailerGateway").css("display", "block");
+            }
+            else if ($("#MessageTypeId").val() == 54) {
+                $("#header").css("display", "none");
+                $("#bccEmail").css("display", "none");
+                $("#emailSubject").css("display", "none");
+                $("#isSystemEmail").css("display", "none");
+                $("#mailerGateway").css("display", "none");
+            }
+        }
+    });
+
+    $("#TemplateTypeId").change(function () {
+        $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
+        if ($("#TemplateTypeId").val() == 72) {
+            $("#actions").hide();
+            $("#bccEmail").css("display", "none");
+            if ($("#MessageTypeId").val() == 53)
+                $("#toEmailFiledv").css("display", "block");
+            $("#toMobilefiledv").css("display", "block");
+        }
+        else {
+            $("#actions").show();
+            if ($("#MessageTypeId").val() == 53)
+                $("#bccEmail").css("display", "block");
+            $("#toEmailFiledv").css("display", "none");
+            $("#toMobilefiledv").css("display", "none");
+        }
+        if ($("#MessageTypeId").val() == 53) {
+            $("#toMobilefiledv").css("display", "none");
+        }
+    });
+    $("#MessageTypeId").change(function () {
+
+        $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
+        if ($("#MessageTypeId").val() == 52) {
+            $("#header").css("display", "none");
+            $("#bccEmail").css("display", "none");
+            $("#emailSubject").css("display", "none");
+            $("#isSystemEmail").css("display", "block");
+            $("#toEmailFiledv").css("display", "none");
+            $("#ToCCEmaildv").css("display", "none");
+            if ($("#TemplateTypeId").val() == 72)
+                $("#toMobilefiledv").css("display", "block");
+
+        }
+        else if ($("#MessageTypeId").val() == 53) {
+            $("#header").css("display", "block");
+            if ($("#TemplateTypeId").val() == 72)
+                $("#bccEmail").css("display", "none");
+            else
+                $("#bccEmail").css("display", "block");
+            $("#emailSubject").css("display", "block");
+            $("#isSystemEmail").css("display", "block");
+            $("#mailerGateway").css("display", "block");
+            $("#ToCCEmaildv").css("display", "block");
+            $("#toEmailFiledv").css("display", "block");
+            $("#toMobilefiledv").css("display", "none");
+        }
+        else if ($("#MessageTypeId").val() == 54) {
+            $("#header").css("display", "none");
+            $("#bccEmail").css("display", "none");
+            $("#emailSubject").css("display", "none");
+            $("#isSystemEmail").css("display", "none");
+            $("#mailerGateway").css("display", "none");
+            $("#toEmailFiledv").css("display", "none");
+            $("#ToCCEmaildv").css("display", "none");
+            if ($("#TemplateTypeId").val() == 72)
+                $("#toMobilefiledv").css("display", "block");
+        }
+    });
+    $(document).on("change", "#MessageTypeId", function () {
+        $.ajax({
+            type: "GET",
+            url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger
+                $('#GatewayId').html('');
+                var opt = new Option("--Select--", 0);
+                $('#GatewayId').append(opt)
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        opt = new Option(data[i].Text, data[i].Value);
+                        $('#GatewayId').append(opt);
+                    }
+                }
+            }
+        });
+    });
+    function BindGateway(method, ddl, e) {
+        $('#' + ddl).empty();
+        var val = e.value;
+        if (val == "E-Mail") {
+            method = "BindEmailGateway";
+            $('#HeaderFooterTemplate').prop('disabled', true);
+            $('#BCCEmailID').prop('disabled', true);
+            $('#MailerGateway').prop('disabled', true);
+            $('#EmailSubject').prop('disabled', true);
+            $('#IsSystemEmail').prop('disabled', true);
+
+        }
+        else if (val == "SMS") {
+            method = "BindSMSGateway";
+            $('#HeaderFooterTemplate').prop('disabled', false);
+            $('#BCCEmailID').prop('disabled', false);
+            $('#EmailSubject</').prop('disabled', false);
+
+        }
+        else {
+            $('#HeaderFooterTemplate').prop('disabled', false);
+            $('#BCCEmailID').prop('disabled', false);
+            $('#EmailSubject').prop('disabled', false);
+            $('#IsSystemEmail').prop('disabled', false);
+            $('#MailerGateway').prop('disabled', false);
+        }
+    }
+    $(document).on("keydown", "#ToCCEmail,#ToEmail", function (e) {
+        if (e.keyCode == 188) {
+            e.preventDefault();
+        }
+    });
+
+</script>
+
+<script>
+    CKEDITOR.replace('editor1', {
+        height: 300,
+        extraPlugins: 'colorbutton,colordialog'
+    });
+    $(document).on("click", "#popupList", function () {
+        debugger
+        var GUID = $(this).attr("data-guid");
+        // var messagetypeName=$('#')
+        debugger
+        var _this = $(this);
+        $.ajax({
+            type: "GET",
+            url: "/Templates/GetuploadedDataList?GUID=" + GUID + "&MessageTypeName=" + $('#MessageTypeName').val(),
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                debugger
+                if (data.length > 0) {
+                    $('#myTable').html('');
+                    if ($('#MessageTypeName').val() == "SMTP Gateway") {
+                        $('#myTable').append('<thead><tr><td><input type="checkbox" id="chkAll" /></td> <td>Upload Email</td></tr></thead><tbody>');
+                        for (var i = 0; i < data.length; i++) {
+                            $('#myTable').append('<tr><td><input type="checkbox" id="chkAll" class="remove" /></td><td>' + data[i].UploadedEmail + '</td></tr>');
+                        }
+                        $('#myTable').append('</tbody>');
+                    }
+                    else {
+                        $('#myTable').append('<thead><tr><td><input type="checkbox" id="chkAll" /></td> <td>Upload Mobile</td></tr></thead><tbody>');
+                        for (var i = 0; i < data.length; i++) {
+                            $('#myTable').append('<tr><td></td><td></td></tr>');
+                        }
+                        $('#myTable').append('</tbody>');
+                    }
+                    $('#myTable').modal('toggle');
+                }
+            }
+        });
+    });
+</script>
