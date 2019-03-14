@@ -11,9 +11,13 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @*<button class="btn btn-primary excel">
+
+                    @if (Permissions.Rights.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">
                             Export Excel
-                        </button>*@
+                        </button>
+                    }
                 </div>
             </div>
         </div>

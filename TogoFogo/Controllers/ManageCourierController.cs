@@ -52,8 +52,7 @@ namespace TogoFogo.Controllers
             {
                 objManageCourierModel._ManageCourierModelList = con.Query<ManageCourierModel>("GETCourierMasterData", null, commandType: CommandType.StoredProcedure).ToList();
                
-            }
-            objManageCourierModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            }           
             return View(objManageCourierModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier")]
@@ -176,17 +175,23 @@ namespace TogoFogo.Controllers
                                 User = Convert.ToInt32(Session["User_ID"]),
                                 Action = "I",                              
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel();
                         if (result == 1)
                         {
-                            TempData["AddCourier"] = "Successfully Added";
+                            response.IsSuccess = true;
+                            response.Response = "New Courier Successfully Added ";
+                            TempData["response"] = Response;
+                            
                         }
                     
                     else
                     {
-                            //var errors = ModelState.Values.SelectMany(v => v.Errors);
-                            TempData["AddCourier"] = "Please try again";
-                      }
-                        
+                            response.IsSuccess = true;
+                            response.Response = "Courier Already Exist ";
+                            TempData["response"] = Response;
+
+                        }
+
                     }
                     //return View(model);
                     return RedirectToAction("ManageCourier");
@@ -218,7 +223,7 @@ namespace TogoFogo.Controllers
 
             using (var con = new SqlConnection(_connectionString))
             {
-                string folder = "~/UploadedImages/Courier/";
+                string folder = "/UploadedImages/Courier/";
                 var result = con.Query<ManageCourierModel>("SELECT * from Courier_Master WHERE CourierId=@CourierId", new { CourierId = courierId },
                 commandType: CommandType.Text).FirstOrDefault();
                 result.UploadedCourierFile = folder+ "Logo/" + result.UploadedCourierFile;               
@@ -269,14 +274,14 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                 //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                using (var con = new SqlConnection(_connectionString))
+
+                if (ModelState.IsValid)
                 {
-              
-                    if (ModelState.IsValid)
-                    {
-                        string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier/Logo");
+                    using (var con = new SqlConnection(_connectionString))
+                {       
+                        string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier/Logo");                      
                         string UploadedGSTFile = SaveImageFile(model.UploadedGSTFile1, "Courier/Gst");
                         string PANCardFile = SaveImageFile(model.PANCardFile1, "Courier/PanCards");
                         string UserPANCardFile = SaveImageFile(model.UserPANCardFile1, "Courier/Pancards");
@@ -365,22 +370,29 @@ namespace TogoFogo.Controllers
                                 User = Convert.ToInt32(Session["User_ID"]),
                                 Action = "U",                               
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel();
                         if (result == 2)
                         {
-                            TempData["AddCourier"] = "Updated Successfully";
+                            response.IsSuccess = true;
+                            response.Response = "Courier Name Updated Successfully";
+                            TempData["response"] = Response;
                         }
-                    }
+                   
                     else
                     {
-                        return View(model);
+                            response.IsSuccess = true;
+                            response.Response = "Courier Name Not Updated Successfully";
+                            TempData["response"] = Response;
+                        }
                     }
+                    return RedirectToAction("ManageCourier");
                 }
                
             }
             catch (Exception e)
             {
-
-                throw;
+                TempData["AddCourier"] = e;
+                //throw;
             }
 
             return RedirectToAction("ManageCourier");

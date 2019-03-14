@@ -55,9 +55,7 @@ namespace TogoFogo.Controllers
         public ActionResult AddCityLocation(ManageLocation model)
         {
             try
-            {
-               // model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            {              
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_Location",
@@ -73,14 +71,20 @@ namespace TogoFogo.Controllers
                             Action ="add"
                            
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 1)
                     {
-
-                        TempData["AddLocation"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
+                       
                     }
                     else
                     {
-                        TempData["AddLocation"] = "Location Name Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Location Name Already Exist";
+                        TempData["response"] = Response;
+                   
                     }
                 }
 
@@ -100,11 +104,11 @@ namespace TogoFogo.Controllers
 
             using (var con = new SqlConnection(_connectionString))
             {
-                objManageLocation.ManageLocationList = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-               
-            }
-            objManageLocation._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objManageLocation);
+              var result = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                // objManageLocation.ManageLocationList
+                return View(result);
+            }            
+            //return View(objManageLocation);
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Cities/Locations")]
@@ -131,7 +135,6 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_Location",
@@ -147,10 +150,13 @@ namespace TogoFogo.Controllers
                             Action = "edit"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-
-                        TempData["EditLocation"] = "Successfully Updated";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Updated";
+                        TempData["response"] = Response;
+                       
                     }
                 }
 

@@ -41,9 +41,7 @@ namespace TogoFogo.Models
         public string SubCatName { get; set; }
         [DisplayName("Category Name")]
         public string CatName { get; set; }
-        public string User { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-        public  List<DeviceProblemModel> _DeviceProblemModelList { get; set; }
+        public string User { get; set; }      
 
     }
 }

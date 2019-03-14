@@ -45,11 +45,7 @@ namespace TogoFogo.Controllers
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User=Convert.ToInt32(Session["User_ID"]),
-                            /*model.CreatedBy,
-                           model.CreatedDate,
-                           model.ModifyBy,
-                            model.ModifyDate,*/
+                            User=Convert.ToInt32(Session["User_ID"]),                            
                             ACTION = 'I'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();    
@@ -86,13 +82,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Gst Category")]
         public ActionResult GstTable()
         {
-            GstCategoryModel objGstCategoryModel = new GstCategoryModel();
+          
             using (var con = new SqlConnection(_connectionString))
             {
-                objGstCategoryModel._GstCategoryModelList = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new { }, commandType: CommandType.Text).ToList();
-                
+                var result = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new { }, commandType: CommandType.Text).ToList();
+                return View(result);
             }        
-            return View(objGstCategoryModel);
+            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Gst Category")]
         public ActionResult EditGst(int? GstCategoryId)

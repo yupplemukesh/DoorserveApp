@@ -265,5 +265,7 @@ namespace TogoFogo.Models
         public string DaysRemaining { get; set; }
         public List<ManageCourierModel> _ManageCourierModelList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
+
+        
     }
 }

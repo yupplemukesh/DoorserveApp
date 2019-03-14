@@ -35,7 +35,7 @@ namespace TogoFogo.Models
         [Required(ErrorMessage ="Enter Sort Order Number")]
         public int SortOrder { get; set; }
         public string ModifyDate { get; set; }
-        public List<DeviceCategoryModel> _DeviceCategoryModelList { get; set; }
+      
 
     }
 }

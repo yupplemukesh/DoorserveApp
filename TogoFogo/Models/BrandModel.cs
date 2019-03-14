@@ -48,8 +48,6 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public int DeleteBy { get; set; }
         public string DeleteDate { get; set; }
-        public HttpPostedFileBase BrandIMG { get; set; }
-        public List<BrandModel> ListBrandModel { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        public HttpPostedFileBase BrandIMG { get; set; }        
     }
 }

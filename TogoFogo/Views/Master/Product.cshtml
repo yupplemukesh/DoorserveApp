@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.UserActionRights
+﻿@using TogoFogo.Models
 @{
     ViewBag.Title = "Product";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -12,9 +12,9 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
-                    <button class="btn btn-primary excel">Export to Excel</button>
+                        <button class="btn btn-primary excel">Export to Excel</button>
                     }
                 </div>
             </div>
@@ -23,9 +23,9 @@
 </div>
 
 <div class="panel-body">
-    @if (Model.Create)
+    @if (Permissions.Rights.Create)
     {
-    @Html.Action("AddProduct", "Master")
+        @Html.Action("AddProduct", "Master")
     }
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -42,9 +42,9 @@
                 </div>
                 <div class="x_content">
 
-                    @if (Model.View)
+                    @if (Permissions.Rights.View)
                     {
-                    @Html.Action("ProductTable", "Master")
+                        @Html.Action("ProductTable", "Master")
                     }
                 </div>
             </div>
@@ -52,98 +52,98 @@
 
     </div>
 </div>
-    
 
-    
-    <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
 
-            Modal content
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Product</h4>
-                </div>
-                <div class="modal-body" id="modelProduct">
-              
-                </div>
+
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+
+        Modal content
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Product</h4>
+            </div>
+            <div class="modal-body" id="modelProduct">
 
             </div>
 
         </div>
+
     </div>
-    @if (ViewBag.AddProduct != null)
-    {
-        <div id="snackbar">@ViewBag.AddProduct</div>
-    }
-    @if (ViewBag.EditProduct != null)
-    {
-        <div id="snackbar">@ViewBag.EditProduct</div>
-    }
+</div>
+@if (ViewBag.AddProduct != null)
+{
+    <div id="snackbar">@ViewBag.AddProduct</div>
+}
+@if (ViewBag.EditProduct != null)
+{
+    <div id="snackbar">@ViewBag.EditProduct</div>
+}
 
-    @section Scripts{
-        <script>
-            function EditProduct(ProductId, Brand_ID, ProductName, Category_ID) {
-                $.ajax({
+@section Scripts{
+    <script>
+        function EditProduct(ProductId, Brand_ID, ProductName, Category_ID) {
+            $.ajax({
 
-                    type: 'GET',
-                    url: "/Master/EditProduct?ProductId=" + ProductId + "&BrandID=" + Brand_ID + "&ProductName=" + ProductName + "&CategoryID=" + Category_ID,
-                    contentType: 'application/json; charset=utf-8',
-                    cache: false,
-                    success: function (response) {
-                        $("#modelProduct").html(response);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        $(".submitbutton").attr("disabled", false);
-                        alert("Something went wrong...");
+                type: 'GET',
+                url: "/Master/EditProduct?ProductId=" + ProductId + "&BrandID=" + Brand_ID + "&ProductName=" + ProductName + "&CategoryID=" + Category_ID,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#modelProduct").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
 
-                    },
-                    complete: function () {
+                },
+                complete: function () {
 
-                        $(".submitbutton").attr("disabled", false);
-                    }
-                });
-            }
-            function AjaxWithValue(method, ddl, e) {
-                var val = e.value;
-                debugger;
-                $.ajax({
-                    type: "GET",
-                    url: "/DropdownBind/" + method + "?value=" + val,
-                    data: '{}',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $("#" + ddl).empty();
-
-                        //var sel = new Option('-Select-', '');
-                        //$('#' + ddl).append(sel);
-                        for (var i = 0; i < data.length; i++) {
-                            var opt = new Option(data[i].Text, data[i].Value);
-                            $('#' + ddl).append(opt);
-                        }
-                    }
-                });
-            }
-            function isNumber(evt) {
-                evt = (evt) ? evt : window.event;
-                var charCode = (evt.which) ? evt.which : evt.keyCode;
-                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                    return false;
+                    $(".submitbutton").attr("disabled", false);
                 }
-                return true;
-            }
-        </script>
-        @if (ViewBag.AddProduct != null || ViewBag.EditProduct != null)
-        {
-            <script>
-
-                var x = document.getElementById("snackbar");
-                x.className = "show";
-                setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-
-            </script>
+            });
         }
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
 
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+        }
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+    </script>
+    @if (ViewBag.AddProduct != null || ViewBag.EditProduct != null)
+    {
+        <script>
+
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+        </script>
     }
+
+}

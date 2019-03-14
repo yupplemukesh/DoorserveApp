@@ -64,9 +64,7 @@ namespace TogoFogo.Controllers
                                             new object[] { model.BrandIMG });
                     //model.BrandImage = SaveImageFile(model.BrandIMG);
 
-                }
-               // model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
-               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+                }             
 
                 using (var con = new SqlConnection(_connectionString))
                 {
@@ -87,21 +85,22 @@ namespace TogoFogo.Controllers
                             model.Footer,
                             model.IsRepair,
                             model.IsActive,
-                            model.Comments,
-                            // model.CreatedBy,
-                            //model.ModifyBy ,
-                            //model.DeleteBy ,
+                            model.Comments,                           
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 0)
-                    {
-                        TempData["Message"] = "Brand Name Already Exist";
-
+                    var response = new ResponseModel();
+                    if (result != 0)
+                    {                     
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
                     }
                     else
                     {
-                        TempData["Message"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Brand Name Already Exist";
+                        TempData["response"] = Response;                       
                     }
                 }
 
@@ -140,8 +139,7 @@ namespace TogoFogo.Controllers
                                             BindingFlags.Instance | BindingFlags.InvokeMethod |
                                             BindingFlags.NonPublic, null, mpc,
                                             new object[] { model.BrandIMG });
-                }
-               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+                }              
                 var result = con.Query<int>("Add_Modify_Delete_Brand"
                     , new
                     {
@@ -157,17 +155,18 @@ namespace TogoFogo.Controllers
                         model.MetaTitle,
                         model.UrlName,
                         model.Header,
-                        model.Footer,
-                        // model.CreatedBy,
-                        // model.ModifyBy,
-                        //model.DeleteBy,
+                        model.Footer,                        
                         User = Convert.ToInt32(Session["User_Id"]),
                         Action = "edit"
                     },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
                 if (result == 2)
                 {
-                    TempData["SubmitBrand"] = "Updated Successfully";
+                    response.IsSuccess = true;
+                    response.Response = "Updated Successfully";
+                    TempData["response"] = Response;
+                   
                 }
 
                 return RedirectToAction("Brand", "Master");
@@ -179,15 +178,10 @@ namespace TogoFogo.Controllers
             BrandModel objBrandModel = new BrandModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                objBrandModel.ListBrandModel = con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
-                
-            }
-            objBrandModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            //UserActionRights objUserActiobRight = new UserActionRights();
-            //objBrandModel._UserActionRights = objUserActiobRight;
-
-            return View(objBrandModel);
-
+                var result= con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
+           }      
+         
         }
         #endregion
         #region PRODUCT
@@ -244,9 +238,6 @@ namespace TogoFogo.Controllers
                     finalValue = string.Join(",", model.ProductColor);
                 }
 
-                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_Products",
@@ -265,11 +256,11 @@ namespace TogoFogo.Controllers
                             model.ProductImage,
                             model.IsRepair,
                             model.IsActive,
-                            model.Comments,
-                           // model.User,
+                            model.Comments,                         
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result !=0)
                     {
                         var problem1 = model.ProductColor.Length;
@@ -285,11 +276,17 @@ namespace TogoFogo.Controllers
                                   BrandId = model.BrandName
                               }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         }
-                        TempData["AddProduct"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
+                       
                     }
                     else
                     {
-                        TempData["AddProduct"] = "Product Name Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Product Name Already Exist";
+                        TempData["response"] = Response;
+                       
                     }
                 }
             }
@@ -301,18 +298,17 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Products")]
         public ActionResult ProductTable()
-        {
-            ProductModel objProductModel = new ProductModel();
+        {            
             using (var con = new SqlConnection(_connectionString))
             {
-                objProductModel._ProductModelList = con.Query<ProductModel>("GetProductDetail", new { },
-                    commandType: CommandType.StoredProcedure).ToList();           
-              
+              var result = con.Query<ProductModel>("GetProductDetail", new { },
+                    commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
             }
 
-            objProductModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+           
 
-            return View(objProductModel);
+            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Products")]
         public ActionResult EditProduct(int? ProductId, int? BrandID, string ProductName, int? CategoryID)
@@ -372,9 +368,7 @@ namespace TogoFogo.Controllers
                 if (model.ProductColor != null)
                 {
                     finalValue = string.Join(",", model.ProductColor);
-                }
-               // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-
+                }             
                 var result = con.Query<int>("Add_Edit_Delete_Products",
                     new
                     {
@@ -395,13 +389,18 @@ namespace TogoFogo.Controllers
                         User = Convert.ToInt32(Session["User_Id"]),
                         Action = "edit"
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
                 if (result == 2)
                 {
-                    TempData["EditProduct"] = "Product Updated Successfully";
+                    response.IsSuccess = true;
+                    response.Response = "Product Updated Successfully";
+                    TempData["response"] = Response;                    
                 }
                 else
                 {
-                    TempData["EditProduct"] = "Something Went Wrong";
+                    response.IsSuccess = true;
+                    response.Response = "Product Not Updated ";
+                    TempData["response"] = Response;                    
                 }
                 return RedirectToAction("Product", "Master");
             }
@@ -432,8 +431,7 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult AddDeviceProblem(DeviceProblemModel model)
-        {
-            //model.User = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {            
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.Problem == null)
@@ -454,13 +452,18 @@ namespace TogoFogo.Controllers
                             Action = "add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 1)
                     {
-                        TempData["DeviceProblem"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;                       
                     }
                     else
                     {
-                        TempData["DeviceProblem"] = "Problem Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Not Added Successfully";
+                        TempData["response"] = Response;                        
                     }
                 }
                 return RedirectToAction("ManageDeviceProblems");
@@ -468,16 +471,15 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Problem")]
         public ActionResult DeviceProblemtable()
-        {
-            DeviceProblemModel objDeviceProblemModel = new DeviceProblemModel();
+        {           
             using (var con = new SqlConnection(_connectionString))
             {
-                objDeviceProblemModel._DeviceProblemModelList = con.Query<DeviceProblemModel>("GetProblemDetail", new { },
+                var result= con.Query<DeviceProblemModel>("GetProblemDetail", new { },
                     commandType: CommandType.StoredProcedure).ToList();
-              
+                return View(result);
             }
-            objDeviceProblemModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objDeviceProblemModel);
+            
+           
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Device Problem")]
         public ActionResult EditDeviceProblem(int? ProblemID)
@@ -523,9 +525,12 @@ namespace TogoFogo.Controllers
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-                        TempData["DeviceProblem"] = "Successfully Updated";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Updated";
+                        TempData["response"] = Response;                       
                     }
                 }
                 return RedirectToAction("ManageDeviceProblems");

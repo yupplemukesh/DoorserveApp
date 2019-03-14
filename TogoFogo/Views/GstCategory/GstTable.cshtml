@@ -2,7 +2,7 @@
 @using TogoFogo.Models
 @{
     Layout = null;
-    int Count = 0;
+    int Count = 1;
 }
 
 <div class="panel panel-default panel-table">
@@ -14,10 +14,10 @@
                 </div>
                 <div class="col-md-6 ">
                     <div class="pull-right">
-                        @if (Permissions.Rights.ExcelExport)
-                        {
-                            <button class="btn btn-primary excel">Export to Excel</button>
-                        }
+                        @*@if (Permissions.Rights.ExcelExport)
+        {
+            <button class="btn btn-primary excel">Export to Excel</button>
+        }*@
                     </div>
                 </div>
             </div>
@@ -93,17 +93,18 @@
                     {
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditGstCategory(@item.GstCategoryId)">Edit</a>
                     }
-                    @if (Permissions.Rights.History)
-                    {
-                        <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-                    }
-                    @if (Permissions.Rights.Delete)
-                    {
-                        <input type="button" value="Delete" class="btn btn-danger btnSize " />
-                    }
-                    </td>
-            </tr>
+                    @* @if (Permissions.Rights.History)
+        {
+            <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
         }
+        @if (Permissions.Rights.Delete)
+        {
+            <input type="button" value="Delete" class="btn btn-danger btnSize " />
+        }*@
+                </td>
+                    </tr>
+                    Count++;
+                }
 
-    </table>
-</div>
+            </table>
+        </div>

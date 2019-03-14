@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.DeviceCategoryModel
+﻿@model IEnumerable<TogoFogo.Models.DeviceCategoryModel>
 @using TogoFogo.Models
 @{
     Layout = null;
@@ -55,7 +55,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        @foreach (var item in Model._DeviceCategoryModelList)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -86,14 +86,15 @@
                     @Html.DisplayFor(modelItem => item.ModifyDate)
                 </td>
 
-                <td style="display: inline-flex">               
+                <td style="display: inline-flex">
                     @if (Permissions.Rights.Edit)
                     {
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCategory(@item.CatId)">Edit</a>
-                    }        
+                    }
                 </td>
                 </tr>
-            }
+           
+        }
 
         </table>
         </div>

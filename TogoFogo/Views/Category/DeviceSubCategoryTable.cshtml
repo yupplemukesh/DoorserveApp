@@ -1,7 +1,8 @@
-﻿@model TogoFogo.Models.SubcategoryModel
+﻿@model IEnumerable<TogoFogo.Models.SubcategoryModel>
 @using TogoFogo.Models
 @{
     Layout = null;
+    int Count = 1;
 }
 <div class="panel panel-default panel-table">
     <div class="panel-heading">
@@ -69,7 +70,7 @@
                 <th>Action</th>
             </tr>
         </thead>
-        @foreach (var item in Model.SubcategoryModelList)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -134,6 +135,7 @@
                         }*@
                 </td>
             </tr>
+            Count++;
         }
 
     </table>

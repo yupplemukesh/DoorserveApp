@@ -47,10 +47,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-               // model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-
-                using (var con = new SqlConnection(_connectionString))
+               using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Modify_Delete_Category",
                         new
@@ -65,14 +62,21 @@ namespace TogoFogo.Controllers
                             Action = "add"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 0)
+                    var response = new ResponseModel();
+                    if (result == 1)
                     {
-                        TempData["AddCategory"] = "Category Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
+                        
 
                     }
                     else
                     {
-                        TempData["AddCategory"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Category Already Exist";
+                        TempData["response"] = Response;
+                        
                     }
                 }
 
@@ -88,15 +92,16 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Category")]
         public ActionResult DeviceCategoryTable()
         {
-            DeviceCategoryModel objDeviceCategoryModel = new DeviceCategoryModel();
-
-            using (var con = new SqlConnection(_connectionString))
+                       using (var con = new SqlConnection(_connectionString))
             {
                 //objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
-                objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("SELECT mst.Id, mst.CatId, mst.CatName, mst.IsRepair, mst.Comments, mst.CreatedDate, mst.ModifyDate, mst.SortOrder, mst.IsActive, u.UserName CBy, u1.Username MBy FROM MstCategory mst JOIN create_User_Master u ON u.Id = mst.CreatedBy LEFT OUTER JOIN create_user_master u1 ON mst.ModifyBy = u1.id ORDER BY CASE WHEN SortOrder > 0 THEN 1 ELSE 2 END, SortOrder ASC; ", new { }, commandType: CommandType.Text).ToList();
+               var result = con.Query<DeviceCategoryModel>("SELECT mst.Id, mst.CatId, mst.CatName, mst.IsRepair, mst.Comments, mst.CreatedDate, mst.ModifyDate, mst.SortOrder, mst.IsActive, u.UserName CBy, u1.Username MBy FROM MstCategory mst JOIN create_User_Master u ON u.Id = mst.CreatedBy LEFT OUTER JOIN create_user_master u1 ON mst.ModifyBy = u1.id ORDER BY CASE WHEN SortOrder > 0 THEN 1 ELSE 2 END, SortOrder ASC; ", new { }, commandType: CommandType.Text).ToList();
+                return View(result);
             }
 
-            return View(objDeviceCategoryModel);
+
+
+            
         }
         [HttpPost]
         public ActionResult DeviceCategoryTable(int CatId)
@@ -134,9 +139,12 @@ namespace TogoFogo.Controllers
                             Action = "edit",                           
                            
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-                        TempData["EditCategory"] = "Successfully Updated";
+                        response.IsSuccess = true;
+                        response.Response = "Category Successfully Updated";
+                        TempData["response"] = Response;                       
 
                     }
 
@@ -210,14 +218,21 @@ namespace TogoFogo.Controllers
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"                         
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 0)
+                    var response = new ResponseModel();
+                    if (result != 0)
                     {
-                        TempData["AddSubCategory"] = "Sub Category Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
+                        
 
                     }
                     else
                     {
-                        TempData["AddSubCategory"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Sub Category Already Exist";
+                        TempData["response"] = Response;
+                        
                     }
                 }
 
@@ -236,10 +251,11 @@ namespace TogoFogo.Controllers
             SubcategoryModel objSubcategoryModel = new SubcategoryModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                objSubcategoryModel.SubcategoryModelList = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new { }, commandType: CommandType.StoredProcedure).ToList();
+                var result1 = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new { }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result1);
             };   
 
-            return View(objSubcategoryModel);
+          
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Sub Category")]
         public ActionResult EditDeviceSubCategory(int SubCatId)
@@ -252,8 +268,8 @@ namespace TogoFogo.Controllers
                 ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 if (result != null)
                 {
-                    result.DeviceCategory = result.CatId.ToString();
-
+                    //result.DeviceCategory = result.CatId.ToString();
+                    result.Device_Category = result.CatId.ToString();
                 }
                 return PartialView("EditDeviceSubCategory", result);
             }
@@ -283,9 +299,12 @@ namespace TogoFogo.Controllers
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit"                                                      
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-                        TempData["EditSubCategory"] = "Updated Successfully";
+                        response.IsSuccess = true;
+                        response.Response = "Updated Successfully";
+                        TempData["response"] = Response;                      
 
                     }
                 }

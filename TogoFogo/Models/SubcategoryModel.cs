@@ -50,8 +50,7 @@ namespace TogoFogo.Models
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
         
-        public string DeviceCategory { get; set; }
-        public List<SubcategoryModel> SubcategoryModelList { get; set; }
+       
 
     }
 }

@@ -65,8 +65,6 @@ namespace TogoFogo.Models
         public int SubCatId { get; set; }
         public string SubCategoryId { get; set; }
         public string User { get; set; }
-        public string Action { get; set; }
-        public List<ProductModel> _ProductModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        public string Action { get; set; }       
     }
 }

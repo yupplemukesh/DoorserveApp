@@ -33,9 +33,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier API")]
         public ActionResult Create()
         {
-            ManageCourierApiModel courierApiModel = new ManageCourierApiModel();
-            courierApiModel.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
-            courierApiModel.CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text");
+            ManageCourierApiModel courierApiModel = new ManageCourierApiModel
+            {
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text")
+            };
             return View(courierApiModel);
         }
         [HttpPost]
@@ -43,8 +45,10 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                if (ModelState.IsValid)
+                { 
                 using (var con = new SqlConnection(_connectionString))
                 {
                     ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -67,13 +71,7 @@ namespace TogoFogo.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
-                            model.CreatedBy,
-                            model.CreatedDate,
-                            model.ModifyBy,
-                            model.ModifyDate,
-                            model.DeleteBy,
-                            model.DeleteDate,
-                            User = "",
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "I",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 0)
@@ -88,8 +86,11 @@ namespace TogoFogo.Controllers
                     }
                     else
                     {
-                        return View(model);
-                    }
+                            //return View(model);
+                            TempData["Message"] = "Please Try Again";
+                        }
+                }
+                    return RedirectToAction("ManageCourierApi");
                 }
             }
             catch (Exception e)
@@ -125,12 +126,12 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                using (var con = new SqlConnection(_connectionString))
+                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
-                    {
+                    using (var con = new SqlConnection(_connectionString))
+                {                   
                         var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
                         {
@@ -147,13 +148,7 @@ namespace TogoFogo.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
-                            model.CreatedBy,
-                            model.CreatedDate,
-                            model.ModifyBy,
-                            model.ModifyDate,
-                            model.DeleteBy,
-                            model.DeleteDate,
-                            User = "",
+                            User = Convert.ToInt32(Session["User_Id"]),
                             Action = "U",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
@@ -166,10 +161,8 @@ namespace TogoFogo.Controllers
                             TempData["Message"] = "Not Updated";
                         }
                     }
-                    else
-                    {
-                        return View(model);
-                    }
+                    // return View(model); 
+                    return RedirectToAction("ManageCourierApi");
                 }
             }
             catch (Exception e)
