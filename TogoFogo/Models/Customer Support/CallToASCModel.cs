@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models.Customer_Support
 {
-    public class CallToASCModel:Rights
+    public class CallToASCModel
     {
         public List<CallAllocatedToASCModel> AllocatedCalls { get; set; }
         public List<CallAllocatedToASPModel> PendingCalls { get; set; }

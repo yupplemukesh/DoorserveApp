@@ -33,9 +33,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Provider")]
         public  async Task<ActionResult> Index()
         {
-            var Providers = new ServiceProviderList();
-            Providers.Providers = await _provider.GetProviders();
-            Providers.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            var Providers = await _provider.GetProviders();          
             return View(Providers);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)

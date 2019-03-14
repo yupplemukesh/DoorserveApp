@@ -19,10 +19,17 @@ namespace TogoFogo.Repository.ImportFiles
             _context = new ApplicationDbContext();
 
         }        
-        public async Task<List<UploadedExcelModel>> GetUploadedList()
+        public async Task<List<UploadedExcelModel>> GetUploadedList(Guid? clientId)
         {
-            return await _context.Database.SqlQuery<UploadedExcelModel>("GETDATAUPLOADEDBYCLIENT").ToListAsync();
+            return await _context.Database.SqlQuery<UploadedExcelModel>("GETDATAUPLOADEDBYCLIENT @ClientId", new SqlParameter("@ClientId",ToDBNull(clientId))).ToListAsync();
 
+        }
+
+        private object ToDBNull(object value)
+        {
+            if (null != value)
+                return value;
+            return DBNull.Value;
         }
         public async Task<ResponseModel> UploadClientData(ClientDataModel client, DataTable table)
         {

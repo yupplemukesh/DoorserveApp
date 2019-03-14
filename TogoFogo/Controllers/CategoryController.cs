@@ -22,8 +22,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Category")]
         public ActionResult DeviceCategory()
         {
-            CategoryViewModel Cs = new CategoryViewModel();
-            Cs.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            CategoryViewModel Cs = new CategoryViewModel();         
 
             if (TempData["AddCategory"] != null)
             {
@@ -96,8 +95,7 @@ namespace TogoFogo.Controllers
                 //objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("Select * from MstCategory ORDER BY CASE WHEN SortOrder > 0 THEN 1 else  2  END,SortOrder asc", new { }, commandType: CommandType.Text).ToList();
                 objDeviceCategoryModel._DeviceCategoryModelList = con.Query<DeviceCategoryModel>("SELECT mst.Id, mst.CatId, mst.CatName, mst.IsRepair, mst.Comments, mst.CreatedDate, mst.ModifyDate, mst.SortOrder, mst.IsActive, u.UserName CBy, u1.Username MBy FROM MstCategory mst JOIN create_User_Master u ON u.Id = mst.CreatedBy LEFT OUTER JOIN create_user_master u1 ON mst.ModifyBy = u1.id ORDER BY CASE WHEN SortOrder > 0 THEN 1 ELSE 2 END, SortOrder ASC; ", new { }, commandType: CommandType.Text).ToList();
             }
-            objDeviceCategoryModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            
+
             return View(objDeviceCategoryModel);
         }
         [HttpPost]
@@ -160,7 +158,6 @@ namespace TogoFogo.Controllers
         {
             ViewBag.DeviceCategory = new SelectList(Enumerable.Empty<SelectListItem>());
             CategoryViewModel Cse = new CategoryViewModel();
-            Cse.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             if (TempData["AddSubCategory"] != null)
             {
                 Cse.AddSubCategory = TempData["AddSubCategory"].ToString();
@@ -240,8 +237,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 objSubcategoryModel.SubcategoryModelList = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new { }, commandType: CommandType.StoredProcedure).ToList();
-            };
-            objSubcategoryModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            };   
 
             return View(objSubcategoryModel);
         }

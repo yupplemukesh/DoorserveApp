@@ -7,7 +7,6 @@ namespace TogoFogo.Models
 {
     public class CategoryViewModel
     {
-        public UserActionRights Rights { get; set; }
         public string AddCategory { get; set; }
         public string EditCategory { get; set; }
         public string AddSubCategory { get; set; }

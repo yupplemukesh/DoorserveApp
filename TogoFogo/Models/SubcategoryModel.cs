@@ -52,7 +52,6 @@ namespace TogoFogo.Models
         
         public string DeviceCategory { get; set; }
         public List<SubcategoryModel> SubcategoryModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
 
     }
 }

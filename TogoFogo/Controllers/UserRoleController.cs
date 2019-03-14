@@ -189,13 +189,13 @@ namespace TogoFogo.Controllers
         {
            
             Int64 RoleId = 0;
-            UserRole objUserRole = new UserRole();            
+            var objUserRole = new  List<UserRole>();            
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserRole.RoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
+                objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
                     commandType: CommandType.StoredProcedure).ToList();                             
             }
-            objUserRole._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+
 
             return View(objUserRole);
 

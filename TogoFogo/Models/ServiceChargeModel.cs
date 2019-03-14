@@ -70,10 +70,6 @@ namespace TogoFogo.Models
         public SelectList DeviceSubCategoryList {get; set;}
         public SelectList BrandList {get; set;}
         public SelectList ModelNameList {get; set;}
-        public List<ServiceChargeModel> _ServiceChargeModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-
-
 
     }
 }

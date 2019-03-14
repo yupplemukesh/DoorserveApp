@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TogoFogo.Models.ClientData
 {
-    public class MainClientDataModel:Rights
+    public class MainClientDataModel
     {
       public ClientDataModel client { get; set; }
       public List<UploadedExcelModel> uploadedData { get; set; }

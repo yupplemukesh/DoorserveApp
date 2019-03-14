@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.ManageGSTViewModel
+﻿@using TogoFogo.Models
 @{
     ViewBag.Title = "Gst";
 }
@@ -24,7 +24,7 @@
 
 
 <div class="panel-body">
-    @if (Model.Rights.Create)
+    @if (Permissions.Rights.Create)
     {
 
         @Html.Action("AddGst", "GSTTax")
@@ -43,7 +43,7 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content" style="overflow-x: scroll;">
-                        @if (Model.Rights.View)
+                        @if (Permissions.Rights.View)
                         {
                             @Html.Action("GstTaxtable", "GSTTax")
                         }
@@ -67,21 +67,7 @@
 
     </div>
 </div>
-@if (Model.Message != null)
-{
-    <div id="snackbar">@Model.Message</div>
-}
 
-@if (Model.Message != null)
-{
-    <script>
-
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-
-    </script>
-}
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>

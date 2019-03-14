@@ -13,9 +13,8 @@ namespace TogoFogo.Controllers
         // GET: CPCAP
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Confirm Par/Com Advance Payment")]
         public ActionResult Index()
-        {
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+        {         
+            return View();
         }
         public ActionResult FindCPCAP()
         {

@@ -91,8 +91,6 @@ namespace TogoFogo.Models
         [DisplayName("AWB Number")]
         public string AWBNumber { get; set; }
         public string Pincode { get; set; }
-        public List<ReverseAWB_AllocationModel> _ReverseAWB_AllocationModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
 
     }
 }

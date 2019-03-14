@@ -28,13 +28,15 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             var clientData = new MainClientDataModel();
-            clientData.uploadedData = await _RepoUploadFile.GetUploadedList();
+            Guid? clientId = null;
+            if (Session["RoleName"].ToString().ToLower().Contains("client"))
+                clientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
+                clientData.uploadedData = await _RepoUploadFile.GetUploadedList(clientId);
 
             if (TempData["clientData"] != null)     
                 clientData.client = (ClientDataModel)TempData["clientData"];
             else
                 clientData.client = new ClientDataModel();
-            clientData.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             clientData.client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             clientData.client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             return View(clientData);
@@ -74,6 +76,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
+            if (Session["RoleName"].ToString().ToLower().Contains("client"))
+                clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
+
             TempData["clientData"] = clientDataModel;
             TempData.Keep("clientData");
             if (clientDataModel.DataFile != null)

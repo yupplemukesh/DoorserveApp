@@ -21,15 +21,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST Tax")]
         public ActionResult Gst()
         {
-            ManageGSTViewModel Mgt = new ManageGSTViewModel();
-            Mgt.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
-
-            if (TempData["Message"] != null)
-            {
-                Mgt.Message = TempData["Message"].ToString();
-
-            }
-            return View(Mgt);
+            
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST Tax")]
         public ActionResult AddGst()
@@ -86,14 +79,20 @@ namespace TogoFogo.Controllers
                                 User=Convert.ToInt32(Session["User_Id"]),
                                 Action="I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel();
                         if (result == 1)
                         {
-                            TempData["Message"] = "Submitted Successfully";
+                            response.IsSuccess = true;
+                            response.Response = "Submitted Successfully";
+                            TempData["response"] = Response;
 
                         }
                         else
                         {
-                            TempData["Message"] = "Something Went Wrong";
+                            response.IsSuccess = true;
+                            response.Response = "Something Went Wrong";
+                            TempData["response"] = Response;
+
                         }
                     }
 
@@ -113,14 +112,12 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View}, "GST Tax")]
         public ActionResult GstTaxtable()
         {
-            GstTaxModel objGstTaxModel = new GstTaxModel();
+            var objGstTaxModel = new List<GstTaxModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objGstTaxModel ._GstTaxModelList= con.Query<GstTaxModel>("Get_GstTax", new { }, commandType: CommandType.StoredProcedure).ToList();
+                objGstTaxModel= con.Query<GstTaxModel>("Get_GstTax", new { }, commandType: CommandType.StoredProcedure).ToList();
               
-            }
-            objGstTaxModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-         
+            }         
             return View(objGstTaxModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST Tax")]
@@ -203,15 +200,22 @@ namespace TogoFogo.Controllers
                                  User = Convert.ToInt32(Session["User_Id"]),
                                  Action = "U"
                              }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                         if (result == 2)
-                         {
-                             TempData["Message"] = "Updated Successfully";
 
-                         }
-                         else
-                         {
-                             TempData["Message"] = "Something Went Wrong";
-                         }
+                        var response = new ResponseModel();
+                        if (result == 2)
+                        {
+                            response.IsSuccess = true;
+                            response.Response = "Updated Successfully";
+                            TempData["response"] = Response;
+
+                        }
+                        else
+                        {
+                            response.IsSuccess = true;
+                            response.Response = "Something Went Wrong";
+                            TempData["response"] = Response;
+
+                        }                        
                      }
                     //return View(model);
                     return RedirectToAction("Gst");

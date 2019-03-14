@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.UserActionRights
+﻿@using TogoFogo.Models
 
 @{
     ViewBag.Title = "Index";
@@ -20,7 +20,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    @if (Model.Create)
+                    @if (Permissions.Rights.Create)
                     {
                         @Html.Partial("FindCPCAP",new TogoFogo.Models.RmFormModel())
 

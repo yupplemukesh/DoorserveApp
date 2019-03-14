@@ -27,9 +27,6 @@ namespace TogoFogo.Models
         [NotMapped]
         public List<UserRole> UserRoleList { get; set; }        
         public List<MenuMasterModel> _MenuList { get; set; }
-        public List<UserPermission> _UserPermissionList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-
     }
 
     public  enum  Actions

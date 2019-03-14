@@ -103,8 +103,6 @@ namespace TogoFogo.Models
         public SelectList GstHSNCodeList { get; set; }
         public SelectList ApplicableTaxTypeList { get; set; }
         public SelectList CTHNumberList { get; set; }
-        public SelectList SACList { get; set; }
-        public List<GstTaxModel> _GstTaxModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        public SelectList SACList { get; set; }       
     }
 }

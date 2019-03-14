@@ -20,14 +20,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Gst Category")]
         public ActionResult Gst()
         {
-            ManageGSTViewModel Mgc = new ManageGSTViewModel();
-            Mgc.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            if (TempData["Message"] != null)
-            {
-                Mgc.Message = TempData["Message"].ToString();
-                
-            }
-            return View(Mgc);
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Gst Category")]
         public ActionResult AddGst()
@@ -59,14 +52,19 @@ namespace TogoFogo.Controllers
                             model.ModifyDate,*/
                             ACTION = 'I'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel();    
                     if (result == 1)
                     {
-                        TempData["Message"] = "Gst Category Successfully Added " ;
+                            response.IsSuccess = true;
+                            response.Response = "Gst Category Successfully Added ";
+                            TempData["response"] = Response;
 
                     }
                     else
                     {
-                            TempData["Message"] = "Gst Category Already Exist";
+                            response.IsSuccess = true;
+                            response.Response = "Gst Category Already Exist ";
+                            TempData["response"] = Response;
                             
                         }
                         
@@ -93,9 +91,7 @@ namespace TogoFogo.Controllers
             {
                 objGstCategoryModel._GstCategoryModelList = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new { }, commandType: CommandType.Text).ToList();
                 
-            }
-            objGstCategoryModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-
+            }        
             return View(objGstCategoryModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Gst Category")]
@@ -130,18 +126,25 @@ namespace TogoFogo.Controllers
 
                             ACTION = 'U'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 2)
-                    {
-                        TempData["Message"] = "Gst Category Updated Successfully";
 
-                    }
-                    else
-                    {
+                        var response = new ResponseModel();
+                        if (result == 2)
+                        {
+                            response.IsSuccess = true;
+                            response.Response = "Gst Category Updated Successfully";
+                            TempData["response"] = Response;
 
-                        TempData["Message"] = "Gst Category Not Updated";
-                           
-                    }
-                }
+                        }
+                        else
+                        {
+                            response.IsSuccess = true;
+                            response.Response = "Gst Category Not Updated";
+                            TempData["response"] = Response;
+
+                        }
+
+                    
+               }
                     //return View(model);
                     return RedirectToAction("Gst");
                 }

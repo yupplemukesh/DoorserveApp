@@ -15,7 +15,7 @@ namespace TogoFogo.Controllers
     public class CustomerSupportController : Controller
     {
         private readonly string _connectionString =
-             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         // GET: CustomerSupport  
         public ActionResult PCRC()

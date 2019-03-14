@@ -1,4 +1,5 @@
-﻿@model TogoFogo.Models.GstCategoryModel
+﻿@model  IEnumerable<TogoFogo.Models.GstCategoryModel>
+@using TogoFogo.Models
 @{
     Layout = null;
     int Count = 0;
@@ -13,7 +14,7 @@
                 </div>
                 <div class="col-md-6 ">
                     <div class="pull-right">
-                        @if (Model._UserActionRights.ExcelExport)
+                        @if (Permissions.Rights.ExcelExport)
                         {
                             <button class="btn btn-primary excel">Export to Excel</button>
                         }
@@ -55,7 +56,7 @@
         </thead>
 
 
-        @foreach (var item in Model._GstCategoryModelList)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -88,15 +89,15 @@
 
                 <td style="display: inline-flex;">
                     @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                    @if (Model._UserActionRights.Edit)
+                    @if (Permissions.Rights.Edit)
                     {
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditGstCategory(@item.GstCategoryId)">Edit</a>
                     }
-                    @if (Model._UserActionRights.History)
+                    @if (Permissions.Rights.History)
                     {
                         <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
                     }
-                    @if (Model._UserActionRights.Delete)
+                    @if (Permissions.Rights.Delete)
                     {
                         <input type="button" value="Delete" class="btn btn-danger btnSize " />
                     }

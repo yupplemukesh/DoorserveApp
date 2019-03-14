@@ -36,6 +36,6 @@ namespace TogoFogo.Models
         public int SortOrder { get; set; }
         public string ModifyDate { get; set; }
         public List<DeviceCategoryModel> _DeviceCategoryModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+
     }
 }

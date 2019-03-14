@@ -300,15 +300,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Permission")]
         public ActionResult UserPermissionList()
         {
-            UserPermission objUserPermission = new UserPermission();
+            var objUserPermission = new List<UserPermission>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission._UserPermissionList = con.Query<UserPermission>("UspGetActionPermissionDetail", new {  },
+                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {  },
                     commandType: CommandType.StoredProcedure).ToList();
            }
            
-
-            objUserPermission._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+        
 
             return View(objUserPermission);
         }

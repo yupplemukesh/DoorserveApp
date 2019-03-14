@@ -34,9 +34,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Center/TRC")]
         public  async Task<ActionResult> Index()
         {
-            var Centers = new ServiceCenterList();
-            Centers.serviceCenters = await _Center.GetCenters();
-            Centers.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+   
+            Guid? ProviderId=null;
+            if (Session["RoleName"].ToString().ToLower().Contains("provider"))       
+                ProviderId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+            var Centers = await _Center.GetCenters(ProviderId);           
             return View(Centers);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)
@@ -363,9 +365,9 @@ namespace TogoFogo.Controllers
                     Center.CreatedBy = Convert.ToInt32(Session["User_ID"]);
                 if (Session["RoleName"].ToString().ToLower().Contains("provider"))
                 {
-                    string ProviderId = await CommonModel.GetProviderIdByUser(Center.CreatedBy);
-                    if (!string.IsNullOrEmpty(ProviderId))
-                     Center.ProviderId = new Guid(ProviderId);
+                    Guid? ProviderId = await CommonModel.GetProviderIdByUser(Center.CreatedBy);
+                    if (ProviderId!=null)
+                     Center.ProviderId =  ProviderId;
                 }
                       var response = await _Center.AddUpdateDeleteCenter(Center);
                     _Center.Save();

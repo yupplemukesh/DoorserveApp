@@ -1,5 +1,5 @@
-﻿
-@model TogoFogo.Models.ActionTypes.ActionTypeList
+﻿@model IEnumerable<TogoFogo.Models.ActionTypeModel>
+@using TogoFogo.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -13,13 +13,13 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model.Rights.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
                         <button class="btn btn-secondary">
                             Export Excel
                         </button>
                     }
-                        @if (Model.Rights.Create)
+                        @if (Permissions.Rights.Create)
                         {
 
                             <a class="btn btn-primary" href="@Url.Action("Create", "ActionTypes")">
@@ -71,7 +71,7 @@
                         </th>
                     </tr>
                 </thead>
-                @foreach (var item in Model.ActionTypes)
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -96,7 +96,7 @@
                             @Html.DisplayFor(modelItem => item.Comments)
                         </td>
                         <td style="display: inline-flex">
-                            @if (Model.Rights.Edit)
+                            @if (Permissions.Rights.Edit)
                             {
                                 <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ActionTypes", new { id = item.ActionTypeId })'>Edit</a>
                             }

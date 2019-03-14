@@ -34,10 +34,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Clients")]
         public  async Task<ActionResult> Index()
         {
-            var ClientList = new ClientList();
-            ClientList.Clients = await _client.GetClients();
-            ClientList.rights =  (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(ClientList);
+
+           var clients=  await _client.GetClients();  
+            return View(clients);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)
         {

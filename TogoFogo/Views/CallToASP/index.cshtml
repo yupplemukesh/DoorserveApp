@@ -1,4 +1,5 @@
 ﻿@model TogoFogo.Models.Customer_Support.CallToASPModel
+@using TogoFogo.Models
 @{
     ViewBag.Title = "index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -12,7 +13,7 @@
 
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
-                @if (Model.rights.ExcelExport)
+                @if (Permissions.Rights.ExcelExport)
                 {
                 <a href="#" class="tools-icon btn btn-primary btn-sm excel">
                   Export to Excel
@@ -33,7 +34,7 @@
             </div>
 
         </div>
-        @if (Model.rights.Create)
+        @if (Permissions.Rights.Create)
         {
             <button type="button" id="allocateASP" class="btn btn-primary">Allocate To ASP</button>
         }
@@ -59,7 +60,7 @@
         </ul>
         <div class="tab-content">
 
-            @if (Model.rights.View)
+            @if (Permissions.Rights.View)
             {
                 <div role="tabpanel" class="tab-pane fade in active" id="tab-5">
 

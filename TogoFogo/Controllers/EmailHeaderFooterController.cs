@@ -26,8 +26,7 @@ namespace TogoFogo.Controllers
             EmailHeaderFooterMainModel model = new EmailHeaderFooterMainModel();
             model.EmailHeaderFooter = new EmailHeaderFooterModel();
             model.mainModel = Mapper.Map<List<EmailHeaderFooterModel>>(emailheaderfooter);
-            model.EmailHeaderFooter.ActionTypeList = new SelectList( await CommonModel.GetActionTypes(),"Value","Text");
-            model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            model.EmailHeaderFooter.ActionTypeList = new SelectList( await CommonModel.GetActionTypes(),"Value","Text");        
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "E-Mail Header and Footer Template")]

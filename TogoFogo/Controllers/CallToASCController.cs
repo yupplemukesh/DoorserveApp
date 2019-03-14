@@ -30,7 +30,6 @@ namespace TogoFogo.Controllers
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Value", "Text");
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(), "Name", "Text") };
-            calls.rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(calls);
         }
         [HttpPost]

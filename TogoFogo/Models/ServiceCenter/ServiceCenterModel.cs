@@ -40,7 +40,7 @@ namespace TogoFogo.Models
         public Guid? CenterId { get; set; }
         [Required]
         [DisplayName("Service Provider")]
-        public Guid ProviderId { get; set; }
+        public Guid? ProviderId { get; set; }
         [Required]
         [DisplayName("Process Name")]
         public int ProcessId { get; set; }

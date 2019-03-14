@@ -22,14 +22,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
         public ActionResult ServiceCharge()
         {
-            ManageGSTViewModel Msc = new ManageGSTViewModel();
-            Msc.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            if (TempData["Message"] != null)
-            {
-                Msc.Message = TempData["Message"].ToString();
-
-            }
-            return View(Msc);
+          
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, "Device Service Charge")]
         public ActionResult AddServiceCharge()
@@ -69,14 +63,19 @@ namespace TogoFogo.Controllers
                                 User = Convert.ToInt32(Session["User_ID"]),
                                 Action = "I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel { IsSuccess = false };
                         if (result == 1)
                         {
-                            TempData["Message"] = "Submitted Successfully";
+                            response.IsSuccess = true;
+                            response.Response = "Submitted Successfully";
+                            TempData["response"] = response;
 
                         }
                         else
                         {
-                            TempData["Message"] = "Something Went Wrong";
+                            response.IsSuccess = false;
+                            response.Response = "Something Went Wrong";
+                            TempData["response"] = response;
                         }
                     }
 
@@ -97,13 +96,12 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
         public ActionResult ServiceChargeTable()
         {
-            ServiceChargeModel objServiceChargeModel = new ServiceChargeModel();
+            List<ServiceChargeModel> objServiceChargeModel = new List<ServiceChargeModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objServiceChargeModel._ServiceChargeModelList = con.Query<ServiceChargeModel>("Get_ServiceCharge", new { }, commandType: CommandType.StoredProcedure).ToList();
+                objServiceChargeModel = con.Query<ServiceChargeModel>("Get_ServiceCharge", new { }, commandType: CommandType.StoredProcedure).ToList();
                 
             }
-            objServiceChargeModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objServiceChargeModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Service Charge")]
@@ -151,14 +149,19 @@ namespace TogoFogo.Controllers
                                 User=Convert.ToInt32(Session["User_ID"]),
                                 Action = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel { IsSuccess = false };
                         if (result == 2)
                         {
-                            TempData["Message"] = "Submitted Successfully";
+                            response.IsSuccess = true;
+                            response.Response = "Submitted Successfully";
+                            TempData["response"] = response;
 
                         }
                         else
                         {
-                            TempData["Message"] = "Something Went Wrong";
+                            response.IsSuccess = false;
+                            response.Response = "Something Went Wrong";
+                            TempData["response"] = response;
                         }
                     }
 

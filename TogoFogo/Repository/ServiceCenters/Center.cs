@@ -21,9 +21,9 @@ namespace TogoFogo.Repository.ServiceCenters
 
         }
 
-        public async Task<List<ServiceCenterModel>> GetCenters()
+        public async Task<List<ServiceCenterModel>> GetCenters(Guid? providerId)
         {
-            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters").ToListAsync();
+            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @ProviderId", new SqlParameter("@ProviderId",ToDBNull(providerId))).ToListAsync();
         }
 
         public async Task<ServiceCenterModel> GetCenterById(Guid serviceCenterId)

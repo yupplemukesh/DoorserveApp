@@ -7,7 +7,7 @@ using TogoFogo.Models.ClientData;
 
 namespace TogoFogo.Models.Customer_Support
 {
-    public class CallToASPModel:Rights
+    public class CallToASPModel
     {       
         public List<CallAllocatedToASPModel> AllocatedCalls { get; set; }
         public List<UploadedExcelModel> PendingCalls { get; set; }

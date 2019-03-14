@@ -17,7 +17,6 @@ namespace TogoFogo.Permission
         // Custom property
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
         public Actions[] AccessLevel { get; set; }
         public string  MenuName { get; set; }
         public PermissionBasedAuthorize(Actions[] actionRights, string menu)
@@ -35,7 +34,7 @@ namespace TogoFogo.Permission
             {
                 if (Convert.ToString(HttpContext.Current.Session["RoleName"]).ToLower().Contains("super admin"))
                 {
-                    httpContext.Items["ActionsRights"] = new UserActionRights { Create = true, Edit = true, ExcelExport = true, History = true, View = true };
+                    Permissions.AssignRight(new UserActionRights { Create = true, Edit = true, ExcelExport = true, History = true, View = true });
                     return true;
 
 
@@ -66,8 +65,7 @@ namespace TogoFogo.Permission
 
 
                         }
-                        httpContext.Items["ActionsRights"] = UserActionRights;
-
+                        Permissions.AssignRight(UserActionRights);
                         if (privilegeLevels.Contains(((int)AccessLevel[0]).ToString()) == true)
                             Valid = true;
                         else

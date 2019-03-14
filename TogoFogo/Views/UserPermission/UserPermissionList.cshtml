@@ -1,4 +1,5 @@
 ﻿@model TogoFogo.Models.UserPermission
+@using TogoFogo.Models
 @{
     ViewBag.Title = "User Permission List";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -12,19 +13,19 @@
             </div>
             <div class="col-md-3 ">
                 <div class="pull-right">
-                    @if (Model._UserActionRights.Create)
+                    @if(Permissions.Rights.Create)
                     {
                         <a href="@Url.Action("AddUserPermission", "UserPermission")" class="btn btn-primary">Add User Permission</a>
                     }
-                    </div>
+                </div>
             </div>
             <div class="col-md-3 ">
                 <div class="pull-left">
-                    @if (Model._UserActionRights.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -56,7 +57,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            @foreach (var item in Model._UserPermissionList)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>
@@ -78,7 +79,7 @@
                         @Html.DisplayFor(modelItem => item.ModifyDate)
                     </td>
                     <td style="display: inline-flex">
-                        @if (Model._UserActionRights.Edit)
+                        @if (Permissions.Rights.Edit)
                         {
                             <a href="@Url.Action("EditUserPermission","UserPermission",new { RoleId=item.RoleId,PermissionId=item.PermissionId,UserId=item.UserId})" class="btn btn-small btn-info btnSize">Edit</a>
                         }
@@ -87,5 +88,5 @@
             }
 
         </table>
-</div>
+    </div>
 </div>

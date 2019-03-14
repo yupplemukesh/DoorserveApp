@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
     {
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        DropdownBindController dropdown = new DropdownBindController();
+           DropdownBindController dropdown = new DropdownBindController();
         // File Save Code
         private string SaveImageFile(HttpPostedFileBase file)
         {
@@ -216,16 +216,12 @@ namespace TogoFogo.Controllers
         public ActionResult reverse_AWB_Allocation()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());
-            if (TempData["Message"] != null)
-            {
-                ViewBag.Message = TempData["Message"].ToString();
-            }
-            ReverseAWB_AllocationModel objReverseAWB_AllocationModel = new ReverseAWB_AllocationModel();
+         
+            var objReverseAWB_AllocationModel = new List<ReverseAWB_AllocationModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objReverseAWB_AllocationModel._ReverseAWB_AllocationModelList = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
+                objReverseAWB_AllocationModel = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
             }
-            objReverseAWB_AllocationModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objReverseAWB_AllocationModel);
         }
         public ActionResult PFRAWBAForm(string CC_NO)
@@ -288,12 +284,11 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            ReverseAWB_AllocationModel objReverseAWB_AllocationModel = new ReverseAWB_AllocationModel();
+            var objReverseAWB_AllocationModel = new List<ReverseAWB_AllocationModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objReverseAWB_AllocationModel._ReverseAWB_AllocationModelList = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
+                objReverseAWB_AllocationModel = con.Query<ReverseAWB_AllocationModel>("getDataInRewerse_Awb_Allocation", null, commandType: CommandType.StoredProcedure).ToList();
             }
-            objReverseAWB_AllocationModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objReverseAWB_AllocationModel);
         }
         public ActionResult UAWBSBForm()

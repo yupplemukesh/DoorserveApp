@@ -1,5 +1,5 @@
-﻿@model TogoFogo.Models.ReverseAWB_AllocationModel
-
+﻿@model IEnumerable<TogoFogo.Models.ReverseAWB_AllocationModel>
+@using TogoFogo.Models
 
 
 
@@ -12,7 +12,7 @@
 
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model._UserActionRights.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
@@ -116,12 +116,12 @@
             </thead>
 
 
-            @foreach (var item in Model._ReverseAWB_AllocationModelList)
+            @foreach (var item in Model)
             {
 
                 <tr>
                     <td>
-                        @if (Model._UserActionRights.Edit)
+                        @if (Permissions.Rights.Edit)
                         {
                             @Html.ActionLink("Update", "PFRAWBAForm", new { CC_NO = item.CC_NO }, new { @style = " color: blue; border-bottom: 1px solid blue" })
                         }

@@ -9,7 +9,7 @@ namespace TogoFogo.Repository.ServiceCenters
 {
     public interface ICenter : IDisposable
     {
-        Task<List<ServiceCenterModel>> GetCenters();
+        Task<List<ServiceCenterModel>> GetCenters(Guid? providerId);
         Task<ServiceCenterModel> GetCenterById(Guid serviceCenterId);
         Task<ResponseModel> AddUpdateDeleteCenter(ServiceCenterModel center);    
         void Save();

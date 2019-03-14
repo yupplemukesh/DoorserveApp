@@ -216,13 +216,23 @@ namespace TogoFogo
             }
         }
 
-        public static async Task<string> GetProviderIdByUser(int userId)
+        public static async Task<Guid> GetProviderIdByUser(int userId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceProvider = await _context.Database.SqlQuery<string>("SELECT ProviderId FROM MSTServiceCenters where IsActive=1 and Userid=@userId",
+                var _serviceProvider = await _context.Database.SqlQuery<Guid>("SELECT ProviderId FROM MstServiceProviders where IsActive=1 and Userid=@userId",
                     new SqlParameter("userId",userId)).SingleOrDefaultAsync();
                 return _serviceProvider;
+            }
+        }
+
+        public static async Task<Guid> GetClientIdByUser(int userId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _clientId = await _context.Database.SqlQuery<Guid>("select ClientId  from MstClients where USERID=@userId and isActive=1",
+                    new SqlParameter("userId", userId)).SingleOrDefaultAsync();
+                return _clientId;
             }
         }
     }
