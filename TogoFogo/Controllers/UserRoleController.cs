@@ -199,31 +199,7 @@ namespace TogoFogo.Controllers
 
             return View(objUserRole);
 
-        }
-       // [HttpPost]
-       // public ActionResult SaveUserRole(List<Menu> objMenu,UserRole objUserRole)
-       // {
-                    //objRepairRequestDetail = (RepairRequestDetail)TempData["RepairRequestDetail"];
-                   //objRepairRequestDetail._selectDevice = Problems;
-                  //objRepairRequestDetail.TotalEstimatedPrice = Problems.Sum(x => x.Estimated_Price);
-                 //if (objRepairRequestDetail.PromoCodeValue > 0)
-                //objRepairRequestDetail.TotalEstimatedPrice = objRepairRequestDetail.TotalEstimatedPrice - objRepairRequestDetail.PromoCodeValue;
-               //objRepairRequestDetail.TotalMarketPrice = Problems.Sum(x => x.Market_Price);
-              //objRepairRequestDetail.Warnty = warnty;
-             //TempData["RepairRequestDetail"] = objRepairRequestDetail;
-            //TempData.Keep("RepairRequestDetail");
-          
-          //  return Json("success", JsonRequestBehavior.AllowGet);
-       // }
-        //public JsonResult BindMenu()
-       //{
-      //    using (var con = new SqlConnection(_connectionString))
-     //    {
-    //        var result = con.Query<MenuMasterModel>("UspGetMenu",
-   //        new {  }, commandType: CommandType.StoredProcedure).ToList();
-  //        return Json(result, JsonRequestBehavior.AllowGet);
- //    }
-//}
+        }    
     }
 
 }
