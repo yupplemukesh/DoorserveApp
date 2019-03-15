@@ -9,9 +9,7 @@ using System.Web.Mvc;
 namespace TogoFogo.Models
 {
     public class ContactPersonModel
-    {
-
-        
+    {        
         public Guid? ContactId { get; set; }
         public Guid RefKey { get; set; }       
         [DisplayName("First Name")]
