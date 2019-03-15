@@ -1,4 +1,4 @@
-﻿
+﻿@model TogoFogo.Models.UserActionRights
 @{
     ViewBag.Title = "Index";
 }
@@ -18,8 +18,11 @@
             </div>
             <div class="x_content">
                 <br />
-                @Html.Action("AddPromoCode", "PromoCode")
-            </div>
+                @if (Model.Create)
+                {
+                    @Html.Action("AddPromoCode", "PromoCode")
+                }
+                </div>
         </div>
     </div>
 </div>
@@ -37,8 +40,11 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content" style="overflow-x: scroll;">
-                @Html.Action("PromoCodeTable", "PromoCode")
-            </div>
+                @if (Model.View)
+                {
+                    @Html.Action("PromoCodeTable", "PromoCode")
+                }
+                </div>
         </div>
     </div>
 

@@ -29,9 +29,6 @@ namespace TogoFogo.Models
         public string CustomerRejectAdvancePayment { get; set; }
         public string CustomerwantstopayAdvance { get; set; }
         public string CustomerSupportRemarks { get; set; }
-        public List<RPCAPModel> _RpcapModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-
         public SelectList RecvdBrandList { get; set; }
     }
 }

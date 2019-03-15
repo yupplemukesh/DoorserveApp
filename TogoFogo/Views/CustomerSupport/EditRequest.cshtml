@@ -6,7 +6,10 @@
 }
 
 <div class="col-md-11">
+    @if (Model.View)
+    {
 	<a href="@Url.Action("PCRC", "CustomerSupport")" style="font-size:14px;float:right"><< Back</a>
+    }
 </div>
 <div class="row">
 	<div class="col-md-12 col-sm-12 col-xs-12">
@@ -146,7 +149,7 @@
 							<div class="row" style="padding-bottom: 5px">
 								@Html.Label("Call Status", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.DropDownListFor(model => model.CallStatus, null, new { @class = "form-control" })
+									@Html.DropDownListFor(model => model.CallStatus, Model.CallStatusList,"Select", new { @class = "form-control" })
 									
 									@Html.ValidationMessageFor(model => model.CallStatus, "", new { @class = "text-danger" })
 								</div>
@@ -184,7 +187,7 @@
                             <div class="row" style="padding-bottom: 5px">
                                 @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                                 <div class="col-md-6 col-sm-6 col-xs-12" style="    display: inline-flex;">
-                                    @Html.DropDownListFor(model => model.Problem, null, htmlAttributes: new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.Problem,Model.ProblemList,"Select", htmlAttributes: new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
                                     <input type="button" value="Add" onclick="AddProblem()" />
                                 </div>

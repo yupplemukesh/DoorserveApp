@@ -60,8 +60,7 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+           return View();
         }
 
         public ActionResult RmForm()
@@ -249,17 +248,17 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Receive Materials")]
         public ActionResult TableRM()
         {
-            ReceiveMaterials obj_receivematerials = new ReceiveMaterials();
+            //ReceiveMaterials obj_receivematerials = new ReceiveMaterials();
             using (var con = new SqlConnection(_connectionString))
             {
                 //var result = con.Query<AllData>("GetTableDataForRM",
                 //   new { }, commandType: CommandType.StoredProcedure).ToList();
                 //return View(result);
-               obj_receivematerials._ReceiveMaterials = con.Query<ReceiveMaterials>("GetTableDataForRM",
+               var result = con.Query<ReceiveMaterials>("GetTableDataForRM",
                    new { }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
             }
-            obj_receivematerials._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(obj_receivematerials);
+            
 
         }
     }

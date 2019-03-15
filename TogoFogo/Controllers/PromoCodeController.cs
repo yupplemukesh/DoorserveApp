@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -16,6 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         // GET: PromoCode
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Promocode")]
         public ActionResult Index()
         {
             if (TempData["Message"] != null)
@@ -23,11 +25,14 @@ namespace TogoFogo.Controllers
                 ViewBag.Message = TempData["Message"].ToString();
 
             }
-            return View();
+            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(_UserActionRights);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Promocode")]
         public ActionResult AddPromoCode()
         {
-            return View();
+            var promocode = new PromoCodeModel();
+            return PartialView(promocode);
         }
         [HttpPost]
         public ActionResult AddPromoCode(PromoCodeModel m)
@@ -50,16 +55,19 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("Index");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Promocode")]
         public ActionResult PromoCodeTable()
         {
-            
+            PromoCodeModel obj_promocode = new PromoCodeModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<PromoCodeModel>("Select * from MstPromoCode", new { }, commandType: CommandType.Text).ToList();
+                obj_promocode._PromoCodeList = con.Query<PromoCodeModel>("Select * from MstPromoCode", new { }, commandType: CommandType.Text).ToList();
                 
-                return View(result);
+               // return View(result);
             }
-           
+            obj_promocode._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(obj_promocode);
+
         }
 
     }

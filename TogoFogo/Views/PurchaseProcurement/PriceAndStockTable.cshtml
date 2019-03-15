@@ -1,130 +1,133 @@
-﻿@model TogoFogo.Models.SparePartsPriceStockModel
+﻿@model IEnumerable<TogoFogo.Models.SparePartsPriceStockModel>
+@using TogoFogo.Models
 @{
-    Layout = null;
+                /**/
+
+                Layout = null;
 }
 
 <table class="table table-striped table-bordered table-condensed" id="myTable">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CatName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SubCatName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Brand)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TRUPC)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpareTypeName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PartName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TGFGPartCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CTH_Number)
-        </th>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CatName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubCatName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TRUPC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpareTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TGFGPartCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CTH_Number)
+            </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.SpareCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstimatedPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MarketPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpareQty)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Part_Image)
-        </th>
-        <th>Action</th>
-    </tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SpareCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MarketPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpareQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Part_Image)
+            </th>
+            <th>Action</th>
+        </tr>
     </thead>
-    
 
-    @foreach (var item in Model._SparePartsPriceStockList)
+
+    @foreach (var item in Model)
     {
-	<tr>
-		<td>
-			@Html.DisplayFor(modelItem => item.CatName)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.SubCatName)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.Brand)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.ProductName)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.TRUPC)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.SpareTypeName)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.PartName)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.TGFGPartCode)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.CTH_Number)
-		</td>
-
-		<td>
-			@Html.DisplayFor(modelItem => item.SpareCode)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.EstimatedPrice)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.MarketPrice)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.SpareQty)
-		</td>
-		<td>
-			@Html.DisplayFor(modelItem => item.IsActive)
-		</td>
-
-		<td>
-			@if (item.Part_Image != null)
-			{
-				<img src="~/UploadedImages/@item.Part_Image" width="50" height="50" />
-			}
-			else
-			{
-				@Html.DisplayFor(modelItem => item.Part_Image)
-			}
-
-		</td>
-        <td style="display: inline-flex;">
-            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            @if (Model._UserActionRights.Edit)
-            {
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditPriceStock(@item.SparePriceStockId)">Edit</a>
-            }
-                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-            <input type="button" value="Delete" class="btn btn-danger btnSize " />*@
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CatName)
             </td>
-            </tr>
-            }
+            <td>
+                @Html.DisplayFor(modelItem => item.SubCatName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TRUPC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpareTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TGFGPartCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CTH_Number)
+            </td>
 
-        </table>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpareCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MarketPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpareQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+
+            <td>
+                @if (item.Part_Image != null)
+                {
+                    <img src="~/UploadedImages/@item.Part_Image" width="50" height="50" />
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Part_Image)
+                }
+
+            </td>
+            <td style="display: inline-flex;">
+                @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
+                @if (Permissions.Rights.Edit)
+                {
+                    <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditPriceStock(@item.SparePriceStockId)">Edit</a>
+                }
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
+                    <input type="button" value="Delete" class="btn btn-danger btnSize " />*@
+            </td>
+        </tr>
+    }
+
+</table>

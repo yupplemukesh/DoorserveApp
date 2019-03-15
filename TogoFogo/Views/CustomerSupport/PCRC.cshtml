@@ -1,5 +1,5 @@
 ﻿
-@model IEnumerable<TogoFogo.Models.EditRepairStatus>
+@model TogoFogo.Models.EditRepairStatus
 @{
 
     ViewBag.Title = "PCRC";
@@ -31,8 +31,11 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    <button class="btn btn-primary excel">Export to Excel</button>
-                </div>
+                    @if (Model.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
+                    </div>
             </div>
         </div>
     </div>
@@ -66,15 +69,20 @@
 
                 </tr>
             </thead>
-            @foreach (var item in Model)
+            @foreach (var item in Model._EditRepairStatusList)
             {
                 <tr>
                     <td></td>
                     <td>
-                        <a href="@Url.Action("EditRequest", "CustomerSupport", new { reqno = item.CC_NO })" data-toggle="modal">
-                            <span style="color:cornflowerblue !important" class="glyphicon glyphicon-earphone text-danger">@Html.DisplayFor(modelItem => item.CC_NO)</span>
-                        </a>
-                    </td>
+                        
+                        {
+                            <a href="@Url.Action("EditRequest", "CustomerSupport", new { reqno = item.CC_NO })" data-toggle="modal">
+                                <span style="color:cornflowerblue !important" class="glyphicon glyphicon-earphone text-danger">@Html.DisplayFor(modelItem => item.CC_NO)</span>
+                            </a>
+                        
+
+
+                        </td>
                     <td>@Html.DisplayFor(modelItem => item.CustomerId)</td>
                     <td>@Html.DisplayFor(modelItem => item.Mobile_No)</td>
 

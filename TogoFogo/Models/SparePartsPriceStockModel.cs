@@ -69,8 +69,6 @@ namespace TogoFogo.Models
         public string IsActive { get; set; }
         [DisplayName("Spare Part Photo")]
         public string Part_Image { get; set; }
-        public List<SparePartsPriceStockModel> _SparePartsPriceStockList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
         public SelectList CatNameList { get; set; }
         public SelectList SubCatNameList { get; set; }
         public SelectList BrandList { get; set; }

@@ -36,8 +36,13 @@ namespace TogoFogo.Models
         public string BrandId { get; set; }
 
     }
-    public class EditRepairStatus 
+    public class EditRepairStatus :UserActionRights
     {
+        public EditRepairStatus()
+        {
+           CallStatusList =new SelectList(Enumerable.Empty<SelectListItem>());
+            ProblemList = new SelectList(Enumerable.Empty<SelectListItem>());
+        }
         public string EntryDate { get; set; }
         public List<GetProblem_Child_Order_problem> Pro { get; set; }
      
@@ -165,6 +170,8 @@ namespace TogoFogo.Models
 
         public SelectList CallStatusList {get; set;}
         public SelectList ProblemList {get; set;}
+        public List<EditRepairStatus> _EditRepairStatusList { get; set; }
+        public UserActionRights _UserActionRights { get; set; }
     }
 
     public class CourierValuesModel

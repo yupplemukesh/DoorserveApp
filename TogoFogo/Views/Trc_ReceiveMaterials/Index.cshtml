@@ -1,5 +1,6 @@
-﻿@model TogoFogo.Models.UserActionRights
+﻿@model IEnumerable<TogoFogo.Models.AllData>
 
+@using TogoFogo.Models
 @{
     ViewBag.Title = "Index";
 }
@@ -30,12 +31,12 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
 
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -45,22 +46,22 @@
     <div class="x_content">
         <br />
         <div id="hiddenPart" style="display:none">
-          
-            @if (Model.Create)
-            {
+
+          @if (Permissions.Rights.Create)
+           {
                 @Html.Partial("RmForm", new TogoFogo.Models.RmFormModel())
 
                 @Html.Action("RM", "Trc_ReceiveMaterials")
-            }
+           }
         </div>
 
         <div class="x_content" style="overflow-x: scroll;">
-            @if (Model.View)
+            @if (Permissions.Rights.View)
             {
 
                 @Html.Action("TableRM", "Trc_ReceiveMaterials")
             }
-            </div>
+        </div>
     </div>
 </div>
 

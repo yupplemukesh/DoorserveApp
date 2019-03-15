@@ -50,6 +50,7 @@ namespace TogoFogo.Models
     }
     public class AllData
     {
+        
         public List<New_Auto_Fill_Table> New_Auto_Table { get; set; }
         [DisplayName("TUPC")]
         public string TUPCModel { get; set; }

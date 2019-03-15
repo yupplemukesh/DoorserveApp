@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.ReceiveMaterials
+﻿@model IEnumerable<TogoFogo.Models.ReceiveMaterials>
 @{
     Layout = null;
 }
@@ -176,7 +176,7 @@
     </thead>
 
 
-    @foreach (var item in Model._ReceiveMaterials)
+    @foreach (var item in Model)
     {
         <tr>
             <td>

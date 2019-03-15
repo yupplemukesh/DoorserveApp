@@ -1,4 +1,5 @@
-﻿@model TogoFogo.Models.UserActionRights
+﻿@*@model TogoFogo.Models.UserActionRights*@
+@using TogoFogo.Models
 
 @{
     ViewBag.Title = "RCE";
@@ -21,20 +22,20 @@
                 <br />
                 @*@Html.Partial("FindRCE")*@
                 <div id="hiddenPart" style="display:none">
-                    @if (Model.Create)
+                    @if (Permissions.Rights.Create)
                     {
-
+                        @Html.Partial("FindRCE", new TogoFogo.Models.RmFormModel())
                         @Html.Action("RCEForm", "PurchaseProcurement")
                     }
-                    </div>
+                </div>
 
                 <div class="x_content" style="overflow-x: scroll;">
-                    @if (Model.View)
+                    @if (Permissions.Rights.View)
                     {
 
                         @Html.Action("TableRCE", "PurchaseProcurement")
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>

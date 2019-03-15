@@ -31,8 +31,7 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.AddPriceandStock = TempData["AddPriceandStock"].ToString();
             }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Spare Parts Price & Stock")]
         public ActionResult AddSparePartsPriceandStock()
@@ -107,14 +106,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View}, "Manage Spare Parts Price & Stock")]
         public ActionResult PriceAndStockTable()
         {
-            SparePartsPriceStockModel objSparePartsPriceStockModel = new SparePartsPriceStockModel();
+            var objSparePartsPriceStockModel = new List<SparePartsPriceStockModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objSparePartsPriceStockModel._SparePartsPriceStockList = con.Query<SparePartsPriceStockModel>("Get_price_stock", null, commandType: CommandType.Text).ToList();
+                objSparePartsPriceStockModel = con.Query<SparePartsPriceStockModel>("Get_price_stock", null, commandType: CommandType.Text).ToList();
 
                 
             }
-            objSparePartsPriceStockModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(objSparePartsPriceStockModel);
         }
 
@@ -212,23 +210,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
         public ActionResult RCE()
         {
-            ViewBag.ReceivedDevice = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.RecvdBrand = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.RecvdModel = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Engg_Name = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ReceivedDevice = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.SpareType = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(Enumerable.Empty<SelectListItem>());
-            if (TempData["Message"] != null)
-            {
-                ViewBag.Message = TempData["Message"].ToString();
 
-            }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
-        }
-        public ActionResult FindRCE()
-        {
             return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Repair Cost Estimation")]
@@ -247,50 +229,47 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
         public ActionResult TableRCE()
         {
-            RPCAPModel objRpcaModel = new RPCAPModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                //var result = con.Query<AllData>("GetTableDataForAllPages",
-                //  new { }, commandType: CommandType.StoredProcedure).ToList();
-                objRpcaModel._RpcapModelList = con.Query<RPCAPModel>("GetTableDataForAllPages",
-                   new { }, commandType: CommandType.StoredProcedure).ToList();
-                //return View(result);
+                 var result = con.Query<AllData>("gettabledataforallpages",
+                 new { }, commandType:CommandType.StoredProcedure).ToList().Take(10);
+                //objrpcamodel._rpcapmodellist = con.query<rpcapmodel>("gettabledataforallpages",
+                //   new { }, commandtype: commandtype.storedprocedure).tolist();
+                return View(result);
             }
-            objRpcaModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objRpcaModel);
-
+     
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Parts Purchase List")]
         public ActionResult SPPLtable()
         {
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<AllData>("GetTableDataForAllPages",
-                   new { }, commandType: CommandType.StoredProcedure).ToList();
+                new { }, commandType: CommandType.StoredProcedure).ToList().Take(10);
+                //objrpcamodel._RpcapModelList = con.Query<RPCAPModel>("GetTableDataForAllPages",
+                //   new { }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
+          //  objrpcamodel._RpcapModelList = new List<RPCAPModel>();
+            //return View(objrpcamodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Parts Purchase List")]
         public ActionResult SPPL()
         {
             return View();
         }
-        public ActionResult FindSPPL()
-        {
-            return View();
-        }
+        //public ActionResult FindSPPL()
+        //{
+        //    return View();
+        //}
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Spare Parts Purchase List")]
         public ActionResult SPPLForm(string CC_NO)
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
-            ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
+            var result = new AllData();
             using (var con = new SqlConnection(_connectionString))
             {
-
-                var result = con.Query<AllData>("GetDataByCCNO",
-               new { CC_NO = CC_NO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                 result = con.Query<AllData>("GetDataByCCNO",
+                 new { CC_NO = CC_NO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 var problem = "";
                 var problemFound = "";
@@ -349,6 +328,13 @@ namespace TogoFogo.Controllers
                 result.ApprovedSpareCost = spareCost1.ToString();
                 var QC = con.Query<QCtableData>("Select * from mst_QC", null, commandType: CommandType.Text).ToList();
                 result.QC_Data = QC;
+                result.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                result.RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+                result.RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text");
+                result.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+                result.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+                result.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+                result.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
 
                 return View(result);
             }
