@@ -46,9 +46,7 @@ namespace TogoFogo.Models
         public string DeleteBy { get; set; }
         public string DeleteDate { get; set; }
         public string CatName { get; set; }
-        public string SubCatName { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-        public List<ManageProblemObserved> ManageProblemObservedList { get; set; }
+        public string SubCatName { get; set; }       
         public SelectList CategoryList { get; set; }
         public SelectList SubCategoryList { get; set; }
     }

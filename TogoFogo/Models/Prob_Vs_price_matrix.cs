@@ -52,9 +52,7 @@ namespace TogoFogo.Models
         [DisplayName("Modify By")]
         public string MBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ModifyDate { get; set; }
-        public List<Prob_Vs_price_matrix> _Prob_Vs_price_matrixList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        public string ModifyDate { get; set; }        
         public SelectList BrandList { get; set; }
         public SelectList ProblemList { get; set; }
         public SelectList ModelList { get; set; }

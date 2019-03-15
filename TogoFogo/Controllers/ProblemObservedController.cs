@@ -51,9 +51,7 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult AddProblemObserved(ManageProblemObserved model)
-        {
-            //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ?"0" : Convert.ToString(Session["User_ID"]));
-           // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {          
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemObserved == null)
@@ -75,14 +73,21 @@ namespace TogoFogo.Controllers
                             Action ="add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 1)
                     {
-                        TempData["ProblemObserved"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
+
+                       
                     }
                     else
                     {
-                        TempData["ProblemObserved"] = "Problem Code Already Exist";
-                    }
+                        response.IsSuccess = true;
+                        response.Response = "Problem Code Already Exist";
+                        TempData["response"] = Response;
+                     }
                 }
                 return RedirectToAction("ManageProblemObserved");
            }
@@ -90,14 +95,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Problem Observed")]
         public ActionResult ProblemObservedtable()
         {
-            ManageProblemObserved objManageProblemObserved = new ManageProblemObserved();
+          
             using (var con = new SqlConnection(_connectionString))
             {
-                objManageProblemObserved.ManageProblemObservedList = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-            
+                var result = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
             }
-            objManageProblemObserved._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objManageProblemObserved);
+            
+            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Problem Observed")]
         public ActionResult EditProblemObserved(int ProblemId)
@@ -120,8 +125,7 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult EditProblemObserved(ManageProblemObserved model)
-        {
-            //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {           
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemId == null)
@@ -144,9 +148,12 @@ namespace TogoFogo.Controllers
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-                        TempData["ProblemObserved"] = "Updated Successfully";
+                        response.IsSuccess = true;
+                        response.Response = "Updated Successfully";
+                        TempData["response"] = Response;                        
                     }
 
                 }

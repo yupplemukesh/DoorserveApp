@@ -5,8 +5,16 @@
 
 <div class="form-group">
     @Html.HiddenFor(x => x.CourierId)
+    @Html.HiddenFor(x => x.UploadedCourierFile)
+    @Html.HiddenFor(x => x.UploadedGSTFile)
+    @Html.HiddenFor(x => x.AadhaarCardFile)
+    @Html.HiddenFor(x => x.PANCardFile)
+    @Html.HiddenFor(x => x.AadhaarCardFile)
+    @Html.HiddenFor(x => x.AgreementScanFile)
+    @Html.HiddenFor(x => x.VoterIDFile)
+    @Html.HiddenFor(x => x.CancelledChequeFile)
     <div class="row">
-     
+
         <div class="col-md-6">
             <p style="font-size: 18px;"><u>Settings</u></p>
             <div class="row" style="padding-bottom: 5px;">
@@ -73,10 +81,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UploadedCourierFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.UploadedCourierFileUrl, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-5 col-sm-5 col-xs-12">
-                    @Html.TextBoxFor(model => model.UploadedCourierFile1, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
-                    @Html.ValidationMessageFor(model => model.UploadedCourierFile, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.UploadedCourierFileUrl, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
+                    @Html.ValidationMessageFor(model => model.UploadedCourierFileUrl, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.UploadedCourierFile))
@@ -85,7 +93,7 @@
                     }
                     else
                     {
-                    <img id = "blah" src = "~/Images/male-user-add.png" width = "50" height = "50" alt = "your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
                     }
                 </div>
             </div>
@@ -144,10 +152,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UploadedGSTFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.UploadedGSTFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.UploadedGSTFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })                    
-                    @Html.ValidationMessageFor(model => model.UploadedGSTFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.UploadedGSTFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.UploadedGSTFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.UploadedGSTFile))
@@ -168,10 +176,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.PANCardFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.PANCardFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.PANCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.PANCardFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.PANCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.PANCardFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.UserPANCardFile))
@@ -203,7 +211,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.SC_CountryDropdown, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.SC_CountryDropdown, Model.CountryList, htmlAttributes: new { @class = "form-control" , onchange = "AjaxWithValue('BindPinCodeByCountry', 'SC_PincodeDropdown', this)" })
+                    @Html.DropDownListFor(model => model.SC_CountryDropdown, Model.CountryList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindPinCodeByCountry', 'SC_PincodeDropdown', this)" })
                     @Html.ValidationMessageFor(model => model.SC_CountryDropdown, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -385,10 +393,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UserPANCardFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.UserPANCardFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.UserPANCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.UserPANCardFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.UserPANCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.UserPANCardFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.UserPANCardFile))
@@ -409,10 +417,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.VoterIDFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.VoterIDFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.VoterIDFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.VoterIDFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.VoterIDFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.VoterIDFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.VoterIDFile))
@@ -433,10 +441,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.AadhaarCardFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.AadhaarCardFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AadhaarCardFile1, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-                    @Html.ValidationMessageFor(model => model.AadhaarCardFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.AadhaarCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.ValidationMessageFor(model => model.AadhaarCardFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.AadhaarCardFile))
@@ -499,10 +507,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.AgreementScanFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.AgreementScanFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AgreementScanFile1, null, htmlAttributes: new { @type = "file", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.AgreementScanFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.AgreementScanFilePath, null, htmlAttributes: new { @type = "file", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AgreementScanFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.AgreementScanFile))
@@ -559,10 +567,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CancelledChequeFile1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.CancelledChequeFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.CancelledChequeFile1, null, htmlAttributes: new { @type = "file", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CancelledChequeFile1, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.CancelledChequeFilePath, null, htmlAttributes: new { @type = "file", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CancelledChequeFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-3">
                     @if (!string.IsNullOrEmpty(Model.CancelledChequeFile))

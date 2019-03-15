@@ -564,9 +564,7 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
-        {
-           // m.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-            //m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {         
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
@@ -579,13 +577,19 @@ namespace TogoFogo.Controllers
                                User = Convert.ToInt32(Session["User_Id"]),
                                Action = "add"                               
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
                 if (result1 == 1)
                 {
-                    TempData["Message"] = "Added Successfully";
+                    response.IsSuccess = true;
+                    response.Response = "Added Successfully";
+                    TempData["response"] = Response;
+                   
                 }
                 else
                 {
-                    TempData["Message"] = "Something went wrong";
+                    response.IsSuccess = true;
+                    response.Response = "Something went wrong";
+                    TempData["response"] = Response;                    
                 }
             }
             return RedirectToAction("ColorMaster", "Master");
@@ -607,9 +611,8 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult EditColorMaster(ColorModel m)
-        {         
-            //m.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-            using (var con = new SqlConnection(_connectionString))
+        {        
+           using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
                            new
@@ -622,13 +625,19 @@ namespace TogoFogo.Controllers
                                Action = "edit",                            
 
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
                 if (result1 == 2)
                 {
-                    TempData["Message"] = "Updated Successfully";
+                    response.IsSuccess = true;
+                    response.Response = "Updated Successfully";
+                    TempData["response"] = Response;
+                   
                 }
                 else
                 {
-                    TempData["Message"] = "Something went wrong";
+                    response.IsSuccess = true;
+                    response.Response = "Something went wrong";
+                    TempData["response"] = Response;                   
                 }              
 
             }
@@ -637,15 +646,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Color Master")]
         public ActionResult ColorTable()
         {
-            ColorModel objColorModel = new ColorModel();
+            
             using (var con = new SqlConnection(_connectionString))
             {
-                objColorModel._ColorModelList = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
-                    commandType: CommandType.Text).ToList();              
-              
-            }
-            objColorModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objColorModel);
+                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
+                    commandType: CommandType.Text).ToList();
+                return View(result);
+            }        
+           
         }
         #endregion
         #region RemoteValidation
@@ -783,12 +791,18 @@ namespace TogoFogo.Controllers
             {
                 var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id,Problem_Id=m.Problem,m.Market_Price,m.estimated_Price,m.Min_Price,m.Max_Price,action="Add", m.UserId },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
                 if (result == 1)
                 {
-                    TempData["Message"] = "Successfully Added";
+                    response.IsSuccess = true;
+                    response.Response = "Successfully Added";
+                    TempData["response"] = Response;                  
                 }
-                else {
-                    TempData["Message"] = "Model And his Corresponding Problem is Already Registered";
+                else
+                {
+                    response.IsSuccess = true;
+                    response.Response = "Model And his Corresponding Problem is Already Registered";
+                    TempData["response"] = Response;                    
                 }
                 return RedirectToAction("Probs_price_Matrix");
             }
@@ -825,31 +839,33 @@ namespace TogoFogo.Controllers
             {
                 var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id, Problem_Id = m.Problem, m.Market_Price, m.estimated_Price, m.Min_Price, m.Max_Price, action = "edit", m.UserId },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
                 if (result == 2)
                 {
-                    TempData["Message"] = "Successfully Updated";
+                    response.IsSuccess = true;
+                    response.Response = "Successfully Updated";
+                    TempData["response"] = Response;                   
                 }
                 else
                 {
-                    TempData["Message"] = "Nothing Updated";
+                    response.IsSuccess = true;
+                    response.Response = "Not Updated Successfully";
+                    TempData["response"] = Response;                    
                 }
                 return RedirectToAction("Probs_price_Matrix");
             }
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Problem Price matrix")]
         public ActionResult WebsiteDataTable()
-         {
-            Prob_Vs_price_matrix objProb_Vs_price_matrix = new Prob_Vs_price_matrix();
+         {           
             using (var con = new SqlConnection(_connectionString))
             {
-                objProb_Vs_price_matrix._Prob_Vs_price_matrixList = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", null,
+               var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", null,
                    commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
 
-                
-            }
-
-            objProb_Vs_price_matrix._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objProb_Vs_price_matrix);
+            }          
+           
         }
 
         #endregion

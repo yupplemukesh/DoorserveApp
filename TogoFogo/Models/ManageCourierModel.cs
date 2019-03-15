@@ -19,6 +19,8 @@ namespace TogoFogo.Models
         public SelectList AWBNumberUsedList { get; set; }
         public SelectList AgreementSignupList { get; set; }
         public SelectList LegalDocumentVerificationList { get; set; }
+
+
         public int SerialNo { get; set; }
         [Required]
         public string Country { get; set; }
@@ -28,30 +30,31 @@ namespace TogoFogo.Models
         public string CityDropdown { get; set; }
         
         public string PinCodeDropdown { get; set; }
-        [Required]
+
         [DisplayName("Courier Logo")]
-        public HttpPostedFileBase UploadedCourierFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase UploadedCourierFilePath { get; set; }
+        public string UploadedCourierFileUrl { get; set; }
         [DisplayName("Gst Number")]
-        public HttpPostedFileBase UploadedGSTFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase UploadedGSTFilePath { get; set; }
+        public string UploadedGSTFileUrl { get; set; }
         [DisplayName("Pan Card Number")]
-        public HttpPostedFileBase UserPANCardFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase UserPANCardFilePath { get; set; }
+        public string UserPANCardFileUrl { get; set; }
         [DisplayName("ID Card Number")]
-        public HttpPostedFileBase VoterIDFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase VoterIDFilePath { get; set; }
+        public string VoterIDFileUrl { get; set; }
         [DisplayName("Aadhaar Card Number")]
-        public HttpPostedFileBase AadhaarCardFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase AadhaarCardFilePath { get; set; }
+        public string AadhaarCardFileUrl { get; set; }
         [DisplayName("Agreement Scan Copy")]
-        public HttpPostedFileBase AgreementScanFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase AgreementScanFilePath { get; set; }
+        public string AgreementScanFileUrl { get; set; }
         [DisplayName("Cancelled Cheque")]
-        public HttpPostedFileBase CancelledChequeFile1 { get; set; }
-        [Required]
+        public HttpPostedFileBase CancelledChequeFilePath { get; set; }
+        public string CancelledChequeFileUrl { get; set; }
         [DisplayName("Pan Card Number")]
-        public HttpPostedFileBase PANCardFile1 { get; set; }
+        public HttpPostedFileBase PANCardFilePath { get; set; }
+        public string PANCardFileUrl { get; set; }
         [Required]
         [DisplayName("Country")]
         public string SC_CountryDropdown { get; set; }
@@ -75,7 +78,7 @@ namespace TogoFogo.Models
         public int CourierId { get; set; }
         
         [DisplayName("Courier Logo")]
-        public string UploadedCourierFile { get; set; }
+        public string UploadedCourierFile { get; set; }       
         [Required]
         public string CourierName { get; set; }
         [Required]
@@ -190,6 +193,7 @@ namespace TogoFogo.Models
         public string AadhaarCardNo { get; set; }
         
         public string AadhaarCardFile { get; set; }
+        
         [DisplayName("Item Type")]
         public Boolean ItemType { get; set; }
         [DisplayName("Country")]
@@ -227,7 +231,7 @@ namespace TogoFogo.Models
         public DateTime AgreementEndDate { get; set; }
         [DisplayName("Agreement Number")]
         public string AgreementNumber { get; set; }
-        public string AgreementScanFile { get; set; }
+        public string AgreementScanFile { get; set; }       
         [Required]
         [DisplayName("Bank Name")]
         public string BankName { get; set; }
@@ -243,7 +247,7 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Bank Branch")]
         public string BankBranch { get; set; }
-        public string CancelledChequeFile { get; set; }
+        public string CancelledChequeFile { get; set; }        
         [DisplayName("Payment Cycle")]
         public string PaymentCycle { get; set; }
         [DisplayName("Registration Status at Togofogo")]
@@ -262,9 +266,7 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public int DeleteBy { get; set; }
         public string DeleteDate { get; set; }        
-        public string DaysRemaining { get; set; }
-        public List<ManageCourierModel> _ManageCourierModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        public string DaysRemaining { get; set; }       
 
         
     }

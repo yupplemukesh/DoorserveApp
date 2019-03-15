@@ -30,9 +30,7 @@ namespace TogoFogo.Models
         [DisplayName("Modify By")]
         public string MBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ModifyDate { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-        public List<ColorModel> _ColorModelList { get; set; }
+        public string ModifyDate { get; set; }       
 
     }
 }

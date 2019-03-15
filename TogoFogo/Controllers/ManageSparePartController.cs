@@ -76,10 +76,7 @@ namespace TogoFogo.Controllers
         public ActionResult AddSpareType(ManageSpareType model)
         {
             try
-            {
-                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-
+            {              
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_SpareType",
@@ -93,16 +90,20 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "add"
-
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 1)
                     {
-
-                        TempData["AddSparePart"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;                       
                     }
                     else
                     {
-                        TempData["AddSparePart"] = "Spare type Name Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Spare type Name Already Exist";
+                        TempData["response"] = Response;
+                       
                     }
                 }
 
@@ -110,7 +111,7 @@ namespace TogoFogo.Controllers
             catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
 
             return RedirectToAction("SpareIndex");
@@ -118,15 +119,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Type")]
         public ActionResult SpareTypeTable()
         {
-            ManageSpareType objManageSpareType = new ManageSpareType();
+          
             using (var con = new SqlConnection(_connectionString))
             {
-                objManageSpareType._ManageSpareTypeList = con.Query<ManageSpareType>("GetSpareTypeDetail", new { }, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<ManageSpareType>("GetSpareTypeDetail", new { }, commandType: CommandType.StoredProcedure).ToList();
 
-               // return View(result);
-            }
-            objManageSpareType._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-           return View(objManageSpareType);
+               return View(result);
+            }          
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Type")]
         public ActionResult EditSpareType(int SpareTypeId)
@@ -162,8 +161,7 @@ namespace TogoFogo.Controllers
         public ActionResult EditSpareType(ManageSpareType model)
         {
             try
-            {
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            {               
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("Add_Edit_Delete_SpareType",
@@ -177,12 +175,13 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "edit"
-
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-
-                        TempData["EditSparePart"] = "Updated Successfully";
+                        response.IsSuccess = true;
+                        response.Response = "Updated Successfully";
+                        TempData["response"] = Response;                       
                     }
                 }
 
@@ -190,7 +189,7 @@ namespace TogoFogo.Controllers
             catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
 
             return RedirectToAction("SpareIndex");
@@ -240,9 +239,7 @@ namespace TogoFogo.Controllers
         public ActionResult AddSparePartName(ManageSparePart model)
         {
             try
-            {
-                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            {                
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -271,14 +268,19 @@ namespace TogoFogo.Controllers
                             model.TUPC
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 1)
                     {
-
-                        TempData["AddSpareName"] = "Successfully Added";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Added";
+                        TempData["response"] = Response;
+                       
                     }
                     else
                     {
-                        TempData["AddSpareName"] = "Spare Part Name Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Spare Part Name Already Exist";
+                        TempData["response"] = Response;                      
                     }
                 }
 
@@ -286,25 +288,22 @@ namespace TogoFogo.Controllers
             catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
 
             return RedirectToAction("ManageSparePartName");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Part Name")]
         public ActionResult AddSparePartNametable()
-        {
-            ManageSparePart objManageSparePart = new ManageSparePart();
-            
+        {         
+           
             using (var con = new SqlConnection(_connectionString))
             {
-                objManageSparePart._ManageSparePartList = con.Query<ManageSparePart>("GetSparePartDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+             var result= con.Query<ManageSparePart>("GetSparePartDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
 
-                
-            }
-            objManageSparePart._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-           
-            return View(objManageSparePart);
+                return View(result);
+            }          
+                     
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Part Name")]
         public ActionResult EditSpareName(int? SpareTypeId)
@@ -345,8 +344,7 @@ namespace TogoFogo.Controllers
         public ActionResult EditSpareName(ManageSparePart model)
         {
             try
-            {
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            {               
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -375,14 +373,18 @@ namespace TogoFogo.Controllers
                             model.TUPC
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    var response = new ResponseModel();
                     if (result == 2)
                     {
-
-                        TempData["EditSpareName"] = "Successfully Updated";
+                        response.IsSuccess = true;
+                        response.Response = "Successfully Updated";
+                        TempData["response"] = Response;                       
                     }
                     else
                     {
-                        TempData["EditSpareName"] = "Spare Part Name Already Exist";
+                        response.IsSuccess = true;
+                        response.Response = "Spare Part Name Already Exist";
+                        TempData["response"] = Response;                       
                     }
                 }
 
@@ -390,7 +392,7 @@ namespace TogoFogo.Controllers
             catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
             return RedirectToAction("ManageSparePartName");
         }

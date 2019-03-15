@@ -1,5 +1,6 @@
-﻿@model TogoFogo.Models.ColorModel
-@{ 
+﻿@model IEnumerable<TogoFogo.Models.ColorModel>
+@using TogoFogo.Models
+@{
     Layout = null;
     int Count = 0;
 }
@@ -9,7 +10,7 @@
             <div class="col-lg-12">
                 <div class="col-md-6">
                     <h3 class="m-y-0">List Of Color</h3>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -48,7 +49,7 @@
         </thead>
 
 
-        @foreach (var item in Model._ColorModelList)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -79,17 +80,17 @@
                 </td>
                 <td style="display: inline-flex">
                     @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-                    @if (Model._UserActionRights.Edit)
+                    @if (Permissions.Rights.Edit)
                     {
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditColor(@item.ColorId)">Edit</a>
                     }
                     @*@if (Model._UserActionRights.Delete)
-        {
-            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-        }*@
+                        {
+                            <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
+                        }*@
                 </td>
-                </tr>
-            }
+            </tr>
+        }
 
-        </table>
-        </div>
+    </table>
+</div>

@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.UserActionRights
+﻿@using TogoFogo.Models
 @{
     ViewBag.Title = "ManageProblemObserved";
 
@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="panel-body">
-    @if (Model.Create)
+    @if (Permissions.Rights.Create)
     {
 
         @Html.Action("AddProblemObserved", "ProblemObserved")
@@ -41,7 +41,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content" style="overflow-x: scroll;">
-                    @if (Model.View)
+                    @if (Permissions.Rights.View)
                     {
 
                         @Html.Action("ProblemObservedtable", "ProblemObserved")
@@ -133,6 +133,3 @@
     </script>
 }
 
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

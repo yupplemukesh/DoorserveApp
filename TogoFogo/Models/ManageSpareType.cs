@@ -49,9 +49,7 @@ namespace TogoFogo.Models
         [DisplayName("Category Name")]
         public string CatName { get; set; }
         [DisplayName("Sub Category")]
-        public string SubCatName { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-        public List<ManageSpareType> _ManageSpareTypeList { get; set; }
+        public string SubCatName { get; set; }        
         public SelectList CategoryList { get; set; }
         public SelectList SubCategoryList { get; set; }
     }

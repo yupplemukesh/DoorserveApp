@@ -90,9 +90,7 @@ namespace TogoFogo.Models
         public string ModifyDate {get;set;}
         public string DeleteBy {get;set;}
         public string DeleteDate { get; set; }
-        public HttpPostedFileBase PartImage1 { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-        public List<ManageSparePart> _ManageSparePartList { get; set; }
+        public HttpPostedFileBase PartImage1 { get; set; }       
         public SelectList CTHNoList { get; set; }
         public SelectList CategoryList { get; set; }
         public SelectList BrandList { get; set; }
