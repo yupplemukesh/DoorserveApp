@@ -2,187 +2,187 @@
 @model TogoFogo.Models.EditRepairStatus
 
 @{
-	ViewBag.Title = "EditRequest";
+    ViewBag.Title = "EditRequest";
 }
 
 <div class="col-md-11">
     @if (Model.View)
     {
-	<a href="@Url.Action("PCRC", "CustomerSupport")" style="font-size:14px;float:right"><< Back</a>
+        <a href="@Url.Action("PCRC", "CustomerSupport")" style="font-size:14px;float:right"><< Back</a>
     }
 </div>
 <div class="row">
-	<div class="col-md-12 col-sm-12 col-xs-12">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2><small></small></h2>
-				<ul class="nav navbar-right panel_toolbox">
-					<li>
-						<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-					</li>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
 
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<div class="x_content">
-				@using (Html.BeginForm("EditRequest", "CustomerSupport", FormMethod.Post))
-				{
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm("EditRequest", "CustomerSupport", FormMethod.Post))
+                {
 
-					<div class="row">
-						<div class="col-md-6">
-							<p style="font-size: 17px;"><u>Repair Information:</u></p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-size: 17px;"><u>Repair Information:</u></p>
 
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.CcNo, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.CcNo, htmlAttributes: new { @class = "form-control",@readonly="readonly" })
-									@Html.ValidationMessageFor(model => model.CcNo, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.Label("Call request date", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.EntryDate, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-									@Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.Label("Call Status", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.StatusName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-									@Html.ValidationMessageFor(model => model.StatusName, "", new { @class = "text-danger" })
-								</div>
-							</div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.CcNo, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.CcNo, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.CcNo, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.Label("Call request date", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.EntryDate, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.EntryDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.Label("Call Status", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.StatusName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.StatusName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
 
-							<p style="font-size: 17px;"><u>Device Information:</u></p>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.DeviceType, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.DeviceType, new { @class = "form-control", @readonly = "readonly" })
-									@Html.ValidationMessageFor(model => model.DeviceType, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Brand, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-									@Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Model, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-									@Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.CustomerId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.CustomerId, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-									@Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
-								</div>
-							</div>
-						
+                            <p style="font-size: 17px;"><u>Device Information:</u></p>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.DeviceType, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.DeviceType, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.DeviceType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Brand, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Model, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.CustomerId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.CustomerId, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-						</div>
-						<div class="col-md-6">
-							<p style="font-size: 17px;">Customer Information :</p>
 
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Customer_Name, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Customer_Name, htmlAttributes: new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.Customer_Name, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Mobile_No, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Mobile_No, htmlAttributes: new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.Mobile_No, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Email_Id, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Email_Id, htmlAttributes: new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.Email_Id, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Cust_Add, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Cust_Add, htmlAttributes: new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.Cust_Add, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Cust_City, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Cust_City, htmlAttributes: new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.Cust_City, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.Cust_State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.Cust_State, htmlAttributes: new { @class = "form-control"})
-									@Html.ValidationMessageFor(model => model.Cust_State, "", new { @class = "text-danger" })
-								</div>
-							</div>
+                        </div>
+                        <div class="col-md-6">
+                            <p style="font-size: 17px;">Customer Information :</p>
 
-							@*<div class="row" style="padding-bottom: 5px">
-								@Html.LabelFor(model => model.AltNo, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.AltNo, new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.AltNo, "", new { @class = "text-danger" })
-								</div>
-							</div>*@
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<p style="font-size: 17px;"><u>Customer Support Action:</u></p>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Customer_Name, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Customer_Name, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Customer_Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Mobile_No, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Mobile_No, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Mobile_No, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Email_Id, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Email_Id, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Email_Id, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Cust_Add, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Cust_Add, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Cust_Add, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Cust_City, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Cust_City, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Cust_City, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.LabelFor(model => model.Cust_State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.Cust_State, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Cust_State, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-							<div class="row" style="padding-bottom: 5px">
-								@Html.Label("Call Status", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.DropDownListFor(model => model.CallStatus, Model.CallStatusList,"Select", new { @class = "form-control" })
-									
-									@Html.ValidationMessageFor(model => model.CallStatus, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px; display:none" id="CallBackDatetime">
-								@Html.Label("Callback Date and Time", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextBoxFor(model => model.CallBackDatetime, htmlAttributes: new { @class = "form-control", id = "form_datetime",@autocomplete="off" })
-									@Html.ValidationMessageFor(model => model.CallBackDatetime, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px">
-								@Html.Label("E-Mail/SMS Message To Customer", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextAreaFor(model => model.MsgToCust, htmlAttributes: new { @class = "form-control",@readonly="readonly" })
-									@Html.ValidationMessageFor(model => model.MsgToCust, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row" style="padding-bottom: 5px" id="revisit">
-								@Html.Label("Remarks", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-								<div class="col-md-6 col-sm-6 col-xs-12">
-									@Html.TextAreaFor(model => model.Remarks, htmlAttributes: new { @class = "form-control" })
-									@Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="ln_solid"></div>
-							<div class="form-group">
-								<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-									<button class="btn btn-primary" type="reset">Reset</button>
-									<button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
-								</div>
-							</div>
-						</div>
+                            @*<div class="row" style="padding-bottom: 5px">
+                                    @Html.LabelFor(model => model.AltNo, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.TextBoxFor(model => model.AltNo, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.AltNo, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <p style="font-size: 17px;"><u>Customer Support Action:</u></p>
+
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.Label("Call Status", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => model.CallStatus, Model.CallStatusList, new { @class = "form-control" })
+
+                                    @Html.ValidationMessageFor(model => model.CallStatus, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px; display:none" id="CallBackDatetime">
+                                @Html.Label("Callback Date and Time", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(model => model.CallBackDatetime, htmlAttributes: new { @class = "form-control", id = "form_datetime", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(model => model.CallBackDatetime, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px">
+                                @Html.Label("E-Mail/SMS Message To Customer", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextAreaFor(model => model.MsgToCust, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.MsgToCust, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row" style="padding-bottom: 5px" id="revisit">
+                                @Html.Label("Remarks", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextAreaFor(model => model.Remarks, htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="row" style="padding-bottom: 5px">
                                 @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
@@ -204,35 +204,35 @@
 
                                     @foreach (var item in Model.Pro)
                                     {
-                                    <tr>
+                                        <tr>
 
-                                        <td hidden>@Html.DisplayFor(modelItem => item.ProblemId)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.ProblemName)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Estimated_Price)</td>
-                                        <td><input class="btn btn-danger me" type="button" value="Remove" /></td>
-                                    </tr>
+                                            <td hidden>@Html.DisplayFor(modelItem => item.ProblemId)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.ProblemName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Estimated_Price)</td>
+                                            <td><input class="btn btn-danger me" type="button" value="Remove" /></td>
+                                        </tr>
                                     }
 
                                 </tbody>
                             </table>
 
                         </div>
-					</div>
-				}
-			</div>
-		</div>
-	</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-	<script>
-		$('#CallStatus').on('change', function () {
-			if (this.value == '10') {
-				$("#CallBackDatetime").show();
-			}
-			else {
-				$("#CallBackDatetime").hide();
-			}
+    <script>
+        $('#CallStatus').on('change', function () {
+            if (this.value == '10') {
+                $("#CallBackDatetime").show();
+            }
+            else {
+                $("#CallBackDatetime").hide();
+            }
         });
         $("#test1").on('click', '.btnDelete', function () {
             var orderId = $('#CcNo').val();
@@ -268,15 +268,15 @@
 
                 type: 'GET',
                 url: "/CustomerSupport/RemoveProblemButton?ProblemId=" + cell1 + '&EstimatedPrice=' + cell2 + '&OrderId=' + orderId,
-                        contentType: 'application/json; charset=utf-8',
-                        data: "{}",
-                        dataType: 'json',
-                        cache: false,
+                contentType: 'application/json; charset=utf-8',
+                data: "{}",
+                dataType: 'json',
+                cache: false,
                 success: function (response) {
                     currentRow.remove();
                 }
             });
-           
+
         });
         function AddProblem() {
             debugger;
@@ -295,17 +295,17 @@
                 success: function (response) {
                     var Quan = 1;
                     var trHTML = '';
-                   
+
                     trHTML +=
 
                         //'<tr style="padding-top:5px"><td>' + document.getElementById('CcNo').value + '</td><td></td><td>' + response.SpareTypeName + '</td><td id="PartName">' + response.PartName + '</td><td id="Price">' + response.MarketPrice +
                         //	'</td id="Quantity"><td>' + document.getElementById('Quantity').value + '</td><td>' + "<input class=btnDelete type=button value=Remove style=background-color:red;color:white>" + '</td></tr>';
-                        '<tr style="padding-top:5px"><td hidden>' + response.ProblemId + '</td><td>' + dropdownText + '</td><td>' + response.Estimated_Price + '</td><td>' + "<input class=btnDelete type=button value=Remove style=background-color:red;color:white>"+'</td></tr>';
+                        '<tr style="padding-top:5px"><td hidden>' + response.ProblemId + '</td><td>' + dropdownText + '</td><td>' + response.Estimated_Price + '</td><td>' + "<input class=btnDelete type=button value=Remove style=background-color:red;color:white>" + '</td></tr>';
                     $('#test1').append(trHTML);
                 }
             });
         }
-	</script>
+    </script>
 
 }
 

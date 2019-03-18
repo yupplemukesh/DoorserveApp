@@ -1,7 +1,9 @@
-﻿
-@model TogoFogo.Models.RPCAPModel
+﻿@*@model TogoFogo.Models.RPCAPModel*@
+@model TogoFogo.Models.ReceiveMaterials
 @{
-    Layout = null;
+                /**/
+
+                Layout = null;
 
 }
 
@@ -351,7 +353,7 @@
                 @Html.LabelFor(model => model.ReceivedDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.DropDownListFor(model => model.ReceivedDevice, null, new { @class = "form-control", @readonly = "readonly", disabled = "true" })
+                    @Html.DropDownListFor(model => model.ReceivedDevice, Model.ReceivedDeviceList,"Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
                     @Html.ValidationMessageFor(model => model.ReceivedDevice, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -359,14 +361,14 @@
                 @Html.LabelFor(model => model.RecvdBrand, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.DropDownListFor(model => model.RecvdBrand, null, new { @class = "form-control", disabled = "true", @readonly = "readonly" })
+                    @Html.DropDownListFor(model => model.RecvdBrand, Model.RecvdBrandlList,"Select", new { @class = "form-control", disabled = "true", @readonly = "readonly" })
                     @Html.ValidationMessageFor(model => model.RecvdBrand, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.RecvdModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.RecvdModel, null, new { @class = "form-control", @readonly = "readonly", disabled = "true" })
+                    @Html.DropDownListFor(model => model.RecvdModel, Model.RecvdModelList,"Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
                     @Html.ValidationMessageFor(model => model.RecvdModel, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -529,7 +531,7 @@
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.Engg_Name, new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Engg_Name, null, new { @class = "form-control", id = "Pfels_Engg_Name", @readonly = "readonly", @disabled = "disabled" })
+                    @Html.DropDownListFor(model => model.Engg_Name, Model.Engg_NameList,"Select", new { @class = "form-control", id = "Pfels_Engg_Name", @readonly = "readonly", @disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.Engg_Name, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -649,66 +651,66 @@
     </div>
     <br /><br />
     @*<div class="row">
-        <p style="font-size: 17px;"></p>
-        <div class="col-md-6">
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.SpareType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
+            <p style="font-size: 17px;"></p>
+            <div class="col-md-6">
+                <div class="row" style="padding-bottom: 5px">
+                    @Html.LabelFor(model => model.SpareType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.DropDownListFor(model => model.SpareType, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'SpareName', this)" })
+                        @Html.DropDownListFor(model => model.SpareType, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'SpareName', this)" })
 
-                    @Html.ValidationMessageFor(model => model.SpareType, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.SpareType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px">
+                    @Html.LabelFor(model => model.SpareName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        @Html.DropDownListFor(model => model.SpareName, null, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.SpareName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px">
+                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "col-md-3 col-md-offset-1  col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.SpareName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.DropDownListFor(model => model.SpareName, null, new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.SpareName, "", new { @class = "text-danger" })
-                </div>
+            <div class="col-md-2" style="margin-top: 10px;">
+                <input type="button" class="btn btn-primary" value="Add" onclick="getSpareData()" />
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "col-md-3 col-md-offset-1  col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2" style="margin-top: 10px;">
-            <input type="button" class="btn btn-primary" value="Add" onclick="getSpareData()" />
-        </div>
-    </div>*@
+        </div>*@
     @*<div class="row">
-        <table class="table table-bordered table-condensed" style="width: 100%" id="test1">
-            <thead>
-                <tr>
-                    <th>Call Request Number</th>
-                    <th>Job Number</th>
-                    <th>Spare Type</th>
-                    <th>Spare Code</th>
-                    <th>Spare Part Photo</th>
-                    <th>Spare Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <table class="table table-bordered table-condensed" style="width: 100%" id="test1">
+                <thead>
+                    <tr>
+                        <th>Call Request Number</th>
+                        <th>Job Number</th>
+                        <th>Spare Type</th>
+                        <th>Spare Code</th>
+                        <th>Spare Part Photo</th>
+                        <th>Spare Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
 
 
-            <tbody></tbody>
-        </table>
-        <br />
-        <div>
-            <input type="button" class="btn btn-info pull-right" value="Calculate For Table Data" onclick="calculateSpareCost()" />
-        </div>
-    </div>*@
+                <tbody></tbody>
+            </table>
+            <br />
+            <div>
+                <input type="button" class="btn btn-info pull-right" value="Calculate For Table Data" onclick="calculateSpareCost()" />
+            </div>
+        </div>*@
     <br />
     <div class="row">
         <div class="col-md-6">

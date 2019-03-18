@@ -12,9 +12,9 @@
         </div>
     </div>*@
 @*<div class="pull-right">
-    <input class="btn btn-primary excel" value="Export"  />
-    
-</div>*@
+        <input class="btn btn-primary excel" value="Export"  />
+
+    </div>*@
 <table class="table table-striped table-bordered table-condensed text-nowrap" id="myTable">
     <thead>
         <tr>
@@ -29,17 +29,17 @@
             </th>
 
             @*<th>
-            @Html.DisplayName("Warranty Status")
-        </th>
-        <th>
-            @Html.DisplayName("Warranty Expiry Date")
-        </th>
-        <th>
-            @Html.DisplayName("Repair Count")
-        </th>
-        <th>
-            @Html.DisplayName("Call Status")
-        </th>*@
+                    @Html.DisplayName("Warranty Status")
+                </th>
+                <th>
+                    @Html.DisplayName("Warranty Expiry Date")
+                </th>
+                <th>
+                    @Html.DisplayName("Repair Count")
+                </th>
+                <th>
+                    @Html.DisplayName("Call Status")
+                </th>*@
             <th>
                 @Html.DisplayName("Process Name")
             </th>
@@ -50,8 +50,8 @@
                 @Html.DisplayName("Current Status")
             </th>
             @*<th>
-        @Html.DisplayName("Call Back Date And Time")
-        </th>*@
+                @Html.DisplayName("Call Back Date And Time")
+                </th>*@
             <th>
                 @Html.DisplayName("Customer Name")
             </th>
@@ -59,8 +59,8 @@
                 @Html.DisplayName("Mobile Number")
             </th>
             @*<th>
-            @Html.DisplayName("Alternative Contact Number")
-        </th>*@
+                    @Html.DisplayName("Alternative Contact Number")
+                </th>*@
             <th>
                 @Html.DisplayName("Email Address")
             </th>
@@ -77,8 +77,8 @@
                 @Html.DisplayName("State/UT")
             </th>
             @*<th>
-            @Html.DisplayName("Device")
-        </th>*@
+                    @Html.DisplayName("Device")
+                </th>*@
             <th>
                 @Html.DisplayName("Brand")
             </th>
@@ -109,101 +109,101 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @*<a href="@Url.Action("OnclickCC_NO", "RepairStatus", new { CcNO = item.CC_NO })" id="getdata(@item.CC_NO)" data-toggle="modal">
-                <span style="color:cornflowerblue !important" class="glyphicon glyphicon-earphone text-danger">@Html.DisplayFor(modelItem => item.CC_NO)</span>
-            </a>*@
+        <tr>
+            <td>
+                @*<a href="@Url.Action("OnclickCC_NO", "RepairStatus", new { CcNO = item.CC_NO })" id="getdata(@item.CC_NO)" data-toggle="modal">
+                        <span style="color:cornflowerblue !important" class="glyphicon glyphicon-earphone text-danger">@Html.DisplayFor(modelItem => item.CC_NO)</span>
+                    </a>*@
 
-            <input type="button" value="@item.CC_NO" id="link" />
+                <input type="button" value="@item.CC_NO" id="link" />
 
-        </td>
-        <td hidden>
-            @Html.DisplayFor(modelItem => item.CC_NO)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CallRequestDate)
-        </td>
+            </td>
+            <td hidden>
+                @Html.DisplayFor(modelItem => item.CC_NO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CallRequestDate)
+            </td>
 
-        @*<td>
-            @Html.Display("")
-        </td>
-        <td>
-            @Html.Display("")
-        </td>
-        <td>
-            @Html.Display("")
-        </td>
-        <td>
-            @Html.Display("")
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Process_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CallStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Current_Status)
-        </td>
+            @*<td>
+                    @Html.Display("")
+                </td>
+                <td>
+                    @Html.Display("")
+                </td>
+                <td>
+                    @Html.Display("")
+                </td>
+                <td>
+                    @Html.Display("")
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Process_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CallStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Current_Status)
+            </td>
 
-        @*<td>
-            @Html.DisplayFor(modelItem => item.CallBackDatetime)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer_Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Mobile_No)
-        </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.CallBackDatetime)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile_No)
+            </td>
 
-        @*<td>
-            @Html.Display("")
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Email_Id)
-        </td>
+            @*<td>
+                    @Html.Display("")
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Email_Id)
+            </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Cust_Add)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pincode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cust_City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cust_State)
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.CatName)
-        </td>*@
-        <td>
-            @Html.DisplayFor(modelItem => item.Brand)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Model)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModelColor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pickup_Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.WarrantyStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Problem)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IP_Address)
-        </td>
-    </tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust_Add)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pincode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust_City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust_State)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.CatName)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pickup_Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarrantyStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Problem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IP_Address)
+            </td>
+        </tr>
     }
 
 </table>
@@ -219,6 +219,20 @@
         cursor: pointer;
     }
 </style>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    $('input:button').click(function () {
+        //alert($(this).val());
+        var ccNo = $(this).val()
+        CCno(ccNo);
+        $('#hiddenPart').show();
+    });
+</script>
+
 
 
 

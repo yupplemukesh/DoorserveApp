@@ -3,6 +3,8 @@
 @using TogoFogo.Models
 @{
     ViewBag.Title = "Index";
+    
+
 }
 
 @*<div class="row">
@@ -83,7 +85,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#myTable1').DataTable({
+            $('#myTable2').DataTable({
                 "order": [[4, "desc"]]
             });
         });
@@ -94,6 +96,12 @@
             location.href = url; // redirect
             return false; // cancel default redirect
         });
+        //$('#myTable1 input:button').click(function () {
+        //    //alert($(this).val());
+        //    var ccNo = $(this).val()
+        //    CCno(ccNo);
+        //    $('#hiddenPart').show();
+        //});
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
             debugger;

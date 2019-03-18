@@ -62,6 +62,7 @@ namespace TogoFogo.Models
         public string CallRequestRejectReason { get; set; }
 
 
+
         public List<CourierValuesModel> NewGetTableData { get; set; }
         public string AWBNumber { get; set; }
         public string ModelColor { get; set; }

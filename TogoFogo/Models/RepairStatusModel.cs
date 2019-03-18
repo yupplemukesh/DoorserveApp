@@ -170,8 +170,8 @@ namespace TogoFogo.Models
 
         public SelectList CallStatusList {get; set;}
         public SelectList ProblemList {get; set;}
-        public List<EditRepairStatus> _EditRepairStatusList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        //public List<EditRepairStatus> _EditRepairStatusList { get; set; }
+        //public UserActionRights _UserActionRights { get; set; }
     }
 
     public class CourierValuesModel

@@ -26,7 +26,7 @@
 			<div class="row" style="padding-bottom: 5px">
 				@Html.LabelFor(model => model.ServiceProviderName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.DropDownListFor(model => model.ServiceProviderName,null, htmlAttributes: new { @class = "form-control btn-warning" })
+					@Html.DropDownListFor(model => model.ServiceProviderName,Model.ServiceProviderNameList, htmlAttributes: new { @class = "form-control btn-warning" })
 					@Html.ValidationMessageFor(model => model.ServiceProviderName, "", new { @class = "text-danger" })
 				</div>
 			</div>
@@ -202,7 +202,7 @@
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12" style="    display: inline-flex;">
-                    @Html.DropDownListFor(model => model.Problem, null, "Select", htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Problem, Model.ProblemList, "Select", htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
                     <input type="button" value="Add" onclick="AddProblem()" class="btn btn-info" />
                 </div>
@@ -430,7 +430,7 @@
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.CallStatus, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CallStatus, null, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CallStatus, Model.CallStatusList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CallStatus, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -493,7 +493,7 @@
                 <div class="row" style="padding-bottom: 5px">
                     @Html.LabelFor(model => model.SelectTrc, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.DropDownListFor(model => model.SelectTrc, null, new { @class = "form-control btn-warning" })
+                        @Html.DropDownListFor(model => model.SelectTrc, Model.SelectTrcList, new { @class = "form-control btn-warning" })
 
                         @Html.ValidationMessageFor(model => model.SelectTrc, "", new { @class = "text-danger" })
                     </div>
@@ -510,7 +510,7 @@
                     @Html.LabelFor(model => model.CourierName, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
 
-                        @Html.DropDownListFor(model => model.CourierName, null, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CourierName, Model.CourierNameList, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 ﻿
-@model TogoFogo.Models.EditRepairStatus
+@model IEnumerable<TogoFogo.Models.EditRepairStatus>
 @{
 
     ViewBag.Title = "PCRC";
@@ -31,10 +31,9 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model.ExcelExport)
-                    {
+                    
                         <button class="btn btn-primary excel">Export to Excel</button>
-                    }
+                    
                     </div>
             </div>
         </div>
@@ -69,7 +68,7 @@
 
                 </tr>
             </thead>
-            @foreach (var item in Model._EditRepairStatusList)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td></td>

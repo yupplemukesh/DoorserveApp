@@ -254,7 +254,7 @@ namespace TogoFogo.Controllers
                 //var result = con.Query<AllData>("GetTableDataForRM",
                 //   new { }, commandType: CommandType.StoredProcedure).ToList();
                 //return View(result);
-               var result = con.Query<ReceiveMaterials>("GetTableDataForRM",
+               var result = con.Query<AllData>("GetTableDataForRM",
                    new { }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
