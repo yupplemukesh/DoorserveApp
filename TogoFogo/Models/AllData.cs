@@ -123,7 +123,7 @@ namespace TogoFogo.Models
         [DisplayName("Estimated Cost")]
         public virtual string BillEstimatedCost { get; set; }
         [DisplayName("Estimated Cost Approved")]
-        public virtual string IsEstimatedCostApproved { get; set; }
+        public virtual bool IsEstimatedCostApproved { get; set; }
         [DisplayName("Repair Status")]
         public virtual string RepairStatus1 { get; set; }
         [DisplayName("Collectable Amount")]
@@ -149,7 +149,7 @@ namespace TogoFogo.Models
         [DisplayName("Courier Name")]
         public virtual  string CourierName { get; set; }
         [DisplayName("Physically Damaged?")]
-        public virtual string PhysicalDamage { get; set; }
+        public virtual bool PhysicalDamage { get; set; }
 
         [DisplayName("Problem Observed")]
         public virtual string PrblmObsrvd { get; set; }
@@ -181,7 +181,7 @@ namespace TogoFogo.Models
         [DisplayName("Re-Visit Date and Time")]
         public virtual string RevisitDatetime { get; set; }
         public virtual string CreatedBy { get; set; }
-        public virtual string CourierActive { get; set; }
+        public virtual bool CourierActive { get; set; }
         [DisplayName("Bike Make")]
         public virtual string BikeMake { get; set; }
         [DisplayName("Message To Customer")]
@@ -193,7 +193,7 @@ namespace TogoFogo.Models
         public virtual string EngineerVisitDate { get; set; }
         public virtual string UploadedCourierFile { get; set; }
         public virtual string MobileNumber { get; set; }
-        public virtual string DeviceWarranty { get; set; }
+        public virtual bool DeviceWarranty { get; set; }
 
 
 
@@ -207,7 +207,7 @@ namespace TogoFogo.Models
         public string TrcPinCode { get; set; }
         public string TrcLocality { get; set; }
         public string TrcNear_By_Location { get; set; }
-        public virtual string WarrantyStatus { get; set; }
+        public virtual bool WarrantyStatus { get; set; }
         public virtual string WarrantyExpiryDate { get; set; }
         public  string EstimatedCostApproved { get; set; }
         [DisplayName("TRC City/Location")]
@@ -215,15 +215,15 @@ namespace TogoFogo.Models
 
         // SubmitPart
         [DisplayName("Is Battery Removable?")]
-        public string BtryRemovable { get; set; }
+        public bool BtryRemovable { get; set; }
         [DisplayName("Is Battery Required?")]
-        public string BtryReq { get; set; }
+        public bool BtryReq { get; set; }
         [DisplayName("Is Battery Received?")]
-        public string BtryReceived { get; set; }
+        public bool BtryReceived { get; set; }
         [DisplayName("Battery Brand and Model")]
         public string BtryBrandAndModel { get; set; }
         [DisplayName("Is Different Device Received?")]
-        public string IsDiffDeviceRecvd { get; set; }
+        public bool IsDiffDeviceRecvd { get; set; }
         [DisplayName("Received Device TUPC")]
         public string DeviceTUPC { get; set; }
         [DisplayName("Received Device")]
@@ -239,17 +239,17 @@ namespace TogoFogo.Models
         [DisplayName("Received Device IMEI 2")]
         public string RecvdIMEI2 { get; set; }
         [DisplayName("Is Received Device Physically Damaged?")]
-        public string IsPhyDamage { get; set; }
+        public bool IsPhyDamage { get; set; }
         [DisplayName("Upload Photo of Damaged Device")]
         public string PhotoOfDevice { get; set; }
         [DisplayName("Receive Date")]
         public string ReceiveDate { get; set; }
         [DisplayName("Is Need Receive Approval?")]
-        public string ReceiveApprovalNeeded { get; set; }
+        public bool ReceiveApprovalNeeded { get; set; }
         [DisplayName("Receiver Remarks")]
         public string RecvRemarks { get; set; }
         [DisplayName("Is Approve for Receiving Device")]
-        public string IsApproveforReceivingDevice { get; set; }
+        public bool IsApproveforReceivingDevice { get; set; }
         [DisplayName("Approver Remarks")]
         public string ApproverRemarks { get; set; }
         [DisplayName("Issue to Engineer")]
@@ -269,14 +269,14 @@ namespace TogoFogo.Models
         [DisplayName("Call Status")]
         public virtual string CallStatus { get; set; }
         [DisplayName("Warranty Sticker Tempered")]
-        public string WarrantyStickerTempered { get; set; }
+        public bool WarrantyStickerTempered { get; set; }
         [DisplayName("Current Status")]
         public virtual string CurrentStatus { get; set; }
         public virtual string CallBackDatetime { get; set; }
         [DisplayName("Job Number")]
         public string JobNumber { get; set; }
         [DisplayName("Device Water Damaged")]
-        public string DeviceWaterDamaged { get; set; }
+        public bool DeviceWaterDamaged { get; set; }
         [DisplayName("Spare Type")]
         public virtual string SpareType { get; set; }
         [DisplayName("Spare Name")]
@@ -331,14 +331,14 @@ namespace TogoFogo.Models
         public string PfelsEngineerName { get; set; }
         public string PfelsProblemFound { get; set; }
         [DisplayName("Is OS/Software Reinstall Required? ")]
-        public string OS_Software_Reinstall { get; set; }
+        public bool OS_Software_Reinstall { get; set; }
         [DisplayName("Is Customer Data Backup Done?")]
-        public string Customer_Data_Backup { get; set; }
+        public bool Customer_Data_Backup { get; set; }
         [DisplayName("Current OS/Software Name and Version")]
         public string Current_OS_Software_Name { get; set; }
         [DisplayName("Installed OS/Software Name and Version")]
         public string Installed_OS { get; set; }
-        public string DeviceWarrantyVoid { get; set; }
+        public bool DeviceWarrantyVoid { get; set; }
 
         [DisplayName("Is Repair Cost Approved?")]
         public string Prcc_Is_Repair_Cost_Approved { get; set; }
@@ -413,7 +413,7 @@ namespace TogoFogo.Models
         [DisplayName("Send Company Bank Account Details")]
         public string Prcc_SendCompanyBankAccountDetails { get; set; }
         [DisplayName("Send Company Bank Account Details")]
-        public string Prcc_IsCustomerwantstopayAdvance { get; set; }
+        public bool Prcc_IsCustomerwantstopayAdvance { get; set; }
         [DisplayName("Customer Support Remarks")]
         public string Prcc_CustomerSupportRemarks { get; set; }
 

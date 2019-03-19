@@ -165,11 +165,11 @@ namespace TogoFogo.Controllers
                     {
                         TempData["Message"] = "Something Went Wrong";
                     }
-                    if (m.ReceiveApprovalNeeded == "Yes")
+                    if (m.ReceiveApprovalNeeded)
                     {
                         return RedirectToAction("Index", "Trc_PFRMA");
                     }
-                    else if (m.ReceiveApprovalNeeded == "No")
+                    else if (!m.ReceiveApprovalNeeded)
                     {
                         return RedirectToAction("Index", "Trc_PFELS");
                     }

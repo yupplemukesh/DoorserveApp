@@ -33,7 +33,7 @@ namespace TogoFogo.Models
         public string DEVWarranty { get; set; }
 
         [DisplayName("Is customer agree to wipe device data?")]
-        public string wipedevicedata { get; set; }
+        public bool wipedevicedata { get; set; }
         public List<spareTestPFELSForm> TableData { get; set; }
         [DisplayName("Receiving Document")]
         public string ReceivingDoc { get; set; }
@@ -57,7 +57,7 @@ namespace TogoFogo.Models
         [DisplayName("(TRC Information)")]
         public string TRCInfoFull { get; set; }
         [DisplayName("Is Returnable?")]
-        public string Returnable { get; set; }
+        public bool Returnable { get; set; }
 
         [DisplayName("Upload Photo of Damaged Box")]
         public string DamagedBox { get; set; }
@@ -69,7 +69,7 @@ namespace TogoFogo.Models
         [DisplayName("Warrenty Expiry Date")]
         public string WarrentyExpiryDate { get; set; }
         [DisplayName("Warrenty Status")]
-        public string WarrentyStatus { get; set; }
+        public bool WarrentyStatus { get; set; }
         [DisplayName("Is Device Physically Damage Reported?")]
         public string PhysicallyDamageReported { get; set; }
         //[DisplayName("Is customer agree to wipe device data?")]

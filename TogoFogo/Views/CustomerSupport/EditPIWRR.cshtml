@@ -194,6 +194,28 @@
     <div class="row">
         <p style="font-size: 17px;"><u>Device Problem:</u></p>
         <div class="col-md-6">
+            <div class="row">
+                <label class="col-md-3 col-md-offset-1 control-label" for="selectbasic">
+                    Physically Damaged?
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.CheckBoxFor(x => x.PhysicalDamage)
+                </div>
+            </div>
+
+
+            <div class="row">
+                <label class="col-md-3 col-md-offset-1 control-label" for="selectbasic">
+                    Device Warranty
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.CheckBoxFor(x => x.DeviceWarranty)
+                </div>
+            </div>
+
+
+        </div>
+        @*<div class="col-md-6">
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.PhysicalDamage, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -219,7 +241,7 @@
                 </div>
             </div>
 
-        </div>
+        </div>*@
         <div class="col-md-6">
 
             <div class="row" style="padding-bottom: 5px">
@@ -317,30 +339,46 @@
                     @Html.ValidationMessageFor(model => model.BillEstimatedCost, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.wipedevicedata, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="row">
+                <label class="col-md-3 col-md-offset-1 control-label" for="selectbasic">
+                    Is customer agree to wipe device data?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.wipedevicedata, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
-
-            }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.wipedevicedata, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.wipedevicedata)
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.IsEstimatedCostApproved, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="row">
+                <label class="col-md-3 col-md-offset-1 control-label" for="selectbasic">
+                    Estimated Cost Approved
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsEstimatedCostApproved, new List<SelectListItem>
-            {
-                new SelectListItem {Text = "Yes", Value = "Yes"},
-                new SelectListItem {Text = "No", Value = "No"}
-
-            }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.IsEstimatedCostApproved, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.IsEstimatedCostApproved)
                 </div>
             </div>
+            @*<div class="row" style="padding-bottom: 5px">
+            @Html.LabelFor(model => model.wipedevicedata, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.wipedevicedata, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "Yes"},
+            new SelectListItem {Text = "No", Value = "No"}
+
+        }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.wipedevicedata, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+            @*<div class="row" style="padding-bottom: 5px">
+            @Html.LabelFor(model => model.IsEstimatedCostApproved, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.IsEstimatedCostApproved, new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Yes", Value = "Yes"},
+            new SelectListItem {Text = "No", Value = "No"}
+
+        }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IsEstimatedCostApproved, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
         </div>
 
     </div>
@@ -395,18 +433,26 @@
                     @Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.CourierActive, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="row">
+                <label class="col-md-3 col-md-offset-1 control-label" for="selectbasic">
+                    Courier Active?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-
-                    @Html.DropDownListFor(model => model.CourierActive, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-                    }, "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CourierActive, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.CourierActive)
                 </div>
             </div>
+            @*<div class="row" style="padding-bottom: 5px">
+            @Html.LabelFor(model => model.CourierActive, new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.CourierActive, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+                }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourierActive, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
         </div>
         <div class="col-md-6">
 

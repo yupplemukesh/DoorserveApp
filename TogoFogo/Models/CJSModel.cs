@@ -143,7 +143,7 @@ namespace TogoFogo.Models
         public string EngineerVisitDate { get; set; }
         public string UploadedCourierFile { get; set; }
         public string MobileNumber { get; set; }
-        public string DeviceWarranty { get; set; }
+        public bool DeviceWarranty { get; set; }
 
 
 

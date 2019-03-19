@@ -622,14 +622,15 @@ namespace TogoFogo.Controllers
              ViewBag.ReceivedDevice = new SelectList(Enumerable.Empty<SelectListItem>());
              ViewBag.SpareType = new SelectList(Enumerable.Empty<SelectListItem>());
              ViewBag.ProblemFound = new SelectList(Enumerable.Empty<SelectListItem>());*/
-            AllData ad = new AllData
+            // AllData ad = new AllData
             {
-                ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                RecvdBrandlList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>()),              
-                SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>())
+                var receiveMaterial = new ReceiveMaterials();
+                receiveMaterial.ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>());
+                receiveMaterial.RecvdBrandlList = new SelectList(Enumerable.Empty<SelectListItem>());
+                receiveMaterial.RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+                receiveMaterial.Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>());
+                receiveMaterial.SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                receiveMaterial.ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>());
 
             };
 
@@ -638,7 +639,7 @@ namespace TogoFogo.Controllers
                 ViewBag.Message = TempData["Message"].ToString();
 
             }
-            return View(ad);
+            return View();
         }
         public ActionResult FindPRCC()
         {
@@ -687,19 +688,20 @@ namespace TogoFogo.Controllers
              ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
              ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
              ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");*/
-            AllData ad = new AllData
-            {
-                ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                RecvdBrandlList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>())
+          //  AllData ad = new AllData
+            
+                var ReceiveMaterial = new ReceiveMaterials();
+            ReceiveMaterial.ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterial.RecvdBrandlList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterial.RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterial.Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterial.SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterial.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterial.ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>());
 
-            };
+            
 
-            return View(ad);
+            return PartialView(ReceiveMaterial);
         }
         [HttpPost]
         public ActionResult PRCCForm(ReceiveMaterials m)
@@ -751,11 +753,11 @@ namespace TogoFogo.Controllers
              return RedirectToAction("PRCC","CustomerSupport");
         }
         public ActionResult TablePRCC()
-        {
+{
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<AllData>("GetTableDataForAllPages",
-                   new { }, commandType: CommandType.StoredProcedure).ToList();
+                   new { }, commandType: CommandType.StoredProcedure).ToList().Take(10);
                 return View(result);
             }
 
@@ -770,15 +772,16 @@ namespace TogoFogo.Controllers
              ViewBag.SpareType = new SelectList(Enumerable.Empty<SelectListItem>());
              ViewBag.ProblemFound = new SelectList(Enumerable.Empty<SelectListItem>());*/
 
-            AllData ad = new AllData
+            //AllData ad = new AllData
             {
-                ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                RecvdBrandlList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>())
+                var ReceiveMaterial = new ReceiveMaterials();
+                ReceiveMaterial.ReceivedDeviceList = new SelectList(Enumerable.Empty<SelectListItem>());
+                ReceiveMaterial.RecvdBrandlList = new SelectList(Enumerable.Empty<SelectListItem>());
+                ReceiveMaterial.RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+                ReceiveMaterial.Engg_NameList = new SelectList(Enumerable.Empty<SelectListItem>());
+                ReceiveMaterial.SpareTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                ReceiveMaterial.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+                ReceiveMaterial.ProblemFoundList = new SelectList(Enumerable.Empty<SelectListItem>());
 
             };
 
@@ -787,7 +790,7 @@ namespace TogoFogo.Controllers
                 ViewBag.Message = TempData["Message"].ToString();
 
             }
-            return View(ad);
+            return View();
         }
         public ActionResult FindRPCAP()
         {
@@ -802,18 +805,19 @@ namespace TogoFogo.Controllers
             ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");*/
-            AllData ad = new AllData
-            {
-                ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text"),
-                RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text"),
-                RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text"),
-                Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text"),
-                SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text"),
-                SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text")
+           // AllData ad = new AllData
+            
+                var ReceiveMaterials = new ReceiveMaterials();
+            ReceiveMaterials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            ReceiveMaterials.RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            ReceiveMaterials.RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text");
+            ReceiveMaterials.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+            ReceiveMaterials.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            ReceiveMaterials.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ReceiveMaterials.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
 
-            };
-            return View(ad);
+            
+            return PartialView(ReceiveMaterials);
         }
         [HttpPost]
         public ActionResult RPCAPForm(ReceiveMaterials m)
@@ -852,7 +856,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<AllData>("GetTableDataForAllPages",
-                   new { }, commandType: CommandType.StoredProcedure).ToList();
+                   new { }, commandType: CommandType.StoredProcedure).ToList().Take(10);
                 return View(result);
             }
 

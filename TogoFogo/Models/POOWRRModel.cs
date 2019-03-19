@@ -17,7 +17,7 @@ namespace TogoFogo.Models
         public string EngineerVisit { get; set; }
         public string SchedulePickup { get; set; }
         public string wipedevicedata { get; set; }
-        public override string WarrantyStatus { get; set; }
+        public override bool WarrantyStatus { get; set; }
         public override string WarrantyExpiryDate { get; set; }
         [DisplayName("Call Request Number")]
         public override string CcNo { get; set; }
@@ -63,7 +63,7 @@ namespace TogoFogo.Models
         [DisplayName("Estimated Cost")]
         public override string BillEstimatedCost { get; set; }
         [DisplayName("Estimated Cost Approved")]
-        public override string IsEstimatedCostApproved { get; set; }
+        public override bool IsEstimatedCostApproved { get; set; }
         [DisplayName("Repair Status")]
         public override string RepairStatus1 { get; set; }
         [DisplayName("Collectable Amount")]
@@ -89,7 +89,7 @@ namespace TogoFogo.Models
         [DisplayName("Courier Name")]
         public override string CourierName { get; set; }
         [DisplayName("Physically Damaged?")]
-        public override string PhysicalDamage { get; set; }
+        public override bool PhysicalDamage { get; set; }
         [DisplayName("Device Warranty Void?")]
         public override string WarrantyVoid { get; set; }
         [DisplayName("Problem Observed")]
@@ -126,7 +126,7 @@ namespace TogoFogo.Models
         [DisplayName("Re-Visit Date and Time")]
         public override string RevisitDatetime { get; set; }
         public override string CreatedBy { get; set; }
-        public override string CourierActive { get; set; }
+        public override bool CourierActive { get; set; }
         [DisplayName("Bike Make")]
         public override string BikeMake { get; set; }
         [DisplayName("Message To Customer")]
@@ -138,7 +138,7 @@ namespace TogoFogo.Models
         public override string EngineerVisitDate { get; set; }
         public override string UploadedCourierFile { get; set; }
         public override string MobileNumber { get; set; }
-        public override string DeviceWarranty { get; set; }
+        public override bool DeviceWarranty { get; set; }
 
         public override string CallStatus { get; set; }
         public override string CallBackDatetime { get; set; }

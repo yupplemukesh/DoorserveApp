@@ -1,5 +1,5 @@
 ﻿
-@model TogoFogo.Models.RPCAPModel
+@model TogoFogo.Models.ReceiveMaterials
 @{
 	Layout = null;
 
@@ -351,7 +351,7 @@
 				@Html.LabelFor(model => model.ReceivedDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.DropDownListFor(model => model.ReceivedDevice, null, new { @class = "form-control", @readonly = "readonly", disabled = "true" })
+					@Html.DropDownListFor(model => model.ReceivedDevice,Model.ReceivedDeviceList, new { @class = "form-control", @readonly = "readonly", disabled = "true" })
 					@Html.ValidationMessageFor(model => model.ReceivedDevice, "", new { @class = "text-danger" })
 				</div>
 			</div>
@@ -359,14 +359,14 @@
 				@Html.LabelFor(model => model.RecvdBrand, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.DropDownListFor(model => model.RecvdBrand, null, new { @class = "form-control", disabled = "true", @readonly = "readonly" })
+					@Html.DropDownListFor(model => model.RecvdBrand, Model.RecvdBrandlList, new { @class = "form-control", disabled = "true", @readonly = "readonly" })
 					@Html.ValidationMessageFor(model => model.RecvdBrand, "", new { @class = "text-danger" })
 				</div>
 			</div>
 			<div class="row" style="padding-bottom: 5px">
 				@Html.LabelFor(model => model.RecvdModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.DropDownListFor(model => model.RecvdModel, null, new { @class = "form-control", @readonly = "readonly", disabled = "true" })
+					@Html.DropDownListFor(model => model.RecvdModel, Model.RecvdModelList, new { @class = "form-control", @readonly = "readonly", disabled = "true" })
 					@Html.ValidationMessageFor(model => model.RecvdModel, "", new { @class = "text-danger" })
 				</div>
 			</div>
@@ -529,7 +529,7 @@
 			<div class="row" style="padding-bottom: 5px">
 				@Html.LabelFor(model => model.Engg_Name, new { @class = "col-md-4  col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
-					@Html.DropDownListFor(model => model.Engg_Name, null, new { @class = "form-control", id = "Pfels_Engg_Name", @readonly = "readonly", @disabled = "disabled" })
+					@Html.DropDownListFor(model => model.Engg_Name, Model.Engg_NameList, new { @class = "form-control", id = "Pfels_Engg_Name", @readonly = "readonly", @disabled = "disabled" })
 					@Html.ValidationMessageFor(model => model.Engg_Name, "", new { @class = "text-danger" })
 				</div>
 			</div>
@@ -655,7 +655,7 @@
 				@Html.LabelFor(model => model.SpareType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.DropDownListFor(model => model.SpareType, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'SpareName', this)" })
+					@Html.DropDownListFor(model => model.SpareType, Model.SpareTypeList, new { @class = "form-control", onchange = "AjaxWithValue('BindSparePartNameJson', 'SpareName', this)" })
 
 					@Html.ValidationMessageFor(model => model.SpareType, "", new { @class = "text-danger" })
 				</div>
@@ -664,7 +664,7 @@
 				@Html.LabelFor(model => model.SpareName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
 				<div class="col-md-6 col-sm-6 col-xs-12">
 
-					@Html.DropDownListFor(model => model.SpareName, null, new { @class = "form-control" })
+					@Html.DropDownListFor(model => model.SpareName, Model.SpareNameList, new { @class = "form-control" })
 
 					@Html.ValidationMessageFor(model => model.SpareName, "", new { @class = "text-danger" })
 				</div>

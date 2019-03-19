@@ -20,7 +20,7 @@ namespace TogoFogo.Models
         public string EngineerVisit { get; set; }
         public string SchedulePickup { get; set; }
         [DisplayName("Warranty Status")]
-        public override string WarrantyStatus { get; set; }
+        public override bool WarrantyStatus { get; set; }
         [DisplayName("Warranty Expiry Date")]
         public override string WarrantyExpiryDate { get; set; }
         [DisplayName("Call Request Reject Reason")]
