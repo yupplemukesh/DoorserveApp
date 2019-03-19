@@ -78,7 +78,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
 
                        
                     }
@@ -86,7 +86,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Problem Code Already Exist";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                      }
                 }
                 return RedirectToAction("ManageProblemObserved");
@@ -153,7 +153,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Updated Successfully";
-                        TempData["response"] = Response;                        
+                        TempData["response"] = response;                        
                     }
 
                 }

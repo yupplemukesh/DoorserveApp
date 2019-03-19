@@ -20,15 +20,13 @@ namespace TogoFogo.Controllers
         // GET: ManageCourierApi
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Courier API")]
         public ActionResult ManageCourierApi()
-        {
-            ManageCourierApiModel objManageCourierApiModel = new ManageCourierApiModel();
+        {          
             using (var con = new SqlConnection(_connectionString))
             {
-                objManageCourierApiModel._ManageCourierApiModelList = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
-               
-            }
-            objManageCourierApiModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objManageCourierApiModel);
+                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
+            }           
+           
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier API")]
         public ActionResult Create()
@@ -44,18 +42,14 @@ namespace TogoFogo.Controllers
         public ActionResult Create(ManageCourierApiModel model)
         {
             try
-            {
-                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                // model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            {                
                 if (ModelState.IsValid)
                 { 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                    ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
-                    if (ModelState.IsValid)
-                    {
-                        var result = con.Query<int>("Add_Edit_Delete_CourierApi",
+                   // ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                   // ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
+                       var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
                         {
                             model.API_ID,
@@ -74,22 +68,19 @@ namespace TogoFogo.Controllers
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "I",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        if (result == 0)
+                            var response = new ResponseModel();
+                            if (result == 1)
                         {
-                            TempData["Message"] = "Username Already Exist";
-
+                                response.IsSuccess = true;
+                                response.Response = " Successfully Added ";
+                                TempData["response"] = response;                            
                         }
                         else
-                        {
-                            TempData["Message"] = "Successfully Added";
-                        }
+                        {       response.IsSuccess = true;
+                                response.Response = " Username Already Exist ";
+                                TempData["response"] = response;                               
+                        }            
                     }
-                    else
-                    {
-                            //return View(model);
-                            TempData["Message"] = "Please Try Again";
-                        }
-                }
                     return RedirectToAction("ManageCourierApi");
                 }
             }
@@ -125,9 +116,7 @@ namespace TogoFogo.Controllers
         public ActionResult Edit(ManageCourierApiModel model)
         {
             try
-            {
-                //model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+            {               
                 if (ModelState.IsValid)
                 {
                     using (var con = new SqlConnection(_connectionString))
@@ -151,14 +140,18 @@ namespace TogoFogo.Controllers
                             User = Convert.ToInt32(Session["User_Id"]),
                             Action = "U",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel();
                         if (result == 2)
-                        {
-                            TempData["Message"] = "Updated Successfully";
-
+                        {                            
+                            response.IsSuccess = true;
+                            response.Response = "Updated Successfully ";
+                            TempData["response"] = response;
                         }
                         else
                         {
-                            TempData["Message"] = "Not Updated";
+                            response.IsSuccess = true;
+                            response.Response = "Not Updated";
+                            TempData["response"] = response;                           
                         }
                     }
                     // return View(model); 

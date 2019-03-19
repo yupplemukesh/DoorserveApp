@@ -32,9 +32,11 @@
                 <div class="x_content" style="overflow-x: scroll;">
 
                     @*@Html.Partial("CourierTable", Model)*@
-                    @Html.Partial("CourierTable")
-
-                </div>
+                    @if (Permissions.Rights.View)
+                    {
+                        @Html.Partial("CourierTable")
+                    }
+                    </div>
                     </div>
                 </div>
             </div>

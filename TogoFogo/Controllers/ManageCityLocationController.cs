@@ -76,14 +76,14 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                        
                     }
                     else
                     {
                         response.IsSuccess = true;
                         response.Response = "Location Name Already Exist";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                    
                     }
                 }
@@ -155,7 +155,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Updated";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                        
                     }
                 }

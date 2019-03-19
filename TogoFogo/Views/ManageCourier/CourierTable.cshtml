@@ -29,7 +29,7 @@
                 @Html.DisplayNameFor(model => model.Priority)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AWBNumber)
+                @Html.DisplayNameFor(model => model.AWBStatus)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsReverse)
@@ -103,7 +103,7 @@
                 }
                 else
                 {
-                    @Html.DisplayFor(modelItem => item.UploadedCourierFile)
+                    @Html.DisplayFor(modelItem => item.UploadedCourierFileUrl)
                 }
             </td>
             <td>
@@ -119,7 +119,7 @@
                 @Html.DisplayFor(modelItem => item.Priority)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AWBNumber)
+                @Html.DisplayFor(modelItem => item.AWBStatus)
             </td>
             <td>
                 @*@Html.DisplayFor(modelItem => item.IsReverse)*@

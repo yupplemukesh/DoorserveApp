@@ -21,7 +21,8 @@
 </div>
 
 @section scripts{
-<script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
             $.ajax({
@@ -42,5 +43,5 @@
                 }
             });
         }
-</script>
-    }
+    </script>
+}

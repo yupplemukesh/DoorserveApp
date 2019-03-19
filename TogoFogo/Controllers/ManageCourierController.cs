@@ -176,7 +176,7 @@ namespace TogoFogo.Controllers
                         {
                             response.IsSuccess = true;
                             response.Response = "New Courier Successfully Added ";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
                             
                         }
                     
@@ -184,7 +184,7 @@ namespace TogoFogo.Controllers
                     {
                             response.IsSuccess = true;
                             response.Response = "Courier Already Exist ";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
 
                         }
 
@@ -202,39 +202,17 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageCourier");
         }
-
-        //public ActionResult CourierTable()
-        //{
-        //using (var con = new SqlConnection(_connectionString))
-        //{
-        //    var result = con.Query<ManageCourierModel>("GETCourierMasterData", null, commandType: CommandType.StoredProcedure).ToList();
-
-        //    return View(result);
-        //}
-        //  return View();
-        //}
+       
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Courier")]
         public async Task<ActionResult> Edit(int? courierId)
         {
 
             using (var con = new SqlConnection(_connectionString))
-            {
-                /* var folder = "/UploadedImages/Courier/";
-                 var result = con.Query<ManageCourierModel>("SELECT * from Courier_Master WHERE CourierId=@CourierId", new { CourierId = courierId },
-                 commandType: CommandType.Text).FirstOrDefault();
-                 result.UploadedCourierFilePath = folder+ "Logo/" + result.UploadedCourierFile;               
-                 result.UploadedGSTFilePath = folder+ "Gst/" + result.UploadedGSTFile;                
-                 result.UserPANCardFilePath = folder + "PanCards/" + result.UserPANCardFile;
-                 result.VoterIDFilePath = folder + "VoterCards/" + result.VoterIDFile;
-                 result.AadhaarCardFilePath = folder + "AdharCards/" + result.AadhaarCardFile;
-                 result.AgreementScanFilePath = folder + "ScanAgreement/" + result.AgreementScanFile;
-                 result.CancelledChequeFilePath = folder + "CancelledCheques/" + result.CancelledChequeFile;
-                 */
-
+            {               
                 var folder = "/UploadedImages/Courier/";
                 var result = con.Query<ManageCourierModel>("SELECT * from Courier_Master WHERE CourierId=@CourierId", new { CourierId = courierId },
                 commandType: CommandType.Text).FirstOrDefault();
-                result.UploadedCourierFileUrl = folder+ "Logo/"+result.UploadedCourierFile;
+                result.UploadedCourierFileUrl= folder+ "Logo/"+result.UploadedCourierFile;
                 result.UploadedGSTFileUrl = folder + "Gst/" + result.UploadedGSTFile;
                 result.UserPANCardFileUrl = folder + "PanCards/" + result.UserPANCardFile;
                 result.VoterIDFileUrl = folder + "VoterCards/" + result.VoterIDFile;
@@ -286,87 +264,115 @@ namespace TogoFogo.Controllers
                 if (ModelState.IsValid)
                 {
                     using (var con = new SqlConnection(_connectionString))
-                {
-                        //UploadedCourierFile1 FilePath
-                        //UploadedCourierFile  FileName
-
-                        /* var path = Server.MapPath("/UploadedImages/Courier/");
-                         if (model.UploadedCourierFilePath != null && model.UploadedCourierFile != null)
-                         {
-                             if (System.IO.File.Exists(path+"Logo/ " + model.UploadedCourierFile))
-                                 System.IO.File.Delete(path+"Logo/"+ model.UploadedCourierFile);
-                         }
-                         if (model.UploadedCourierFilePath != null)
-                             model.UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");*/
-
+                {                        
                         var path = Server.MapPath("/UploadedImages/Courier/");
-                        if (model.UploadedCourierFileUrl != null && model.UploadedCourierFile != null)
+                        
+                        if (model.UploadedCourierFilePath != null && model.UploadedCourierFile != null)
                         {
+
+
                             if (System.IO.File.Exists(path + "Logo/ " + model.UploadedCourierFile))
+                            {
                                 System.IO.File.Delete(path + "Logo/" + model.UploadedCourierFile);
+                            }                         
+                        }
+                        if (model.UploadedCourierFilePath != null)
+                        {                        
+
+                            model.UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");
                         }
 
-                        if (model.UploadedGSTFileUrl != null && model.UploadedGSTFile != null)
+                        if (model.UploadedGSTFilePath != null && model.UploadedGSTFile != null)
                         {
                             if (System.IO.File.Exists(path + "Gst/ " + model.UploadedGSTFile))
+                            {
                                 System.IO.File.Delete(path + "Gst/" + model.UploadedGSTFile);
+                            }
                         }
-                        if (model.PANCardFileUrl != null && model.PANCardFile != null)
+                        if (model.UploadedGSTFilePath != null)
+                        {
+
+                            model.UploadedGSTFile = SaveImageFile(model.UploadedGSTFilePath, "Courier/Logo");
+                        }
+
+
+                        if (model.PANCardFilePath != null && model.PANCardFile != null)
                         {
                             if (System.IO.File.Exists(path + "PanCards/ " + model.PANCardFile))
+                            { 
                                 System.IO.File.Delete(path + "PanCards/" + model.PANCardFile);
+                            }
                         }
-                        if (model.UserPANCardFileUrl != null && model.UserPANCardFile != null)
+                        if (model.PANCardFilePath != null)
+                        {
+
+                            model.PANCardFile = SaveImageFile(model.PANCardFilePath, "Courier/Logo");
+                        }
+
+                        if (model.UserPANCardFilePath != null && model.UserPANCardFile != null)
                         {
                             if (System.IO.File.Exists(path + "PanCards/ " + model.UserPANCardFile))
+                            { 
                                 System.IO.File.Delete(path + "PanCards/" + model.UserPANCardFile);
+                            }
                         }
-                        if (model.VoterIDFileUrl != null && model.VoterIDFile != null)
+                        if (model.UserPANCardFilePath != null)
+                        {
+
+                            model.UserPANCardFile = SaveImageFile(model.UserPANCardFilePath, "Courier/Logo");
+                        }
+
+                        if (model.VoterIDFilePath != null && model.VoterIDFile != null)
                         {
                             if (System.IO.File.Exists(path + "VoterCards/ " + model.VoterIDFile))
+                            { 
                                 System.IO.File.Delete(path + "VoterCards/" + model.VoterIDFile);
+                            }
                         }
-                        if (model.AadhaarCardFileUrl != null && model.AadhaarCardFile != null)
+                        if (model.VoterIDFilePath != null)
+                        {
+
+                            model.VoterIDFile = SaveImageFile(model.VoterIDFilePath, "Courier/Logo");
+                        }
+                        if (model.AadhaarCardFilePath != null && model.AadhaarCardFile != null)
                         {
                             if (System.IO.File.Exists(path + "AdharCards/ " + model.AadhaarCardFile))
+                            { 
                                 System.IO.File.Delete(path + "AdharCards/" + model.AadhaarCardFile);
+                            }
                         }
-                        if (model.AgreementScanFileUrl != null && model.AgreementScanFile != null)
+                        if (model.AadhaarCardFilePath != null)
+                        {
+
+                            model.AadhaarCardFile = SaveImageFile(model.AadhaarCardFilePath, "Courier/Logo");
+                        }
+
+                        if (model.AgreementScanFilePath != null && model.AgreementScanFile != null)
                         {
                             if (System.IO.File.Exists(path + "ScanAgreement/ " + model.AgreementScanFile))
+                            { 
                                 System.IO.File.Delete(path + "ScanAgreement/" + model.AgreementScanFile);
+                            }
                         }
-                        if (model.CancelledChequeFileUrl != null && model.CancelledChequeFile != null)
+                        if (model.AgreementScanFilePath != null)
+                        {
+
+                            model.AgreementScanFile = SaveImageFile(model.AgreementScanFilePath, "Courier/Logo");
+                        }
+
+                        if (model.CancelledChequeFilePath != null && model.CancelledChequeFile != null)
                         {
                             if (System.IO.File.Exists(path + "CancelledCheques/ " + model.CancelledChequeFile))
+                            { 
                                 System.IO.File.Delete(path + "CancelledCheques/" + model.CancelledChequeFile);
+                            }
                         }
-                        if (model.UploadedCourierFileUrl != null)
-                            model.UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");
-                        if(model.UploadedGSTFileUrl != null)
-                        model.UploadedGSTFile = SaveImageFile(model.UploadedGSTFilePath, "Courier/Gst");
-                        if (model.PANCardFileUrl != null)
-                            model.PANCardFile = SaveImageFile(model.PANCardFilePath, "Courier/PanCards");
-                        if (model.UserPANCardFileUrl != null)
-                            model.UserPANCardFile = SaveImageFile(model.UserPANCardFilePath, "Courier/PanCards");
-                        if (model.VoterIDFileUrl != null)
-                            model.VoterIDFile = SaveImageFile(model.VoterIDFilePath, "Courier/VoterCards");
-                        if (model.AadhaarCardFileUrl != null)
-                            model.AadhaarCardFile = SaveImageFile(model.AadhaarCardFilePath, "Courier/AdharCards");
-                        if (model.AgreementScanFileUrl != null)
-                            model.AgreementScanFile = SaveImageFile(model.AgreementScanFilePath, "Courier/ScanAgreement");
-                        if (model.CancelledChequeFileUrl != null)
-                            model.CancelledChequeFile = SaveImageFile(model.CancelledChequeFilePath, "Courier/CancelledCheques");
-                        /*
-                         string UploadedCourierFile = SaveImageFile(model.UploadedCourierFile1, "Courier/Logo");                    
-                        string UploadedGSTFile = SaveImageFile(model.UploadedGSTFilePath, "Courier/Gst");
-                        string PANCardFile = SaveImageFile(model.PANCardFilePath, "Courier/PanCards");
-                        string UserPANCardFile = SaveImageFile(model.UserPANCardFilePath, "Courier/Pancards");
-                        string VoterIDFile = SaveImageFile(model.VoterIDFilePath, "Courier/VoterCards");
-                        string AadhaarCardFile = SaveImageFile(model.AadhaarCardFilePath, "Courier/AdharCards");
-                        string AgreementScanFile = SaveImageFile(model.AgreementScanFilePath, "Courier/ScanAgreement");
-                        string CancelledChequeFile = SaveImageFile(model.CancelledChequeFilePath, "Courier/CancelledCheques");
-                        */
+                        if (model.CancelledChequeFilePath != null)
+                        {
+
+                            model.CancelledChequeFile = SaveImageFile(model.CancelledChequeFilePath, "Courier/Logo");
+                        }
+
                         var result = con.Query<int>("Add_Modify_Delete_Courier",
                             new
                             {
@@ -454,14 +460,18 @@ namespace TogoFogo.Controllers
                         {
                             response.IsSuccess = true;
                             response.Response = "Courier Name Updated Successfully";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
+                            TempData.Keep("response");
+                        
                         }
                    
                     else
                     {
                             response.IsSuccess = true;
                             response.Response = "Courier Name Not Updated Successfully";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
+                            TempData.Keep("response");
+
                         }
                    
                     return RedirectToAction("ManageCourier");
@@ -477,27 +487,6 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageCourier");
         }
-      /*  private string SaveImageFile(HttpPostedFileBase file,string folderName)
-        {
-            try
-            {
-                string path = Server.MapPath("~/UploadedImages/"+ folderName);
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                var fileFullName = file.FileName;
-                var fileExtention = Path.GetExtension(fileFullName);
-                var fileName = Guid.NewGuid();
-                var savedFileName = fileName + fileExtention;
-                file.SaveAs(Path.Combine(path, savedFileName));
-                return savedFileName;
-            }
-            catch (Exception ex)
-            {
-
-                return ViewBag.Message = ex.Message;
-            }
-        }*/
+      
     }
 }

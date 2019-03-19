@@ -55,7 +55,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.AWBNumber, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.AWBNumber, Model.AWBNumberUsedList, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.AWBNumber, Model.AWBNumberUsedList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.AWBNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -81,19 +81,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UploadedCourierFileUrl, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.UploadedCourierFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-5 col-sm-5 col-xs-12">
-                    @Html.TextBoxFor(model => model.UploadedCourierFileUrl, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
-                    @Html.ValidationMessageFor(model => model.UploadedCourierFileUrl, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.UploadedCourierFilePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
+                    @Html.ValidationMessageFor(model => model.UploadedCourierFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.UploadedCourierFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.UploadedCourierFileUrl))
                     {
-                        <img id="blah" src="@Model.UploadedCourierFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.UploadedCourierFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -140,7 +140,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.ApplicableTaxType, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.ApplicableTaxType, Model.ApplicableTaxTypeList, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.ApplicableTaxType, Model.ApplicableTaxTypeList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.ApplicableTaxType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -152,19 +152,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UploadedGSTFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.UploadedGSTFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.UploadedGSTFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(model => model.UploadedGSTFilePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.UploadedGSTFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.UploadedGSTFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.UploadedGSTFileUrl))
                     {
-                        <img id="blah" src="@Model.UploadedGSTFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.UploadedGSTFileUrl" width="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -176,19 +176,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.PANCardFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.PANCardFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.PANCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(model => model.PANCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.PANCardFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.UserPANCardFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.UserPANCardFileUrl))
                     {
-                        <img id="blah" src="@Model.UserPANCardFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.UserPANCardFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -246,13 +246,13 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.WeightRange, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-8 col-sm-4 col-xs-12">
-                    <div class="col-md-12 col-xs-12">
+                    <div class="row">
                         <label class="col-md-2 col-sm-2 col-xs-2">From</label>
-                        <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-md-3 col-sm-4 col-xs-4">
                             @Html.TextBoxFor(model => model.WeightRange1, null, htmlAttributes: new { @class = "form-control" })
                         </div>
-                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
-                        <div class="col-md-4 col-sm-4 col-xs-4">
+                        <label class="col-md-1 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-3 col-sm-4 col-xs-4">
                             @Html.TextBoxFor(model => model.WeightRange2, null, htmlAttributes: new { @class = "form-control" })
                         </div>
 
@@ -262,13 +262,13 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Volume, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-8 col-sm-4 col-xs-12">
-                    <div class="col-md-12 col-xs-12">
+                    <div class="row">
                         <label class="col-md-2 col-sm-2 col-xs-2">From</label>
-                        <div class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-md-3 col-sm-4 col-xs-4">
                             @Html.TextBoxFor(model => model.Volumn1, null, htmlAttributes: new { @class = "form-control" })
                         </div>
-                        <label class="col-md-2 col-sm-2 col-xs-2">To</label>
-                        <div class="col-md-4 col-sm-4 col-xs-4">
+                        <label class="col-md-1 col-sm-2 col-xs-2">To</label>
+                        <div class="col-md-3 col-sm-4 col-xs-4">
                             @Html.TextBoxFor(model => model.Volumn2, null, htmlAttributes: new { @class = "form-control" })
                         </div>
 
@@ -302,7 +302,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.PersonAddresstype, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.PersonAddresstype, Model.PersonAddressTypeList, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.PersonAddresstype, Model.PersonAddressTypeList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.PersonAddresstype, "", new { @class = "text-danger" })
 
                 </div>
@@ -393,19 +393,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.UserPANCardFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.UserPANCardFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.UserPANCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(model => model.UserPANCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.UserPANCardFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.UserPANCardFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.UserPANCardFileUrl))
                     {
-                        <img id="blah" src="@Model.UserPANCardFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.UserPANCardFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -417,19 +417,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.VoterIDFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.VoterIDFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.VoterIDFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(model => model.VoterIDFilePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.VoterIDFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.VoterIDFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.VoterIDFileUrl))
                     {
-                        <img id="blah" src="@Model.VoterIDFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.VoterIDFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -441,19 +441,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.AadhaarCardFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.AadhaarCardFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AadhaarCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(model => model.AadhaarCardFilePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.AadhaarCardFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.AadhaarCardFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.AadhaarCardFileUrl))
                     {
-                        <img id="blah" src="@Model.AadhaarCardFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.AadhaarCardFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -471,7 +471,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.LegalDocumentVerificationStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.LegalDocumentVerificationStatus, Model.LegalDocumentVerificationList, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.LegalDocumentVerificationStatus, Model.LegalDocumentVerificationList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.LegalDocumentVerificationStatus, "", new { @class = "text-danger" })
 
                 </div>
@@ -479,7 +479,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.AgreementSignupStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.AgreementSignupStatus, Model.AgreementSignupList, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.AgreementSignupStatus, Model.AgreementSignupList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.AgreementSignupStatus, "", new { @class = "text-danger" })
 
                 </div>
@@ -507,19 +507,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.AgreementScanFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.AgreementScanFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AgreementScanFilePath, null, htmlAttributes: new { @type = "file", @class = "form-control" })
+                    @Html.TextBoxFor(model => model.AgreementScanFilePath, null, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.AgreementScanFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.AgreementScanFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.AgreementScanFileUrl))
                     {
-                        <img id="blah" src="@Model.AgreementScanFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.AgreementScanFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -567,19 +567,19 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CancelledChequeFilePath, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.CancelledChequeFile, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.CancelledChequeFilePath, null, htmlAttributes: new { @type = "file", @class = "form-control" })
+                    @Html.TextBoxFor(model => model.CancelledChequeFilePath, null, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
                     @Html.ValidationMessageFor(model => model.CancelledChequeFilePath, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-3">
-                    @if (!string.IsNullOrEmpty(Model.CancelledChequeFile))
+                <div class="col-md-2">
+                    @if (!string.IsNullOrEmpty(Model.CancelledChequeFileUrl))
                     {
-                        <img id="blah" src="@Model.CancelledChequeFile" width="50" height="50" alt="your image" />
+                        <img id="blah" src="@Model.CancelledChequeFileUrl" width="40" height="40" alt="your image" />
                     }
                     else
                     {
-                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" alt="your image" />
+                        <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
                     }
                 </div>
             </div>
@@ -625,3 +625,4 @@
     </div>
     <div class="ln_solid"></div>
 </div>
+@Scripts.Render("~/bundles/jqueryval")

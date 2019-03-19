@@ -13,8 +13,10 @@ namespace TogoFogo.Models
         public SelectList CountryList { get; set; }
         public SelectList CourierList { get; set; }
         [Required]
+        [DisplayName("Country Name")]
         public string Country { get; set; }
         [Required]
+        [DisplayName("Courier Name")]
         public string Courier { get; set; }
 
         public string CourierImage { get; set; }
@@ -32,6 +34,7 @@ namespace TogoFogo.Models
         [DisplayName("Version")]
         public string AppVersion  {get;set;}
         [Required]
+        [RegularExpression(@"^\d{9,18}$", ErrorMessage = "Invalid Account Number")]
         [DisplayName("Account Number")]
         public string AccountNo   {get;set;}
         [Required]
@@ -43,21 +46,24 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Account Country Code")]
         public string AccountCountryCode      {get;set;}
-        [Required]
+       
         [DisplayName("Is Large Packet?")]
         public Boolean IsLargePacket     {get;set;}
-        [Required]
+     
         [DisplayName("Is Active?")]
         public Boolean IsActive    {get;set;}
         public string Comments    {get;set;}
-        public string CreatedBy {get;set;}
+        public long CreatedBy {get;set;}
+        [DisplayName("CreatedBy")]
+        public string CBy { get; set; }
         public DateTime CreatedDate {get; set; }
-        public string ModifyBy {get; set; }
+        public long ModifyBy {get; set; }
+        [DisplayName("ModifyBy")]
+        public string MBy { get; set; }
         public string ModifyDate {get; set; }
         public string DeleteBy {get; set; }
         public string DeleteDate {get; set; }
-        public List<ManageCourierApiModel> _ManageCourierApiModelList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        
 
     }
 }

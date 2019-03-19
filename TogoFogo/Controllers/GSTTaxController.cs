@@ -84,14 +84,14 @@ namespace TogoFogo.Controllers
                         {
                             response.IsSuccess = true;
                             response.Response = "Submitted Successfully";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
 
                         }
                         else
                         {
                             response.IsSuccess = true;
                             response.Response = "Something Went Wrong";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
 
                         }
                     }
@@ -206,14 +206,14 @@ namespace TogoFogo.Controllers
                         {
                             response.IsSuccess = true;
                             response.Response = "Updated Successfully";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
 
                         }
                         else
                         {
                             response.IsSuccess = true;
                             response.Response = "Something Went Wrong";
-                            TempData["response"] = Response;
+                            TempData["response"] = response;
 
                         }                        
                      }

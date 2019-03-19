@@ -1,4 +1,5 @@
-﻿@model  TogoFogo.Models.ManageCourierApiModel
+﻿@*@model  TogoFogo.Models.ManageCourierApiModel*@
+@using TogoFogo.Models
 @{
     ViewBag.Title = "ManageCourierApi";
 }
@@ -12,15 +13,15 @@
             </div>
             <div class="col-md-6">
                 <div class="pull-right">
-                    @if (Model._UserActionRights.Create)
+                    @if (Permissions.Rights.Create)
                     {
                         <button class="btn">@Html.ActionLink("New Courier API", "Create", "ManageCourierApi")</button>
                     }
-                    @if (Model._UserActionRights.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -31,7 +32,8 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
 
             <div class="x_content" style="overflow-x: scroll;">
-                @Html.Partial("CourierAPITable", Model)
+                @* @Html.Partial("CourierAPITable", Model)*@
+                @Html.Partial("CourierAPITable")
             </div>
         </div>
     </div>

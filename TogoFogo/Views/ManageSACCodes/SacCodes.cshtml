@@ -21,11 +21,9 @@
 
 
 <div class="panel-body">
-    @if (Model.Rights.Create)
-    {
 
         @Html.Action("AddSacCodes", "ManageSACCodes")
-    }
+
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -40,10 +38,9 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content" style="overflow-x: scroll;">
-                        @if (Model.Rights.View)
-                        {
+                      
                             @Html.Action("SacCodesTable", "ManageSACCodes")
-                        }
+               
                         </div>
                 </div>
             </div>

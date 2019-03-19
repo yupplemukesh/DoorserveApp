@@ -94,13 +94,13 @@ namespace TogoFogo.Controllers
                     {                     
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                     }
                     else
                     {
                         response.IsSuccess = true;
                         response.Response = "Brand Name Already Exist";
-                        TempData["response"] = Response;                       
+                        TempData["response"] = response;                       
                     }
                 }
 
@@ -165,7 +165,7 @@ namespace TogoFogo.Controllers
                 {
                     response.IsSuccess = true;
                     response.Response = "Updated Successfully";
-                    TempData["response"] = Response;
+                    TempData["response"] = response;
                    
                 }
 
@@ -278,14 +278,14 @@ namespace TogoFogo.Controllers
                         }
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                        
                     }
                     else
                     {
                         response.IsSuccess = true;
                         response.Response = "Product Name Already Exist";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                        
                     }
                 }
@@ -394,13 +394,13 @@ namespace TogoFogo.Controllers
                 {
                     response.IsSuccess = true;
                     response.Response = "Product Updated Successfully";
-                    TempData["response"] = Response;                    
+                    TempData["response"] = response;                    
                 }
                 else
                 {
                     response.IsSuccess = true;
                     response.Response = "Product Not Updated ";
-                    TempData["response"] = Response;                    
+                    TempData["response"] = response;                    
                 }
                 return RedirectToAction("Product", "Master");
             }
@@ -457,13 +457,13 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;                       
+                        TempData["response"] = response;                       
                     }
                     else
                     {
                         response.IsSuccess = true;
                         response.Response = "Not Added Successfully";
-                        TempData["response"] = Response;                        
+                        TempData["response"] = response;                        
                     }
                 }
                 return RedirectToAction("ManageDeviceProblems");
@@ -530,7 +530,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Updated";
-                        TempData["response"] = Response;                       
+                        TempData["response"] = response;                       
                     }
                 }
                 return RedirectToAction("ManageDeviceProblems");
@@ -582,14 +582,14 @@ namespace TogoFogo.Controllers
                 {
                     response.IsSuccess = true;
                     response.Response = "Added Successfully";
-                    TempData["response"] = Response;
+                    TempData["response"] = response;
                    
                 }
                 else
                 {
                     response.IsSuccess = true;
                     response.Response = "Something went wrong";
-                    TempData["response"] = Response;                    
+                    TempData["response"] = response;                    
                 }
             }
             return RedirectToAction("ColorMaster", "Master");
@@ -630,14 +630,14 @@ namespace TogoFogo.Controllers
                 {
                     response.IsSuccess = true;
                     response.Response = "Updated Successfully";
-                    TempData["response"] = Response;
+                    TempData["response"] = response;
                    
                 }
                 else
                 {
                     response.IsSuccess = true;
                     response.Response = "Something went wrong";
-                    TempData["response"] = Response;                   
+                    TempData["response"] = response;                   
                 }              
 
             }
@@ -796,13 +796,13 @@ namespace TogoFogo.Controllers
                 {
                     response.IsSuccess = true;
                     response.Response = "Successfully Added";
-                    TempData["response"] = Response;                  
+                    TempData["response"] = response;                  
                 }
                 else
                 {
                     response.IsSuccess = true;
                     response.Response = "Model And his Corresponding Problem is Already Registered";
-                    TempData["response"] = Response;                    
+                    TempData["response"] = response;                    
                 }
                 return RedirectToAction("Probs_price_Matrix");
             }
@@ -844,13 +844,13 @@ namespace TogoFogo.Controllers
                 {
                     response.IsSuccess = true;
                     response.Response = "Successfully Updated";
-                    TempData["response"] = Response;                   
+                    TempData["response"] = response;                   
                 }
                 else
                 {
                     response.IsSuccess = true;
                     response.Response = "Not Updated Successfully";
-                    TempData["response"] = Response;                    
+                    TempData["response"] = response;                    
                 }
                 return RedirectToAction("Probs_price_Matrix");
             }

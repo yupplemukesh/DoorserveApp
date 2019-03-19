@@ -67,7 +67,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                         
 
                     }
@@ -75,7 +75,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Category Already Exist";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                         
                     }
                 }
@@ -144,7 +144,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Category Successfully Updated";
-                        TempData["response"] = Response;                       
+                        TempData["response"] = response;                       
 
                     }
 
@@ -223,7 +223,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                         
 
                     }
@@ -231,7 +231,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Sub Category Already Exist";
-                        TempData["response"] = Response;
+                        TempData["response"] = response;
                         
                     }
                 }
@@ -304,7 +304,7 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Updated Successfully";
-                        TempData["response"] = Response;                      
+                        TempData["response"] = response;                      
 
                     }
                 }
