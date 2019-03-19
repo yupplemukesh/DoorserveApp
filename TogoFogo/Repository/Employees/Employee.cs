@@ -21,11 +21,16 @@ namespace TogoFogo.Repository
         }
         public async Task<List<EmployeeModel>> GetAllEmployees(Guid? serviceCenterId, Guid? ProviderId)
         {
-              return await _context.Database.SqlQuery<EmployeeModel>("USPGetAllEmployees @CenterId,@providerId",
-                new List<SqlParameter> {
-                new SqlParameter("@CenterId", ToDBNull(serviceCenterId)),
-                new SqlParameter("@providerId", ToDBNull(ProviderId))
-                }).ToListAsync();
+
+            var sp = new List<SqlParameter>();
+            var param = new SqlParameter("@CenterId", ToDBNull(serviceCenterId));
+            sp.Add(param);
+            param = new SqlParameter("@providerId", ToDBNull(ProviderId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<EmployeeModel>("USPGetAllEmployees @CenterId,@providerId",sp.ToArray()
+            
+               
+                ).ToListAsync();
         }
         public async Task<EmployeeModel> GetEmployeeById(Guid employeeId)
         {
@@ -40,15 +45,31 @@ namespace TogoFogo.Repository
                 command.Parameters.Add(param);
                 using (var reader = await command.ExecuteReaderAsync())
                 {
+                    var folder = "/UploadedImages/Employees/";
                     employee =
                         ((IObjectContextAdapter)_context)
                             .ObjectContext
                             .Translate<EmployeeModel>(reader)
                             .SingleOrDefault();
-                    employee.EMPPhotoUrl = "/UploadedImages/Employees/DP/"+ employee.EMPPhoto;                 
+                     employee.EMPPhotoUrl = folder+"/DP/" + employee.EMPPhoto;
+                     reader.NextResult();
+                     employee.Contact = 
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<ContactPersonModel>(reader)
+                            .SingleOrDefault();
+                    employee.Contact.ConAdhaarFileUrl   =     folder + "/adhr/" + employee.Contact.ConAdhaarFileName;
+                    employee.Contact.ConPanFileUrl      =     folder + "/PanCards/" + employee.Contact.ConPanFileName;
+                    employee.Contact.ConVoterIdFileUrl  =     folder + "/VoterIds/" + employee.Contact.ConVoterIdFileName;
+
+                    reader.NextResult();
+                    employee.Vehicle =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<VehicleModel>(reader)
+                            .SingleOrDefault();
                 }
             }
-
             return employee;
 
         }
@@ -79,6 +100,8 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@EMPADHAAR", ToDBNull(employee.Contact.ConAdhaarNumber));
             sp.Add(param);
+            param = new SqlParameter("@EMPADHAARFILENAME", ToDBNull(employee.Contact.ConAdhaarFileName));
+            sp.Add(param);
             param = new SqlParameter("@contactId", ToDBNull(employee.Contact.ContactId));
             sp.Add(param);
             param = new SqlParameter("@DesignationId", ToDBNull(employee.DesignationId));
@@ -95,21 +118,23 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@IsPickUp", (object)employee.IsPickUp);
             sp.Add(param);
-            param = new SqlParameter("@CityId", ToDBNull(employee.Contact.ConAddress.CityId));
+            param = new SqlParameter("@AddressTypeId", ToDBNull(employee.Contact.AddressTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@CityId", ToDBNull(employee.Contact.CityId));
             sp.Add(param);           
-            param = new SqlParameter("@StateId", ToDBNull(employee.Contact.ConAddress.StateId));
+            param = new SqlParameter("@StateId", ToDBNull(employee.Contact.StateId));
             sp.Add(param);
-            param = new SqlParameter("@CountryId", ToDBNull(employee.Contact.ConAddress.CountryId));
+            param = new SqlParameter("@CountryId", ToDBNull(employee.Contact.CountryId));
             sp.Add(param);
-            param = new SqlParameter("@PinCode", ToDBNull(employee.Contact.ConAddress.PinNumber));
+            param = new SqlParameter("@PinCode", ToDBNull(employee.Contact.PinNumber));
             sp.Add(param);
-            param = new SqlParameter("@Address", ToDBNull(employee.Contact.ConAddress.Address));
+            param = new SqlParameter("@Address", ToDBNull(employee.Contact.Address));
             sp.Add(param);
-            param = new SqlParameter("@Locality", ToDBNull(employee.Contact.ConAddress.Locality));
+            param = new SqlParameter("@Locality", ToDBNull(employee.Contact.Locality));
             sp.Add(param);
-            param = new SqlParameter("@NearByLocation", ToDBNull(employee.Contact.ConAddress.NearLocation));
+            param = new SqlParameter("@NearByLocation", ToDBNull(employee.Contact.NearLocation));
             sp.Add(param);
-            param = new SqlParameter("@RefKey", ToDBNull(employee.RefKey));
+            param = new SqlParameter("@RefKey", ToDBNull(employee.CenterId));
             sp.Add(param);
             param = new SqlParameter("@Action", (object)employee.Action);
             sp.Add(param);

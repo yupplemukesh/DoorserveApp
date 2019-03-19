@@ -1415,5 +1415,30 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
+        public JsonResult JsonCentersByProvider(Guid value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var rmid = con.Query<CheckBox>("Select CenterId Name,CenterName Text From  MSTServiceCenters where IsActive=1 and ProviderId=@providerId",
+                    new {providerId=value});
+                List<ListItem> items = new List<ListItem>();
+
+                items.Add(new ListItem
+                {
+                    Value = null, //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in rmid)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.Name.ToString(), //Value Field(ID)
+                        Text = val.Text //Text Field(Name)
+                    });
+                }
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

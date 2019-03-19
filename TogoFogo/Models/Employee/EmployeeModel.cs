@@ -10,14 +10,20 @@ namespace TogoFogo.Models
 {
     public class EmployeeModel
     {
+        public EmployeeModel()
+        {
+            Contact = new ContactPersonModel();
+            Vehicle = new VehicleModel();
+        }
         public Guid EmpId { get; set; }
         [Required]
         [DisplayName("Engineer Code")]
-        public int EmpCode { get; set; }
+        public string EmpCode { get; set; }
         public string EMPPhoto { get; set; }
         public string EMPPhotoUrl { get; set; }
         public Boolean IsActive { get; set; }
         public Boolean IsPickUp { get; set; }
+
         public DateTime EMPDOJ { get; set; }
         public DateTime EMPDOB { get; set; }
         public int UserID { get; set; }
@@ -25,14 +31,15 @@ namespace TogoFogo.Models
         public DateTime UpdatedOn { get; set; }
         [DisplayName("Department Name")]
         [Required]
-        public string EmployeeName { get; set; } 
+        public string EmployeeName { get; set; }
+        public string MobileNumber { get; set; }
         public char Action { get; set; }
         public int DepartmentId { get; set; }
         public string Designation { get; set; }
         public string Department { get; set; }
         [Required]
         [DisplayName("Center Name")]
-        public Guid RefKey { get; set; }
+        public Guid CenterId { get; set; }
         public Guid ProviderId { get; set; }
         [Required]
         [DisplayName("Designation Name")]

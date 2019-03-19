@@ -14,7 +14,7 @@ namespace TogoFogo.Models
         public string VHModel { get; set; }
         [DisplayName("Vehicle Number")]
         public string VHNumber { get; set; }
-        public int VHTypeId { get; set; }
+        public int? VHTypeId { get; set; }
         public SelectList VehicleTypeList { get; set; }
     }
 }

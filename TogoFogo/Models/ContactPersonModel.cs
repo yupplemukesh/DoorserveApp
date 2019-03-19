@@ -8,8 +8,9 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class ContactPersonModel
-    {        
+    public class ContactPersonModel: AddressDetail
+    {
+      
         public Guid? ContactId { get; set; }
         public Guid RefKey { get; set; }       
         [DisplayName("First Name")]
@@ -44,8 +45,7 @@ namespace TogoFogo.Models
         [DisplayName("Aadhaar Number")]
         public string ConAdhaarNumber { get; set; }
         [DisplayName("Upload Aadhaar Number")]
-        public HttpPostedFileBase ConAdhaarNumberFilePath { get; set; }
-        public AddressDetail ConAddress { get; set; }
+        public HttpPostedFileBase ConAdhaarNumberFilePath { get; set; }      
         [DisplayName("Upload Aadhaar Number")]
         public string ConAdhaarFileName { get; set; }
         public string ConAdhaarFileUrl { get; set; }

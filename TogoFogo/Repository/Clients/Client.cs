@@ -87,22 +87,16 @@ namespace TogoFogo.Repository.Clients
                     ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),                   
-                    isActive = Convert.ToBoolean(reader["IsActive"].ToString()),
-                    ConAddress = new AddressDetail
-                    {
-                        AddresssId = new Guid(reader["AddresssId"].ToString()),
-                        CityId = Convert.ToInt32(reader["CityId"].ToString()),
-                        CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
-                        StateId = Convert.ToInt32(reader["StateId"].ToString()),
-                        AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
-                        Locality = reader["Locality"].ToString(),
-                        NearLocation = reader["NearLocation"].ToString(),
-                        PinNumber = reader["PinNumber"].ToString(),
-                        Address = reader["Address"].ToString()
-
-                    }
-
-
+                    isActive = Convert.ToBoolean(reader["IsActive"].ToString()),                   
+                    AddresssId = new Guid(reader["AddresssId"].ToString()),
+                     CityId = Convert.ToInt32(reader["CityId"].ToString()),
+                     CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
+                     StateId = Convert.ToInt32(reader["StateId"].ToString()),
+                     AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
+                     Locality = reader["Locality"].ToString(),
+                     NearLocation = reader["NearLocation"].ToString(),
+                     PinNumber = reader["PinNumber"].ToString(),
+                     Address = reader["Address"].ToString()               
             };
 
                 person.ConVoterIdFileUrl = "/UploadedImages/Clients/VoterIds/" + person.ConVoterIdFileName;

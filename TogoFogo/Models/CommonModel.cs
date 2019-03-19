@@ -207,11 +207,19 @@ namespace TogoFogo
                 return _serviceProvider;
             }
         }
-        public static async Task<List<CheckBox>> GetServiceCenters()
+        public static async Task<List<CheckBox>> GetServiceCenters(Guid? providerId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceCeters = await _context.Database.SqlQuery<CheckBox>("SELECT CenterId Name ,CenterName Text FROM MSTServiceCenters where IsActive=1").ToListAsync();
+                string query = "SELECT CenterId Name ,CenterName Text FROM MSTServiceCenters where IsActive=1";
+                SqlParameter param =new SqlParameter();
+                if (providerId != null)
+                {
+                    query = query + " and ProviderId=@ProviderId";
+                    param.ParameterName= "@ProviderId";
+                    param.Value = providerId;
+                }
+                var _serviceCeters = await _context.Database.SqlQuery<CheckBox>(query,param).ToListAsync();
                 return _serviceCeters;
             }
         }
@@ -242,6 +250,24 @@ namespace TogoFogo
                 var _clientId = await _context.Database.SqlQuery<Guid>("select ClientId  from MstClients where USERID=@userId and isActive=1",
                     new SqlParameter("userId", userId)).SingleOrDefaultAsync();
                 return _clientId;
+            }
+        }
+
+        public static async Task<List<CheckBox>> GetDepartments()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _departments = await _context.Database.SqlQuery<CheckBox>("select DeptartmentId Value,DeptartmentName Text from MSTDEPARTMENTS where IsActive=1").ToListAsync();
+                return _departments;
+            }
+        }
+        public static async Task<List<CheckBox>> GetDesignations()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _desgnations = await _context.Database.SqlQuery<CheckBox>("Select DesignationId Value,DesignationName Text from MSTDesignations where IsActive=1"
+                    ).ToListAsync();
+                return _desgnations;
             }
         }
     }

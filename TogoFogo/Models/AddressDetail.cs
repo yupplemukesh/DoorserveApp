@@ -30,8 +30,6 @@ namespace TogoFogo.Models
         [DisplayName("Pin Code")]
         [Required(ErrorMessage = "Enter Pin Code")]
         public string PinNumber { get; set; }
-        public Boolean IsActive { get; set; }
-        public Guid RefKey { get; set; }     
         public SelectList AddressTypelist { get; set; }
         public SelectList CityList { get; set; }
         public SelectList StateList { get; set; }

@@ -101,16 +101,15 @@ namespace TogoFogo.Controllers
             var contactPerson = JsonConvert.DeserializeObject<ContactPersonModel>(model);
          
             var Addresses = CommonModel.GetAddressTypes();
-            if (contactPerson.ConAddress == null)
-                contactPerson.ConAddress = new AddressDetail();
-            contactPerson.ConAddress.AddressTypelist = new SelectList(Addresses, "Value", "Text");
-            contactPerson.ConAddress.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+           
+            contactPerson.AddressTypelist = new SelectList(Addresses, "Value", "Text");
+            contactPerson.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
 
             if (contactPerson.ContactId != null)
             {
                 contactPerson.Action = 'U';
-                contactPerson.ConAddress.StateList = new SelectList(dropdown.BindState(contactPerson.ConAddress.CountryId), "Value", "Text");
-                contactPerson.ConAddress.CityList = new SelectList(dropdown.BindLocation(contactPerson.ConAddress.StateId), "Value", "Text");
+                contactPerson.StateList = new SelectList(dropdown.BindState(contactPerson.CountryId), "Value", "Text");
+                contactPerson.CityList = new SelectList(dropdown.BindLocation(contactPerson.StateId), "Value", "Text");
 
             }
             else
@@ -118,8 +117,8 @@ namespace TogoFogo.Controllers
 
                 contactPerson.Action = 'I';
             
-                contactPerson.ConAddress.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
-                contactPerson.ConAddress.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+                contactPerson.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+                contactPerson.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
 
             }
 

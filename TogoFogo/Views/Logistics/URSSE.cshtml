@@ -8,10 +8,9 @@
 
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model._UserActionRights.ExcelExport)
-                    {
+                   
                         <button class="btn btn-primary excel">Export to Excel</button>
-                    }
+                   
                     </div>
             </div>
         </div>
@@ -101,10 +100,7 @@
                         @Html.DisplayFor(modelItem => item.Status)
                     </td>
                     <td>
-                        @if (Model._UserActionRights.Edit)
-                        {
                             @Html.ActionLink("Update", "URSSEForm", new { }, new { @class = "btn btn-sm btn-size btn-primary" })
-                        }
                         </td>
                 </tr>
             }

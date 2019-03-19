@@ -29,7 +29,10 @@ namespace TogoFogo.Controllers
             calls.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(), "Name", "Text") };
+            Guid? providerId = null;
+            if (Session["RoleName"].ToString().Contains("provider"))
+                providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(providerId), "Name", "Text") };
             return View(calls);
         }
         [HttpPost]
