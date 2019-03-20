@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
 using TogoFogo.Permission;
+using TogoFogo.Filters;
 
 namespace TogoFogo.Controllers
 {
@@ -39,13 +40,10 @@ namespace TogoFogo.Controllers
             return View(courierApiModel);
         }
         [HttpPost]
+        [ValidateModel]
         public ActionResult Create(ManageCourierApiModel model)
-        {
-            try
-            {                
-                if (ModelState.IsValid)
-                { 
-                using (var con = new SqlConnection(_connectionString))
+        {          
+           using (var con = new SqlConnection(_connectionString))
                 {
                    // ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
                    // ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
@@ -80,18 +78,11 @@ namespace TogoFogo.Controllers
                                 response.Response = " Username Already Exist ";
                                 TempData["response"] = response;                               
                         }            
-                    }
+           }
                     return RedirectToAction("ManageCourierApi");
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
-
-            return RedirectToAction("ManageCourierApi");
         }
+               
+     
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Courier API")]
         public ActionResult Edit(int apiId)
         {
@@ -113,13 +104,10 @@ namespace TogoFogo.Controllers
             }
         }
         [HttpPost]
+        [ValidateModel]
         public ActionResult Edit(ManageCourierApiModel model)
         {
-            try
-            {               
-                if (ModelState.IsValid)
-                {
-                    using (var con = new SqlConnection(_connectionString))
+              using (var con = new SqlConnection(_connectionString))
                 {                   
                         var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
@@ -153,18 +141,11 @@ namespace TogoFogo.Controllers
                             response.Response = "Not Updated";
                             TempData["response"] = response;                           
                         }
-                    }
+              }
                     // return View(model); 
-                    return RedirectToAction("ManageCourierApi");
-                }
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
-
-            return RedirectToAction("ManageCourierApi");
+                return RedirectToAction("ManageCourierApi");
         }
     }
+            
 }
+  

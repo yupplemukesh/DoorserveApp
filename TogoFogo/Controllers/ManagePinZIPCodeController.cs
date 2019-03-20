@@ -12,6 +12,7 @@ using Dapper;
 using TogoFogo.Extension;
 using TogoFogo.Models;
 using TogoFogo.Permission;
+using TogoFogo.Filters;
 
 namespace TogoFogo.Controllers
 {
@@ -23,39 +24,34 @@ namespace TogoFogo.Controllers
         // GET: ManagePinZIPCode
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Pin/Zip Code")]
         public ActionResult PinZIPCode()
-        {
-            CourierPinZipCode objCourierPinZipCode = new CourierPinZipCode();
+        {           
             using (var con = new SqlConnection(_connectionString))
             {
-                objCourierPinZipCode._CourierPinZipCodeList = con.Query<CourierPinZipCode>("GetDataFrm_MstCourierPINzip", null, commandType: CommandType.StoredProcedure).ToList();
-
-                
-            }
-            objCourierPinZipCode._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objCourierPinZipCode);
+                var result = con.Query<CourierPinZipCode>("GetDataFrm_MstCourierPINzip", null, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
+            }         
+            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Pin/Zip Code")]
         public ActionResult Create()
         {
-            CourierPinZipCode courierPinZipCode = new CourierPinZipCode();
-            courierPinZipCode.CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            courierPinZipCode.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            courierPinZipCode.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
-            courierPinZipCode.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
-            return View(courierPinZipCode);
-        }
+            CourierPinZipCode courierPinZipCode = new CourierPinZipCode
+            {
+                CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text"),
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CityList = new SelectList(Enumerable.Empty<SelectListItem>())            
+        };
+        return View(courierPinZipCode);
+    }
 
         [HttpPost]
+        [ValidateModel]
         public ActionResult Create(CourierPinZipCode model)
-        {
-            try
-            {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {        
+           
                 using (var con = new SqlConnection(_connectionString))
-                {
-                    if (ModelState.IsValid)
-                    {
+                {                   
                         var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
                         new
                         {
@@ -75,40 +71,34 @@ namespace TogoFogo.Controllers
                             model.ReverseLogistics,
                             model.OrderPreference,
                             model.IsActive,
-                            model.Comments,
-                            model.CreatedBy,
-                            model.CreatedDate,
-                            model.ModifyBy,
-                            model.ModifyDate,
-                            model.DeleteBy,
-                            model.DeleteDate,
-                            User = "",
+                            model.Comments,                            
+                            User = Convert.ToInt32(Session["User_ID"]),
                             Action = "I"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        if (result == 1)
+                       var response = new ResponseModel();
+                if (result == 1)
                         {
-                            TempData["Message"] = "Successfully Added";
+                           response.IsSuccess = true;
+                           response.Response = " Successfully Added ";
+                           TempData["response"] = response;
+                    
                         }
                         else
-                        {
-                            TempData["Message"] = "Pin Region Already Exist";
-                        }
-                    }
-                    else
-                    {                      
-                            return View(model);                       
-                    }
+                        {                            
+                          response.IsSuccess = true;
+                          response.Response = " Pin Region Already Exist ";
+                          TempData["response"] = response;
                 }
-
+                return RedirectToAction("PinZIPCode");
             }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-            return RedirectToAction("PinZIPCode");
+                    
         }
+
+          
+          
+
+           
+       
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Pin/Zip Code")]
         public ActionResult Edit(int pinZipId)
         {
@@ -136,18 +126,13 @@ namespace TogoFogo.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         public ActionResult Edit(CourierPinZipCode model)
-        {
-            try
-            {
-                model.CreatedBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
-                model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
+        {            
                 int PinZipId = Convert.ToInt32(TempData["PinZipId"]);
                 model.Pin_ZIP_ID = PinZipId;
                 using (var con = new SqlConnection(_connectionString))
-                {
-                    if (ModelState.IsValid)
-                    {
+                {                   
                         var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
                             new
                             {
@@ -167,39 +152,31 @@ namespace TogoFogo.Controllers
                                 model.ReverseLogistics,
                                 model.OrderPreference,
                                 model.IsActive,
-                                model.Comments,
-                                model.CreatedBy,
-                                model.CreatedDate,
-                                model.ModifyBy,
-                                model.ModifyDate,
-                                model.DeleteBy,
-                                model.DeleteDate,
-                                User = "",
+                                model.Comments,                                
+                                User = Convert.ToInt32(Session["User_ID"]),
                                 Action = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        if (result == 2)
-                        {
-                            TempData["Message"] = "Updated Successfully";
+                var response = new ResponseModel();
+                if (result == 2)
+                        {                            
+                         response.IsSuccess = true;
+                         response.Response = "Updated Successfully";
+                         TempData["response"] = response;
                         }
                         else
                         {
-                            TempData["Message"] = "Something went wrong";
+                         response.IsSuccess = true;
+                         response.Response = "Something went wrong";
+                        TempData["response"] = response;                                             
                         }
-                    }
-                    else
-                    {
-                        return View(model);
-                    }
-                }
+                return RedirectToAction("PinZIPCode");
             }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-            return RedirectToAction("PinZIPCode");
+                   
         }
+                 
+
+            
+    
         [HttpGet]
         public ActionResult Mass_Courier_UPload()
         {

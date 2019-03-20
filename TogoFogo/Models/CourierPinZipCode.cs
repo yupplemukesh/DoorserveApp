@@ -94,14 +94,17 @@ namespace TogoFogo.Models
         public Boolean IsActive { get; set; }
         [DisplayName("Comments")]
         public string Comments { get; set; }
-        public string CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
-        public string ModifyBy { get; set; }
+        public long CreatedBy { get; set; }
+        [DisplayName("CreatedBy")]
+        public string CBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public long ModifyBy { get; set; }
+        [DisplayName("ModifyBy")]
+        public string MBy { get; set; }
         public string ModifyDate { get; set; }
-        public string DeleteBy { get; set; }
+        public long DeleteBy { get; set; }
         public string DeleteDate { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
-        public List<CourierPinZipCode> _CourierPinZipCodeList { get; set; }
+        
     }
 
     public class GetData
