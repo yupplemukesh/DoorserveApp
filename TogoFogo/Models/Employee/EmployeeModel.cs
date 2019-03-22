@@ -23,9 +23,12 @@ namespace TogoFogo.Models
         public string EMPPhotoUrl { get; set; }
         public Boolean IsActive { get; set; }
         public Boolean IsPickUp { get; set; }
-
-        public DateTime EMPDOJ { get; set; }
-        public DateTime EMPDOB { get; set; }
+        [Required]
+        [DisplayName("Date of Joining")]
+        public DateTime? EMPDOJ { get; set; }
+        [Required]
+        [DisplayName("Date of Birth")]
+        public DateTime? EMPDOB { get; set; }
         public int UserID { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTime UpdatedOn { get; set; }

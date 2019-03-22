@@ -1,6 +1,5 @@
 ﻿@model TogoFogo.Models.EmployeeModel
 <div class="form-group row">
-
     <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
             <label class=" control-label" for="form-control-9">Engineer Code</label>
@@ -19,26 +18,18 @@
             </div>
             @Html.ValidationMessageFor(x => x.EMPPhoto1, "", new { @class = "text-danger" })
         </div>
-        <div class="col-md-1 col-sm-1 manage">
-            <label for="file-input">
+        <div class="col-md-1 col-sm-1">      
                 @if (!string.IsNullOrEmpty(Model.EMPPhoto))
                 {
-                    <img src="@Model.EMPPhotoUrl" class="a" style="pointer-events: none">
+                    <img src="@Model.EMPPhotoUrl" class="a" style="pointer-events: none;width:60px;">
                 }
                 else
                 {
-                    <img src="~/Content/img/avatars/engineer.png" class="a" style="pointer-events: none;width:48px">
-
-                }
-            </label>
+                    <img src="~/Content/img/avatars/engineer.png" class="a" style="pointer-events: none;width:60px;">
+                }  
         </div>
     </div>
 </div>
-
-
-
-
-
 <div class="form-group row">
 
     <div class="col-md-12">
@@ -140,29 +131,18 @@
         
     </div>
 </div>
-
 @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
-
-
-
 <div class="form-group row">
     <div class="col-md-12">
-
-
         <div class="col-md-6 col-sm-6">
-
             <label class=" control-label" for="form-control-9">Can pick Up?</label>
-
-
             <div class="input-group">
                 <label class="custom-control custom-control-primary custom-checkbox active">
                     @Html.CheckBoxFor(x => x.IsPickUp, new { @class = "custom-control-input" })
                     <span class="custom-control-indicator"></span>
                 </label>
             </div>
-
         </div>
-
         <div class="col-md-6 col-sm-6">
 
             <label class="control-label" for="form-control-9">Is Active </label>
@@ -178,13 +158,10 @@
 
 
         </div>
-
     </div>
 </div>
 <div class="form-group row">
-    <div class="col-md-12">
-
-
+    <div class="col-md-12">        
         <div class="col-md-6 col-sm-6">
             <label class=" control-label" for="form-control-9">Vehicle Type</label>
             <div class="input-group">
@@ -196,7 +173,6 @@
 
         </div>
     </div>
-
 </div>
 <div class="form-group row">
     <div class="col-md-12">
@@ -229,8 +205,6 @@
         </div>
     </div>
 </div>
-
-
 <script>
     function AjaxWithValue(method, ddl, e) {
         var val = e.value;

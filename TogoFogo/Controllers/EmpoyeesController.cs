@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -15,11 +16,34 @@ namespace TogoFogo.Controllers
     {
         private readonly IEmployee _employee;
         private readonly DropdownBindController drop;
+        private string folderPath;
         public EmployeesController()
         {
             _employee = new Employee();
             drop = new DropdownBindController();
+            folderPath = "~/UploadedImages/employees/";
+        }
+        private string SaveImageFile(HttpPostedFileBase file, string folderName)
+        {
+            try
+            {
+                string path = Server.MapPath(folderPath + folderName);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileFullName = file.FileName;
+                var fileExtention = Path.GetExtension(fileFullName);
+                var fileName = Guid.NewGuid();
+                var savedFileName = fileName + fileExtention;
+                file.SaveAs(Path.Combine(path, savedFileName));
+                return savedFileName;
+            }
+            catch (Exception ex)
+            {
 
+                return ViewBag.Message = ex.Message;
+            }
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Engineers")]
         public async Task<ActionResult> Index()
@@ -60,6 +84,14 @@ namespace TogoFogo.Controllers
         [ValidateModel]
         public async Task<ActionResult> Create(EmployeeModel emp,ContactPersonModel contact)
         {
+            if (emp.EMPPhoto1 != null)
+                emp.EMPPhoto = SaveImageFile(emp.EMPPhoto1, "DP");
+            if (contact.ConAdhaarNumberFilePath != null)
+                contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
+            if (contact.ConVoterIdFilePath != null)
+                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
+            if (contact.ConPanNumberFilePath != null)
+                contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
             emp.Contact = contact;
             emp.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             emp.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
@@ -95,11 +127,42 @@ namespace TogoFogo.Controllers
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             return View(empModel);
         }
-
         [HttpPost]
         [ValidateModel]
         public async Task<ActionResult> Edit(EmployeeModel empModel, ContactPersonModel contact)
         {
+
+            if (empModel.EMPPhoto1 != null && empModel.EMPPhoto != null)
+            {
+
+                if (System.IO.File.Exists(Server.MapPath(folderPath + "DP/" + contact.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath + "DP/" + contact.ConAdhaarFileName));
+            }
+            if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
+            {
+
+                if (System.IO.File.Exists(Server.MapPath(folderPath+"ADHRS/" + contact.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath+"ADHRS/" + contact.ConAdhaarFileName));
+            }
+            if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(folderPath + "VoterIds/" + contact.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath + "VoterIds/" + contact.ConVoterIdFileName));
+            }
+            if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(folderPath+"PANCards/" + contact.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath + "PANCards/" + contact.ConPanFileName));
+            }
+
+            if (empModel.EMPPhoto1 != null)
+                empModel.EMPPhoto = SaveImageFile(empModel.EMPPhoto1, "DP");
+            if (contact.ConAdhaarNumberFilePath != null)
+                contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
+            if (contact.ConVoterIdFilePath != null)
+                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
+            if (contact.ConPanNumberFilePath != null)
+                contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
             empModel.Contact = contact;
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");

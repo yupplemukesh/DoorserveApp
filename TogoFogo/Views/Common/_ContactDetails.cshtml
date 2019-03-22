@@ -34,56 +34,8 @@
 
         <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Address</strong>:</div>
 
-        <div class="col-md-6 col-xs-6 col-sm-6 edit-p">   @Model.ConAddress.Address</div>
-    </div>
-
-    @if (!string.IsNullOrEmpty(Model.ConPanFileName))
-    {
-    <div class="row edit-padd">
-
-        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Pan File</strong>:</div>
-        <div class="col-md-6 col-xs-6 col-sm-6">
-            <a data-target="#modalIMGConPAN" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
-                    <img alt="Contact PAN File" class="card-img-top" src="@Model.ConPanFileUrl" />
-                </div>
-            </a>
-           
-
-        </div>
-        </div>
-        }
-
-        @if (!string.IsNullOrEmpty(Model.ConAdhaarFileName))
-        {
-    <div class="row edit-padd">
-
-        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Adhaar File</strong>:</div>
-        <div class="col-md-6 col-xs-6 col-sm-6">            
-            <a data-target="#modalIMGConAdhr" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
-                    <img alt="Contact Adhaar File" class="card-img-top" src="@Model.ConAdhaarFileUrl" />
-                </div>
-            </a>
-       </div>
-        </div>
-        }
-
-        @if (!string.IsNullOrEmpty(Model.ConVoterIdFileName))
-        {
-    <div class="row edit-padd">
-
-        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Voter Id File</strong>:</div>
-        <div class="col-md-6 col-xs-6 col-sm-6">            
-            <a data-target="#modalIMGConVoterId" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
-                    <img alt="Contact VoterId File" class="card-img-top" src="@Model.ConVoterIdFileUrl" />
-                </div>
-            </a>
-            </div>
-        </div>
-        }
-
+        <div class="col-md-6 col-xs-6 col-sm-6 edit-p">   @Model.Address</div>
+    </div>  
     </div>
 
 

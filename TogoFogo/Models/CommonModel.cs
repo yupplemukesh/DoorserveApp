@@ -213,12 +213,14 @@ namespace TogoFogo
             {
                 string query = "SELECT CenterId Name ,CenterName Text FROM MSTServiceCenters where IsActive=1";
                 SqlParameter param =new SqlParameter();
-                if (providerId != null)
-                {
+                
                     query = query + " and ProviderId=@ProviderId";
                     param.ParameterName= "@ProviderId";
+
+                if (providerId != null)                
                     param.Value = providerId;
-                }
+                else
+                param.Value = DBNull.Value;
                 var _serviceCeters = await _context.Database.SqlQuery<CheckBox>(query,param).ToListAsync();
                 return _serviceCeters;
             }
