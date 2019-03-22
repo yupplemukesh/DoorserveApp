@@ -133,11 +133,13 @@ namespace TogoFogo.Controllers
                         response.IsSuccess = Isvalid;
                         TempData["response"] = response;
                         TempData.Keep("response");
-                        return Redirect("Create");
+                        return Redirect("Index");
                     }
                     
                 }
                 else
+                {
+                if (templateModel.ToMobileNoFile != null)
                 {
                     string excelPath = SaveFile(templateModel.ToMobileNoFile, "ToMobile");
                     string conString = string.Empty;
@@ -158,7 +160,7 @@ namespace TogoFogo.Controllers
                     {
                         excel_con.Open();
                         string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                        dtToMobileNoExcelData.Columns.AddRange(new DataColumn[1] 
+                        dtToMobileNoExcelData.Columns.AddRange(new DataColumn[1]
                         {
                             new DataColumn("ToMobileNo", typeof(string))
 
@@ -167,15 +169,16 @@ namespace TogoFogo.Controllers
                         {
                             oda.Fill(dtToMobileNoExcelData);
                         }
-                        excel_con.Close();                       
+                        excel_con.Close();
                     }
 
-                if(dtToMobileNoExcelData!=null && dtToMobileNoExcelData.Rows.Count>0)
-                {
-                    var ToMobileList = dtToMobileNoExcelData.AsEnumerable().Select(r => r.Field<string>("ToMobileNo")).ToList();
-                    templateModel.UploadedMobile = string.Join(",", ToMobileList);
-                    templateModel.TotalCount = dtToMobileNoExcelData.Rows.Count;
+                    if (dtToMobileNoExcelData != null && dtToMobileNoExcelData.Rows.Count > 0)
+                    {
+                        var ToMobileList = dtToMobileNoExcelData.AsEnumerable().Select(r => r.Field<string>("ToMobileNo")).ToList();
+                        templateModel.UploadedMobile = string.Join(",", ToMobileList);
+                        templateModel.TotalCount = dtToMobileNoExcelData.Rows.Count;
 
+                    }
                 }
                 if (!string.IsNullOrEmpty(templateModel.PhoneNumber))
                 {
@@ -188,7 +191,10 @@ namespace TogoFogo.Controllers
             if (Isvalid)
             {
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'I');
-                _templateRepo.Save();
+                response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
+                response.IsSuccess = Isvalid;
+                TempData["response"] = response;
+                TempData.Keep("response");
             }
 
             return RedirectToAction("Index");           
@@ -207,26 +213,159 @@ namespace TogoFogo.Controllers
             return View(templatemodel);
         }
         [HttpPost]
-        public async Task<ActionResult> Edit(TemplateModel templatemodel)
-        {            
-                templatemodel.AddedBy = Convert.ToInt32(Session["User_ID"]);
-                var response = await _templateRepo.AddUpdateDeleteTemplate(templatemodel, 'U');
-                _templateRepo.Save();
-            if(response.ResponseCode==0)
+        public async Task<ActionResult> Edit(TemplateModel templateModel)
+        {
+            var response = new TogoFogo.Models.ResponseModel();
+            Boolean Isvalid = false;
+            DataTable dtToEmailExcelData = new DataTable();
+            templateModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+            if (templateModel.MessageTypeName == "SMTP Gateway")
             {
-                response.Response = "Successfully updated";
-            }
-            else if(response.ResponseCode == 2)
-            {
-                response.Response = "Already exists details";
+                if (templateModel.ToEmailFile != null)
+                {
+                    string excelPath = SaveFile(templateModel.ToEmailFile, "ToEmail");
+                    string conString = string.Empty;
+                    string extension = Path.GetExtension(templateModel.ToEmailFile.FileName);
+                    switch (extension)
+                    {
+                        case ".xls": //Excel 97-03
+                            conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                            break;
+                        case ".xlsx": //Excel 07 or higher
+                            conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                            break;
+
+                    }
+                    conString = string.Format(conString, excelPath);
+
+                    using (OleDbConnection excel_con = new OleDbConnection(conString))
+                    {
+                        excel_con.Open();
+                        string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                        dtToEmailExcelData.Columns.AddRange(new DataColumn[1] {
+                            new DataColumn("ToEmail", typeof(string))
+                        });
+                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [To Email]as ToEmail  FROM [" + sheet1 + "]", excel_con))
+                        {
+                            oda.Fill(dtToEmailExcelData);
+                        }
+                        excel_con.Close();
+                    }
+                    if (dtToEmailExcelData != null && dtToEmailExcelData.Rows.Count > 0)
+                    {
+                        var emailChecklist = dtToEmailExcelData.AsEnumerable().Select(x =>
+                                      new { Valid = IsEmail(x.Field<string>("ToEmail")) }).ToList();
+
+                        int Count = (from mail in emailChecklist
+                                     where mail.Valid == false
+                                     select mail).Count();
+                        if (Count > 0)
+                        {
+                            response.Response = "Upload Valid Email";
+                            response.IsSuccess = Isvalid;
+                            TempData["response"] = response;
+                            TempData.Keep("response");
+                            return Redirect("Create");
+                        }
+                        else
+                            Isvalid = true;
+
+                        var ToEmailList = dtToEmailExcelData.AsEnumerable().Select(r => r.Field<string>("ToEmail")).ToList();
+                        templateModel.UploadedEmail = string.Join(";", ToEmailList);
+                        templateModel.TotalCount = dtToEmailExcelData.Rows.Count;
+                    }
+                }
+                if (!string.IsNullOrEmpty(templateModel.ToEmail))
+                {
+                    string[] strToemail = templateModel.ToEmail.Split(';');
+
+                    templateModel.TotalCount += strToemail.Length;
+                    Isvalid = true;
+                }
+                if (!string.IsNullOrEmpty(templateModel.ToCCEmail))
+                {
+                    string[] strToEmailcc = templateModel.ToCCEmail.Split(';');
+                    templateModel.TotalCount += strToEmailcc.Length;
+                    Isvalid = true;
+                }
+                if (!Isvalid)
+                {
+                    response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
+                    response.IsSuccess = Isvalid;
+                    TempData["response"] = response;
+                    TempData.Keep("response");
+                    return Redirect("Create");
+                }
+
             }
             else
             {
-                response.Response = "Someting went wrong,please try again";
+                string excelPath = SaveFile(templateModel.ToMobileNoFile, "ToMobile");
+                string conString = string.Empty;
+                string extension = Path.GetExtension(templateModel.ToMobileNoFile.FileName);
+                switch (extension)
+                {
+                    case ".xls": //Excel 97-03
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx": //Excel 07 or higher
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+
+                }
+                conString = string.Format(conString, excelPath);
+                DataTable dtToMobileNoExcelData = new DataTable();
+                using (OleDbConnection excel_con = new OleDbConnection(conString))
+                {
+                    excel_con.Open();
+                    string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                    dtToMobileNoExcelData.Columns.AddRange(new DataColumn[1]
+                    {
+                            new DataColumn("ToMobileNo", typeof(string))
+
+                    });
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [To MobileNo]as ToMobileNo  FROM [" + sheet1 + "]", excel_con))
+                    {
+                        oda.Fill(dtToMobileNoExcelData);
+                    }
+                    excel_con.Close();
+                }
+
+                if (dtToMobileNoExcelData != null && dtToMobileNoExcelData.Rows.Count > 0)
+                {
+                    var ToMobileList = dtToMobileNoExcelData.AsEnumerable().Select(r => r.Field<string>("ToMobileNo")).ToList();
+                    templateModel.UploadedMobile = string.Join(",", ToMobileList);
+                    templateModel.TotalCount = dtToMobileNoExcelData.Rows.Count;
+
+                }
+                if (!string.IsNullOrEmpty(templateModel.PhoneNumber))
+                {
+                    string[] strPhoneNumber = templateModel.PhoneNumber.Split(',');
+                    templateModel.TotalCount += strPhoneNumber.Length;
+                    Isvalid = true;
+                }
             }
+
+            if (Isvalid)
+            {
+                response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'U');
+                //_templateRepo.Save();
+                if (response.ResponseCode == 0)
+                {
+                    response.Response = "Successfully updated";
+                }
+                else if (response.ResponseCode == 2)
+                {
+                    response.Response = "Already exists details";
+                }
+                else
+                {
+                    response.Response = "Someting went wrong,please try again";
+                }
                 TempData["response"] = response;
                 TempData.Keep("response");
-                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
         public JsonResult BindGateway(Int64 GatewayTypeId)
         {
@@ -280,5 +419,13 @@ namespace TogoFogo.Controllers
             var templates = await _templateRepo.GetUploadedExcelListByGUID(GUID,MessageTypeName);
             return Json(templates, JsonRequestBehavior.AllowGet);
         }
+        public async Task<JsonResult> DeleteUploadedExcelData(Guid GUID, string MessageTypeName,string UploadedData)
+        {
+
+            string strUploaded = UploadedData.Replace(',', ';');
+            var templates = await _templateRepo.DeleteUploadedExcelData(GUID, MessageTypeName, strUploaded);
+            return Json(templates, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

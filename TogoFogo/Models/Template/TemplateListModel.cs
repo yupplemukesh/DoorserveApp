@@ -8,6 +8,10 @@ namespace TogoFogo.Models.Template
 {
     public class TemplateListModel
     {
+        public TemplateListModel() {
+
+            TemplateTrackerList = new List<TemplateTracker>();
+        }
         public int? ActionTypeId { get; set; }
         public int? MessageTypeId { get; set; }
         public int? NonMessageTypeId { get; set; }
@@ -15,6 +19,7 @@ namespace TogoFogo.Models.Template
         public SelectList MessageTypeList { get; set; }
         public List<TemplateModel> NonActionTemplates { get; set; }
         public List<TemplateModel> Templates { get; set; }
+        public List<TemplateTracker> TemplateTrackerList { get; set; }
         public UserActionRights _UserActionRights { get; set; }
     }
 }

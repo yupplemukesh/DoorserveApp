@@ -41,6 +41,13 @@ namespace TogoFogo.Repository.EmailSmsTemplate
                             .ObjectContext
                             .Translate<TemplateModel>(reader)
                             .ToList();
+                    reader.NextResult();
+
+                    list.TemplateTrackerList =
+                    ((IObjectContextAdapter)_context)
+                        .ObjectContext
+                        .Translate<TemplateTracker>(reader)
+                        .ToList();
                 }
             }
 
@@ -142,6 +149,23 @@ namespace TogoFogo.Repository.EmailSmsTemplate
 
 
             var sql = "UspInsertTemplateSave   @TemplateId,@TemplateName,@MailerTemplateName,@TemplateTypeId,@MessageTypeName,@MessageTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@BccEmails,@IsSystemDefined,@IsActive,@AddedBy,@GUID,@ToEmail,@ToEmailCC,@UploadedEmail,@ToMobileNo,@UploadedMobile,@ScheduleTime,@TotalCount";
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+
+            return res;
+        }
+        public async Task<ResponseModel> DeleteUploadedExcelData(Guid GUID,string MessageTypeName,string UploadedData)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();           
+            SqlParameter param = new SqlParameter("@GUID", ToDBNull(GUID));
+            sp.Add(param);
+            param = new SqlParameter("@MessageTypeName", MessageTypeName);
+            sp.Add(param);
+            param = new SqlParameter("@RemoveUploaded", UploadedData);
+            sp.Add(param);
+
+            var sql = "UspDeleteUploadDetail   @GUID,@MessageTypeName,@RemoveUploaded";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

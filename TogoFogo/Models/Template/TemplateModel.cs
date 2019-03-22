@@ -19,6 +19,7 @@ namespace TogoFogo.Models.Template
             EmailHeaderFooterList = new SelectList(Enumerable.Empty<SelectListItem>());
             GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());            
         }
+       
         [Required(ErrorMessage = "Select Mailer Gateway")]
         public Int64 GatewayId { get; set; }
         [Required(ErrorMessage = "Enter Subject")]
@@ -92,7 +93,9 @@ namespace TogoFogo.Models.Template
         public string UploadedMobile { get; set; }
         public int TotalCount { get; set; }
         public int TotalTemplateSchedule { get; set; }
-        public DateTime? ScheduleTime { get; set; }
+        public string ScheduleDate { get; set; }
+        public string ScheduleTime { get; set; }
+        public string ScheduleDateTime { get; set; }
         public SelectList TemplateList { get; set; }
         public SelectList ActionTypeList { get; set; }
         public SelectList MessageTypeList { get; set; }
@@ -100,6 +103,7 @@ namespace TogoFogo.Models.Template
         public SelectList PriorityTypeList { get; set; }
         public SelectList GatewayList { get; set; }
         public SelectList EmailHeaderFooterList { get; set; }
+        public List<TemplateTracker> TemplateTrackers{ get; set; }
     }
     public class BindGateway
     {
@@ -111,5 +115,17 @@ namespace TogoFogo.Models.Template
         public int HeaderFooterId { get; set; }
         public string HeaderFooterName { get; set; }
 
+    }
+    public class TemplateTracker
+    {
+        public Guid? GUID { get; set; }
+        public int TemplateId { get; set; }
+        public string ScheduleDate { get; set; }
+        public string ScheduleTime { get; set; }
+        public string ScheduleDateTime { get; set; }
+        public DateTime? StartDate { get; set; }
+        public string StatusCode { get; set; }
+        public int SuccessCount { get; set; }
+        public int FailedCount { get; set; }
     }
 }
