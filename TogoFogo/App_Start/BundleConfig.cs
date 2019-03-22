@@ -37,8 +37,9 @@ namespace TogoFogo
                                   "~/Content/css/application.css",                                
                                   "~/Content/css/bootstrap-datetimepicker.css",
                                      "~/Content/css/bootstrap-select.min.css",
-                      "~/Content/css/style.css",
-                      "~/Content/css/jquery-ui.css"));
+                                              "~/Content/css/datatables.min.css",
+
+                      "~/Content/css/style.css"));
             // ck editor css
             bundles.Add(new StyleBundle("~/Content/CKEditorCSS").Include(
                      "~/ckeditor/samples/css/samples.css",
