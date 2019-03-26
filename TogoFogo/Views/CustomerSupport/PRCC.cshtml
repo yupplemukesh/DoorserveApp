@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<TogoFogo.Models.AllData>
+@*@model IEnumerable<TogoFogo.Models.PRCCModel>*@
 @{
     ViewBag.Title = "PRCC";
 }
@@ -45,6 +46,9 @@
         </div>
         <div class="x_content" style="overflow-x: scroll;">
             @Html.Action("TablePRCC", "CustomerSupport")
+
+
+            
         </div>
     </div>
 </div>
@@ -359,6 +363,108 @@
             $('#TotalEstimatedSpareCost').val(total + total1);
             $('#TotalEstimatedRepairCost').val(total + total1);
         }
+
+
+
+        //$(document).ready(function () {
+        //    $("#myTablePRCC").DataTable({
+        //        "ajax":
+        //        {
+        //            "url": "/CustomerSupport/TablePRCC",
+        //            "type": "Post",
+        //            "datatype": "json"
+        //        },
+        //        "columns": [
+
+        //            { "data": "JOBDate", "name": "JOBDate" },
+        //            { "data": "JobNumber", "name": "JobNumber" },
+        //            { "data": "EnggName", "name": "EnggName" },
+        //            { "data": "CallRequestDate", "name": "CallRequestDate" },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            {
+        //                "data": "CC_NO", "name": "CC_NO", "render": function (data, type, row, meta) {
+        //                    if (type === 'display') {
+        //                        data = '<input type="button" value="' +row.CC_NO+ '" id="link" />';
+        //                    }
+        //                    return data;
+        //                }
+        //            },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            { "data": "CourierName", "name": "CourierName" },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            { "data": "TrcAddress", "name": "TrcAddress" },
+        //            { "data": "TrcName", "name": "TrcName" },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            { "data": "NoOfBoxesReceived", "name": "NoOfBoxesReceived" },
+        //            { "data": "CatName", "name": "CatName" },
+        //            { "data": "Brand", "name": "Brand" },
+        //            { "data": "Model", "name": "Model" },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+        //            { "data": "Problem", "name": "Problem" },
+        //            { "data": "PrblmObsrvd", "name": "PrblmObsrvd" },
+        //            { "data": "EstimatedCost", "name": "EstimatedCost" },
+        //            { "data": "EstimatedCostApproved", "name": "EstimatedCostApproved" },
+        //            //{ "data": null, "name": null },
+        //            //{ "data": null, "name": null },
+                   
+        //            { "data": "PhysicalDamage", "name": "PhysicalDamage" },
+        //            { "data": "DeviceWarrantyVoid", "name": "DeviceWarrantyVoid" },
+        //            //{ "data": null, "name": null },
+
+        //            { "data": "wipedevice", "name": "wipedevice" },
+        //          //  { "data": null, "name": null },
+        //            { "data": "BtryRemovable", "name": "BtryRemovable" },
+        //            { "data": "BtryReceived", "name": "BtryReceived" },
+        //            { "data": "BtryReq", "name": "BtryReq" },
+        //            { "data": "BtryBrandAndModel", "name": "BtryBrandAndModel" },
+        //            { "data": "IsDiffDeviceRecvd", "name": "IsDiffDeviceRecvd" },
+        //            { "data": "RecvdDevice", "name": "RecvdDevice" },
+        //            { "data": "RecvdBrand", "name": "RecvdBrand" },
+        //            { "data": "RecvdModel", "name": "RecvdModel" },
+        //            { "data": "DeviceTUPC", "name": "DeviceTUPC" },
+        //            { "data": "RecvdSerialNo", "name": "RecvdSerialNo" },
+        //            { "data": "RecvdIMEI1", "name": "RecvdIMEI1" },
+        //            { "data": "RecvdIMEI2", "name": "RecvdIMEI2" },
+        //            { "data": "IsPhyDamage", "name": "IsPhyDamage" },
+        //            { "data": "ReceiveDate", "name": "ReceiveDate" },
+        //            { "data": "RecvRemarks", "name": "RecvRemarks" },
+        //            { "data": "ReceiveApprovalNeeded", "name": "ReceiveApprovalNeeded" },
+        //            { "data": "RecvApprovalStatus", "name": "RecvApprovalStatus" },
+        //            { "data": "RecvApprovedBy", "name": "RecvApprovedBy" },
+        //            { "data": "RecvApprovalDate", "name": "RecvApprovalDate" },
+        //            { "data": "WarrantyStickerTempered", "name": "WarrantyStickerTempered" },
+        //            { "data": "DeviceWaterDamaged", "name": "DeviceWaterDamaged" },
+        //            { "data": "DeviceWarrantyVoid", "name": "DeviceWarrantyVoid" },
+        //            { "data": "probF", "name": "probF" },
+        //            { "data": "OS_Software_Reinstall", "name": "OS_Software_Reinstall" },
+        //            { "data": "Customer_Data_Backup", "name": "Customer_Data_Backup" },
+        //            { "data": "Current_OS_Software_Name", "name": "Current_OS_Software_Name" },
+        //            { "data": "Installed_OS", "name": "Installed_OS" },
+        //           // { "data": null, "name": null },
+        //            { "data": "TotalEstimatedSpareCost", "name": "TotalEstimatedSpareCost" },
+        //            { "data": "TotalEstimatedRepairCost", "name": "TotalEstimatedRepairCost" }
+
+                    
+        //        ],
+        //        "serverSide": "True",
+        //        "order": [0, "asc"],
+        //        "processing": "true",
+        //        "language": { "processing":"processing.....please wait"}
+
+
+        //    })
+        //});
     </script>
 }
 

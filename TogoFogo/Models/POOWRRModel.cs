@@ -17,7 +17,7 @@ namespace TogoFogo.Models
         public string EngineerVisit { get; set; }
         public string SchedulePickup { get; set; }
         public string wipedevicedata { get; set; }
-        public override bool WarrantyStatus { get; set; }
+        public override string WarrantyStatus { get; set; }
         public override string WarrantyExpiryDate { get; set; }
         [DisplayName("Call Request Number")]
         public override string CcNo { get; set; }

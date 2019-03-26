@@ -207,7 +207,7 @@ namespace TogoFogo.Models
         public string TrcPinCode { get; set; }
         public string TrcLocality { get; set; }
         public string TrcNear_By_Location { get; set; }
-        public virtual bool WarrantyStatus { get; set; }
+        public virtual string WarrantyStatus { get; set; }
         public virtual string WarrantyExpiryDate { get; set; }
         public  string EstimatedCostApproved { get; set; }
         [DisplayName("TRC City/Location")]

@@ -127,19 +127,15 @@
                     @Html.ValidationMessageFor(model => model.TrcName, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.Returnable, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Returnable?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Returnable, new List<SelectListItem>
-                                {
-                                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                                    new SelectListItem {Text = "No", Value = "No"}
-
-                                }, "Select", new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.Returnable, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.Returnable)
                 </div>
             </div>
+           
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.NoOfBoxesReceived, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -241,18 +237,22 @@
     <div class="row">
         <p style="font-size: 17px;"><u>Warranty Information:</u></p>
         <div class="col-md-6 col-sm-6 col-xs-12">
+            @*<div class="row">
+            <label class="col-md-4  control-label" for="selectbasic">
+                Warrenty Status
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.CheckBoxFor(x => x.WarrantyStatus)
+            </div>
+        </div>*@
             <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.WarrentyStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                @Html.LabelFor(model => model.WarrantyStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.WarrentyStatus, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control",@readonly= "readonly" })
-                    @Html.ValidationMessageFor(model => model.WarrentyStatus, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.WarrantyStatus, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.WarrantyStatus, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.EstimatedCost, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -313,47 +313,37 @@
     <div class="row">
         <p style="font-size: 17px;"><u>Receive Information:</u></p>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.BtryRemovable, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Battery Removable?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.BtryRemovable, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control",@readonly="readonly", disabled = "true" })
-                    @Html.ValidationMessageFor(model => model.BtryRemovable, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.BtryRemovable, new { @disabled = "true" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.BtryReq, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+           
+            <div class="row">
+                <label class="col-md-4  control-label" for="selectbasic">
+                    Is Battery Required?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.BtryReq, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
-                    }, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
-                    @Html.ValidationMessageFor(model => model.BtryReq, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.BtryReq, new { @disabled = "true" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.IsDiffDeviceRecvd, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsDiffDeviceRecvd, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
 
-                    }, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
-                    @Html.ValidationMessageFor(model => model.IsDiffDeviceRecvd, "", new { @class = "text-danger" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Different Device Received?
+                </label>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.CheckBoxFor(x => x.IsDiffDeviceRecvd, new { @disabled = "true" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.ReceivedDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.DropDownListFor(model => model.ReceivedDevice, Model.ReceivedDeviceList,"Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
+                    @Html.DropDownListFor(model => model.ReceivedDevice, Model.ReceivedDeviceList, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
                     @Html.ValidationMessageFor(model => model.ReceivedDevice, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -361,27 +351,23 @@
                 @Html.LabelFor(model => model.RecvdBrand, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
 
-                    @Html.DropDownListFor(model => model.RecvdBrand, Model.RecvdBrandlList,"Select", new { @class = "form-control", disabled = "true", @readonly = "readonly" })
+                    @Html.DropDownListFor(model => model.RecvdBrand, Model.RecvdBrandlList, "Select", new { @class = "form-control", disabled = "true", @readonly = "readonly" })
                     @Html.ValidationMessageFor(model => model.RecvdBrand, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
                 @Html.LabelFor(model => model.RecvdModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.RecvdModel, Model.RecvdModelList,"Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
+                    @Html.DropDownListFor(model => model.RecvdModel, Model.RecvdModelList, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
                     @Html.ValidationMessageFor(model => model.RecvdModel, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.IsPhyDamage, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Received Device Physically Damaged?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsPhyDamage, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
-                    }, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
-                    @Html.ValidationMessageFor(model => model.IsPhyDamage, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.IsPhyDamage, new { @disabled = "true" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
@@ -406,16 +392,12 @@
                 </div>
             </div>
 
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.BtryReceived, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Battery Received?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.BtryReceived, new List<SelectListItem>
-                        {
-                            new SelectListItem {Text = "Yes", Value = "Yes"},
-                            new SelectListItem {Text = "No", Value = "No"}
-
-                        }, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
-                    @Html.ValidationMessageFor(model => model.BtryReceived, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.BtryReceived, new { @disabled = "true" })
                 </div>
             </div>
         </div>
@@ -462,16 +444,12 @@
                     <img id="PhotoOfDevice" alt="" width="100" height="100" />
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.ReceiveApprovalNeeded, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Need Receive Approval?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.ReceiveApprovalNeeded, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
-
-                }, "Select", new { @class = "form-control", @readonly = "readonly", disabled = "true" })
-                    @Html.ValidationMessageFor(model => model.ReceiveApprovalNeeded, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.ReceiveApprovalNeeded, new { @disabled = "true" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
@@ -495,16 +473,12 @@
                     @Html.ValidationMessageFor(model => model.RecvApprovalDate, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.IsApproveforReceivingDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Approve for Receiving Device
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.IsApproveforReceivingDevice, new List<SelectListItem>
-                {
-                    new SelectListItem {Text = "Yes", Value = "Yes"},
-                    new SelectListItem {Text = "No", Value = "No"}
-
-                }, "Select", new { @class = "form-control",@readonly="readonly",disabled="true" })
-                    @Html.ValidationMessageFor(model => model.IsApproveforReceivingDevice, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.IsApproveforReceivingDevice, new { @disabled = "true" })
                 </div>
             </div>
             <br />
@@ -535,16 +509,12 @@
                     @Html.ValidationMessageFor(model => model.Engg_Name, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.WarrantyStickerTempered, new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Warranty Sticker Tempered
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.WarrantyStickerTempered, new List<SelectListItem>
-                            {
-                                new SelectListItem {Text = "Yes", Value = "Yes"},
-                                new SelectListItem {Text = "No", Value = "No"}
-
-                            }, "Select", new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.WarrantyStickerTempered, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.WarrantyStickerTempered, new { @disabled = "true" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
@@ -568,29 +538,21 @@
                     @Html.ValidationMessageFor(model => model.JobNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.DeviceWaterDamaged, new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Device Water Damaged
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.DeviceWaterDamaged, new List<SelectListItem>
-                            {
-                                new SelectListItem {Text = "Yes", Value = "Yes"},
-                                new SelectListItem {Text = "No", Value = "No"}
-
-                            }, "Select", new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.DeviceWaterDamaged, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.DeviceWaterDamaged, new { @disabled = "true" })
                 </div>
             </div>
 
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.DeviceWarrantyVoid, new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Device Warranty Void
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.DeviceWarrantyVoid, new List<SelectListItem>
-                            {
-                                new SelectListItem {Text = "Yes", Value = "Yes"},
-                                new SelectListItem {Text = "No", Value = "No"}
-
-                            }, "Select", new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.DeviceWarrantyVoid, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.DeviceWarrantyVoid, new { @disabled = "true" })
                 </div>
             </div>
         </div>
@@ -606,28 +568,20 @@
                     @Html.ValidationMessageFor(model => model.PfelsProblemFound, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.OS_Software_Reinstall, new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is OS/Software Reinstall Required?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.OS_Software_Reinstall, new List<SelectListItem>
-                            {
-                                new SelectListItem {Text = "Yes", Value = "Yes"},
-                                new SelectListItem {Text = "No", Value = "No"}
-
-                            }, "Select", new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.OS_Software_Reinstall, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.OS_Software_Reinstall, new { @disabled = "true" })
                 </div>
             </div>
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.Customer_Data_Backup, new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Is Customer Data Backup Done?
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Customer_Data_Backup, new List<SelectListItem>
-                            {
-                                new SelectListItem {Text = "Yes", Value = "Yes"},
-                                new SelectListItem {Text = "No", Value = "No"}
-
-                            }, "Select", new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
-                    @Html.ValidationMessageFor(model => model.Customer_Data_Backup, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.Customer_Data_Backup, new { @disabled = "true" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
@@ -880,16 +834,12 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row" style="padding-bottom: 5px">
-                @Html.LabelFor(model => model.Prcc_IsCustomerwantstopayAdvance, new { @class = "col-md-4  col-xs-12" })
+            <div class="row">
+                <label class="col-md-4 control-label" for="selectbasic">
+                    Send Company Bank Account Details
+                </label>
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Prcc_IsCustomerwantstopayAdvance, new List<SelectListItem>
-                    {
-                        new SelectListItem {Text = "Yes", Value = "Yes"},
-                        new SelectListItem {Text = "No", Value = "No"}
-
-                    }, "Select", new { @class = "form-control", @readonly = "readonly" })
-                    @Html.ValidationMessageFor(model => model.Prcc_IsCustomerwantstopayAdvance, "", new { @class = "text-danger" })
+                    @Html.CheckBoxFor(x => x.Prcc_IsCustomerwantstopayAdvance)
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px">
