@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
 using System.Data;
 using System.Configuration;
-using TogoFogo.Extension;
-using System.Linq.Dynamic;
 
 namespace TogoFogo.Controllers
 {

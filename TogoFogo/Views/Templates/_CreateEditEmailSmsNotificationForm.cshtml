@@ -80,6 +80,7 @@
         <div class="form-group">
             @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
         </div>
+        <div id="totalEmail"><a href="javascript:void(0)" id="popupList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
     </div>
     <div class="col-md-6 form-group" id="uploadMobile">
         @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
@@ -171,22 +172,129 @@
     $(document).on("change", "#TemplateTypeId", function ()
     {
         debugger
-        if ($(this).find("option:selected").text() == 'NonActionBased') {
+        if ($(this).find("option:selected").text() == 'NonActionBased')
+        {
             debugger
             $('#actions').css("display", "none");
             $('#bccEmail').css("display", "none");
             $('#IsSystem').css("display", "none");
+            $('#dvScheduleTime').css("display", "block");
+            $('#emailSubject').css("display", "none");
+            $('#toEmail').css("display", "none");
+            $('#uploadToEmail').css("display", "none");
+            $('#ToCCEmaildv').css("display", "none");
+            $('#toMobile').css("display", "none");
+            $('#uploadMobile').css("display", "none");
+            $('#dvScheduleTime').css("display", "none");
+            $('#MessageTypeId').val('');
         }
-        else {
+        else
+        {
             $('#actions').css("display", "block");
             $('#bccEmail').css("display", "block");
             $('#IsSystem').css("display", "block");
+            $('#emailSubject').css("display", "block");
+            $('#toEmail').css("display", "none");
+            $('#uploadToEmail').css("display", "none");
+            $('#ToCCEmaildv').css("display", "none");
+            $('#toMobile').css("display", "none");
+            $('#uploadMobile').css("display", "none");
+            $('#dvScheduleTime').css("display", "none");
+            $('#MessageTypeId').val('');
         }
     });
 
-    $(document).on("change", "#MessageTypeId", function () {
-
+    $(document).on("change", "#MessageTypeId", function ()
+    {
+        if ($(this).find("option:selected").text() == 'SMS Gateway' || $(this).find("option:selected").text() == 'Notification Gateway')
+        {
+            $('#emailSubject').css("display", "none");
+            $('#toEmail').css("display", "none");
+            $('#uploadToEmail').css("display", "none");
+            $('#ToCCEmaildv').css("display", "none");
+            $('#bccEmail').css("display", "none");
+            $('#toMobile').css("display", "block");
+            $('#uploadMobile').css("display", "block");
+            $('#dvScheduleTime').css("display", "block");
+            if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {
+               // $('#toMobile').css("display", "none");
+                $('#uploadMobile').css("display", "none");
+                $('#dvScheduleTime').css("display", "none");
+            }
+        }
+        else
+        {
+            $('#emailSubject').css("display", "block");
+            $('#toEmail').css("display", "block");          
+            $('#uploadToEmail').css("display", "block");
+            $('#ToCCEmaildv').css("display", "block");
+            $('#toMobile').css("display", "none");
+            $('#uploadMobile').css("display", "none");
+            $('#dvScheduleTime').css("display", "none");
+            if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {
+                $('#uploadToEmail').css("display", "none");
+                $('#bccEmail').css("display", "block");
+            }
+        }
+        
     });
+
+    $(document).ready(function () {
+        if ($("#TemplateId").val() != '')
+        {
+            if ($('#TemplateTypeId').find("option:selected").text() == 'NonActionBased') {
+                debugger
+                $('#actions').css("display", "none");
+                $('#bccEmail').css("display", "none");
+                $('#IsSystem').css("display", "none");
+                $('#dvScheduleTime').css("display", "block");
+                $('#emailSubject').css("display", "none");
+                $('#toEmail').css("display", "none");
+                $('#uploadToEmail').css("display", "none");
+                $('#ToCCEmaildv').css("display", "none");
+                $('#toMobile').css("display", "none");
+                $('#uploadMobile').css("display", "none");
+                $('#dvScheduleTime').css("display", "none");
+               // $('#MessageTypeId').val('');
+            }
+            else {
+                $('#actions').css("display", "block");
+                $('#bccEmail').css("display", "block");
+                $('#IsSystem').css("display", "block");
+                $('#emailSubject').css("display", "block");
+                $('#toEmail').css("display", "none");
+                $('#uploadToEmail').css("display", "none");
+                $('#ToCCEmaildv').css("display", "none");
+                $('#toMobile').css("display", "none");
+                $('#uploadMobile').css("display", "none");
+                $('#dvScheduleTime').css("display", "none");
+                //$('#MessageTypeId').val('');
+            }
+
+            if ($('#MessageTypeId').find("option:selected").text() == 'SMS Gateway' || $('#MessageTypeId').find("option:selected").text() == 'Notification Gateway')
+            {
+                $('#emailSubject').css("display", "none");
+                $('#toEmail').css("display", "none");
+                $('#uploadToEmail').css("display", "none");
+                $('#ToCCEmaildv').css("display", "none");
+                $('#bccEmail').css("display","none");
+                $('#toMobile').css("display", "block");
+                $('#uploadMobile').css("display", "block");
+                $('#dvScheduleTime').css("display", "block");
+            }
+            else {
+                $('#emailSubject').css("display", "block");
+                $('#toEmail').css("display", "block");
+                $('#uploadToEmail').css("display", "block");
+                $('#ToCCEmaildv').css("display", "block");
+                $('#toMobile').css("display", "none");
+                $('#uploadMobile').css("display", "none");
+                $('#dvScheduleTime').css("display", "none");
+
+            }
+        }
+    });
+
     //$(document).ready(function () {
     //    if ($("#TemplateTypeId").val() != '')
     //    {
@@ -208,8 +316,6 @@
     //                $("#ToCCEmaildv").css("display", "none");
                     
     //            }
-
-
     //        }
     //        else
     //        {
@@ -217,8 +323,7 @@
     //            $("#bccEmail").css("display", "block");
     //            $("#toEmailFiledv").css("display", "none");
     //            $("#toMobilefiledv").css("display", "none");
-    //            $("#dvScheduleTime").css("display", "none");
-                
+    //            $("#dvScheduleTime").css("display", "none");                
     //        }
     //    }
     //    if ($("#MessageTypeId").val() != '')
