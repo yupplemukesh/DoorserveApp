@@ -142,13 +142,13 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@UploadedMobile", ToDBNull(templateModel.UploadedMobile));
             sp.Add(param);
-            param = new SqlParameter("@ScheduleTime", ToDBNull(templateModel.ScheduleTime));
+            param = new SqlParameter("@ScheduleDateTime", ToDBNull(templateModel.ScheduleDateTime));
             sp.Add(param);
             param = new SqlParameter("@TotalCount", ToDBNull(templateModel.TotalCount));
             sp.Add(param);
 
 
-            var sql = "UspInsertTemplateSave   @TemplateId,@TemplateName,@MailerTemplateName,@TemplateTypeId,@MessageTypeName,@MessageTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@BccEmails,@IsSystemDefined,@IsActive,@AddedBy,@GUID,@ToEmail,@ToEmailCC,@UploadedEmail,@ToMobileNo,@UploadedMobile,@ScheduleTime,@TotalCount";
+            var sql = "UspInsertTemplateSave   @TemplateId,@TemplateName,@MailerTemplateName,@TemplateTypeId,@MessageTypeName,@MessageTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@BccEmails,@IsSystemDefined,@IsActive,@AddedBy,@GUID,@ToEmail,@ToEmailCC,@UploadedEmail,@ToMobileNo,@UploadedMobile,@ScheduleDateTime,@TotalCount";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

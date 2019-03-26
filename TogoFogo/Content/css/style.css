@@ -23516,3 +23516,11 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .menu-icon img {
     width: 17px
 }
+.ui-datepicker-trigger {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    float: right;
+    bottom: 27px;
+    right: 5px;
+}

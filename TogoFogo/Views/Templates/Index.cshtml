@@ -78,7 +78,7 @@
                                             @Html.DisplayName("Template Name")
                                         </th>
                                         <th>
-                                            @Html.DisplayName("PriorityType")
+                                            @Html.DisplayName("Priority Type")
                                         </th>
                                         <th>
                                             @Html.DisplayName("Is Active")
@@ -106,7 +106,7 @@
                                                 <a id="TrackStatus" href="javascript:void(0)"  data-val="@Json.Encode(item.TemplateTrackers)"  >@Html.DisplayFor(modelItem => item.TotalTemplateSchedule)</a>
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.ScheduleTime)
+                                                @Html.DisplayFor(modelItem => item.ScheduleDateTime)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.MailerTemplateName)
@@ -162,13 +162,13 @@
                                             @Html.DisplayName("Template Name")
                                         </th>
                                         <th>
-                                            @Html.DisplayName("MailSubject")
+                                            @Html.DisplayName("Mail Subject")
                                         </th>
                                         <th>
-                                            @Html.DisplayName("ToEmailID")
+                                            @Html.DisplayName("To Email ID")
                                         </th>
                                         <th>
-                                            @Html.DisplayName("BccEmailID")
+                                            @Html.DisplayName("Bcc Email ID")
                                         </th>
                                         <th>
                                             @Html.DisplayName("Is System Email")
@@ -177,10 +177,10 @@
                                             @Html.DisplayName("Is Active")
                                         </th>
                                         <th>
-                                            @Html.DisplayName("CreateDateTime")
+                                            @Html.DisplayName("Create DateTime")
                                         </th>
                                         <th>
-                                            @Html.DisplayName("UpdateDateTime")
+                                            @Html.DisplayName("Update DateTime")
                                         </th>
                                         <th>
                                             @Html.DisplayName("Action")
@@ -244,8 +244,6 @@
     </div>
 </div>
 @Scripts.Render("~/bundles/customBundle")
-
-
 <script>
     var tableNonActionBasedTable=  $('#NonActionBasedTable').DataTable();
     $('#NonActionBasedTable tbody').on('click', 'td.details-control', function (e)
@@ -275,19 +273,23 @@
         var trackerList = JSON.parse(data);
         if (trackerList.length > 0)
         {
-            htmlTable += "<table id='tblTrackerList' class='table table-bordered'><thead><tr><th>Serial No</th><th>Success Count</th>";
+            htmlTable += "<table id='tblTrackerList' class='table table-bordered'><thead><tr><th>Serial No</th><th>Schedule Time</th ><th>Success Count</th>";
             htmlTable += "<th>Failed Count</th><th>Status Code</th><th>Start Date</th><th>Action</th></tr></thead><tbody>";
             var Count = 0;
             for (var i = 0; i < trackerList.length; i++)
             {
                 Count = Count + 1;
-                htmlTable += "<tr><td>" + Count + "</td><td>" + trackerList[i].SuccessCount + "</td> <td> " + trackerList[i].FailedCount + "</td>";
-                htmlTable += "<td> " + trackerList[i].StatusCode + "</td><td> " + (trackerList[i].StartDate == null ? 'N/A' : trackerList[i].StartDate) + "</td><td><a href='javascript:void(0)'>View</a></td></tr >";
+                htmlTable += "<tr><td>" + Count + "</td>   <td> " +trackerList[i].ScheduleDateTime + "</td ><td>" + trackerList[i].SuccessCount + "</td> <td> " + trackerList[i].FailedCount + "</td>";
+                htmlTable += "<td> " + trackerList[i].StatusCode + "</td><td> " + (trackerList[i].StartDate == null ? 'N/A' : trackerList[i].StartDate) + "</td><td><a href='javascript:void(0)' class='clsView'  data-templateid='" + trackerList[i].TemplateId +"'>View</a></td></tr >";
             }
-            //<th>Schedule Time</th >
-            //<td> " + Date.parse(trackerList[i].ScheduleTime) + "</td >
+            
+         
             htmlTable += "</tbody ></table>";
         }
         return htmlTable;
     }
+    $(document).on("click", "clsView", function () {
+
+
+    });
 </script>

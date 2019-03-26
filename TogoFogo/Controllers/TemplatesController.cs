@@ -58,6 +58,10 @@ namespace TogoFogo.Controllers
                 Boolean Isvalid = false;
                 DataTable dtToEmailExcelData = new DataTable();
                 templateModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+                if(!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
+                {
+                  templateModel.ScheduleDateTime = templateModel.ScheduleDate + " " + templateModel.ScheduleTime;
+                }
                 if (templateModel.MessageTypeName == "SMTP Gateway")
                 {
                     if (templateModel.ToEmailFile != null)
@@ -134,8 +138,7 @@ namespace TogoFogo.Controllers
                         TempData["response"] = response;
                         TempData.Keep("response");
                         return Redirect("Index");
-                    }
-                    
+                    }                    
                 }
                 else
                 {
@@ -186,12 +189,11 @@ namespace TogoFogo.Controllers
                     templateModel.TotalCount += strPhoneNumber.Length;
                     Isvalid = true;
                 }
-            }
-            
+            }            
             if (Isvalid)
             {
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'I');
-                response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
+                response.Response = "Successfully inserted record";
                 response.IsSuccess = Isvalid;
                 TempData["response"] = response;
                 TempData.Keep("response");
@@ -203,6 +205,13 @@ namespace TogoFogo.Controllers
         {
             var templatemodel = new TemplateModel();
             templatemodel = await _templateRepo.GetTemplateByGUID(id,GUID);
+            if(!string.IsNullOrEmpty(templatemodel.ScheduleDateTime))
+            {
+               string[] strSheduleArray = templatemodel.ScheduleDateTime.Split(' ');
+                templatemodel.ScheduleDate = strSheduleArray[0];
+                templatemodel.ScheduleTime = strSheduleArray[1];
+            }
+           
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
@@ -219,6 +228,10 @@ namespace TogoFogo.Controllers
             Boolean Isvalid = false;
             DataTable dtToEmailExcelData = new DataTable();
             templateModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+            if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
+            {
+                templateModel.ScheduleDateTime = templateModel.ScheduleDate + " " + templateModel.ScheduleTime;
+            }
             if (templateModel.MessageTypeName == "SMTP Gateway")
             {
                 if (templateModel.ToEmailFile != null)

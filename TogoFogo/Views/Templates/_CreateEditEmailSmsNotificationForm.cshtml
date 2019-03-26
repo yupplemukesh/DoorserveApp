@@ -59,29 +59,29 @@
         @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
     </div>
 </div>
-<div class="row" id="toEmailFiledv">
-    <div class="col-md-6 form-group">
+<div class="row">
+    <div class="col-md-6 form-group" id="toEmail">
         <label class=" control-label" for="form-control-9">To Email</label>
         <div class="form-group">
             @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
         </div>
-        <div><a href="javascript:void(0)" id="popupList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
+        <div id="totalEmail"><a href="javascript:void(0)" id="popupList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 form-group" id="uploadToEmail">
         @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
         <div class="form-group">
             @Html.TextBoxFor(model => model.ToEmailFile, htmlAttributes: new { @type = "file", @class = "form-control" })
         </div>
     </div>
 </div>
-<div class="row" id="toMobilefiledv">
-    <div class="col-md-6 form-group">
+<div class="row" >
+    <div class="col-md-6 form-group" id="toMobile">
         <label class=" control-label" for="form-control-9">To Mobile</label>
         <div class="form-group">
             @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
         </div>
     </div>
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 form-group" id="uploadMobile">
         @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
         <div class="form-group">
             @Html.TextBoxFor(model => model.ToMobileNoFile, htmlAttributes: new { @type = "file", @class = "form-control" })
@@ -89,18 +89,16 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6 form-group">
-        <label class=" control-label" for="form-control-9">Shedule Time </label>
+    <div class="col-md-6 form-group" id="dvScheduleTime">
+        <label class=" control-label" for="form-control-9">Shedule Date Time </label>
         <div class="form-group">
             <div class="col-md-8">
-                @Html.TextBoxFor(model => model.ScheduleTime, new { id = "datepicker", @class = "form-control date-text" })
+                @Html.TextBoxFor(model => model.ScheduleDate, new { id = "datepicker", @class = "form-control date-text" })
             </div>
-            <div class="col-md-8">
-                @Html.TextBoxFor(model => model.ScheduleTime, new { id = "datepicker", @class = "form-control date-text" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.ScheduleTime, new {  @class = "form-control", @placeholder = "HH:MM" })
             </div>
-                @*<div class="col-md-2">
-                <img class="ui-datepicker-trigger datepick" src="/images/calendar-icon.png" alt="..." title="..." >
-            </div>*@
+             
             </div>
         </div>
     <div class="col-md-6 form-group" id="ToCCEmaildv">
@@ -111,7 +109,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6 form-group">
+    <div class="col-md-6 form-group" id="PriorityType">
         <label class="control-label" for="form-control-9">Priority</label>
         <div class="form-group">
             @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
@@ -125,7 +123,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" id="IsSystem">
     <label class="control-label" for="form-control-9">Is System Email</label>
     <div class="form-group">
         @Html.CheckBoxFor(x => x.IsSystemDefined)
@@ -170,118 +168,177 @@
 </div>
 @Scripts.Render("~/bundles/customBundle")
 <script>
-    $(document).ready(function () {
-        if ($("#TemplateTypeId").val() != '') {
-            if ($("#TemplateTypeId").val() == 72) {
-                $("#actions").hide();
-                $("#bccEmail").css("display", "none");
-                if ($("#MessageTypeId").val() == 53) {
-                    $("#toMobilefiledv").css("display", "none");
-                    $("#toEmailFiledv").css("display", "block");
-                }
-                else {
-                    $("#toMobilefiledv").css("display", "block");
-                    $("#toEmailFiledv").css("display", "none");
-                }
-
-            }
-            else {
-                $("#actions").show();
-                $("#bccEmail").css("display", "block");
-                $("#toEmailFiledv").css("display", "none");
-                $("#toMobilefiledv").css("display", "none");
-            }
-        }
-        if ($("#MessageTypeId").val() != '') {
-            if ($("#MessageTypeId").val() == 52) {
-                $("#header").css("display", "none");
-                $("#bccEmail").css("display", "none");
-                $("#emailSubject").css("display", "none");
-                $("#isSystemEmail").css("display", "block");
-
-            }
-            else if ($("#MessageTypeId").val() == 53) {
-                $("#header").css("display", "block");
-                if ($("#TemplateTypeId").val() != 72)
-                    $("#bccEmail").css("display", "block");
-                else
-                    $("#bccEmail").css("display", "none");
-                $("#emailSubject").css("display", "block");
-                $("#isSystemEmail").css("display", "block");
-                $("#mailerGateway").css("display", "block");
-            }
-            else if ($("#MessageTypeId").val() == 54) {
-                $("#header").css("display", "none");
-                $("#bccEmail").css("display", "none");
-                $("#emailSubject").css("display", "none");
-                $("#isSystemEmail").css("display", "none");
-                $("#mailerGateway").css("display", "none");
-            }
-        }
-        if ($('.remove:checked').length == $('.remove').length) {
-            $("#chkAll").prop('checked', true);
-        }
-
-    });
-    $("#TemplateTypeId").change(function () {
-        $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
-        if ($("#TemplateTypeId").val() == 72) {
-            $("#actions").hide();
-            $("#bccEmail").css("display", "none");
-            if ($("#MessageTypeId").val() == 53)
-                $("#toEmailFiledv").css("display", "block");
-            $("#toMobilefiledv").css("display", "block");
+    $(document).on("change", "#TemplateTypeId", function ()
+    {
+        debugger
+        if ($(this).find("option:selected").text() == 'NonActionBased') {
+            debugger
+            $('#actions').css("display", "none");
+            $('#bccEmail').css("display", "none");
+            $('#IsSystem').css("display", "none");
         }
         else {
-            $("#actions").show();
-            if ($("#MessageTypeId").val() == 53)
-                $("#bccEmail").css("display", "block");
-            $("#toEmailFiledv").css("display", "none");
-            $("#toMobilefiledv").css("display", "none");
-        }
-        if ($("#MessageTypeId").val() == 53) {
-            $("#toMobilefiledv").css("display", "none");
+            $('#actions').css("display", "block");
+            $('#bccEmail').css("display", "block");
+            $('#IsSystem').css("display", "block");
         }
     });
-    $("#MessageTypeId").change(function () {
 
-        $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
-        if ($("#MessageTypeId").val() == 52) {
-            $("#header").css("display", "none");
-            $("#bccEmail").css("display", "none");
-            $("#emailSubject").css("display", "none");
-            $("#isSystemEmail").css("display", "block");
-            $("#toEmailFiledv").css("display", "none");
-            $("#ToCCEmaildv").css("display", "none");
-            if ($("#TemplateTypeId").val() == 72)
-                $("#toMobilefiledv").css("display", "block");
+    $(document).on("change", "#MessageTypeId", function () {
 
-        }
-        else if ($("#MessageTypeId").val() == 53) {
-            $("#header").css("display", "block");
-            if ($("#TemplateTypeId").val() == 72)
-                $("#bccEmail").css("display", "none");
-            else
-                $("#bccEmail").css("display", "block");
-            $("#emailSubject").css("display", "block");
-            $("#isSystemEmail").css("display", "block");
-            $("#mailerGateway").css("display", "block");
-            $("#ToCCEmaildv").css("display", "block");
-            $("#toEmailFiledv").css("display", "block");
-            $("#toMobilefiledv").css("display", "none");
-        }
-        else if ($("#MessageTypeId").val() == 54) {
-            $("#header").css("display", "none");
-            $("#bccEmail").css("display", "none");
-            $("#emailSubject").css("display", "none");
-            $("#isSystemEmail").css("display", "none");
-            $("#mailerGateway").css("display", "none");
-            $("#toEmailFiledv").css("display", "none");
-            $("#ToCCEmaildv").css("display", "none");
-            if ($("#TemplateTypeId").val() == 72)
-                $("#toMobilefiledv").css("display", "block");
-        }
     });
+    //$(document).ready(function () {
+    //    if ($("#TemplateTypeId").val() != '')
+    //    {
+    //        if ($("#TemplateTypeId").val() == 72)
+    //        {
+    //            $("#actions").hide();
+    //            $("#bccEmail").css("display", "none");
+    //            $("#dvScheduleTime").css("display", "block");
+    //            if ($("#MessageTypeId").val() == 53)
+    //            {
+    //                $("#toMobilefiledv").css("display", "none");
+    //                $("#toEmailFiledv").css("display", "block");
+    //                $("#ToCCEmaildv").css("display", "block");
+    //            }
+    //            else
+    //            {
+    //                $("#toMobilefiledv").css("display", "block");
+    //                $("#toEmailFiledv").css("display", "none");
+    //                $("#ToCCEmaildv").css("display", "none");
+                    
+    //            }
+
+
+    //        }
+    //        else
+    //        {
+    //            $("#actions").show();
+    //            $("#bccEmail").css("display", "block");
+    //            $("#toEmailFiledv").css("display", "none");
+    //            $("#toMobilefiledv").css("display", "none");
+    //            $("#dvScheduleTime").css("display", "none");
+                
+    //        }
+    //    }
+    //    if ($("#MessageTypeId").val() != '')
+    //    {
+    //        if ($("#MessageTypeId").val() == 52)
+    //        {
+    //            $("#header").css("display", "none");
+    //            $("#bccEmail").css("display", "none");
+    //            $("#emailSubject").css("display", "none");
+    //            $("#isSystemEmail").css("display", "block");
+
+    //        }
+    //        else if ($("#MessageTypeId").val() == 53)
+    //        {
+    //            $("#header").css("display", "block");
+    //            if ($("#TemplateTypeId").val() != 72)
+    //                $("#bccEmail").css("display", "block");
+    //            else
+    //                $("#bccEmail").css("display", "none");
+    //            $("#emailSubject").css("display", "block");
+    //            $("#isSystemEmail").css("display", "block");
+    //            $("#mailerGateway").css("display", "block");
+    //            $("#dvScheduleTime").css("display", "block");
+    //        }
+    //        else if ($("#MessageTypeId").val() == 54)
+    //        {
+    //            $("#header").css("display", "none");
+    //            $("#bccEmail").css("display", "none");
+    //            $("#emailSubject").css("display", "none");
+    //            $("#isSystemEmail").css("display", "none");
+    //            $("#mailerGateway").css("display", "none");
+    //            $("#dvScheduleTime").css("display", "block");
+    //        }
+    //    }
+    //    if ($('.remove:checked').length == $('.remove').length) {
+    //        $("#chkAll").prop('checked', true);
+    //    }
+
+    //});
+    //$("#TemplateTypeId").change(function () {
+    //    $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
+    //    if ($("#TemplateTypeId").val() == 72)
+    //    {
+    //        $("#actions").hide();
+    //        $("#bccEmail").css("display", "none");
+    //        $("#dvScheduleTime").css("display", "block");
+    //        if ($("#MessageTypeId").val() == 53)
+    //        {
+    //            $("#toEmailFiledv").css("display", "block");
+    //            $("#toMobilefiledv").css("display", "none");
+    //        }
+    //    }
+    //    else
+    //    {
+    //        $("#actions").show();
+    //        $("#dvScheduleTime").css("display", "none");  
+    //        $("#toEmailFiledv").css("display", "none");
+    //        $("#toMobilefiledv").css("display", "none");
+    //        if ($("#MessageTypeId").val() == 53)
+    //        {
+    //            $("#bccEmail").css("display", "block");
+    //        }
+    //    }
+    //    if ($("#MessageTypeId").val() == 53)
+    //    {
+    //        $("#toMobilefiledv").css("display", "none");
+    //    }
+    //});
+    //$("#MessageTypeId").change(function () {
+
+    //    $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
+    //    if ($("#MessageTypeId").val() == 52)
+    //    {
+    //        $("#header").css("display", "none");
+    //        $("#bccEmail").css("display", "none");
+    //        $("#emailSubject").css("display", "none");
+    //        $("#isSystemEmail").css("display", "block");
+    //        $("#toEmailFiledv").css("display", "none");
+    //        $("#ToCCEmaildv").css("display", "none");
+    //        if ($("#TemplateTypeId").val() == 72)
+    //        {
+    //            $("#toMobilefiledv").css("display", "block");
+    //        }
+    //        $("#dvScheduleTime").css("display", "block");
+
+    //    }
+    //    else if ($("#MessageTypeId").val() == 53)
+    //    {
+    //        $("#header").css("display", "block");
+    //        if ($("#TemplateTypeId").val() == 72) {
+    //            $("#bccEmail").css("display", "none");
+    //        }
+    //        else {
+    //            $("#bccEmail").css("display", "block");
+    //            $("#emailSubject").css("display", "block");
+    //            $("#isSystemEmail").css("display", "block");
+    //            $("#mailerGateway").css("display", "block");
+    //            $("#ToCCEmaildv").css("display", "block");
+    //            $("#toEmailFiledv").css("display", "block");               
+    //            $("#dvScheduleTime").css("display", "block");
+    //            $("#toMobilefiledv").css("display", "none");
+    //        }
+    //    }
+    //    else if ($("#MessageTypeId").val() == 54)
+    //    {
+    //        $("#header").css("display", "none");
+    //        $("#bccEmail").css("display", "none");
+    //        $("#emailSubject").css("display", "none");
+    //        $("#isSystemEmail").css("display", "none");
+    //        $("#mailerGateway").css("display", "none");
+    //        $("#toEmailFiledv").css("display", "none");
+    //        $("#ToCCEmaildv").css("display", "none");
+    //        $("#dvScheduleTime").css("display", "block");
+    //        if ($("#TemplateTypeId").val() == 72) {
+    //            $("#toMobilefiledv").css("display", "block");
+    //        }
+    //    }
+    //});
+
+
     $(document).on("change", "#MessageTypeId", function () {
         $.ajax({
             type: "GET",
@@ -353,29 +410,30 @@
             success: function (data)
             {
                 debugger
-                if (data.length > 0)
-                {
+                $("#toast-container").fadeIn();
+                if (data.length > 0) {
                     $('#tblUpload').html('');
-                    if ($('#MessageTypeName').val() == "SMTP Gateway")
-                    {
+                    if ($('#MessageTypeName').val() == "SMTP Gateway") {
                         $('#tblUpload').append('<thead><tr><td><input type="checkbox" id="chkAll" /></td> <td>Upload Email</td></tr></thead><tbody>');
-                        for (var i = 0; i < data.length; i++)
-                        {
+                        for (var i = 0; i < data.length; i++) {
                             $('#tblUpload').append('<tr><td><input type="checkbox"  class="remove" /></td><td>' + data[i].UploadedEmail + '</td></tr>');
                         }
                         $('#tblUpload').append('</tbody>');
                     }
-                    else
-                    {
+                    else {
                         $('#tblUpload').append('<thead><tr><td><input type="checkbox" id="chkAll" /></td> <td>Upload Mobile</td></tr></thead><tbody>');
-                        for (var i = 0; i < data.length; i++)
-                        {
+                        for (var i = 0; i < data.length; i++) {
                             $('#tblUpload').append('<tr><td></td><td></td></tr>');
                         }
                         $('#tblUpload').append('</tbody>');
                     }
                     $('#UploadedData').modal('toggle');
                     $('#tblUpload').DataTable();
+                }
+                else {
+                    $("#toast-container").fadeOut(5000);
+                    $('.toast-error').children('div').text('No Records uploaded');
+                    $('.toast-error').css("display", "block");
                 }
             }
         });
@@ -444,6 +502,13 @@
             dateFormat: 'dd/mm/yy',
             minDate: '0d',
         });
+    });
+
+    $('input[id$="ScheduleTime"]').inputmask("hh:mm", {
+        placeholder: "HH:MM",
+        insertMode: false,
+        showMaskOnHover: false,
+        //hourFormat: 24
     });
 </script>
 @Scripts.Render("~/bundles/jqueryval")
