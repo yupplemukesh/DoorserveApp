@@ -1,9 +1,9 @@
-﻿@model TogoFogo.Models.UREVASmodel
+﻿@model IEnumerable<TogoFogo.Models.UREVASmodel>
+@using TogoFogo.Models
 
 @{
     ViewBag.Title = "UpdateReverseAWB";
 }
-
 
 <div class="panel-heading">
     <div class="row">
@@ -14,7 +14,7 @@
 
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @if (Model._UserActionRights.ExcelExport)
+                    @if (Permissions.Rights.ExcelExport)
                     {
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
@@ -53,7 +53,7 @@
             </thead>
 
 
-            @foreach (var item in Model._UREVASmodelList)
+            @foreach (var item in Model)
             {
                 var Source = "";
                 if (item.CourierLogo != null)
@@ -87,7 +87,7 @@
                         @Html.DisplayFor(modelItem => item.AWBNumber)
                     </td>
                     <td>
-                        @if (Model._UserActionRights.Edit)
+                        @if (Permissions.Rights.Edit)
                         {
                             @Html.ActionLink("Update", "AWBStatusform", new { AWBNumber = item.AWBNumber }, new { @class = "btn btn-sm btn-size btn-primary" })
                         }

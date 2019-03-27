@@ -189,7 +189,7 @@ namespace TogoFogo.Controllers
         public ActionResult UserList()
         {
             int UserId = 0;            
-            User objUser = new User();
+  
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -197,7 +197,7 @@ namespace TogoFogo.Controllers
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
                 {
-                    objUser = new User();
+                   var objUser = new User();
                     objUser._AddressDetail = new AddressDetail();
                     objUser._ContactPerson = new ContactPersonModel();
                     objUser.UserId = item.UserId;
@@ -206,10 +206,7 @@ namespace TogoFogo.Controllers
                     objUser.CreatedDate = item.CreatedDate;
                     objUser.ModifyDate = item.ModifyDate;
                     objUser._AddressDetail.PinNumber = item.PinNumber;
-                    objUser._AddressDetail.Address = item.Address;
-                    objUser._AddressDetail.AddressTypeId = item.AddressTypeId;
-                    objUser._AddressDetail.CityId = item.CityId;
-                    objUser._AddressDetail.StateId = item.StateId;
+                    objUser.LastUpdatedBy = item.LastUpdatedBy;
                     objUser._AddressDetail.City = item.City;
                     objUser._AddressDetail.State = item.State;
                     objUser._ContactPerson.ConFirstName = item.ConFirstName;
@@ -217,12 +214,11 @@ namespace TogoFogo.Controllers
                     objUser._ContactPerson.ConEmailAddress = item.ConEmailAddress;
                     UserList.Add(objUser);
                 }
-                objUser.objUserList = UserList;
+     
 
 
-            }
-            objUser._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(objUser);
+            }         
+            return View(UserList);
         }
     }
 }

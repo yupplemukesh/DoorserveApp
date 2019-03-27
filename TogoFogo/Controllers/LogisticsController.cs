@@ -92,13 +92,13 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            UREVASmodel objUREVASmodel = new UREVASmodel();
+            var objUREVASmodel = new  List<UREVASmodel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUREVASmodel._UREVASmodelList = con.Query<UREVASmodel>("GetCourierCount", null, commandType: CommandType.StoredProcedure).ToList();
+                objUREVASmodel = con.Query<UREVASmodel>("GetCourierCount", null, commandType: CommandType.StoredProcedure).ToList();
               
             }
-            objUREVASmodel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+
             return View(objUREVASmodel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Update Reverse AWB Status")]
@@ -168,15 +168,15 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            UREVASmodel objUREVASmodel = new UREVASmodel();
+            var objUREVASmodel = new List<UREVASmodel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUREVASmodel._UREVASmodelList = con.Query<UREVASmodel>("GetDataUREVAS", null, commandType: CommandType.StoredProcedure).ToList();
+                objUREVASmodel = con.Query<UREVASmodel>("GetDataUREVAS", null, commandType: CommandType.StoredProcedure).ToList();
                 var result1 = con.Query<int>("select COUNT(courierId) from Repair_Request_Details", null, commandType: CommandType.Text).FirstOrDefault();
                 ViewBag.TotalOpenAWBStatus = result1;
                
             }
-            objUREVASmodel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
+
             return View(objUREVASmodel);
         }
         public async Task<ActionResult> AWBStatusform(string AWBNumber)

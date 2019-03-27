@@ -39,10 +39,7 @@
 
 <div class="panel-body">
     <div class="x_content">
-        <div id="hiddenPart" style="display:none">
-
-            @Html.Action("POOWRRForm", "CustomerSupport")
-        </div>
+       
 
         <div class="x_content" style="overflow-x: scroll;">
             @Html.Action("TablePOOWRR", "CustomerSupport")
@@ -50,32 +47,8 @@
     </div>
 </div>
 
-@if (ViewBag.Message != null)
-{
-    <div id="snackbar">@ViewBag.Message</div>
-}
-@if (ViewBag.Message != null)
-{
-    <script>
-
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-
-    </script>
-}
 
 @section Scripts{
-
-    @*<script>
-        $('#OOWRRTable input:button').click(function () {
-            //alert($(this).val());
-            debugger;
-            var ccNo = $(this).val()
-            CCno(ccNo);
-            $('#hiddenPart').show();
-        });
-    </script>*@
 
     <script>
         function AjaxWithValueForSparePartName(method, ddl, e) {

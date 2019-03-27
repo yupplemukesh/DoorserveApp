@@ -96,15 +96,16 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;                       
+                  
                     }
                     else
                     {
-                        response.IsSuccess = true;
+                        response.IsSuccess = false;
                         response.Response = "Spare type Name Already Exist";
-                        TempData["response"] = Response;
-                       
+               
                     }
+                    TempData["response"] = response;
+                    TempData.Keep("response");
                 }
 
             }
@@ -181,8 +182,16 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Updated Successfully";
-                        TempData["response"] = Response;                       
+
                     }
+                    else
+                    {
+                        response.IsSuccess = false;
+                        response.Response = "Allready Exits";
+
+                    }
+                    TempData["response"] = response;
+                    TempData.Keep("response");
                 }
 
             }
@@ -378,14 +387,15 @@ namespace TogoFogo.Controllers
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Updated";
-                        TempData["response"] = Response;                       
+                                          
                     }
                     else
                     {
                         response.IsSuccess = true;
                         response.Response = "Spare Part Name Already Exist";
-                        TempData["response"] = Response;                       
+                     
                     }
+                    TempData["response"] = response;
                 }
 
             }

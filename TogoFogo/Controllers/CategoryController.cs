@@ -262,14 +262,14 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<SubcategoryModel>("select * from MstSubCategory where SubCatId=@SubCatId", new { SubCatId = SubCatId },
+                var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req from MstSubCategory where SubCatId=@SubCatId", new { SubCatId = SubCatId },
                     commandType: CommandType.Text).FirstOrDefault();
                 ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(), "Value", "Text");
                 ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 if (result != null)
                 {
                     //result.DeviceCategory = result.CatId.ToString();
-                    result.Device_Category = result.CatId.ToString();
+                    result.CatId = result.CatId;
                 }
                 return PartialView("EditDeviceSubCategory", result);
             }

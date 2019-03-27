@@ -7,6 +7,7 @@ using Dapper;
 using TogoFogo.Models;
 using System.Data;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace TogoFogo.Controllers
 {
@@ -239,28 +240,60 @@ namespace TogoFogo.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult POOWRRForm()
+        public async Task<ActionResult> POOWRRForm( string CcNO)
         {
-            int ModelId = 0;
-            if (TempData.ContainsKey("ModelID"))
-            {
-                ModelId = int.Parse(TempData["ModelID"].ToString());
-            }
+
             // ReceiveMaterials rm=new ReceiveMaterials
+            using (var con = new SqlConnection(_connectionString))
+            {
+  
 
-            var receiveMaterial = new ReceiveMaterials();
-            receiveMaterial.PrblmObsrvdPoowrrList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            receiveMaterial.SpareTypeList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
-            receiveMaterial.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            receiveMaterial.SelectTrcList = new SelectList(dropdown.BindTrc(), "Value", "Text");
-            receiveMaterial.CourierNameList = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            receiveMaterial.CallStatusList = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
-            receiveMaterial.ServiceProviderNameList = new SelectList(dropdown.BindServiceProvider(), "Value", "Text");
-            receiveMaterial.ProblemList = new SelectList(dropdown.BindMstDeviceProblem(), "Value", "Text");
-            receiveMaterial.WSList = new SelectList(dropdown.BindWarrantyDropdown(ModelId), "Value", "Text");
+               var result = con.Query<ReceiveMaterials>("GetDataByCCNO",
+                    new { CC_NO = CcNO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                //var Problem1 = con.Query<CourierValuesModel>("get_Customer_problem_New",
+                //   new { CC_NO = CcNO }, commandType: CommandType.StoredProcedure).ToList();
+
+                var Problem = con.Query<GetProblem_Child_Order_problem>("GetProblem_From_Child_Order_problem",
+                  new { CC_NO = CcNO }, commandType: CommandType.StoredProcedure).ToList();
+                //var spareData = "";
+                foreach (var item in Problem)
+                {
+                    var result1 = con.Query<string>("select Problem from mstdeviceproblem WHERE ProblemId =@ProblemId ", new { @ProblemId = item.ProblemId }, commandType: CommandType.Text).FirstOrDefault();
+                    //var GetSpareType = con.Query<string>("select SpareId from Model_Problem_Spare_Price_Matrix Where BrandId=@BrandId and ModelId=@ModelId and ProblemId=@ProblemId ", new { @ProblemId = item.ProblemId, @BrandId=item.BrandId, @ModelId=item.ModelId }, commandType: CommandType.Text).FirstOrDefault();
+                    item.ProblemName = result1;
+                    //spareData = spareData + "," + GetSpareType;
+                    // ViewBag.WS = new SelectList(dropdown.BindWarrantyDropdown(Convert.ToInt32(item.ModelId)), "Value", "Text");
+                    result.WSList = new System.Web.Mvc.SelectList(dropdown.BindWarrantyDropdown(Convert.ToInt32(item.ModelId)), "Value", "Text");
+                    TempData["ModelID"] = item.ModelId;
+                }
+                if (Problem != null && Problem.Count > 0)
+                {
+                    result.ChildtableDataProblem = Problem;
+                }
+                else
+                {
+                    new List<GetProblem_Child_Order_problem>();
+                }
+                result.Problem = null;
 
 
-            return PartialView(receiveMaterial);
+
+                if (result.StatusName == "Pending")
+                {
+                    result.CurrentStatus = "Request received";
+                }
+                result.ProblemObservedList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
+                result.SpareTypeList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
+                result.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+                result.SelectTrcList = new SelectList(dropdown.BindTrc(), "Value", "Text");
+                result.CourierNameList = new SelectList(dropdown.BindCourier(), "Value", "Text");
+                result.CallStatusList = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
+                result.ServiceProviderNameList = new SelectList(await CommonModel.GetServiceProviders (), "Name", "Text");
+                result.ProblemList = new SelectList(dropdown.BindMstDeviceProblem(), "Value", "Text");
+                result.WSList = new SelectList(dropdown.BindWarrantyDropdown(Convert.ToInt32( TempData["ModelID"])), "Value", "Text");
+                return View(result);
+            }
         }
     
         [HttpPost]
@@ -326,7 +359,7 @@ namespace TogoFogo.Controllers
                                 ReversePickUpDate=m.ReversePickupDate,
                                 m.EngineerVisitDate,
                                 CallRequestReject=m.Reject,
-                                ServiceProviderNameId=m.ServiceProviderName,
+                                ServiceProviderNameId=new Guid(m.ServiceProviderName),
                                 m.PhysicalDamage,
                                 DeviceWarrantyVoid=m.WarrantyVoid,
                                 ProblemObserved=finalValue,
@@ -346,14 +379,18 @@ namespace TogoFogo.Controllers
                                 m.CallRequestRejectReason,
                                 SchedulePickupDate=m.SchedulePickup
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        var response = new ResponseModel {IsSuccess=false };
                         if (result1 == 1)
                         {
-                            TempData["Message"] = "Submitted Successfully";
+                            response.IsSuccess = true;
+                            response.Response = "Submitted Successfully";
                         }
                         else
                         {
-                            TempData["Message"] = "Something went wrong";
-                        }                       
+                            response.Response = "Something went wrong";
+                        }
+
+                        TempData["response"] = response;
                     }                  
                 }
                 return RedirectToAction("POOWRR", "CustomerSupport");
