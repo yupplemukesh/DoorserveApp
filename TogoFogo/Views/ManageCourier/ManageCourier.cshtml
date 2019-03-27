@@ -14,7 +14,15 @@
                 <div class="pull-right">
                     @if (Permissions.Rights.Create)
                     {
-                        <button class="btn" style="text-decoration-color:white">@Html.ActionLink("New Courier", "Create", "ManageCourier")</button>
+                        @*<button class="btn " style="text-decoration-color:white">@Html.ActionLink("New Courier", "Create", "ManageCourier")</button>*@
+
+                        <a class="btn btn-primary" href="@Url.Action("Create", "ManageCourier")">
+
+                            <span>
+                                New Courier
+
+                            </span>
+                        </a>
                     }
                     @if (Permissions.Rights.ExcelExport)
                     {
@@ -36,11 +44,11 @@
                     {
                         @Html.Partial("CourierTable")
                     }
-                    </div>
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
 
 

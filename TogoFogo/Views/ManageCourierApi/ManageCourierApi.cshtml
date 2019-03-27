@@ -15,7 +15,15 @@
                 <div class="pull-right">
                     @if (Permissions.Rights.Create)
                     {
-                        <button class="btn">@Html.ActionLink("New Courier API", "Create", "ManageCourierApi")</button>
+                        @*<button class="btn">@Html.ActionLink("New Courier API", "Create", "ManageCourierApi")</button>*@
+
+                        <a class="btn btn-primary" href="@Url.Action("Create", "ManageCourierApi")">
+
+                            <span>
+                                New Courier API
+
+                            </span>
+                        </a>
                     }
                     @if (Permissions.Rights.ExcelExport)
                     {
