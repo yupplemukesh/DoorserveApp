@@ -193,8 +193,8 @@ namespace TogoFogo.Controllers
             if (Isvalid)
             {
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'I');
-                response.Response = "Successfully inserted record";
-                response.IsSuccess = Isvalid;
+               // response.Response = "Successfully inserted record";
+                //response.IsSuccess = Isvalid;
                 TempData["response"] = response;
                 TempData.Keep("response");
             }
@@ -313,43 +313,46 @@ namespace TogoFogo.Controllers
             }
             else
             {
-                string excelPath = SaveFile(templateModel.ToMobileNoFile, "ToMobile");
-                string conString = string.Empty;
-                string extension = Path.GetExtension(templateModel.ToMobileNoFile.FileName);
-                switch (extension)
+                if (templateModel.ToMobileNoFile != null)
                 {
-                    case ".xls": //Excel 97-03
-                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                        break;
-                    case ".xlsx": //Excel 07 or higher
-                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                        break;
-
-                }
-                conString = string.Format(conString, excelPath);
-                DataTable dtToMobileNoExcelData = new DataTable();
-                using (OleDbConnection excel_con = new OleDbConnection(conString))
-                {
-                    excel_con.Open();
-                    string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtToMobileNoExcelData.Columns.AddRange(new DataColumn[1]
+                    string excelPath = SaveFile(templateModel.ToMobileNoFile, "ToMobile");
+                    string conString = string.Empty;
+                    string extension = Path.GetExtension(templateModel.ToMobileNoFile.FileName);
+                    switch (extension)
                     {
+                        case ".xls": //Excel 97-03
+                            conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                            break;
+                        case ".xlsx": //Excel 07 or higher
+                            conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                            break;
+
+                    }
+                    conString = string.Format(conString, excelPath);
+                    DataTable dtToMobileNoExcelData = new DataTable();
+                    using (OleDbConnection excel_con = new OleDbConnection(conString))
+                    {
+                        excel_con.Open();
+                        string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                        dtToMobileNoExcelData.Columns.AddRange(new DataColumn[1]
+                        {
                             new DataColumn("ToMobileNo", typeof(string))
 
-                    });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [To MobileNo]as ToMobileNo  FROM [" + sheet1 + "]", excel_con))
-                    {
-                        oda.Fill(dtToMobileNoExcelData);
+                        });
+                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [To MobileNo]as ToMobileNo  FROM [" + sheet1 + "]", excel_con))
+                        {
+                            oda.Fill(dtToMobileNoExcelData);
+                        }
+                        excel_con.Close();
                     }
-                    excel_con.Close();
-                }
 
-                if (dtToMobileNoExcelData != null && dtToMobileNoExcelData.Rows.Count > 0)
-                {
-                    var ToMobileList = dtToMobileNoExcelData.AsEnumerable().Select(r => r.Field<string>("ToMobileNo")).ToList();
-                    templateModel.UploadedMobile = string.Join(",", ToMobileList);
-                    templateModel.TotalCount = dtToMobileNoExcelData.Rows.Count;
+                    if (dtToMobileNoExcelData != null && dtToMobileNoExcelData.Rows.Count > 0)
+                    {
+                        var ToMobileList = dtToMobileNoExcelData.AsEnumerable().Select(r => r.Field<string>("ToMobileNo")).ToList();
+                        templateModel.UploadedMobile = string.Join(",", ToMobileList);
+                        templateModel.TotalCount = dtToMobileNoExcelData.Rows.Count;
 
+                    }
                 }
                 if (!string.IsNullOrEmpty(templateModel.PhoneNumber))
                 {
@@ -367,14 +370,14 @@ namespace TogoFogo.Controllers
                 {
                     response.Response = "Successfully updated";
                 }
-                else if (response.ResponseCode == 2)
-                {
-                    response.Response = "Already exists details";
-                }
-                else
-                {
-                    response.Response = "Someting went wrong,please try again";
-                }
+                //else if (response.ResponseCode == 2)
+                //{
+                //    response.Response = "Already exists details";
+                //}
+                //else
+                //{
+                //    response.Response = "Someting went wrong,please try again";
+                //}
                 TempData["response"] = response;
                 TempData.Keep("response");
             }
@@ -432,10 +435,20 @@ namespace TogoFogo.Controllers
             var templates = await _templateRepo.GetUploadedExcelListByGUID(GUID,MessageTypeName);
             return Json(templates, JsonRequestBehavior.AllowGet);
         }
-        public async Task<JsonResult> DeleteUploadedExcelData(Guid GUID, string MessageTypeName,string UploadedData)
+        public async Task<JsonResult> DeleteUploadedExcelData(Guid GUID, string MessageTypeName, string UploadedData)
         {
 
-            string strUploaded = UploadedData.Replace(',', ';');
+            string strUploaded = string.Empty;
+            string mstrMsgType = "SMTP Gateway";
+            if (MessageTypeName.ToLower() == mstrMsgType.ToLower())
+            { 
+            strUploaded = UploadedData.Replace(',', ';');
+            }
+            else
+            {
+                strUploaded = UploadedData;
+            }
+            
             var templates = await _templateRepo.DeleteUploadedExcelData(GUID, MessageTypeName, strUploaded);
             return Json(templates, JsonRequestBehavior.AllowGet);
         }

@@ -98,13 +98,13 @@ namespace TogoFogo.Repository.EmailSmsTemplate
 
             SqlParameter param = new SqlParameter("@TemplateId", templateModel.TemplateId);
             sp.Add(param);
-            param = new SqlParameter("@TemplateName", templateModel.TemplateName);
+            param = new SqlParameter("@TemplateName", templateModel.TemplateName.Trim());
             sp.Add(param);
-            param = new SqlParameter("@MailerTemplateName", templateModel.MailerTemplateName);
+            param = new SqlParameter("@MailerTemplateName",ToDBNull(templateModel.MailerTemplateName));
             sp.Add(param);
             param = new SqlParameter("@TemplateTypeId", templateModel.TemplateTypeId);
             sp.Add(param);
-            param = new SqlParameter("@MessageTypeName", templateModel.MessageTypeName);
+            param = new SqlParameter("@MessageTypeName",ToDBNull(templateModel.MessageTypeName));
             sp.Add(param);
             param = new SqlParameter("@MessageTypeId", ToDBNull(templateModel.MessageTypeId));
             sp.Add(param);          

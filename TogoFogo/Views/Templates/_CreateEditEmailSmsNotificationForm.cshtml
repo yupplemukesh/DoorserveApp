@@ -65,7 +65,7 @@
         <div class="form-group">
             @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
         </div>
-        <div id="totalEmail"><a href="javascript:void(0)" id="popupList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
+        <div id="totalEmail"><a href="javascript:void(0)" id="popupEmailList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
     </div>
     <div class="col-md-6 form-group" id="uploadToEmail">
         @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
@@ -80,7 +80,7 @@
         <div class="form-group">
             @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
         </div>
-        <div id="totalEmail"><a href="javascript:void(0)" id="popupList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
+        <div id="totalEmail"><a href="javascript:void(0)" id="popupMobileList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
     </div>
     <div class="col-md-6 form-group" id="uploadMobile">
         @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
@@ -172,6 +172,7 @@
     $(document).on("change", "#TemplateTypeId", function ()
     {
         debugger
+        $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
         if ($(this).find("option:selected").text() == 'NonActionBased')
         {
             debugger
@@ -206,6 +207,7 @@
 
     $(document).on("change", "#MessageTypeId", function ()
     {
+        $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
         if ($(this).find("option:selected").text() == 'SMS Gateway' || $(this).find("option:selected").text() == 'Notification Gateway')
         {
             $('#emailSubject').css("display", "none");
@@ -236,7 +238,25 @@
                 $('#bccEmail').css("display", "block");
             }
         }
-        
+        $.ajax({
+            type: "GET",
+            url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                $('#GatewayId').html('');
+                var opt = new Option("--Select--", 0);
+                $('#GatewayId').append(opt)
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        opt = new Option(data[i].Text, data[i].Value);
+                        $('#GatewayId').append(opt);
+                    }
+                }
+            }
+        });
     });
 
     $(document).ready(function () {
@@ -292,6 +312,9 @@
                 $('#dvScheduleTime').css("display", "none");
 
             }
+        }
+        if ($('.remove:checked').length == $('.remove').length) {
+            $("#chkAll").prop('checked', true);
         }
     });
 
@@ -444,27 +467,27 @@
     //});
 
 
-    $(document).on("change", "#MessageTypeId", function () {
-        $.ajax({
-            type: "GET",
-            url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
-            data: '{}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
+    //$(document).on("change", "#MessageTypeId", function () {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
+    //        data: '{}',
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        success: function (data) {
 
-                $('#GatewayId').html('');
-                var opt = new Option("--Select--", 0);
-                $('#GatewayId').append(opt)
-                if (data.length > 0) {
-                    for (var i = 0; i < data.length; i++) {
-                        opt = new Option(data[i].Text, data[i].Value);
-                        $('#GatewayId').append(opt);
-                    }
-                }
-            }
-        });
-    });
+    //            $('#GatewayId').html('');
+    //            var opt = new Option("--Select--", 0);
+    //            $('#GatewayId').append(opt)
+    //            if (data.length > 0) {
+    //                for (var i = 0; i < data.length; i++) {
+    //                    opt = new Option(data[i].Text, data[i].Value);
+    //                    $('#GatewayId').append(opt);
+    //                }
+    //            }
+    //        }
+    //    });
+    //});
     function BindGateway(method, ddl, e) {
         $('#' + ddl).empty();
         var val = e.value;
@@ -503,7 +526,7 @@
         height: 300,
         extraPlugins: 'colorbutton,colordialog'
     });
-    $(document).on("click", "#popupList", function () {
+    $(document).on("click", "#popupEmailList,#popupMobileList", function () {
         var GUID = $(this).attr("data-guid");
         var _this = $(this);
         $.ajax({
@@ -528,7 +551,7 @@
                     else {
                         $('#tblUpload').append('<thead><tr><td><input type="checkbox" id="chkAll" /></td> <td>Upload Mobile</td></tr></thead><tbody>');
                         for (var i = 0; i < data.length; i++) {
-                            $('#tblUpload').append('<tr><td></td><td></td></tr>');
+                            $('#tblUpload').append('<tr><td><input type="checkbox"  class="remove" /></td><td>' + data[i].UploadedMobile + '</td></tr>');
                         }
                         $('#tblUpload').append('</tbody>');
                     }
@@ -565,8 +588,14 @@
             success: function (data)
             {
                 debugger
-                if (data.ResponseCode == 0) {
-                    $('#popupList').children('span').text(@(Model.TotalCount=Model.TotalCount)- Count);
+                if (data.ResponseCode == 0)
+                {
+                    if ($('#MessageTypeName').val() == 'SMTP Gateway') {
+                        $('#popupEmailList').children('span').text(@(Model.TotalCount=Model.TotalCount)- parseInt(Count));
+                    }
+                    else {
+                         $('#popupMobileList').children('span').text(@(Model.TotalCount=Model.TotalCount)- parseInt(Count));
+                    }
                     $('#UploadedData').modal('hide');
                 }
             }
@@ -589,16 +618,7 @@
     });
 </script>
 <script>
-    //$('[data-toggle=datepicker]').each(function () {
-    //    var target = $(this).data('target-name');
-    //    var t = $('input[name=' + target + ']');
-    //    t.datepicker({
-    //        dateFormat: 'yy-mm-dd',
-    //    });
-    //    $(this).on("click", function () {
-    //        t.datepicker("show");
-    //    });
-    //});
+   
     $(function () {
         $("#datepicker").datepicker({
            showOn: "button",
