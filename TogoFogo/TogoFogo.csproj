@@ -206,6 +206,7 @@
     <Compile Include="Controllers\CustomerSupportController.cs" />
     <Compile Include="Controllers\DeviceServiceChargeController.cs" />
     <Compile Include="Controllers\EmailHeaderFooterController.cs" />
+    <Compile Include="Controllers\EmpoyeesController.cs" />
     <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\GstCategoryController.cs" />
     <Compile Include="Controllers\GSTTaxController.cs" />
@@ -217,14 +218,15 @@
     <Compile Include="Controllers\ManageCourierController.cs" />
     <Compile Include="Controllers\ManageEngineersController.cs" />
     <Compile Include="Controllers\ManagePinZIPCodeController.cs" />
-    <Compile Include="Controllers\ManageProviderController.cs" />
     <Compile Include="Controllers\ManageSACCodesController.cs" />
+    <Compile Include="Controllers\ManageServiceCentersController.cs" />
+    <Compile Include="Controllers\ManageServiceProvidersController.cs" />
     <Compile Include="Controllers\ManageSparePartController.cs" />
     <Compile Include="Controllers\DropdownBindController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ManageTRCController.cs" />
     <Compile Include="Controllers\MasterController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\NotificationGatewayController.cs" />
     <Compile Include="Controllers\ProblemObservedController.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="Controllers\ServiceCenterController.cs" />
     <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\SMTPGatewayController.cs" />
+    <Compile Include="Controllers\TemplatePartController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\Trc_PFELSController.cs" />
     <Compile Include="Controllers\Trc_PFQCController.cs" />
@@ -252,7 +255,7 @@
     <Compile Include="Extended\UserExtended.cs" />
     <Compile Include="Extension\CheckUrl.cs" />
     <Compile Include="Extension\CustomAuthorize.cs" />
-    <Compile Include="Models\ActionTypes\ActionTypeList.cs" />
+    <Compile Include="Filters\ValidateModel.cs" />
     <Compile Include="Models\ActionTypes\ActionTypeModel.cs" />
     <Compile Include="Models\AddressDetail.cs" />
     <Compile Include="Models\BankDetailModel.cs" />
@@ -276,6 +279,8 @@
     <Compile Include="Models\EmailGateway.cs" />
     <Compile Include="Models\EmailHeaderFooterModel.cs" />
     <Compile Include="Models\Email_send_code.cs" />
+    <Compile Include="Models\Employee\EmployeeModel.cs" />
+    <Compile Include="Models\Employee\VehicleModel.cs" />
     <Compile Include="Models\Encrypt_Decrypt.cs" />
     <Compile Include="Models\Gateway\GatewayModel.cs" />
     <Compile Include="Models\Gateway\NotificationGatewayModel.cs" />
@@ -286,16 +291,21 @@
     <Compile Include="Models\IVRTemplate.cs" />
     <Compile Include="Models\LandingPageModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
+    <Compile Include="Models\ManageGSTViewModel.cs" />
     <Compile Include="Models\ManageSACCodesViewModel.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\OrganizationModel.cs" />
+    <Compile Include="Models\Permissions.cs" />
     <Compile Include="Models\Prob_Vs_price_matrix.cs" />
     <Compile Include="Models\PromoCodeModel.cs" />
     <Compile Include="Models\RajModel.cs" />
     <Compile Include="Models\ReportsModel.cs" />
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\ReverseAWB_AllocationModel.cs" />
+    <Compile Include="Models\ServiceCenter\ServiceCenterModel.cs" />
+    <Compile Include="Models\ServiceProvider\ServiceProviderModel.cs" />
     <Compile Include="Models\SMSGateway.cs" />
+    <Compile Include="Models\TemplatePartModel.cs" />
     <Compile Include="Models\Template\CommonFilterModel.cs" />
     <Compile Include="Models\Template\EmailModel.cs" />
     <Compile Include="Models\Template\NotificationTemplateModel.cs" />
@@ -354,7 +364,7 @@
     <Compile Include="Models\WebsiteUserModel.cs" />
     <Compile Include="Models\WildCards\WildCardList.cs" />
     <Compile Include="Models\WildCards\WildCardModel.cs" />
-    <Compile Include="Permission\PermissionBasedAuthorize .cs" />
+    <Compile Include="Filters\PermissionBasedAuthorize .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ActionTypes\ActionTypes.cs" />
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
@@ -368,10 +378,18 @@
     <Compile Include="Repository\Customer Support\ICustomerSupport.cs" />
     <Compile Include="Repository\EmailHeaderFooters\EmailHeaderFooters.cs" />
     <Compile Include="Repository\EmailHeaderFooters\IEmailHeaderFooters.cs" />
+    <Compile Include="Repository\Employees\Employee.cs" />
+    <Compile Include="Repository\Employees\IEmployee.cs" />
     <Compile Include="Repository\ImportFiles\IUploadFiles.cs" />
     <Compile Include="Repository\ImportFiles\UploadFiles.cs" />
+    <Compile Include="Repository\ServiceCenters\Center.cs" />
+    <Compile Include="Repository\ServiceCenters\ICenter.cs" />
+    <Compile Include="Repository\ServiceProviders\IProvider.cs" />
+    <Compile Include="Repository\ServiceProviders\Provider.cs" />
     <Compile Include="Repository\SMSGateway\Gateway.cs" />
     <Compile Include="Repository\SMSGateway\IGateway.cs" />
+    <Compile Include="Repository\TemplateParts\ITemplateParts.cs" />
+    <Compile Include="Repository\TemplateParts\TemplateParts.cs" />
     <Compile Include="Repository\Templates\ITemplate.cs" />
     <Compile Include="Repository\Templates\Template.cs" />
     <Compile Include="Repository\WildCards\IWildCards.cs" />
@@ -783,6 +801,12 @@
     <Content Include="Content\img\brands\github.png" />
     <Content Include="Content\img\brands\gmail.png" />
     <Content Include="Content\img\brands\wordpress.png" />
+    <Content Include="Content\img\icon-img\client.png" />
+    <Content Include="Content\img\icon-img\human-resourses.png" />
+    <Content Include="Content\img\icon-img\logistics.png" />
+    <Content Include="Content\img\icon-img\purchase.png" />
+    <Content Include="Content\img\icon-img\service-center.png" />
+    <Content Include="Content\img\icon-img\service-provider.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\page-layouts\compact-sidebar.png" />
     <Content Include="Content\img\page-layouts\fixed-footer.png" />
@@ -1035,6 +1059,17 @@
     <Content Include="Content\fonts\material-design\Material-Design-Iconic-Fontd1f1.woff2" />
     <Content Include="Content\img\photos\Local Disk %28D%29 - Shortcut.lnk" />
     <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\ManageCourierApi\AddCourierApi.cshtml" />
+    <Content Include="Views\ManageCourierApi\CourierAPITable.cshtml" />
+    <Content Include="Views\ManageCourierApi\EditCourierApi.cshtml" />
+    <Content Include="Views\ManageCourierApi\ManageCourierApi.cshtml" />
+    <Content Include="Views\ManageCourier\AddCourier.cshtml" />
+    <Content Include="Views\ManageCourier\CourierTable.cshtml" />
+    <Content Include="Views\ManageCourier\Create.cshtml" />
+    <Content Include="Views\ManageCourier\Edit.cshtml" />
+    <Content Include="Views\ManageCourier\EditCourier.cshtml" />
+    <Content Include="Views\ManageCourier\ManageCourier.cshtml" />
+    <Content Include="Views\ManageCourier\_AddEditCourier.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1126,14 +1161,6 @@
     <Content Include="Views\Master\EditDeviceProblem.cshtml" />
     <Content Include="Views\PurchaseProcurement\ManageSparePartsPriceandStock.cshtml" />
     <Content Include="Views\PurchaseProcurement\AddSparePartsPriceandStock.cshtml" />
-    <Content Include="Views\ManageCourier\ManageCourier.cshtml" />
-    <Content Include="Views\ManageCourier\AddCourier.cshtml" />
-    <Content Include="Views\ManageCourier\CourierTable.cshtml" />
-    <Content Include="Views\ManageCourier\EditCourier.cshtml" />
-    <Content Include="Views\ManageCourierApi\ManageCourierApi.cshtml" />
-    <Content Include="Views\ManageCourierApi\AddCourierApi.cshtml" />
-    <Content Include="Views\ManageCourierApi\CourierAPITable.cshtml" />
-    <Content Include="Views\ManageCourierApi\EditCourierApi.cshtml" />
     <Content Include="Views\ManagePinZIPCode\PinZIPCode.cshtml" />
     <Content Include="Views\ManagePinZIPCode\AddPinZip.cshtml" />
     <Content Include="Views\ManagePinZIPCode\PinZipTable.cshtml" />
@@ -1366,9 +1393,6 @@
     <Content Include="Views\ClientData\Index.cshtml" />
     <Content Include="Views\ClientData\_CreateForm.cshtml" />
     <Content Include="Views\ClientData\_TableList.cshtml" />
-    <Content Include="Views\ManageCourier\_AddEditCourier.cshtml" />
-    <Content Include="Views\ManageCourier\Create.cshtml" />
-    <Content Include="Views\ManageCourier\Edit.cshtml" />
     <Content Include="Views\ManagePinZIPCode\Create.cshtml" />
     <Content Include="Views\ManagePinZIPCode\Edit.cshtml" />
     <Content Include="Views\Templates\Create.cshtml" />
@@ -1391,15 +1415,38 @@
     <Content Include="Views\Common\_AssignCall.cshtml" />
     <Content Include="Views\Common\_bankDetails.cshtml" />
     <Content Include="Views\Common\_ContactDetails.cshtml" />
+    <Content Include="Views\ManageServiceCenters\Create.cshtml" />
+    <Content Include="Views\ManageServiceCenters\Edit.cshtml" />
+    <Content Include="Views\ManageServiceCenters\Index.cshtml" />
+    <Content Include="Views\ManageServiceCenters\_CreateEditCenterForm.cshtml" />
+    <Content Include="Views\ManageServiceProviders\Create.cshtml" />
+    <Content Include="Views\ManageServiceProviders\Edit.cshtml" />
+    <Content Include="Views\ManageServiceProviders\Index.cshtml" />
+    <Content Include="Views\ManageServiceProviders\_CreateEditProviderForm.cshtml" />
+    <Content Include="Views\TemplatePart\Index.cshtml" />
+    <Content Include="Views\TemplatePart\_CreateEditTemplatePartForm.cshtml" />
+    <Content Include="Views\TemplatePart\_TemplatePartTable.cshtml" />
+    <Content Include="Views\Employees\Index.cshtml" />
+    <Content Include="Views\Employees\_CreateEditEmployeeForm.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
+    <Content Include="Views\Employees\Edit.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
+    <Content Include="Views\ManageCourierApi\Create.cshtml" />
+    <Content Include="Views\ManageCourierApi\Edit.cshtml" />
+    <Content Include="Views\ManageCourierApi\_AddEditCourierApi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Barcode_file\" />
+    <Folder Include="Repository\Menues\" />
     <Folder Include="UploadedImages\" />
     <Folder Include="UploadExcel\" />
     <Folder Include="Views\Custo_PCRC\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\DropdownBind\" />
+    <Folder Include="Views\Menu\" />
     <Folder Include="Views\Mobile\" />
   </ItemGroup>
   <ItemGroup>

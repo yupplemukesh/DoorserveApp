@@ -32,17 +32,18 @@ namespace TogoFogo.Permission
                 Valid = false;
             if (HttpContext.Current.Session["User_ID"] != null)
             {
+                
+ 
                 if (Convert.ToString(HttpContext.Current.Session["RoleName"]).ToLower().Contains("super admin"))
                 {
                     Permissions.AssignRight(new UserActionRights { Create = true, Edit = true, ExcelExport = true, History = true, View = true });
                     return true;
-
-
                 }
                 else
                 {
                     int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
-                    string privilegeLevels = GetUserRights(UserId).Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                    var menues = HttpContext.Current.Session["Menues"] as MenuMasterModel;
+                    string privilegeLevels = menues.SubMenuList.Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {
                         string[] items = privilegeLevels.Split(',');
@@ -78,16 +79,7 @@ namespace TogoFogo.Permission
 
             return Valid;
         }
-        private  List<MenuMasterModel> GetUserRights(int userId)
-        {
-            MenuMasterModel objMenuMaster = new MenuMasterModel();
-            using (var con = new SqlConnection(_connectionString))
-            {
-                objMenuMaster.SubMenuList = con.Query<MenuMasterModel>("UspGetMenuListByUser",
-              new { userId }, commandType: CommandType.StoredProcedure).ToList();
-            }
-            return objMenuMaster.SubMenuList;
-        }
+      
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
 

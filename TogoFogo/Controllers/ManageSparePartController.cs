@@ -105,7 +105,6 @@ namespace TogoFogo.Controllers
                
                     }
                     TempData["response"] = response;
-                    TempData.Keep("response");
                 }
 
             }

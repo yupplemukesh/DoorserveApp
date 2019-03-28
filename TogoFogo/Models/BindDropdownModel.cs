@@ -30,7 +30,8 @@ namespace TogoFogo.Models
     public class MenuMasterModel
     {
         public int Id { get; set; }
-        public int MenuCap_ID { get; set; }
+        public int MenuCapId { get; set; }
+        public string CapName { get; set; }
         public string Menu_Name { get; set; }
         public string PagePath { get; set; }
         public string ParentMenuId { get; set; }

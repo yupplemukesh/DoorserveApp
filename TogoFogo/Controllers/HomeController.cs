@@ -23,21 +23,12 @@ namespace TogoFogo.Controllers
         [Authorize]
         public ActionResult DynamicLinks()
         {
-            MenuMasterModel objMenuMaster = new MenuMasterModel();
-            using (var con = new SqlConnection(_connectionString))
-            {
 
-                var UserId = Session["User_ID"];
-
-             
-                objMenuMaster.ParentMenuList = con.Query<MenuMasterModel>("UspGetMenu",
-               new {  }, commandType: CommandType.StoredProcedure).ToList();
-
-                objMenuMaster.SubMenuList = con.Query<MenuMasterModel>("UspGetMenuListByUser",
-                 new { UserId }, commandType: CommandType.StoredProcedure).ToList();
-
-                return PartialView("_SideMenu", objMenuMaster);
-            }
+            var menus = Session["Menues"] as MenuMasterModel;
+            MenuMasterModel objMenuMaster = menus;
+ 
+            return PartialView("_SideMenu", menus);
+            
         }
         [Authorize]
         public ActionResult About()

@@ -751,7 +751,7 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.MenuCap_ID.ToString(), //Value Field(ID)
+                        Value = val.MenuCapId.ToString(), //Value Field(ID)
                         Text = val.Menu_Name //Text Field(Name)
                     });
                 }

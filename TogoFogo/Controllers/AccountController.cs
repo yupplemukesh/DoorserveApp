@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.Security;
 using Dapper;
@@ -93,22 +94,36 @@ namespace TogoFogo.Controllers
         //            return View(model);
         //    }
         //}
-        public ActionResult Login(LoginViewModel m)
+        public async Task<ActionResult> Login(LoginViewModel m)
         {
             var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);
             using (var con = new SqlConnection(_connectionString))
             {
+                await con.OpenAsync();
+                
 
-                dynamic result = con.Query<dynamic>("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
-                    commandType: CommandType.StoredProcedure).FirstOrDefault();
-                if(result!=null)
+                // read as IEnumerable<dynamic>
+              
+
+                var result = await con.QueryMultipleAsync("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
+                    commandType: CommandType.StoredProcedure);
+                var rs = await result.ReadSingleOrDefaultAsync<dynamic>();
+
+                if (rs !=null)
                 {
-                    Session["User_ID"] = result.UserId;
-                    Session["RoleName"] = result.RoleName;
+                   
+                    var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
+                    var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
+                    var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
+        
+
+                    Session["User_ID"] = rs.UserId;
+                    Session["RoleName"] = rs.RoleName;
+                    Session["Menues"] = manues;
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, m.Email));
-                    claims.Add(new Claim(ClaimTypes.Email, result.UserName.ToString()));
+                    claims.Add(new Claim(ClaimTypes.Email, rs.Email));
                     var id = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
                     var ctx = Request.GetOwinContext();
                     var authenticationManager = ctx.Authentication;
@@ -451,6 +466,8 @@ namespace TogoFogo.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
+            Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
 

@@ -79,7 +79,7 @@ namespace TogoFogo.Controllers
                 List<CheckBox> SelectedActionList = item.RightActionList.Where(x => x.IsChecked == true).ToList();
                 XmlElement element2 = doc.CreateElement(string.Empty, "item", string.Empty);
                 XmlElement element3 = doc.CreateElement(string.Empty, "MenuCap_ID", string.Empty);
-                XmlText MenuId = doc.CreateTextNode(item.MenuCap_ID.ToString());
+                XmlText MenuId = doc.CreateTextNode(item.MenuCapId.ToString());
                 element3.AppendChild(MenuId);
                 element2.AppendChild(element3);
                 XmlElement element4 = doc.CreateElement(string.Empty, "ActionRight_Id", string.Empty);
@@ -204,7 +204,7 @@ namespace TogoFogo.Controllers
                 List<CheckBox> SelectedActionList = item.RightActionList.Where(x => x.IsChecked == true).ToList();
                 XmlElement element2 = doc.CreateElement(string.Empty, "item", string.Empty);
                 XmlElement element3 = doc.CreateElement(string.Empty, "MenuCap_ID", string.Empty);
-                XmlText MenuId = doc.CreateTextNode(item.MenuCap_ID.ToString());
+                XmlText MenuId = doc.CreateTextNode(item.MenuCapId.ToString());
                 element3.AppendChild(MenuId);
                 element2.AppendChild(element3);
                 XmlElement element4 = doc.CreateElement(string.Empty, "ActionRight_Id", string.Empty);

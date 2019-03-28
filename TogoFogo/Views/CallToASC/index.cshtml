@@ -69,7 +69,7 @@
                             <div class="col-md-12">
 
                                 <div class="panel panel-default panel-table">
-                                    <div class="panel-body">
+                                    @*<div class="panel-body">
                                         <div class="text-center">
                                             <div class="form-group ">
                                                 <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Client</label>
@@ -90,7 +90,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
 
 
 
@@ -224,7 +224,7 @@
                             <div class="col-md-12">
 
                                 <div class="panel panel-default panel-table">
-                                    <div class="panel-body">
+                                    @*<div class="panel-body">
                                         <div class="text-center">
 
 
@@ -246,7 +246,7 @@
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div>*@
 
 
 
@@ -364,91 +364,91 @@
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        var table1 = $('#myTable1').DataTable();
-        var table = $('#myTable').DataTable();
+        //var table1 = $('#myTable1').DataTable();
+        //var table = $('#myTable').DataTable();
                 $("#chkAll").on("change", function (e) {
 
             $(".chk-item").prop('checked', $(this).prop("checked"));
         });
 
-            $("#AClientId").on("change", function () {
+        //    $("#AClientId").on("change", function () {
 
-                table1.draw();
+        //        table1.draw();
 
-            });
+        //    });
 
-        $.fn.dataTable.ext.search.push(
-            function (settings, data, dataIndex) {
+        //$.fn.dataTable.ext.search.push(
+        //    function (settings, data, dataIndex) {
 
-                var value1 = $("#AClientId option:selected").text().toLowerCase();
-                var servicetype1 = $("#AServiceTypeId option:selected").text().toLowerCase();
-                var serviceProvider1 = $("#AServiceProviderId option:selected").text().toLowerCase();
-                var value = $("#ClientId option:selected").text().toLowerCase();
-                var servicetype = $("#ServiceTypeId option:selected").text().toLowerCase();
-                var serviceProvider = $("#ServiceProviderId option:selected").text().toLowerCase();
-                if ($("#tab-5").hasClass("active")) {
-                    debugger
-                    if (value.toLowerCase() != "select" || servicetype.toLowerCase() != "select" || serviceProvider.toLowerCase() != "select") {
-                        var client = data[3]
-                        var servicet = data[5]; //
-                        var SP = data[17]; //
-                        if (client.toLowerCase() == value && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype && value.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
-                            return true;
-                        else if (SP.toLowerCase() == serviceProvider && servicetype.toLowerCase() == "select" && value.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype && client.toLowerCase() == value && serviceProvider.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == client)
-                            return true;
+        //        var value1 = $("#AClientId option:selected").text().toLowerCase();
+        //        var servicetype1 = $("#AServiceTypeId option:selected").text().toLowerCase();
+        //        var serviceProvider1 = $("#AServiceProviderId option:selected").text().toLowerCase();
+        //        var value = $("#ClientId option:selected").text().toLowerCase();
+        //        var servicetype = $("#ServiceTypeId option:selected").text().toLowerCase();
+        //        var serviceProvider = $("#ServiceProviderId option:selected").text().toLowerCase();
+        //        if ($("#tab-5").hasClass("active")) {
+        //            debugger
+        //            if (value.toLowerCase() != "select" || servicetype.toLowerCase() != "select" || serviceProvider.toLowerCase() != "select") {
+        //                var client = data[3]
+        //                var servicet = data[5]; //
+        //                var SP = data[17]; //
+        //                if (client.toLowerCase() == value && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype && value.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
+        //                    return true;
+        //                else if (SP.toLowerCase() == serviceProvider && servicetype.toLowerCase() == "select" && value.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype && client.toLowerCase() == value && serviceProvider.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype && serviceProvider.toLowerCase() == SP && value.toLowerCase() == client)
+        //                    return true;
 
-                    }
-                   else if (value.toLowerCase() == "select" && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
-                        return true;
-                    else
-                        return false;
-                }
-                else {
-                    if (value1.toLowerCase() != "select" || servicetype1.toLowerCase() != "select" || serviceProvider1.toLowerCase() != "select" ) {
-                        var client = data[2];
-                        var servicet = data[4];
-                        var SP = data[16];
-                        if (client.toLowerCase() == value1 && servicetype1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype1 && value1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
-                            return true;
-                        else if (SP.toLowerCase() == serviceProvider1 && servicetype1.toLowerCase() == "select" && value1.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype1 && client.toLowerCase() == value1 && serviceProvider1.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == "select")
-                            return true;
-                        else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == client)
-                            return true;
+        //            }
+        //           else if (value.toLowerCase() == "select" && servicetype.toLowerCase() == "select" && serviceProvider.toLowerCase() == "select")
+        //                return true;
+        //            else
+        //                return false;
+        //        }
+        //        else {
+        //            if (value1.toLowerCase() != "select" || servicetype1.toLowerCase() != "select" || serviceProvider1.toLowerCase() != "select" ) {
+        //                var client = data[2];
+        //                var servicet = data[4];
+        //                var SP = data[16];
+        //                if (client.toLowerCase() == value1 && servicetype1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype1 && value1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
+        //                    return true;
+        //                else if (SP.toLowerCase() == serviceProvider1 && servicetype1.toLowerCase() == "select" && value1.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype1 && client.toLowerCase() == value1 && serviceProvider1.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == "select")
+        //                    return true;
+        //                else if (servicet.toLowerCase() == servicetype1 && serviceProvider1.toLowerCase() == SP && value1.toLowerCase() == client)
+        //                    return true;
 
-                    }
-                    else if (value1.toLowerCase() == "select" && servicetype1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
-                        return true;
-                    else
-                        return false;
-                }
-            }
-        );
+        //            }
+        //            else if (value1.toLowerCase() == "select" && servicetype1.toLowerCase() == "select" && serviceProvider1.toLowerCase() == "select")
+        //                return true;
+        //            else
+        //                return false;
+        //        }
+        //    }
+        //);
 
 
 
-            $("#AServiceTypeId").on("change", function () {
-                table1.draw();
-            });
-            $("#ClientId").on("change", function () {
-                table.draw();
-            });
-            $("#ServiceTypeId").on("change", function () {
-                table.draw();
-            });
+            //$("#AServiceTypeId").on("change", function () {
+            //    table1.draw();
+            //});
+            //$("#ClientId").on("change", function () {
+            //    table.draw();
+            //});
+            //$("#ServiceTypeId").on("change", function () {
+            //    table.draw();
+            //});
                 $(document).on("click", "#allocateASP", function (e) {
 
             var obj = [];

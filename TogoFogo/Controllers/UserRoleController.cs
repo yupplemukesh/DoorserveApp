@@ -40,7 +40,7 @@ namespace TogoFogo.Controllers
             var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
             for(int i=0;i< SlectedMenuLis.Count;i++)
             {
-                MenuList +=Convert.ToString(SlectedMenuLis[i].MenuCap_ID) + ",";
+                MenuList +=Convert.ToString(SlectedMenuLis[i].MenuCapId) + ",";
             }
             if(!string.IsNullOrEmpty(MenuList))
             {
@@ -126,7 +126,7 @@ namespace TogoFogo.Controllers
             var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
             for (int i = 0; i < SlectedMenuLis.Count; i++)
             {
-                MenuList += Convert.ToString(SlectedMenuLis[i].MenuCap_ID) + ",";
+                MenuList += Convert.ToString(SlectedMenuLis[i].MenuCapId) + ",";
             }
             if (!string.IsNullOrEmpty(MenuList))
             {
