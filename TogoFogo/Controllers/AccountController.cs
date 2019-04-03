@@ -100,10 +100,10 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 await con.OpenAsync();
-                
+
 
                 // read as IEnumerable<dynamic>
-              
+                string iconPath = "/uploadedImages/icon-img/";
 
                 var result = await con.QueryMultipleAsync("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
                     commandType: CommandType.StoredProcedure);
@@ -113,7 +113,8 @@ namespace TogoFogo.Controllers
                 {
                    
                     var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
-                    var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
+                    PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
+                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
         
 

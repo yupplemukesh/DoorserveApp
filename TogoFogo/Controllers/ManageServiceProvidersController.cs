@@ -285,9 +285,23 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
 
-          
+            var statutory = await CommonModel.GetStatutoryType();
+            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["provider"] as ServiceProviderModel;
             provider.Organization = new OrganizationModel();
+            if (provider.ServiceList.Where(x => x.IsChecked == true).Count() < 1 || provider.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
+            {
+                provider.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+                provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
+                provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+            
+                if (provider.action == 'I')
+                    return View("Create", provider);
+                else
+                    return View("Edit", provider);
+            }
             if (TempData["provider"] != null )
             {
                     provider = cltns;
@@ -344,9 +358,7 @@ namespace TogoFogo.Controllers
             provider.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            var statutory = await CommonModel.GetStatutoryType();
-            provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
+            provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");          
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             try
             {

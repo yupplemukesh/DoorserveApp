@@ -7,10 +7,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
 using TogoFogo.Repository.ServiceCenters;
+using TogoFogo.Repository.ServiceProviders;
 
 namespace TogoFogo.Controllers
 {
@@ -18,6 +20,7 @@ namespace TogoFogo.Controllers
     public class ManageServiceCentersController : Controller
     {
         private readonly ICenter _Center;
+        private readonly IProvider _Provider;
         private readonly IBank _bank;
         private readonly IContactPerson _contactPerson;
 
@@ -28,6 +31,7 @@ namespace TogoFogo.Controllers
              dropdown= new DropdownBindController();
             _bank = new Bank();
             _contactPerson = new ContactPerson();
+            _Provider = new Provider();
         }
 
 
@@ -271,8 +275,15 @@ namespace TogoFogo.Controllers
                 Organization = new OrganizationModel(),
 
             };
-            
-                var processes = await CommonModel.GetProcesses();
+            var processes = await CommonModel.GetProcesses();
+            if (Session["RoleName"].ToString().ToLower().Contains("provider"))
+            {
+                var providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+                var provider = await _Provider.GetProviderById(providerId);
+                var seletedProcess = processes.Where(x => x.Value == provider.ProcessId);
+                CenterModel.ProcessList = new SelectList(seletedProcess, "Value", "Text");
+            }
+           else
                 CenterModel.ProcessList = new SelectList(processes, "Value", "Text");
                 CenterModel.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
                 CenterModel.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
@@ -288,14 +299,28 @@ namespace TogoFogo.Controllers
             return View(CenterModel);
         }
 
-        // POST: ManageClient/Create    
+  
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
-
-          
-            var cltns = TempData["Center"] as ServiceCenterModel;
+            var statutory = await CommonModel.GetStatutoryType();
+            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
+            var cltns = TempData["Center"] as ServiceCenterModel;     
             Center.Organization = new OrganizationModel();
+            if (Center.ServiceList.Where(x=>x.IsChecked==true).Count()<1 || Center.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
+            {
+                Center.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+                Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
+                Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+                if (Center.action == 'I')
+                    return View("Create", Center);
+                else
+                    return View("Edit", Center);
+            }
             if (TempData["Center"] != null )
             {
                     Center = cltns;
@@ -353,11 +378,10 @@ namespace TogoFogo.Controllers
             Center.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            var statutory = await CommonModel.GetStatutoryType();
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+    
             try
             {
                     Center.Activetab = "tab-1";
@@ -368,7 +392,7 @@ namespace TogoFogo.Controllers
                     if (ProviderId!=null)
                      Center.ProviderId =  ProviderId;
                 }
-                      var response = await _Center.AddUpdateDeleteCenter(Center);
+                    var response = await _Center.AddUpdateDeleteCenter(Center);
                     _Center.Save();
                     Center.CenterId = new Guid(response.result);
                 TempData["response"] = response;
@@ -526,21 +550,26 @@ namespace TogoFogo.Controllers
                 List.Add(Convert.ToInt16(_deviceCat[i]));
 
             }
-            var _DeliveryService = Center.ServiceDeliveryTypes.Split(',');
-            for (int i = 0; i < _DeliveryService.Length; i++)
+            if (!string.IsNullOrEmpty(Center.ServiceDeliveryTypes))
             {
-                    var item = Center.DeliveryServiceList.Where(x => x.Value == Convert.ToInt32( _DeliveryService[i])).FirstOrDefault();
-                    if(item !=null)                
-                    item.IsChecked = true;
+                var _DeliveryService = Center.ServiceDeliveryTypes.Split(',');
+                for (int i = 0; i < _DeliveryService.Length; i++)
+                {
+                    var item = Center.DeliveryServiceList.Where(x => x.Value == Convert.ToInt32(_DeliveryService[i])).FirstOrDefault();
+                    if (item != null)
+                        item.IsChecked = true;
 
-             }
-
-            var _serviceType = Center.ServiceTypes.Split(',');
-            for (int i = 0; i < _serviceType.Length; i++)
+                }
+            }
+            if (!string.IsNullOrEmpty(Center.ServiceTypes))
             {
-                var item = Center.ServiceList.Where(x => x.Value == Convert.ToInt32(_serviceType[i])).FirstOrDefault();
-                if (item != null)
-                    item.IsChecked = true;
+                var _serviceType = Center.ServiceTypes.Split(',');
+                for (int i = 0; i < _serviceType.Length; i++)
+                {
+                    var item = Center.ServiceList.Where(x => x.Value == Convert.ToInt32(_serviceType[i])).FirstOrDefault();
+                    if (item != null)
+                        item.IsChecked = true;
+                }
             }
             Center.DeviceCategories = List;
             Center.action = 'U';

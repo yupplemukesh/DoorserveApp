@@ -189,10 +189,14 @@ namespace TogoFogo.Controllers
         {
            
             Int64 RoleId = 0;
-            var objUserRole = new  List<UserRole>();            
+            int UserId = 0;
+            var objUserRole = new  List<UserRole>();
+            if (Session["RoleName"].ToString().ToLower() != "super admin")
+                UserId = Convert.ToInt32(Session["User_ID"]);
             using (var con = new SqlConnection(_connectionString))
-            {
-                objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
+            { 
+               
+                   objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId, UserId },
                     commandType: CommandType.StoredProcedure).ToList();                             
             }
 

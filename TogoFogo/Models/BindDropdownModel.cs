@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -32,14 +34,23 @@ namespace TogoFogo.Models
         public int Id { get; set; }
         public int MenuCapId { get; set; }
         public string CapName { get; set; }
+        [DisplayName("Menu Name")]
+        [Required]
         public string Menu_Name { get; set; }
+        public int shortOrder   { get; set; }
         public string PagePath { get; set; }
-        public string ParentMenuId { get; set; }
+        public int ParentMenuId { get; set; }
+        public bool IsActive { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
         public string IconFileName { get; set; }
+        public HttpPostedFileBase IconFileNamePath { get; set; }
+        public string IconFileNameUl { get; set; }
         public string ParentMenuName { get; set; }
         public Boolean CheckedStatus { get; set; }
         public string ActionIds { get; set; }
         public Int64 ActionRightId { get; set; }
+
         public List<CheckBox> RightActionList { get; set; }
         public List<MenuMasterModel> ParentMenuList { get; set; }
         public List<MenuMasterModel> SubMenuList { get; set; }

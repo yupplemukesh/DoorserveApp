@@ -29,7 +29,11 @@ namespace TogoFogo
             bundles.Add(new ScriptBundle("~/bundles/ckEditorJS").Include(
                       "~/ckeditor/ckeditor.js",
                                              "~/ckeditor/samples/js/sample.js"
-              ));          
+              ));
+            // js tree plugin js
+            bundles.Add(new ScriptBundle("~/bundles/appjs").Include(
+                      "~/Content/js/jstree.js"
+              ));
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -44,6 +48,13 @@ namespace TogoFogo
             bundles.Add(new StyleBundle("~/Content/CKEditorCSS").Include(
                      "~/ckeditor/samples/css/samples.css",
                                           "~/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css"
+                                ));
+
+
+            // js tree plugin css
+
+            bundles.Add(new StyleBundle("~/Content/plugintree").Include(
+                     "~/Content/css/plugin/style.css"
                                 ));
 
 

@@ -2,11 +2,8 @@
 
 @using (Html.BeginForm("Upload", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-
-
     if (Session["RoleName"].ToString().ToLower().Contains("admin"))
     {
-
         <div class="row" style="padding-bottom: 5px">
             @Html.LabelFor(model => model.ClientId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">

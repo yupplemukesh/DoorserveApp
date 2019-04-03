@@ -1,0 +1,62 @@
+﻿@model  TogoFogo.Models.MenuMasterModel
+@{
+    ViewBag.Title = "Manage Admin Menu";
+    Layout = null;
+}
+
+@Html.AntiForgeryToken()
+
+
+@using (Html.BeginForm("CreateOrEdit", "Menu", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x => x.MenuCapId)
+    @Html.HiddenFor(x => x.ParentMenuId)
+    <div class="form-group">
+        @Html.Label("menuName", "Menu Name", true)
+        <div>
+            @Html.TextBoxFor(x => x.Menu_Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Menu_Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("menuCaption", "Menu Caption", true)
+        <div>
+            @Html.TextBoxFor(x => x.CapName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.CapName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("icon", "Icon", true)
+        <div>
+            @Html.TextBoxFor(x => x.IconFileNamePath, new { @type = "file" })
+            @Html.ValidationMessageFor(x => x.IconFileNamePath, "", new { @class = "text-danger" })
+        </div>
+    </div>
+   
+    <div class="form-group">
+        @Html.Label("sortOrder", "Sort Order", true)
+        <div>
+            @Html.TextBoxFor(x => x.shortOrder, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.shortOrder, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="custom-control custom-control-primary custom-checkbox active" for="isActive">
+            @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-indicator" })
+            <span >IsVisible</span>
+        </label>
+    </div>
+    <div class="form-group">
+        <button type="submit" id="menuSaveChanges" class="btn btn-primary">
+            Save Changes
+        </button>
+        <button type="button" data-dismiss="modal" class="reset btn btn-primary">Cancel</button>
+    </div>
+}
+
+
+
+
+
+
+

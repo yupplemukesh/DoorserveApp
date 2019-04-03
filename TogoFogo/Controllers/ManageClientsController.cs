@@ -290,9 +290,23 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditClient(ClientModel client)
         {
 
-          
+            var statutory = await CommonModel.GetStatutoryType();
+            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["client"] as ClientModel;
             client.Organization = new OrganizationModel();
+            if (client.ServiceList.Where(x => x.IsChecked == true).Count() < 1 || client.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
+            {
+                client.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+                client.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
+                client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+
+                if (client.action == 'I')
+                    return View("Create", client);
+                else
+                    return View("Edit", client);
+            }
             if (TempData["client"] != null )
             {
                     client = cltns;
@@ -349,9 +363,7 @@ namespace TogoFogo.Controllers
             client.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             client.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            var statutory = await CommonModel.GetStatutoryType();
             client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             try
             {

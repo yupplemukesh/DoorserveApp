@@ -10,7 +10,7 @@ using System.Web.Http.Filters;
 namespace TogoFogo.Filters
 {
    
-        public class ValidateModel: ActionFilterAttribute
+        public class ValidateModel: ActionFilterAttribute,IActionFilter
         {
             public override void OnActionExecuting(HttpActionContext actionContext)
             {

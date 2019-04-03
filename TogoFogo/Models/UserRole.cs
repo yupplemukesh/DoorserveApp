@@ -15,6 +15,7 @@ namespace TogoFogo.Models
         [Required(ErrorMessage = "Enter Comments")]
         public string Comments { get; set; }
         public Boolean IsActive { get; set; }
+        public int ParentRoleId { get; set; }
         public Int64 UserLoginId { get; set; }
         public string CreatedBy { get; set; }
         public string ModifyBy { get; set; }

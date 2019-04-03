@@ -131,7 +131,7 @@ namespace TogoFogo.Controllers
         [ValidateModel]
         public async Task<ActionResult> Edit(EmployeeModel empModel, ContactPersonModel contact)
         {
-
+            empModel.UserID = Convert.ToInt32(Session["User_ID"]);
             if (empModel.EMPPhoto1 != null && empModel.EMPPhoto != null)
             {
 

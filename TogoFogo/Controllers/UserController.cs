@@ -63,7 +63,7 @@ namespace TogoFogo.Controllers
                         objResponseModel.IsSuccess = false;
                         objResponseModel.ResponseCode = 0;
                         objResponseModel.Response= "Something went wrong";
-                        TempData["response"] = objResponseModel;
+      
                     }
                     else if (result == 1)
                     {
@@ -71,7 +71,7 @@ namespace TogoFogo.Controllers
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";
-                        TempData["response"] = objResponseModel;
+
                     }
                     else
                     {
@@ -79,9 +79,9 @@ namespace TogoFogo.Controllers
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 2;
                         objResponseModel.Response = "Successfully Updated";
-                        TempData["response"] = objResponseModel;
+              
                     }
-
+                    TempData["response"] = objResponseModel;
                     return RedirectToAction("UserList", "User");
                 }
             }
@@ -170,17 +170,16 @@ namespace TogoFogo.Controllers
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";
-                        TempData["response"] = objResponseModel;
+   
                     }
                     else
                     {
                         //TempData["Message"] = "Successfully Updated";
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 2;
-                        objResponseModel.Response = "Successfully Updated";
-                        TempData["response"] = objResponseModel;
+                        objResponseModel.Response = "Successfully Updated";                   
                     }
-
+                    TempData["response"] = objResponseModel;
                     return RedirectToAction("UserList", "User");
                 }
             }
@@ -194,7 +193,9 @@ namespace TogoFogo.Controllers
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<dynamic>("GETUSERLIST",
+                if (Session["RoleName"].ToString().ToLower() != "super admin")
+                    UserId = Convert.ToInt32(Session["User_ID"]);
+                var result = con.Query<dynamic>("GETUSERLIST", new { UserId },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
                 {
@@ -237,7 +238,6 @@ namespace TogoFogo.Controllers
                     var encrpt_NewPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
                     var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { UserId = Convert.ToInt32(Session["User_ID"]), OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
                                             commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    //var rsPass = await resultChngPass.ReadSingleOrDefaultAsync<dynamic>();
 
                     if (response.ResponseCode == 0)                 
                         response.IsSuccess = true;
