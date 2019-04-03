@@ -8,6 +8,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using TogoFogo.Models;
+using TogoFogo.Models.Customer_Support;
+using TogoFogo.Models.ServiceCenter;
 
 namespace TogoFogo.Repository.ServiceCenters
 {
@@ -216,7 +218,44 @@ namespace TogoFogo.Repository.ServiceCenters
                 res.IsSuccess = false;
             return res;
         }
-      
+        public async Task<ServiceCenterCallsModel> GetCallDetails()
+        {
+            ServiceCenterCallsModel calls = new ServiceCenterCallsModel();
+            using (var connection = _context.Database.Connection)
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "GETCenterAllocatedCalls";
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+
+                    calls.PendingCalls =
+                     ((IObjectContextAdapter)_context)
+                         .ObjectContext
+                         .Translate<CallDetailsModel>(reader)
+                         .ToList();
+                    reader.NextResult();
+
+                    calls.AcceptedCalls =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<CallDetailsModel>(reader)
+                            .ToList();
+                    reader.NextResult();
+
+                    calls.RejectedCalls =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<CallDetailsModel>(reader)
+                            .ToList();
+                    
+                }
+            }
+            return calls;
+        }
+
         private  object ToDBNull(object value)
         {
             if (null != value)

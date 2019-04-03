@@ -27,7 +27,7 @@ namespace TogoFogo.Controllers
             TemplatePartMainModel model = new TemplatePartMainModel();
             model.TemplatePart = new TemplatePartModel();
             model.mainModel = Mapper.Map<List<TemplatePartModel>>(templatepart);           
-            model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+           // model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Template Part")]

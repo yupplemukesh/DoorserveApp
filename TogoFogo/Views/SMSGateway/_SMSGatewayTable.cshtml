@@ -1,8 +1,9 @@
 ﻿@model IEnumerable<TogoFogo.Models.SMSGatewayModel>
+@using TogoFogo.Models
 @{var count = 1;
     var rights = ViewData["rights"] as TogoFogo.Models.UserActionRights;
 
-    }
+}
 
 
 
@@ -26,11 +27,11 @@
                     <td>@item.GatewayName</td>
                     <td>@item.IsActive</td>
                     <td class="text-center">
-                           @if (rights.Edit)
-                           {
-                           <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetGatwayDetails(@item.GatewayId)"><i class="glyphicon glyphicon-pencil"></i></button>
-                           }
-                        </td>
+                        @if (Permissions.Rights.Edit)
+                        {
+                            <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetGatwayDetails(@item.GatewayId)"><i class="glyphicon glyphicon-pencil"></i></button>
+                        }
+                    </td>
 
                 </tr>
                 count++;

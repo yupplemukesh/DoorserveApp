@@ -168,6 +168,7 @@
         $(document).ready(function (e) {
             $('#myTable').DataTable();
             $('#myTable1').DataTable();
+            $('#myTable2').DataTable();
             $('.selectpicker').selectpicker();
             $(".bootstrap-select").click(function () {
                 $(this).addClass("open");
@@ -290,7 +291,19 @@
                         $(obj1).find("th:last-child").remove();
                         $(obj).find("td:last-child").remove();
                     }
+                    
                 }
+                if ($("#tab-7").hasClass("active")) {
+                    obj = $("#myTable2").DataTable().$('tr').clone();
+                    obj1 = $('<tr>').append($("#myTable2 thead tr").html());
+                    lstchl = $(obj1).find("th:last-child").html();
+                    if (lstchl.indexOf("Action") != -1) {
+                        $(obj1).find("th:last-child").remove();
+                        $(obj).find("td:last-child").remove();
+                    }
+
+                }
+
                 $('<table>')
                     .append(
                         obj1

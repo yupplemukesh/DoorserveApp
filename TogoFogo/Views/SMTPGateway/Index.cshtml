@@ -1,4 +1,5 @@
-﻿@model TogoFogo.Models.Gateway.SMTPGatewayList
+﻿@model TogoFogo.Models.SMTPGateWayMainModel
+@using TogoFogo.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -15,99 +16,101 @@
 
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
-                @if (Model.Rights.Create)
+                @if (Permissions.Rights.Create)
                 {
 
+
                     <a href='@Url.Action("Create", "smtpGateway")' class="tools-icon">
-                        <button type="submit" class="btn btn-primary btn-sm">Add New Smtp Gateway</button>
+                     <button type="submit" class="btn btn-primary btn-sm">Add New Smtp Gateway</button>
                     </a>
+                    
                 }
 
-                    <!--<a href="#" class="tools-icon">
-          <i class="zmdi zmdi-refresh"></i>
-        </a>
-        <a href="#" class="tools-icon">
-          <i class="zmdi zmdi-close"></i>
-        </a>-->
-                </div>
+                <!--<a href="#" class="tools-icon">
+      <i class="zmdi zmdi-refresh"></i>
+    </a>
+    <a href="#" class="tools-icon">
+      <i class="zmdi zmdi-close"></i>
+    </a>-->
+            </div>
         </div>
-        
 
 
-                </div>
-            </div>
 
-            <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered dataTable" id="table-1">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayName("SL NO")
-                                </th>
+    </div>
+</div>
 
-                                <th>
-                                    @Html.DisplayName("Gateway Name")
-                                </th>
+<div class="panel-body">
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered dataTable" id="table-1">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("SL NO")
+                    </th>
 
-                                <th>
-                                    @Html.DisplayName("From Email")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("User Name")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Server Name")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Is Active")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Is Default")
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Action")
-                                </th>
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model.SMTPGateway)
+                    <th>
+                        @Html.DisplayName("Gateway Name")
+                    </th>
+
+                    <th>
+                        @Html.DisplayName("From Email")
+                    </th>
+                    <th>
+                        @Html.DisplayName("User Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Server Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Is Active")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Is Default")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Action")
+                    </th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.mainModel)
+            {
+                <tr>
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GatewayName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SmtpUserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SmtpServerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDefault)
+                    </td>
+                    <td style="display: inline-flex">
+                        @if (Permissions.Rights.Edit)
                         {
-                        <tr>
-                            <td>
-                                @count
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.GatewayName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SmtpUserName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SmtpServerName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsActive)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsDefault)
-                            </td>
-                            <td style="display: inline-flex">
-                                @if (Model.Rights.Edit)
-                                {
-                                    <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "SMTPGateway", new { id = item.GatewayId })'>Edit</a>
-                                }
-                                </td>
-
-                        </tr>
-                            count++;
+                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "SMTPGateway", new { id = item.GatewayId })'>Edit</a>
                         }
+                    </td>
+
+                </tr>
+                count++;
+            }
 
 
 
-                        </table>
-                </div>
-            </div>
+        </table>
+    </div>
+</div>
 

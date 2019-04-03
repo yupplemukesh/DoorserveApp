@@ -10,6 +10,7 @@ using System.Data;
 using System.Reflection;
 using TogoFogo.Permission;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace TogoFogo.Controllers
 {
@@ -219,6 +220,35 @@ namespace TogoFogo.Controllers
 
             }         
             return View(UserList);
+        }
+        public ActionResult ChangePassword()
+        {
+           return View();
+           
+        }
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(ChangePasswordModel reset)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var encrpt_OldPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.CurrentPassword, true);
+                    var encrpt_NewPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
+                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { UserId = Convert.ToInt32(Session["User_ID"]), OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
+                                            commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    //var rsPass = await resultChngPass.ReadSingleOrDefaultAsync<dynamic>();
+
+                    if (response.ResponseCode == 0)                 
+                        response.IsSuccess = true;
+                   
+                    else
+                        response.IsSuccess = false;
+                  
+                        TempData["response"] = response;
+                }
+            }
+            return View(reset);
         }
     }
 }

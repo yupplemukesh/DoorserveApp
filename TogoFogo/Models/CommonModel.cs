@@ -12,7 +12,14 @@ namespace TogoFogo
 {
     public static class CommonModel
     {
-
+        public static async Task<List<CheckBox>> GetStatusTypes()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _actionTypes = await _context.Database.SqlQuery<CheckBox>("select StatusId value,StatusName text from Status_Master where StatusId in (0,9,11)").ToListAsync();
+                return _actionTypes;
+            }
+        }
         public static async Task<List<CheckBox>> GetActionTypes()
         {
             using (var _context = new ApplicationDbContext())

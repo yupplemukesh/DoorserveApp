@@ -34,7 +34,7 @@ namespace TogoFogo.Models
         [DisplayName("Call Request Number")]
         public string CC_NO { get; set; }
         [DisplayName("Courier Name")]
-        public virtual string CourierName { get; set; }
+        public string CourierName { get; set; }
         public string TrcAddress { get; set; }
         public string TrcName { get; set; }
         [DisplayName("Number of Boxes Received")]

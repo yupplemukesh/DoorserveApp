@@ -5,13 +5,24 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
+using TogoFogo.Repository.ServiceCenters;
+using GridMvc.Html;
+
 namespace TogoFogo.Controllers
 {
     public class ServiceCenterController : Controller
     {
+        private readonly ICenter _centerRepo;
+        public ServiceCenterController()
+        {
+
+            _centerRepo = new Center();
+        }
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
@@ -274,5 +285,20 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Calls Details")]
+        public async Task<ActionResult> AcceptCalls()
+        {
+            var calls = await _centerRepo.GetCallDetails();
+
+            calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();
+
+            calls.CallDetails.StatusList = new SelectList(await CommonModel.GetStatusTypes(), "Value", "Text");
+            Guid? providerId = null;
+            if (Session["RoleName"].ToString().Contains("provider"))
+                providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+           
+            return View(calls);
+        }
+        
     }
 }

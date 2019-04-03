@@ -10,7 +10,12 @@ namespace TogoFogo.Models
 {
     public class SMTPGatewayModel
     {
-      
+        public SMTPGatewayModel()
+        {
+            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
+
+        }
+
         public Int64 GatewayId { get; set; }
         [Required]
         [DisplayName("Gateway Name")]
@@ -39,5 +44,14 @@ namespace TogoFogo.Models
         public int AddeddBy { get; set; }
         public DateTime LastUpdatedDateTime { get; set; }
         public string LastUpdateBy { get; set; }
+        public SelectList GatewayList { get;set;}
+    }
+    public class SMTPGateWayMainModel
+    {
+        public List<SMTPGatewayModel> mainModel { get; set; }
+        public SMTPGatewayModel Gateway { get; set; }
+        
+
+
     }
 }

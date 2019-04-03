@@ -39,7 +39,7 @@ namespace TogoFogo.Controllers
             model.mainModel = Mapper.Map<List<NotificationGatewayModel>>(notificationgateway);
             model.Gateway.GatewayTypeId = getwayTypeId;
             model.Gateway.GatewayList = new SelectList(notificationgateway, "GatewayId", "GatewayName");
-            model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+           // model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Notification Gateway")]

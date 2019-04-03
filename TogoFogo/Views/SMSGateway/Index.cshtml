@@ -1,4 +1,5 @@
 ﻿@model TogoFogo.Models.SMSGateWayMainModel
+@using TogoFogo.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -42,9 +43,9 @@
 
                 <div class="panel-body" id="Info" style="border:0px solid red">
                     <div class="table-responsive">
-                        @if (Model.Rights.View)
-                        {
-                        @Html.Partial("_SMSGatewayTable", Model.mainModel, new ViewDataDictionary { { "rights", Model.Rights } })
+                        @if (Permissions.Rights.View)
+                    {
+                            @Html.Partial("_SMSGatewayTable", Model.mainModel, new ViewDataDictionary { { "rights", Model.Rights } })
                         }
                     </div>
                 </div>
@@ -73,7 +74,7 @@
                 <div class="panel-body" style="border:0px solid red">
                     <div class="row ">
                         <div class="col-md-12 ">
-                            @if (Model.Rights.Create)
+                            @if (Permissions.Rights.Create)
                             {
                                 using (Html.BeginForm("create", "SMSGateway", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form - horizontal" }))
                                 {
@@ -82,9 +83,9 @@
 
 
                                 }
-                                }
+                            }
 
-                            </div>
+                        </div>
 
                     </div>
 

@@ -57,6 +57,7 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
+                actiontype.AddeddBy = Convert.ToInt32(Session["User_ID"]);
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'U');
                 _actionTypeModel.Save();
                 TempData["response"] = response;

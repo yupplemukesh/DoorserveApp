@@ -24,7 +24,7 @@ namespace TogoFogo.Controllers
         {
             var wildcards = new WildCardList();
             wildcards.WildCards = await _wildCardRepo.GetWildCards();
-            wildcards.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+           // wildcards.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
 
             return View(wildcards);
         }

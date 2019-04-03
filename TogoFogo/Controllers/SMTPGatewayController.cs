@@ -17,21 +17,27 @@ namespace TogoFogo.Controllers
         private readonly IGateway _gatewayRepo;
         public SMTPGatewayController()
 
-        {
+        {      
             _gatewayRepo = new Gateway();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "E-Mail Gateway Settings")]
         public async Task<ActionResult> Index()
         {
 
-            var smtpgateway = new SMTPGatewayList();
+         //   var smtpgateway = new SMTPGatewayList();
             var Gatewaylist = await CommonModel.GetGatewayType();
             var GatewayTypeId = Gatewaylist.Where(x => x.Text == "SMTP Gateway").Select(x => x.Value).SingleOrDefault();
             var GatewayModel = await _gatewayRepo.GetGatewayByType(GatewayTypeId);
-           // var SmtpGatewayModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
-           smtpgateway.SMTPGateway= Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
-            smtpgateway.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(smtpgateway);
+            SMTPGateWayMainModel model = new SMTPGateWayMainModel();
+            model.Gateway = new SMTPGatewayModel();
+            
+            model.Gateway.GatewayTypeId = GatewayTypeId;
+            model.Gateway.GatewayList = new SelectList(GatewayModel, "GatewayId", "GatewayName");
+            model.mainModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
+            // var SmtpGatewayModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
+            // smtpgateway.SMTPGateway= Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
+            //smtpgateway.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "E-Mail Gateway Settings")]
         public async Task<ActionResult> Create()
@@ -41,13 +47,15 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public async Task<ActionResult> Create(SMTPGatewayModel smtpgateway)
-        {
+           {
             if (ModelState.IsValid)
             {
+                var Gatewaylist = await CommonModel.GetGatewayType();
+                var GatewayTypeId = Gatewaylist.Where(x => x.Text == "SMTP Gateway").Select(x => x.Value).SingleOrDefault();
                 var GatewayModel = new GatewayModel
                 {
                     GatewayId = smtpgateway.GatewayId,
-                    GatewayTypeId = smtpgateway.GatewayTypeId,
+                    GatewayTypeId = GatewayTypeId,
                     GatewayName = smtpgateway.GatewayName,
                     IsActive = smtpgateway.IsActive,
                     IsDefault= smtpgateway.IsDefault,

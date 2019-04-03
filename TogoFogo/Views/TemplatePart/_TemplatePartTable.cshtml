@@ -1,5 +1,5 @@
 ﻿@model IList<TogoFogo.Models.TemplatePartModel>
-
+@using TogoFogo.Models
 @{  var rights = ViewData["rights"] as TogoFogo.Models.UserActionRights;
  }
 
@@ -31,12 +31,12 @@
                         @Html.DisplayFor(modelItem => item.AddedOn)
                     </td>
                     <td class="text-center">
-                        @if (rights.Edit)
+                        @if (Permissions.Rights.Edit)
                         {
                             <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetTemplatePartDetails(@item.TemplatePartId)"><i class="glyphicon glyphicon-pencil"></i></button>
                         }
 
-                        </td>
+                    </td>
 
                 </tr>
 

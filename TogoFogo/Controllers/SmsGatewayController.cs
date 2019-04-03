@@ -36,7 +36,7 @@ namespace TogoFogo.Controllers
             model.mainModel = Mapper.Map<List<SMSGatewayModel>>(smsgateway);
             model.Gateway.GatewayTypeId = getwayTypeId;
             model.Gateway.GatewayList = new SelectList(smsgateway, "GatewayId", "GatewayName");
-            model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+            //model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "SMS Gateway")]
