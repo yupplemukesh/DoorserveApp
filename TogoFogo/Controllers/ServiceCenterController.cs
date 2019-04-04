@@ -12,6 +12,8 @@ using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository.ServiceCenters;
 using GridMvc.Html;
+using TogoFogo.Models.Customer_Support;
+using TogoFogo.Models.ServiceCenter;
 
 namespace TogoFogo.Controllers
 {
@@ -299,6 +301,28 @@ namespace TogoFogo.Controllers
            
             return View(calls);
         }
-        
+        [HttpPost]
+        public async Task<ActionResult> CallStatus(CallStatusModel callStatus)
+        {
+
+            try
+            {
+                
+                callStatus.UserId = Convert.ToInt32(Session["User_ID"]);
+                var response = await _centerRepo.UpdateCallsStatus(callStatus);
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return Json("Ok", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return Json("ex", JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
     }
 }

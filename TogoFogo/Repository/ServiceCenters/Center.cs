@@ -5,8 +5,11 @@ using System.Data;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Models.ServiceCenter;
@@ -255,7 +258,48 @@ namespace TogoFogo.Repository.ServiceCenters
             }
             return calls;
         }
+        public async Task<ResponseModel> UpdateCallsStatus(CallStatusModel callStatus)
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(callStatus.SelectedDevices.GetType());
 
+            string xml = "";
+
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    xsSubmit.Serialize(writer, callStatus.SelectedDevices);
+                    xml = sww.ToString(); // Your XML
+                }
+            }
+
+           //Remove the title element.
+
+
+            xml = xml.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@Status", ToDBNull(callStatus.StatusId));
+            sp.Add(param);
+           
+            param = new SqlParameter("@AllocateXML", SqlDbType.Xml) { Value = xml };
+            sp.Add(param);
+            param = new SqlParameter("@Reasion", ToDBNull(callStatus.RejectionReason));
+            sp.Add(param);
+            param = new SqlParameter("@USER", ToDBNull(callStatus.UserId));
+            sp.Add(param);
+            var sql = "UpdateCallStatus @Status,@AllocateXML,@Reasion,@USER";
+
+
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+
+            return res;
+
+
+        }
         private  object ToDBNull(object value)
         {
             if (null != value)

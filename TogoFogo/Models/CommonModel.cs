@@ -16,7 +16,7 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _actionTypes = await _context.Database.SqlQuery<CheckBox>("select StatusId value,StatusName text from Status_Master where StatusId in (0,9,11)").ToListAsync();
+                var _actionTypes = await _context.Database.SqlQuery<CheckBox>("select StatusId value,StatusName text from Status_Master where StatusId in (9,10,11)").ToListAsync();
                 return _actionTypes;
             }
         }
