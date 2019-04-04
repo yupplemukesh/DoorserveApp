@@ -30,12 +30,14 @@ namespace TogoFogo.Models
         public string OrgGSTCat { get; set; }
         [DisplayName("Organisation GST Number")]
         [Required]
+        [RegularExpression(@"\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}", ErrorMessage = "Invalid GST Number")]
         public string OrgGSTNumber { get; set; }
         public HttpPostedFileBase OrgGSTNumberFilePath { get; set; }
         public string OrgGSTFileName { get; set; }
         public string OrgGSTFileUrl { get; set; }
         [DisplayName("Organisation PAN Number")]
         [Required]
+        [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "Invalid PAN Number")]
         public string OrgPanNumber { get; set; }
         public HttpPostedFileBase OrgPanNumberFilePath { get; set; }
         public string OrgPanFileName { get; set; }

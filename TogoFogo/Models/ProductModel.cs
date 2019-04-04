@@ -18,6 +18,7 @@ namespace TogoFogo.Models
         public string Pro_Color { get; set; }
         public int ProductId { get; set; }
         [DisplayName("Product Name")]
+        [Required]
         public string ProductName { get; set; }
         [DisplayName("Alternate Product Name")]
         public string AlternateProductName { get; set; }

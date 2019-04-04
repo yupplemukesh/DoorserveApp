@@ -66,14 +66,16 @@ namespace TogoFogo.Models
         public string StatutoryType { get; set; }
         [DisplayName("Applicable Tax Type")]
         public string TaxType { get; set; }
+
         [DisplayName("GST Number")]
+        [RegularExpression(@"\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}", ErrorMessage = "Invalid GST Number")]
         public string GST_No { get; set; }
         [DisplayName(" Upload GST Number")]
         public HttpPostedFileBase GST_No_File1 { get; set; }
         [DisplayName(" Upload GST Number")]
         public string GST_No_File { get; set; }
         [DisplayName(" PAN Card Number")]
-        //[RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid PAN Number")]
+        [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "Invalid PAN Number")]
         public string PancardNo { get; set; }
         [DisplayName("Upload PAN Card Number")]
         public HttpPostedFileBase Pancardno_File1 { get; set; }
@@ -82,7 +84,7 @@ namespace TogoFogo.Models
         [DisplayName("Is User?")]
         public Boolean IsUser { get; set; }
         [DisplayName("User PAN Card Number")]
-        //[RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "* Invalid User PAN Number")]
+        [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "Invalid PAN Number")]
         public string UserPanNo { get; set; }
         [DisplayName("Upload Pan Card")]
         public HttpPostedFileBase UserPanNo_File1 { get; set; }

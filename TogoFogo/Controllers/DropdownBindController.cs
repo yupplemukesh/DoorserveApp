@@ -637,11 +637,12 @@ namespace TogoFogo.Controllers
                         "SELECT DISTINCT CatName,CatId FROM MstCategory where isactive=1 ORDER BY CatName", null,
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
-                items.Add(new ListItem
+                /*items.Add(new ListItem
                 {
                     Value = "", //Value Field(ID)
                     Text = "Select Category " //Text Field(Name)
-                });
+                  
+                });*/
                 foreach (var val in company)
                 {
                     items.Add(new ListItem

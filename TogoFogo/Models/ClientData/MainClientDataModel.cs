@@ -9,6 +9,6 @@ namespace TogoFogo.Models.ClientData
     {
       public ClientDataModel client { get; set; }
       public List<UploadedExcelModel> uploadedData { get; set; }
-    
+      public List<FileDetailModel> FileDetail { get; set; }
     }
 }

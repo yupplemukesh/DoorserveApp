@@ -1,0 +1,26 @@
+﻿@model  IEnumerable<TogoFogo.Models.ClientDataModel>
+@using GridMvc.Html
+@{
+    Layout = null;
+}
+
+<div class="code-cut">
+    @Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(c => c._UploadedExcelModel.CRN).Titled("Call ID").Filterable(true);
+    columns.Add(c => c._ClientModel.ModifyBy).Titled("Modify By").Filterable(true);
+    columns.Add(c => c._ClientModel.ClientName).Titled("Client Name").Filterable(true);
+    columns.Add(c => c._ClientModel.UserName).Titled("User Name").Filterable(true);
+    columns.Add(c => c._ContactPersonModel.ConMobileNumber).Titled("Mobile Number").Filterable(true);
+    columns.Add(c => c._ContactPersonModel.ConEmailAddress).Titled("Email Address").Filterable(true);
+    columns.Add(c => c._ClientModel.ServiceTypes).Titled("Service Types").Filterable(true);
+    columns.Add(c => c._ClientModel.ServiceDeliveryTypes).Titled("Service Delivery Types").Filterable(true);
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.ClientId }));
+
+}).WithPaging(10).Sortable(true)
+</div>
+

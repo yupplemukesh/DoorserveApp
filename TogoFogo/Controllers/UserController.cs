@@ -250,5 +250,46 @@ namespace TogoFogo.Controllers
             }
             return View(reset);
         }
+
+        public ActionResult UserProfile()
+        {
+            User objUser = new User();
+            int UserId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+            using (var con = new SqlConnection(_connectionString))
+            {
+
+                dynamic result = null;
+
+                if (UserId != 0)
+                {
+                    result = con.Query<dynamic>("UspGetUserDetails", new { UserId },
+                          commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                    objUser._AddressDetail = new AddressDetail();
+                    objUser._ContactPerson = new ContactPersonModel();
+                    objUser._UserRole = new UserRole();
+                    objUser._OrganizationModel = new OrganizationModel();
+                    objUser._ClientModel = new ClientModel();
+                }
+                if (result != null)
+                {
+                    objUser.UserName = result.UserName;
+                    objUser._AddressDetail.Address = result.Address;
+                    objUser._ContactPerson.ConFirstName = result.ConFirstName;
+                    objUser._ContactPerson.ConLastName = result.ConLastName;
+                    objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
+                    objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
+                    objUser._UserRole.RoleName = result.RoleName;
+                    objUser._OrganizationModel.OrgCode = result.OrgCode;
+                    objUser._OrganizationModel.OrgName = result.OrgName;
+                    objUser._ClientModel.ProcessName = result.ProcessName;
+                }
+            }
+
+            return View(objUser);
+
+        }
     }
+
+
 }

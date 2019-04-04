@@ -24,6 +24,10 @@ namespace TogoFogo.Models
         [DisplayName("Service Type")]
         public int ServiceTypeId { get; set; }
         public int UserId { get; set; }
+        public ClientModel _ClientModel { get; set; }
+        public ContactPersonModel _ContactPersonModel { get; set; }
+        public ClientData.UploadedExcelModel _UploadedExcelModel { get; set; }
+      
 
     }
 }

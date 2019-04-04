@@ -26,7 +26,7 @@ namespace TogoFogo.Models
         ErrorMessage = "Please Enter Correct Email Address")]
         [Required(ErrorMessage = "Enter Email")]
         public string ConEmailAddress { get; set; }
-   
+        [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "Invalid PAN Number")]
         [DisplayName("Client PAN Card Number")]
         public string ConPanNumber { get; set; }
         [DisplayName("Upload Pan Card")]

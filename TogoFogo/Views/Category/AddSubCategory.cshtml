@@ -9,7 +9,7 @@
     <div class="row" style="padding-bottom: 5px;">
         @Html.LabelFor(model => model.CatId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.DropDownListFor(model => model.CatId, ViewBag.DeviceCategory as SelectList , new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.CatId, ViewBag.DeviceCategory as SelectList ,"Select Category", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.CatId, "", new { @class = "text-danger" })
         </div>
     </div>

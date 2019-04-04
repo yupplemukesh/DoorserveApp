@@ -155,5 +155,18 @@ namespace TogoFogo.Controllers
             return RedirectToAction("index");
 
         }
+        public ActionResult _FileDataList()
+        {
+            return View();
+        }
+       
+        public ActionResult _PendingCallsList()
+        {
+            return View();
+        }
+        public ActionResult _ClosedCallsList()
+        {
+            return View();
+        }
     }
 }

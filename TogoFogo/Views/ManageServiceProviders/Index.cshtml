@@ -15,9 +15,11 @@
                 <div class="pull-right">
                     @if (Permissions.Rights.ExcelExport)
                     {
-                        <button class="btn btn-secondary excel">
+                        <button class="btn btn-primary excel">
                             Export Excel
                         </button>
+
+                        
                     }
                     @if (Permissions.Rights.Create)
                     {
@@ -27,7 +29,7 @@
                             </span>
                         </a>
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -36,93 +38,95 @@
 <div class="panel-body">
     <div class="row">
         <div class="col-md-12">
-            @if (Permissions.Rights.View)
-            {
-                <table class="table table-striped table-bordered table-condensed" id="myTable">
+            <div class="x_content" style="overflow-x: scroll;">
+                @if (Permissions.Rights.View)
+                {
+                    <table class="table table-striped table-bordered table-condensed" id="myTable">
 
-                    <thead>
-                        <tr>
+                        <thead>
+                            <tr>
 
-                            <th>
-                                @Html.DisplayName("#SN")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Process Name")
-                            </th>
-                            <th>
-                                @Html.DisplayName("ASP Code")
-                            </th>
-                            <th>
-                                @Html.DisplayName("ASP Name")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Organization Name")
-                            </th>
+                                <th>
+                                    @Html.DisplayName("#SN")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Process Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("ASP Code")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("ASP Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Organization Name")
+                                </th>
 
-                            <th>
-                                @Html.DisplayName("Is Active")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Comments")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Last Updated Date Time")
-                            </th>
-                            <th>
-                                @Html.DisplayName("Last Updated Details")
-                            </th>
+                                <th>
+                                    @Html.DisplayName("Is Active")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Comments")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Last Updated Date Time")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Last Updated Details")
+                                </th>
 
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => Count)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProcessName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProviderCode)
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProcessName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProviderCode)
 
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ProviderName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ORGNAME)
-                            </td>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProviderName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ORGNAME)
+                                </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsActive)
-                            </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Remarks)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ModifyBy)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ModifyDate)
-                            </td>
-                          
-                            <td style="display: inline-flex">
-                                @if (Permissions.Rights.Edit)
-                                {
-                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ManageServiceProviders", new { id = item.ProviderId })'>Edit</a>
-                                }
-                            </td>
-                            
-                        </tr>
-                        Count++;
-                    }
-                </table>
-            }
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remarks)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModifyDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModifyBy)
+                                </td>
+
+                                <td style="display: inline-flex">
+                                    @if (Permissions.Rights.Edit)
+                                    {
+                                        <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ManageServiceProviders", new { id = item.ProviderId })'>Edit</a>
+                                    }
+                                </td>
+
+                            </tr>
+                            Count++;
+                        }
+                    </table>
+                }
+                </div>
             </div>
-        <!--/.panel
-        </div><!--/.col-->
-    </div>
+            <!--/.panel
+    </div><!--/.col-->
+        </div>
 </div>
