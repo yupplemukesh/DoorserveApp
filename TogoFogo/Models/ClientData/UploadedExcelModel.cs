@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models.ClientData
 {
-    public class UploadedExcelModel
+    public class UploadedExcelModel : ClientDataModel
     {
-        public Guid Id { get; set; }
-        public Guid ClientId { get; set; }
-        public Guid DeviceId { get; set; }
+     
+
         public string ServiceTypeName { get; set; }
+        public string DeliveryTypeName { get; set; }
+
         [DisplayName("Client Name")]
         public string ClientName { get; set; }
         [DisplayName("Uploaded Date")]
-        public DateTime  CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
         [DisplayName("Customer Name")]
         public string CustomerName { get; set; }
+        [Required]
         [DisplayName("Customer Contact Number")]
         public string CustomerContactNumber { get; set; }
+        public string CustomerAltConNumber { get; set; } 
         [DisplayName("Customer Email")]
+        [Required]
         public string CustomerEmail { get; set; }
         [DisplayName("Customer Address Type")]
         public string CustomerAddressType { get; set; }
@@ -51,6 +57,31 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("DEVICE IMEI SECOND")]
         public string DeviceIMEISecond { get; set; }
         [DisplayName("Call ID")]
+        public string BillNo { get; set; }
+        public decimal BillAmount { get; set; }
         public string CRN { get; set; }
+        public bool IsExistingCustomer { get; set; }
+        [DisplayName("Customer Type")]
+        [Required]
+        public int CustomerTypeId { get; set; }
+        public SelectList CustomerTypeList { get; set; }
+        public AddressDetail address { get; set; }
+        [DisplayName("Device Brand")]
+        [Required]
+        public Guid DeviceId { get; set; }
+        public int DeviceBrandId { get; set; }
+        [Required]
+        [DisplayName("Device Category")]
+        public int DeviceCategoryId { get; set; }
+        [Required]
+        [DisplayName("Device Modal Number")]
+        public int DeviceModalId { get; set; }
+        [Required]
+        [DisplayName("Device Condition")]
+        public int DeviceConditionId { get; set; }
+        public SelectList ConditionList { get; set; }
+        public SelectList CategoryList { get; set; }
+        public SelectList BrandList { get; set; }
+        public SelectList ProductList { get; set; }
     }
 }

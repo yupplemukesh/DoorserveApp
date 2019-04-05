@@ -4,68 +4,68 @@
     ViewBag.Title = "Client Data";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
+@section Styles{
+    @Styles.Render("~/Content/css/Gridmvc")
+}
 
-<div class="panel-heading">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="col-md-6">
-                <h3 class="m-y-0">Upload Client Data</h3>
-            </div>
-            <div class="col-md-6 ">
-                <div class="pull-right">
-                    @if (Permissions.Rights.ExcelExport)
-                    {
-                        <button class="btn btn-secondary excel" type="button">
-                            Export Excel
-                        </button>
-                        <a class="btn btn-primary template">
-                            <span>
-                                Template
-                            </span>
-                        </a>
-                    }
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="panel-body">
-    @if (Permissions.Rights.Create)
-    {
-        @*@Html.Partial("_Createform", Model.client)*@
-        @Html.Partial("Upload", Model.client)
-    }
     <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    @*<h3 class="m-y-0">List Of Uploaded data </h3>*@
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active">
 
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content" style="overflow-x: scroll;">
-                    @if (Permissions.Rights.View)
-                    {
-                        @*@Html.Partial("_tableList", Model.uploadedData)*@
+                    <a href="#tab-5" role="tab" data-toggle="tab">
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Uploaded data
+                        </button>
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-6" role="tab" data-toggle="tab">
+                        <button type="submit" class="btn btn-primary btn-sm">Assigned Calls</button>
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-7" role="tab" data-toggle="tab">
+                        <button type="submit" class="btn btn-info btn-sm">Log New Calls</button>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="tab-5">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="panel panel-default panel-table b-t-0" id="clientDataPanel">
+                                @Html.Partial("_UploadData", Model)
+                            </div>
+                        </div>
+                    </div>
+                </div><!--tab-pane-5-->
+                <div role="tabpanel" class="tab-pane fade in" id="tab-6">
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <div class="panel panel-default panel-table b-t-0" id="callsPanel">
 
-                        @* @Html.Partial("_FileDataList", Model.FileDetail)New Information*@
-                        @Html.Partial("_UploadedDataList", Model.uploadedData)@*Old+New Information*@
-
-                    }
+                            </div>
+                        </div>
+                    </div>
+                </div><!--tab-pane-6-->
+                <div role="tabpanel" class="tab-pane fade in" id="tab-7">
+                    @Html.Partial("_NewCallLogForm", Model.NewCallLog)
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 @section scripts{
 
-
-<script src="~/Content/js/ui-buttons.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/js/Gridmvc")
+
+
+
+    @*<script src="~/Content/js/ui-buttons.min.js"></script>*@
+
 }

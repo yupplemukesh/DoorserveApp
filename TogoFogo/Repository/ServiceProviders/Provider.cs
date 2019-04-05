@@ -53,10 +53,12 @@ namespace TogoFogo.Repository.ServiceProviders
                             .ObjectContext
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
-
-                    ProviderModel.Organization.OrgGSTFileUrl = "/UploadedImages/Providers/Gsts/"+ ProviderModel.Organization.OrgGSTFileName;
-                    ProviderModel.Organization.OrgPanFileUrl = "/UploadedImages/Providers/PANCards/" + ProviderModel.Organization.OrgPanFileName;
-                    reader.NextResult();
+                    if (ProviderModel.Organization != null)
+                    {
+                        ProviderModel.Organization.OrgGSTFileUrl = "/UploadedImages/Providers/Gsts/" + ProviderModel.Organization.OrgGSTFileName;
+                        ProviderModel.Organization.OrgPanFileUrl = "/UploadedImages/Providers/PANCards/" + ProviderModel.Organization.OrgPanFileName;
+                    }
+                   reader.NextResult();
                     ProviderModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
 

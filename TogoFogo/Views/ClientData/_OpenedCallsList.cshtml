@@ -8,7 +8,7 @@
 <div class="code-cut">
     @Html.Grid(Model).Columns(columns =>
 {
-         columns.Add()
+     columns.Add()
         .Titled("#SLN")
         .SetWidth(10)
         .RenderValueAs(o =>
@@ -26,3 +26,4 @@
           columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Types").Filterable(true);
       }).WithPaging(10).Sortable(true)
 </div>
+

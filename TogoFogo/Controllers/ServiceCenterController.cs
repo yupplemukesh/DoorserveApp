@@ -311,7 +311,6 @@ namespace TogoFogo.Controllers
                 callStatus.UserId = Convert.ToInt32(Session["User_ID"]);
                 var response = await _centerRepo.UpdateCallsStatus(callStatus);
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return Json("Ok", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

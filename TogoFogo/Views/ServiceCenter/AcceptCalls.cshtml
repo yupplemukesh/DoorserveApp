@@ -158,7 +158,7 @@ columns.Add(model => model.ProviderName).Titled("ASC Name")
                                         <div class="table-responsive">
                                             <div class="code-cut">
                                                 @Html.Grid(Model.AcceptedCalls).Columns(columns => {
-                                               columns.Add().Titled("<input name='checkBox', type='checkbox' ,id='checkAll'/>")
+                                               columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"acceptedCalls\")'  />")
                                                .Encoded(false).Sanitized(false).SetWidth(30)
                                                .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
                                                columns.Add()
@@ -224,7 +224,7 @@ columns.Add(model => model.ProviderName).Titled("ASC Name")
                                                //.Sanitized(false)
                                                //.SetWidth(10)
                                                //.RenderValueAs(o => Html.CheckBox("checked", o.Id));
-                                               columns.Add().Titled("<input name='checkBox', type='checkbox' ,id='chkAll'/>")
+                                               columns.Add().Titled("<input name='checkBox', type='checkbox' ,id='chksAll'/>")
                                                .Encoded(false).Sanitized(false).SetWidth(30)
                                                .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
                                                columns.Add()
@@ -283,42 +283,34 @@ RenderValueAs(model => Html.ActionLink("Edit", "ManageServiceCenters", new { ser
     <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
 
     <script>
-        $(document).ready(function () {
-
-
-
-            $("#checkAll").on("click", function (e) {
+            $("#chkAll").on("click", function (e) {
                 debugger
                 $(".chk-item").prop('checked', $(this).prop("checked"));
             });
-
-
-
-
-
-
-
-
-        })
-    
-
-        //$(document).on("click", "#submitReason", function (e) {
-
-        //    var obj = [];
-        //    $('#myTable > tbody  > tr').each(function () {
-        //        var check = $(this).find('[type=checkbox]');
-        //        if ($(check).prop("checked")) {
-        //            var deviceId = $(check).attr("data-val");
-        //            var DataId = $(check).attr("data-id");
-        //            var item = { DeviceId: deviceId, DataId: DataId };
-        //            obj.push(item);
-        //        }
-        //    });
+        
         $("#submitReason").click(function () {
-       
+            var statusId = $("#CallDetails_StatusId").val();
+            var rejectionReasion = $("#CallDetails_RejectionReason").val();
+          
+        
+            if (statusId == 9) {
+                debugger
+                if (rejectionReasion.length == 0) {          
+                    $('.toast-error').show();
+                    $('.toast-error > .toast-message').html("Rejection Reasion Required");
+                    $("#toast-container").fadeIn();
+                    $("#toast-container").fadeOut(2000);
+                    return false;
+                }
+                else {
+                    $('.toast-error').hide();
 
+                  }
+                
+            }
             var obj = [];
-            $('.table table-striped grid-table > tbody  > tr').each(function () {
+            $('.grid-wrap >.grid-table > tbody  > tr').each(function () {
+                debugger
                 var check = $(this).find('[type=checkbox]');
                 if ($(check).prop("checked")) {
                     var deviceId = $(check).attr("dataval");
@@ -327,11 +319,11 @@ RenderValueAs(model => Html.ActionLink("Edit", "ManageServiceCenters", new { ser
                 }
             });
 
-          
+     
 
 
         var data = {
-            StatusId: $("#CallDetails_StatusId").val(), SelectedDevices: JSON.stringify(obj)
+            StatusId: statusId, RejectionReason: rejectionReasion,  SelectedDevices: obj
                   }
                 $.ajax({
                     type: 'POST',
@@ -364,12 +356,14 @@ RenderValueAs(model => Html.ActionLink("Edit", "ManageServiceCenters", new { ser
 
         });
 
-
-        //$(document).ready(function () {
-        //    $("#CallDetails_StatusId").val() = "";
-        //    alert($("#CallDetails_StatusId").val());
-        //});
-
+        function selectedItem(elm, str) {
+           
+            debugger
+                if (str == 'acceptedCalls')
+                $(".chk-item").prop('checked', $(this).prop("checked")); 
+            
+        }
+    
     </script>
 
 }

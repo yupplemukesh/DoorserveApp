@@ -1,0 +1,46 @@
+﻿@model TogoFogo.Models.ClientData.MainClientDataModel
+@using TogoFogo.Models
+<div class="panel-body">
+    @if (Permissions.Rights.Create)
+    {
+        @*@Html.Partial("_Createform", Model.client)*@
+        @Html.Partial("_CreateForm", Model.client)
+    }
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    @*<h3 class="m-y-0">List Of Uploaded data </h3>*@
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                @if (Permissions.Rights.View)
+                {
+
+                    <div class="panel-heading">
+                        <div class="row">
+                            <h3 class="m-y-0">Data List</h3>
+                            <div class="x_content" style="overflow-x: scroll;">
+                                @Html.Partial("_UploadedDataList", Model.UploadedData)
+                            </div>
+
+                            <h3 class="m-y-0">File List</h3>
+                            <div class="x_content" style="overflow-x: scroll;">
+                                @*Old+New Information*@
+                                @Html.Partial("_FileDataList", Model.UploadedFiles)
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>

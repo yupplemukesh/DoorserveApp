@@ -53,9 +53,11 @@ namespace TogoFogo.Repository.Clients
                             .ObjectContext
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
-
-                    ClientModel.Organization.OrgGSTFileUrl = "/UploadedImages/Clients/Gsts/"+ ClientModel.Organization.OrgGSTFileName;
-                    ClientModel.Organization.OrgPanFileUrl ="/UploadedImages/Clients/PANCards/" + ClientModel.Organization.OrgPanFileName;
+                    if (ClientModel.Organization != null)
+                    {
+                        ClientModel.Organization.OrgGSTFileUrl = "/UploadedImages/Clients/Gsts/" + ClientModel.Organization.OrgGSTFileName;
+                        ClientModel.Organization.OrgPanFileUrl = "/UploadedImages/Clients/PANCards/" + ClientModel.Organization.OrgPanFileName;
+                    }
                     reader.NextResult();
                     ClientModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();

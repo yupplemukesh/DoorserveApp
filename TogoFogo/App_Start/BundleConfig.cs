@@ -34,6 +34,10 @@ namespace TogoFogo
             bundles.Add(new ScriptBundle("~/bundles/appjs").Include(
                       "~/Content/js/jstree.js"
               ));
+            // Grid MVC  js
+            bundles.Add(new ScriptBundle("~/bundles/js/Gridmvc").Include(
+                      "~/Content/js/gridmvc.min.js"
+              ));
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -57,7 +61,10 @@ namespace TogoFogo
                      "~/Content/css/plugin/style.css"
                                 ));
 
-
+            // Grid MVC CSS
+            bundles.Add(new StyleBundle("~/Content/css/Gridmvc").Include(
+                     "~/Content/css/Gridmvc.css"
+                                ));
             bundles.Add(new ScriptBundle("~/bundles/customBundle").Include(
 
                       "~/content/js/vendor.min.js",

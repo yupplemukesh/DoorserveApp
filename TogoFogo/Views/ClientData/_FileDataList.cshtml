@@ -6,7 +6,7 @@
 <div class="code-cut">
     @Html.Grid(Model).Columns(columns =>
                     {
-                              columns.Add(c => c.DateAndTime).Titled("Date And Time").Filterable(true);
+                              columns.Add(c => c.UploadedDate).Titled("Date And Time").Filterable(true);
                               columns.Add(c => c.ServiceType).Titled("Service Type").Filterable(true);
                               columns.Add(c => c.ServiceDeliveryType).Titled("Service Delivery Type").Filterable(true);
                               columns.Add(c => c.UploadedFileName).Titled("Uploaded File Name").Filterable(true);
@@ -17,7 +17,7 @@
                               .Encoded(false)
                               .Sanitized(false)
                               .SetWidth(30)
-                              .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o._ClientModel.ClientId }));
+                              .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Id }));
 
                           }).WithPaging(10).Sortable(true)
 </div>

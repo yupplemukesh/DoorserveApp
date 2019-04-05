@@ -20,9 +20,11 @@ namespace TogoFogo.Controllers
     public class ClientDataController : Controller
     {
         private readonly IUploadFiles _RepoUploadFile;
+        private readonly DropdownBindController _dropdown;
         public ClientDataController()
         {
             _RepoUploadFile = new UploadFiles();
+            _dropdown = new DropdownBindController();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
         public async Task<ActionResult> Index()
@@ -31,14 +33,39 @@ namespace TogoFogo.Controllers
             Guid? clientId = null;
             if (Session["RoleName"].ToString().ToLower().Contains("client"))
                 clientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
-                clientData.uploadedData = await _RepoUploadFile.GetUploadedList(clientId);
-
-            if (TempData["clientData"] != null)     
-                clientData.client = (ClientDataModel)TempData["clientData"];
-            else
-                clientData.client = new ClientDataModel();
+                clientData.UploadedData = await _RepoUploadFile.GetUploadedList(clientId);
+                clientData.UploadedFiles = new List<FileDetailModel>();
+                 
+            clientData.client = new ClientDataModel();
             clientData.client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             clientData.client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
+            clientData.client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
+
+            // new call Log
+            clientData.NewCallLog = new UploadedExcelModel
+            {
+                ClientList = clientData.client.ClientList,
+                ServiceTypeList = clientData.client.ServiceTypeList,
+                DeliveryTypeList = clientData.client.DeliveryTypeList,
+                BrandList = new SelectList(_dropdown.BindBrand(), "Value", "Text"),
+                CategoryList=new SelectList(_dropdown.BindCategory(),"Value","Text"),
+                ProductList=  new SelectList(Enumerable.Empty<SelectListItem>()),
+                CustomerTypeList=new SelectList( await CommonModel.GetLookup("Customer Type"),"Value","Text" ),
+                ConditionList=new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
+                address=new AddressDetail
+                {
+                    AddressTypelist= new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
+                    CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                    StateList= new SelectList(Enumerable.Empty<SelectListItem>()),
+                    CountryList = new SelectList(_dropdown.BindCountry(),"Value","Text"),
+                }
+
+        };
+
+
+
+
+
             return View(clientData);
         }
 
@@ -79,8 +106,6 @@ namespace TogoFogo.Controllers
             if (Session["RoleName"].ToString().ToLower().Contains("client"))
                 clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
 
-            TempData["clientData"] = clientDataModel;
-            TempData.Keep("clientData");
             if (clientDataModel.DataFile != null)
             {
                 string excelPath = SaveFile(clientDataModel.DataFile, "ClientData");
@@ -141,32 +166,24 @@ namespace TogoFogo.Controllers
                     if(!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
-                    TempData.Keep("response");
                     return RedirectToAction("index");
                 }
                 catch (Exception ex)
                 {
                     if(System.IO.File.Exists(Server.MapPath(excelPath)))
                        System.IO.File.Delete(Server.MapPath(excelPath));
-                    return RedirectToAction("index");
+                      return RedirectToAction("index");
 
                 }
             }
             return RedirectToAction("index");
 
         }
-        public ActionResult _FileDataList()
-        {
-            return View();
-        }
+
+
        
-        public ActionResult _PendingCallsList()
-        {
-            return View();
+
+
         }
-        public ActionResult _ClosedCallsList()
-        {
-            return View();
-        }
+
     }
-}
