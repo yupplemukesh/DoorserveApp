@@ -7,22 +7,38 @@
             foreach (var item in Model.ParentMenuList)
             {
 
-                <li class="with-sub active">
-                    <a href="#" aria-haspopup="true">
-                        <span class="menu-icon">
-                            <img src="@item.IconFileNameUl" />
-                        </span>
-                        <span class="menu-text">@item.ParentMenuName</span>
-                    </a>
-                    <ul class="sidebar-submenu collapse">
-                        @foreach (var submenu in Model.SubMenuList.Where(m => m.ParentMenuId == item.ParentMenuId))
-                        {
+        <li class="with-sub active">
+            @if (!string.IsNullOrEmpty(item.PagePath))
+            {
+                <a href="@item.PagePath" aria-haspopup="true">
+                    <span class="menu-icon">
+                        <img src="@item.IconFileNameUl" />
+                    </span>
+                    <span class="menu-text">@item.ParentMenuName</span>
+                </a>
+            }
+            else
+            {
+                <a href="#" aria-haspopup="true">
+                    <span class="menu-icon">
+                        <img src="@item.IconFileNameUl" />
+                    </span>
+                    <span class="menu-text">@item.ParentMenuName</span>
+                </a>
 
-                            <li class="menu-subtitl"><a href="@submenu.PagePath">@submenu.Menu_Name </a></li>
+            }
+            @if (Model.SubMenuList.Where(m => m.ParentMenuId == item.ParentMenuId).Count() > 0)
+            {
+            <ul class="sidebar-submenu collapse">
+                @foreach (var submenu in Model.SubMenuList.Where(m => m.ParentMenuId == item.ParentMenuId))
+                {
 
-                        }
-                    </ul>
-                </li>
+                    <li class="menu-subtitl"><a href="@submenu.PagePath">@submenu.Menu_Name </a></li>
+
+                }
+            </ul>
+            }
+        </li>
             }
         }
     </ul>

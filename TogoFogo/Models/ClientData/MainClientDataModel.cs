@@ -11,12 +11,8 @@ namespace TogoFogo.Models.ClientData
       public List<UploadedExcelModel> UploadedData { get; set; }
       public List<FileDetailModel> UploadedFiles { get; set; }
       public UploadedExcelModel NewCallLog { get; set; }
+      public CallsViewModel calls { get; set; }  
     }
 
-    public class CallsModel
-    {
-        public List<UploadedExcelModel> OpenedCalls { get; set; }
-        public List<FileDetailModel> ClosedCalls { get; set; }
-
-    }
+  
 }

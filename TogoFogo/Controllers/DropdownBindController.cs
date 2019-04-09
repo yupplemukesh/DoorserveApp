@@ -938,7 +938,33 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
-       
+
+        public JsonResult BindModelJson(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var filters = value.Split(',');                
+                var products = con.Query<BindDeviceModel>("select productId,ProductName from MstProduct where BrandID=@brand and CategoryID=@category and IsActive =1", new {brand= filters[0],category=filters[1]}
+                    );
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in products)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.ProductId.ToString(), //Value Field(ID)
+                        Text = val.ProductName //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult BindSubCategoryJson(string value)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -989,6 +1015,18 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult BindCustomerJson(string mobile)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var customers = con.Query<CustomerModel>("GetClientCustomerByMobile", new { MobileNumber = mobile },
+                    commandType: CommandType.StoredProcedure);
+                    return Json(customers, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        
         public JsonResult BindSparePartNameJson(string value)
         {
             using (var con = new SqlConnection(_connectionString))

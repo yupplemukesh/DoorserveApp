@@ -29,13 +29,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
         public async Task<ActionResult> Index()
         {
-            var clientData = new MainClientDataModel();
+
             Guid? clientId = null;
             if (Session["RoleName"].ToString().ToLower().Contains("client"))
                 clientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
-                clientData.UploadedData = await _RepoUploadFile.GetUploadedList(clientId);
-                clientData.UploadedFiles = new List<FileDetailModel>();
-                 
+              var clientData = await _RepoUploadFile.GetUploadedList(clientId);
             clientData.client = new ClientDataModel();
             clientData.client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
             clientData.client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
@@ -67,6 +65,14 @@ namespace TogoFogo.Controllers
 
 
             return View(clientData);
+        }
+
+        public async Task<ActionResult> GetAssignedCalls()
+        {
+            var calls = await _RepoUploadFile.GetAssingedCalls();
+            return PartialView("_TotalCallsList", calls);
+
+
         }
 
 
@@ -128,7 +134,8 @@ namespace TogoFogo.Controllers
                     excel_con.Open();
 
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[18] {
+                    dtExcelData.Columns.AddRange(new DataColumn[20] {
+                new DataColumn("CUSTOMER TYPE", typeof(string)),
                 new DataColumn("CUSTOMER NAME", typeof(string)),
                 new DataColumn("CUSTOMER  CONTACT", typeof(string)),
                 new DataColumn("CUSTOMER E-MAIL", typeof(string)),
@@ -146,13 +153,14 @@ namespace TogoFogo.Controllers
                 new DataColumn("DEVICE IMEI SECOND", typeof(string)),
                 new DataColumn("DEVICE SLN", typeof(string)),
                 new DataColumn("DEVICE DOP", typeof(DateTime)),
-                new DataColumn("DEVICE PURCHASE FROM", typeof(string))
+                new DataColumn("DEVICE PURCHASE FROM", typeof(string)),
+                new DataColumn("DEVICE CONDITION", typeof(string))
                 });
 
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [CUSTOMER NAME],[CUSTOMER  CONTACT],[CUSTOMER E-MAIL]," +
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [CUSTOMER TYPE], [CUSTOMER NAME],[CUSTOMER  CONTACT],[CUSTOMER E-MAIL]," +
                         "[CUSTOMER ADDRESS TYPE],[CUSTOMER ADDRESS],[CUSTOMER COUNTRY],[CUSTOMER STATE],[CUSTOMER CITY]," +
                         "[CUSTOMER PINCODE],[DEVICE CATEGORY],[DEVICE BRAND],[DEVICE NAME],[DEVICE MODEL],[DEVICE IMEI FIRST]," +
-                        "[DEVICE IMEI SECOND],[DEVICE SLN],[DEVICE DOP],[DEVICE PURCHASE FROM]  FROM [" + sheet1 + "]", excel_con))
+                        "[DEVICE IMEI SECOND],[DEVICE SLN],[DEVICE DOP],[DEVICE PURCHASE FROM],[DEVICE CONDITION]  FROM [" + sheet1 + "]", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }
@@ -180,8 +188,15 @@ namespace TogoFogo.Controllers
 
         }
 
+        [HttpPost]
+        public async Task<ActionResult> NewCallLog(UploadedExcelModel uploads)
+        {
 
-       
+          
+
+
+        }
+
 
 
         }

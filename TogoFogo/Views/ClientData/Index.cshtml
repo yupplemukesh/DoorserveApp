@@ -22,7 +22,7 @@
                 </li>
                 <li>
                     <a href="#tab-6" role="tab" data-toggle="tab">
-                        <button type="submit" class="btn btn-primary btn-sm">Assigned Calls</button>
+                        <button type="submit" onclick="getCalls()" class="btn btn-primary btn-sm">Assigned Calls</button>
                     </a>
                 </li>
                 <li>
@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <div class="panel panel-default panel-table b-t-0" id="callsPanel">
-
+                               @Html.Partial("_TotalCallsList",Model.calls)
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,82 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/js/Gridmvc")
 
+    <script>
+        function AjaxWithValue(method, ddl, e) {
+            debugger
+            var val = e.value;
+     
+            if (ddl == "address_StateId")
+                $("#address_CityId").empty();
+            if (ddl == 'DeviceModalId') {
 
+                var brand = $("#DeviceBrandId").val();
+                var category = $("#DeviceCategoryId").val();
+                if (brand == "" || category == "")
+                    return false;
+                else
+                    val = brand + ',' + category;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger
+                    $("#" + ddl).empty();
+                  
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+
+                }
+            });
+        }
+
+
+        function getCustomer() {
+            debugger
+          var mobile=  $("#CustomerContactNumber").val();
+           var checked= $("#IsExistingCustomer").prop("checked");
+            if (checked) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("BindCustomerJson", "DropdownBind")',
+                    data: {'mobile':  mobile},
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#CustomerTypeId").val(data[0].CustomerTypeId);
+                        $("#CustomerName").val(data[0].CustomerName);
+                        $("#CustomerAltConNumber").val(data[0].CustomerName);
+                        $("#CustomerEmail").val(data[0].Email);
+                        $("#address_AddressTypeId").val(data[0].AddressTypeId);
+                        $("#address_NearLocation").val(data[0].NearLocation);
+                        $("#address_Address").val(data[0].Address);
+                        $("#address_PinNumber").val(data[0].PinNumber);
+                        $("#address_CountryId").val(data[0].CountryId);
+            
+                        var obj = { value: data[0].CountryId }; +
+                            AjaxWithValue('BindStateJson', 'address_StateId', obj);                          
+                        obj.value = data[0].StateId;
+                AjaxWithValue('BindLocationJson', 'address_CityId', obj)
+                        $("#address_StateId").val(data[0].StateId);
+                        $("#address_CityId selected:option").val(data[0].CityId);
+                    }
+                });
+            }
+            else
+                return false;
+
+            }
+
+
+
+    </script>
 
     @*<script src="~/Content/js/ui-buttons.min.js"></script>*@
 

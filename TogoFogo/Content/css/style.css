@@ -16837,8 +16837,7 @@ button.close {
     .sidebar-menu .menu-icon {
         color: #666;
         display: block;
-        float: left;
-        font-size: 17px;
+        float: left;     
         height: 18px;
         line-height: 18px;
         margin-right: 10px;
@@ -23531,7 +23530,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     font-size: 16px;
 }
 
-.sidebar-menu > li > a {font-size:16px;color:#333;
+.sidebar-menu > li > a {color:#333;
 }
 
 .sidebar-menu > li.active > a{color:#333;}

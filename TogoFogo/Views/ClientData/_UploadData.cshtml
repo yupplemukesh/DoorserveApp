@@ -26,12 +26,12 @@
                     <div class="panel-heading">
                         <div class="row">
                             <h3 class="m-y-0">Data List</h3>
-                            <div class="x_content" style="overflow-x: scroll;">
+                            <div class="x_content m-b-10" >
                                 @Html.Partial("_UploadedDataList", Model.UploadedData)
                             </div>
-
+       
                             <h3 class="m-y-0">File List</h3>
-                            <div class="x_content" style="overflow-x: scroll;">
+                            <div class="x_content" >
                                 @*Old+New Information*@
                                 @Html.Partial("_FileDataList", Model.UploadedFiles)
                             </div>

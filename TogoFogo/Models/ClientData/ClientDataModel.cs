@@ -36,6 +36,7 @@ namespace TogoFogo.Models
         [DisplayName("Delivery Type")]
         public int DeliveryTypeId { get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
         
         
     }

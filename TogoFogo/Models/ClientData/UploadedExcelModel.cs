@@ -56,15 +56,18 @@ namespace TogoFogo.Models.ClientData
         public string DeviceIMEIOne { get; set; }
         [DisplayName("DEVICE IMEI SECOND")]
         public string DeviceIMEISecond { get; set; }
-        [DisplayName("Call ID")]
+
         public string BillNo { get; set; }
         public decimal BillAmount { get; set; }
+        [DisplayName("Call ID")]
         public string CRN { get; set; }
+        public Guid CustomerId { get; set; }
         public bool IsExistingCustomer { get; set; }
         [DisplayName("Customer Type")]
         [Required]
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
+     
         public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
         [Required]

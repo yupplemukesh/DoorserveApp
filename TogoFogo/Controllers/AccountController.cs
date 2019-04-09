@@ -100,11 +100,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 await con.OpenAsync();
-
-
-                // read as IEnumerable<dynamic>
                 string iconPath = "/uploadedImages/icon-img/";
-
                 var result = await con.QueryMultipleAsync("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
                     commandType: CommandType.StoredProcedure);
                 var rs = await result.ReadSingleOrDefaultAsync<dynamic>();

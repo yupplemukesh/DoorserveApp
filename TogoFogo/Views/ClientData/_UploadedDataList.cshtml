@@ -15,7 +15,7 @@
               i++;
               return @<text> @i </text>;
           });
-    columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true);
+    columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
     columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
     columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
     columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
@@ -23,12 +23,7 @@
     columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
     columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
     columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
-    columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
-    columns.Add()
-          .Encoded(false)
-          .Sanitized(false)
-          .SetWidth(30)
-          .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Id}));
+    columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);   
 
 }).WithPaging(10).Sortable(true)
 </div>

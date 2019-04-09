@@ -11,7 +11,9 @@ namespace TogoFogo.Repository
    public interface IUploadFiles: IDisposable
     {
         Task<ResponseModel> UploadClientData(ClientDataModel client, DataTable table);
-        Task<List<UploadedExcelModel>> GetUploadedList(Guid? ClientId);      
+        Task<MainClientDataModel> GetUploadedList(Guid? ClientId);
+        Task<CallsViewModel> GetAssingedCalls();
+        
         void Save();
     }
 }
