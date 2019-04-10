@@ -32,7 +32,7 @@ namespace TogoFogo.Models
         public int UserID { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTime UpdatedOn { get; set; }
-        [DisplayName("Department Name")]
+        [DisplayName("Engineer Name")]
         [Required]
         public string EmployeeName { get; set; }
         public string MobileNumber { get; set; }
@@ -59,6 +59,7 @@ namespace TogoFogo.Models
         public SelectList CenterList { get; set; }
         public SelectList ProviderList { get; set; }
 
+        
 
     }
 }

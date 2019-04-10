@@ -146,11 +146,16 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@VHModel", ToDBNull(employee.Vehicle.VHModel));
             sp.Add(param);
-
+            param = new SqlParameter("@VehicleBrand", ToDBNull(employee.Vehicle.VehicleBrand));
+            sp.Add(param);
+            param = new SqlParameter("@DrivingLicense", ToDBNull(employee.Vehicle.DrivingLicense));
+            sp.Add(param);
+            param = new SqlParameter("@InsuranceExpairyDate", ToDBNull(employee.Vehicle.InsuranceExpairyDate));
+            sp.Add(param);
 
             var sql = "USPInsertUpdateEMPDetails @EMPID,@EMPCode,@EMPFNAME,@EMPLName,@EMPPhoto,@EMPMobileNo ,@EMPEmail ,@EMPPAN ,@EMPPANFILENAME,@EMPVOTERID," +
                         "@EMPVOTERIDFILENAME,@EMPADHAAR,@EMPADHAARFILENAME,@contactId,@DesignationId, @DepartmentId ,@EMPDOJ , @EMPDOB , @USER,@IsActive" +
-                        ",@IsPickUp,@AddressTypeId,@CityId,@StateId,@CountryId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel";
+                        ",@IsPickUp,@AddressTypeId,@CityId,@StateId,@CountryId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel,@VehicleBrand,@DrivingLicense,@InsuranceExpairyDate";
        
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
