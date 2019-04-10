@@ -113,20 +113,20 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        $("#CustomerTypeId").val(data[0].CustomerTypeId);
+                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);      
                         $("#CustomerName").val(data[0].CustomerName);
-                        $("#CustomerAltConNumber").val(data[0].CustomerName);
+                        $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
                         $("#CustomerEmail").val(data[0].Email);
-                        $("#address_AddressTypeId").val(data[0].AddressTypeId);
+                        $('input[name="address.AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);                       
                         $("#address_NearLocation").val(data[0].NearLocation);
                         $("#address_Address").val(data[0].Address);
                         $("#address_PinNumber").val(data[0].PinNumber);
                         $("#address_CountryId").val(data[0].CountryId);
             
                         var obj = { value: data[0].CountryId }; +
-                            AjaxWithValue('BindStateJson', 'address_StateId', obj);                          
+                          AjaxWithValue('BindStateJson', 'address_StateId', obj);                          
                         obj.value = data[0].StateId;
-                AjaxWithValue('BindLocationJson', 'address_CityId', obj)
+                         AjaxWithValue('BindLocationJson', 'address_CityId', obj)
                         $("#address_StateId").val(data[0].StateId);
                         $("#address_CityId selected:option").val(data[0].CityId);
                     }

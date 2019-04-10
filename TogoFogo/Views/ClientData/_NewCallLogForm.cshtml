@@ -1,7 +1,9 @@
 ﻿@model TogoFogo.Models.ClientData.UploadedExcelModel
 
 @using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{    @Html.Partial("~/views/common/_CallLogFrom.cshtml",Model)
+{    
+    
+    @Html.Partial("~/views/common/_CallLogForm.cshtml",Model)
     <div class="panel panel-default panel-table">
         <div class="panel-body">
             <div class="form-horizontal">

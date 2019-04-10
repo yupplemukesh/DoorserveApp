@@ -20,11 +20,13 @@ namespace TogoFogo.Controllers
     public class ClientDataController : Controller
     {
         private readonly IUploadFiles _RepoUploadFile;
+        private readonly ICallLog _RepoCallLog;
         private readonly DropdownBindController _dropdown;
         public ClientDataController()
         {
             _RepoUploadFile = new UploadFiles();
             _dropdown = new DropdownBindController();
+            _RepoCallLog = new CallLog();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
         public async Task<ActionResult> Index()
@@ -192,12 +194,11 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> NewCallLog(UploadedExcelModel uploads)
         {
 
-          
-
-
+            uploads.UserId = Convert.ToInt32(Session["User_ID"]);
+            var response = await _RepoCallLog.NewCallLog(uploads);
+            TempData["response"] = response;
+            return RedirectToAction("Index");
         }
-
-
 
         }
 

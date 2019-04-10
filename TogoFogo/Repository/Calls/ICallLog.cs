@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
-namespace TogoFogo.Repository.Calls
+namespace TogoFogo.Repository
 {
     public interface ICallLog:IDisposable
     {
