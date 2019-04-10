@@ -38,9 +38,12 @@ namespace TogoFogo.Models
         public int UserId { get; set; }
         public char Action { get; set; }
         public bool IsActive { get; set; }
+        public bool IsDefault { get; set; }
         [DisplayName("Upload Cancelled Cheque")]
         public string BankCancelledChequeFileName { get; set; }
         public string BankCancelledChequeFileUrl { get; set; }
         public SelectList BankList { get; set; }
+        [DisplayName("Company Name")]
+        public string CompanyNameinBankAccount { get; set; }
     }
 }

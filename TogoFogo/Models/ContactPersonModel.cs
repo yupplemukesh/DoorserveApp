@@ -50,7 +50,9 @@ namespace TogoFogo.Models
         public string ConAdhaarFileName { get; set; }
         public string ConAdhaarFileUrl { get; set; }
         public bool isActive { get; set; }
-       
-      
-    }
+        public bool IsAdministrator { get; set; }
+        public string Designation { get; set; }
+        public string Comments { get; set; }
+        public bool IsUser { get; set; }
+        }
 }

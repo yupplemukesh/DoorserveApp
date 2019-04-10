@@ -375,10 +375,8 @@
                             @if (Model.ContactPersons != null)
                             {
                                 <div class="col-12">
-                                    @foreach (var item in Model.ContactPersons)
-                                    {
-                                        @Html.Partial("~/Views/Common/_ContactDetails.cshtml", item)
-                                    }
+                                        @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
+                                    
                                 </div>
                             }
 
@@ -400,11 +398,9 @@
                             @if (Model.BankDetails != null)
                             {
                                 <div class="col-9">
-                                    @foreach (var item in Model.BankDetails)
-                                    {
-                                        @Html.Partial("~/Views/Common/_bankDetails.cshtml", item)
+                                        @Html.Partial("~/Views/Common/_bankDetails.cshtml", Model.BankDetails)
 
-                                    }
+                                    
                                 </div>
                             }
                             else

@@ -1,63 +1,61 @@
-﻿@model TogoFogo.Models.BankDetailModel
+﻿@model IEnumerable<TogoFogo.Models.BankDetailModel>
+@using TogoFogo.Models
+@{    
+    var i = 1;
+}
+<div class="row">
+    <div class="col-md-12"  style="overflow-x: scroll;">
+        <table class="table table-striped table-bordered table-condensed table-responsive">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BankName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BankAccountNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyNameinBankAccount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BankIFSCCode)
+                    </th>
 
+                    <th>
+                        @Html.DisplayNameFor(model => model.BankBranchName)
+                    </th>
+                    
+                    <th>Action</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankAccountNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyNameinBankAccount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankIFSCCode)
+                    </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankBranchName)
+                    </td>                    
+                    <td style="display: inline-flex">
+                        
+                            <a href='@Url.Action("Edit", "ManageCourierApi", new { @apiId = item.bankId })' class="btn btn-small btn-info btnSize ">Edit</a>
+                       
+                    </td>
+                </tr>
+                i++;
+            }
 
-<div class="col-md-3">
-
-    <div class="row edit-padd">
-        <div class="col-md-6 col-xs-6 col-sm-6">
-            <h4>
-                Bank Details
-            </h4>
-        </div>
-        <div class="col-md-6 col-xs-6 col-sm-6 text-right ">
-            <a class="btn btn-sm btn-primary" href="#BankModel" data-toggle="modal" onclick='AddOrEditBank(@Html.Raw(Json.Encode(Model)))'> Edit</a>
-
-        </div>
-    </div>
-
-    <div class="row edit-padd">
-        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> Name</strong>:</div>
-        <div class="col-md-6 col-xs-6 col-sm-6 edit-p">  @Model.BankName</div>
-
-    </div>
-
-    <div class="row edit-padd">
-        <div class="col-md-6 col-xs-6 col-sm-6"> <strong> IFSC</strong>: </div>
-        <div class="col-md-6 col-xs-6 col-sm-6 edit-p">@Model.BankIFSCCode</div>
-
-    </div>
-
-    <div class="row edit-padd">
-        <div class="col-md-6 col-xs-6 col-sm-6"><strong>Account Number </strong>:</div>
-        <div class="col-md-6 col-xs-6 col-sm-6 edit-p"> @Model.BankAccountNumber</div>
-    </div>
-    @if (!string.IsNullOrEmpty(Model.BankCancelledChequeFileName))
-    {
-    <div class="row edit-padd">
-        <div class="col-md-6 col-xs-6 col-sm-6"><strong>Cancelled Cheque</strong>:</div>
-        <div class="col-md-6 col-xs-6 col-sm-6">            
-            <a data-target="#modalIMGCheque" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-                <div class="ba-0 tp-s img-thumbnail thumb-img-width">
-                    <img alt="Cancelled Cheque File" class="card-img-top" src="@Model.BankCancelledChequeFileUrl">
-                </div>
-            </a>
-            </div>
-        </div>
-        }
-    </div>
-
-
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGCheque" role="dialog" tabindex="-1" target="_blank">
-<div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-body mb-0 p-0">
-            <img src="@Model.BankCancelledChequeFileUrl" alt="" style="width:100%">
-        </div>
-
+        </table>
     </div>
 </div>
-</div>
-
-
-

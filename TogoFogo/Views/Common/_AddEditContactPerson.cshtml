@@ -5,148 +5,77 @@
 @Html.HiddenFor(x => x.ConAdhaarFileName)
 @Html.HiddenFor(x => x.ConVoterIdFileName)
 @Html.HiddenFor(x => x.ConPanFileName)
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConFirstName, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConFirstName, new { @class = "form-control", @placeholder = "First Name" })
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConFirstName, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConFirstName, new { @class = "form-control", @placeholder = "First Name" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConFirstName, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.ConFirstName, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConLastName, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConLastName, new { @class = "form-control", @placeholder = "Last Name" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConLastName, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConLastName, new { @class = "form-control", @placeholder = "Last Name" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConLastName, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.ConLastName, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-</div>
 
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConMobileNumber, new { @class = "form-control", @placeholder = "Mobile number" })
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConMobileNumber, new { @class = "form-control", @placeholder = "Mobile number" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConMobileNumber, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.ConMobileNumber, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConEmailAddress, new { @class = "form-control", @placeholder = "Email-Address" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConEmailAddress, new { @class = "form-control", @placeholder = "Email-Address" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConEmailAddress, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.ConEmailAddress, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConPanNumber, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConPanNumber, new { @class = "form-control", @placeholder = "Pan number" })
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConPanNumber, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConPanNumber, new { @class = "form-control", @placeholder = "Pan number" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConPanNumber, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.ConPanNumber, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-                @Html.LabelFor(model => model.ConPanNumberFilePath, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConPanNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    @Html.LabelFor(model => model.ConPanNumberFilePath, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConPanNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-1 col-sm-1">
-                @if (!string.IsNullOrEmpty(Model.ConPanFileName))
-                {
-                    <img src="@Model.ConPanFileUrl" class="a" style="pointer-events: none;width:60px">
-                }
-                else
-                {
-
-                    <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
-                }
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Text input-->
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConVoterId, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConVoterId, new { @class = "form-control", @placeholder = "Voter Id" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.ConVoterId, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-                @Html.LabelFor(model => model.ConVoterIdFilePath, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConVoterIdFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-1 col-sm-1">
-                @if (!string.IsNullOrEmpty(Model.ConVoterIdFileName))
-                {
-                    <img src="@Model.ConVoterIdFileUrl" class="a" style="pointer-events: none;width:60px">
-                }
-                else
-                {
-
-                    <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
-                }
-            </div>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConAdhaarNumber, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConAdhaarNumber, new { @class = "form-control", @placeholder = "Adhaar number" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.ConAdhaarNumber, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-5 col-sm-5 col-xs-12">
-                @Html.LabelFor(model => model.ConAdhaarNumberFilePath, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConAdhaarNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.ConAdhaarNumberFilePath, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="col-md-1 col-sm-1">
-                    @if (!string.IsNullOrEmpty(Model.ConAdhaarFileName))
+                <div class="col-md-1 col-sm-1">
+                    @if (!string.IsNullOrEmpty(Model.ConPanFileName))
                     {
-                        <img src="@Model.ConAdhaarFileUrl" class="a" style="pointer-events: none;width:60px">
+                        <img src="@Model.ConPanFileUrl" class="a" style="pointer-events: none;width:60px">
                     }
                     else
                     {
@@ -154,108 +83,192 @@
                         <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
                     }
                 </div>
-
-            </div>
-        </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.AddressTypeId, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.AddressTypeId, Model.AddressTypelist,
-           "Select", new { @class = "form-control" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.AddressTypeId, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
+    <!-- Text input-->
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConVoterId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConVoterId, new { @class = "form-control", @placeholder = "Voter Id" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConVoterId, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.CityId, Model.CityList, new { @class = "form-control" })
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    @Html.LabelFor(model => model.ConVoterIdFilePath, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConVoterIdFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Address" })
+                <div class="col-md-1 col-sm-1">
+                    @if (!string.IsNullOrEmpty(Model.ConVoterIdFileName))
+                    {
+                        <img src="@Model.ConVoterIdFileUrl" class="a" style="pointer-events: none;width:60px">
+                    }
+                    else
+                    {
 
+                        <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
+                    }
                 </div>
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.Locality, new { @class = "form-control", @placeholder = "Locality" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.NearLocation, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.NearLocation, new { @class = "form-control", @placeholder = "Near by location" })
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.ConAdhaarNumber, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConAdhaarNumber, new { @class = "form-control", @placeholder = "Adhaar number" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConAdhaarNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-12">
+                    @Html.LabelFor(model => model.ConAdhaarNumberFilePath, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.ConAdhaarNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ConAdhaarNumberFilePath, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-1 col-sm-1">
+                        @if (!string.IsNullOrEmpty(Model.ConAdhaarFileName))
+                        {
+                            <img src="@Model.ConAdhaarFileUrl" class="a" style="pointer-events: none;width:60px">
+                        }
+                        else
+                        {
+
+                            <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
+                        }
+                    </div>
 
                 </div>
-                @Html.ValidationMessageFor(model => model.NearLocation, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code" })
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.AddressTypeId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.AddressTypeId, Model.AddressTypelist,
+               "Select", new { @class = "form-control" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.AddressTypeId, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
 
+                    </div>
+                    @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(model => model.CityId, Model.CityList, new { @class = "form-control" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Address" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.Locality, new { @class = "form-control", @placeholder = "Locality" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.NearLocation, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.NearLocation, new { @class = "form-control", @placeholder = "Near by location" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.NearLocation, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code" })
+
+                    </div>
+                    @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">                
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "control-label" })
+                    <div class="input-group">
+
+                        @Html.CheckBoxFor(model => model.IsUser, new { @checked = "checked" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @Scripts.Render("~/bundles/jqueryval")
 
