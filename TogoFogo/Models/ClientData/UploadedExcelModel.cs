@@ -86,5 +86,6 @@ namespace TogoFogo.Models.ClientData
         public SelectList CategoryList { get; set; }
         public SelectList BrandList { get; set; }
         public SelectList ProductList { get; set; }
+
     }
 }

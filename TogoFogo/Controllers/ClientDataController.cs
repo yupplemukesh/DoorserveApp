@@ -31,27 +31,32 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
         public async Task<ActionResult> Index()
         {
-
+            bool IsClient = false;
             Guid? clientId = null;
             if (Session["RoleName"].ToString().ToLower().Contains("client"))
+            {
                 clientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
+                IsClient = true;
+            }
               var clientData = await _RepoUploadFile.GetUploadedList(clientId);
-            clientData.client = new ClientDataModel();
-            clientData.client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
-            clientData.client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            clientData.client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
+            clientData.Client = new ClientDataModel();
+            clientData.Client.IsClient = IsClient;
+            clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
+            clientData.Client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
+            clientData.Client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
 
             // new call Log
             clientData.NewCallLog = new UploadedExcelModel
             {
-                ClientList = clientData.client.ClientList,
-                ServiceTypeList = clientData.client.ServiceTypeList,
-                DeliveryTypeList = clientData.client.DeliveryTypeList,
+                ClientList = clientData.Client.ClientList,
+                ServiceTypeList = clientData.Client.ServiceTypeList,
+                DeliveryTypeList = clientData.Client.DeliveryTypeList,
                 BrandList = new SelectList(_dropdown.BindBrand(), "Value", "Text"),
                 CategoryList=new SelectList(_dropdown.BindCategory(),"Value","Text"),
                 ProductList=  new SelectList(Enumerable.Empty<SelectListItem>()),
                 CustomerTypeList=new SelectList( await CommonModel.GetLookup("Customer Type"),"Value","Text" ),
                 ConditionList=new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
+                IsClient=IsClient,
                 address=new AddressDetail
                 {
                     AddressTypelist= new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
@@ -111,7 +116,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
-            if (Session["RoleName"].ToString().ToLower().Contains("client"))
+            if (!clientDataModel.IsClient)
                 clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
 
             if (clientDataModel.DataFile != null)

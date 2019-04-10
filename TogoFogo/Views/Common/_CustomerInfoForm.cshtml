@@ -1,0 +1,149 @@
+﻿@model TogoFogo.Models.ClientData.UploadedExcelModel
+
+<div class="panel-body">
+    <div class="form-horizontal">
+        <div class="panel-default m-b-10">
+            <div class="panel-heading p-l-0 p-t-0 ">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="m-t-0 m-b-5">Customer Details</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-12 m-t-15">
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label class="custom-control custom-control-primary custom-checkbox">
+                            @Html.CheckBoxFor(x => x.IsExistingCustomer, new { @class = "custom-control-input" })
+                            <span class="custom-control-indicator"></span>
+                            <span>Is Existing Customer ?</span>
+                        </label>
+                    </div>
+
+
+                    <label class="col-sm-1 " for="form-control-1"> Mobile  </label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "form-control", onchange = "getCustomer()" })
+                        @Html.ValidationMessageFor(x => x.CustomerContactNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-sm-2 " for="form-control-1"> Customer Type  </label>
+                    <div class="col-sm-4">
+                        @foreach (var item in Model.CustomerTypeList)
+                        {
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.RadioButtonFor(x => x.CustomerTypeId, item.Value)
+                                <span>@item.Text</span>
+                            </label>
+                        }
+
+                    </div>
+                    @Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-2 " for="form-control-1"> Customer Name </label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.CustomerName, "", new { @class = "text-danger" })
+                    </div>
+                    <label class="col-sm-2" for="form-control-1"> Alternative Contact Number </label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.CustomerAltConNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.CustomerAltConNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-2" for="form-control-1">Email</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.CustomerEmail, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-sm-2 " for="form-control-1">Address Type</label>
+                    <div class="col-sm-4">
+                        @foreach (var item in Model.address.AddressTypelist)
+                        {
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.RadioButtonFor(x => x.address.AddressTypeId, item.Value)
+                                <span>@item.Text</span>
+                            </label>
+                        }
+
+                    </div>
+                    @Html.ValidationMessageFor(x => x.address.AddressTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-2" for="form-control-1">Address</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.address.Address, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.address.Address, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-sm-2 " for="form-control-1">Landmark</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.address.NearLocation, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.address.NearLocation, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-2" for="form-control-1">Pincode</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.address.PinNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.address.PinNumber, "", new { @class = "text-danger" })
+
+                    </div>
+                    <label class="col-sm-2 " for="form-control-1">Country</label>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(x => x.address.CountryId, Model.address.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'address_StateId', this)" })
+                        @Html.ValidationMessageFor(x => x.address.CountryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <div class="form-group row">
+                    <label class="col-sm-2" for="form-control-1">State</label>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(x => x.address.StateId, Model.address.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'address_CityId', this)" })
+                        @Html.ValidationMessageFor(x => x.address.CountryId, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-sm-2 " for="form-control-1">City</label>
+                    <div class="col-sm-4">
+                        @Html.DropDownListFor(x => x.address.CityId, Model.address.CityList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.address.CityId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Client Data";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
 }
 @section Styles{
     @Styles.Render("~/Content/css/Gridmvc")
@@ -22,7 +23,7 @@
                 </li>
                 <li>
                     <a href="#tab-6" role="tab" data-toggle="tab">
-                        <button type="submit" onclick="getCalls()" class="btn btn-primary btn-sm">Assigned Calls</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Assigned Calls</button>
                     </a>
                 </li>
                 <li>
@@ -45,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <div class="panel panel-default panel-table b-t-0" id="callsPanel">
-                               @Html.Partial("_TotalCallsList",Model.calls)
+                               @Html.Partial("_TotalCallsList",Model.Calls)
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,6 @@
 
     <script>
         function AjaxWithValue(method, ddl, e) {
-            debugger
             var val = e.value;
      
             if (ddl == "address_StateId")
@@ -102,7 +102,6 @@
 
 
         function getCustomer() {
-            debugger
           var mobile=  $("#CustomerContactNumber").val();
            var checked= $("#IsExistingCustomer").prop("checked");
             if (checked) {

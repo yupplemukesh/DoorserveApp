@@ -7,12 +7,11 @@ namespace TogoFogo.Models.ClientData
 {
     public class MainClientDataModel
     {
-      public ClientDataModel client { get; set; }
+      public ClientDataModel Client { get; set; }
       public List<UploadedExcelModel> UploadedData { get; set; }
       public List<FileDetailModel> UploadedFiles { get; set; }
       public UploadedExcelModel NewCallLog { get; set; }
-      public CallsViewModel calls { get; set; }  
-    }
+      public CallsViewModel Calls { get; set; }
 
-  
+    }  
 }

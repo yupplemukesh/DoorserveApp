@@ -47,14 +47,14 @@ namespace TogoFogo.Repository.ImportFiles
                             .Translate<UploadedExcelModel>(reader)
                             .ToList();
                     reader.NextResult();
-                    mainModel.calls = new CallsViewModel();
-                    mainModel.calls.OpenCalls=
+                    mainModel.Calls = new CallsViewModel();
+                    mainModel.Calls.OpenCalls=
                        ((IObjectContextAdapter)_context)
                            .ObjectContext
                            .Translate<UploadedExcelModel>(reader)
                            .ToList();
                     reader.NextResult();
-                    mainModel.calls.CloseCalls =
+                    mainModel.Calls.CloseCalls =
                     ((IObjectContextAdapter)_context)
                         .ObjectContext
                         .Translate<UploadedExcelModel>(reader)

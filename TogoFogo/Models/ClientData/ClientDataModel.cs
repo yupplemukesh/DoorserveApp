@@ -37,7 +37,7 @@ namespace TogoFogo.Models
         public int DeliveryTypeId { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
-        
+        public bool IsClient { get; set; }
         
     }
 }
