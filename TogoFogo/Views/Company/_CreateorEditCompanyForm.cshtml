@@ -1,6 +1,7 @@
 ﻿@model TogoFogo.Models.Company.CompanyModel
-<div class="panel panel-default panel-table">
 
+
+<div class="panel panel-default panel-table">
     <div class="panel-body">
         <div class="panel panel-default panel-table">
             <div class="panel-body">
@@ -52,7 +53,7 @@
                                 <div class="panel panel-default panel-table  b-r-0 b-b-0 b-left-side">
                                     <div class="panel-body p-t-0 ">
                                         <h4 class="p-b-10"> Admin Panel : </h4>
-                                        @Html.Partial("~/Views/Company/_AddCompany.cshtml")
+                                        @Html.Partial("~/Views/Company/_AddOrEditCompany.cshtml")
                                         <div class="form-group row m-b-25">
                                             <div class="col-sm-offset-11  col-md-1">
                                                 <button type="submit" class="btn btn-success" style="">Save</button>
@@ -84,7 +85,7 @@
                                         <div class="form-group">
                                             <div class="col-md-3 p-l-0"><h4 class="p-b-10"> Contact Person : </h4></div>
                                             <div class="col-md-2 col-md-offset-7">
-                                                <button type="submit" class="btn btn-success btn-sm " id="AddContactPerson">Add Contact Person</button>
+                                                <button type="button" class="btn btn-success btn-sm " id="AddContactPerson">Add Contact Person</button>
                                             </div>
                                             @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.Contacts)
                                             <div class="row" style="display:none" id="ContactPerson">
@@ -119,9 +120,9 @@
                                             </div>
                                         </div>
                                         <div class="row" style="display:none" id="BankAccount">
-                                            <div class="col-12" >
+                                            <div class="col-12">
                                                 @Html.Partial("~/Views/Common/_AddOrUpdateBankDetails.cshtml", Model.BankDetail)
-                                                @Html.Partial("~/Views/Company/_Registration.cshtml", Model.Agreement)
+                      
                                             </div>
                                         </div>
                                         <div class="form-group row m-b-25">
@@ -138,24 +139,22 @@
                                     <div class="panel-body p-t-0">
                                         <div class="form-group">
                                             <div class="col-md-12 p-l-0"><h4 class="p-b-10"> Agreement: </h4></div>
-
                                             @Html.Partial("~/Views/Company/_Agreement.cshtml", Model.Agreement)
                                         </div>
-
                                         @Html.Partial("~/Views/Company/_AgreementDetail.cshtml", Model.Services)
                                         <div class="form-group row m-b-25">
                                             <div class="col-sm-offset-11  col-md-1">
                                                 <button type="submit" class="btn btn-success" style="">Save</button>
                                             </div>
                                         </div>
-                                    </div>                                   
+                                    </div>
                                 </div>
                             </div>
 
                             <div role="tabpanel" class="tab-pane fade in" id="tab-8">
                                 <div class="panel panel-default panel-table  b-r-0 b-b-0 b-left-side">
                                     <div class="panel-body p-t-0">
-                                        @Html.Partial("~/Views/Company/_Registration.cshtml", Model.Agreement)
+                                        @Html.Partial("~/Views/Company/_Registration.cshtml", Model)
                                         <div class="form-group row m-b-25">
                                             <div class="col-sm-offset-11  col-md-1">
                                                 <button type="submit" class="btn btn-success">Save</button>
@@ -171,8 +170,7 @@
 
         </div>
     </div>
-</div>
-
+    </div>
 
 
 

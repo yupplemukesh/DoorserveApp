@@ -2851,9 +2851,16 @@ table td[class*=col-], table th[class*=col-] {
         border: 1px solid #ddd;
     }
 
+    .company-tabs > li {
+        display: inline-block !important;
+      }
         .table-responsive > .table {
             margin-bottom: 0;
         }
+    .b-left-side {
+        border-left: 0px solid #ddd !important;
+        border-top: 2px solid #ddd !important;
+    }
 
             .table-responsive > .table > tbody > tr > td, .table-responsive > .table > tbody > tr > th, .table-responsive > .table > tfoot > tr > td, .table-responsive > .table > tfoot > tr > th, .table-responsive > .table > thead > tr > td, .table-responsive > .table > thead > tr > th {
                 white-space: nowrap;
@@ -23608,6 +23615,17 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 }
 
 
+.p-b-none {
+    padding: 0px !important;
+    border-top: 0px !important;
+    border-bottom: none !important;
+}
 
-
+.b-left-side {
+    border-left: 2px solid #ddd;
+    border-top: 0px solid red
+}
+.company-tabs > li {
+    float:none !important;
+}
 

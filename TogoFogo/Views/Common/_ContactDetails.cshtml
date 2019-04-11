@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<TogoFogo.Models.ContactPersonModel>
-
 @using TogoFogo.Models
 @{
     Layout = null;
@@ -12,57 +11,64 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.UserID)
+                        @Html.DisplayName("#SLN")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ConFirstName)
+                        @Html.DisplayName("First Name")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Designation)
+                        @Html.DisplayName("Last Name")
+                    </th>
+                    @*<th>
+            @Html.DisplayNameFor(model => model.Designation)
+        </th>*@
+                    <th>
+                        @Html.DisplayName("Mobile Number")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ConMobileNumber)
-                    </th>
-
-                    <th>
-                        @Html.DisplayNameFor(model => model.ConEmailAddress)
+                        @Html.DisplayName("Email")
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Address)
+                        @Html.DisplayName("Address")
                     </th>
-
+                    <th>
+                        @Html.DisplayName("City")
+                    </th>
                     <th>Action</th>
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ConFirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Designation)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ConMobileNumber)
-                    </td>
+            <tr>
+                <td>
+                    @Count
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConFirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConLastName)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.Designation)
+        </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConMobileNumber)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ConEmailAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-
-                    <td style="display: inline-flex">
-
-                        <a href='@Url.Action("Edit", "ManageCourierApi", new { @apiId = item.UserID })' class="btn btn-small btn-info btnSize ">Edit</a>
-
-                    </td>
-                </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConEmailAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td style="display: inline-flex">
+                    <a href='@Url.Action("Edit", "EditContact", new { @apiId = item.ContactId })' class="btn btn-small btn-info btnSize ">Edit</a>
+                </td>
+            </tr>
                 Count++;
             }
 

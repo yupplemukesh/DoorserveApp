@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class BankDetailModel
+    public class BankDetailModel: RegistrationModel
     {
         public BankDetailModel()
             {
@@ -36,14 +36,18 @@ namespace TogoFogo.Models
         [DisplayName("Upload Cancelled Cheque")]
         public HttpPostedFileBase BankCancelledChequeFilePath { get; set; }
         public int UserId { get; set; }
-        public char Action { get; set; }
-        public bool IsActive { get; set; }
+        public char Action { get; set; }    
         public bool IsDefault { get; set; }
         [DisplayName("Upload Cancelled Cheque")]
         public string BankCancelledChequeFileName { get; set; }
         public string BankCancelledChequeFileUrl { get; set; }
         public SelectList BankList { get; set; }
-        [DisplayName("Company Name")]
-        public string CompanyNameinBankAccount { get; set; }
+        
+    }
+    public class RegistrationModel
+    {
+       public bool IsActive { get; set; }
+       public string Comments { get; set; } 
+
     }
 }

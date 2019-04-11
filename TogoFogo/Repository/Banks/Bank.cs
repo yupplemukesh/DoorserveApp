@@ -27,7 +27,6 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@BANKCOMPATACC", ToDBNull(bank.BankCompanyName));
             sp.Add(param);
-
             param = new SqlParameter("@BANKBRANCH", ToDBNull(bank.BankBranchName));
             sp.Add(param);
             param = new SqlParameter("@BANKIFSC", ToDBNull(bank.BankIFSCCode));
@@ -40,8 +39,14 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ACTION", (object)bank.Action);
             sp.Add(param);
+            param = new SqlParameter("@IsDefault", (object)bank.IsDefault);
+            sp.Add(param);
+            param = new SqlParameter("@IsActive", (object)bank.IsActive);
+            sp.Add(param);
+            param = new SqlParameter("@Comments", ToDBNull(bank.Comments));
+            sp.Add(param);
 
-            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKACCNUMBER,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@REFKEY ,@ACTION";
+            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKACCNUMBER,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@REFKEY ,@ACTION,@IsDefault,@IsActive,@Comments";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
@@ -51,7 +56,27 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
+        public async Task<List<BankDetailModel>> GetBanksByRefKey(Guid refKey)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@BANKID", DBNull.Value);
+            sp.Add(param);
+            param = new SqlParameter("@REFKEY", ToDBNull(refKey));
+            sp.Add(param);
+            var sql = "USPGETACCOUNTS @BANKID,@REFKEY";
+            return await _context.Database.SqlQuery<BankDetailModel>(sql, sp.ToArray()).ToListAsync();
+        }
 
+        public async Task<BankDetailModel> GetBankByBankId(Guid bankId)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@BANKID", ToDBNull(bankId));
+            sp.Add(param);
+            param = new SqlParameter("@REFKEY", DBNull.Value);
+            sp.Add(param);
+            var sql = "USPGETACCOUNTS @BANKID,@REFKEY";
+            return await _context.Database.SqlQuery<BankDetailModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+        }
         private  object ToDBNull(object value)
         {
             if (null != value)
