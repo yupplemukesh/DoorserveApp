@@ -10,7 +10,8 @@ namespace TogoFogo.Models
 {
     public class OrganizationModel
     {
-        public Guid ClientId { get; set; }
+        public Guid? OrgId { get; set; } 
+        public Guid RefKey { get; set; }
         [DisplayName("Organisation Name")]
         [Required]
         public string OrgName { get; set; }
@@ -45,7 +46,8 @@ namespace TogoFogo.Models
         public SelectList GstCategoryList { get; set; }
         public SelectList StatutoryList { get; set; }
         public SelectList AplicationTaxTypeList { get; set; }
-       
-
+        public char Action { get; set; }
+        public int UserId { get; set; }
+      
     }
 }

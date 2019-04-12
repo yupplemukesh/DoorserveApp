@@ -15,7 +15,7 @@
                         @Html.DisplayNameFor(model => model.BankAccountNumber)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CompanyNameinBankAccount)
+                        @Html.DisplayNameFor(model => model.BankCompanyName)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.BankIFSCCode)
@@ -38,7 +38,7 @@
                         @Html.DisplayFor(modelItem => item.BankAccountNumber)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CompanyNameinBankAccount)
+                        @Html.DisplayFor(modelItem => item.BankCompanyName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.BankIFSCCode)
@@ -49,7 +49,7 @@
                     </td>                    
                     <td style="display: inline-flex">
                         
-                            <a href='@Url.Action("Edit", "ManageCourierApi", new { @apiId = item.bankId })' class="btn btn-small btn-info btnSize ">Edit</a>
+                            <a href="#" onclick="getItems('@item.bankId','JsonGetBank')" class="btn btn-small btn-info btnSize ">Edit</a>
                        
                     </td>
                 </tr>
@@ -59,3 +59,8 @@
         </table>
     </div>
 </div>
+
+<script>
+    
+
+</script>

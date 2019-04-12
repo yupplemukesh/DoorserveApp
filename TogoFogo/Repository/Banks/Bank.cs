@@ -66,7 +66,6 @@ namespace TogoFogo.Repository
             var sql = "USPGETACCOUNTS @BANKID,@REFKEY";
             return await _context.Database.SqlQuery<BankDetailModel>(sql, sp.ToArray()).ToListAsync();
         }
-
         public async Task<BankDetailModel> GetBankByBankId(Guid bankId)
         {
             List<SqlParameter> sp = new List<SqlParameter>();

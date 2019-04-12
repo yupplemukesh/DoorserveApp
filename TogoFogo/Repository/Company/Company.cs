@@ -9,203 +9,111 @@ using System.Threading.Tasks;
 using TogoFogo.Models;
 using TogoFogo.Models.Company;
 
-namespace TogoFogo.Repository.Company
+namespace TogoFogo.Repository
 {
-    public class Company
+    public class Company:ICompany
     {
         private readonly ApplicationDbContext _context;
         public Company()
         {
             _context = new ApplicationDbContext();
         }
-
         public async Task<List<CompanyModel>> GetCompanyDetails()
         {
-            return await _context.Database.SqlQuery<CompanyModel>("").ToListAsync();
+            var param = new SqlParameter("@CompId", DBNull.Value);
+            return await _context.Database.SqlQuery<CompanyModel>("GetCompany @CompId", param).ToListAsync();
         }
-
         public async Task<CompanyModel> GetCompanyDetailByCompanyId(Guid CompanyId)
-        {
-            var companymodel = new CompanyModel();
-            SqlParameter company = new SqlParameter("",CompanyId);
-            using (var connection = _context.Database.Connection)
-            {
-                connection.Open();
-                var command = connection.CreateCommand();
-                command.CommandText = "";
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(company);
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    companymodel =
-                        ((IObjectContextAdapter)_context)
-                        .ObjectContext
-                        .Translate<CompanyModel>(reader)
-                        .SingleOrDefault();
-                    companymodel.CurrentCompanyName = companymodel.CompanyName;
-                    reader.NextResult();
-                    companymodel.Organization =
-                        ((IObjectContextAdapter)_context)
-                        .ObjectContext
-                        .Translate<OrganizationModel>(reader)
-                        .SingleOrDefault();
-                    reader.NextResult();
-                    companymodel.Agreement =
-                        ((IObjectContextAdapter)_context)
-                        .ObjectContext
-                        .Translate<AgreementModel>(reader)
-                        .SingleOrDefault();
-                    reader.NextResult();
-                    companymodel.Services = ReadServices(reader);
-                    reader.NextResult();
-                    companymodel.Contacts = ReadPersons(reader);
-                    reader.NextResult(); 
-                    companymodel.BankDetails = ReadBanks(reader);
-
-                    
-
-                }
-               
-            }
-            return companymodel;
+        {          
+                var param = new SqlParameter("@CompId", CompanyId);
+                return await _context.Database.SqlQuery<CompanyModel>("GetCompany @CompId", param).SingleOrDefaultAsync();
         }
 
-
-        private List<ContactPersonModel> ReadPersons(DbDataReader reader)
+        public async Task<AgreementModel> GetAgreement(Guid CompanyId)
         {
-            List<ContactPersonModel> contacts = new List<ContactPersonModel>();
-
-            while (reader.Read())
-            {
-                var person = new ContactPersonModel
-                {
-                    ContactId = new Guid(reader["ContactId"].ToString()),
-                    RefKey = new Guid(reader["RefKey"].ToString()),
-                    ConFirstName = reader["ConFirstName"].ToString(),
-                    ConLastName = reader["ConLastName"].ToString(),
-                    ConMobileNumber = reader["ConMobileNumber"].ToString(),
-                    ConEmailAddress = reader["ConEmailAddress"].ToString(),
-                    ConAdhaarNumber = reader["ConAdhaarNumber"].ToString(),
-                    ConPanNumber = reader["ConPanNumber"].ToString(),
-                    ConVoterId = reader["ConVoterId"].ToString(),
-                    ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
-                    ConPanFileName = reader["ConPanFileName"].ToString(),
-                    ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),
-                    isActive = Convert.ToBoolean(reader["IsActive"].ToString()),
-                    AddresssId = new Guid(reader["AddresssId"].ToString()),
-                    CityId = Convert.ToInt32(reader["CityId"].ToString()),
-                    CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
-                    StateId = Convert.ToInt32(reader["StateId"].ToString()),
-                    AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
-                    Locality = reader["Locality"].ToString(),
-                    NearLocation = reader["NearLocation"].ToString(),
-                    PinNumber = reader["PinNumber"].ToString(),
-                    Address = reader["Address"].ToString()
-                };
-
-                person.ConVoterIdFileUrl = "/UploadedImages/Clients/VoterIds/" + person.ConVoterIdFileName;
-                person.ConAdhaarFileUrl = "/UploadedImages/Clients/ADHRS/" + person.ConAdhaarFileName;
-                person.ConPanFileUrl = "/UploadedImages/Clients/PANCards/" + person.ConPanFileName;
-                contacts.Add(person);
-            }
-
-            return contacts;
-
+            var param = new SqlParameter("@CompId", CompanyId);
+            return await _context.Database.SqlQuery<AgreementModel>("GETAGREEMENTBYCOMP @CompId", param).SingleOrDefaultAsync();
         }
-
-        private List<BankDetailModel> ReadBanks(DbDataReader reader)
-        {
-            List<BankDetailModel> banks = new List<BankDetailModel>();
-
-            while (reader.Read())
-            {
-                var bank = new BankDetailModel
-                {
-                    bankId = new Guid(reader["BANKID"].ToString()),
-                    RefKey = new Guid(reader["REFKEY"].ToString()),
-                    BankName = reader["BankName"].ToString(),
-                    BankNameId = Convert.ToInt32(reader["BankNameId"].ToString()),
-                    BankIFSCCode = reader["BankIFSCCode"].ToString(),
-                    BankAccountNumber = reader["BankAccountNumber"].ToString(),
-                    BankCancelledChequeFileName = reader["CancelledChequeFileName"].ToString(),
-                    BankCompanyName = reader["BankCompanyname"].ToString(),
-                    BankBranchName = reader["bankBranchName"].ToString(),
-                    IsActive = bool.Parse(reader["isActive"].ToString())
-                };
-
-                bank.BankCancelledChequeFileUrl = "/UploadedImages/Clients/Banks/" + bank.BankCancelledChequeFileName;
-                banks.Add(bank);
-            }
-
-            return banks;
-
-        }
-
-
-        private List<ServiceModel> ReadServices(DbDataReader reader)
-        {
-            List<ServiceModel> Services = new List<ServiceModel>();
-
-            while (reader.Read())
-            {
-                var Service = new ServiceModel
-                {
-                    //CompanyTypeId = new Guid(reader["COMPANYTYPEID"].ToString()),
-                    //RefKey = new Guid(reader["REFKEY"].ToString()),
-                    ServiceName = reader["ServiceName"].ToString(),
-                    Note = reader["Note"].ToString(),
-                    RatePerUser = Convert.ToDecimal(reader["RatePerUser"].ToString()),                   
-                    IsActive = bool.Parse(reader["isActive"].ToString())
-                };
-                Services.Add(Service);                
-            }
-            return Services;
-        }
-
         public async Task<ResponseModel> AddUpdateDeleteCompany(CompanyModel company)
         {            
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@COMPANYID", ToDBNull(company.CompanyId));
+            SqlParameter param = new SqlParameter("@CompId", ToDBNull(company.CompanyId));
             sp.Add(param);
-            param = new SqlParameter("@COMPANYNAME", ToDBNull(company.CompanyName));
+            param = new SqlParameter("@CompCode", ToDBNull(company.CompanyCode));
             sp.Add(param);
-            param = new SqlParameter("@COMPANYLOGO", ToDBNull(company.CompanyLogo));
+            param = new SqlParameter("@CompTypeId", ToDBNull(company.CompanyTypeId));
             sp.Add(param);
-            param = new SqlParameter("@DOMAINNAME", ToDBNull(company.CompanyWebsiteDomainName));
+            param = new SqlParameter("@CompName", ToDBNull(company.CompanyName));
             sp.Add(param);        
-
-            param = new SqlParameter("@ORGNAME", ToDBNull(company.Organization.OrgName));
+            param = new SqlParameter("@CurrentCompName", ToDBNull(company.CurrentCompanyName));
             sp.Add(param);
-            param = new SqlParameter("@ORGCODE", ToDBNull(company.Organization.OrgCode));
+            param = new SqlParameter("@CompDomain", ToDBNull(company.CompanyWebsiteDomainName));
             sp.Add(param);
-            param = new SqlParameter("@ORGIECNUMBER", ToDBNull(company.Organization.OrgIECNumber));
+            param = new SqlParameter("@ExpiryDate", ToDBNull(company.DomainExpiryDate));
             sp.Add(param);
-            param = new SqlParameter("@ORGSTATUTORYTYPE", ToDBNull(company.Organization.OrgStatutoryType));
+            param = new SqlParameter("@LogoFileName", ToDBNull(company.CompanyLogo));
             sp.Add(param);
-            param = new SqlParameter("@ORGAPPLICATIONTAXTYPE", ToDBNull(company.Organization.OrgApplicationTaxType));
+            param = new SqlParameter("@AndroidAppName", ToDBNull(company.AndroidAppName));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTCATEGORY", ToDBNull(company.Organization.OrgGSTCategory));
+            param = new SqlParameter("@AndroidAppSettings", ToDBNull(company.AndroidAppSetting));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTNUMBER", ToDBNull(company.Organization.OrgGSTNumber));
+            param = new SqlParameter("@IOSAppName", ToDBNull(company.IOSAppName));
             sp.Add(param);
-            param = new SqlParameter("@ORGGSTFILEPATH", ToDBNull(company.Organization.OrgGSTFileName));
+            param = new SqlParameter("@IOSAppSettings", ToDBNull(company.IOSAppSetting));
             sp.Add(param);
-            param = new SqlParameter("@ORGPANNUMBER", ToDBNull(company.Organization.OrgPanNumber));
+            param = new SqlParameter("@ACTION", ToDBNull(company.Action));
             sp.Add(param);
-            param = new SqlParameter("@ORGPANFILEPATH", ToDBNull(company.Organization.OrgPanFileName));
+            param = new SqlParameter("@IsActive", ToDBNull(company.IsActive));
+            sp.Add(param);         
+            param = new SqlParameter("@Comments", ToDBNull(company.Comments));
             sp.Add(param);
-            param = new SqlParameter("@ISACTIVE", (object)company.IsActive);
-            sp.Add(param);        
-            param = new SqlParameter("@USER", (object)company.CreatedBy);
+            param = new SqlParameter("@ActiveTab", ToDBNull(company.ActiveTab));
+            sp.Add(param);      
+            param = new SqlParameter("@UserId", (object)company.CreatedBy);
             sp.Add(param);            
+           var sql = "USPAddorEditCompany @CompId,@CompCode,@CompTypeId,@CompName,@CurrentCompName,@CompDomain , @ExpiryDate,@LogoFileName" +
+                        ",@AndroidAppName,@AndroidAppSettings,@IOSAppName,@IOSAppSettings,@ACTION,@IsActive, @Comments,@ActiveTab,@UserId";
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (res.ResponseCode == 1)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
+        }
 
-           var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSID,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password";
+        public async Task<ResponseModel> AddOrEditAgreeement(AgreementModel agreement)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@AGRID", ToDBNull(agreement.AGRId));
+            sp.Add(param);
+            param = new SqlParameter("@REFKEY", ToDBNull(agreement.RefKey));
+            sp.Add(param);       
+            param = new SqlParameter("@AGRSTARTDATE", ToDBNull(agreement.AgreementStartDate));
+            sp.Add(param);
+            param = new SqlParameter("@AGRPERIOD", ToDBNull(agreement.AgreementPeriod));
+            sp.Add(param);
+            param = new SqlParameter("@AGRNUMBER", ToDBNull(agreement.AgreementNumber));
+            sp.Add(param);
+            param = new SqlParameter("@AGRFILE", ToDBNull(agreement.AgreementFile));
+            sp.Add(param);
+            param = new SqlParameter("@ISACTIVE", ToDBNull(agreement.IsActive));
+            sp.Add(param);
+            param = new SqlParameter("@COMMENTS", ToDBNull(agreement.Comments));
+            sp.Add(param);
+            param = new SqlParameter("@SERVICETYPES", ToDBNull(agreement.ServiceTypes));
+            sp.Add(param);
+            param = new SqlParameter("@DELIVERYTYPES", ToDBNull(agreement.DeliveryTypes));
+            sp.Add(param);
+            param = new SqlParameter("@ACTION", ToDBNull(agreement.Action));
+            sp.Add(param);
+            param = new SqlParameter("@USERID", ToDBNull(agreement.CreatedBy));
+            sp.Add(param);
+         
 
-
+            var sql = "USPADDOREDITAGREEMENT @AGRID,@REFKEY,@AGRSTARTDATE,@AGRPERIOD,@AGRNUMBER , @AGRFILE,@ISACTIVE,@COMMENTS" +
+                         ",@SERVICETYPES,@DELIVERYTYPES,@ACTION,@USERID";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
-            if (res.ResponseCode == 0)
+            if (res.ResponseCode == 1)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;

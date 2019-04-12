@@ -32,7 +32,7 @@
 
         <label class="col-sm-2 control-label" for="form-control-1">Domain Expiry Date</label>
         <div class="col-sm-3">
-            @Html.TextBoxFor(x => x.DomainExpiryDate, new { @class = "form-control input-md", @type = "date" })
+            @Html.TextBoxFor(x => x.DomainExpiryDate, "{0:yyyy-MM-dd}",  new { @class = "form-control input-md", @type = "date"  })
             @Html.ValidationMessageFor(model => model.DomainExpiryDate, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -58,8 +58,8 @@
     <div class="form-group row">
         <label class="col-sm-4 control-label" for="form-control-1">Anroid App Name</label>
         <div class="col-sm-8">
-            @Html.TextBoxFor(x => x.AnroidAppName, new { @class = "form-control input-md" })
-            @Html.ValidationMessageFor(model => model.AnroidAppName, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(x => x.AndroidAppName, new { @class = "form-control input-md" })
+            @Html.ValidationMessageFor(model => model.AndroidAppName, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -68,8 +68,8 @@
 
         <label class="col-sm-4 control-label" for="form-control-1">Anroid App Setting</label>
         <div class="col-sm-8">
-            @Html.TextAreaFor(x => x.AnroidAppSetting, new { @class = "form-control input-md", @placeholder = "Anroid App Setting" })
-            @Html.ValidationMessageFor(model => model.AnroidAppSetting, "", new { @class = "text-danger" })
+            @Html.TextAreaFor(x => x.AndroidAppSetting, new { @class = "form-control input-md", @placeholder = "Anroid App Setting" })
+            @Html.ValidationMessageFor(model => model.AndroidAppSetting, "", new { @class = "text-danger" })
         </div>
     </div>
 

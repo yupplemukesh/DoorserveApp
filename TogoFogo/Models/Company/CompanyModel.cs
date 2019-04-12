@@ -22,12 +22,13 @@ namespace TogoFogo.Models.Company
         }
 
         public string CompanyWebsiteDomainName { get; set; }
-        public DateTime DomainExpiryDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? DomainExpiryDate { get; set; }
         public string CompanyLogo { get; set; }
         public HttpPostedFileBase CompanyPath { get; set; }
         public string CompanyFile { get; set; }
-        public string AnroidAppName { get; set; }
-        public string AnroidAppSetting { get; set; }
+        public string AndroidAppName { get; set; }
+        public string AndroidAppSetting { get; set; }
         public string IOSAppName { get; set; }
         public string IOSAppSetting { get; set; }
         public OrganizationModel Organization { get; set; }
@@ -53,6 +54,7 @@ namespace TogoFogo.Models.Company
         public int ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
         public SelectList CompanyTypeList { get; set; }
+        public char Action { get; set; }
         public string ActiveTab{ get; set; }
     }
 }

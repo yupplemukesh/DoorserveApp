@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class AddressDetail
+    public class AddressDetail:RegistrationModel
     {
         public Guid AddresssId { get; set; }
         [DisplayName("Address Type")]
@@ -34,8 +34,8 @@ namespace TogoFogo.Models
         [Required(ErrorMessage = "Enter Pin Code")]
         public string PinNumber { get; set; }
         public SelectList AddressTypelist { get; set; }
-        public SelectList CityList { get; set; }
-        public SelectList StateList { get; set; }
-        public SelectList CountryList { get; set; }
+        public SelectList CityList { get; set;}
+        public SelectList StateList { get; set;}
+        public SelectList CountryList { get; set;}
     }
 }

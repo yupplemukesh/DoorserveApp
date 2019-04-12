@@ -4,18 +4,29 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Repository;
 using ListItem = System.Web.UI.WebControls.ListItem;
 
 namespace TogoFogo.Controllers
 {
     public class DropdownBindController : Controller
     {
-        private readonly string _connectionString =
-            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private readonly IBank _bankRepo;
+        private readonly IContactPerson _ContactRepo;
+        private readonly string _connectionString;
+        public DropdownBindController()
+        {
+            _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            _bankRepo = new Bank();
+            _ContactRepo = new ContactPerson(); 
+        }
+
+           
         // GET: DropdownBind
         public JsonResult BindEmailGateway()
         {
@@ -1479,5 +1490,15 @@ namespace TogoFogo.Controllers
             }
         }
 
+        public async Task<ActionResult> JsonGetBank(Guid Id)
+        {
+            var _bank = await _bankRepo.GetBankByBankId(Id);
+            return Json(_bank, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<ActionResult> JsonGetPerson(Guid Id)
+        {
+            var _contact = await _ContactRepo.GetContactPersonByContactId(Id);
+            return Json(_contact, JsonRequestBehavior.AllowGet);
+        }
     }
 }

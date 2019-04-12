@@ -46,7 +46,7 @@ namespace TogoFogo.Models
     }
     public class RegistrationModel
     {
-       public bool IsActive { get; set; }
+       public  bool IsActive { get; set; }
        public string Comments { get; set; } 
 
     }

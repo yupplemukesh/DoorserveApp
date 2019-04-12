@@ -77,6 +77,14 @@
         </div>
     </div>
 </div>
-@Html.Partial("~/Views/Company/_Registration.cshtml", Model)
-@Scripts.Render("~/bundles/jqueryval")
+<div class="form-group row">
+    <div class="col-md-12">
+        <label class="col-sm-3 control-label" for="form-control-1">Is Default ?</label>
+        <div class="col-sm-9">
+            @Html.CheckBoxFor(model => model.IsDefault, new { @checked = "checked" })
+        </div>
+        </div>
+    </div>
+
+
 

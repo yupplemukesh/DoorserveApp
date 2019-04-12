@@ -89,7 +89,7 @@ namespace TogoFogo.Repository.Clients
                     ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),                   
-                    isActive = Convert.ToBoolean(reader["IsActive"].ToString()),                   
+                    IsActive = Convert.ToBoolean(reader["IsActive"].ToString()),                   
                     AddresssId = new Guid(reader["AddresssId"].ToString()),
                      CityId = Convert.ToInt32(reader["CityId"].ToString()),
                      CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
