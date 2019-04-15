@@ -532,6 +532,8 @@
                         });
                         function AjaxWithValue(method, ddl, e) {
                             var val = e.value;
+                            var other = e.Other;
+                            console.log(other);
                             $.ajax({
                                 type: "GET",
                                 url: "/DropdownBind/" + method + "?value=" + val,
@@ -539,6 +541,7 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (data) {
+                                    debugger
                                     $("#" + ddl).empty();
 
                                     //var sel = new Option('-Select-', '');
@@ -547,6 +550,12 @@
                                         var opt = new Option(data[i].Text, data[i].Value);
                                         $('#' + ddl).append(opt);
                                     }
+
+                                    if (other != undefined) {
+                                        $('#' + ddl).val(other);
+
+                                    }
+
                                 }
                             });
                         }
@@ -568,7 +577,7 @@
                                         $("#BankIFSCCode").val(data.BankIFSCCode);
                                         $("#BankBranchName").val(data.BankBranchName);                                     
                                         $("#IsDefault").prop("checked", data.isDefault);
-                                        $("#Comments").val(data.Comments);
+                                        $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);                                          
                                         $("#BankAccount").show();
                                     }
                                     else {
@@ -577,19 +586,22 @@
                                         $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
                                         $("#ConPanFileName").val(data.ConPanFileName);
                                         $("#ConFirstName").val(data.ConFirstName);
+                                        $("#ConEmailAddress").val(data.ConEmailAddress);
                                         $("#ConLastName").val(data.ConLastName);
                                         $("#ConMobileNumber").val(data.ConMobileNumber);
                                         $("#ConPanNumber").val(data.ConPanNumber);
                                         $("#ConVoterId").val(data.ConVoterId);
                                         $("#ConAdhaarNumber").val(data.ConAdhaarNumber);
                                         $("#AddressTypeId").val(data.AddressTypeId);
+                                        $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                                        $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                                        $("#ConPanFileName").val(data.ConPanFileName);
                                         $("#CountryId").val(data.CountryId);
-                                        var obj = { value: data.CountryId };
+                                        var obj = { value: data.CountryId, Other:data.StateId};
                                         AjaxWithValue('BindStateJson', 'StateId', obj);
-                                        $("#StateId").val(data.StateId);
-                                        obj.value=data.StateId;
-                                        AjaxWithValue('BindStateJson', 'CityId', obj);
-                                        $("#CityId").val(data.CityId);
+                                        obj.value = data.StateId;
+                                        obj.Other = data.CityId;
+                                        AjaxWithValue('BindLocationJson', 'CityId', obj);                                      
                                         $("#Address").val(data.Address);
                                         $("#Locality").val(data.Locality);
                                         $("#NearLocation").val(data.NearLocation);
