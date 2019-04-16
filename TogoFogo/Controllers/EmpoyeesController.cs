@@ -69,14 +69,15 @@ namespace TogoFogo.Controllers
             empModel.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
+            empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
+            empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             if (Session["RoleName"].ToString().ToLower() == "provider")
             {
                var ProviderId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
                 empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
             }
             else
-                empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
-            empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
+                empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());           
             return View(empModel);
 
         }
@@ -102,6 +103,7 @@ namespace TogoFogo.Controllers
             emp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             emp.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
+            emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             emp.Action = 'I';
             emp.UserID = Convert.ToInt32(Session["User_ID"]);
             if (Session["RoleName"].ToString().ToLower().Contains("center"))
@@ -125,6 +127,7 @@ namespace TogoFogo.Controllers
             empModel.Contact.CityList = new SelectList(drop.BindLocation(empModel.Contact.StateId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
+            empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             return View(empModel);
         }
         [HttpPost]
@@ -172,7 +175,8 @@ namespace TogoFogo.Controllers
             empModel.Contact.StateList = new SelectList(drop.BindState(empModel.Contact.CountryId), "Value", "Text");
             empModel.Contact.CityList = new SelectList(drop.BindLocation(empModel.Contact.StateId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
-            empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"));
+            empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
+            empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             empModel.Action = 'U';        
             var resonse = await _employee.AddUpdateDeleteEmployee(empModel);
             TempData["resonse"] = resonse;

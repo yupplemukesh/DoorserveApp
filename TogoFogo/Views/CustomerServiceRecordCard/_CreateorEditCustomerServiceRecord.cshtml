@@ -1,0 +1,688 @@
+﻿@model TogoFogo.Models.CustomerServiceRecord.CustomerServiceRecordModel
+@{
+    //var cs = "active in";
+
+
+
+}
+
+
+<div class="contain-for-background m-b-0">
+<div class="panel panel-default label-mar-bottom">
+    <div class="p-t-15 p-r-15 p-b-15 p-l-15">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <h3 class="m-t-0 m-b-0"> CUSTOMER SERVICE RECORD CARD</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body">
+        <div class="form-horizontal label-font-500">
+            <div class="row">
+                <div class="col-sm-2 col-md-2  col-xs-12"> <h4 class="m-t-0 ">Service Type:</h4></div>
+                <div class="col-sm-10 col-md-10  col-xs-12">
+                    <div class="row">
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox ">
+                                @Html.CheckBoxFor(x => x._ServiceType.CI, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">CI</span>
+                            </label>
+                        </div>
+
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._ServiceType.IH, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">IH</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._ServiceType.INS, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">INS</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._ServiceType.UINS, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">UINS</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._ServiceType.PMS, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">PMS</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._ServiceType.REP, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">REP.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-sm-2 col-md-2  col-xs-12"> <h4 class="m-t-0">Call Type:</h4></div>
+                <div class="col-sm-10 col-md-10  col-xs-12">
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._CallType.IW, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">IW</span>
+                            </label>
+                        </div>
+
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._CallType.OW, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">OW</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._CallType.AMC, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">AMC</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._CallType.INSU, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">INSU.</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x => x._CallType.REF, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">REF.</span>
+                            </label>
+                        </div>
+                        <div class="col-sm-2 col-md-2  col-xs-2">
+                            <label class="custom-control custom-control-primary custom-checkbox  active">
+                                @Html.CheckBoxFor(x =>x._CallType.VIP, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">VIP</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row ">
+                <label class="col-sm-1 " for="form-control-1">Symptom1</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.Symptom1, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Symptom1, "", new { @class = "text-danger" })
+                </div>
+                <label class="col-sm-1 control-label" for="form-control-1">Symptom2</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.Symptom2, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Symptom2, "", new { @class = "text-danger" })
+                </div>
+                <label class="col-sm-1 control-label" for="form-control-1">Symptom3</label>
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(x => x.Symptom3, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Symptom3, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body label-line-height-mar-bottom">
+        <div class="form-horizontl">
+            <form class="form-material label-font-500">
+                <div class="row">
+                    <label class="col-sm-3 col-md-3  col-xs-12 control-label" for="form-control-1"><h4>CUSTOMER DETAIL:</h4></label>
+
+                    <label class="col-sm-1 col-md-1  col-xs-3 control-label" for="form-control-1">Job No.</label>
+                    <div class="col-sm-2 col-md-2  col-xs-3">
+                        @Html.TextBoxFor(x => x.JobNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.JobNo, "", new { @class = "text-danger" })
+                    </div>
+                    <label class="col-sm-1 col-md-1  col-xs-3 control-label" for="form-control-1">Date</label>
+                    <div class="col-sm-2 col-md-2  col-xs-3">
+                        @Html.TextBoxFor(x => x.JobDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.JobDate, "", new { @class = "text-danger" })
+                    </div>
+                    <label class="col-sm-1 col-md-1  col-xs-4 control-label" for="form-control-1">Time</label>
+                    <div class="col-sm-2 col-md-2  col-xs-8">
+                        @Html.TextBoxFor(x => x.JobTime, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.JobTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <label class="col-sm-3 control-label" for="form-control-1">Address</label>
+                            <div class="col-sm-9">
+                                @Html.TextAreaFor(x => x._Address.Address, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x._Address.Address, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+
+
+                    <div class="col-md-8">
+                        <div class="row">
+                            <label class="col-sm-2 control-label" for="form-control-1">D.O.P.</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x.DateOfPurchase, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.DateOfPurchase, "", new { @class = "text-danger" })
+                            </div>
+
+                            <label class="col-sm-2 control-label" for="form-control-1">Product</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x._Product.ProductName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x._Product.ProductName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <label class="col-sm-2 control-label" for="form-control-1">Modal No.</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x.ModelNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.ModelNo, "", new { @class = "text-danger" })
+                            </div>
+
+                            <label class="col-sm-2 control-label" for="form-control-1">Set Sr. No</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x._Product.SerialNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x._Product.SerialNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <label class="col-sm-1 control-label" for="form-control-1">City</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(x => x._Contact.CityId, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x._Contact.CityId, "", new { @class = "text-danger" })
+                    </div>
+                    <label class="col-sm-1 control-label" for="form-control-1">Pincode</label>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(x => x._Contact.PinNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x._Contact.PinNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-sm-2 control-label" for="form-control-1">Contact No.</label>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(x => x._Contact.ConMobileNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x._Contact.ConMobileNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+                    <label class="col-sm-2 control-label" for="form-control-1">Comp./panel/IMEI No.</label>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(x => x.CompNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.CompNo, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <label class="col-sm-2 control-label" for="form-control-1">Appointment Date/Time</label>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(x => x.AppointmentDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.AppointmentDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <label class="col-sm-2 control-label" for="form-control-1">DLR Name/Location</label>
+                    <div class="col-sm-2">
+                        @Html.TextBoxFor(x => x.DLRName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.DLRName, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <label class="col-sm-1 control-label" for="form-control-1">Email</label>
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(x => x._Contact.ConEmailAddress, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x._Contact.ConEmailAddress, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <label class="col-sm-3 control-label text-right" for="form-control-1">AMC/INSU. No.</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(x => x.AMCNo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AMCNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="row">
+                            <label class="col-sm-3 col-md-3 control-label text-right" for="form-control-1">AMC Period:</label>
+
+                            <label class="col-sm-2 control-label" for="form-control-1">From</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(x => x.AMCFrom, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AMCFrom, "", new { @class = "text-danger" })
+                            </div>
+
+                            <label class="col-sm-1 control-label" for="form-control-1">To</label>
+                            <div class="col-sm-3">
+                                @Html.TextBoxFor(x => x.AMCTo, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.AMCTo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body label-font-500">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-2"> <h4 class="m-t-0">Set Condition:</h4></div>
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._SetCondition.Tempered, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Tempered</span>
+                            </label>
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._SetCondition.PhysicalDamage, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Phy. Damage</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._SetCondition.WaterLog, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Water Log</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._SetCondition.Scratches, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Scratches</span>
+                            </label>
+                        </div>
+
+                        <label class="col-sm-1" for="form-control-1">Missing</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(x => x._SetCondition.Missing, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x._SetCondition.Missing, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row m-t-5">
+                <div class="col-sm-2"> <h4 class="m-t-0">Recieved Items:</h4></div>
+
+
+                <div class="col-sm-10">
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._RecievedItems.Remote, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Remote</span>
+                            </label>
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._RecievedItems.Adapter, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Adapter</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._RecievedItems.Stand, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Stand</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._RecievedItems.Charger, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Charger</span>
+                            </label>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <label class="custom-control custom-control-primary custom-checkbox">
+                                @Html.CheckBoxFor(x => x._RecievedItems.Battery, new { @class = "custom-control-input" })
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label">Battery</span>
+                            </label>
+                        </div>
+
+                        <label class="col-sm-1" for="form-control-1">OTH.</label>
+                        <div class="col-sm-1">
+                            @Html.TextBoxFor(x => x._RecievedItems.Others, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x._RecievedItems.Others, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+            <div class="row">
+
+                <label class="col-sm-1" for="form-control-1">Condition</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(x => x._RecievedItems.Condition, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x._RecievedItems.Condition, "", new { @class = "text-danger" })
+                </div>
+
+
+                <label class="col-sm-1" for="form-control-1">Defect - 1</label>
+                <div class="col-sm-1">
+                    @Html.TextBoxFor(x => x._RecievedItems.Defect1, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x._RecievedItems.Defect1, "", new { @class = "text-danger" })
+                </div>
+
+                <label class="col-sm-1" for="form-control-1">Defect -2</label>
+                <div class="col-sm-1">
+                    @Html.TextBoxFor(x => x._RecievedItems.Defect2, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x._RecievedItems.Defect2, "", new { @class = "text-danger" })
+                </div>
+
+                <label class="col-sm-1" for="form-control-1">Symptom</label>
+                <div class="col-sm-1">
+                    @Html.TextBoxFor(x => x._RecievedItems.Symptom, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x._RecievedItems.Symptom, "", new { @class = "text-danger" })
+                </div>
+
+                <label class="col-sm-1" for="form-control-1">Repair</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(x => x._RecievedItems.Repair, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x._RecievedItems.Repair, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-horizontal">
+            <div class="form-group m-t-10">
+                <label for="form-control-3" class="col-md-3">Defects (Detected by Engineer) :</label>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.DefectDetectByEng, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DefectDetectByEng, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group m-t-5">
+                <label for="form-control-3" class="col-md-3">Repair Report - 1 :</label>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.RepairReport1, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RepairReport1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group m-t-5">
+                <label for="form-control-3" class="col-md-3">Repair Report - 2 :</label>
+                <div class="col-md-9">
+                    @Html.TextAreaFor(model => model.RepairReport2, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RepairReport2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+
+        @*Table Part Detail*@
+
+        <div class="panel panel-default panel-table">
+            <div class="panel-body">
+                <form class="form-material label-line-height-mar-bottom m-t-0 label-font-500">
+
+                    <div class="row">
+
+                        <label class="col-sm-3 control-label" for="form-control-1">Estimate of Repairs</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(x => x.EstimateRepairs, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.EstimateRepairs, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <label class="col-sm-2 control-label" for="form-control-1">Engineer Sign.</label>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.EngineerSign, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.EngineerSign, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <label class="col-sm-3 control-label" for="form-control-1">Customer Approval on estimate provided</label>
+                        <div class="col-sm-3">
+                            @Html.TextBoxFor(x => x.CustomerApproval, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.CustomerApproval, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <label class="col-sm-2 control-label" for="form-control-1">Customer Sign.</label>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.CustomerSign, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.CustomerSign, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group m-t-15">
+            <div class="table-responsive td-padding">
+                <table cellpadding="100" class="table table-bordered m-b-0">
+                    <thead>
+                        <tr>
+                            <th>Visit Date</th>
+                            <th>Engineer</th>
+                            <th>In Time</th>
+                            <th>Out Time</th>
+                            <th>CR No.</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body">
+        <div class="label-line-height-mar-bottom label-font-500">
+            <div class="row">
+                <label class="col-sm-1 control-label" for="form-control-1">Discount</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(x => x.Discount, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Discount, "", new { @class = "text-danger" })
+                </div>
+
+                <label class="col-sm-2 control-label" for="form-control-1">Disc.Approved</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(x => x.DiscountApproval, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.DiscountApproval, "", new { @class = "text-danger" })
+                </div>
+                <label class="col-sm-1 control-label" for="form-control-1">Cash</label>
+                <div class="col-sm-1">
+                    @Html.TextBoxFor(x => x.Cash, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Cash, "", new { @class = "text-danger" })
+                </div>
+                <label class="col-sm-1 control-label" for="form-control-1">Cheque</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(x => x.Cheque, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Cheque, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body  p-t-5 p-b-0">
+        <div class="row">
+            <div class="col-md-12">
+                <p style="font-size:10px"><b>* Term and Condition: </b> I am fully satishfied with the Repairs carried out of my Product  Time is working satisfactorily. (2) In case Payment made by you Please demand receipt from the service person .(3) This is a record of service rendered and is for uses by TECHWIZ Authorized service center only. (4)No guarantee on repairs of imported/tampered/ customer mishandled products.(5)company  assumed no responsibility what so ever if the product is not collected back with in 30 days from the date of intimation .(6) All disputes are subject to Ahmedabad jurisdiction only.(7) Our responsibility is limited to the service of this service call only,we are not responsible for any conseqential damages arising from the delay in the non repairing of the product.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body  p-t-5 p-b-10">
+        <form class="form-material label-line-height-mar-bottom label-font-500">
+            <div class="row">
+                <label class="col-sm-2 control-label" for="form-control-1">Customer Name :</label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(x => x._Contact.ConFirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x._Contact.ConFirstName, "", new { @class = "text-danger" })
+                </div>
+                <label class="col-sm-2 control-label" for="form-control-1">Engineer Name :</label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(x => x.EngineerName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.EngineerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 control-label" for="form-control-1">Sign. :</label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(x => x.CustomerSign, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CustomerSign, "", new { @class = "text-danger" })
+                </div>
+                <label class="col-sm-2 control-label" for="form-control-1">Sign.  :</label>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(x => x.EngineerSign, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.EngineerSign, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="panel panel-default panel-table label-mar-bottom">
+    <div class="panel-body  p-t-5 p-b-10">
+        <form class="form-material label-line-height-mar-bottom label-font-500">
+            <div class="row">
+                <label class="col-sm-2 control-label" for="form-control-1">Managed by:</label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(x => x.ManagedBy, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ManagedBy, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+</div>

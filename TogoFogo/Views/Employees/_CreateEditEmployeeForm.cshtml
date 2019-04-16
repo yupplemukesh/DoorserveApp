@@ -53,15 +53,24 @@
             <label class=" control-label" for="form-control-9">Engineer Name</label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.EmployeeName, new { @class = "form-control", @placeholder = "Engineer Code" })
+                @Html.TextBoxFor(x => x.Contact.EmployeeName, new { @class = "form-control" })
             </div>
-            @Html.ValidationMessageFor(x => x.EmployeeName, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(x => x.Contact.EmployeeName, "", new { @class = "text-danger" })
         </div>
- </div>
+    </div>
 </div>
+
 
 <div class="form-group row">
     <div class="col-md-12">
+        <div class="col-md-6 col-sm-6">
+            <label class=" control-label" for="form-control-9">Engineer Type</label>
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(x => x.EngineerTypeId, Model.EngineerTypeList, "Select", new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(x => x.EngineerTypeId, "", new { @class = "text-danger" })
+        </div>
         <div class="col-md-5 col-sm-5">
             <label class=" control-label" for="form-control-9">Engineer Photo</label>
             <div class="input-group">
@@ -80,6 +89,10 @@
                 <img src="~/Content/img/avatars/engineer.png" class="a" style="pointer-events: none;width:60px;">
             }
         </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
             <label class=" control-label" for="form-control-9">Department</label>
             <div class="input-group">
@@ -88,10 +101,6 @@
             </div>
             @Html.ValidationMessageFor(x => x.DepartmentId, "", new { @class = "text-danger" })
         </div>
-    </div>
-</div>
-<div class="form-group row">
-    <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
             <label class=" control-label" for="form-control-9">Designation</label>
             <div class="input-group">
@@ -100,6 +109,10 @@
             </div>
             @Html.ValidationMessageFor(x => x.DesignationId, "", new { @class = "text-danger" })
         </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
             <label class=" control-label" for="form-control-9"> Date of Joining</label>
             <div class="input-group">
@@ -108,13 +121,6 @@
             </div>
             @Html.ValidationMessageFor(x => x.EMPDOJ, "", new { @class = "text-danger" })
         </div>
-
-    </div>
-</div>
-
-
-<div class="form-group row">
-    <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
             <label class=" control-label" for="form-control-9">Date Of Birth</label>
             <div class="input-group">
@@ -125,6 +131,7 @@
         </div>
     </div>
 </div>
+
 @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
 <div class="form-group row">
     <div class="col-md-12">
@@ -207,7 +214,7 @@
             <label class=" control-label" for="form-control-9">Insurance Expairy Date</label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.Vehicle.InsuranceExpairyDate, "{0:yyyy-MM-dd}" ,new { @class = "form-control", @type = "date" })
+                @Html.TextBoxFor(x => x.Vehicle.InsuranceExpairyDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
             </div>
             @Html.ValidationMessageFor(x => x.Vehicle.InsuranceExpairyDate, "", new { @class = "text-danger" })
         </div>

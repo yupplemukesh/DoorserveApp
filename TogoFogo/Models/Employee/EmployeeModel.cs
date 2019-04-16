@@ -63,7 +63,10 @@ namespace TogoFogo.Models
         public SelectList CenterList { get; set; }
         public SelectList ProviderList { get; set; }
         public SelectList EmployeeList { get; set; }
-
+        [Required(ErrorMessage = "Select EngineerType")]
+        public int EngineerTypeId { get; set; }
+        public SelectList EngineerTypeList { get; set; }
+        public string EngineerType { get; set; }
 
 
     }
