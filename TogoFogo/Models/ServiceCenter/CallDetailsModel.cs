@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations;
 using TogoFogo.Models.Customer_Support;
+using System.ComponentModel;
 
 namespace TogoFogo.Models.ServiceCenter
 {
@@ -20,6 +21,7 @@ namespace TogoFogo.Models.ServiceCenter
         public SelectList StatusList { get; set; }
         [Required]
         public string RejectionReason { get; set; }
+        
 
     }
 }

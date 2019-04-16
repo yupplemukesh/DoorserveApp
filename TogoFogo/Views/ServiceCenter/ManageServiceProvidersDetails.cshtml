@@ -1,0 +1,305 @@
+﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
+@{
+    ViewBag.Title = "ManageServiceProvidersDetails";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs nav-tabs-custom m-b-15">
+
+
+                        <li class="active">
+                            <a href="#tab-10" role="tab" data-toggle="tab">
+                                <button type="submit" class="btn btn-success m-w-120">Accept Call</button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tab-12" role="tab" data-toggle="tab">
+                                <button type="submit" class="btn btn-primary m-w-120">Accepted Call</button>
+                            </a>
+                        </li>
+
+
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+    <div class="tab-content">
+
+        <div role="tabpane1" class="tab-pane fade in active" id="tab-10">
+
+            <div class="panel-default m-b-10">
+                <div class="panel-heading p-l-0">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <h4 class="m-t-0 m-b-5">View Calls</h4>
+                            @Html.Partial("_CustomerDetailsForm", Model)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default panel-table">
+
+                @Html.Partial("_DeviceInformationForm", Model)
+
+            </div>
+
+            <div class="panel panel-default panel-table">
+
+                @Html.Partial("_CallInformationForm", Model)
+
+
+                <div class="row- form-group">
+
+                    <div class="col-md-3 col-md-offset-9">
+                        <span>
+                            <a href="@Url.Action("AcceptCalls","ServiceCenter")">
+                                <button type="button" class="btn btn-info m-w-60">Back</button>
+                            </a>
+                        </span>
+
+
+                        <span>
+                            <a href="#">
+                                <button type="button" class="btn btn-danger m-w-60" data-target="#rejectpopup" id="btnReject" ">Reject</button>
+                            </a>
+                        </span>
+                        <span>
+                            <a href="#">
+                                <button type="button" class="btn btn-primary m-w-60"id="btnAccept" deviceid="@Model.DeviceId">Accept</button>
+                            </a>
+                        </span>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    <div role="tabpane1" class="tab-pane fade in" id="tab-12">
+
+
+
+        <div class="panel panel-default panel-table">
+
+            <div class=" panel-body">
+
+                <div class="panel-default m-b-10">
+                    <div class="panel-heading p-l-0">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                                @Html.Partial("_CustomerDetailsForm", Model)
+                            </div>
+
+                        </div>
+                    </div>
+                </div>                             
+
+                              
+ </div>
+        </div>
+
+
+
+
+
+
+        <div class="panel panel-default panel-table">
+
+            @Html.Partial("_DeviceInformationForm", Model)
+        </div>
+
+
+
+        <div class="panel panel-default panel-table">
+            @Html.Partial("_CallInformationForm", Model)
+
+        </div>
+
+
+
+        <div class="panel panel-default panel-table">
+
+
+
+            <div class="panel panel-default panel-table">
+
+                <div class="panel-body">
+
+
+
+                    <div class="form-horizontal">
+
+
+                        <div class="panel-default m-b-10">
+                            <div class="panel-heading p-l-0">
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <h4 class="m-t-0 m-b-5">Technician Installation</h4>
+                                        @Html.Partial("_TechnicianDetailsForm", Model)
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div id="rejectpopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <div class="form-group col-md-12" id="rejectResonDiv">
+                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Rejected Reason</label>
+                    <div class="col-sm-8 col-md-8">
+
+                        @Html.TextAreaFor(model => model.RejectionReason, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RejectionReason, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnrejectreasion" class="btn btn-primary"deviceID="@Model.DeviceId">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("#btnReject").click(function () {
+        
+            $("#rejectpopup").modal("show");
+      
+    });
+    $("#btnrejectreasion").click(function () {
+        //var statusId = $("#CallDetails_StatusId").val();
+
+
+        debugger
+        var statusId = 9;
+        var deviceId = $(this).attr("deviceID");
+        var rejectionReasion = $("#RejectionReason").val();
+
+
+        if (statusId == 9) {
+            debugger
+            if (rejectionReasion.length == 0) {
+                $('.toast-error').show();
+                $('.toast-error > .toast-message').html("Rejection Reasion Required");
+                $("#toast-container").fadeIn();
+                $("#toast-container").fadeOut(2000);
+                return false;
+            }
+            else {
+                $('.toast-error').hide();
+
+            }
+            var data = {
+                DeviceId: deviceId, StatusId: statusId, RejectionReason: rejectionReasion
+                  }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("CallStatusDetails", "ServiceCenter")',
+                    data: data,
+                    dataType: "json",
+                    success: function (resultData) {
+                        console.log(resultData);
+                        if (resultData == "Ok")
+                            window.location.reload();
+
+                    },
+                    error: (function () {
+                        alert("Something went wrong");
+                    })
+                });
+
+        }
+    });
+
+    $("#btnAccept").click(function () {
+        debugger
+         var deviceId = $(this).attr("deviceid");
+                var statusId = 11;              
+         var data =
+         {
+             DeviceId: deviceId,  StatusId: statusId, RejectionReason: ""
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("CallStatusDetails", "ServiceCenter")',
+                    data: data,
+                    dataType: "json",
+                    success: function (resultData) {
+                        console.log(resultData);
+                        if (resultData == "Ok")
+                            window.location.reload();
+
+                    },
+                    error: (function () {
+                        alert("Something went wrong");
+                    })
+                });
+    });         
+
+    
+    </script>
+}

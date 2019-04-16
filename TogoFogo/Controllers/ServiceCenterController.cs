@@ -14,16 +14,19 @@ using TogoFogo.Repository.ServiceCenters;
 using GridMvc.Html;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Models.ServiceCenter;
+using AutoMapper;
 
 namespace TogoFogo.Controllers
 {
     public class ServiceCenterController : Controller
     {
         private readonly ICenter _centerRepo;
+        private readonly DropdownBindController _dropdown;
         public ServiceCenterController()
         {
 
             _centerRepo = new Center();
+            _dropdown = new DropdownBindController();
         }
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -109,15 +112,15 @@ namespace TogoFogo.Controllers
 
                     }
                 }
-                
-                return RedirectToAction("index","ServiceCenter");
+
+                return RedirectToAction("index", "ServiceCenter");
             }
             catch (Exception)
             {
                 return RedirectToAction("index", "ErrorPage");
-               
+
             }
-           
+
         }
         public ActionResult TablePFP()
         {
@@ -226,15 +229,15 @@ namespace TogoFogo.Controllers
             }
 
         }
-        public ActionResult PrintShippingLabel( string CC_NO )
+        public ActionResult PrintShippingLabel(string CC_NO)
         {
-           
+
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<AllData>("Get_Data_For_PrintShippingLabel", new { @CC_NO = CC_NO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 return View(result);
             }
-           
+
         }
         public ActionResult Re_Print_Invoice_Bill()
         {
@@ -289,17 +292,37 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Calls Details")]
         public async Task<ActionResult> AcceptCalls()
+
         {
             var calls = await _centerRepo.GetCallDetails();
 
             calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();
-
+            calls.employee = new EmployeeModel();
             calls.CallDetails.StatusList = new SelectList(await CommonModel.GetStatusTypes(), "Value", "Text");
+            calls.employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(), "Value", "Text");
             Guid? providerId = null;
             if (Session["RoleName"].ToString().Contains("provider"))
                 providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
-           
+
             return View(calls);
+        }
+        //public async Task<ActionResult> GetEmployeeDetailsById(int EmpId)
+        //{
+        //    EmployeeModel emp = new EmployeeModel();
+        //    emp =  await CommonModel.GetEmployeeDetailById(EmpId);
+        //    return Json(emp, JsonRequestBehavior.AllowGet);
+
+
+        //}
+
+        [HttpPost]
+        public async Task<ActionResult> TechnicianDetails(string EmpId)
+        {
+
+            var techDetails = await _centerRepo.GetTechnicianDetails(EmpId);
+            var techDetailsModel = Mapper.Map<EmployeeModel>(techDetails);            
+            return Json(techDetailsModel, JsonRequestBehavior.AllowGet);
+
         }
         [HttpPost]
         public async Task<ActionResult> CallStatus(CallStatusModel callStatus)
@@ -307,7 +330,7 @@ namespace TogoFogo.Controllers
 
             try
             {
-                
+
                 callStatus.UserId = Convert.ToInt32(Session["User_ID"]);
                 var response = await _centerRepo.UpdateCallsStatus(callStatus);
                 TempData["response"] = response;
@@ -323,5 +346,89 @@ namespace TogoFogo.Controllers
 
         }
 
+        //[HttpPost]
+        //public async Task<ActionResult> AssignCalls(AssignCallsModel assignCall)
+        //{
+
+        //    try
+        //    {
+
+        //        assignCall.UserId = Convert.ToInt32(Session["User_ID"]);
+        //        var response = await _centerRepo.AssignCallsDetails(assignCall);
+        //        TempData["response"] = response;
+        //        return Json("Ok", JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+        //        TempData["response"] = response;
+        //        TempData.Keep("response");
+        //        return Json("ex", JsonRequestBehavior.AllowGet);
+        //    }
+
+        //}
+        [HttpPost]
+        public async Task<ActionResult> AssignCalls(EmployeeModel assignCall)
+        {
+
+            try
+            {
+
+                assignCall.UserID = Convert.ToInt32(Session["User_ID"]);
+                var response = await _centerRepo.AssignCallsDetails(assignCall);
+                TempData["response"] = response;
+                return Json("Ok", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return Json("ex", JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        public async Task<ActionResult> ManageServiceProvidersDetails(string CRN)
+        {
+            var callDetails = await _centerRepo.GetCallsDetailsById(CRN);
+            var callDetailsModel = Mapper.Map<CallDetailsModel>(callDetails);
+            callDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(), "Value", "Text");
+            callDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(), "Value", "Text");
+            callDetailsModel.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
+            callDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
+            callDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
+            callDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+            callDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+            callDetailsModel.address = new AddressDetail
+            {
+                AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
+                CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
+            };
+            return View(callDetailsModel);
+        }
+        [HttpPost]
+        public async Task<ActionResult> CallStatusDetails(CallStatusDetailsModel callStatusDetails)
+        {
+
+            try
+            {
+
+                callStatusDetails.UserId = Convert.ToInt32(Session["User_ID"]);
+                var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
+                TempData["response"] = response;
+                return Json("Ok", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return Json("ex", JsonRequestBehavior.AllowGet);
+            }
+
+        }
     }
 }

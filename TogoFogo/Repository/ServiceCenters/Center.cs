@@ -28,8 +28,15 @@ namespace TogoFogo.Repository.ServiceCenters
 
         public async Task<List<ServiceCenterModel>> GetCenters(Guid? providerId)
         {
-            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @ProviderId", new SqlParameter("@ProviderId",ToDBNull(providerId))).ToListAsync();
+            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @ProviderId", new SqlParameter("@ProviderId", ToDBNull(providerId))).ToListAsync();
         }
+        public async Task<CallDetailsModel> GetCallsDetailsById(string CRN)
+        {
+
+            SqlParameter callDetails = new SqlParameter("@CallId", CRN);
+            return await _context.Database.SqlQuery<CallDetailsModel>("GetCallDetailsByCallId @CallId", callDetails).SingleOrDefaultAsync();
+        }
+
 
         public async Task<ServiceCenterModel> GetCenterById(Guid serviceCenterId)
         {
@@ -59,7 +66,7 @@ namespace TogoFogo.Repository.ServiceCenters
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
 
-                    CenterModel.Organization.OrgGSTFileUrl = "/UploadedImages/Centers/Gsts/"+ CenterModel.Organization.OrgGSTFileName;
+                    CenterModel.Organization.OrgGSTFileUrl = "/UploadedImages/Centers/Gsts/" + CenterModel.Organization.OrgGSTFileName;
                     CenterModel.Organization.OrgPanFileUrl = "/UploadedImages/Centers/PANCards/" + CenterModel.Organization.OrgPanFileName;
                     reader.NextResult();
                     CenterModel.ContactPersons = ReadPersons(reader);
@@ -74,13 +81,15 @@ namespace TogoFogo.Repository.ServiceCenters
 
         }
 
-       private   List<ContactPersonModel> ReadPersons(DbDataReader reader)
+        private List<ContactPersonModel> ReadPersons(DbDataReader reader)
         {
             List<ContactPersonModel> contacts = new List<ContactPersonModel>();
 
             while (reader.Read())
             {
-                var person = new ContactPersonModel { ContactId = new Guid(reader["ContactId"].ToString()),
+                var person = new ContactPersonModel
+                {
+                    ContactId = new Guid(reader["ContactId"].ToString()),
                     RefKey = new Guid(reader["RefKey"].ToString()),
                     ConFirstName = reader["ConFirstName"].ToString(),
                     ConLastName = reader["ConLastName"].ToString(),
@@ -91,18 +100,18 @@ namespace TogoFogo.Repository.ServiceCenters
                     ConVoterId = reader["ConVoterId"].ToString(),
                     ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
                     ConPanFileName = reader["ConPanFileName"].ToString(),
-                    ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),                   
-                    IsActive = Convert.ToBoolean(reader["IsActive"].ToString()),                   
-                        AddresssId = new Guid(reader["AddresssId"].ToString()),
-                        CityId = Convert.ToInt32(reader["CityId"].ToString()),
-                        CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
-                        StateId = Convert.ToInt32(reader["StateId"].ToString()),
-                        AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
-                        Locality = reader["Locality"].ToString(),
-                        NearLocation = reader["NearLocation"].ToString(),
-                        PinNumber = reader["PinNumber"].ToString(),
-                        Address = reader["Address"].ToString()                  
-            };
+                    ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),
+                    isActive = Convert.ToBoolean(reader["IsActive"].ToString()),
+                    AddresssId = new Guid(reader["AddresssId"].ToString()),
+                    CityId = Convert.ToInt32(reader["CityId"].ToString()),
+                    CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
+                    StateId = Convert.ToInt32(reader["StateId"].ToString()),
+                    AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
+                    Locality = reader["Locality"].ToString(),
+                    NearLocation = reader["NearLocation"].ToString(),
+                    PinNumber = reader["PinNumber"].ToString(),
+                    Address = reader["Address"].ToString()
+                };
 
                 person.ConVoterIdFileUrl = "/UploadedImages/Centers/VoterIds/" + person.ConVoterIdFileName;
                 person.ConAdhaarFileUrl = "/UploadedImages/Centers/ADHRS/" + person.ConAdhaarFileName;
@@ -113,8 +122,6 @@ namespace TogoFogo.Repository.ServiceCenters
             return contacts;
 
         }
-
-
         private List<BankDetailModel> ReadBanks(DbDataReader reader)
         {
             List<BankDetailModel> banks = new List<BankDetailModel>();
@@ -133,7 +140,7 @@ namespace TogoFogo.Repository.ServiceCenters
                     BankCompanyName = reader["BankCompanyname"].ToString(),
                     BankBranchName = reader["bankBranchName"].ToString(),
                     IsActive = bool.Parse(reader["isActive"].ToString())
-            };
+                };
 
                 bank.BankCancelledChequeFileUrl = "/UploadedImages/Centers/Banks/" + bank.BankCancelledChequeFileName;
                 banks.Add(bank);
@@ -143,7 +150,7 @@ namespace TogoFogo.Repository.ServiceCenters
 
         }
         public async Task<ResponseModel> AddUpdateDeleteCenter(ServiceCenterModel center)
-        {            
+        {
             string cat = "";
             if (center.Activetab.ToLower() == "tab-1")
             {
@@ -156,7 +163,7 @@ namespace TogoFogo.Repository.ServiceCenters
                 cat = cat.TrimEnd(',');
             }
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@CENTERID",ToDBNull(center.CenterId));          
+            SqlParameter param = new SqlParameter("@CENTERID", ToDBNull(center.CenterId));
             sp.Add(param);
             param = new SqlParameter("@PROVIDERID", ToDBNull(center.ProviderId));
             sp.Add(param);
@@ -165,9 +172,9 @@ namespace TogoFogo.Repository.ServiceCenters
             param = new SqlParameter("@CENTERCODE", ToDBNull(center.CenterCode));
             sp.Add(param);
             param = new SqlParameter("@CENTERNAME", ToDBNull(center.CenterName));
-            sp.Add(param);       
+            sp.Add(param);
             param = new SqlParameter("@DEVICECATEGORIES", ToDBNull(cat));
-            sp.Add(param);                 
+            sp.Add(param);
             param = new SqlParameter("@ORGNAME", ToDBNull(center.Organization.OrgName));
             sp.Add(param);
             param = new SqlParameter("@ORGCODE", ToDBNull(center.Organization.OrgCode));
@@ -195,7 +202,7 @@ namespace TogoFogo.Repository.ServiceCenters
             param = new SqlParameter("@ACTION", (object)center.action);
             sp.Add(param);
             param = new SqlParameter("@USER", (object)center.CreatedBy);
-            sp.Add(param);            
+            sp.Add(param);
             param = new SqlParameter("@SERVICETYPE", ToDBNull(center.ServiceTypes));
             sp.Add(param);
             param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(center.ServiceDeliveryTypes));
@@ -212,7 +219,7 @@ namespace TogoFogo.Repository.ServiceCenters
             var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROVIDERID, @PROCESSID,@CENTERCODE,@CENTERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
                         ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password";
-       
+
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
@@ -253,7 +260,7 @@ namespace TogoFogo.Repository.ServiceCenters
                             .ObjectContext
                             .Translate<CallDetailsModel>(reader)
                             .ToList();
-                    
+
                 }
             }
             return calls;
@@ -273,14 +280,14 @@ namespace TogoFogo.Repository.ServiceCenters
                 }
             }
 
-           //Remove the title element.
+            //Remove the title element.
 
 
             xml = xml.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@Status", ToDBNull(callStatus.StatusId));
             sp.Add(param);
-           
+
             param = new SqlParameter("@AllocateXML", SqlDbType.Xml) { Value = xml };
             sp.Add(param);
             param = new SqlParameter("@Reasion", ToDBNull(callStatus.RejectionReason));
@@ -300,7 +307,78 @@ namespace TogoFogo.Repository.ServiceCenters
 
 
         }
-        private  object ToDBNull(object value)
+        public async Task<ResponseModel> AssignCallsDetails(EmployeeModel assignCalls)
+        {
+            XmlSerializer xsSubmit = new XmlSerializer(assignCalls.SelectedDevices.GetType());
+
+            string xml = "";
+
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    xsSubmit.Serialize(writer, assignCalls.SelectedDevices);
+                    xml = sww.ToString(); // Your XML
+                }
+            }
+
+            //Remove the title element.
+
+
+            xml = xml.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@EmployeeId", ToDBNull(assignCalls.EmpId));
+            sp.Add(param);
+
+            param = new SqlParameter("@AllocateXML", SqlDbType.Xml) { Value = xml };
+            sp.Add(param);
+            param = new SqlParameter("@USER", ToDBNull(assignCalls.UserID));
+            sp.Add(param);
+            var sql = "UpdateAssignCallsDetails @EmployeeId,@AllocateXML,@USER";
+
+
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+
+            return res;
+
+
+        }
+        public async Task<ResponseModel> UpdateCallsStatusDetails(CallStatusDetailsModel callStatusDetails)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@StatusId", ToDBNull(callStatusDetails.StatusId));
+            sp.Add(param);
+            param = new SqlParameter("@RejectReasion", ToDBNull(callStatusDetails.RejectionReason));
+            sp.Add(param);
+            param = new SqlParameter("@DeviceId", ToDBNull(callStatusDetails.DeviceId));
+            sp.Add(param);
+            param = new SqlParameter("@USER", ToDBNull(callStatusDetails.UserId));
+            sp.Add(param);
+            var sql = "UpdateCallStatusDetails @StatusId,@RejectReasion,@DeviceId,@USER";
+
+
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+
+            return res;
+
+
+        }
+        public async Task<EmployeeModel> GetTechnicianDetails(string EmpId)
+        {
+
+            SqlParameter techDetails = new SqlParameter("@EmpId", EmpId);
+            return await _context.Database.SqlQuery<EmployeeModel>("USPTechnicianDetails @EmpId", techDetails).SingleOrDefaultAsync();
+        }
+
+        private object ToDBNull(object value)
         {
             if (null != value)
                 return value;
@@ -327,6 +405,6 @@ namespace TogoFogo.Repository.ServiceCenters
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-              
+
     }
 }

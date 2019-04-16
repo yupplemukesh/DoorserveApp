@@ -12,6 +12,32 @@ namespace TogoFogo
 {
     public static class CommonModel
     {
+        // public static async Task<List<CheckBox>> GetEmployeeList()
+        //{
+        //     using (var _context = new ApplicationDbContext())
+        //     {
+        //         var _employee = await _context.Database.SqlQuery<CheckBox>("select EngineerId value,EmployeeName text from MstEngineer where isActive='Yes'").ToListAsync();
+        //         return _employee;
+        //     }
+        // }
+        public static async Task<List<CheckBox>> GetEmployeeList()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _employee = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Engineer Type' and isActive=1").ToListAsync();
+                return _employee;
+            }
+        }
+        //public static async Task<EmployeeModel> GetEmployeeDetailById(int EmpId)
+        //{
+        //    using (var _context = new ApplicationDbContext())
+        //    {
+               
+        //            var _Employee = await _context.Database.SqlQuery<EmployeeModel>("select * from MstEngineer where EngineerId = " + EmpId + " AND IsActive='Yes'").FirstOrDefaultAsync();
+        //            return _Employee;
+                
+        //    }
+        //}
         public static async Task<List<CheckBox>> GetStatusTypes()
         {
             using (var _context = new ApplicationDbContext())

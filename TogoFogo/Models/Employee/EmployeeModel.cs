@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TogoFogo.Models.Customer_Support;
 
 namespace TogoFogo.Models
 {
@@ -15,6 +16,8 @@ namespace TogoFogo.Models
             Contact = new ContactPersonModel();
             Vehicle = new VehicleModel();
         }
+        public List<DeviceModel> SelectedDevices { get; set; }
+
         public Guid EmpId { get; set; }
         [Required]
         [DisplayName("Engineer Code")]
@@ -34,8 +37,9 @@ namespace TogoFogo.Models
         public DateTime UpdatedOn { get; set; }
         [DisplayName("Engineer Name")]
         [Required]
-        public string EmployeeName { get; set; }
-        public string MobileNumber { get; set; }
+        public string TechnicianName { get; set; }
+        public string TechnicianTypeName { get; set; }
+        public string ContactNumber { get; set; }
         public char Action { get; set; }
         public int DepartmentId { get; set; }
         public string Designation { get; set; }
@@ -58,8 +62,9 @@ namespace TogoFogo.Models
         public SelectList DeginationList { get; set; }
         public SelectList CenterList { get; set; }
         public SelectList ProviderList { get; set; }
+        public SelectList EmployeeList { get; set; }
 
-        
+
 
     }
 }

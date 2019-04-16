@@ -1,0 +1,126 @@
+﻿@model TogoFogo.Models.ServiceCenter.ServiceCenterCallsModel
+
+
+<div class="form-horizontl">
+    <form class="form-material">
+
+
+        <div class="form-group row">
+
+            <label class="col-sm-2 " for="form-control">Technician Type</label>
+            <div class="col-sm-2">
+                @*@Html.DropDownListFor(model => model.EngineerId, Model., "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })*@
+                @Html.TextBoxFor(model => model.employee.TechnicianTypeName, new { @class = "form-control input-md", @placeholder = "Technician Type", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.TechnicianTypeName, "", new { @class = "text-danger" })
+               
+            </div>
+
+
+            <label class="col-sm-2" for="form-control-1">Technician Name</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.TechnicianName, new { @class = "form-control input-md", @placeholder = "Technician Name", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.TechnicianName, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Technician Mobile</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.ContactNumber, new { @class = "form-control input-md", @placeholder = "Technician Mobile", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.ContactNumber, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+        <div class="form-group row p-b-0 m-b-0">
+
+            <label class="col-sm-2 " for="form-control-1">Technician Image</label>
+            <div class="col-sm-2">
+                <img src="img/user-0.png" width="45px">              
+            </div>
+
+
+            <label class="col-sm-2" for="form-control-1">Panding Calls</label>
+            <div class="col-sm-2">
+                <input id="form-control-1" class="form-control" type="text">
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Total Complete Calls</label>
+            <div class="col-sm-2">
+                <input id="form-control-1" class="form-control" type="text">
+            </div>
+
+
+        </div>
+
+
+
+        <div class="form-group row">
+
+            <label class="col-sm-2 " for="form-control-1">Vechile Type</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.Vehicle.VehicleTypeName, new { @class = "form-control input-md", @placeholder = "Vechile Type", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.Vehicle.VehicleTypeName, "", new { @class = "text-danger" })
+            </div>
+
+
+            <label class="col-sm-2" for="form-control-1">Vechile Brand</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.Vehicle.VehicleBrand, new { @class = "form-control input-md", @placeholder = "Vechile Brand", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.Vehicle.VehicleBrand, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Vechile Modal</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.Vehicle.VHModel, new { @class = "form-control input-md", @placeholder = "Vechile Modal", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.Vehicle.VHModel, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group row p-b-10  p-t-10">
+
+            <label class="col-sm-2 " for="form-control-1">RC Number</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.Vehicle.RcNumber, new { @class = "form-control input-md", @placeholder = "RC Number", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.Vehicle.RcNumber, "", new { @class = "text-danger" })
+            </div>
+
+
+            <label class="col-sm-2" for="form-control-1">Driving Licence Number</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.Vehicle.DrivingLicense, new { @class = "form-control input-md", @placeholder = "Driving Licence Number", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.Vehicle.DrivingLicense, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Insurance Expiry date</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.employee.Vehicle.InsuranceExpairyDate, new { @class = "form-control input-md", @placeholder = "Insurance Expiry date", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.employee.Vehicle.InsuranceExpairyDate, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+        <div class="col-md-3 col-md-offset-9 text-right">
+
+            <button class="btn btn-warning ladda-button" data-style="expand-right">
+                <span class="ladda-label">Back</span>
+                <span class="ladda-spinner"></span>
+            </button>
+            <button class="btn btn-success ladda-button" data-style="expand-right"id="btnAssign"empId="@Model.employee.EmpId">
+                <span class="ladda-label">Assign to technician</span>
+                <span class="ladda-spinner"></span>
+            </button>
+
+
+
+        </div>
+
+
+
+
+    </form>
+
+
+</div>
