@@ -8,7 +8,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
 
     @Scripts.Render("~/bundles/ckEditorJS")
+    <link href="~/Content/css/bootstrap-select.min.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/Gridmvc")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", required: false)
 </head>
@@ -162,6 +164,7 @@
         </div>
     }
     @Scripts.Render("~/bundles/customBundle")
+    @Scripts.Render("~/bundles/js/Gridmvc")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
 
@@ -222,7 +225,7 @@
                     $('#hideLink').hide()
                 }
             });
-            $("#datepicker,#AgreementStartDate,#AgreementEndDate,#editAgreementStartDate,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
+            $("#datepicker,#AgreementEndDate,#editAgreementStartDate,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
                 .datepicker({
                     dateFormat: 'dd-M-yy',
                 }).datepicker("setDate", new Date());
@@ -291,7 +294,7 @@
                         $(obj1).find("th:last-child").remove();
                         $(obj).find("td:last-child").remove();
                     }
-                    
+
                 }
                 if ($("#tab-7").hasClass("active")) {
                     obj = $("#myTable2").DataTable().$('tr').clone();
@@ -341,7 +344,7 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         };
-            </script>
+    </script>
     @RenderSection("scripts", required: false)
 
 

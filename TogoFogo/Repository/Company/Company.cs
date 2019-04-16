@@ -108,10 +108,10 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@USERID", ToDBNull(agreement.CreatedBy));
             sp.Add(param);
-         
-
+            param = new SqlParameter("@CancelledChequeFile", ToDBNull(agreement.CancelledChequeFile));
+            sp.Add(param);
             var sql = "USPADDOREDITAGREEMENT @AGRID,@REFKEY,@AGRSTARTDATE,@AGRPERIOD,@AGRNUMBER , @AGRFILE,@ISACTIVE,@COMMENTS" +
-                         ",@SERVICETYPES,@DELIVERYTYPES,@ACTION,@USERID";
+                         ",@SERVICETYPES,@DELIVERYTYPES,@ACTION,@USERID,@CancelledChequeFile";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;
@@ -119,7 +119,6 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
-
         private object ToDBNull(object value)
         {
             if (null != value)

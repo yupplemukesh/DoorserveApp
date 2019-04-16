@@ -26,10 +26,10 @@ namespace TogoFogo.Repository.ServiceProviders
             return await _context.Database.SqlQuery<ServiceProviderModel>("USPGetAllProviders").ToListAsync();
         }
 
-        public async Task<ServiceProviderModel> GetProviderById(Guid serviceProviderId)
+        public async Task<ServiceProviderModel> GetProviderById(Guid? serviceProviderId)
         {
             var ProviderModel = new ServiceProviderModel();
-            SqlParameter client = new SqlParameter("@ProviderId", serviceProviderId);
+            SqlParameter client = new SqlParameter("@ProviderId", ToDBNull(serviceProviderId));
             using (var connection = _context.Database.Connection)
             {
                 connection.Open();
@@ -98,9 +98,10 @@ namespace TogoFogo.Repository.ServiceProviders
                         Locality = reader["Locality"].ToString(),
                         NearLocation = reader["NearLocation"].ToString(),
                         PinNumber = reader["PinNumber"].ToString(),
-                        Address = reader["Address"].ToString()
+                        Address = reader["Address"].ToString(),
+                        City= reader["City"].ToString()
 
-            };
+                };
 
                 person.ConVoterIdFileUrl = "/UploadedImages/Providers/VoterIds/" + person.ConVoterIdFileName;
                 person.ConAdhaarFileUrl = "/UploadedImages/Providers/ADHRS/" + person.ConAdhaarFileName;

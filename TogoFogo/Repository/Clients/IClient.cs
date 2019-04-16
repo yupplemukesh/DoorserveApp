@@ -10,7 +10,7 @@ namespace TogoFogo.Repository.Clients
     public interface IClient: IDisposable
     {
         Task<List<ClientModel>> GetClients();
-        Task<ClientModel> GetClientByClientId(Guid clientId);
+        Task<ClientModel> GetClientByClientId(Guid? clientId);
         Task<ResponseModel> AddUpdateDeleteClient(ClientModel client);    
         void Save();
     }

@@ -25,6 +25,14 @@ namespace TogoFogo
                                               "~/Content/js/bootstrap-select.js"
                
                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                       "~/Content/Scripts/bootstrap-datetimepicker.js",
+                                              "~/Content/Scripts/bootstrap-datepicker.js",
+                                              "~/Content/js/bootstrap-select.js"
+
+               ));
+
             // Ck editor js
             bundles.Add(new ScriptBundle("~/bundles/ckEditorJS").Include(
                       "~/ckeditor/ckeditor.js",
@@ -38,13 +46,13 @@ namespace TogoFogo
             bundles.Add(new ScriptBundle("~/bundles/js/Gridmvc").Include(
                       "~/Content/js/gridmvc.min.js"
               ));
+
+
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/css/vendor.css",
-                                  "~/Content/css/application.css",                                
-                                  "~/Content/css/bootstrap-datetimepicker.css",
-                                     "~/Content/css/bootstrap-select.min.css",
+                                  "~/Content/css/application.css",                                                           
                                               "~/Content/css/datatables.min.css",
 
                       "~/Content/css/style.css"));
@@ -63,7 +71,16 @@ namespace TogoFogo
 
             // Grid MVC CSS
             bundles.Add(new StyleBundle("~/Content/css/Gridmvc").Include(
-                     "~/Content/css/Gridmvc.css"
+                     "~/Content/css/Gridmvc.css",
+                                          "~/Content/css/gridmvc.datepicker.css"
+
+                                ));
+
+            // Grid MVC CSS
+            bundles.Add(new StyleBundle("~/Content/css/bootstap").Include(
+                     "~/Content/bootstrap.min.css",
+                                               "~/Content/css/bootstrap-datetimepicker.css",
+                                     "~/Content/css/bootstrap-select.min.css"
                                 ));
             bundles.Add(new ScriptBundle("~/bundles/customBundle").Include(
 

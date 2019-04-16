@@ -10,7 +10,7 @@ namespace TogoFogo.Repository.ServiceProviders
     public interface IProvider : IDisposable
     {
         Task<List<ServiceProviderModel>> GetProviders();
-        Task<ServiceProviderModel> GetProviderById(Guid serviceProviderId);
+        Task<ServiceProviderModel> GetProviderById(Guid? serviceProviderId);
         Task<ResponseModel> AddUpdateDeleteProvider(ServiceProviderModel provider);    
         void Save();
     }

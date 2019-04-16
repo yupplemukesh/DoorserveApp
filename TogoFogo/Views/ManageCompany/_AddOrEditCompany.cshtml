@@ -43,13 +43,13 @@
             @Html.ValidationMessageFor(model => model.CompanyPath, "", new { @class = "text-danger" })
         </div>
         <div class="col-sm-2">
-            @if (!string.IsNullOrEmpty(Model.CompanyFile))
+            @if (!string.IsNullOrEmpty(Model.CompanyLogo))
             {
-                <img id="blah" src="@Model.CompanyFile" width="40" height="40" alt="your image" />
+                <img id="blah" src="@Model.CompanyFile" class="thumb-Img" alt="your image" />
             }
             else
             {
-                <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
+                <img id="blah" src="~/Images/male-user-add.png" class="thumb-Img" alt="your image" />
             }
         </div>
 

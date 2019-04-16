@@ -56,5 +56,6 @@ namespace TogoFogo.Models.Company
         public SelectList CompanyTypeList { get; set; }
         public char Action { get; set; }
         public string ActiveTab{ get; set; }
+        public string Path { get; set; } 
     }
 }

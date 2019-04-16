@@ -17,9 +17,11 @@ namespace TogoFogo.Models.Company
         public string AgreementPeriod { get; set; }
         public string AgreementNumber { get; set; }
         public string AgreementFile { get; set; }
-        //public HttpPostedFileBase AgreementPath { get; set; }
-        public HttpPostedFileBase CancelledCheckPath { get; set; }
-        public string CancelledCheckFile { get; set; } 
+        public string AgreementFileUrl { get; set; }
+        public HttpPostedFileBase AgreementPath { get; set; }
+        public HttpPostedFileBase CancelledChequePath { get; set; }
+        public string CancelledChequeFile { get; set; }
+        public string CancelledChequeFileUrl { get; set; }
         public List<CheckBox> PayableTypeList { get; set; }
         public string ServiceTypes { get; set; }
         public string  DeliveryTypes{ get; set; }

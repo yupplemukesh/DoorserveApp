@@ -40,7 +40,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ORGPANNumber", ToDBNull(organization.OrgPanNumber));
             sp.Add(param);
-            param = new SqlParameter("@ORGPANFileName", ToDBNull(organization.OrgGSTFileName));
+            param = new SqlParameter("@ORGPANFileName", ToDBNull(organization.OrgPanFileName));
             sp.Add(param);
             param = new SqlParameter("@RefKey", ToDBNull(organization.RefKey));
             sp.Add(param);

@@ -1,51 +1,55 @@
 ﻿@model TogoFogo.Models.Company.CompanyModel
 @{
     var cs = "active in";
-  
 
+    var act = "";
+    if (Model.Action == 'I')
+    {
+        act = "isDisabled";
+    }
 
 }
-
+@Html.HiddenFor(x=>x.Path)
 <div class="panel panel-default panel-table">
     <div class="panel-body">
         <div class="panel panel-default panel-table">
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-3 ">
-                        <ul class="nav nav-pills company-tabs m-b-15">
+                        <ul class="nav nav-pills company-tabs m-b-15" id="tabs">
                             @if (Model.ActiveTab == "tab-1")
                             {
                                 <li class="active">
-                                    <a href="#tab-3" role="tab" data-toggle="tab">
+                                    <a href="#tab-3" role="tab"  data-toggle="tab">
                                         Setting
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-4" role="tab" data-toggle="tab">
+                                    <a href="#tab-4" role="tab" class="@act" data-toggle="tab">
                                         Organization
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#tab-5" role="tab" data-toggle="tab">
+                                    <a href="#tab-5" role="tab" class="@act"  data-toggle="tab">
                                         Contact Person And Address
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-6" role="tab" data-toggle="tab">
+                                    <a href="#tab-6" role="tab" class="@act" data-toggle="tab">
                                         Bank Detail
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-7" role="tab" data-toggle="tab">
+                                    <a href="#tab-7" class="@act" role="tab" data-toggle="tab">
                                         Agreement
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-8" role="tab" data-toggle="tab">
+                                    <a href="#tab-8" role="tab" class="@act" data-toggle="tab">
                                         Registration
                                     </a>
                                 </li>
@@ -59,30 +63,30 @@
                                 </li>
 
                                 <li class="active">
-                                    <a href="#tab-4" role="tab" data-toggle="tab">
+                                    <a href="#tab-4"  role="tab" data-toggle="tab">
                                         Organization
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#tab-5" role="tab" data-toggle="tab">
+                                    <a href="#tab-5" class="@act" role="tab" data-toggle="tab">
                                         Contact Person And Address
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-6" role="tab" data-toggle="tab">
+                                    <a href="#tab-6" class="@act" role="tab" data-toggle="tab">
                                         Bank Detail
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-7" role="tab" data-toggle="tab">
+                                    <a href="#tab-7" class="@act" role="tab" data-toggle="tab">
                                         Agreement
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-8" role="tab" data-toggle="tab">
+                                    <a href="#tab-8" class="@act" role="tab" data-toggle="tab">
                                         Registration
                                     </a>
                                 </li>
@@ -110,19 +114,19 @@
                                 </li>
 
                                 <li>
-                                    <a href="#tab-6" role="tab" data-toggle="tab">
+                                    <a href="#tab-6" role="tab" class="@act" data-toggle="tab">
                                         Bank Detail
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-7" role="tab" data-toggle="tab">
+                                    <a href="#tab-7" class="@act"  role="tab" data-toggle="tab">
                                         Agreement
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-8" role="tab" data-toggle="tab">
+                                    <a href="#tab-8" class="@act" role="tab" data-toggle="tab">
                                         Registration
                                     </a>
                                 </li>
@@ -156,13 +160,13 @@
                                 </li>
 
                                 <li>
-                                    <a href="#tab-7" role="tab" data-toggle="tab">
+                                    <a href="#tab-7" class="@act" role="tab" data-toggle="tab">
                                         Agreement
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="#tab-8" role="tab" data-toggle="tab">
+                                    <a href="#tab-8" class="@act" role="tab" data-toggle="tab">
                                         Registration
                                     </a>
                                 </li>
@@ -202,7 +206,7 @@
                                 </li>
 
                                 <li>
-                                    <a href="#tab-8" role="tab" data-toggle="tab">
+                                    <a href="#tab-8" class="@act" role="tab" data-toggle="tab">
                                         Registration
                                     </a>
                                 </li>
@@ -261,22 +265,6 @@
                                 else
                                 {
                                     @:<div role="tabpanel" class="tab-pane fade" id="tab-3">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     }
                             <div class="panel panel-default panel-table  b-r-0 b-b-0 b-left-side">
                                 <div class="panel-body p-t-0 ">
@@ -326,23 +314,13 @@
                             </div>
                         </div>
                     </div>
-
                     @if (Model.ActiveTab == "tab-3")
                     {
-
                         @:<div role="tabpanel" class="tab-pane fade @cs" id="tab-5">
                         }
                         else
                         {
                             @:<div role="tabpanel" class="tab-pane fade" id="tab-5">
-
-
-
-
-
-
-
-
                             }
                     <div class="panel panel-default panel-table  b-r-0 b-b-0 b-left-side">
                         <div class="panel-body p-t-0">
@@ -370,7 +348,6 @@
                         </div>
                     </div>
                     </div>
-
                     @if (Model.ActiveTab == "tab-4")
                     {
 
@@ -379,25 +356,7 @@
                         else
                         {
                             @:<div role="tabpanel" class="tab-pane fade" id="tab-6">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             }
-
-
                     <div class="panel panel-default panel-table  b-r-0 b-b-0 b-left-side">
                         <div class="panel-body p-t-0">
                             <div class="form-group">
@@ -496,23 +455,11 @@
                     </div>
                     </div>
                     </div>
-
-
-
                     </div>
                     </div>
-
-
                     </div>
-
-
-
-
-
-                    @Scripts.Render("~/bundles/customBundle")
-                    @Scripts.Render("~/bundles/bootstrap")
+                    @Scripts.Render("~/bundles/jquery")
                     @Scripts.Render("~/bundles/jqueryval")
-
                     <script>
                         var DivName = $('.nav-tabs .active a').attr('href');
                         activaTab(DivName);
@@ -541,7 +488,6 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (data) {
-                                    debugger
                                     $("#" + ddl).empty();
 
                                     //var sel = new Option('-Select-', '');
@@ -568,16 +514,19 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (data) {
-                                    console.log(data);
+
                                     if (method == 'JsonGetBank') {
                                         $("#bankId").val(data.bankId);
                                         $("#BankNameId").val(data.BankNameId);
                                         $("#BankAccountNumber").val(data.BankAccountNumber);
                                         $("#BankCompanyName").val(data.BankCompanyName);
                                         $("#BankIFSCCode").val(data.BankIFSCCode);
-                                        $("#BankBranchName").val(data.BankBranchName);                                     
+                                        $("#BankBranchName").val(data.BankBranchName);
                                         $("#IsDefault").prop("checked", data.isDefault);
-                                        $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);                                          
+                                        $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);
+                                        if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
+                                            $("#conBankImg").prop("src", $("#Path").val() + "/Cheques/" + data.BankCancelledChequeFileName);
+                                        }
                                         $("#BankAccount").show();
                                     }
                                     else {
@@ -596,21 +545,32 @@
                                         $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
                                         $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
                                         $("#ConPanFileName").val(data.ConPanFileName);
+                                        if (data.ConAdhaarFileName != null || data.ConAdhaarFileName != "") {
+                                            $("#conAdhrImg").prop("src", $("#Path").val() + "/ADHRs/" + data.ConAdhaarFileName);
+                                        }
+                                        if (data.ConVoterIdFileName != null || data.ConVoterIdFileName != "") {
+                                            $("#conVoterImg").prop("src", $("#Path").val() + "/VoterIds/" + data.ConVoterIdFileName);
+                                        }
+
+                                        if (data.ConPanFileName != null || data.ConPanFileName != "") {
+                                            $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
+                                        }
                                         $("#CountryId").val(data.CountryId);
-                                        var obj = { value: data.CountryId, Other:data.StateId};
+                                        var obj = { value: data.CountryId, Other: data.StateId };
                                         AjaxWithValue('BindStateJson', 'StateId', obj);
                                         obj.value = data.StateId;
                                         obj.Other = data.CityId;
-                                        AjaxWithValue('BindLocationJson', 'CityId', obj);                                      
+                                        AjaxWithValue('BindLocationJson', 'CityId', obj);
                                         $("#Address").val(data.Address);
                                         $("#Locality").val(data.Locality);
                                         $("#NearLocation").val(data.NearLocation);
                                         $("#PinNumber").val(data.PinNumber);
-                                        $("#IsUser").prop("checked", data.isUser);                                    
+                                        $("#IsUser").prop("checked", data.isUser);
                                         $("#ContactPerson").show();
                                     }
-                                 
+
                                 }
                             });
                         }
                     </script>
+

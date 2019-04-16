@@ -65,7 +65,7 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.BankBranchName, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-5 col-sm-5 col-xs-12">
                 @Html.LabelFor(model => model.BankCancelledChequeFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
@@ -74,6 +74,10 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.BankCancelledChequeFilePath, "", new { @class = "text-danger" })
             </div>
+            <div class="col-md-1 col-sm-1">              
+                    <img src="~/Content/img/icon-img/doc-icon.png" id="conBankImg" class="a thumb-Img" style="pointer-events: none;">                
+            </div>
+
         </div>
     </div>
 </div>

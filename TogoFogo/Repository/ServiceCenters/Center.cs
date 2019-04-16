@@ -38,10 +38,10 @@ namespace TogoFogo.Repository.ServiceCenters
         }
 
 
-        public async Task<ServiceCenterModel> GetCenterById(Guid serviceCenterId)
+        public async Task<ServiceCenterModel> GetCenterById(Guid? serviceCenterId)
         {
             var CenterModel = new ServiceCenterModel();
-            SqlParameter client = new SqlParameter("@CenterId", serviceCenterId);
+            SqlParameter client = new SqlParameter("@CenterId", ToDBNull(serviceCenterId));
             using (var connection = _context.Database.Connection)
             {
                 connection.Open();
@@ -100,8 +100,7 @@ namespace TogoFogo.Repository.ServiceCenters
                     ConVoterId = reader["ConVoterId"].ToString(),
                     ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
                     ConPanFileName = reader["ConPanFileName"].ToString(),
-                    ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),
-                    isActive = Convert.ToBoolean(reader["IsActive"].ToString()),
+                    ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),        
                     AddresssId = new Guid(reader["AddresssId"].ToString()),
                     CityId = Convert.ToInt32(reader["CityId"].ToString()),
                     CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
@@ -110,7 +109,8 @@ namespace TogoFogo.Repository.ServiceCenters
                     Locality = reader["Locality"].ToString(),
                     NearLocation = reader["NearLocation"].ToString(),
                     PinNumber = reader["PinNumber"].ToString(),
-                    Address = reader["Address"].ToString()
+                    Address = reader["Address"].ToString(),
+                    City = reader["City"].ToString()
                 };
 
                 person.ConVoterIdFileUrl = "/UploadedImages/Centers/VoterIds/" + person.ConVoterIdFileName;

@@ -25,48 +25,8 @@
 @section scripts{
 
 
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-
-            var DivName = $('.nav-tabs .active a').attr('href');
-            activaTab(DivName);
-
-
-        function activaTab(tab) {
-
-            $(tab).addClass("active in");
-        };
-        function AjaxWithValue(method, ddl, e) {
-            var val = e.value;
-            if (ddl == "ConAddress_StateId")
-                $("#ConAddress_CityId").empty();
-            $.ajax({
-                type: "GET",
-                url: "/DropdownBind/" + method + "?value=" + val,
-                data: '{}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $("#" + ddl).empty();
-
-                    //var sel = new Option('-Select-', '');
-                    //$('#' + ddl).append(sel);
-                    for (var i = 0; i < data.length; i++) {
-                        var opt = new Option(data[i].Text, data[i].Value);
-                        $('#' + ddl).append(opt);
-                    }
-                }
-            });
-        }
-
-
-            $(".reset").click(function () {
-                $(this).closest('form').find("input[type=text], textarea,select").val("");
-                $("#ConCity").empty();
-                $("#ConState").empty();
-                $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
-                $('.selectpicker').selectpicker('refresh');
-            });
+   
+    <script>         
 
             $('a[data-toggle="tab"]').click(function (e) {
             if ($(this).hasClass("disabled")) {
@@ -77,74 +37,7 @@
 
             }
         });
-
-        function AddOrEditContact(contact) {
-
-            var CenterId = $("#CenterId").val();
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("AddorUpdateContact", "manageServiceCenters")',
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                data: { model: JSON.stringify(contact) },
-                success: function (response) {
-                    $("#ContactInfo").html(response);
-                    $("#RefKey").val(CenterId);
-
-                },
-                error: function (e) {
-                    console.log(e);
-
-                    alert("Something went wrong...");
-
-                },
-                complete: function () {
-
-                    $(".submitbutton").attr("disabled", false);
-                }
-            });
-        };
-        $("#IsUser").change(function (e) {
-            if ($(this).prop("checked")) {
-                $("#userDetails").show();
-            }
-            else {
-                $("#userDetails").hide();
-            }
-
-        })
-
-        function AddOrEditBank(bank) {
-            var CenterId = $("#CenterId").val();
-
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("AddorEditBankDetails","manageServiceCenters")',
-                contentType: 'application/json; charset=utf-8',
-                cache: false,
-                data: bank,
-                success: function (response) {
-                    $("#BankInfo").html(response);
-                    $("#RefKey").val(CenterId);
-                    if (bank.bankId != null)
-                        $("#Action").val('U');
-                    else
-                        $("#Action").val('I');
-                },
-                error: function (e) {
-                    console.log(e);
-
-                    alert("Something went wrong...");
-
-                },
-                complete: function () {
-
-
-                }
-            });
-        };
-
-
+ 
     </script>
   
 

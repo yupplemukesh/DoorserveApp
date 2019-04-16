@@ -1491,14 +1491,22 @@ namespace TogoFogo.Controllers
         }
 
         public async Task<ActionResult> JsonGetBank(Guid Id)
-        {
-            var _bank = await _bankRepo.GetBankByBankId(Id);
-            return Json(_bank, JsonRequestBehavior.AllowGet);
+        {            
+                var _bank = await _bankRepo.GetBankByBankId(Id);
+
+                return Json(_bank, JsonRequestBehavior.AllowGet);            
         }
         public async Task<ActionResult> JsonGetPerson(Guid Id)
         {
-            var _contact = await _ContactRepo.GetContactPersonByContactId(Id);
-            return Json(_contact, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var _contact = await _ContactRepo.GetContactPersonByContactId(Id);
+                return Json(_contact, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex ;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@
 
 }
 
+@Html.HiddenFor(x => x.Path)
 <div class="row">
     <div class="col-md-2">
 
@@ -249,30 +250,36 @@
                                     @*@Html.HiddenFor(x=>x.ServiceDeliveryType)*@
                                     <!-- Multiple Radios (inline) -->
                                     <label class="col-md-3 control-label" for="radios">Service Delivery Type</label>
-                                    @for (int x = 0; x < Model.DeliveryServiceList.Count(); x++)
-                                    {
-                                        <div class="col-md-3">
-                                            <label class="" for="radios-0">
-                                                @Html.CheckBoxFor(p => p.DeliveryServiceList[x].IsChecked)
-                                                @Html.HiddenFor(p => p.DeliveryServiceList[x].Text)
-                                                @Model.DeliveryServiceList[x].Text
-                                                @Html.HiddenFor(p => p.DeliveryServiceList[x].Value)
+                                    <div class="col-md-9">
+                                        <div class="row">
+
+                                            @for (int x = 0; x < Model.DeliveryServiceList.Count(); x++)
+                                            {
+                                                <div class="col-md-3">
+                                                    <label class="" for="radios-0">
+                                                        @Html.CheckBoxFor(p => p.DeliveryServiceList[x].IsChecked)
+                                                        @Html.HiddenFor(p => p.DeliveryServiceList[x].Text)
+                                                        @Model.DeliveryServiceList[x].Text
+                                                        @Html.HiddenFor(p => p.DeliveryServiceList[x].Value)
 
 
-                                            </label>
+                                                    </label>
+
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <div class="row col-md-12">
+                                            @Html.ValidationMessageFor(x => x.DeliveryServiceList, "", new { @class = "text-danger" })
 
                                         </div>
-                                    }
 
-                                    <div class="col-md-12 col-md-offset-3">
-                                        @Html.ValidationMessageFor(x => x.DeliveryServiceList, "", new { @class = "text-danger" })
 
                                     </div>
 
 
                                 </div>
-
-                                <div class=" row form-group">
+                                <div class="row form-group">
                                     <label class="col-md-3 control-label" for="selectbasic">Supported Device Category	</label>
                                     <div class="col-md-9">
                                         @Html.ListBoxFor(model => model.DeviceCategories, Model.SupportedCategoryList, htmlAttributes: new { @class = "selectpicker form-control", multiple = "multiple", data_actions_box = "true", data_width = "100%", @data_val = "true", @data_val_required = "choose is device category" })
@@ -280,28 +287,28 @@
                                     </div>
                                 </div>
 
-
                                 <div class="row form-group">
                                     <!-- Multiple Radios (inline) -->
                                     @*@Html.HiddenFor(x => x.ServiceType)*@
                                     <label class="col-md-3 control-label" for="radios">Service Type</label>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            @for (int x = 0; x < Model.ServiceList.Count(); x++)
+                                            {
+                                                <div class="col-md-3">
+                                                    <label class="" for="radios-0">
+                                                        @Html.CheckBoxFor(p => p.ServiceList[x].IsChecked)
+                                                        @Html.HiddenFor(p => p.ServiceList[x].Text)
+                                                        @Model.ServiceList[x].Text
+                                                        @Html.HiddenFor(p => p.ServiceList[x].Value)
 
-                                    @for (int x = 0; x < Model.ServiceList.Count(); x++)
-                                    {
-                                        <div class="col-md-3">
-                                            <label class="" for="radios-0">
-                                                @Html.CheckBoxFor(p => p.ServiceList[x].IsChecked)
-                                                @Html.HiddenFor(p => p.ServiceList[x].Text)
-                                                @Model.ServiceList[x].Text
-                                                @Html.HiddenFor(p => p.ServiceList[x].Value)
+                                                    </label>
 
-
-                                            </label>
-
+                                                </div>
+                                            }
                                         </div>
-                                    }
-
-                                    <div class="col-md-12 col-md-offset-3">
+                                    </div>
+                                    <div class="row col-md-12">
                                         @Html.ValidationMessageFor(x => x.ServiceList, "", new { @class = "text-danger" })
 
                                     </div>
@@ -365,7 +372,7 @@
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
                         <div class="row margin-bottom-sm">
                             <div class="col-12 pull-right align-text-top  ">
-                                <input type="button" class="btn btn-primary " href="#ContactModel" data-toggle="modal" onclick='AddOrEditContact(@Html.Raw(Json.Encode(new TogoFogo.Models.ContactPersonModel())))' value="add  Contact" />
+                                <input type="button" class="btn btn-primary " id="AddContactPerson" value="add  Contact" />
                             </div>
 
                         </div>
@@ -375,8 +382,23 @@
                             @if (Model.ContactPersons != null)
                             {
                                 <div class="col-12">
-                                        @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
-                                    
+
+                                    @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
+                                    <div class="row" style="display:none" id="ContactPerson">
+                                        @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                                        {
+                                            Model.Contact.RefKey = Model.ProviderId;
+                                            <div class="col-12">
+                                                @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
+                                            </div>
+                                            <div class="form-group row m-b-25">
+                                                <div class="col-sm-offset-11  col-md-1">
+                                                    <button type="submit" class="btn btn-success" style="">Save</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
                                 </div>
                             }
 
@@ -392,26 +414,36 @@
                 <div class="container-fluid tab-form-control">
 
                     <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                        <div class="row margin-bottom-sm">
+                            <div class="col-12 pull-right align-text-top  ">
+                                <input type="button" class="btn btn-primary" id="AddBankAccount" value="add  Bank" />
+                            </div>
 
+                        </div>
                         <div class="row" id="bankDetails">
 
                             @if (Model.BankDetails != null)
                             {
-                                <div class="col-9">
-                                        @Html.Partial("~/Views/Common/_bankDetails.cshtml", Model.BankDetails)
+                                <div class="col-12">
+                                    @Html.Partial("~/Views/Common/_bankDetails.cshtml", Model.BankDetails)
 
-                                    
+                                    <div class="row" style="display:none" id="BankAccount">
+                                        @using (Html.BeginForm("AddOrEditBank", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                                        {
+                                            Model.Bank.RefKey = Model.ProviderId;
+                                            <div class="col-12">
+                                                @Html.Partial("~/Views/Common/_AddOrUpdateBankDetails.cshtml", Model.Bank)
+                                            </div>
+
+                                            <div class="form-group row m-b-25">
+                                                <div class="col-sm-offset-11  col-md-1">
+                                                    <button type="submit" class="btn btn-success" style="">Save</button>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             }
-                            else
-                            {
-                                <div class="col--md-9 col-md-offset-9">
-                                </div>
-                            }
-                            <div class="col-3 pull-md-right">
-                                <input type="button" class="btn btn-primary" href="#BankModel" data-toggle="modal" onclick='AddOrEditBank(@Html.Raw(Json.Encode(new TogoFogo.Models.BankDetailModel())))' value="add  Bank" />
-
-                            </div>
 
                         </div>
                     </div>
@@ -448,58 +480,6 @@
 
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "control-label" })
-                                                </div>
-
-                                                <div class="col-md-9">
-
-                                                    @Html.CheckBoxFor(x => x.IsUser)
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                if (Model.IsUser)
-                                {
-
-                                    <div class=" row form-group " id="userDetails">
-                                        <label class="col-md-3 " for="textinput">User Name</label>
-                                        <div class="col-md-9">
-                                            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control input-md", @placeholder = "User name", @readOnly = true })
-                                        </div>
-                                    </div>
-                                }
-
-                                else
-                                {
-                                    <div class="form-group row" id="userDetails" style="display:none">
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
-                                            <div class="input-group">
-                                                <span class="input-group-addon"></span>
-                                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "User name" })
-
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-12">
-                                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
-                                            <div class="input-group">
-                                                <span class="input-group-addon"></span>
-                                                @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "Password" })
-
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                }
 
                                 <!-- Text input-->
                                 <div class=" row form-group ">
@@ -535,50 +515,128 @@
 
 </div>
 
-<div class="modal fade" id="BankModel" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-lg">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header  bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Bank Details</h4>
-            </div>
-            @using (Html.BeginForm("AddOrEditBank", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <div class="modal-body" id="BankInfo">
-                </div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    var DivName = $('.nav-tabs .active a').attr('href');
+    activaTab(DivName);
+
+    function activaTab(tab) {
+
+        $(tab).addClass("active in");
+    };
+    $("#AddContactPerson").click(function () {
+        $("#ContactPerson").show();
+    });
+
+    $(".reset").click(function () {
+        $(this).closest('form').find("input[type=text], textarea,select").val("");
+        $("#ConCity").empty();
+        $("#ConState").empty();
+        $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
+        $('.selectpicker').selectpicker('refresh');
+    });
+
+
+
+    $("#AddBankAccount").click(function () {
+        $("#BankAccount").show();
+    });
+    function AjaxWithValue(method, ddl, e) {
+        var val = e.value;
+        var other = e.Other;
+        console.log(other);
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?value=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#" + ddl).empty();
+
+                //var sel = new Option('-Select-', '');
+                //$('#' + ddl).append(sel);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#' + ddl).append(opt);
+                }
+
+                if (other != undefined) {
+                    $('#' + ddl).val(other);
+
+                }
+
             }
-        </div>
+        });
+    }
+    function getItems(Id, method) {
+        var val = Id;
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?Id=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
 
-    </div>
-</div>
+                if (method == 'JsonGetBank') {
+                    $("#bankId").val(data.bankId);
+                    $("#BankNameId").val(data.BankNameId);
+                    $("#BankAccountNumber").val(data.BankAccountNumber);
+                    $("#BankCompanyName").val(data.BankCompanyName);
+                    $("#BankIFSCCode").val(data.BankIFSCCode);
+                    $("#BankBranchName").val(data.BankBranchName);
+                    $("#IsDefault").prop("checked", data.isDefault);
+                    $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);
+                    if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
+                        $("#conBankImg").prop("src", $("#Path").val() + "/Banks/" + data.BankCancelledChequeFileName);
+                    }
+                    $("#BankAccount").show();
+                }
+                else {
+                    $("#ContactId").val(data.ContactId);
+                    $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                    $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                    $("#ConPanFileName").val(data.ConPanFileName);
+                    $("#ConFirstName").val(data.ConFirstName);
+                    $("#ConEmailAddress").val(data.ConEmailAddress);
+                    $("#ConLastName").val(data.ConLastName);
+                    $("#ConMobileNumber").val(data.ConMobileNumber);
+                    $("#ConPanNumber").val(data.ConPanNumber);
+                    $("#ConVoterId").val(data.ConVoterId);
+                    $("#ConAdhaarNumber").val(data.ConAdhaarNumber);
+                    $("#AddressTypeId").val(data.AddressTypeId);
+                    $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                    $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                    $("#ConPanFileName").val(data.ConPanFileName);
+                    if (data.ConAdhaarFileName != null || data.ConAdhaarFileName != "") {
+                        $("#conAdhrImg").prop("src", $("#Path").val() + "/ADHRs/" + data.ConAdhaarFileName);
+                    }
+                    if (data.ConVoterIdFileName != null || data.ConVoterIdFileName != "") {
+                        $("#conVoterImg").prop("src", $("#Path").val() + "/VoterIds/" + data.ConVoterIdFileName);
+                    }
 
+                    if (data.ConPanFileName != null || data.ConPanFileName != "") {
+                        $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
+                    }
+                    $("#CountryId").val(data.CountryId);
+                    var obj = { value: data.CountryId, Other: data.StateId };
+                    AjaxWithValue('BindStateJson', 'StateId', obj);
+                    obj.value = data.StateId;
+                    obj.Other = data.CityId;
+                    AjaxWithValue('BindLocationJson', 'CityId', obj);
+                    $("#Address").val(data.Address);
+                    $("#Locality").val(data.Locality);
+                    $("#NearLocation").val(data.NearLocation);
+                    $("#PinNumber").val(data.PinNumber);
+                    $("#IsUser").prop("checked", data.isUser);
+                    $("#ContactPerson").show();
+                }
 
-<div class="modal fade" id="ContactModel" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header  bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Contact Details </h4>
-            </div>
-            @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", }))
-            {
-                <div class="modal-body" id="ContactInfo">
-
-                </div>
-                <div class="row ">
-                    <div class="ln_solid"></div>
-                    <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </div>
-                </div>
             }
-        </div>
-
-    </div>
-</div>
+        });
+    }
+</script>

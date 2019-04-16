@@ -64,7 +64,7 @@
 <div class="form-group row">
     <label class="col-sm-3 control-label" for="form-control-1">Agreement Start Date</label>
     <div class="col-sm-9">
-        @Html.TextBoxFor(x => x.AgreementStartDate, new { @class = "form-control input-md" })
+        @Html.TextBoxFor(x => x.AgreementStartDate,"{0:yyyy-MM-dd}", new { @class = "form-control input-md", @type="date" })
         @Html.ValidationMessageFor(model => model.AgreementStartDate, "", new { @class = "text-danger" })
     </div>
 </div>
@@ -98,11 +98,18 @@
 
     <label class="col-sm-3 control-label" for="form-control-1">Uplode Agreement</label>
     <div class="col-sm-7">
-        @Html.TextBoxFor(model => model.AgreementFile, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
-        @Html.ValidationMessageFor(model => model.AgreementFile, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.AgreementPath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
+        @Html.ValidationMessageFor(model => model.AgreementPath, "", new { @class = "text-danger" })
     </div>
     <div class="col-2">
-        <img src="#" />
+        @if (!string.IsNullOrEmpty(Model.AgreementFile))
+        {
+            <img id="blah" src="@Model.AgreementFileUrl" class="thumb-Img"  alt="your image" />
+        }
+        else
+        {
+            <img id="blah" src="~/Images/male-user-add.png" class="thumb-Img"  alt="your image" />
+        }
 
     </div>
 </div>
@@ -111,17 +118,17 @@
 <div class="form-group row">
     <label class="col-sm-3 control-label" for="form-control-1">Uplode Cancelled Check</label>
     <div class="col-sm-7">
-        @Html.TextBoxFor(model => model.CancelledCheckPath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
-        @Html.ValidationMessageFor(model => model.CancelledCheckPath, "", new { @class = "text-danger" })
+        @Html.TextBoxFor(model => model.CancelledChequePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
+        @Html.ValidationMessageFor(model => model.CancelledChequePath, "", new { @class = "text-danger" })
     </div>
     <div class="col-sm-2">
-        @if (!string.IsNullOrEmpty(Model.CancelledCheckFile))
+        @if (!string.IsNullOrEmpty(Model.CancelledChequeFile))
         {
-            <img id="blah" src="@Model.CancelledCheckFile" width="40" height="40" alt="your image" />
+            <img id="blah" src="@Model.CancelledChequeFileUrl" class="thumb-Img"  alt="your image" />
         }
         else
         {
-            <img id="blah" src="~/Images/male-user-add.png" width="40" height="40" alt="your image" />
+            <img id="blah" src="~/Images/male-user-add.png" class="thumb-Img" alt="your image" />
         }
     </div>
 </div>

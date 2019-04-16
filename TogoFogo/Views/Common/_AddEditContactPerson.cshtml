@@ -73,15 +73,10 @@
                     @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    @if (!string.IsNullOrEmpty(Model.ConPanFileName))
-                    {
-                        <img src="@Model.ConPanFileUrl" class="a" style="pointer-events: none;width:60px">
-                    }
-                    else
-                    {
+                  
 
-                        <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
-                    }
+                        <img src="~/Content/img/icon-img/doc-icon.png" id="conPanImg" class="a thumb-Img" style="pointer-events: none;">
+                    
                 </div>
             </div>
         </div>
@@ -109,15 +104,10 @@
                     @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-1 col-sm-1">
-                    @if (!string.IsNullOrEmpty(Model.ConVoterIdFileName))
-                    {
-                        <img src="@Model.ConVoterIdFileUrl" class="a" style="pointer-events: none;width:60px">
-                    }
-                    else
-                    {
+                  
 
-                        <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
-                    }
+                        <img src="~/Content/img/icon-img/doc-icon.png" class="a thumb-Img" id="conVoterImg" style="pointer-events: none;">
+                    
                 </div>
             </div>
         </div>
@@ -145,15 +135,10 @@
                 </div>
 
                 <div class="col-md-1 col-sm-1">
-                        @if (!string.IsNullOrEmpty(Model.ConAdhaarFileName))
-                        {
-                            <img src="@Model.ConAdhaarFileUrl" class="a" style="pointer-events: none;width:60px">
-                        }
-                        else
-                        {
+                       
 
-                            <img src="~/Content/img/icon-img/doc-icon.png" class="a" style="pointer-events: none;width:60px">
-                        }
+                            <img src="~/Content/img/icon-img/doc-icon.png" id="conAdhrImg" class="a thumb-Img" style="pointer-events: none;">
+                        
                     </div>
 
                 </div>

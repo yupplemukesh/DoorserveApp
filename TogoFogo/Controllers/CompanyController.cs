@@ -18,8 +18,7 @@ namespace TogoFogo.Controllers
        private readonly IContactPerson _ContactPersonRepo;
        private readonly IOrganization _OrgRepo;
        private readonly IBank _BankRepo;
-
-
+       private readonly string _path = "/UploadedImages/Companies/"; 
         // GET: Company
 
         public ManageCompanyController()
@@ -29,6 +28,7 @@ namespace TogoFogo.Controllers
             _ContactPersonRepo = new ContactPerson();
             _OrgRepo = new Organization();
             _BankRepo = new Bank();
+
         }
 
         public async  Task<ActionResult> Index()
@@ -36,9 +36,32 @@ namespace TogoFogo.Controllers
             var _com = await _compRepo.GetCompanyDetails();
             return View(_com);
         }
+        private string SaveImageFile(HttpPostedFileBase file, string folderName)
+        {
+            try
+            {
+                string path = Server.MapPath(_path + folderName);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileFullName = file.FileName;
+                var fileExtention = Path.GetExtension(fileFullName);
+                var fileName = Guid.NewGuid();
+                var savedFileName = fileName + fileExtention;
+                file.SaveAs(Path.Combine(path, savedFileName));
+                return savedFileName;
+            }
+            catch (Exception ex)
+            {
+
+                return ViewBag.Message = ex.Message;
+            }
+        }
         public async Task<ActionResult> Create()
         {
             var CompanyData = new CompanyModel();
+            CompanyData.Path = _path;
             CompanyData.ActiveTab = "tab-1";
             CompanyData.Action = 'I';
             CompanyData.CompanyTypeList= new SelectList(await CommonModel.GetLookup("Company Type"),"Value","Text");
@@ -57,6 +80,8 @@ namespace TogoFogo.Controllers
 
         public async Task<ActionResult> Edit(Guid CompId)
         {
+
+            TempData["Comp"] = null;
             var comp = await GetCompany(CompId);
             comp.ActiveTab = "tab-1";
             return View(comp);
@@ -66,7 +91,13 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
             comp.CreatedBy = Convert.ToInt32(Session["User_ID"]);
- 
+            if (comp.CompanyLogo != null && comp.CompanyPath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path+"Logo/" + comp.CompanyLogo)))
+                    System.IO.File.Delete(Server.MapPath(_path+ "Logo/"+ comp.CompanyLogo));
+            }
+            if (comp.CompanyPath != null)
+                comp.CompanyLogo= SaveImageFile(comp.CompanyPath,"Logo");
             var response = await _compRepo.AddUpdateDeleteCompany(comp);
             comp.ActiveTab = "tab-2";
             TempData["response"] = response;
@@ -101,11 +132,17 @@ namespace TogoFogo.Controllers
         private async Task<CompanyModel> GetCompany(Guid CompanyId)
         {
             var   comp = await _compRepo.GetCompanyDetailByCompanyId(CompanyId);
+            comp.CompanyFile = _path + "Logo/" + comp.CompanyLogo;
             comp.Action = 'U';
+            comp.Path = _path;
             comp.CompanyTypeList = new SelectList(await CommonModel.GetLookup("Company Type"), "Value", "Text");
             comp.Organization = await _OrgRepo.GetOrganizationByRefKey(CompanyId);
             if (comp.Organization == null)
                 comp.Organization = new OrganizationModel();
+            if (!string.IsNullOrEmpty(comp.Organization.OrgGSTFileName))
+                comp.Organization.OrgGSTFileUrl = _path + "Gsts/" + comp.Organization.OrgGSTFileName;
+            if (!string.IsNullOrEmpty(comp.Organization.OrgPanFileName))
+                comp.Organization.OrgPanFileUrl = _path + "PanCards/" + comp.Organization.OrgPanFileName;
             comp.Organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
             comp.Organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
             comp.Organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
@@ -121,6 +158,10 @@ namespace TogoFogo.Controllers
                 comp.Agreement = new AgreementModel();
             comp.Agreement.ServiceList = await CommonModel.GetServiceType();
             comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType();
+            if(!string.IsNullOrEmpty(comp.Agreement.AgreementFile))
+            comp.Agreement.AgreementFileUrl = _path + "Agreements/" + comp.Agreement.AgreementFile;
+            if (!string.IsNullOrEmpty(comp.Agreement.CancelledChequeFile))
+                comp.Agreement.CancelledChequeFileUrl = _path + "Cheques/" + comp.Agreement.CancelledChequeFile;
             if (!string.IsNullOrEmpty(comp.Agreement.DeliveryTypes))
             {
                 var _DeliveryService = comp.Agreement.DeliveryTypes.Split(',');
@@ -150,10 +191,30 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
+
+            if (organization.OrgGSTFileName != null && organization.OrgGSTNumberFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "Gsts/" + organization.OrgGSTFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "Gsts/" + organization.OrgGSTNumberFilePath));
+            }
+
+            if (organization.OrgPanFileName != null && organization.OrgPanNumberFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "PanCards/" + organization.OrgPanFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "PanCards/" + organization.OrgPanFileName));
+            }
+            if (organization.OrgGSTNumberFilePath != null)
+                organization.OrgGSTFileName = SaveImageFile(organization.OrgGSTNumberFilePath, "Gsts");
+            if (organization.OrgPanNumberFilePath != null)
+                organization.OrgPanFileName = SaveImageFile(organization.OrgPanNumberFilePath, "PanCards");
             if (organization.OrgId == null)
                 organization.Action = 'I';
             else
                 organization.Action = 'U';
+
+            organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
+            organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
+            organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
             organization.UserId = Convert.ToInt32(Session["User_ID"]);
             CompanyModel comp = new CompanyModel();
            if (TempData["Comp"] !=null)
@@ -183,6 +244,35 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(ContactPersonModel contact)
         {
+
+            if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName));
+            }
+
+            if (contact.ConAdhaarFileName != null && contact.ConAdhaarNumberFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "ADHRs/" + contact.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "ADHRs/" + contact.ConAdhaarFileName));
+            }
+            if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "PanCards/" + contact.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "PanCards/" + contact.ConPanFileName));
+            }
+            if (contact.ConVoterIdFilePath != null)
+                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "/VoterIds");
+            if (contact.ConPanNumberFilePath != null)
+                contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PanCards/");
+            if (contact.ConAdhaarNumberFilePath != null)
+                contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRs/");
+
+
+            if (contact.IsUser)
+            {
+
+            }
             if (contact.ContactId == null)
                 contact.Action = 'I';
             else
@@ -197,6 +287,14 @@ namespace TogoFogo.Controllers
                 comp.ActiveTab = "tab-4";
                 comp.Action = 'I';
                 TempData["Comp"] = comp;
+                comp.Contact = new ContactPersonModel
+                {
+                    AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text"),
+                    RefKey = comp.CompanyId,
+                    CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
+                    StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                    CityList = new SelectList(Enumerable.Empty<SelectList>())
+                };            
             }
             else
                 comp.Action = 'U';
@@ -206,7 +304,7 @@ namespace TogoFogo.Controllers
             else
             {
                 comp = await GetCompany(contact.RefKey);
-                comp.ActiveTab = "tab-4";
+                comp.ActiveTab = "tab-3";
                 return View("Edit", comp);
 
             }  
@@ -216,6 +314,15 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
+
+            if (bank.BankCancelledChequeFileName != null && bank.BankCancelledChequeFilePath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + bank.BankCancelledChequeFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "Cheques/" + bank.BankCancelledChequeFileName));
+            }
+
+            if (bank.BankCancelledChequeFilePath!= null)
+                bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Cheques/");
             if (bank.bankId == null)
                 bank.Action = 'I';
             else
@@ -227,6 +334,10 @@ namespace TogoFogo.Controllers
                 comp.ActiveTab = "tab-5";
                 comp.Action = 'I';
                 comp.BankDetails.Add(bank);
+                comp.BankDetail = new BankDetailModel {
+                                        RefKey = comp.CompanyId,
+                    BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text")
+            };
                 TempData["Comp"] = comp;
             }
             else
@@ -239,7 +350,7 @@ namespace TogoFogo.Controllers
             else
             {
                 comp = await GetCompany(bank.RefKey);
-                comp.ActiveTab = "tab-5";
+                comp.ActiveTab = "tab-4";
                 return View("Edit", comp);
 
 
@@ -250,10 +361,6 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
-            if (agreement.AGRId == null)
-                agreement.Action = 'I';
-            else
-                agreement.Action = 'U';
             CompanyModel comp = new CompanyModel();
             if (TempData["Comp"] != null)
             {
@@ -262,9 +369,37 @@ namespace TogoFogo.Controllers
                 comp.Agreement = agreement;
                 TempData["Comp"] = comp;
                 comp.Action = 'I';
+
+                if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
+                    return View("create", comp);
             }
             else
+            {
+                comp = await GetCompany(agreement.RefKey);
                 comp.Action = 'U';
+                comp.ActiveTab = "tab-5";
+                if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
+                    return View("edit", comp);
+            }           
+            if (agreement.CancelledChequeFile != null && agreement.CancelledChequeFile != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + agreement.CancelledChequeFile)))
+                    System.IO.File.Delete(Server.MapPath(_path + "Cheques/" + agreement.CancelledChequeFile));
+            }
+            if (agreement.AgreementFile != null && agreement.AgreementPath != null)
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "Agreements/" + agreement.AgreementFile)))
+                    System.IO.File.Delete(Server.MapPath(_path + "Agreements/" + agreement.AgreementFile));
+            }
+            if (agreement.CancelledChequePath != null)
+                agreement.CancelledChequeFile = SaveImageFile(agreement.CancelledChequePath, "Cheques/");
+            if (agreement.AgreementPath != null)
+                agreement.AgreementFile = SaveImageFile(agreement.AgreementPath, "Agreements/");
+            if (agreement.AGRId == null)
+                agreement.Action = 'I';
+            else
+                agreement.Action = 'U';
+           
             foreach (var item in agreement.ServiceList)
             {
                 if (item.IsChecked)
@@ -280,7 +415,6 @@ namespace TogoFogo.Controllers
             }
             agreement.DeliveryTypes = agreement.DeliveryTypes.Trim(',');
 
-
             agreement.CreatedBy = Convert.ToInt32(Session["User_ID"]);
             var response = await _compRepo.AddOrEditAgreeement(agreement);
             TempData["response"] = response;
@@ -291,9 +425,7 @@ namespace TogoFogo.Controllers
                 comp = await GetCompany(agreement.RefKey);
                 comp.ActiveTab = "tab-6";
                 return View("Edit", comp);
-
             }
-
         }
 
         [HttpPost]

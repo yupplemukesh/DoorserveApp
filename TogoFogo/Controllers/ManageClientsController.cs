@@ -20,7 +20,7 @@ namespace TogoFogo.Controllers
         private readonly IClient _client;
         private readonly IBank _bank;
         private readonly IContactPerson _contactPerson;
-
+        private readonly string _path = "/UploadedImages/Clients/";
         private readonly DropdownBindController dropdown;
         public ManageClientsController()
         {
@@ -42,7 +42,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/UploadedImages/Clients/"+ folderName);
+                string path = Server.MapPath(_path+""+ folderName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -61,227 +61,160 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public ActionResult AddorEditBankDetails(BankDetailModel model)
-        {
-            var banks=  CommonModel.GetBanks();
-            model.BankList = new SelectList(banks, "Value", "Text");
-            if (model.bankId != null)
-                model.Action = 'U';
-            else
-                model.Action = 'I';
-
-            if (TempData["client"] != null)
-                TempData.Keep("client");
-            return PartialView("~/views/common/_AddOrUpdateBankDetails.cshtml",model);
-        }
-
-        public ActionResult DeleteBank(BankDetailModel model)
-        {
-            var bnk = TempData["BankDetails"] as List<BankDetailModel>;
-            bnk.Remove(model);
-            TempData["BankDetails"] = bnk;
-            TempData.Keep("BankDetails");
-            return Json("Sucessfully", JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult DeleteContact(ContactPersonModel model)
-        {
-            var conts = TempData["ContactPersons"] as List<ContactPersonModel>;
-            conts.Remove(model);
-            TempData["ContactPersons"] = conts;
-            TempData.Keep("ContactPersons");
-            return Json("Sucessfully", JsonRequestBehavior.AllowGet);
-        }
-
-        public  ActionResult AddorUpdateContact(string model)
-        {
-            var contactPerson = JsonConvert.DeserializeObject<ContactPersonModel>(model);
-         
-            var Addresses = CommonModel.GetAddressTypes();
-          
-            contactPerson.AddressTypelist = new SelectList(Addresses, "Value", "Text");
-            contactPerson.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-
-            if (contactPerson.ContactId != null)
-            {
-                contactPerson.Action = 'U';
-                contactPerson.StateList = new SelectList(dropdown.BindState(contactPerson.CountryId), "Value", "Text");
-                contactPerson.CityList = new SelectList(dropdown.BindLocation(contactPerson.StateId), "Value", "Text");
-
-            }
-            else
-            {
-
-                contactPerson.Action = 'I';
-            
-                contactPerson.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
-                contactPerson.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
-
-            }
-
-
-            if (TempData["client"] != null)
-                TempData.Keep("client");
-                return PartialView("~/views/common/_AddEditContactPerson.cshtml", contactPerson);
-        }
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
 
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
-            {  
-                if(System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/Banks/" + bank.BankCancelledChequeFileName)))
-                System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/Banks/" + bank.BankCancelledChequeFileName));
-            } 
+            {
+                if (System.IO.File.Exists(Server.MapPath(_path + "Banks/" + bank.BankCancelledChequeFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "Banks/" + bank.BankCancelledChequeFileName));
+            }
 
             if (bank.BankCancelledChequeFilePath != null)
                 bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
-            
-
+            if (bank.bankId != null)
+                bank.Action = 'U';
+            else
+                bank.Action = 'I';
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
+            var response = await _bank.AddUpdateBankDetails(bank);
+            TempData["response"] = response;
             if (TempData["client"] != null)
-            {             
-                var client = TempData["client"] as ClientModel;
-                var Response = await _bank.AddUpdateBankDetails(bank);
-                var clientModel = await _client.GetClientByClientId(bank.RefKey);
-                clientModel.ProcessList = client.ProcessList;
-                clientModel.SupportedCategoryList = client.SupportedCategoryList;
-                clientModel.DeviceCategories = client.DeviceCategories;
-                clientModel.Organization.GstCategoryList = client.Organization.GstCategoryList;
-                clientModel.Organization.StatutoryList = client.Organization.StatutoryList;
-                clientModel.Organization.AplicationTaxTypeList = client.Organization.AplicationTaxTypeList;
-                clientModel.ServiceList = client.ServiceList;
-                clientModel.DeliveryServiceList = client.DeliveryServiceList;
-                clientModel.action = client.action;
-                clientModel.Activetab = "tab-5";                    
-                    TempData["client"] = clientModel;
-                    TempData.Keep("client");
-                    TempData["response"] = Response;
-                    TempData.Keep("response");
-                    return View("Create", clientModel);
-               
+            {
+                var Client = TempData["client"] as ClientModel;
+                bank.bankId = new Guid(response.result);
+                Client.BankDetails.Add(bank);
+                Client.action = 'I';
+                Client.Activetab = "tab-5";
+                TempData["Client"] = Client;
+                return View("Create", Client);
             }
             else
             {
-               
-                var response=  await _bank.AddUpdateBankDetails(bank);
-                TempData["response"] = response;
-                TempData.Keep("response");
-                return RedirectToAction("edit", "manageClients", new { id = bank.RefKey });
+                var Client = await GetClient(bank.RefKey);
+                Client.action = 'U';
+                Client.Activetab = "tab-4";
+                return View("Edit", Client);
             }
-
         }
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(ContactPersonModel contact)
         {
-
-
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
-                if  (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/ADHRS/" + contact.ConAdhaarFileName)))
-                     System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/ADHRS/" + contact.ConAdhaarFileName));
+                if (System.IO.File.Exists(Server.MapPath(_path + "ADHRS/" + contact.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "ADHRS/" + contact.ConAdhaarFileName));
             }
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/VoterIds/" + contact.ConVoterIdFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/VoterIds/" + contact.ConVoterIdFileName));
+                if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName));
             }
             if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/PANCards/" + contact.ConPanFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/PANCards/" + contact.ConPanFileName));      
+                if (System.IO.File.Exists(Server.MapPath(_path + "PANCards/" + contact.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path + "PANCards/" + contact.ConPanFileName));
             }
-         
             if (contact.ConAdhaarNumberFilePath != null)
                 contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
             if (contact.ConVoterIdFilePath != null)
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
-            if (TempData["client"] != null)
+            if (contact.ContactId != null)
+                contact.Action = 'U';
+            else
+                contact.Action = 'I';
+            contact.UserID = Convert.ToInt32(Session["User_ID"]);
+            var response = await _contactPerson.AddUpdateContactDetails(contact);
+            TempData["response"] = response;
+            if (TempData["Client"] != null)
             {
-                var client = TempData["client"] as ClientModel;
-                if (contact.ContactId != null)
-                    contact.Action = 'U';
-                else
-                {
-                    contact.Action = 'I';
-                    contact.RefKey = client.ClientId ?? Guid.Empty;
-                }            
-                var response = await _contactPerson.AddUpdateContactDetails(contact);
-                var clientModel = await _client.GetClientByClientId(contact.RefKey);
-                clientModel.ProcessList = client.ProcessList;
-                clientModel.DeviceCategories = client.DeviceCategories;
-                clientModel.SupportedCategoryList = client.SupportedCategoryList;
-                clientModel.Organization.GstCategoryList = client.Organization.GstCategoryList;              
-                clientModel.Organization.StatutoryList = client.Organization.StatutoryList;          
-                clientModel.Organization.AplicationTaxTypeList = client.Organization.AplicationTaxTypeList;
-                clientModel.ServiceList = client.ServiceList;
-                clientModel.DeliveryServiceList = client.DeliveryServiceList;
-                try
-                {
-                   
-                    
-
-                    clientModel.action = 'I';
-                    clientModel.Activetab = "tab-4";
-                    TempData["client"] = clientModel;
-                    TempData.Keep("client");
-                    TempData["response"] = response;
-                    TempData.Keep("response");
-                    return View("Create", clientModel);
-                }
-                catch
-                {
-
-                    TempData["client"] = clientModel;
-                    TempData.Keep("client");
-                    return View("Create", clientModel);
-                }
-
-
-
+                var Client = TempData["client"] as ClientModel;
+                contact.ContactId = new Guid(response.result);
+                Client.ContactPersons.Add(contact);
+                Client.action = 'I';
+                Client.Activetab = "tab-4";
+                TempData["client"] = Client;
+                return View("Create", Client);
             }
             else
             {
-               
-
-
-                if (contact.ContactId != null)
-                    contact.Action = 'U';
-                else
-                    contact.Action = 'I';
-                var response = await _contactPerson.AddUpdateContactDetails(contact);
-                TempData["response"] = response;
-                TempData.Keep("response");
-                return RedirectToAction("edit", "manageClients", new { id=contact.RefKey});
-   
+                var Client = await GetClient(contact.RefKey);
+                Client.action = 'U';
+                Client.Activetab = "tab-3";
+                return View("Edit", Client);
             }
+
+
+
+        }
+        private async Task<ClientModel> GetClient(Guid? clientId)
+        {
+            var Client = await _client.GetClientByClientId(clientId);
+            Client.Path = _path;
+            var processes = await CommonModel.GetProcesses();           
+                Client.ProcessList = new SelectList(processes, "Value", "Text");
+            if (Client.Organization == null)
+                Client.Organization = new OrganizationModel();
+            Client.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            Client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            var statutory = await CommonModel.GetStatutoryType();
+            Client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
+            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
+            Client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+            Client.ServiceList = await TogoFogo.CommonModel.GetServiceType();
+            Client.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();
+            Client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+            Client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+            Client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            Client.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
+            Client.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            if (clientId != null)
+                Client.action = 'U';
+            else
+                Client.action = 'I';
+            List<int> List = new List<int>();
+            if (!string.IsNullOrEmpty(Client._deviceCategories))
+            {
+                var _deviceCat = Client._deviceCategories.Split(',');
+                for (int i = 0; i < _deviceCat.Length; i++)
+                {
+                    List.Add(Convert.ToInt16(_deviceCat[i]));
+                }
+            }
+            if (!string.IsNullOrEmpty(Client.ServiceDeliveryTypes))
+            {
+                var _DeliveryService = Client.ServiceDeliveryTypes.Split(',');
+                for (int i = 0; i < _DeliveryService.Length; i++)
+                {
+                    var item = Client.DeliveryServiceList.Where(x => x.Value == Convert.ToInt32(_DeliveryService[i])).FirstOrDefault();
+                    if (item != null)
+                        item.IsChecked = true;
+
+                }
+            }
+            if (!string.IsNullOrEmpty(Client.ServiceTypes))
+            {
+                var _serviceType = Client.ServiceTypes.Split(',');
+                for (int i = 0; i < _serviceType.Length; i++)
+                {
+                    var item = Client.ServiceList.Where(x => x.Value == Convert.ToInt32(_serviceType[i])).FirstOrDefault();
+                    if (item != null)
+                        item.IsChecked = true;
+                }
+            }
+            Client.DeviceCategories = List;
+            return Client;
         }
 
         // GET: ManageClient/Create
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Clients")]
         public async Task<ActionResult> Create()
         {
-            var clientModel = new ClientModel()
-            {
-                Organization = new OrganizationModel(),
-
-            };
-            
-                var processes = await CommonModel.GetProcesses();
-                clientModel.ProcessList = new SelectList(processes, "Value", "Text");
-                clientModel.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
-                clientModel.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-                var statutory = await CommonModel.GetStatutoryType();
-                clientModel.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-                var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
-                clientModel.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-                clientModel.ServiceList = await CommonModel.GetServiceType();
-                clientModel.DeliveryServiceList = await CommonModel.GetDeliveryServiceType();
-                clientModel.action = 'I';
-            
+            var clientModel = await GetClient(null);           
             return View(clientModel);
         }
 
@@ -409,13 +342,13 @@ namespace TogoFogo.Controllers
 
             if (client.Organization.OrgGSTNumberFilePath != null && client.Organization.OrgGSTFileName != null)
             {
-                if(System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/Gsts/" + client.Organization.OrgGSTFileName)))
-                   System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/Gsts/" + client.Organization.OrgGSTFileName));
+                if(System.IO.File.Exists(Server.MapPath(_path+"Gsts/" + client.Organization.OrgGSTFileName)))
+                   System.IO.File.Delete(Server.MapPath(_path+"Gsts/" + client.Organization.OrgGSTFileName));
             }
             if (client.Organization.OrgPanNumberFilePath != null && client.Organization.OrgPanFileName != null)
             {
-                if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Clients/PANCards/" + client.Organization.OrgPanFileName)))
-                    System.IO.File.Delete(Server.MapPath("~/UploadedImages/Clients/PANCards/" + client.Organization.OrgPanFileName));                
+                if (System.IO.File.Exists(Server.MapPath(_path+"PANCards/" + client.Organization.OrgPanFileName)))
+                    System.IO.File.Delete(Server.MapPath(_path+"PANCards/" + client.Organization.OrgPanFileName));                
             }
 
             if (client.Organization.OrgGSTNumberFilePath != null)
@@ -506,123 +439,11 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["client"] = null;
-            var client = await _client.GetClientByClientId(id);
-            if (client.Organization == null)
-                client.Organization = new OrganizationModel();
-            var _deviceCat = client._deviceCategories.Split(',');
-            var processes = await CommonModel.GetProcesses();
-            client.ProcessList = new SelectList(processes, "Value", "Text");
-            client.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            var statutory = await CommonModel.GetStatutoryType();
-            client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-            var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
-            client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            client.ServiceList = await TogoFogo.CommonModel.GetServiceType();
-            client.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();
-            client.action = 'U';
-            List<int> List        =new  List<int>(); 
-            for (int i = 0; i < _deviceCat.Length; i++)
-            {
-                List.Add(Convert.ToInt16(_deviceCat[i]));
-
-            }
-            var _DeliveryService = client.ServiceDeliveryTypes.Split(',');
-            for (int i = 0; i < _DeliveryService.Length; i++)
-            {
-                    var item = client.DeliveryServiceList.Where(x => x.Value == Convert.ToInt32( _DeliveryService[i])).FirstOrDefault();
-                    if(item !=null)                
-                    item.IsChecked = true;
-
-             }
-
-            var _serviceType = client.ServiceTypes.Split(',');
-            for (int i = 0; i < _serviceType.Length; i++)
-            {
-                var item = client.ServiceList.Where(x => x.Value == Convert.ToInt32(_serviceType[i])).FirstOrDefault();
-                if (item != null)
-                    item.IsChecked = true;
-            }
-            client.DeviceCategories = List;
-            client.action = 'U';
+            var client = await  GetClient(id);
             return View(client);
 
         }
 
-        // POST: ManageClient/Edit/5
-        [HttpPost]
-        public async Task<ActionResult> Edit(ClientModel client, OrganizationModel org)
-        {
-            
-            try
-            {
-
-                client.Organization = new OrganizationModel();
-                if (client.Activetab.ToLower() == "tab-1")
-                {
-                   
-                    string _servicetype = "";
-                    foreach (var item in client.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
-
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
-
-
-                    string __deliveryType = "";
-                    foreach (var item in client.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
-
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    client.ServiceTypes = _servicetype;
-                    client.ServiceDeliveryTypes = __deliveryType;
-                }
-                else if (client.Activetab.ToLower() == "tab-2")
-                    client.Organization = org;
-                
-                    client.CreatedBy = Convert.ToInt32(Session["User_ID"]);
-                    var response = await _client.AddUpdateDeleteClient(client);
-                    _client.Save();
-                    // TODO: Add insert logic here
-                    TempData["response"] = "Edited Successfully";
-                    TempData.Keep("response");
-                    // TODO: Add update logic here
-
-                    return RedirectToAction("index");
-                
-               
-            }
-            catch
-            {
-                
-                return View(client);
-            }
-        }
-
-
-       
-        // GET: ManageClient/Delete/5
-        public async Task<ActionResult> Delete(Guid id)
-        {
-            try
-            {
-                var client = new ClientModel();
-                client.ClientId = id;
-                var response = await _client.AddUpdateDeleteClient(client);
-                _client.Save();
-            }
-            catch
-            {
-            }
-
-            return RedirectToAction("Index");
-        }
+      
     }
 }

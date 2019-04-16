@@ -15,8 +15,14 @@ namespace TogoFogo.Models
         public ClientModel()
         {
             Activetab = "tab-1";
+            Organization = new OrganizationModel();
+            ContactPersons = new List<ContactPersonModel>();
+            BankDetails = new List<BankDetailModel>();
+            Bank = new BankDetailModel();
+            Contact = new ContactPersonModel();
 
         }
+        public string Path { get; set; }
         public string ServiceTypes
         {
             get;
@@ -36,8 +42,10 @@ namespace TogoFogo.Models
         public char action { get; set; }
         public OrganizationModel Organization { get; set; }
         public List<ContactPersonModel> ContactPersons { get; set; }
+        public ContactPersonModel Contact { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
-        public Guid? ClientId { get; set; }
+        public BankDetailModel Bank { get; set; }
+        public Guid ClientId { get; set; }
         [Required]
         [DisplayName("Process Name")]
         public int ProcessId { get; set; }

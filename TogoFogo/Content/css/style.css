@@ -23666,3 +23666,17 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .contain-for-background{ background:#eee}
 .contain-for-background .panel{ border:0px solid #eee;}
 
+.isDisabled {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+.thumb-Img {
+    width: 96px;
+}
+.for-popup-height {
+    min-height:320px;
+}
