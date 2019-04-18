@@ -80,7 +80,14 @@ namespace TogoFogo.Repository.Customer_Support
                 var command = connection.CreateCommand();
                 command.CommandText = "GETREQUESTFORASP";
                 command.CommandType = CommandType.StoredProcedure;
-
+                var parameter = command.CreateParameter();
+                parameter.ParameterName = "@Export";
+                parameter.Value = 0;
+                var parameterstatus = command.CreateParameter();
+                parameterstatus.ParameterName = "@Status";
+                parameterstatus.Value = "";
+                command.Parameters.Add(parameter);
+                command.Parameters.Add(parameterstatus);
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     calls.PendingCalls =
@@ -107,8 +114,17 @@ namespace TogoFogo.Repository.Customer_Support
             {
                 connection.Open();
                 var command = connection.CreateCommand();
+                //SqlParameter exportExcel1 = new SqlParameter("@Export", 0);
                 command.CommandText = "GETREQUESTFORASC";
                 command.CommandType = CommandType.StoredProcedure;
+                var parameter = command.CreateParameter();
+                parameter.ParameterName = "@Export";
+                parameter.Value = 0;
+                var parameterstatus = command.CreateParameter();
+                parameterstatus.ParameterName = "@Status";
+                parameterstatus.Value = "";
+                command.Parameters.Add(parameter);
+                command.Parameters.Add(parameterstatus);
 
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -128,6 +144,19 @@ namespace TogoFogo.Repository.Customer_Support
             }
             return calls;
         }
+        public async Task<List<CallAllocatedToASCModel>> GeteExportASCCalls(string tabIndex)
+        {
+            SqlParameter exportExcel = new SqlParameter("@Status", tabIndex);
+            SqlParameter exportExcel1 = new SqlParameter("@Export", 1);
+            return await _context.Database.SqlQuery<CallAllocatedToASCModel>("GETREQUESTFORASC @Export , @Status", exportExcel1, exportExcel).ToListAsync();          
+        }
+        public async Task<List<CallAllocatedToASPModel>> GeteExportASPCalls(string tabIndex)
+        {
+            SqlParameter exportExcel = new SqlParameter("@Status", tabIndex);
+            SqlParameter exportExcel1 = new SqlParameter("@Export", 1);
+            return await _context.Database.SqlQuery<CallAllocatedToASPModel>("GETREQUESTFORASP @Export , @Status", exportExcel1, exportExcel).ToListAsync();
+        }
+
         private object ToDBNull(object value)
         {
             if (null != value)

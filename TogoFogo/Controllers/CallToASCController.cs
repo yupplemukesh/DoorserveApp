@@ -1,5 +1,7 @@
-﻿using System;
+﻿//using DataLayer.DataFactory;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,6 +58,32 @@ namespace TogoFogo.Controllers
                 return Json("ex", JsonRequestBehavior.AllowGet);
             }
 
-        }      
+        }
+
+        [HttpGet]
+        public async Task<FileContentResult> ExportToExcel(string tabIndex)
+        {            
+            var response = await _customerSupport.GeteExportASCCalls(tabIndex);
+            byte[] filecontent;
+            string[] columns;
+            if (tabIndex == "P")
+            {
+                columns = new string []{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName"};
+                filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);
+               
+            }
+            else
+            {
+                columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName","ServiceCenterName"};
+                filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);
+                
+            }
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+
+        }
     }
 }

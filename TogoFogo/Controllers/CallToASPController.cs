@@ -55,8 +55,30 @@ namespace TogoFogo.Controllers
             }
           
         }
-       
-     
+        [HttpGet]
+        public async Task<FileContentResult> ExportToExcel(string tabIndex)
+        {
+            var response = await _customerSupport.GeteExportASPCalls(tabIndex);
+            byte[] filecontent;
+            string[] columns;
+            if (tabIndex == "P")
+            {
+                columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
+               filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);                
+            }
+            else
+            {
+                columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName"};
+                filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);
+            }
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+
+        }
+
 
     }
 }
