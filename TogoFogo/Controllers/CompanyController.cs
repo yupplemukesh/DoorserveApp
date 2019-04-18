@@ -8,6 +8,7 @@ using TogoFogo.Models;
 using TogoFogo.Models.Company;
 using System.Threading.Tasks;
 using TogoFogo.Repository;
+using System.Reflection;
 
 namespace TogoFogo.Controllers
 {
@@ -270,16 +271,24 @@ namespace TogoFogo.Controllers
 
 
             if (contact.IsUser)
-            {
-
-            }
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             if (contact.ContactId == null)
                 contact.Action = 'I';
             else
                 contact.Action = 'U';
             CompanyModel comp = new CompanyModel();
-          
+
             var response = await _ContactPersonRepo.AddUpdateContactDetails(contact);
+
+            if (response.IsSuccess)
+            {
+                var mpc = new Email_send_code();
+                Type type = mpc.GetType();
+                var Status = (int)type.InvokeMember("sendmail_update",
+                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
+                                        BindingFlags.NonPublic, null, mpc,
+                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+            }
             if (TempData["Comp"] != null)
             {
                 comp = TempData["Comp"] as CompanyModel;

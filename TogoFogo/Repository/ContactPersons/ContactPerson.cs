@@ -18,6 +18,8 @@ namespace TogoFogo.Repository
         }
         public async Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact)
         {
+
+           
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@CONTACTID",ToDBNull(contact.ContactId));
             sp.Add(param);
@@ -63,9 +65,11 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@USER", (object)contact.UserID);
             sp.Add(param);
+            param = new SqlParameter("@ISUSER", (object)contact.IsUser);
+            sp.Add(param);
 
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
-                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER";
+                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER";
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode==0)

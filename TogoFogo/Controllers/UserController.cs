@@ -188,11 +188,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Users")]
         public ActionResult UserList()
         {
-            int UserId = 0;            
-  
+            int UserId = 0;
+            Guid? RefKey = null;
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
-            {
+            {      
                     UserId = Convert.ToInt32(Session["User_ID"]);
                 var result = con.Query<dynamic>("GETUSERLIST", new { UserId },
                     commandType: CommandType.StoredProcedure).ToList();
