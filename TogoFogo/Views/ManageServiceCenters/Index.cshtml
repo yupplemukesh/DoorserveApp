@@ -31,14 +31,17 @@
                             </span>
                         </a>
                     }
-                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-<!--/.row-->
+<!--/.row===================-->
+
+
+
 
 
 <div class="panel-body">
@@ -130,9 +133,23 @@
                         }
                     </table>
                 }
-                </div>
             </div>
-            <!--/.panel
-    </div><!--/.col-->
         </div>
+        <!--/.panel
+        </div><!--/.col-->
+    </div>
 </div>
+<script>
+    $('#assets-data-table').on("click", ".editAsset", function (event) {
+
+        event.preventDefault();
+
+        var url = $(this).attr("href");
+
+        $.get(url, function (data) {
+            $('#editAssetContainer').html(data);
+
+            $('#editAssetModal').modal('show');
+        });
+
+    });</script>

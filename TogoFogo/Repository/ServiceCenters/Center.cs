@@ -56,6 +56,9 @@ namespace TogoFogo.Repository.ServiceCenters
                             .ObjectContext
                             .Translate<ServiceCenterModel>(reader)
                             .SingleOrDefault();
+                    //Add This
+                    if (CenterModel == null)
+                        CenterModel = new ServiceCenterModel();
                     CenterModel.CurrentCenterName = CenterModel.CenterName;
                     CenterModel.CurrentUserName = CenterModel.UserName;
                     reader.NextResult();
@@ -65,9 +68,12 @@ namespace TogoFogo.Repository.ServiceCenters
                             .ObjectContext
                             .Translate<OrganizationModel>(reader)
                             .SingleOrDefault();
-
+                    //Add This
+                    if (CenterModel.Organization != null)
+                    { 
                     CenterModel.Organization.OrgGSTFileUrl = "/UploadedImages/Centers/Gsts/" + CenterModel.Organization.OrgGSTFileName;
                     CenterModel.Organization.OrgPanFileUrl = "/UploadedImages/Centers/PANCards/" + CenterModel.Organization.OrgPanFileName;
+                    }
                     reader.NextResult();
                     CenterModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();

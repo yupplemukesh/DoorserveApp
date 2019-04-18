@@ -172,7 +172,12 @@ namespace TogoFogo.Controllers
                 provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            
+                provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+                provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+                provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                provider.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+                provider.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
+
                 if (provider.action == 'I')
                     return View("Create", provider);
                 else
@@ -236,6 +241,12 @@ namespace TogoFogo.Controllers
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");          
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+            provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+            provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+            provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            provider.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+            provider.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
+
             try
             {
                     provider.Activetab = "tab-1";
@@ -399,6 +410,11 @@ namespace TogoFogo.Controllers
             Provider.ServiceList = await TogoFogo.CommonModel.GetServiceType();
             Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();
        
+            Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+            Provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+            Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            Provider.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
+            Provider.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");

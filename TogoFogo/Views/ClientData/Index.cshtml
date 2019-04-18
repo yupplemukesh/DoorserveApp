@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <div class="panel panel-default panel-table b-t-0" id="callsPanel">
-                               @Html.Partial("_TotalCallsList",Model.Calls)
+                                @Html.Partial("_TotalCallsList", Model.Calls)
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
     <script>
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
-     
+
             if (ddl == "address_StateId")
                 $("#address_CityId").empty();
             if (ddl == 'DeviceModalId') {
@@ -90,7 +90,7 @@
                 success: function (data) {
                     debugger
                     $("#" + ddl).empty();
-                  
+
                     for (var i = 0; i < data.length; i++) {
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
@@ -112,18 +112,18 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);      
+                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
                         $("#CustomerName").val(data[0].CustomerName);
                         $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
                         $("#CustomerEmail").val(data[0].Email);
-                        $('input[name="address.AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);                       
+                        $('input[name="address.AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
                         $("#address_NearLocation").val(data[0].NearLocation);
                         $("#address_Address").val(data[0].Address);
                         $("#address_PinNumber").val(data[0].PinNumber);
                         $("#address_CountryId").val(data[0].CountryId);
-            
+
                         var obj = { value: data[0].CountryId }; +
-                          AjaxWithValue('BindStateJson', 'address_StateId', obj);                          
+                          AjaxWithValue('BindStateJson', 'address_StateId', obj);
                         obj.value = data[0].StateId;
                          AjaxWithValue('BindLocationJson', 'address_CityId', obj)
                         $("#address_StateId").val(data[0].StateId);
@@ -142,5 +142,5 @@
 
     @*<script src="~/Content/js/ui-buttons.min.js"></script>*@
     <script src="~/Content/js/forms-material-form.min.js"></script>
-
+    <script src="~/Content/js/ui-buttons.min.js"></script>
 }

@@ -436,8 +436,8 @@
                                 <div class="col-12">
                                     @Html.Partial("~/Views/Common/_bankDetails.cshtml", Model.BankDetails)
 
-                                    <div class="row" style="display:none" id="BankAccount">
-                                        @using (Html.BeginForm("AddOrEditBank", "ManageServiceCenters", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                                    <div class="row" style="display:none;" id="BankAccount">
+                                        @using (Html.BeginForm("AddOrEditBank", "ManageServiceCenters", FormMethod.Post, new { enctype = "multipart/form-data", id = "bankform" }))
                                         {
                                             Model.Bank.RefKey = Model.CenterId;
                                             <div class="col-12">
@@ -530,6 +530,30 @@
         $(tab).addClass("active in");
     };
     $("#AddContactPerson").click(function () {
+        $('#ContactPerson').find(':input,select').each(function () {
+            debugger
+            switch (this.type) {
+                case 'button':
+                case 'text':
+                case 'hidden':
+                case 'submit':
+                case 'password':
+                case 'file':
+                case 'email':
+                case 'date':
+                case 'number':
+                    $(this).val('');
+                    break;
+                case 'select-one':
+                    $(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                    break;
+            }
+
+        })
         $("#ContactPerson").show();
     });
     $(".reset").click(function () {
@@ -542,7 +566,35 @@
 
 
     $("#AddBankAccount").click(function () {
+
+        $('#BankAccount').find(':input,select').each(function () {
+            debugger
+            switch (this.type) {
+                case 'button':
+                case 'text':
+                case 'hidden':
+                case 'submit':
+                case 'password':
+                case 'file':
+                case 'email':
+                case 'date':
+                case 'number':
+                    $(this).val('');
+                    break;
+                case 'select-one':
+                    $(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                    break;
+            }
+
+        })
+
+       
         $("#BankAccount").show();
+       
     });
     function AjaxWithValue(method, ddl, e) {
         var val = e.value;

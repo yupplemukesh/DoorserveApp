@@ -40,13 +40,9 @@ namespace TogoFogo.Repository
             param = new SqlParameter("@ACTION", (object)bank.Action);
             sp.Add(param);
             param = new SqlParameter("@IsDefault", (object)bank.IsDefault);
-            sp.Add(param);
-            param = new SqlParameter("@IsActive", (object)bank.IsActive);
-            sp.Add(param);
-            param = new SqlParameter("@Comments", ToDBNull(bank.Comments));
-            sp.Add(param);
+            sp.Add(param);            
 
-            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKACCNUMBER,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@REFKEY ,@ACTION,@IsDefault,@IsActive,@Comments";
+            var sql = "USPADDOREDITBANKDETAILS @BANKID,@BANKNAMEID,@BANKACCNUMBER,@BANKCOMPATACC,@BANKBRANCH,@BANKIFSC,@BankCancelledChequeFileName,@USER,@REFKEY ,@ACTION,@IsDefault";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

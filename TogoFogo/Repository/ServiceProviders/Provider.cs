@@ -44,6 +44,8 @@ namespace TogoFogo.Repository.ServiceProviders
                             .ObjectContext
                             .Translate<ServiceProviderModel>(reader)
                             .SingleOrDefault();
+                    if (ProviderModel == null)
+                        ProviderModel = new ServiceProviderModel();
                     ProviderModel.CurrentProviderName = ProviderModel.ProviderName;
                     ProviderModel.CurrentUserName = ProviderModel.UserName;
                     reader.NextResult();

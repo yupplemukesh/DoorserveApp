@@ -1,6 +1,6 @@
 ﻿@model TogoFogo.Models.ClientData.UploadedExcelModel
 
-@using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data",id="submitthis" }))
 {
     <div class="panel panel-default panel-table b-t-0">
         @if (!Model.IsClient)
@@ -27,7 +27,7 @@
         }
         @Html.Partial("~/views/common/_CustomerInfoForm.cshtml", Model)
     </div>
-    
+
     @Html.Partial("~/views/common/_CallLogDeviceInfoForm.cshtml", Model)
     <div class="panel panel-default panel-table">
         <div class="panel-body">
@@ -76,13 +76,17 @@
 
                 <div class="form-group row m-t-5">
                     <div class="col-md-4 col-md-offset-8">
-                        <button class="btn btn-danger ladda-button" data-style="expand-right">
+                        <a class="btn btn-danger ladda-button" data-style="expand-right" href="@Url.Action("Index", "ClientData")">
+                            @*<button class="btn btn-danger ladda-button" data-style="expand-right" id="close"></button>*@
                             <span class="ladda-label">Close</span>
-                        </button>
-                        <button class="btn btn-warning ladda-button" data-style="expand-right">
+                        </a>
+                        
+                        <button class="btn btn-warning ladda-button" data-style="expand-right" onclick="document.getElementById('submitthis').reset()" >
                             <span class="ladda-label">Reset</span>
                         </button>
-                        <button class="btn btn-success ladda-button" data-style="expand-right">
+                       
+
+                        <button class="btn btn-success ladda-button" data-style="expand-right" id="oksubmit">
                             <span class="ladda-label">Submit</span>
                         </button>
                     </div>
@@ -91,4 +95,21 @@
         </div>
     </div>
 
+
+
 }
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+
+    $("#oksubmit").click(function () {
+        $("#submitthis").submit(); 
+    });
+
+    
+       
+        
+
+       
+
+</script>
