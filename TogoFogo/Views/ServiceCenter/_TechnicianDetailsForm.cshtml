@@ -1,22 +1,14 @@
 ﻿@model TogoFogo.Models.ServiceCenter.ServiceCenterCallsModel
-
-
 <div class="form-horizontl">
     <form class="form-material">
-
-
         <div class="form-group row">
-
+            @Html.HiddenFor(model => model.employee.EmpId)
             <label class="col-sm-2 " for="form-control">Technician Type</label>
             <div class="col-sm-2">
-                @*@Html.DropDownListFor(model => model.EngineerId, Model., "Select", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.EmpId, "", new { @class = "text-danger" })*@
                 @Html.TextBoxFor(model => model.employee.TechnicianTypeName, new { @class = "form-control input-md", @placeholder = "Technician Type", @disabled = "disabled" })
                 @Html.ValidationMessageFor(model => model.employee.TechnicianTypeName, "", new { @class = "text-danger" })
-               
+
             </div>
-
-
             <label class="col-sm-2" for="form-control-1">Technician Name</label>
             <div class="col-sm-2">
                 @Html.TextBoxFor(model => model.employee.TechnicianName, new { @class = "form-control input-md", @placeholder = "Technician Name", @disabled = "disabled" })
@@ -36,9 +28,8 @@
 
             <label class="col-sm-2 " for="form-control-1">Technician Image</label>
             <div class="col-sm-2">
-                <img src="img/user-0.png" width="45px">              
+                <img src="~/Content/img/icon-img/users.png" id="techImg" width="45px">              
             </div>
-
 
             <label class="col-sm-2" for="form-control-1">Panding Calls</label>
             <div class="col-sm-2">
@@ -108,7 +99,7 @@
                 <span class="ladda-label">Back</span>
                 <span class="ladda-spinner"></span>
             </button>
-            <button class="btn btn-success ladda-button" data-style="expand-right"id="btnAssign"empId="@Model.employee.EmpId">
+            <button class="btn btn-success ladda-button" data-style="expand-right"id="btnAssign">
                 <span class="ladda-label">Assign to technician</span>
                 <span class="ladda-spinner"></span>
             </button>

@@ -18,6 +18,7 @@ namespace TogoFogo.Models
         [DisplayName("Last Name")]
         public string ConLastName { get; set; }
         [DisplayName("Mobile No")]
+        public string TechnicianName { get { return ConFirstName + " " + ConLastName; } }
         [Required(ErrorMessage = "Enter Mobile No")]
         public string ConMobileNumber { get; set; }
         [DisplayName("Email Address")]

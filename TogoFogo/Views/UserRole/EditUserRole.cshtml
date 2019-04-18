@@ -19,7 +19,7 @@
             <div class="x_content">
                 @using (Html.BeginForm("EditUserRole", "UserRole", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
                 {
-
+                    @Html.HiddenFor(x=>x.RoleId)
                     @Html.Partial("_ManageUserRole", Model)
                 }
             </div>

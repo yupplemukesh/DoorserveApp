@@ -116,9 +116,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
-            if (!clientDataModel.IsClient)
+            if (clientDataModel.IsClient)
                 clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
-
+        
             if (clientDataModel.DataFile != null)
             {
                 string excelPath = SaveFile(clientDataModel.DataFile, "ClientData");

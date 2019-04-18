@@ -1,6 +1,8 @@
 ﻿@model TogoFogo.Models.UserRole
 <div class="form-horizontal">
     <div class="col-md-7 col-sm-7 col-lg-7 col-xs-12">
+        @if (!Model.IsSystemDefined)
+        {
         <div class="row" style="padding-bottom: 5px;">
             @Html.Label("Role Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -8,6 +10,11 @@
                 @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
             </div>
         </div>
+        }
+        else
+        {
+          @Html.HiddenFor(x=>x.RoleName)
+        }
         <div class="row" style="padding-bottom: 5px;">
             @Html.Label("Comments", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -36,7 +43,7 @@
             <table class="table table-bordered table-condensed" style="width:100%" id="tblMenu">
                 <thead>
                     <tr>
-                        <th>Check All <input type="checkbox" id="chkAll" /></th>
+                        <th><input type="checkbox" id="chkAll" /></th>
                         <th>Parent Menu</th>
                         <th>Submenu</th>
                     </tr>
@@ -66,28 +73,22 @@
     </div>
 </div>
 
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 <script>
-
-
-    $('form').submit(function ()
-    {
+    $('form').submit(function () {
         var valid = true;
         $("#toast-container").fadeIn();
-        if ($('#RoleName').val() == '')
-        {
+        if ($('#RoleName').val() == '') {
             valid = false;
 
         }
-        if ($('#Comments').val() == '')
-        {
+        if ($('#Comments').val() == '') {
             valid = false;
         }
         if (valid) {
-            if ($('#tblMenu input:checkbox:checked').length == 0)
-            {
+            if ($('#tblMenu input:checkbox:checked').length == 0) {
 
 
                 $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one checkbox');

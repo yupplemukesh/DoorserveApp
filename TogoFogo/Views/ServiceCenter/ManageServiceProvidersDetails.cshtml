@@ -102,14 +102,9 @@
 
         </div>
 
-    <div role="tabpane1" class="tab-pane fade in" id="tab-12">
-
-
-
+    <div role="tabpanel" class="tab-pane fade in" id="tab-12">
         <div class="panel panel-default panel-table">
-
-            <div class=" panel-body">
-
+            <div class="panel-body">
                 <div class="panel-default m-b-10">
                     <div class="panel-heading p-l-0">
 
@@ -117,7 +112,7 @@
 
                             <div class="col-md-12">
                                 <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
-                                @Html.Partial("_CustomerDetailsForm", Model)
+                                @Html.Partial("_CustomerInfoForm", Model)
                             </div>
 
                         </div>
@@ -135,7 +130,7 @@
 
         <div class="panel panel-default panel-table">
 
-            @Html.Partial("_DeviceInformationForm", Model)
+            @Html.Partial("~/view/Common/_CallLogDeviceInfoForm.cshtml", Model)
         </div>
 
 

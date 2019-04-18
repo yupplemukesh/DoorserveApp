@@ -26,10 +26,10 @@ namespace TogoFogo.Controllers
             UserPermission objUserPermission = new UserPermission();               
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission.UserList = con.Query<User>("GETUSERLIST",
+                objUserPermission.UserList = con.Query<User>("GETUSERLIST",new {UserId=0 },
                 commandType: CommandType.StoredProcedure).ToList();
-           
-                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId=0 },
+                Guid? RefKey = null;
+                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId=0, UserId=0, RefKey },
                 commandType: CommandType.StoredProcedure).ToList();    
              
              

@@ -11,22 +11,23 @@ using System.Web.Mvc;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository.ServiceCenters;
-using GridMvc.Html;
-using TogoFogo.Models.Customer_Support;
 using TogoFogo.Models.ServiceCenter;
 using AutoMapper;
+using TogoFogo.Repository;
 
 namespace TogoFogo.Controllers
 {
     public class ServiceCenterController : Controller
     {
         private readonly ICenter _centerRepo;
+        private readonly IEmployee _empRepo;
         private readonly DropdownBindController _dropdown;
         public ServiceCenterController()
         {
 
             _centerRepo = new Center();
             _dropdown = new DropdownBindController();
+            _empRepo = new Employee();
         }
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -298,12 +299,11 @@ namespace TogoFogo.Controllers
 
             calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();
             calls.employee = new EmployeeModel();
-            calls.CallDetails.StatusList = new SelectList(await CommonModel.GetStatusTypes(), "Value", "Text");
-            calls.employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(), "Value", "Text");
-            Guid? providerId = null;
-            if (Session["RoleName"].ToString().Contains("provider"))
-                providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
-
+         
+            Guid? CenterId = null;
+            if (Session["RoleName"].ToString().ToLower().Contains("center"))
+                CenterId = await CommonModel.GetCenterIdByUser(Convert.ToInt32(Session["User_ID"]));
+            calls.employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CenterId), "Name", "Text");
             return View(calls);
         }
         //public async Task<ActionResult> GetEmployeeDetailsById(int EmpId)
@@ -316,12 +316,12 @@ namespace TogoFogo.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult> TechnicianDetails(string EmpId)
+        public async Task<ActionResult> TechnicianDetails(Guid EmpId)
         {
 
-            var techDetails = await _centerRepo.GetTechnicianDetails(EmpId);
-            var techDetailsModel = Mapper.Map<EmployeeModel>(techDetails);            
-            return Json(techDetailsModel, JsonRequestBehavior.AllowGet);
+            var techDetails = await _empRepo.GetEmployeeById(EmpId);
+            
+            return Json(techDetails, JsonRequestBehavior.AllowGet);
 
         }
         [HttpPost]

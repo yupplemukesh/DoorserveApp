@@ -56,8 +56,9 @@ namespace TogoFogo.Controllers
                         objUserRole.IsActive,
                         objUserRole.Comments,
                         objUserRole.UserLoginId,
-                        MenuList
-
+                        MenuList,
+                        objUserRole.RefKey,
+                        objUserRole.RefName
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -103,10 +104,12 @@ namespace TogoFogo.Controllers
         public ActionResult EditUserRole(Int64 id = 0)
         {
             UserRole objUserRole = new UserRole();           
-            Int64 RoleId = id;           
+            Int64 RoleId = id;
+            Guid? RefKey = null;
+            int UserId = 0;     
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId },
+                    objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId, UserId, RefKey },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 }
@@ -142,8 +145,9 @@ namespace TogoFogo.Controllers
                         objUserRole.IsActive,
                         objUserRole.Comments,
                         objUserRole.UserLoginId,
-                        MenuList
-
+                        MenuList,
+                        objUserRole.RefKey,
+                        objUserRole.RefName
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -190,13 +194,15 @@ namespace TogoFogo.Controllers
            
             Int64 RoleId = 0;
             int UserId = 0;
+            Guid? RefKey=null;
+            string RefName;
             var objUserRole = new  List<UserRole>();
             if (Session["RoleName"].ToString().ToLower() != "super admin")
-                UserId = Convert.ToInt32(Session["User_ID"]);
+                UserId = Convert.ToInt32(Session["User_ID"]);            
             using (var con = new SqlConnection(_connectionString))
             { 
                
-                   objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId, UserId },
+                   objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId, UserId, RefKey },
                     commandType: CommandType.StoredProcedure).ToList();                             
             }
 

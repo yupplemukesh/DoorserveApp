@@ -10,7 +10,7 @@ namespace TogoFogo.Models
     {
         public Int64 SerialNo { get; set; }
         public Int64 RoleId { get; set; }
-        [Required(ErrorMessage ="Enter Role Name")]
+        [Required(ErrorMessage = "Enter Role Name")]
         public string RoleName { get; set; }
         [Required(ErrorMessage = "Enter Comments")]
         public string Comments { get; set; }
@@ -23,6 +23,9 @@ namespace TogoFogo.Models
         public DateTime ModifyDate { get; set; }
         public MenuMasterModel _Menu { get; set; }
         public List<MenuMasterModel> _MenuList { get; set; }
+        public Guid? RefKey { get; set; }
+        public string RefName { get; set; }
+        public bool IsSystemDefined{ get; set; }
 
 
     }

@@ -193,7 +193,6 @@ namespace TogoFogo.Controllers
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
-                if (Session["RoleName"].ToString().ToLower() != "super admin")
                     UserId = Convert.ToInt32(Session["User_ID"]);
                 var result = con.Query<dynamic>("GETUSERLIST", new { UserId },
                     commandType: CommandType.StoredProcedure).ToList();
