@@ -205,7 +205,44 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<FileContentResult> ExportToExcel(char tabIndex, Guid? clientId)
+        {
+            
+            var response = await _RepoUploadFile.GetExportAssingedCalls(tabIndex,clientId);
+            byte[] filecontent; 
+            string[] columns;
+            if (tabIndex == 'O')
+            {
+                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
+                "ServiceTypeName","DeliveryTypeName"};
+                filecontent = ExcelExportHelper.ExportExcel(response.Calls.OpenCalls, "", true, columns);
+            }
+            else if (tabIndex=='C')
+            {
+                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
+                "ServiceTypeName","DeliveryTypeName"};
+                filecontent = ExcelExportHelper.ExportExcel(response.Calls.CloseCalls, "", true, columns);
+            }
+            else if (tabIndex == 'D')
+            {
+                columns = new string[]{"UploadedDate","CRN","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory"};
+                filecontent = ExcelExportHelper.ExportExcel(response.UploadedData, "", true, columns);
+            }
+            else
+            {
+                {
+                    columns = new string[]{"UploadedDate","UserName","UploadedFilename","ServiceType","ServiceDeliveryType", 
+                    "TotalRecords","UploadedRecords","FailedRecords"};
+                    filecontent = ExcelExportHelper.ExportExcel(response.UploadedFiles, "", true, columns);
+                }
+            }
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
         }
+
+
+    }
 
     }

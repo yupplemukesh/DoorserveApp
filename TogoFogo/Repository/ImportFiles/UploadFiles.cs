@@ -30,8 +30,11 @@ namespace TogoFogo.Repository.ImportFiles
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "GETDATAUPLOADEDBYCLIENT";
-                command.CommandType = CommandType.StoredProcedure;
+                command.CommandType = CommandType.StoredProcedure;                
                 command.Parameters.Add(client);
+                command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(false)));
+                command.Parameters.Add(new SqlParameter("@Type", ToDBNull('A')));
+
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     mainModel.UploadedFiles =
@@ -69,14 +72,16 @@ namespace TogoFogo.Repository.ImportFiles
 
             var mainModel = new CallsViewModel();
 
-            //SqlParameter client = new SqlParameter("@ClientId", ToDBNull(clientId));
+            SqlParameter client = new SqlParameter("@ClientId", DBNull.Value);
             using (var connection = _context.Database.Connection)
             {
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "GETAssignedCalls";
                 command.CommandType = CommandType.StoredProcedure;
-                //command.Parameters.Add(client);
+                command.Parameters.Add(client);
+                command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(false)));
+                command.Parameters.Add(new SqlParameter("@Type", ToDBNull('A')));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     mainModel.OpenCalls =
@@ -128,6 +133,40 @@ namespace TogoFogo.Repository.ImportFiles
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
             return res;
+        }
+        public async Task<MainClientDataModel> GetExportAssingedCalls(char tabIndex, Guid? clientId)
+        {
+            MainClientDataModel main = new MainClientDataModel();
+            var sp = new List<SqlParameter>();
+            var pararm = new SqlParameter("@ClientId", ToDBNull(clientId));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@IsExport", true);
+            sp.Add(pararm);
+            pararm = new SqlParameter("@Type", tabIndex);
+            sp.Add(pararm);
+            main.Calls = new CallsViewModel();
+            var query = "GETDATAUPLOADEDBYCLIENT @ClientId, @IsExport , @Type";
+            if (tabIndex == 'O')
+            {
+                try
+                {
+                    main.Calls.OpenCalls = await _context.Database.SqlQuery<UploadedExcelModel>(query, sp.ToArray()).ToListAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else if (tabIndex == 'C')
+                main.Calls.CloseCalls = await _context.Database.SqlQuery<UploadedExcelModel>(query, sp.ToArray()).ToListAsync();
+            else if (tabIndex == 'D')
+                main.UploadedData = await _context.Database.SqlQuery<UploadedExcelModel>(query, sp.ToArray()).ToListAsync();
+
+            else
+                main.UploadedFiles = await _context.Database.SqlQuery<FileDetailModel>(query, sp.ToArray()).ToListAsync();
+
+            return main;
+
         }
         public void Save()
         {

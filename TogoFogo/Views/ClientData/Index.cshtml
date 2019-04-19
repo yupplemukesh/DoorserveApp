@@ -134,7 +134,28 @@
             else
                 return false;
 
-            }
+        }
+
+        //$('a[data-toggle="tab"]').click(function (e) {
+        //    debugger
+        //    if (this.hash == '#tab-3')
+        //        $("#tabIndex").val('C');
+        //    else
+        //        $("#tabIndex").val('O');
+
+        //});
+        $('a[data-toggle="tab"]').click(function (e) {
+            debugger
+            if (this.hash == '#tab-3') 
+                $("#tabIndex").val('C');
+            else if (this.hash == '#tab-2')              
+                    $("#tabIndex").val('O');               
+            else if (this.hash == '#tab-5')
+                 $("#tabIndex").val('F');
+            else 
+                 $("#tabIndex").val('D');
+
+        });
 
 
 

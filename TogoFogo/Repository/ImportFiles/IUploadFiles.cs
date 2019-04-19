@@ -13,7 +13,8 @@ namespace TogoFogo.Repository
         Task<ResponseModel> UploadClientData(ClientDataModel client, DataTable table);
         Task<MainClientDataModel> GetUploadedList(Guid? ClientId);
         Task<CallsViewModel> GetAssingedCalls();
-        
+        Task<MainClientDataModel> GetExportAssingedCalls(char tabIndex, Guid? clientId);
+
         void Save();
     }
 }

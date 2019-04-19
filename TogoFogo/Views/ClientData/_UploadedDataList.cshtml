@@ -1,27 +1,39 @@
 ﻿@model  IEnumerable<TogoFogo.Models.ClientData.UploadedExcelModel>
+@using TogoFogo.Models
 @using GridMvc.Html
-@{    
-   @* var i = 0;*@
-int rowNumber = Convert.ToInt32(ViewBag.RowNumber);
-int pageSize = 10;
-int pageNumber = Convert.ToInt32(ViewBag.PageNumber);
-if ((pageNumber) > 1)
-{
-    rowNumber = (pageSize) * (pageNumber - 1) + rowNumber;
+@{
+    @* var i = 0;*@
+    int rowNumber = Convert.ToInt32(ViewBag.RowNumber);
+    int pageSize = 10;
+    int pageNumber = Convert.ToInt32(ViewBag.PageNumber);
+    if ((pageNumber) > 1)
+    {
+        rowNumber = (pageSize) * (pageNumber - 1) + rowNumber;
+    }
 }
-}
-       
- 
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-lg-12">                
-                    <div class="pull-right">
-                        <button class="btn btn-primary excel">Export to Excel</button>
-                    </div>             
+
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="pull-right">
+                @if (Permissions.Rights.ExcelExport)
+                {
+                    using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
+                    {
+
+                        @Html.Hidden("tabIndex", 'D')
+                        <button type="submit" class="tools-icon btn btn-primary btn-sm excel"> Export to Excel</button>
+                    }
+                }
+                @*<button class="btn btn-primary excel">Export to Excel</button>*@
             </div>
         </div>
     </div>
-    <div class="x_content" style="overflow-x: scroll;">
+</div>
+<div class="x_content" style="overflow-x: scroll;">
+
+    <div class="for-popup-height">
         <div class="code-cut">
             @Html.Grid(Model).Columns(columns =>
         {
@@ -32,18 +44,20 @@ if ((pageNumber) > 1)
                   {
                       rowNumber++;
                       return @<text> @rowNumber </text>;
-});
-columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
-columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
-columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
-columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
-columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
-columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
-columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
+         });
+   columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
+   columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+   columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
+   columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+   columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
+   columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
+   columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+   columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
+   columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
 
 }).WithPaging(10).Sortable(true)
         </div>
     </div>
+</div>
+
 
