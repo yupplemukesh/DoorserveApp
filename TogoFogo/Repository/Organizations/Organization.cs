@@ -57,7 +57,7 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
-        public async Task<OrganizationModel> GetOrganizationByRefKey(Guid refKey)
+        public async Task<OrganizationModel> GetOrganizationByRefKey(Guid? refKey)
         {               
             var param = new SqlParameter("@REFKEY", refKey);
             var sql = "GetOrganization @REFKEY";

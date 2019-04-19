@@ -63,11 +63,11 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ACTION", (object)contact.Action);
             sp.Add(param);
-            param = new SqlParameter("@USER", (object)contact.UserID);
+            param = new SqlParameter("@USER", ToDBNull(contact.UserID));
             sp.Add(param);
-            param = new SqlParameter("@ISUSER", (object)contact.IsUser);
+            param = new SqlParameter("@ISUSER", ToDBNull(contact.IsUser));
             sp.Add(param);
-            param = new SqlParameter("@DefaultPWD", (object)contact.Password);
+            param = new SqlParameter("@DefaultPWD", ToDBNull(contact.Password));
             sp.Add(param);
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
                 "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@DefaultPWD";

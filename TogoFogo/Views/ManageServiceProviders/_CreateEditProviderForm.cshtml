@@ -533,7 +533,6 @@
             switch (this.type) {
                 case 'button':
                 case 'text':
-                case 'hidden':
                 case 'submit':
                 case 'password':
                 case 'file':
@@ -550,6 +549,8 @@
                     this.checked = false;
                     break;
             }
+
+            $("#ContactId").val('');
 
         })
         $("#ContactPerson").show();
@@ -562,9 +563,6 @@
         $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
         $('.selectpicker').selectpicker('refresh');
     });
-
-
-
     $("#AddBankAccount").click(function () {
 
         $('#BankAccount').find(':input,select').each(function () {
@@ -572,7 +570,6 @@
             switch (this.type) {
                 case 'button':
                 case 'text':
-                case 'hidden':
                 case 'submit':
                 case 'password':
                 case 'file':
@@ -589,6 +586,8 @@
                     this.checked = false;
                     break;
             }
+
+            $("#bankId").val('');
 
         })
 

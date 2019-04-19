@@ -12,6 +12,7 @@ using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
 using TogoFogo.Repository.ServiceCenters;
+using System.Reflection;
 using TogoFogo.Repository.ServiceProviders;
 
 namespace TogoFogo.Controllers
@@ -84,12 +85,19 @@ namespace TogoFogo.Controllers
             else
                 bank.Action = 'I';
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
+            if (TempData["center"] != null)
+            {
+                var _center = TempData["center"] as ServiceCenterModel;
+                bank.RefKey = _center.CenterId;
+            }
             var response = await _bank.AddUpdateBankDetails(bank);
             TempData["response"] = response;
             if (TempData["center"] != null)
             {
                 var Center = TempData["center"] as ServiceCenterModel;
                 bank.bankId = new Guid(response.result);
+                var name = Center.Bank.BankList.Where(x => x.Value == bank.BankNameId.ToString()).FirstOrDefault();
+                bank.BankName = name.Text;
                 Center.BankDetails.Add(bank);
                 Center.action = 'I';
                 Center.Activetab = "tab-5";
@@ -129,17 +137,36 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
+            if (contact.IsUser)
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             if (contact.ContactId != null)
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
             contact.UserID = Convert.ToInt32(Session["User_ID"]);
+            if (TempData["center"] != null)
+            {
+                var _center = TempData["center"] as ServiceCenterModel;
+                contact.RefKey = _center.CenterId;
+            }
             var response = await _contactPerson.AddUpdateContactDetails(contact);
+
+            if (response.IsSuccess)
+            {
+                var mpc = new Email_send_code();
+                Type type = mpc.GetType();
+                var Status = (int)type.InvokeMember("sendmail_update",
+                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
+                                        BindingFlags.NonPublic, null, mpc,
+                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+            }
             TempData["response"] = response;
             if (TempData["center"] != null)
             {
                 var Center = TempData["center"] as ServiceCenterModel;
                 contact.ContactId = new Guid(response.result);
+                var cityName = dropdown.BindLocation(contact.StateId).Where(x => x.Value == contact.CityId.ToString()).FirstOrDefault();
+                contact.City = cityName.Text;
                 Center.ContactPersons.Add(contact);
                 Center.action = 'I';
                 Center.Activetab = "tab-4";
@@ -390,11 +417,11 @@ namespace TogoFogo.Controllers
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+           /* Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Center.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Center.Contact.StateList = new SelectList(dropdown.BindState(),"Value","Text");
-            Center.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"),"Value","Text");
+            Center.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"),"Value","Text");*/
 
             try
             {

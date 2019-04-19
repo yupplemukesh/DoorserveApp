@@ -10,7 +10,7 @@ namespace TogoFogo.Repository
     public interface IBank: IDisposable
     {
         Task<ResponseModel>AddUpdateBankDetails(BankDetailModel bank);
-        Task<List<BankDetailModel>> GetBanksByRefKey(Guid refkey);
+        Task<List<BankDetailModel>> GetBanksByRefKey(Guid? refkey);
         Task<BankDetailModel> GetBankByBankId(Guid bankId);
         void Save();
 

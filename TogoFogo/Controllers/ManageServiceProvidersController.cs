@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
+using System.Reflection;
 using TogoFogo.Repository.ServiceProviders;
 
 namespace TogoFogo.Controllers
@@ -76,12 +77,19 @@ namespace TogoFogo.Controllers
             else
                 bank.Action = 'I';
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
+            if (TempData["provider"] != null)
+            {
+                var _provider = TempData["provider"] as ServiceProviderModel;
+                bank.RefKey = _provider.ProviderId;
+            }
             var response = await _bank.AddUpdateBankDetails(bank);
             TempData["response"] = response;
             if (TempData["provider"] != null)
             {
                 var Provider = TempData["Provider"] as ServiceProviderModel;
                 bank.bankId = new Guid(response.result);
+                var name = Provider.Bank.BankList.Where(x => x.Value == bank.BankNameId.ToString()).FirstOrDefault();
+                bank.BankName = name.Text;
                 Provider.BankDetails.Add(bank);
                 Provider.action = 'I';
                 Provider.Activetab = "tab-5";
@@ -121,17 +129,42 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
+
+            if (contact.IsUser)
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             if (contact.ContactId != null)
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
             contact.UserID = Convert.ToInt32(Session["User_ID"]);
+            if (TempData["provider"] != null)
+            {
+                var _Provider = TempData["provider"] as ServiceProviderModel;
+                contact.RefKey = _Provider.ProviderId;
+            }
             var response = await _contactPerson.AddUpdateContactDetails(contact);
+
+            if (response.IsSuccess)
+            {
+                var mpc = new Email_send_code();
+                Type type = mpc.GetType();
+                var Status = (int)type.InvokeMember("sendmail_update",
+                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
+                                        BindingFlags.NonPublic, null, mpc,
+                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+            }
+
+            /* contact.UserID = Convert.ToInt32(Session["User_ID"]);
+             var response = await _contactPerson.AddUpdateContactDetails(contact);
+             TempData["response"] = response;*/
             TempData["response"] = response;
+
             if (TempData["Provider"] != null)
             {
                 var Provider = TempData["Provider"] as ServiceProviderModel;
                 contact.ContactId = new Guid(response.result);
+                var cityName = dropdown.BindLocation(contact.StateId).Where(x => x.Value == contact.CityId.ToString()).FirstOrDefault();
+                contact.City = cityName.Text;
                 Provider.ContactPersons.Add(contact);
                 Provider.action = 'I';
                 Provider.Activetab = "tab-4";
@@ -401,6 +434,7 @@ namespace TogoFogo.Controllers
                 Provider.ProcessList = new SelectList(processes, "Value", "Text");
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
+           
             Provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
             Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
@@ -408,14 +442,10 @@ namespace TogoFogo.Controllers
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Provider.ServiceList = await TogoFogo.CommonModel.GetServiceType();
-            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();
-       
+            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();        
+                        
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
-            Provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
-            Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            Provider.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            Provider.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+           
             Provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Provider.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());

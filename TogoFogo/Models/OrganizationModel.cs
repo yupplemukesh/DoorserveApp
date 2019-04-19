@@ -21,6 +21,7 @@ namespace TogoFogo.Models
         [DisplayName("Organisation IEC Number")]
         public string OrgIECNumber { get; set; }
         [DisplayName("Organisation Statutory Type")]
+        [Required]
         public int OrgStatutoryType { get; set; }
         [DisplayName("Organisation Application Tax Type")]
         [Required]

@@ -12,7 +12,7 @@ namespace TogoFogo.Models.Company
         public int CompanyTypeId { get; set; }
         [DisplayName("Company Type")]
         public string CompanyType { get; set; }
-        public int PayableTypeId { get; set; }
+        public int PayableTypeId { get; set; }        
         public DateTime AgreementStartDate { get; set; }
         public string AgreementPeriod { get; set; }
         public string AgreementNumber { get; set; }

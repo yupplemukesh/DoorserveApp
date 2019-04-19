@@ -29,6 +29,7 @@ namespace TogoFogo.Models
         [DisplayName("Company Name at Bank Account")]
         public string BankCompanyName { get; set; }
         [Required]
+        [RegularExpression(@"[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$", ErrorMessage = "Invalid IFSC Code Number")]
         [DisplayName("IFSC Code")]
         public string BankIFSCCode { get; set; }
         [DisplayName("Bank Branch")]

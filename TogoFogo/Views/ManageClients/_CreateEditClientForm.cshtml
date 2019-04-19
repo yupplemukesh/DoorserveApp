@@ -525,10 +525,35 @@
     activaTab(DivName);
 
     function activaTab(tab) {
-
         $(tab).addClass("active in");
     };
     $("#AddContactPerson").click(function () {
+        $('#ContactPerson').find(':input,select').each(function () {
+            debugger
+            switch (this.type) {
+                case 'button':
+                case 'text':
+                case 'submit':
+                case 'password':
+                case 'file':
+                case 'email':
+                case 'date':
+                case 'number':
+                    $(this).val('');
+                    break;
+                case 'select-one':
+                    $(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                    break;
+            }
+
+            $("#ContactId").val('');
+
+        })
+        console.log($("#ClientId").val());
         $("#ContactPerson").show();
     });
 
@@ -543,6 +568,32 @@
 
 
     $("#AddBankAccount").click(function () {
+        $('#BankAccount').find(':input,select').each(function () {
+            debugger
+            switch (this.type) {
+                case 'button':
+                case 'text':
+                case 'submit':
+                case 'password':
+                case 'file':
+                case 'email':
+                case 'date':
+                case 'number':
+                    $(this).val('');
+                    break;
+                case 'select-one':
+                    $(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                    break;
+            }
+
+            $("#bankId").val('');
+               
+        })
+
         $("#BankAccount").show();
     });
     function AjaxWithValue(method, ddl, e) {

@@ -44,6 +44,8 @@ namespace TogoFogo.Repository.Clients
                             .ObjectContext
                             .Translate<ClientModel>(reader)
                             .SingleOrDefault();
+                    if (ClientModel == null)
+                        ClientModel = new ClientModel();
                     ClientModel.CurrentClientName = ClientModel.ClientName;
                     ClientModel.CurrentUserName = ClientModel.UserName;
                     reader.NextResult();

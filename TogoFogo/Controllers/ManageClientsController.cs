@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
+using System.Reflection;
 using TogoFogo.Repository.Clients;
 
 namespace TogoFogo.Controllers
@@ -78,16 +79,23 @@ namespace TogoFogo.Controllers
             else
                 bank.Action = 'I';
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
+            if (TempData["client"] != null)
+            {
+                var Client = TempData["client"] as ClientModel;
+                bank.RefKey = Client.ClientId;
+            }
             var response = await _bank.AddUpdateBankDetails(bank);
             TempData["response"] = response;
             if (TempData["client"] != null)
             {
                 var Client = TempData["client"] as ClientModel;
                 bank.bankId = new Guid(response.result);
+                var name = Client.Bank.BankList.Where(x => x.Value == bank.BankNameId.ToString()).FirstOrDefault();
+                bank.BankName = name.Text;
                 Client.BankDetails.Add(bank);
                 Client.action = 'I';
                 Client.Activetab = "tab-5";
-                TempData["Client"] = Client;
+                TempData["client"] = Client;
                 return View("Create", Client);
             }
             else
@@ -123,17 +131,36 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
+            if (contact.IsUser)
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             if (contact.ContactId != null)
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
-            contact.UserID = Convert.ToInt32(Session["User_ID"]);
+
+            if (TempData["client"] != null)
+            {
+                var Client = TempData["client"] as ClientModel;
+                contact.RefKey = Client.ClientId;
+            }
+                contact.UserID = Convert.ToInt32(Session["User_ID"]);
             var response = await _contactPerson.AddUpdateContactDetails(contact);
+            if (response.IsSuccess)
+            {
+                var mpc = new Email_send_code();
+                Type type = mpc.GetType();
+                var Status = (int)type.InvokeMember("sendmail_update",
+                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
+                                        BindingFlags.NonPublic, null, mpc,
+                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+            }
             TempData["response"] = response;
-            if (TempData["Client"] != null)
+            if (TempData["client"] != null)
             {
                 var Client = TempData["client"] as ClientModel;
                 contact.ContactId = new Guid(response.result);
+                var cityName =  dropdown.BindLocation(contact.StateId).Where(x=> x.Value==contact.CityId.ToString()).FirstOrDefault();
+                contact.City = cityName.Text;
                 Client.ContactPersons.Add(contact);
                 Client.action = 'I';
                 Client.Activetab = "tab-4";
@@ -234,6 +261,11 @@ namespace TogoFogo.Controllers
                 client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+                client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+                client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+                client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+                client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
 
                 if (client.action == 'I')
                     return View("Create", client);
@@ -298,6 +330,11 @@ namespace TogoFogo.Controllers
             client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+            client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
+            client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+            client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+            client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
             try
             {
                     client.Activetab = "tab-1";

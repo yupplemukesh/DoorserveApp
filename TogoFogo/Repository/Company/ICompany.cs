@@ -12,9 +12,9 @@ namespace TogoFogo.Repository
     {
 
         Task<List<CompanyModel>> GetCompanyDetails();
-        Task<CompanyModel> GetCompanyDetailByCompanyId(Guid CompanyId);
+        Task<CompanyModel> GetCompanyDetailByCompanyId(Guid? CompanyId);
         Task<ResponseModel> AddUpdateDeleteCompany(CompanyModel company);
-        Task<AgreementModel> GetAgreement(Guid compId);
+        Task<AgreementModel> GetAgreement(Guid? compId);
         Task<ResponseModel> AddOrEditAgreeement(AgreementModel agreement);
 
 

@@ -52,7 +52,7 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
-        public async Task<List<BankDetailModel>> GetBanksByRefKey(Guid refKey)
+        public async Task<List<BankDetailModel>> GetBanksByRefKey(Guid? refKey)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@BANKID", DBNull.Value);

@@ -23,13 +23,13 @@ namespace TogoFogo.Repository
             var param = new SqlParameter("@CompId", DBNull.Value);
             return await _context.Database.SqlQuery<CompanyModel>("GetCompany @CompId", param).ToListAsync();
         }
-        public async Task<CompanyModel> GetCompanyDetailByCompanyId(Guid CompanyId)
+        public async Task<CompanyModel> GetCompanyDetailByCompanyId(Guid? CompanyId)
         {          
                 var param = new SqlParameter("@CompId", CompanyId);
                 return await _context.Database.SqlQuery<CompanyModel>("GetCompany @CompId", param).SingleOrDefaultAsync();
         }
 
-        public async Task<AgreementModel> GetAgreement(Guid CompanyId)
+        public async Task<AgreementModel> GetAgreement(Guid? CompanyId)
         {
             var param = new SqlParameter("@CompId", CompanyId);
             return await _context.Database.SqlQuery<AgreementModel>("GETAGREEMENTBYCOMP @CompId", param).SingleOrDefaultAsync();
