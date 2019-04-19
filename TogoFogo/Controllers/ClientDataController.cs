@@ -206,10 +206,13 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public async Task<FileContentResult> ExportToExcel(char tabIndex, Guid? clientId)
+        public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            
-            var response = await _RepoUploadFile.GetExportAssingedCalls(tabIndex,clientId);
+            Guid? ClientId = null;
+           var user = Session["User"] as SessionModel;
+            if (user.UserRole.ToLower().Contains("Client"))
+                ClientId = await CommonModel.GetClientIdByUser(user.UserId);
+            var response = await _RepoUploadFile.GetExportAssingedCalls(tabIndex, ClientId);
             byte[] filecontent; 
             string[] columns;
             if (tabIndex == 'O')
