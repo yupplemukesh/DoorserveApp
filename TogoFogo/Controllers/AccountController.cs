@@ -71,29 +71,7 @@ namespace TogoFogo.Controllers
        [HttpPost]
        [AllowAnonymous]
        [ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    // This doesn't count login failures towards account lockout
-        //    // To enable password failures to trigger account lockout, change to shouldLockout: true
-        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-        //    switch (result)
-        //    {
-        //        case SignInStatus.Success:
-        //            return RedirectToLocal(returnUrl);
-        //        case SignInStatus.LockedOut:
-        //            return View("Lockout");
-        //        case SignInStatus.RequiresVerification:
-        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-        //        case SignInStatus.Failure:
-        //        default:
-        //            ModelState.AddModelError("", "Wrong Username or Password");
-        //            return View(model);
-        //    }
-        //}
+
         public async Task<ActionResult> Login(LoginViewModel m)
         {
             var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);
@@ -104,19 +82,25 @@ namespace TogoFogo.Controllers
                 var result = await con.QueryMultipleAsync("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
                     commandType: CommandType.StoredProcedure);
                 var rs = await result.ReadSingleOrDefaultAsync<dynamic>();
-
                 if (rs !=null)
-                {
-                   
+                {                   
                     var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
-                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
-                    var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
-        
-
+                    var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
+                    var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };                   
+                    var User = new SessionModel
+                    {
+                        UserId = rs.UserId,
+                        UserRole = rs.RoleName,
+                        UserTypeId=rs.UserTypeId,
+                        UserTypeName=rs.UserTypeName,
+                        RefKey=rs.RefKey,
+                        Menues= manues
+                    };
                     Session["User_ID"] = rs.UserId;
-                    Session["RoleName"] = rs.RoleName;
-                    Session["Menues"] = manues;
+                    Session["User"] = User;
+                    Session["RoleName"] = User.UserRole;
+                  
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, m.Email));
@@ -128,7 +112,7 @@ namespace TogoFogo.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                {
+                {   
                     ViewBag.Message = "User Name or Password is not correct";
                 }         
             }

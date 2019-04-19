@@ -19,15 +19,14 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
              ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
+                  
         
         [Authorize]
         public ActionResult DynamicLinks()
         {
-
-            var menus = Session["Menues"] as MenuMasterModel;
-            MenuMasterModel objMenuMaster = menus;
- 
-            return PartialView("_SideMenu", menus);
+           var user = Session["User"] as SessionModel;         
+            MenuMasterModel objMenuMaster = user.Menues; 
+            return PartialView("_SideMenu", objMenuMaster);
             
         }
         [Authorize]

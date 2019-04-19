@@ -65,5 +65,6 @@ namespace TogoFogo.Models
         public string ModifiedBy { get; set; }
         public string MenuMasters { get; set; }
         public string UserRole { get; set; }
+        public int UserTypeId { get; set; }
     }
 }

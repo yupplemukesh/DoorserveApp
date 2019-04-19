@@ -18,17 +18,23 @@ namespace TogoFogo.Controllers
 {
     public class UserPermissionController : Controller
     {
+        private SessionModel user;
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage User Permission")]
         public async Task<ActionResult> AddUserPermission(Int64 RoleId = 0,Int64 PermissionId=0,Int64 UserId=0)
         {
+            user = Session["User"] as SessionModel;
             UserPermission objUserPermission = new UserPermission();               
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission.UserList = con.Query<User>("GETUSERLIST",new {UserId=0 },
+        
+                if (!user.UserRole.ToLower().Contains("super admin"))
+                    UserId = user.UserId;
+                   Guid? RefKey = user.RefKey;
+                objUserPermission.UserList = con.Query<User>("GETUSERLIST",new {UserId=0, RefKey },
                 commandType: CommandType.StoredProcedure).ToList();
-                Guid? RefKey = null;
+    
                 objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId=0, UserId=0, RefKey },
                 commandType: CommandType.StoredProcedure).ToList();    
              
@@ -63,6 +69,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddUserPermission(UserPermission permission,List<MenuMasterModel> objMenuMasterModel)
         {
+            user = Session["User"] as SessionModel;
             XmlDocument doc = new XmlDocument();
             ResponseModel objResponseModel = new ResponseModel();
             //(1) the xml declaration is recommended, but not mandatory
@@ -85,8 +92,7 @@ namespace TogoFogo.Controllers
                 XmlElement element4 = doc.CreateElement(string.Empty, "ActionRight_Id", string.Empty);
                 XmlText ActionRightId = doc.CreateTextNode(item.ActionRightId.ToString());
                 element4.AppendChild(ActionRightId);
-                element2.AppendChild(element4);
-                
+                element2.AppendChild(element4);               
                 XmlElement element5 = doc.CreateElement(string.Empty, "Action", string.Empty);
                 XmlElement element6 = doc.CreateElement(string.Empty, "item", string.Empty);
                 foreach (var ActionItem in SelectedActionList)
@@ -110,7 +116,8 @@ namespace TogoFogo.Controllers
                         permission.UserId,
                         permission.RoleId,
                         MenuActionRightXml = doc.InnerXml,
-                        permission.UserLoginId
+                        UserLoginId = user.UserId,
+                        user.RefKey
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -146,13 +153,17 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage User Permission")]
         public async Task<ActionResult> EditUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
+
+            user = Session["User"] as SessionModel;
+            Guid? RefKey = user.RefKey;
             UserPermission objUserPermission = new UserPermission();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission.UserList = con.Query<User>("GETUSERLIST",
+              
+                objUserPermission.UserList = con.Query<User>("GETUSERLIST",new{UserId,RefKey },
                 commandType: CommandType.StoredProcedure).ToList();
 
-                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId = 0 },
+                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new {UserId, RoleId,RefKey },
                 commandType: CommandType.StoredProcedure).ToList();
 
 
@@ -188,6 +199,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
+            user = Session["User"] as SessionModel;
             XmlDocument doc = new XmlDocument();
             ResponseModel objResponseModel = new ResponseModel();
             //(1) the xml declaration is recommended, but not mandatory
@@ -235,7 +247,8 @@ namespace TogoFogo.Controllers
                         permission.UserId,
                         permission.RoleId,
                         MenuActionRightXml = doc.InnerXml,
-                        permission.UserLoginId
+                        UserLoginId=user.UserId,
+                        refKey=user.RefKey
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -300,10 +313,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Permission")]
         public ActionResult UserPermissionList()
         {
-            var objUserPermission = new List<UserPermission>();
+            user = Session["User"] as SessionModel;
+            int UserId = user.UserId;
+            if (user.UserRole.ToLower().Contains("super admin"))
+                UserId = 0;
+                var objUserPermission = new List<UserPermission>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {  },
+                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {UserId,user.RefKey},
                     commandType: CommandType.StoredProcedure).ToList();
            }
            

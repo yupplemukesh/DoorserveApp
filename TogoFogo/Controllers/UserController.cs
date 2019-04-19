@@ -17,7 +17,10 @@ namespace TogoFogo.Controllers
     public class UserController : Controller
     {
         private readonly string _connectionString =
-        ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;       
+          ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private  SessionModel user;
+
+  
         [PermissionBasedAuthorize(new Actions[] {Actions.Create}, "Manage Users")]
         public ActionResult AddUser()
         {
@@ -27,6 +30,7 @@ namespace TogoFogo.Controllers
         [HttpPost]      
         public ActionResult AddUser(User objUser)
         {
+            user = Session["User"] as SessionModel;
             objUser.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));            
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
@@ -55,8 +59,9 @@ namespace TogoFogo.Controllers
                             objUser._AddressDetail.StateId,
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
-                            objUser.UserLoginId
-
+                            objUser.UserLoginId,
+                            userTypeId=user.UserTypeId,
+                            RefId=user.RefKey
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -126,6 +131,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditUser(User objUser)
         {
+            user = Session["User"] as SessionModel;
             objUser.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
@@ -154,7 +160,9 @@ namespace TogoFogo.Controllers
                             objUser._AddressDetail.StateId,
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
-                            objUser.UserLoginId
+                            objUser.UserLoginId,
+                            userTypeId = user.UserTypeId,
+                            RefId = user.RefKey
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
@@ -188,13 +196,17 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Users")]
         public ActionResult UserList()
         {
+            user = Session["User"] as SessionModel;
             int UserId = 0;
-            Guid? RefKey = null;
+          
+            if (!user.UserRole.ToLower().Contains("super admin"))
+                user.UserId = user.UserId;
+            Guid? RefKey = user.RefKey;
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {      
                     UserId = Convert.ToInt32(Session["User_ID"]);
-                var result = con.Query<dynamic>("GETUSERLIST", new { UserId },
+                var result = con.Query<dynamic>("GETUSERLIST", new { UserId,RefKey },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
                 {

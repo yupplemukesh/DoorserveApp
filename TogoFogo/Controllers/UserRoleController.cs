@@ -18,12 +18,16 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private  SessionModel user; 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage User Roles")]
         public ActionResult AddUserRole(Int64 id=0)
         {
+            user = Session["User"] as SessionModel;
             UserRole objUserRole = new UserRole();
             objUserRole.IsActive = true;
             Int64 RoleId = id;
+          
+           
             using (var con = new SqlConnection(_connectionString))
             {
                 objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenuByRole",
@@ -34,7 +38,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddUserRole(UserRole objUserRole)
         {
-            objUserRole.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+
+            user = Session["User"] as SessionModel;          
             string MenuList = string.Empty;
             ResponseModel objResponseModel = new ResponseModel();
             var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
@@ -55,9 +60,9 @@ namespace TogoFogo.Controllers
                         objUserRole.RoleName,
                         objUserRole.IsActive,
                         objUserRole.Comments,
-                        objUserRole.UserLoginId,
+                        UserLoginId=user.UserId,
                         MenuList,
-                        objUserRole.RefKey,
+                        user.RefKey,
                         objUserRole.RefName
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
@@ -103,6 +108,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage User Roles")]
         public ActionResult EditUserRole(Int64 id = 0)
         {
+             user = Session["User"] as SessionModel;        
             UserRole objUserRole = new UserRole();           
             Int64 RoleId = id;
             Guid? RefKey = null;
@@ -191,14 +197,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Roles")]
         public ActionResult UserRoleList()
         {
-           
+            user = Session["User"] as SessionModel;
             Int64 RoleId = 0;
             int UserId = 0;
-            Guid? RefKey=null;
-            string RefName;
-            var objUserRole = new  List<UserRole>();
-            if (Session["RoleName"].ToString().ToLower() != "super admin")
-                UserId = Convert.ToInt32(Session["User_ID"]);            
+            if (!user.UserRole.ToLower().Contains("SuperAdmin"))
+                UserId = user.UserId;
+            Guid? RefKey=user.RefKey;
+            var objUserRole = new  List<UserRole>();          
             using (var con = new SqlConnection(_connectionString))
             { 
                
