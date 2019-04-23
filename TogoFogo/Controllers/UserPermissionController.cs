@@ -32,6 +32,7 @@ namespace TogoFogo.Controllers
                 if (!user.UserRole.ToLower().Contains("super admin"))
                     UserId = user.UserId;
                    Guid? RefKey = user.RefKey;
+
                 objUserPermission.UserList = con.Query<User>("GETUSERLIST",new {UserId=0, RefKey },
                 commandType: CommandType.StoredProcedure).ToList();
     
@@ -156,10 +157,12 @@ namespace TogoFogo.Controllers
 
             user = Session["User"] as SessionModel;
             Guid? RefKey = user.RefKey;
-            UserPermission objUserPermission = new UserPermission();
+            UserPermission objUserPermission ;
             using (var con = new SqlConnection(_connectionString))
             {
-              
+
+                objUserPermission = con.Query<UserPermission>("GETUSERPERMISSIONBYID", new { PermissionId }, commandType: CommandType.StoredProcedure).SingleOrDefault();
+
                 objUserPermission.UserList = con.Query<User>("GETUSERLIST",new{UserId,RefKey },
                 commandType: CommandType.StoredProcedure).ToList();
 
@@ -194,6 +197,11 @@ namespace TogoFogo.Controllers
                 item.RightActionList = actions;
 
             }
+
+            objUserPermission.UserId = UserId;
+            objUserPermission.RoleId = RoleId;
+            objUserPermission.PermissionId = PermissionId;
+
             return View(objUserPermission);
         }
         [HttpPost]
@@ -317,10 +325,11 @@ namespace TogoFogo.Controllers
             int UserId = user.UserId;
             if (user.UserRole.ToLower().Contains("super admin"))
                 UserId = 0;
+            
                 var objUserPermission = new List<UserPermission>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {UserId,user.RefKey},
+                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {UserId, user.RefKey},
                     commandType: CommandType.StoredProcedure).ToList();
            }
            

@@ -9,6 +9,7 @@ using TogoFogo.Models.Company;
 using System.Threading.Tasks;
 using TogoFogo.Repository;
 using System.Reflection;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -31,7 +32,7 @@ namespace TogoFogo.Controllers
             _BankRepo = new Bank();
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View,Actions.Create,Actions.Edit }, "Manage company")]
         public async  Task<ActionResult> Index()
         {
             var _com = await _compRepo.GetCompanyDetails();
@@ -59,6 +60,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
+        [PermissionBasedAuthorize(new Actions[] {Actions.Create}, "Manage company")]
         public async Task<ActionResult> Create()
         {
             var CompanyData = new CompanyModel();
@@ -79,6 +81,7 @@ namespace TogoFogo.Controllers
             return View(CompanyData);
         }
 
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage company")]
         public async Task<ActionResult> Edit(Guid CompId)
         {
 
@@ -272,6 +275,7 @@ namespace TogoFogo.Controllers
 
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+            contact.UserTypeId = 1;
             if (contact.ContactId == null)
                 contact.Action = 'I';
             else

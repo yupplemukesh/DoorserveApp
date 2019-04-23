@@ -23,7 +23,7 @@ namespace TogoFogo.Repository
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@CONTACTID",ToDBNull(contact.ContactId));
             sp.Add(param);
-            param = new SqlParameter("@REFKEY", ToDBNull(contact.RefKey));
+            param = new SqlParameter("@REFKEY", ToDBNull(contact.RefKey));  
             sp.Add(param);
             param = new SqlParameter("@CONADDRESSTYPEID", ToDBNull(contact.AddressTypeId));
             sp.Add(param);
@@ -67,10 +67,12 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ISUSER", ToDBNull(contact.IsUser));
             sp.Add(param);
+            param = new SqlParameter("@USERTYPEID", ToDBNull(contact.UserTypeId));
+            sp.Add(param);
             param = new SqlParameter("@DefaultPWD", ToDBNull(contact.Password));
             sp.Add(param);
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
-                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@DefaultPWD";
+                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD";
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode==0)
@@ -87,7 +89,7 @@ namespace TogoFogo.Repository
             param = new SqlParameter("@REFKEY", ToDBNull(refKey));
             sp.Add(param);
             var sql = "USPGETCONTACTPERSONS @ContactId,@REFKEY";
- var res= await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).ToListAsync();
+            var res= await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).ToListAsync();
             return res;
         }
         public async Task<ContactPersonModel> GetContactPersonByContactId(Guid contactId)
@@ -100,8 +102,6 @@ namespace TogoFogo.Repository
             var sql = "USPGETCONTACTPERSONS @ContactId,@REFKEY";
             return await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
         }
-
-
         private object ToDBNull(object value)
         {
             if (null != value)

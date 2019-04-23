@@ -49,6 +49,7 @@ namespace TogoFogo.Models
         public string ConAdhaarFileName { get; set; }
         public string ConAdhaarFileUrl { get; set; }
         public bool IsUser { get; set; }
+        public int UserTypeId { get; set; }
         public string Password{ get; set; }
     }
 }

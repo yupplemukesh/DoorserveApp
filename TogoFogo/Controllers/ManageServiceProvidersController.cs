@@ -132,6 +132,7 @@ namespace TogoFogo.Controllers
 
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+            contact.UserTypeId = 4;
             if (contact.ContactId != null)
                 contact.Action = 'U';
             else

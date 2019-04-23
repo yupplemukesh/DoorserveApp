@@ -115,8 +115,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(ContactPersonModel contact)
         {
-            if(contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
-            {
+            if(contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)    
+            {   
 
                 if (System.IO.File.Exists(Server.MapPath(_path+"ADHRS/" + contact.ConAdhaarFileName)))
                     System.IO.File.Delete(Server.MapPath(_path + "ADHRS/" + contact.ConAdhaarFileName));
@@ -139,6 +139,7 @@ namespace TogoFogo.Controllers
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+            contact.UserTypeId = 3;
             if (contact.ContactId != null)
                 contact.Action = 'U';
             else
@@ -149,6 +150,8 @@ namespace TogoFogo.Controllers
                 var _center = TempData["center"] as ServiceCenterModel;
                 contact.RefKey = _center.CenterId;
             }
+
+        
             var response = await _contactPerson.AddUpdateContactDetails(contact);
 
             if (response.IsSuccess)

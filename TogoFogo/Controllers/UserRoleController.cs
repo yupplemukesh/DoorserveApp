@@ -200,7 +200,7 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;
             Int64 RoleId = 0;
             int UserId = 0;
-            if (!user.UserRole.ToLower().Contains("SuperAdmin"))
+            if (!user.UserRole.ToLower().Contains("super admin"))
                 UserId = user.UserId;
             Guid? RefKey=user.RefKey;
             var objUserRole = new  List<UserRole>();          

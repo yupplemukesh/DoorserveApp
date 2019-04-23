@@ -17,15 +17,15 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @*@if (Permissions.Rights.ExcelExport)
-                        {*@
+                    @if (Permissions.Rights.ExcelExport)
+                        {
                     <button class="btn btn-primary excel">
                         Export Excel
                     </button>
-                    @*}*@
+                    }
 
-                    @*@if (Permissions.Rights.Create)
-                        {*@
+                    @if (Permissions.Rights.Create)
+                        {
                     <a class="btn btn-primary" href="@Url.Action("Create", "ManageCompany")">
 
                         <span>
@@ -33,7 +33,7 @@
 
                         </span>
                     </a>
-                    @*}*@
+                    }
                 </div>
             </div>
         </div>
@@ -54,21 +54,24 @@
                               {
                                   i++;
                                   return @<text> @i </text>;
-                     });
-               columns.Add(c => c.CompanyName).Titled("Company Name").Filterable(true);
-               columns.Add(c => c.CompanyCode).Titled("Company Code").Filterable(true);
-               columns.Add(c => c.AndroidAppName).Titled("Android AppName").Filterable(true);
-               columns.Add(c => c.IOSAppName).Titled("IOS AppName").Filterable(true);
-               columns.Add(c => c.CompanyWebsiteDomainName).Titled("Domain Name").Filterable(true);
-               columns.Add(c => c.DomainExpiryDate).Titled("Domain Expiry Date").Filterable(true).Format("{0:dd-MM-yyyy}");
-               columns.Add(c => c.IsActive).Titled("IsActive");
-               columns.Add()
-                   .Encoded(false)
-                   .Sanitized(false)
-                   .SetWidth(30)
-                   .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { @compId = o.CompanyId }));
+                              });
+                        columns.Add(c => c.CompanyName).Titled("Company Name").Filterable(true);
+                        columns.Add(c => c.CompanyCode).Titled("Company Code").Filterable(true);
+                        columns.Add(c => c.AndroidAppName).Titled("Android AppName").Filterable(true);
+                        columns.Add(c => c.IOSAppName).Titled("IOS AppName").Filterable(true);
+                        columns.Add(c => c.CompanyWebsiteDomainName).Titled("Domain Name").Filterable(true);
+                        columns.Add(c => c.DomainExpiryDate).Titled("Domain Expiry Date").Filterable(true).Format("{0:dd-MM-yyyy}");
+                        columns.Add(c => c.IsActive).Titled("IsActive");
+                        if (Permissions.Rights.Edit)
+                        {
+                            columns.Add()
+                       .Encoded(false)
+                       .Sanitized(false)
+                       .SetWidth(30)
+                       .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { @compId = o.CompanyId }));
+                        }
 
-           }).WithPaging(10).Sortable(true)
+                    }).WithPaging(10).Sortable(true)
                 </div>
 
             </div>

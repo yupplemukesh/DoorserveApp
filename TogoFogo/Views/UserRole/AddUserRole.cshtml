@@ -15,11 +15,9 @@
 <div class="panel-body">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
-
             <div class="x_content">
                 @using (Html.BeginForm("AddUserRole", "UserRole", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
                 {
-
                     @Html.Partial("_ManageUserRole",Model)
                 }
             </div>

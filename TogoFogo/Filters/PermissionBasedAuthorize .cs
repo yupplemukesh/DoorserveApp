@@ -30,19 +30,18 @@ namespace TogoFogo.Permission
             bool Valid = false;
             if (!isAuthorized)
                 Valid = false;
-            if (HttpContext.Current.Session["User_ID"] != null)
+            if (HttpContext.Current.Session["User"] != null)
             {
-                
- 
-                if (Convert.ToString(HttpContext.Current.Session["RoleName"]).ToLower().Contains("super admin"))
+                var user = HttpContext.Current.Session["User"] as SessionModel;
+                if (user.UserRole.ToLower().Contains("super admin"))
                 {
                     Permissions.AssignRight(new UserActionRights { Create = true, Edit = true, ExcelExport = true, History = true, View = true });
                     return true;
                 }
                 else
                 {
-                    int UserId = Convert.ToInt32(HttpContext.Current.Session["User_ID"]);
-                    var menues = HttpContext.Current.Session["Menues"] as MenuMasterModel;
+                    int UserId = user.UserId;
+                    var menues = user.Menues as MenuMasterModel;
                     string privilegeLevels = menues.SubMenuList.Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {
@@ -83,7 +82,7 @@ namespace TogoFogo.Permission
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
 
-            if (HttpContext.Current.Session["User_ID"] != null)
+            if (HttpContext.Current.Session["User"] != null)
             {
                 filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary(

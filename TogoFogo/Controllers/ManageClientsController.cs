@@ -144,7 +144,8 @@ namespace TogoFogo.Controllers
                 contact.RefKey = Client.ClientId;
             }
                 contact.UserID = Convert.ToInt32(Session["User_ID"]);
-            var response = await _contactPerson.AddUpdateContactDetails(contact);
+            contact.AddressTypeId = 2;
+            var response = await _contactPerson.AddUpdateContactDetails(contact);                       
             if (response.IsSuccess)
             {
                 var mpc = new Email_send_code();

@@ -528,8 +528,7 @@
         $(tab).addClass("active in");
     };
     $("#AddContactPerson").click(function () {
-        $('#ContactPerson').find(':input,select').each(function () {
-            debugger
+        $('#ContactPerson').find(':input,select').each(function () {            
             switch (this.type) {
                 case 'button':
                 case 'text':
@@ -556,7 +555,6 @@
         console.log($("#ClientId").val());
         $("#ContactPerson").show();
     });
-
     $(".reset").click(function () {
         $(this).closest('form').find("input[type=text], textarea,select").val("");
         $("#ConCity").empty();
@@ -564,8 +562,6 @@
         $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
         $('.selectpicker').selectpicker('refresh');
     });
-
-
 
     $("#AddBankAccount").click(function () {
         $('#BankAccount').find(':input,select').each(function () {
@@ -684,7 +680,7 @@
                     $("#Locality").val(data.Locality);
                     $("#NearLocation").val(data.NearLocation);
                     $("#PinNumber").val(data.PinNumber);
-                    $("#IsUser").prop("checked", data.isUser);
+                    $("#IsUser").prop("checked", data.IsUser);
                     $("#ContactPerson").show();
                 }
 
