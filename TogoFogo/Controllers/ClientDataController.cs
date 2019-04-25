@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
 using TogoFogo.Permission;
@@ -22,6 +23,7 @@ namespace TogoFogo.Controllers
         private readonly IUploadFiles _RepoUploadFile;
         private readonly ICallLog _RepoCallLog;
         private readonly DropdownBindController _dropdown;
+        private SessionModel user;
         public ClientDataController()
         {
             _RepoUploadFile = new UploadFiles();
@@ -31,18 +33,19 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
         public async Task<ActionResult> Index()
         {
+            user = Session["User"] as SessionModel;
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
-            Guid? clientId = null;
-            if (Session["RoleName"].ToString().ToLower().Contains("client"))
+            var filter = new FilterModel { CompId=user.CompanyId };
+            if (user.UserRole.ToLower().Contains("client"))
             {
-                clientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
+                filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
                 IsClient = true;
             }
-              var clientData = await _RepoUploadFile.GetUploadedList(clientId);
+              var clientData = await _RepoUploadFile.GetUploadedList(filter);
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
-            clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
+            clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
             clientData.Client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             clientData.Client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
 
@@ -52,8 +55,8 @@ namespace TogoFogo.Controllers
                 ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
-                BrandList = new SelectList(_dropdown.BindBrand(), "Value", "Text"),
-                CategoryList=new SelectList(_dropdown.BindCategory(),"Value","Text"),
+                BrandList = new SelectList(_dropdown.BindBrand(user.CompanyId), "Value", "Text"),
+                CategoryList=new SelectList(_dropdown.BindCategory(user.CompanyId),"Value","Text"),
                 ProductList=  new SelectList(Enumerable.Empty<SelectListItem>()),
                 CustomerTypeList=new SelectList( await CommonModel.GetLookup("Customer Type"),"Value","Text" ),
                 ConditionList=new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
@@ -67,20 +70,16 @@ namespace TogoFogo.Controllers
                 }
 
         };
-
-
-
-
-
             return View(clientData);
         }
 
         public async Task<ActionResult> GetAssignedCalls()
         {
-            var calls = await _RepoUploadFile.GetAssingedCalls();
+            var filter = new FilterModel { CompId = user.CompanyId };
+            if (user.UserRole.ToLower().Contains("client"))
+                filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
+            var calls = await _RepoUploadFile.GetAssingedCalls(filter);
             return PartialView("_TotalCallsList", calls);
-
-
         }
 
 
@@ -109,17 +108,21 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Import Customers")]
         public async Task<ActionResult> Create()
         {
+            user = Session["User"] as SessionModel;
             var clientDate = new ClientDataModel();
-            clientDate.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
+            clientDate.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
             clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             return View(clientDate);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
+
+            user = Session["User"] as SessionModel;
+            clientDataModel.CompanyId = user.CompanyId;
+            clientDataModel.UserId = user.UserId;
             if (clientDataModel.IsClient)
-                clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));
-        
+                clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));        
             if (clientDataModel.DataFile != null)
             {
                 string excelPath = SaveFile(clientDataModel.DataFile, "ClientData");
@@ -177,7 +180,7 @@ namespace TogoFogo.Controllers
                 }
                 try
                 {
-                    clientDataModel.UserId = Convert.ToInt32(Session["User_ID"]);
+        
                     var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
                     if(!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
@@ -199,8 +202,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> NewCallLog(UploadedExcelModel uploads)
         {
-
-            uploads.UserId = Convert.ToInt32(Session["User_ID"]);
+            user = Session["User"] as SessionModel;
+            uploads.UserId = user.UserId;
+            uploads.CompanyId = user.CompanyId;
             var response = await _RepoCallLog.NewCallLog(uploads);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -208,11 +212,11 @@ namespace TogoFogo.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            Guid? ClientId = null;
-           var user = Session["User"] as SessionModel;
+            var user = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = user.CompanyId };
             if (user.UserRole.ToLower().Contains("Client"))
-                ClientId = await CommonModel.GetClientIdByUser(user.UserId);
-            var response = await _RepoUploadFile.GetExportAssingedCalls(tabIndex, ClientId);
+                filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
+            var response = await _RepoUploadFile.GetExportAssingedCalls(filter);
             byte[] filecontent; 
             string[] columns;
             if (tabIndex == 'O')

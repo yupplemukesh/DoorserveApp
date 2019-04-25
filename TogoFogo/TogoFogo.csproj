@@ -49,8 +49,14 @@
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="fontencoder">
       <HintPath>C:\Users\Akshay\Desktop\ASP.NET on-line font encoder source feature level 9\fontencoder\bin\fontencoder.dll</HintPath>
+    </Reference>
+    <Reference Include="GridMvc">
+      <HintPath>..\..\..\..\received file\GridMvc.dll</HintPath>
     </Reference>
     <Reference Include="IDAutomation.DataBarFontEncoder, Version=2017.0.0.0, Culture=neutral, PublicKeyToken=82039bd6f006216e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,6 +71,7 @@
       <HintPath>C:\Users\Akshay\Desktop\ASP.NET on-line font encoder source feature level 9\fontencoder\bin\IDAutomation.NetAssembly.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -72,11 +79,11 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
@@ -138,6 +145,7 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -202,6 +210,7 @@
     <Compile Include="Controllers\CallToASPController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ClientDataController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\CPCAPController.cs" />
     <Compile Include="Controllers\CustomerSupportController.cs" />
     <Compile Include="Controllers\DeviceServiceChargeController.cs" />
@@ -216,7 +225,6 @@
     <Compile Include="Controllers\ManageClientsController.cs" />
     <Compile Include="Controllers\ManageCourierApiController.cs" />
     <Compile Include="Controllers\ManageCourierController.cs" />
-    <Compile Include="Controllers\ManageEngineersController.cs" />
     <Compile Include="Controllers\ManagePinZIPCodeController.cs" />
     <Compile Include="Controllers\ManageSACCodesController.cs" />
     <Compile Include="Controllers\ManageServiceCentersController.cs" />
@@ -255,19 +263,28 @@
     <Compile Include="Extended\UserExtended.cs" />
     <Compile Include="Extension\CheckUrl.cs" />
     <Compile Include="Extension\CustomAuthorize.cs" />
+    <Compile Include="Filters\FilterModel.cs" />
     <Compile Include="Filters\ValidateModel.cs" />
+    <Compile Include="helper\TreeViewHelper.cs" />
     <Compile Include="Models\ActionTypes\ActionTypeModel.cs" />
     <Compile Include="Models\AddressDetail.cs" />
     <Compile Include="Models\BankDetailModel.cs" />
     <Compile Include="Models\BindAPI.cs" />
     <Compile Include="Models\CategoryViewModel.cs" />
+    <Compile Include="Models\ChangePasswordModel.cs" />
     <Compile Include="Models\CJSModel.cs" />
+    <Compile Include="Models\ClientData\CallLogModel.cs" />
+    <Compile Include="Models\ClientData\CallsViewModel.cs" />
     <Compile Include="Models\ClientData\ClientDataModel.cs" />
+    <Compile Include="Models\ClientData\FileDetailModel.cs" />
     <Compile Include="Models\ClientData\MainClientDataModel.cs" />
     <Compile Include="Models\ClientData\UploadedExcelModel.cs" />
     <Compile Include="Models\Client\ClientModel.cs" />
     <Compile Include="Models\ColorModel.cs" />
     <Compile Include="Models\CommonModel.cs" />
+    <Compile Include="Models\Company\AgreementModel.cs" />
+    <Compile Include="Models\Company\CompanyModel.cs" />
+    <Compile Include="Models\Company\ServiceModel.cs" />
     <Compile Include="Models\ContactPersonModel.cs" />
     <Compile Include="Models\CreateUserModel.cs" />
     <Compile Include="Models\Customer Support\AllocateCallModel.cs" />
@@ -275,6 +292,7 @@
     <Compile Include="Models\Customer Support\CallAllocatedToASPModel.cs" />
     <Compile Include="Models\Customer Support\CallToASCModel.cs" />
     <Compile Include="Models\Customer Support\CallToASPModel.cs" />
+    <Compile Include="Models\Customer Support\CustomerModel.cs" />
     <Compile Include="Models\DynamicCrouselModel.cs" />
     <Compile Include="Models\EmailGateway.cs" />
     <Compile Include="Models\EmailHeaderFooterModel.cs" />
@@ -282,6 +300,7 @@
     <Compile Include="Models\Employee\EmployeeModel.cs" />
     <Compile Include="Models\Employee\VehicleModel.cs" />
     <Compile Include="Models\Encrypt_Decrypt.cs" />
+    <Compile Include="Models\ExcelExportHelper.cs" />
     <Compile Include="Models\Gateway\GatewayModel.cs" />
     <Compile Include="Models\Gateway\NotificationGatewayModel.cs" />
     <Compile Include="Models\Gateway\SMSGatewayModel.cs" />
@@ -296,14 +315,21 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\OrganizationModel.cs" />
     <Compile Include="Models\Permissions.cs" />
+    <Compile Include="Models\PRCCModel.cs" />
     <Compile Include="Models\Prob_Vs_price_matrix.cs" />
     <Compile Include="Models\PromoCodeModel.cs" />
     <Compile Include="Models\RajModel.cs" />
     <Compile Include="Models\ReportsModel.cs" />
     <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Models\ReverseAWB_AllocationModel.cs" />
+    <Compile Include="Models\ServiceCenter\AssignCallsModel.cs" />
+    <Compile Include="Models\ServiceCenter\CallDetailsModel.cs" />
+    <Compile Include="Models\ServiceCenter\CallStatusDetailsModel.cs" />
+    <Compile Include="Models\ServiceCenter\CallStatusModel.cs" />
+    <Compile Include="Models\ServiceCenter\ServiceCenterCallsModel.cs" />
     <Compile Include="Models\ServiceCenter\ServiceCenterModel.cs" />
     <Compile Include="Models\ServiceProvider\ServiceProviderModel.cs" />
+    <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\SMSGateway.cs" />
     <Compile Include="Models\TemplatePartModel.cs" />
     <Compile Include="Models\Template\CommonFilterModel.cs" />
@@ -370,8 +396,12 @@
     <Compile Include="Repository\ActionTypes\IActionTypes.cs" />
     <Compile Include="Repository\Banks\Bank.cs" />
     <Compile Include="Repository\Banks\IBank.cs" />
+    <Compile Include="Repository\Calls\CallLog.cs" />
+    <Compile Include="Repository\Calls\ICallLog.cs" />
     <Compile Include="Repository\Clients\Client.cs" />
     <Compile Include="Repository\Clients\IClient.cs" />
+    <Compile Include="Repository\Company\Company.cs" />
+    <Compile Include="Repository\Company\ICompany.cs" />
     <Compile Include="Repository\ContactPersons\ContactPerson.cs" />
     <Compile Include="Repository\ContactPersons\IContactPerson.cs" />
     <Compile Include="Repository\Customer Support\CustomerSupport.cs" />
@@ -382,6 +412,10 @@
     <Compile Include="Repository\Employees\IEmployee.cs" />
     <Compile Include="Repository\ImportFiles\IUploadFiles.cs" />
     <Compile Include="Repository\ImportFiles\UploadFiles.cs" />
+    <Compile Include="Repository\Menues\IMenues.cs" />
+    <Compile Include="Repository\Menues\Menues.cs" />
+    <Compile Include="Repository\Organizations\IOrganization.cs" />
+    <Compile Include="Repository\Organizations\Organization.cs" />
     <Compile Include="Repository\ServiceCenters\Center.cs" />
     <Compile Include="Repository\ServiceCenters\ICenter.cs" />
     <Compile Include="Repository\ServiceProviders\IProvider.cs" />
@@ -775,15 +809,23 @@
     <Content Include="ckeditor\skins\moono-lisa\images\refresh.png" />
     <Content Include="ckeditor\skins\moono-lisa\images\spinner.gif" />
     <Content Include="ckeditor\styles.js" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\css\application.css" />
     <Content Include="Content\css\application.min.css" />
     <Content Include="Content\css\bootstrap-datetimepicker.css" />
     <Content Include="Content\css\bootstrap-select.min.css" />
+    <Content Include="Content\css\plugin\style.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style.min.css" />
     <Content Include="Content\css\vendor.css" />
     <Content Include="Content\css\vendor.min.css" />
     <Content Include="Content\fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\css\Gridmvc.css" />
+    <Content Include="Content\css\gridmvc.datepicker.css" />
+    <Content Include="Content\css\gridmvc.datepicker.min.css" />
     <Content Include="Content\img\140x140.png" />
     <Content Include="Content\img\avatars\1.jpg" />
     <Content Include="Content\img\avatars\10.jpg" />
@@ -848,6 +890,7 @@
     <Content Include="Content\js\forms-material-form.min.js" />
     <Content Include="Content\js\forms-plugins.min.js" />
     <Content Include="Content\js\index.min.js" />
+    <Content Include="Content\js\jstree.js" />
     <Content Include="Content\js\mailbox.min.js" />
     <Content Include="Content\js\maps-google.min.js" />
     <Content Include="Content\js\maps-vector.min.js" />
@@ -877,6 +920,12 @@
     <Content Include="ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
     <Content Include="ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="ckeditor\skins\moono-lisa\readme.md" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
@@ -914,7 +963,6 @@
     <Content Include="ErrorPageImages\ux-error-401.png" />
     <Content Include="ExcelDOwnloadScript\jquery.table2excel.js" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\aforeserve.png" />
     <Content Include="Images\icon-trans.png" />
@@ -1059,6 +1107,39 @@
     <Content Include="Content\fonts\material-design\Material-Design-Iconic-Fontd1f1.woff2" />
     <Content Include="Content\img\photos\Local Disk %28D%29 - Shortcut.lnk" />
     <Content Include="Content\Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Content\js\gridmvc.js" />
+    <Content Include="Content\js\gridmvc.lang.ru.js" />
+    <Content Include="Content\js\gridmvc.min.js" />
+    <Content Include="Content\Scripts\bootstrap-datepicker.js" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Views\ManageCourierApi\AddCourierApi.cshtml" />
     <Content Include="Views\ManageCourierApi\CourierAPITable.cshtml" />
     <Content Include="Views\ManageCourierApi\EditCourierApi.cshtml" />
@@ -1392,7 +1473,6 @@
     <Content Include="Views\EmailHeaderFooter\_EmailHeaderFooterTable.cshtml" />
     <Content Include="Views\ClientData\Index.cshtml" />
     <Content Include="Views\ClientData\_CreateForm.cshtml" />
-    <Content Include="Views\ClientData\_TableList.cshtml" />
     <Content Include="Views\ManagePinZIPCode\Create.cshtml" />
     <Content Include="Views\ManagePinZIPCode\Edit.cshtml" />
     <Content Include="Views\Templates\Create.cshtml" />
@@ -1436,25 +1516,64 @@
     <Content Include="Views\ManageCourierApi\Create.cshtml" />
     <Content Include="Views\ManageCourierApi\Edit.cshtml" />
     <Content Include="Views\ManageCourierApi\_AddEditCourierApi.cshtml" />
+    <Content Include="Views\Menu\_CreateOrEditForm.cshtml" />
+    <Content Include="Views\Menu\Index.cshtml" />
+    <Content Include="Views\ClientData\_UploadedDataList.cshtml" />
+    <Content Include="Views\ClientData\_OpenedCallsList.cshtml" />
+    <Content Include="Views\ClientData\_FileDataList.cshtml" />
+    <Content Include="Views\ClientData\_ClosedCallsList.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\User\UserProfile.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\OpenCalls\Index.cshtml" />
+    <Content Include="Views\ServiceCenter\AcceptCalls.cshtml" />
+    <Content Include="Views\ClientData\_UploadData.cshtml" />
+    <Content Include="Views\ClientData\_NewCallLogForm.cshtml" />
+    <Content Include="Views\ClientData\_TotalCallsList.cshtml" />
+    <Content Include="Views\Common\_CallLogDeviceInfoForm.cshtml" />
+    <Content Include="Views\Common\_CustomerInfoForm.cshtml" />
+    <Content Include="Views\ManageCompany\Create.cshtml" />
+    <Content Include="Views\ManageCompany\Index.cshtml" />
+    <Content Include="Views\ManageCompany\_AddOrEditCompany.cshtml" />
+    <Content Include="Views\ManageCompany\_Agreement.cshtml" />
+    <Content Include="Views\ManageCompany\_CreateorEditCompanyForm.cshtml" />
+    <Content Include="Views\ManageCompany\_Registration.cshtml" />
+    <Content Include="Views\ManageCompany\Edit.cshtml" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\ServiceCenter\_TechnicianDetailsForm.cshtml" />
+    <Content Include="Views\ServiceCenter\ManageServiceProvidersDetails.cshtml" />
+    <Content Include="Views\ServiceCenter\_CallInformationForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Barcode_file\" />
-    <Folder Include="Repository\Menues\" />
+    <Folder Include="Models\Menu\" />
     <Folder Include="UploadedImages\" />
     <Folder Include="UploadExcel\" />
     <Folder Include="Views\Custo_PCRC\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\DropdownBind\" />
-    <Folder Include="Views\Menu\" />
     <Folder Include="Views\Mobile\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

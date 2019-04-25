@@ -18,6 +18,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         // GET: ManageCourierApi
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Courier API")]
         public ActionResult ManageCourierApi()
@@ -32,10 +33,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier API")]
         public ActionResult Create()
         {
+            user = Session["User"] as SessionModel;
             ManageCourierApiModel courierApiModel = new ManageCourierApiModel
             {
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
-                CourierList = new SelectList(dropdown.BindCourier(), "Value", "Text")
+                CourierList = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text")
             };
             return View(courierApiModel);
         }
@@ -45,9 +47,10 @@ namespace TogoFogo.Controllers
         {          
            using (var con = new SqlConnection(_connectionString))
                 {
-                   // ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                   // ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
-                       var result = con.Query<int>("Add_Edit_Delete_CourierApi",
+                user = Session["User"] as SessionModel;
+                // ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                // ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
+                var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
                         {
                             model.API_ID,
@@ -63,7 +66,7 @@ namespace TogoFogo.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User =user.UserId,
                             Action = "I",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                             var response = new ResponseModel();
@@ -88,6 +91,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                user = Session["User"] as SessionModel;
                 var result = con.Query<ManageCourierApiModel>("Select * from MstCourierAPI Where API_ID=@API_ID", new { @API_ID = apiId }
                     , commandType: CommandType.Text).FirstOrDefault();
                 if (result != null)
@@ -95,7 +99,7 @@ namespace TogoFogo.Controllers
                     result.Country = result.CountryID.ToString();
                     result.Courier = result.CourierID.ToString();
                     result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
-                    result.CourierList= new SelectList(dropdown.BindCourier(), "Value", "Text");
+                    result.CourierList= new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
                     ViewBag.CourierImage = "http://crm.togofogo.com/UploadedImages/" + result.CourierImage;
                 }
 
@@ -108,8 +112,10 @@ namespace TogoFogo.Controllers
         public ActionResult Edit(ManageCourierApiModel model)
         {
               using (var con = new SqlConnection(_connectionString))
-                {                   
-                        var result = con.Query<int>("Add_Edit_Delete_CourierApi",
+                {
+                user = Session["User"] as SessionModel;
+
+                var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
                         {
                             model.API_ID,
@@ -125,7 +131,7 @@ namespace TogoFogo.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = user.UserId,
                             Action = "U",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();

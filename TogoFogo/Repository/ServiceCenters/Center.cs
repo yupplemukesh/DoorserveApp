@@ -338,7 +338,7 @@ namespace TogoFogo.Repository.ServiceCenters
 
             param = new SqlParameter("@AllocateXML", SqlDbType.Xml) { Value = xml };
             sp.Add(param);
-            param = new SqlParameter("@USER", ToDBNull(assignCalls.UserID));
+            param = new SqlParameter("@USER", ToDBNull(assignCalls.UserId));
             sp.Add(param);
             var sql = "UpdateAssignCallsDetails @EmployeeId,@AllocateXML,@USER";
 

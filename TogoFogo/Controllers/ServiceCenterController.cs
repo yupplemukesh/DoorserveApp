@@ -22,6 +22,7 @@ namespace TogoFogo.Controllers
         private readonly ICenter _centerRepo;
         private readonly IEmployee _empRepo;
         private readonly DropdownBindController _dropdown;
+        private SessionModel user;
         public ServiceCenterController()
         {
 
@@ -58,15 +59,16 @@ namespace TogoFogo.Controllers
         }
         public ActionResult PFPForm()
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            user = Session["User"] as SessionModel;
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            ViewBag.QCPersonName = ViewBag.Engg_Name;
+            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(user.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]
@@ -78,6 +80,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        user = Session["User"] as SessionModel;
                         var result = con.Query<int>("Insert_into_Pending_For_Packing",
                             new
                             {
@@ -101,6 +104,7 @@ namespace TogoFogo.Controllers
                                 m.Packaging_Material_Size,
                                 m.Width,
                                 m.Weight,
+                                user.CompanyId
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
                         {
@@ -127,8 +131,9 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                user = Session["User"] as SessionModel;
                 var result = con.Query<AllData>("GetTableDataForPendingPacking",
-                   new { }, commandType: CommandType.StoredProcedure).ToList();
+                   new {user.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
 
@@ -157,16 +162,18 @@ namespace TogoFogo.Controllers
         }
         public ActionResult PFBIForm()
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+
+            user = Session["User"] as SessionModel;
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(), "Value", "Text");
-            ViewBag.CourierID = new SelectList(dropdown.BindCourier(), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(user.CompanyId), "Value", "Text");
+            ViewBag.CourierID = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]
@@ -178,6 +185,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        user = Session["User"] as SessionModel;
                         var result = con.Query<int>("Insert_Into_Billing_Invoicing_Information",
                             new
                             {
@@ -198,7 +206,8 @@ namespace TogoFogo.Controllers
                                 m.Advance_Payment_Date,
                                 m.Collectable_Amount,
                                 m.Schedule_Courier_Pickup_Date,
-                                m.Courier_Type
+                                m.Courier_Type,
+                                user.CompanyId
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
                         {
@@ -264,16 +273,17 @@ namespace TogoFogo.Controllers
         }
         public ActionResult Form_Re_Print_Invoice_Bill()
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            user = Session["User"] as SessionModel;
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(), "Value", "Text");
-            ViewBag.CourierID = new SelectList(dropdown.BindCourier(), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(user.CompanyId), "Value", "Text");
+            ViewBag.CourierID = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]
@@ -374,7 +384,7 @@ namespace TogoFogo.Controllers
             try
             {
 
-                assignCall.UserID = Convert.ToInt32(Session["User_ID"]);
+                assignCall.UserId = Convert.ToInt32(Session["User_ID"]);
                 var response = await _centerRepo.AssignCallsDetails(assignCall);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -391,10 +401,11 @@ namespace TogoFogo.Controllers
 
         public async Task<ActionResult> ManageServiceProvidersDetails(string CRN)
         {
+            user = Session["User"] as SessionModel;
             var callDetails = await _centerRepo.GetCallsDetailsById(CRN);
             var callDetailsModel = Mapper.Map<CallDetailsModel>(callDetails);
-            callDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(), "Value", "Text");
-            callDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(), "Value", "Text");
+            callDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            callDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(user.CompanyId), "Value", "Text");
             callDetailsModel.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
             callDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             callDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
@@ -412,7 +423,6 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> CallStatusDetails(CallStatusDetailsModel callStatusDetails)
         {
-
             try
             {
 

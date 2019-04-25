@@ -17,6 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
 
         // GET: DeviceServiceCharge
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
@@ -28,10 +29,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, "Device Service Charge")]
         public ActionResult AddServiceCharge()
         {
+            user = Session["User"] as SessionModel;
             ServiceChargeModel scm = new ServiceChargeModel();
-            scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             scm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
-            scm.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
+            scm.BrandList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
             scm.ModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());           
             return View(scm);
         }
@@ -110,12 +112,13 @@ namespace TogoFogo.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
+                user = Session["User"] as SessionModel;
                 var result = con.Query<ServiceChargeModel>("SELECT * from MstDeviceServiceCharge Where ServiceChargeId=@serviceChargeId", new { @serviceChargeId = ServiceChargeId },
                 commandType: CommandType.Text).FirstOrDefault();               
-                result.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                result.DeviceCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
                 result.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                result.BrandList = new SelectList(dropdown.BindBrand(), "Value", "Text");
-                result.ModelNameList = new SelectList(dropdown.BindProduct(), "Value", "Text");
+                result.BrandList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+                result.ModelNameList = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
                 return View(result);
             }
 

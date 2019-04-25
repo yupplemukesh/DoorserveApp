@@ -95,7 +95,9 @@ namespace TogoFogo.Controllers
                         UserTypeId=rs.UserTypeId,
                         UserTypeName=rs.UserTypeName,
                         RefKey=rs.RefKey,
-                        Menues= manues
+                        Menues= manues,
+                        CompanyId=rs.CompanyId
+
                     };
                     Session["User_ID"] = rs.UserId;
                     Session["User"] = User;

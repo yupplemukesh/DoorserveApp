@@ -16,7 +16,10 @@ namespace TogoFogo.Controllers
     {
         private readonly IEmployee _employee;
         private readonly DropdownBindController drop;
+        private SessionModel user;
         private string folderPath;
+      
+
         public EmployeesController()
         {
             _employee = new Employee();
@@ -48,30 +51,32 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Engineers")]
         public async Task<ActionResult> Index()
         {
-            Guid? CenterId = null;
-            Guid? ProviderId = null;
-            if (Session["RoleName"].ToString().ToLower().Contains("provider"))
-                ProviderId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
-            if (Session["RoleName"].ToString().ToLower().Contains("center"))
-                CenterId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
-            var employee = await _employee.GetAllEmployees(CenterId, ProviderId);
+            user = Session["User"] as SessionModel;
+            var filter = new FilterModel();
+            if (user.UserRole.ToLower().Contains("provider"))
+                filter.ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
+            if (user.UserRole.ToLower().Contains("center"))
+                filter.RefKey = await CommonModel.GetProviderIdByUser(user.UserId);
+            filter.CompId = user.CompanyId;
+            var employee = await _employee.GetAllEmployees(filter);
             return View(employee);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Engineers")]
         public async Task<ActionResult> Create()
         {
+            user = Session["User"] as SessionModel;
             var empModel = new EmployeeModel();
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
-            empModel.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-            empModel.Contact.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-            empModel.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            empModel.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
+            empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
+            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+            empModel.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            empModel.StateList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            if (Session["RoleName"].ToString().ToLower() == "provider")
+            if (user.UserRole.ToLower() == "provider")
             {
                var ProviderId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
                 empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
@@ -85,6 +90,7 @@ namespace TogoFogo.Controllers
         [ValidateModel]
         public async Task<ActionResult> Create(EmployeeModel emp,ContactPersonModel contact)
         {
+            user = Session["User"] as SessionModel;
             if (emp.EMPPhoto1 != null)
                 emp.EMPPhoto = SaveImageFile(emp.EMPPhoto1, "DP");
             if (contact.ConAdhaarNumberFilePath != null)
@@ -93,24 +99,22 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
-            emp.Contact = contact;
             emp.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             emp.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
-            emp.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-            emp.Contact.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-            emp.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            emp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
+            emp.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
+            emp.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+            emp.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            emp.StateList = new SelectList(Enumerable.Empty<SelectList>());
             emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             emp.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             emp.Action = 'I';
-            emp.UserID = Convert.ToInt32(Session["User_ID"]);
-            if (Session["RoleName"].ToString().ToLower().Contains("center"))
-                emp.CenterId = await CommonModel.GetCenterIdByUser(Convert.ToInt32(Session["User_ID"]));
-            var resonse = await _employee.AddUpdateDeleteEmployee(emp);
-            TempData["response"] = resonse;
-            TempData.Keep("response");
+            emp.UserId = Convert.ToInt32(user.UserId);
+            if (user.UserRole.ToLower().Contains("center"))
+                emp.CenterId = await CommonModel.GetCenterIdByUser(user.UserId);
+            var response = await _employee.AddUpdateDeleteEmployee(emp);
+            TempData["response"] = response;
             return RedirectToAction("Index");
 
         }
@@ -121,10 +125,10 @@ namespace TogoFogo.Controllers
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
-            empModel.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-            empModel.Contact.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-            empModel.Contact.StateList = new SelectList(drop.BindState(empModel.Contact.CountryId), "Value", "Text");
-            empModel.Contact.CityList = new SelectList(drop.BindLocation(empModel.Contact.StateId), "Value", "Text");
+            empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
+            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+            empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
+            empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
@@ -132,55 +136,60 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         [ValidateModel]
-        public async Task<ActionResult> Edit(EmployeeModel empModel, ContactPersonModel contact)
-        {
-            empModel.UserID = Convert.ToInt32(Session["User_ID"]);
+        public async Task<ActionResult> Edit(EmployeeModel empModel)
+         {
+            user = Session["User"] as SessionModel;
+            empModel.UserId = user.UserId;
+            empModel.CompanyId = user.CompanyId;
             if (empModel.EMPPhoto1 != null && empModel.EMPPhoto != null)
             {
 
-                if (System.IO.File.Exists(Server.MapPath(folderPath + "DP/" + contact.ConAdhaarFileName)))
-                    System.IO.File.Delete(Server.MapPath(folderPath + "DP/" + contact.ConAdhaarFileName));
+                if (System.IO.File.Exists(Server.MapPath(folderPath + "DP/" + empModel.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath + "DP/" + empModel.ConAdhaarFileName));
             }
-            if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
+            if (empModel.ConAdhaarNumberFilePath != null && empModel.ConAdhaarFileName != null)
             {
 
-                if (System.IO.File.Exists(Server.MapPath(folderPath+"ADHRS/" + contact.ConAdhaarFileName)))
-                    System.IO.File.Delete(Server.MapPath(folderPath+"ADHRS/" + contact.ConAdhaarFileName));
+                if (System.IO.File.Exists(Server.MapPath(folderPath+"ADHRS/" + empModel.ConAdhaarFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath+"ADHRS/" + empModel.ConAdhaarFileName));
             }
-            if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
+            if (empModel.ConVoterIdFileName != null && empModel.ConVoterIdFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath(folderPath + "VoterIds/" + contact.ConVoterIdFileName)))
-                    System.IO.File.Delete(Server.MapPath(folderPath + "VoterIds/" + contact.ConVoterIdFileName));
+                if (System.IO.File.Exists(Server.MapPath(folderPath + "VoterIds/" + empModel.ConVoterIdFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath + "VoterIds/" + empModel.ConVoterIdFileName));
             }
-            if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
+            if (empModel.ConPanFileName != null && empModel.ConPanNumberFilePath != null)
             {
-                if (System.IO.File.Exists(Server.MapPath(folderPath+"PANCards/" + contact.ConPanFileName)))
-                    System.IO.File.Delete(Server.MapPath(folderPath + "PANCards/" + contact.ConPanFileName));
+                if (System.IO.File.Exists(Server.MapPath(folderPath+"PANCards/" + empModel.ConPanFileName)))
+                    System.IO.File.Delete(Server.MapPath(folderPath + "PANCards/" + empModel.ConPanFileName));
             }
 
             if (empModel.EMPPhoto1 != null)
                 empModel.EMPPhoto = SaveImageFile(empModel.EMPPhoto1, "DP");
-            if (contact.ConAdhaarNumberFilePath != null)
-                contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
-            if (contact.ConVoterIdFilePath != null)
-                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
-            if (contact.ConPanNumberFilePath != null)
-                contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
-            empModel.Contact = contact;
+            if (empModel.ConAdhaarNumberFilePath != null)
+                empModel.ConAdhaarFileName = SaveImageFile(empModel.ConAdhaarNumberFilePath, "ADHRS");
+            if (empModel.ConVoterIdFilePath != null)
+                empModel.ConVoterIdFileName = SaveImageFile(empModel.ConVoterIdFilePath, "VoterIds");
+            if (empModel.ConPanNumberFilePath != null)
+                empModel.ConPanFileName = SaveImageFile(empModel.ConPanNumberFilePath, "PANCards");
+            if(empModel.IsUser)
+                empModel.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+
+
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
-            empModel.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-            empModel.Contact.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-            empModel.Contact.StateList = new SelectList(drop.BindState(empModel.Contact.CountryId), "Value", "Text");
-            empModel.Contact.CityList = new SelectList(drop.BindLocation(empModel.Contact.StateId), "Value", "Text");
+            empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
+            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+            empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
+            empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             empModel.Action = 'U';        
-            var resonse = await _employee.AddUpdateDeleteEmployee(empModel);
-            TempData["resonse"] = resonse;
-            TempData.Keep("resonse");
+            var response = await _employee.AddUpdateDeleteEmployee(empModel);
+            TempData["response"] = response;
+
             return RedirectToAction("Index");
 
         }

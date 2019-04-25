@@ -38,6 +38,7 @@ namespace TogoFogo.Models
         public int UserId { get; set; }
         public string UserName { get; set; }
         public bool IsClient { get; set; }
+        public Guid? CompanyId { get; set; }
         
     }
 }

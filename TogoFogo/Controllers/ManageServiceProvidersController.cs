@@ -23,6 +23,7 @@ namespace TogoFogo.Controllers
         private readonly IContactPerson _contactPerson;
         private readonly string _path = "/UploadedImages/Providers/";
         private readonly DropdownBindController dropdown;
+        private SessionModel user;
         public ManageServiceProvidersController()
         {
             _provider = new Provider() ;
@@ -137,7 +138,7 @@ namespace TogoFogo.Controllers
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
-            contact.UserID = Convert.ToInt32(Session["User_ID"]);
+            contact.UserId = Convert.ToInt32(Session["User_ID"]);
             if (TempData["provider"] != null)
             {
                 var _Provider = TempData["provider"] as ServiceProviderModel;
@@ -194,7 +195,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
-
+            user = Session["User"] as SessionModel;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["provider"] as ServiceProviderModel;
@@ -202,7 +203,7 @@ namespace TogoFogo.Controllers
             if (provider.ServiceList.Where(x => x.IsChecked == true).Count() < 1 || provider.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
             {
                 provider.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
-                provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
                 provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
@@ -271,7 +272,7 @@ namespace TogoFogo.Controllers
                 
             }
             provider.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
-            provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");          
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
@@ -430,13 +431,14 @@ namespace TogoFogo.Controllers
         private async Task<ServiceProviderModel> GetProvider(Guid? ProviderId)
         {
             var Provider = await _provider.GetProviderById(ProviderId);
+            user = Session["User"] as SessionModel;
             Provider.Path = _path;
             var processes = await CommonModel.GetProcesses();
                 Provider.ProcessList = new SelectList(processes, "Value", "Text");
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
            
-            Provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            Provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");

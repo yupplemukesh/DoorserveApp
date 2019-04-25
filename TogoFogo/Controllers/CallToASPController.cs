@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml;
 using System.Xml.Serialization;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Permission;
@@ -17,6 +18,7 @@ namespace TogoFogo.Controllers
     public class CallToASPController : Controller
     {
         private readonly ICustomerSupport _customerSupport;
+        private SessionModel user;
         public CallToASPController()
         {
 
@@ -26,8 +28,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Call Allocate To ASP")]
         public async Task<ActionResult> Index()
         {
-            var calls = await _customerSupport.GetASPCalls();
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
+            user = Session["User"] as SessionModel;
+            var filter = new FilterModel {CompId=user.CompanyId};
+            var calls = await _customerSupport.GetASPCalls(filter);
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(),"Name","Text") };
             return View(calls);
@@ -43,25 +47,30 @@ namespace TogoFogo.Controllers
                 allocate.UserId = Convert.ToInt32(Session["User_ID"]);
                  var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return Json("Ok", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return Json("ex", JsonRequestBehavior.AllowGet);
             }
           
         }
         [HttpGet]
-        public async Task<FileContentResult> ExportToExcel(string tabIndex)
+        public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            var response = await _customerSupport.GeteExportASPCalls(tabIndex);
+            user = Session["User"] as SessionModel;
+            var filter = new FilterModel
+            {
+                CompId = user.CompanyId
+                ,
+                tabIndex = tabIndex
+            };
+            var response = await _customerSupport.GeteExportASPCalls(filter);
             byte[] filecontent;
             string[] columns;
-            if (tabIndex == "P")
+            if (tabIndex == 'P')
             {
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",

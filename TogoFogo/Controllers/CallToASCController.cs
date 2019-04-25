@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml;
 using System.Xml.Serialization;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Permission;
@@ -18,6 +19,7 @@ namespace TogoFogo.Controllers
     public class CallToASCController : Controller
     {
         private readonly ICustomerSupport _customerSupport;
+        private SessionModel user;
         public CallToASCController()
         {
 
@@ -27,13 +29,16 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Call Allocate To ASC")]
         public async Task<ActionResult> Index()
         {
-            var calls = await _customerSupport.GetASCCalls();
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(), "Name", "Text");
+            user = Session["User"] as SessionModel;
+            var filter = new FilterModel();
+            filter.CompId = user.CompanyId;
+            var calls = await _customerSupport.GetASCCalls(filter);
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
             Guid? providerId = null;
-            if (Session["RoleName"].ToString().ToLower().Contains("provider"))
-                providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+            if (user.UserRole.ToLower().Contains("provider"))
+                providerId = await CommonModel.GetProviderIdByUser(user.UserId);
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(providerId), "Name", "Text") };
             return View(calls);
         }
@@ -47,26 +52,29 @@ namespace TogoFogo.Controllers
                 allocate.UserId = Convert.ToInt32(Session["User_ID"]);
                 var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return Json("Ok", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
-                TempData["response"] = response;
-                TempData.Keep("response");
+                TempData["response"] = response;              
                 return Json("ex", JsonRequestBehavior.AllowGet);
             }
 
         }
 
         [HttpGet]
-        public async Task<FileContentResult> ExportToExcel(string tabIndex)
-        {            
-            var response = await _customerSupport.GeteExportASCCalls(tabIndex);
+        public async Task<FileContentResult> ExportToExcel(char tabIndex)
+        {
+
+            user = Session["User"] as SessionModel;
+            var filter = new FilterModel {CompId=user.CompanyId
+                ,tabIndex=tabIndex
+            };
+            var response = await _customerSupport.GeteExportASCCalls(filter);
             byte[] filecontent;
             string[] columns;
-            if (tabIndex == "P")
+            if (tabIndex == 'P')
             {
                 columns = new string []{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",

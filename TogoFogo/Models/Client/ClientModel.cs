@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class ClientModel
+    public class ClientModel:RegistrationModel
     {
        
 
@@ -48,10 +48,8 @@ namespace TogoFogo.Models
         public Guid ClientId { get; set; }
         [Required]
         [DisplayName("Process Name")]
-        public int ProcessId { get; set; }
-           
+        public int ProcessId { get; set; }           
         public string ProcessName { get; set; }
-
         [Required]
         [DisplayName("Client Code")]
         public string ClientCode { get; set; }
@@ -62,16 +60,12 @@ namespace TogoFogo.Models
         public string CurrentClientName { get; set; }
         [DisplayName("Organization Name")]
         public string ORGNAME { get; set; }
-
-        public bool IsUser { get; set; }
         [Required]
         [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", AdditionalFields= "CurrentUserName",  ErrorMessage = "UserName already exists!")]
         public string UserName { get; set; }
         [Required]
         public string CurrentUserName { get; set;}
-        public string Password { get; set; }
         [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
         public string Remarks { get; set; }
         public int CreatedBy { get; set; }
         public string ModifyBy { get; set; }

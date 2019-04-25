@@ -9,11 +9,10 @@ using TogoFogo.Models.Customer_Support;
 
 namespace TogoFogo.Models
 {
-    public class EmployeeModel
+    public class EmployeeModel:ContactPersonModel
     {
         public EmployeeModel()
         {
-            Contact = new ContactPersonModel();
             Vehicle = new VehicleModel();
         }
         public List<DeviceModel> SelectedDevices { get; set; }
@@ -24,7 +23,6 @@ namespace TogoFogo.Models
         public string EmpCode { get; set; }
         public string EMPPhoto { get; set; }
         public string EMPPhotoUrl { get; set; }
-        public Boolean IsActive { get; set; }
         public Boolean IsPickUp { get; set; }
         [Required]
         [DisplayName("Date of Joining")]
@@ -32,15 +30,12 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Date of Birth")]
         public DateTime? EMPDOB { get; set; }
-        public int UserID { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTime UpdatedOn { get; set; }
         [DisplayName("Engineer Name")]
         [Required]
-        public string TechnicianName { get; set; }
         public string TechnicianTypeName { get; set; }
         public string ContactNumber { get; set; }
-        public char Action { get; set; }
         public int DepartmentId { get; set; }
         public string Designation { get; set; }
         public string Department { get; set; }
@@ -56,7 +51,7 @@ namespace TogoFogo.Models
         {
             get; set;
         }
-        public ContactPersonModel Contact { get; set; }
+     
         public VehicleModel Vehicle { get; set; }
         public SelectList DepartmentList  { get; set; }
         public SelectList DeginationList { get; set; }

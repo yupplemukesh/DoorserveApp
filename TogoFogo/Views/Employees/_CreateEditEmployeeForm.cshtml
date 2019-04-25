@@ -1,5 +1,4 @@
 ﻿@model TogoFogo.Models.EmployeeModel
-
 <div class="form-group row">
     <div class="col-md-12">
         @if (Session["RoleName"].ToString().ToLower().Contains("provider"))
@@ -49,14 +48,7 @@
             </div>
             @Html.ValidationMessageFor(x => x.EmpCode, "", new { @class = "text-danger" })
         </div>
-        <div class="col-md-6 col-sm-6">
-            <label class=" control-label" for="form-control-9">Engineer Name</label>
-            <div class="input-group">
-                <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.Contact.EmployeeName, new { @class = "form-control" })
-            </div>
-            @Html.ValidationMessageFor(x => x.Contact.EmployeeName, "", new { @class = "text-danger" })
-        </div>
+        
     </div>
 </div>
 
@@ -131,8 +123,7 @@
         </div>
     </div>
 </div>
-
-@Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
+@Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model)
 <div class="form-group row">
     <div class="col-md-12">
         <div class="col-md-6 col-sm-6">

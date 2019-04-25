@@ -40,7 +40,6 @@ namespace TogoFogo.Models
         public char? Action { get; set; }
         public string ConVoterIdFileName { get; set; }
         public string ConVoterIdFileUrl { get; set; }       
-        public int UserID { get; set; }
         [DisplayName("Aadhaar Number")]
         public string ConAdhaarNumber { get; set; }
         [DisplayName("Upload Aadhaar Number")]
@@ -48,8 +47,7 @@ namespace TogoFogo.Models
         [DisplayName("Upload Aadhaar Number")]
         public string ConAdhaarFileName { get; set; }
         public string ConAdhaarFileUrl { get; set; }
-        public bool IsUser { get; set; }
         public int UserTypeId { get; set; }
-        public string Password{ get; set; }
+    
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
 using TogoFogo.Models.Customer_Support;
@@ -71,7 +72,7 @@ namespace TogoFogo.Repository.Customer_Support
 
         }
 
-        public async Task<CallToASPModel> GetASPCalls()
+        public async Task<CallToASPModel> GetASPCalls(FilterModel filter)
         {
             CallToASPModel calls = new CallToASPModel();
             using (var connection = _context.Database.Connection)
@@ -79,15 +80,10 @@ namespace TogoFogo.Repository.Customer_Support
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "GETREQUESTFORASP";
-                command.CommandType = CommandType.StoredProcedure;
-                var parameter = command.CreateParameter();
-                parameter.ParameterName = "@Export";
-                parameter.Value = 0;
-                var parameterstatus = command.CreateParameter();
-                parameterstatus.ParameterName = "@Status";
-                parameterstatus.Value = "";
-                command.Parameters.Add(parameter);
-                command.Parameters.Add(parameterstatus);
+                command.CommandType = CommandType.StoredProcedure;               
+                command.Parameters.Add(new SqlParameter("@Status", DBNull.Value));
+                command.Parameters.Add(new SqlParameter("@Export", false));
+                command.Parameters.Add(new SqlParameter("@CompId",filter.CompId));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     calls.PendingCalls =
@@ -107,25 +103,20 @@ namespace TogoFogo.Repository.Customer_Support
             return calls;
         }
 
-        public async Task<CallToASCModel> GetASCCalls()
+        public async Task<CallToASCModel> GetASCCalls(FilterModel filter)
         {
             CallToASCModel calls = new CallToASCModel();
             using (var connection = _context.Database.Connection)
             {
                 connection.Open();
                 var command = connection.CreateCommand();
-                //SqlParameter exportExcel1 = new SqlParameter("@Export", 0);
+             
                 command.CommandText = "GETREQUESTFORASC";
                 command.CommandType = CommandType.StoredProcedure;
-                var parameter = command.CreateParameter();
-                parameter.ParameterName = "@Export";
-                parameter.Value = 0;
-                var parameterstatus = command.CreateParameter();
-                parameterstatus.ParameterName = "@Status";
-                parameterstatus.Value = "";
-                command.Parameters.Add(parameter);
-                command.Parameters.Add(parameterstatus);
-
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@Status", DBNull.Value));
+                command.Parameters.Add(new SqlParameter("@Export", false));
+                command.Parameters.Add(new SqlParameter("@CompId", filter.CompId));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     calls.PendingCalls =
@@ -144,17 +135,27 @@ namespace TogoFogo.Repository.Customer_Support
             }
             return calls;
         }
-        public async Task<List<CallAllocatedToASCModel>> GeteExportASCCalls(string tabIndex)
+        public async Task<List<CallAllocatedToASCModel>> GeteExportASCCalls(FilterModel FilterModel)
         {
-            SqlParameter exportExcel = new SqlParameter("@Status", tabIndex);
-            SqlParameter exportExcel1 = new SqlParameter("@Export", 1);
-            return await _context.Database.SqlQuery<CallAllocatedToASCModel>("GETREQUESTFORASC @Export , @Status", exportExcel1, exportExcel).ToListAsync();          
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@Status", ToDBNull(FilterModel.tabIndex));
+            sp.Add(param);
+            param = new SqlParameter("@Export", 1);
+            sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(FilterModel.CompId));
+            sp.Add(param);          
+            return await _context.Database.SqlQuery<CallAllocatedToASCModel>("GETREQUESTFORASC @Status , @Export ,@CompId", sp).ToListAsync();          
         }
-        public async Task<List<CallAllocatedToASPModel>> GeteExportASPCalls(string tabIndex)
+        public async Task<List<CallAllocatedToASPModel>> GeteExportASPCalls(FilterModel FilterModel)
         {
-            SqlParameter exportExcel = new SqlParameter("@Status", tabIndex);
-            SqlParameter exportExcel1 = new SqlParameter("@Export", 1);
-            return await _context.Database.SqlQuery<CallAllocatedToASPModel>("GETREQUESTFORASP @Export , @Status", exportExcel1, exportExcel).ToListAsync();
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@Status", ToDBNull(FilterModel.tabIndex));
+            sp.Add(param);
+            param = new SqlParameter("@Export", 1);
+            sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(FilterModel.CompId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<CallAllocatedToASPModel>("GETREQUESTFORASP @Status , @Export ,@CompId", sp).ToListAsync();        
         }
 
         private object ToDBNull(object value)

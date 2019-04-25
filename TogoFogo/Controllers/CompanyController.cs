@@ -20,7 +20,8 @@ namespace TogoFogo.Controllers
        private readonly IContactPerson _ContactPersonRepo;
        private readonly IOrganization _OrgRepo;
        private readonly IBank _BankRepo;
-       private readonly string _path = "/UploadedImages/Companies/"; 
+       private SessionModel user;
+        private readonly string _path = "/UploadedImages/Companies/"; 
         // GET: Company
 
         public ManageCompanyController()
@@ -94,7 +95,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
-            comp.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+            user = Session["User"] as SessionModel;
+            comp.CreatedBy = user.UserId;
             if (comp.CompanyLogo != null && comp.CompanyPath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path+"Logo/" + comp.CompanyLogo)))
@@ -365,12 +367,8 @@ namespace TogoFogo.Controllers
                 comp = await GetCompany(bank.RefKey);
                 comp.ActiveTab = "tab-4";
                 return View("Edit", comp);
-
-
             }
-
         }
-
         [HttpPost]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {

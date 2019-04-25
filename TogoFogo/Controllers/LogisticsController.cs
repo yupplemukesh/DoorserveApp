@@ -20,6 +20,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
            DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         // File Save Code
         private string SaveImageFile(HttpPostedFileBase file)
         {
@@ -228,8 +229,9 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(), "Value", "Text");
-                ViewBag.CourierName = new SelectList(dropdown.BindCourier(), "Value", "Text");
+                user = Session["User"] as SessionModel;
+                ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(user.CompanyId), "Value", "Text");
+                ViewBag.CourierName = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
                 ViewBag.CallStatus = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
                 var result = con.Query<ReverseAWB_AllocationModel>("GetDataIn_Reverse_AWB_Allocation",
                         new { CC_NO = CC_NO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -338,9 +340,10 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
+            user = Session["User"] as SessionModel;
             ViewBag.CallStatus = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
-            ViewBag.CourierName = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            ViewBag.EngineerName = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+            ViewBag.CourierName = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
+            ViewBag.EngineerName = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = new URSSEModel();

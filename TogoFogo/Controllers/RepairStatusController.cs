@@ -16,6 +16,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         // GET: RepairStatus
         public ActionResult RepairStatus()
         {
@@ -131,10 +132,11 @@ namespace TogoFogo.Controllers
 
         public ActionResult EditRepairStatus1()
         {
-            
-            ViewBag.CourierName = new SelectList(dropdown.BindCourier(), "Value", "Text");
-            ViewBag.PrblmObsrvd = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+
+            user = Session["User"] as SessionModel;
+            ViewBag.CourierName = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
+            ViewBag.PrblmObsrvd = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectList>());
             return View();
         }

@@ -80,17 +80,17 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@USERID", newCall.UserId);
             sp.Add(pararm);
-
+            pararm = new SqlParameter("@CompanyId", newCall.CompanyId);
+            sp.Add(pararm);
             var sql = "NewCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address,"+
                 "@Landmark,@PinCode,@CountyId,@StateId,@CityId,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP,"+
-                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID ";
+                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId ";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
             return res;
         }
-
         private object ToDBNull(object value)
         {
             if (null != value)

@@ -16,6 +16,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         // GET: Trc_PFR
         public ActionResult Index()
         {
@@ -72,14 +73,15 @@ namespace TogoFogo.Controllers
         }
         public ActionResult PFRForm()
         {
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            user = Session["User"] as SessionModel;
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            ViewBag.QCPersonName = ViewBag.Engg_Name;
             return View();
         }
         [HttpPost]

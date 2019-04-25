@@ -26,6 +26,7 @@ namespace TogoFogo.Controllers
         private readonly IContactPerson _contactPerson;
         private readonly string _path = "/UploadedImages/Centers/";
         private readonly DropdownBindController dropdown;
+        private SessionModel user;
         public ManageServiceCentersController()
         {
             _Center = new Center() ;
@@ -39,10 +40,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Center/TRC")]
         public  async Task<ActionResult> Index()
         {
-   
+             user = Session["User"] as SessionModel;   
             Guid? ProviderId=null;
-            if (Session["RoleName"].ToString().ToLower().Contains("provider"))       
-                ProviderId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+            if (user.UserRole.ToLower().Contains("provider"))       
+                ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
             var Centers = await _Center.GetCenters(ProviderId);           
             return View(Centers);
         }
@@ -144,7 +145,7 @@ namespace TogoFogo.Controllers
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
-            contact.UserID = Convert.ToInt32(Session["User_ID"]);
+            contact.UserId = Convert.ToInt32(Session["User_ID"]);
             if (TempData["center"] != null)
             {
                 var _center = TempData["center"] as ServiceCenterModel;
@@ -188,11 +189,13 @@ namespace TogoFogo.Controllers
 
                }
         private async Task<ServiceCenterModel> GetCenter(Guid ? centerId)
-        {          
+        {
+
+            user = Session["User"] as SessionModel;
             var Center = await _Center.GetCenterById(centerId);
             Center.Path = _path;
             var processes = await CommonModel.GetProcesses();
-            if (Session["RoleName"].ToString().ToLower().Contains("provider"))
+            if (user.UserRole.ToLower().Contains("provider"))
             {
                 var providerId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
                 var provider = await _Provider.GetProviderById(providerId);
@@ -203,7 +206,7 @@ namespace TogoFogo.Controllers
                 Center.ProcessList = new SelectList(processes, "Value", "Text");
             if (Center.Organization == null)
                 Center.Organization = new OrganizationModel();
-            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
@@ -263,6 +266,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
+            user = Session["User"] as SessionModel;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["center"] as ServiceCenterModel;     
@@ -270,7 +274,7 @@ namespace TogoFogo.Controllers
             if (Center.ServiceList.Where(x=>x.IsChecked==true).Count()<1 || Center.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
             {
                 Center.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
-                Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
                 Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
                 Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
@@ -339,7 +343,7 @@ namespace TogoFogo.Controllers
                 
             }
             Center.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
-            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");

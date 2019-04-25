@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 
 namespace TogoFogo.Repository.Clients
@@ -21,9 +22,10 @@ namespace TogoFogo.Repository.Clients
 
         }
 
-        public async Task<List<ClientModel>> GetClients()
+        public async Task<List<ClientModel>> GetClients(FilterModel filterModel)
         {
-            return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients").ToListAsync();
+            var param  = new SqlParameter("@CompanyId", ToDBNull(filterModel.CompId));
+            return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId").ToListAsync();
         }
 
         public async Task<ClientModel> GetClientByClientId(Guid? clientId)
@@ -202,18 +204,11 @@ namespace TogoFogo.Repository.Clients
             sp.Add(param);
             param = new SqlParameter("@tab", ToDBNull(client.Activetab));
             sp.Add(param);
-            param = new SqlParameter("@ISUSER", ToDBNull(client.IsUser));
-            sp.Add(param);
-            param = new SqlParameter("@USERNAME", ToDBNull(client.UserName));
-            sp.Add(param);
-            param = new SqlParameter("@Password", ToDBNull(client.Password));
-            sp.Add(param);
-
+            param = new SqlParameter("@CompId", ToDBNull(client.CompanyId));
+            sp.Add(param);            
             var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSID,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password";
-       
-
+                        ",@SERVICEDELIVERYTYPE,@tab,@CompId";      
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

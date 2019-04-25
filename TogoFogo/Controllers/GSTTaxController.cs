@@ -17,6 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         // GET: GSTTax
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST Tax")]
         public ActionResult Gst()
@@ -27,13 +28,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST Tax")]
         public ActionResult AddGst()
         {
+            user = Session["User"] as SessionModel;
 
-           
             GstTaxModel gm = new GstTaxModel();
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
             gm.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             gm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
             gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
             gm.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(),"Value","Text");
@@ -126,6 +127,7 @@ namespace TogoFogo.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
+                user = Session["User"] as SessionModel;
                 var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = Gsttaxid },
                 commandType: CommandType.Text).FirstOrDefault();
                 result2.SACList = new SelectList(CommonModel.SAC_NumberList(), "Text", "Text");
@@ -133,7 +135,7 @@ namespace TogoFogo.Controllers
                 result2.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 result2.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
-                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
                 result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
                 result2.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");

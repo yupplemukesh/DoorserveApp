@@ -71,11 +71,14 @@ namespace TogoFogo
                 return _type;
             }
         }
-        public static async Task<List<CheckBox>> GetClientData()
+        public static async Task<List<CheckBox>> GetClientData( Guid ?CompId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _clientData = await _context.Database.SqlQuery<CheckBox>("select clientId as name,clientName as text from MstClients where isActive=1").ToListAsync();
+                var query = "select clientId as name,clientName as text from MstClients where isActive=1";
+                if (CompId != null)
+                    query = query + " and companyId=@companyId";
+                var _clientData = await _context.Database.SqlQuery<CheckBox>(query,new {companyId=CompId}).ToListAsync();
                 return _clientData;
             }
         }

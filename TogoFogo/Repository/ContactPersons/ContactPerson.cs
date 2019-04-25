@@ -63,7 +63,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ACTION", (object)contact.Action);
             sp.Add(param);
-            param = new SqlParameter("@USER", ToDBNull(contact.UserID));
+            param = new SqlParameter("@USER", ToDBNull(contact.UserId));
             sp.Add(param);
             param = new SqlParameter("@ISUSER", ToDBNull(contact.IsUser));
             sp.Add(param);
@@ -71,9 +71,10 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@DefaultPWD", ToDBNull(contact.Password));
             sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(contact.CompanyId));
+            sp.Add(param);
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
-                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD";
-
+                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD,@CompId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode==0)
                 res.IsSuccess = true;

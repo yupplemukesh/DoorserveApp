@@ -16,6 +16,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         // GET: CustomerSupport  
         public ActionResult PCRC()
         {
@@ -246,9 +247,9 @@ namespace TogoFogo.Controllers
             // ReceiveMaterials rm=new ReceiveMaterials
             using (var con = new SqlConnection(_connectionString))
             {
-  
 
-               var result = con.Query<ReceiveMaterials>("GetDataByCCNO",
+                user = Session["User"] as SessionModel;
+                var result = con.Query<ReceiveMaterials>("GetDataByCCNO",
                     new { CC_NO = CcNO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                 //var Problem1 = con.Query<CourierValuesModel>("get_Customer_problem_New",
@@ -283,11 +284,11 @@ namespace TogoFogo.Controllers
                 {
                     result.CurrentStatus = "Request received";
                 }
-                result.ProblemObservedList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
+                result.ProblemObservedList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
                 result.SpareTypeList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
                 result.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
                 result.SelectTrcList = new SelectList(dropdown.BindTrc(), "Value", "Text");
-                result.CourierNameList = new SelectList(dropdown.BindCourier(), "Value", "Text");
+                result.CourierNameList = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
                 result.CallStatusList = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
                 result.ServiceProviderNameList = new SelectList(await CommonModel.GetServiceProviders (), "Name", "Text");
                 result.ProblemList = new SelectList(dropdown.BindMstDeviceProblem(), "Value", "Text");
@@ -501,14 +502,14 @@ namespace TogoFogo.Controllers
              ViewBag.CourierName = new SelectList(dropdown.BindCourier(), "Value", "Text");
              ViewBag.CallStatus = new SelectList(dropdown.BindStatusMaster(), "Value", "Text");*/
             //AllData ad = new AllData
-            
-                var pwirr = new ReceiveMaterials();
-            pwirr.ServiceProviderNameList = new SelectList(dropdown.BindServiceProvider(), "Value", "Text");
-            pwirr.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            user = Session["User"] as SessionModel;
+            var pwirr = new ReceiveMaterials();
+            pwirr.ServiceProviderNameList = new SelectList(dropdown.BindServiceProvider(user.CompanyId), "Value", "Text");
+            pwirr.SpareTypeList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             pwirr.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            pwirr.ProblemObservedList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-            pwirr.SelectTrcList = new SelectList(dropdown.BindTrc(), "Value", "Text");
-            pwirr.CourierNameList = new SelectList(dropdown.BindCourier(), "Value", "Text");
+            pwirr.ProblemObservedList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            pwirr.SelectTrcList = new SelectList(Enumerable.Empty<SelectListItem>());
+            pwirr.CourierNameList = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
             pwirr.CallStatusList = new SelectList(dropdown.BindStatusMaster(), "Value", "Text");
 
         
@@ -699,15 +700,16 @@ namespace TogoFogo.Controllers
         }
         public ActionResult PRCCForm()
         {
-          
+            user = Session["User"] as SessionModel;
+
             var ReceiveMaterial = new ReceiveMaterials();
-            ReceiveMaterial.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ReceiveMaterial.RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ReceiveMaterial.RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ReceiveMaterial.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ReceiveMaterial.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            ReceiveMaterial.ReceivedDeviceList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ReceiveMaterial.RecvdBrandlList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ReceiveMaterial.RecvdModelList = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+            ReceiveMaterial.Engg_NameList = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ReceiveMaterial.SpareTypeList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ReceiveMaterial.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            ReceiveMaterial.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text"); 
+            ReceiveMaterial.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text"); 
 
 
 
@@ -833,16 +835,15 @@ namespace TogoFogo.Controllers
         }
         public ActionResult RPCAPForm()
         {
-                var ReceiveMaterials = new ReceiveMaterials();
-            ReceiveMaterials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
-            ReceiveMaterials.RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text");
-            ReceiveMaterials.RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text");
-            ReceiveMaterials.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-            ReceiveMaterials.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            user = Session["User"] as SessionModel;
+            var ReceiveMaterials = new ReceiveMaterials();
+            ReceiveMaterials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ReceiveMaterials.RecvdBrandlList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ReceiveMaterials.RecvdModelList = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+            ReceiveMaterials.Engg_NameList = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            ReceiveMaterials.SpareTypeList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
             ReceiveMaterials.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            ReceiveMaterials.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
-
-            
+            ReceiveMaterials.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");            
             return PartialView(ReceiveMaterials);
         }
         [HttpPost]
@@ -941,14 +942,15 @@ namespace TogoFogo.Controllers
         }
         public ActionResult CJSForm()
         {
-                var receivematerial = new ReceiveMaterials();
-                receivematerial.ReceivedDeviceList = new SelectList(dropdown.BindCategory(), "Value", "Text");
-                receivematerial.RecvdBrandlList = new SelectList(dropdown.BindBrand(), "Value", "Text");
-                receivematerial.RecvdModelList = new SelectList(dropdown.BindProduct(), "Value", "Text");
-                receivematerial.Engg_NameList = new SelectList(dropdown.BindEngineer(), "Value", "Text");
-                receivematerial.SpareTypeList = new SelectList(dropdown.BindSpareType(), "Value", "Text");
+            user = Session["User"] as SessionModel;
+            var receivematerial = new ReceiveMaterials();
+                receivematerial.ReceivedDeviceList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+                receivematerial.RecvdBrandlList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+                receivematerial.RecvdModelList = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
+                receivematerial.Engg_NameList = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+                receivematerial.SpareTypeList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
                 receivematerial.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-                receivematerial.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(), "Value", "Text");
+                receivematerial.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
                 return PartialView(receivematerial);
                  
         }

@@ -470,13 +470,17 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindQC()
+        public List<ListItem> BindQC( Guid? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "SELECT QCId,QCProblem from mst_QC where isactive=1";
+                if (compId != null)
+                    query = query + " and CompanyId=@companyId";
+                query = query + " Order by QCProblem";
                 List<BindQCModel> company = con
-                    .Query<BindQCModel>("SELECT QCId,QCProblem from mst_QC",
-                        null, commandType: CommandType.Text).ToList();
+                    .Query<BindQCModel>(query,
+                        new { companyId =compId}, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
       
                 foreach (var val in company)
@@ -491,13 +495,18 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindServiceProvider()
+        public List<ListItem> BindServiceProvider( Guid? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+
+                var query = "SELECT ProviderId,ProviderName from MstServiceProvider";
+                if (compId != null)
+                    query = query + " and companyId=@companyId";
+                query = "Order by ProviderName ";
                 List<BindServiceProviderModel> company = con
-                    .Query<BindServiceProviderModel>("SELECT ProviderId,ProviderName from MstServiceProvider",
-                        null, commandType: CommandType.Text).ToList();
+                    .Query<BindServiceProviderModel>(query,
+                        new{companyId= compId }, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
                 {
@@ -592,13 +601,17 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindBrand()
+        public List<ListItem> BindBrand(Guid? CompId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "SELECT DISTINCT BrandId, BrandName FROM MstBrand  where isActive=1 ";
+                if (CompId != null)
+                    query = query + " And CompanyId=@companyId";
+                query = query + " Order by BrandName";
                 List<BindDropdownModel> company = con
-                    .Query<BindDropdownModel>("SELECT DISTINCT BrandId, BrandName FROM MstBrand  where isActive=1  ORDER BY BrandName",
-                        null, commandType: CommandType.Text).ToList();
+                    .Query<BindDropdownModel>(query,
+                        new{companyId= CompId}, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
                 {
@@ -639,13 +652,19 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindCategory()
+        public List<ListItem> BindCategory(Guid ? CompId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+
+                var query = "SELECT DISTINCT CatName,CatId FROM MstCategory where isactive=1";
+                if (CompId != null)
+                    query = query + " and companyId=@companyId";
+                    query = query + " Order by catName";
+
                 List<BindDropdownModel> company = con
                     .Query<BindDropdownModel>(
-                        "SELECT DISTINCT CatName,CatId FROM MstCategory where isactive=1 ORDER BY CatName", null,
+                        query, new{companyId=CompId},
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 /*items.Add(new ListItem
@@ -821,13 +840,17 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindProblemObserved()
+        public List<ListItem> BindProblemObserved(Guid ? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "select ProblemId,ProblemObserved from MstProblemObserved where isactive=1";
+                if (compId != null)
+                    query = query + " and companyId=@compnayId";
+                query = query + " Order by ProblemObserved";
                 List<BindProblemObserved> company = con
-                    .Query<BindProblemObserved>("select ProblemId,ProblemObserved from MstProblemObserved",
-                        null, commandType: CommandType.Text).ToList();
+                    .Query<BindProblemObserved>(query,
+                        new{companyId=compId}, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 //items.Add(new ListItem
                 //{
@@ -1063,13 +1086,19 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public List<ListItem> BindSpareType()
+        public List<ListItem> BindSpareType(Guid? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+
+                var query = "SELECT distinct SpareTypeName,SpareTypeId from MstSpareType where isactive=1";
+                if (compId != null)
+                    query = query + " and companyId=@companyId";
+                query = query + " Order by SpareTypeName";
+
                 List<SpareTypeModel> company = con
                     .Query<SpareTypeModel>(
-                        "SELECT distinct SpareTypeName,SpareTypeId from MstSpareType", null,
+                        query, new{companyId=compId},
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
@@ -1117,13 +1146,17 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public List<ListItem> BindProduct()
+        public List<ListItem> BindProduct(Guid? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "select DISTINCT ProductId,ProductName  from MstProduct where isactive=1";
+                if (compId != null)
+                    query = query + " and CompanyId=@companyId";
+                query = query + " Order by productName";
                 List<BindDeviceModel> company = con
                     .Query<BindDeviceModel>(
-                        "select DISTINCT ProductId,ProductName  from MstProduct ", null,
+                        query, new{companyId=compId},
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
@@ -1327,13 +1360,17 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public List<ListItem> BindCourier()
+        public List<ListItem> BindCourier( Guid? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "select CourierId,CourierName from Courier_Master WHERE CourierName is NOT NULL";
+                if (compId != null)
+                    query = query + " And CompanyId=@companyId";
+                query = query + " Order by CourierName";
                 List<BindCourierModel> company = con
-                    .Query<BindCourierModel>(
-                        "select CourierId,CourierName from Courier_Master WHERE CourierName is NOT NULL", null,
+                    .Query<BindCourierModel>(query
+                        , new { companyId=compId},
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
@@ -1353,13 +1390,19 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindEngineer()
+        public List<ListItem> BindEngineer(Guid? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+
+                var query = "select EMPId,p.FirstName+' '+p.LastName EmployeeName   from MSTEMPLOYEES e join tblContactPersons p   on p.RefKey	=e.EMPId where  e.IsActive =1";
+                if (compId != null)
+                    query = query + " And companyId=@companyId";
+                query = query + " Order by p.FirstName+p.LastName";
+
                 List<BindEngineerModel> company = con
                     .Query<BindEngineerModel>(
-                        "select EngineerId,EmployeeName FROM MstEngineer WHERE EmployeeName is NOT NULL", null,
+                        query, new {companyId =compId},
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
@@ -1371,7 +1414,7 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.EngineerId, //Value Field(ID)
+                        Value = val.EmpId.ToString(), //Value Field(ID)
                         Text = val.EmployeeName //Text Field(Name)
                     });
                 }

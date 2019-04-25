@@ -17,6 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Problem Observed")]
         public ActionResult ManageProblemObserved()
         {
@@ -36,10 +37,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Problem Observed")]
         public ActionResult AddProblemObserved()
         {
+            user = Session["User"] as SessionModel;
             var problemobserved = new ManageProblemObserved();
             using (var con = new SqlConnection(_connectionString))
             {
-                problemobserved.CategoryList = new SelectList(dropdown.BindCategory(), "Value", "Text");
+                problemobserved.CategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
                 problemobserved.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
                 //var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstProblemObserved", null, commandType: CommandType.Text).FirstOrDefault();
@@ -107,7 +109,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Problem Observed")]
         public ActionResult EditProblemObserved(int ProblemId)
         {
-            ViewBag.Device_Category = new SelectList(dropdown.BindCategory(), "Value", "Text");
+
+
+            user = Session["User"] as SessionModel;
+            ViewBag.Device_Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             
             using (var con = new SqlConnection(_connectionString))
             {

@@ -75,7 +75,7 @@ namespace TogoFogo.Models
     }
     public class BindEngineerModel
     {
-        public string EngineerId { get; set; }
+        public Guid EmpId { get; set; }
         public string EmployeeName { get; set; }
 
     }

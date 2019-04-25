@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
 
@@ -20,21 +21,20 @@ namespace TogoFogo.Repository.ImportFiles
             _context = new ApplicationDbContext();
             
         }        
-        public async Task<MainClientDataModel> GetUploadedList(Guid? clientId)
+        public async Task<MainClientDataModel> GetUploadedList(FilterModel filterModel)
         {
             var mainModel = new MainClientDataModel();
-
-            SqlParameter client = new SqlParameter("@ClientId", ToDBNull(clientId));
+            var param= new SqlParameter("@ClientId", ToDBNull(filterModel.ClientId));
             using (var connection = _context.Database.Connection)
             {
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "GETDATAUPLOADEDBYCLIENT";
                 command.CommandType = CommandType.StoredProcedure;                
-                command.Parameters.Add(client);
+                command.Parameters.Add(param);
                 command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(false)));
                 command.Parameters.Add(new SqlParameter("@Type", ToDBNull('A')));
-
+                command.Parameters.Add(new SqlParameter("@CompId", ToDBNull(filterModel.CompId)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     mainModel.UploadedFiles =
@@ -67,11 +67,10 @@ namespace TogoFogo.Repository.ImportFiles
             }
             return mainModel;
         }
-        public async Task<CallsViewModel> GetAssingedCalls()
+        public async Task<CallsViewModel> GetAssingedCalls(FilterModel filterModel)
         {
 
             var mainModel = new CallsViewModel();
-
             SqlParameter client = new SqlParameter("@ClientId", DBNull.Value);
             using (var connection = _context.Database.Connection)
             {
@@ -82,6 +81,7 @@ namespace TogoFogo.Repository.ImportFiles
                 command.Parameters.Add(client);
                 command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(false)));
                 command.Parameters.Add(new SqlParameter("@Type", ToDBNull('A')));
+                command.Parameters.Add(new SqlParameter("@CompId", ToDBNull(filterModel.CompId)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     mainModel.OpenCalls =
@@ -127,26 +127,29 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@User",client.UserId);
             sp.Add(pararm);
-
-            var sql = "uploadClientData @CLIENTID,@ServiceTypeId,@DeliveryTypeId, @FileName,@DataTable,@User";
+            pararm = new SqlParameter("@compId", client.CompanyId);
+            sp.Add(pararm);
+            var sql = "uploadClientData @CLIENTID,@ServiceTypeId,@DeliveryTypeId, @FileName,@DataTable,@User,@compId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
             return res;
         }
-        public async Task<MainClientDataModel> GetExportAssingedCalls(char tabIndex, Guid? clientId)
+        public async Task<MainClientDataModel> GetExportAssingedCalls(FilterModel filterModel)
         {
             MainClientDataModel main = new MainClientDataModel();
             var sp = new List<SqlParameter>();
-            var pararm = new SqlParameter("@ClientId", ToDBNull(clientId));
+            var pararm = new SqlParameter("@ClientId", ToDBNull(filterModel.ClientId));
             sp.Add(pararm);
             pararm = new SqlParameter("@IsExport", true);
             sp.Add(pararm);
-            pararm = new SqlParameter("@Type", tabIndex);
+            pararm = new SqlParameter("@Type", filterModel.tabIndex);
+            sp.Add(pararm);
+            pararm = new SqlParameter("@CompId", filterModel.CompId);
             sp.Add(pararm);
             main.Calls = new CallsViewModel();
-            var query = "GETDATAUPLOADEDBYCLIENT @ClientId, @IsExport , @Type";
-            if (tabIndex == 'O')
+            var query = "GETDATAUPLOADEDBYCLIENT @ClientId, @IsExport , @Type,@CompId";
+            if (filterModel.tabIndex == 'O')
             {
                 try
                 {
@@ -157,14 +160,12 @@ namespace TogoFogo.Repository.ImportFiles
                     throw ex;
                 }
             }
-            else if (tabIndex == 'C')
+            else if (filterModel.tabIndex == 'C')
                 main.Calls.CloseCalls = await _context.Database.SqlQuery<UploadedExcelModel>(query, sp.ToArray()).ToListAsync();
-            else if (tabIndex == 'D')
+            else if (filterModel.tabIndex == 'D')
                 main.UploadedData = await _context.Database.SqlQuery<UploadedExcelModel>(query, sp.ToArray()).ToListAsync();
-
             else
                 main.UploadedFiles = await _context.Database.SqlQuery<FileDetailModel>(query, sp.ToArray()).ToListAsync();
-
             return main;
 
         }

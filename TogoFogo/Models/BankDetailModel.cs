@@ -36,7 +36,6 @@ namespace TogoFogo.Models
         public string BankBranchName { get; set; }
         [DisplayName("Upload Cancelled Cheque")]
         public HttpPostedFileBase BankCancelledChequeFilePath { get; set; }
-        public int UserId { get; set; }
         public char Action { get; set; }    
         public bool IsDefault { get; set; }
         [DisplayName("Upload Cancelled Cheque")]
@@ -49,6 +48,11 @@ namespace TogoFogo.Models
     {
        public  bool IsActive { get; set; }
        public string Comments { get; set; } 
-
+       public bool IsUser { get; set; }
+       public DateTime LastUpdateDate { get; set; }
+       public string LastUpdatedBy { get; set; }
+       public int UserId { get; set; }
+       public Guid? CompanyId { get; set; }
+       public string Password { get; set; }
     }
 }
