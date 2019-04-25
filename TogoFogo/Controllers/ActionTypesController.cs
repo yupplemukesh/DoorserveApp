@@ -12,6 +12,7 @@ namespace TogoFogo.Controllers
 {
     public class ActionTypesController : Controller
     {
+        private SessionModel user;
         private readonly IActionTypes _actionTypeModel;
         public ActionTypesController()
         {
@@ -35,11 +36,11 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-                actiontype.AddeddBy = Convert.ToInt32(Session["User_ID"]);
+                user = Session["User"] as SessionModel;
+                actiontype.AddeddBy = user.UserId;
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'I');
                 _actionTypeModel.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else
@@ -57,11 +58,12 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-                actiontype.AddeddBy = Convert.ToInt32(Session["User_ID"]);
+                
+                    user = Session["User"] as SessionModel;
+                    actiontype.AddeddBy = user.UserId;
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'U');
                 _actionTypeModel.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else

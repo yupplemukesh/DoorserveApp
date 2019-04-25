@@ -245,12 +245,16 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindProductColor()
+        public List<ListItem> BindProductColor( Guid ? compId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "select ColorId,ColorName from Color_Master where isactive=1";
+                if (compId != null)
+                    query = query + " And CompanyId=@companayId";
+                query = query + " Order by ColorName";
                 List<BindColor> color = con
-                    .Query<BindColor>("select ColorId,ColorName from Color_Master where isactive=1", null, commandType: CommandType.Text).ToList();
+                    .Query<BindColor>(query, new{ companayId=compId}, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
            
                 foreach (var val in color)

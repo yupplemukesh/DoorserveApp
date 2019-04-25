@@ -41,8 +41,8 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+       
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Brands")]
         public ActionResult AddBrand()
@@ -202,8 +202,8 @@ namespace TogoFogo.Controllers
             }
 
 
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+        
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Products")]
         public ActionResult AddProduct()
@@ -215,7 +215,7 @@ namespace TogoFogo.Controllers
                 ViewBag.BrandName = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
                 ViewBag.Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
                 //ViewBag.Sub_Cat_Id = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(), "Value", "Text");
+                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(user.CompanyId), "Value", "Text");
 
                 return PartialView();
             }
@@ -321,7 +321,7 @@ namespace TogoFogo.Controllers
                 ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
                 ViewBag.SubCategoryId = new SelectList(Enumerable.Empty<SelectListItem>());
                 ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(), "Value", "Text");
+                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(user.CompanyId), "Value", "Text");
             }
             else
             {
@@ -333,7 +333,7 @@ namespace TogoFogo.Controllers
                     if (result.Product_Color != null)
                     {
                         result.ProductColor = result.Product_Color.Split(',');
-                        ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(), "Value", "Text");
+                        ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(user.CompanyId), "Value", "Text");
                     }                    
                     if (result.SubCatId != null)
                     {

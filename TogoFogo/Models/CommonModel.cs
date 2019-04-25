@@ -61,7 +61,7 @@ namespace TogoFogo
                 return _Gateways;
             }
         }
-
+      
 
         public static async Task<List<CheckBox>> GetLookup( string type)
         {
@@ -75,10 +75,15 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
+               var param=  new SqlParameter("@companyId", DBNull.Value);
                 var query = "select clientId as name,clientName as text from MstClients where isActive=1";
                 if (CompId != null)
+                {
                     query = query + " and companyId=@companyId";
-                var _clientData = await _context.Database.SqlQuery<CheckBox>(query,new {companyId=CompId}).ToListAsync();
+                    param.Value = CompId;
+                }
+
+                var _clientData = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
                 return _clientData;
             }
         }

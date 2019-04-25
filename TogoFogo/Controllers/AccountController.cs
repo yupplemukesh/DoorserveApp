@@ -99,10 +99,7 @@ namespace TogoFogo.Controllers
                         CompanyId=rs.CompanyId
 
                     };
-                    Session["User_ID"] = rs.UserId;
-                    Session["User"] = User;
-                    Session["RoleName"] = User.UserRole;
-                  
+                    Session["User"] = User;                  
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, m.Email));
