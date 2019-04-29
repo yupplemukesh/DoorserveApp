@@ -25,7 +25,7 @@ namespace TogoFogo.Repository.Clients
         public async Task<List<ClientModel>> GetClients(FilterModel filterModel)
         {
             var param  = new SqlParameter("@CompanyId", ToDBNull(filterModel.CompId));
-            return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId").ToListAsync();
+            return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId",param).ToListAsync();
         }
 
         public async Task<ClientModel> GetClientByClientId(Guid? clientId)

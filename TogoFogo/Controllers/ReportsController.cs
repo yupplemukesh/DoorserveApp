@@ -34,11 +34,9 @@ namespace TogoFogo.Controllers
         public ActionResult FilterOfRepairReport()
         {
             user = Session["User"] as SessionModel;
-
             ViewBag.TrcName = new SelectList(dropdown.BindTrc(), "Value", "Text");
             ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(user.CompanyId), "Value", "Text");
             return View();
-
         }
         [HttpPost]
         public ActionResult FilterOfRepairReport(ReportsModel m)

@@ -10,6 +10,9 @@ using TogoFogo.Models;
 using System.Data.OleDb;
 using System.Data;
 using TogoFogo.Permission;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace TogoFogo.Controllers
 {
@@ -25,13 +28,18 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;
             UserRole objUserRole = new UserRole();
             objUserRole.IsActive = true;
-            Int64 RoleId = id;
-          
-           
+            Int64 RoleId = id;           
             using (var con = new SqlConnection(_connectionString))
             {
                 objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenuByRole",
                     new { RoleId }, commandType: CommandType.StoredProcedure).ToList();
+                var menuList = objUserRole._MenuList.Where(x => x.ParentMenuId==0).ToList();
+                foreach (var item in menuList)
+                {
+                    var subMenues = objUserRole._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                    item.SubMenuList = subMenues;
+                }
+                objUserRole._MenuList = menuList;
             }
             return View(objUserRole);
         }
@@ -123,24 +131,42 @@ namespace TogoFogo.Controllers
             {
                 objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenuByRole",
                     new { RoleId }, commandType: CommandType.StoredProcedure).ToList();
+
+                var menuList = objUserRole._MenuList.Where(x => x.ParentMenuId == 0).ToList();
+                foreach (var item in menuList)
+                {
+                    var subMenues = objUserRole._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                    item.SubMenuList = subMenues;
+
+                }
+                objUserRole._MenuList = menuList;
+
             }
             return View(objUserRole);
         }
+        public string ToXML(Object oObject)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlSerializer xmlSerializer = new XmlSerializer(oObject.GetType());
+            using (MemoryStream xmlStream = new MemoryStream())
+            {
+                xmlSerializer.Serialize(xmlStream, oObject);
+                xmlStream.Position = 0;
+                xmlDoc.Load(xmlStream);
+                return xmlDoc.InnerXml;
+            }
+        }
+
         [HttpPost]
         public ActionResult EditUserRole(UserRole objUserRole)
         {
-            objUserRole.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+
+            user = Session["User"] as SessionModel;
+            objUserRole.UserLoginId = user.UserId;
             string MenuList = string.Empty;
             ResponseModel objResponseModel = new ResponseModel();
             var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
-            for (int i = 0; i < SlectedMenuLis.Count; i++)
-            {
-                MenuList += Convert.ToString(SlectedMenuLis[i].MenuCapId) + ",";
-            }
-            if (!string.IsNullOrEmpty(MenuList))
-            {
-                MenuList = MenuList.Substring(0, MenuList.Length - 1);
-            }
+            var xml = ToXML(SlectedMenuLis);
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("UspInsertUserRole",
@@ -151,7 +177,7 @@ namespace TogoFogo.Controllers
                         objUserRole.IsActive,
                         objUserRole.Comments,
                         objUserRole.UserLoginId,
-                        MenuList,
+                        MenuList=xml,
                         objUserRole.RefKey,
                         objUserRole.RefName
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();

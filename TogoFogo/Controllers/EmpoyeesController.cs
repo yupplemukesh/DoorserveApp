@@ -68,7 +68,7 @@ namespace TogoFogo.Controllers
             var empModel = new EmployeeModel();
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+         
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             empModel.CityList = new SelectList(Enumerable.Empty<SelectList>());
@@ -76,13 +76,21 @@ namespace TogoFogo.Controllers
             empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            if (user.UserRole.ToLower() == "provider")
+            if (user.UserRole.ToLower().Contains("provider"))
             {
-               var ProviderId = await CommonModel.GetProviderIdByUser(Convert.ToInt32(Session["User_ID"]));
+                var ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
                 empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
+                empModel.IsProvider = true;
             }
-            else
-                empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());           
+            else if (user.UserRole.ToLower().Contains("center"))
+            {
+                empModel.RefKey = await CommonModel.GetCenterIdByUser(user.UserId);
+                empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
+                empModel.IsCenter = true;
+            }
+          else
+                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
+
             return View(empModel);
 
         }
@@ -101,7 +109,7 @@ namespace TogoFogo.Controllers
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
             emp.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             emp.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+            emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
             emp.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             emp.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             emp.CityList = new SelectList(Enumerable.Empty<SelectList>());
@@ -110,9 +118,23 @@ namespace TogoFogo.Controllers
             emp.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             emp.Action = 'I';
-            emp.UserId = Convert.ToInt32(user.UserId);
-            if (user.UserRole.ToLower().Contains("center"))
-                emp.CenterId = await CommonModel.GetCenterIdByUser(user.UserId);
+            emp.UserId = user.UserId;
+
+            if (user.UserRole.ToLower().Contains("provider"))
+            {
+                var ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
+                emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
+                emp.IsProvider = true;
+            }
+            else if (user.UserRole.ToLower().Contains("center"))
+            {
+                emp.RefKey = await CommonModel.GetCenterIdByUser(user.UserId);
+                emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
+                emp.IsCenter = true;
+            }
+            else
+                emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
+
             var response = await _employee.AddUpdateDeleteEmployee(emp);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -121,10 +143,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Engineers")]
         public async Task<ActionResult> Edit(Guid empId)
         {
-            var empModel = await _employee.GetEmployeeById(empId);
+            user = Session["User"] as SessionModel;
+            var empModel = await _employee.GetEmployeeById(empId);          
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
@@ -178,7 +201,7 @@ namespace TogoFogo.Controllers
 
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");

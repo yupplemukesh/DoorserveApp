@@ -5,7 +5,7 @@
     {
         cs = "active in";
     }
-    var role = Session["RoleName"].ToString();
+   
 
 }
 @Html.HiddenFor(x => x.Path)
@@ -216,7 +216,7 @@
                             @Html.HiddenFor(x => x.CurrentCenterName)
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 
-                                @if (role.ToLower().Contains("admin"))
+                                @if (!Model.IsProvider)
                                 {
                                     <div class=" row form-group">
                                         <label class="col-md-3 control-label" for="selectbasic">Authorized Service Provider	</label>

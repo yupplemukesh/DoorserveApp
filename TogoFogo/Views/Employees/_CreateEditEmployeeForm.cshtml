@@ -1,7 +1,7 @@
 ﻿@model TogoFogo.Models.EmployeeModel
 <div class="form-group row">
     <div class="col-md-12">
-        @if (Session["RoleName"].ToString().ToLower().Contains("provider"))
+        @if (Model.IsProvider)
         {
             <div class="col-md-6 col-sm-6">
 
@@ -14,7 +14,11 @@
                 @Html.ValidationMessageFor(x => x.CenterId, "", new { @class = "text-danger" })
             </div>
         }
-        @if (Session["RoleName"].ToString().ToLower().Contains("super admin"))
+        @if (Model.IsCenter)
+        {
+            @Html.HiddenFor(x=>x.CenterId)
+        }
+        @if (!Model.IsProvider && !Model.IsCenter)
         {
             <div class="col-md-6 col-sm-6">
                 <label class=" control-label" for="form-control-9"> Service Provider</label>

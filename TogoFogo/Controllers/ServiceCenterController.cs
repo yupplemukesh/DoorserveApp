@@ -407,8 +407,8 @@ namespace TogoFogo.Controllers
             callDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(user.CompanyId), "Value", "Text");
             callDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(user.CompanyId), "Value", "Text");
             callDetailsModel.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
-            callDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            callDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
+            callDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
+            callDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(user.CompanyId), "Value", "Text");
             callDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             callDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             callDetailsModel.address = new AddressDetail

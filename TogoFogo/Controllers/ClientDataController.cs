@@ -46,8 +46,8 @@ namespace TogoFogo.Controllers
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
             clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
-            clientData.Client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            clientData.Client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(), "Value", "Text");
+            clientData.Client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
+            clientData.Client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(user.CompanyId), "Value", "Text");
 
             // new call Log
             clientData.NewCallLog = new UploadedExcelModel
@@ -111,7 +111,7 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;
             var clientDate = new ClientDataModel();
             clientDate.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
-            clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
+            clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
             return View(clientDate);
         }
         [HttpPost]

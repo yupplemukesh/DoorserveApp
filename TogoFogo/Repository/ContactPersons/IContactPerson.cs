@@ -10,7 +10,7 @@ namespace TogoFogo.Repository
     public interface IContactPerson: IDisposable
     {
         Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact);
-        Task<List<ContactPersonModel>> GetContactPersonsByRefKey(Guid refkey);
+        Task<List<ContactPersonModel>> GetContactPersonsByRefKey(Guid? refkey);
         Task<ContactPersonModel> GetContactPersonByContactId(Guid contactId);
         void Save();
 

@@ -19,6 +19,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+        private SessionModel user;
 
 
         // GET: ManageSACCodes
@@ -44,7 +45,7 @@ namespace TogoFogo.Controllers
             {
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
-                GstList = new SelectList(dropdown.BindGst(), "Value", "Text"),
+                GstList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text"),
                 AplicationTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text"),
             };
             return View(sm);
@@ -127,11 +128,12 @@ namespace TogoFogo.Controllers
          
             using (var con = new SqlConnection(_connectionString))
             {
+                user = Session["User"] as SessionModel;
                 var result = con.Query<SacCodesModel>("Select * from MstSacCodes Where SacCodesId=@SacCodesId", new { @SacCodesId = sacCodeId },
                     commandType: CommandType.Text).FirstOrDefault();
                 result.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result.StateList = new SelectList(dropdown.BindState(result.CountryId), "Value", "Text");
-                result.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                result.GstList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
                 var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
                result.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 result.InitialHSNCode = result.Gst_HSN_Code;
@@ -165,6 +167,7 @@ namespace TogoFogo.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    user = Session["User"] as SessionModel;
                     using (var con = new SqlConnection(_connectionString))
                     {
                         var result = con.Query<int>("Add_Edit_Delete_SACCodes",
@@ -189,7 +192,7 @@ namespace TogoFogo.Controllers
                                 model.Description_Of_Goods,
                                 model.IsActive,
                                 model.Comments,
-                                User = Convert.ToInt32(Session["User_ID"]),
+                                User = user.UserId,
                                 ACTION = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
@@ -212,7 +215,7 @@ namespace TogoFogo.Controllers
                 {
                     model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                     model.StateList = new SelectList(dropdown.BindState(model.CountryId), "Value", "Text");
-                    model.GstList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                    model.GstList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
                     return View(model);
 
                 }

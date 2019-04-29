@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Models.ServiceCenter;
@@ -26,9 +27,14 @@ namespace TogoFogo.Repository.ServiceCenters
 
         }
 
-        public async Task<List<ServiceCenterModel>> GetCenters(Guid? providerId)
+        public async Task<List<ServiceCenterModel>> GetCenters(FilterModel filterModel)
         {
-            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @ProviderId", new SqlParameter("@ProviderId", ToDBNull(providerId))).ToListAsync();
+            List<SqlParameter> sp = new List<SqlParameter>();
+            var param = new SqlParameter("@ProviderId", ToDBNull(filterModel.ProviderId));
+            sp.Add(param);
+             param = new SqlParameter("@CompanyId", ToDBNull(filterModel.CompId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @ProviderId,@CompanyId",sp.ToArray()).ToListAsync();
         }
         public async Task<CallDetailsModel> GetCallsDetailsById(string CRN)
         {
@@ -221,10 +227,11 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@Password", ToDBNull(center.Password));
             sp.Add(param);
-
+            param = new SqlParameter("@CompId", ToDBNull(center.CompanyId));
+            sp.Add(param);
             var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROVIDERID, @PROCESSID,@CENTERCODE,@CENTERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password";
+                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password,@CompId";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

@@ -15,7 +15,7 @@ namespace TogoFogo.Models
             BankList = new SelectList(Enumerable.Empty<SelectListItem>());
 
             }      
-        public Guid RefKey { get; set; }
+        public Guid? RefKey { get; set; }
         public Guid? bankId { get; set; }
         [DisplayName("Bank Name")]
         public string BankName { get; set; }

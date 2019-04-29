@@ -51,7 +51,8 @@ namespace TogoFogo.Models
         {
             get; set;
         }
-     
+        public bool IsProvider { get; set; }
+        public bool IsCenter { get; set; }
         public VehicleModel Vehicle { get; set; }
         public SelectList DepartmentList  { get; set; }
         public SelectList DeginationList { get; set; }

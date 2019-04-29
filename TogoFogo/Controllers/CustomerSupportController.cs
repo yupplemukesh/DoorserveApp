@@ -290,7 +290,7 @@ namespace TogoFogo.Controllers
                 result.SelectTrcList = new SelectList(dropdown.BindTrc(), "Value", "Text");
                 result.CourierNameList = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
                 result.CallStatusList = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
-                result.ServiceProviderNameList = new SelectList(await CommonModel.GetServiceProviders (), "Name", "Text");
+                result.ServiceProviderNameList = new SelectList(await CommonModel.GetServiceProviders (user.CompanyId), "Name", "Text");
                 result.ProblemList = new SelectList(dropdown.BindMstDeviceProblem(), "Value", "Text");
                 result.WSList = new SelectList(dropdown.BindWarrantyDropdown(Convert.ToInt32( TempData["ModelID"])), "Value", "Text");
                 return View(result);

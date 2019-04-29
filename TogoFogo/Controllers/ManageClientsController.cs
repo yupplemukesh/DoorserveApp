@@ -194,13 +194,13 @@ namespace TogoFogo.Controllers
             if (Client.Organization == null)
                 Client.Organization = new OrganizationModel();
             Client.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            Client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            Client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Client.ServiceList = await TogoFogo.CommonModel.GetServiceType();
-            Client.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();
+            Client.ServiceList = await TogoFogo.CommonModel.GetServiceType(user.CompanyId);
+            Client.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(user.CompanyId);
             Client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -266,7 +266,7 @@ namespace TogoFogo.Controllers
             {
                 client.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
                 client.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-                client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
                 client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -335,7 +335,7 @@ namespace TogoFogo.Controllers
             }
             client.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             client.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -346,7 +346,8 @@ namespace TogoFogo.Controllers
             try
             {
                     client.Activetab = "tab-1";
-                    client.CreatedBy = Convert.ToInt32(Session["User_ID"]);              
+                    client.CreatedBy = user.UserId;
+                    client.CompanyId = user.CompanyId;
                     var response = await _client.AddUpdateDeleteClient(client);
                     _client.Save();
                     client.ClientId = new Guid(response.result);
@@ -376,6 +377,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ClientModel client,OrganizationModel org)
         {
+            user = Session["User"] as SessionModel;
             var cltns = TempData["client"] as ClientModel;
             if (TempData["client"] != null)
             {
@@ -404,12 +406,13 @@ namespace TogoFogo.Controllers
             client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             try
             {
 
                 client.Activetab = "tab-2";
-                client.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+                client.CreatedBy = user.UserId;
+                client.CompanyId = user.CompanyId;
                 var response = await _client.AddUpdateDeleteClient(client);
                 _client.Save();
                 client.ClientId = new Guid(response.result);

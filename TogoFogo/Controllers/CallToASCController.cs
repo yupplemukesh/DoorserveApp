@@ -34,8 +34,8 @@ namespace TogoFogo.Controllers
             filter.CompId = user.CompanyId;
             var calls = await _customerSupport.GetASCCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(), "Name", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
+            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
             Guid? providerId = null;
             if (user.UserRole.ToLower().Contains("provider"))
                 providerId = await CommonModel.GetProviderIdByUser(user.UserId);
@@ -48,8 +48,9 @@ namespace TogoFogo.Controllers
 
             try
             {
+                user = Session["User"] as SessionModel;
                 allocate.AllocateTo = "ASC";
-                allocate.UserId = Convert.ToInt32(Session["User_ID"]);
+                allocate.UserId = user.UserId;
                 var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);

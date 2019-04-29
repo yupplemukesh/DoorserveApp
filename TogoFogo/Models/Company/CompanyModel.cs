@@ -38,7 +38,6 @@ namespace TogoFogo.Models.Company
         public BankDetailModel BankDetail { get; set; }
         public AgreementModel Agreement { get; set; }
         public List<ServiceModel> Services { get; set; }
-        public Guid CompanyId { get; set; }
         [Required]
         [DisplayName("Company Name")]
         public string CompanyName { get; set; }

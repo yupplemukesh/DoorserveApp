@@ -46,13 +46,13 @@
                 </div>
             </div>
     <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12">
-        <div class="row">
-            <table class="table table-bordered table-condensed" style="width:100%" id="tblMenu">
+        <div class="row table-responsive ">
+            <table class="table table-bordered font-s" style="width:100%" id="tblMenu">
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="chkAll" /></th>
                         <th>Parent Menu</th>
-                        <th>Submenu</th>
+                        <th>Child Menu</th
                     </tr>
                 </thead>
                 <tbody>
@@ -65,11 +65,33 @@
                             <tr>
                                 <td>
                                     @Html.CheckBoxFor(m => Model._MenuList[i].CheckedStatus, new { @class = "chkMenu", name = "CheckedStatus" })
-
+                                    @Html.HiddenFor(m => Model._MenuList[i].ParentMenuId)
                                     @Html.HiddenFor(m => Model._MenuList[i].MenuCapId)
                                 </td>
-                                <td>@Model._MenuList[i].ParentMenuName</td>
-                                <td>@Model._MenuList[i].Menu_Name</td>
+                                <td class="label-font-500">@Model._MenuList[i].Menu_Name</td>
+                                <td>
+                                  @if (Model._MenuList[i].SubMenuList.Count>0)
+                                  {
+                                    <table class="table"  >
+       
+                                            @for (int j = 0; j < Model._MenuList[i].SubMenuList.Count; j++)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.HiddenFor(m => Model._MenuList[i].SubMenuList[j].MenuCapId)
+                                                        @Html.HiddenFor(m => Model._MenuList[i].SubMenuList[j].ParentMenuId)
+                                                        @Html.CheckBoxFor(m => Model._MenuList[i].SubMenuList[j].CheckedStatus, new { @class = "chkMenu" })
+                                                    </td>
+                                                    <td class="label-font-500">
+                                                        @Model._MenuList[i].SubMenuList[j].Menu_Name
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                    </table>
+                                  }
+                                </td>
+
                             </tr>
 
                         }

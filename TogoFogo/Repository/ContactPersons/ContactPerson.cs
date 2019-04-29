@@ -82,7 +82,7 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
-        public async Task<List<ContactPersonModel>> GetContactPersonsByRefKey(Guid refKey)
+        public async Task<List<ContactPersonModel>> GetContactPersonsByRefKey(Guid? refKey)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@ContactId", DBNull.Value);

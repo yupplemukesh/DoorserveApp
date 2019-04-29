@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,19 +96,27 @@ namespace TogoFogo
                 return _servicetype;
             }
         }
-        public static async Task<List<CheckBox>> GetServiceType()
+        public static async Task<List<CheckBox>> GetServiceType(Guid? compId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _servicetype = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Service Type' and isActive=1").ToListAsync();
-                return _servicetype;
+                var param = new SqlParameter("@CompId", DBNull.Value);
+                if (compId != null)
+                    param.Value = compId;
+
+                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("USPGETSERVICETYPES @CompId", param).ToListAsync();
+                return _deliveryType;
             }
         }
-        public static async Task<List<CheckBox>> GetDeliveryServiceType()
+        public static async Task<List<CheckBox>> GetDeliveryServiceType( Guid? compId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='Delivery Type' and isActive=1").ToListAsync();
+                var param = new SqlParameter("@CompId", DBNull.Value);
+                if (compId != null)
+                    param.Value=compId;
+
+                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("USPGETDELIVERYTYPES @CompId", param).ToListAsync();
                 return _deliveryType;
             }
         }
@@ -231,11 +240,20 @@ namespace TogoFogo
                 return _Sac_numberList;
             }
         }
-        public static async Task<List<CheckBox>> GetServiceProviders()
+        public static async Task<List<CheckBox>> GetServiceProviders(Guid? compId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>("SELECT ProviderId Name,ProviderName Text FROM MstServiceProviders where IsActive=1").ToListAsync();
+                var param = new SqlParameter("@companyId", DBNull.Value);
+                var query = "SELECT ProviderId Name,ProviderName Text FROM MstServiceProviders where IsActive=1";
+                if (compId != null)
+                {
+                    query = query + " AND CompanyId=@companyId";
+                    param.Value = compId;
+                }
+              
+                query = query + " Order by ProviderName";
+                var _serviceProvider = await _context.Database.SqlQuery<CheckBox>(query,param).ToListAsync();
                 return _serviceProvider;
             }
         }

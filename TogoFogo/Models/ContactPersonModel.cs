@@ -11,7 +11,7 @@ namespace TogoFogo.Models
     public class ContactPersonModel: AddressDetail
     {      
         public Guid? ContactId { get; set; }
-        public Guid RefKey { get; set; }       
+        public Guid? RefKey { get; set; }       
         [DisplayName("First Name")]
         [Required( ErrorMessage ="Enter Name")]
         public string ConFirstName { get; set; }

@@ -30,8 +30,8 @@ namespace TogoFogo.Models.Company
         public int ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
         public string CompanyTypeName { get; set; }
-        public Guid RefKey { get; set; }
-        public Guid ? AGRId { get; set; }
+        public Guid? RefKey { get; set; }
+        public Guid? AGRId { get; set; }
         public char Action { get; set; }
         [SkillValidation(ErrorMessage = "Select at least 1 Service Type")]
         public List<TogoFogo.CheckBox> ServiceList { get; set; }

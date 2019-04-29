@@ -69,8 +69,8 @@ namespace TogoFogo.Controllers
 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                   
 
+                    user = Session["User"] as SessionModel;
                     var result = con.Query<int>("Add_Modify_Delete_Brand",
                         new
                         {
@@ -87,8 +87,9 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,                           
-                            User = Convert.ToInt32(Session["User_Id"]),
-                            Action = "add"
+                            User = user.UserId,
+                            Action = "add",
+                            user.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result != 0)
@@ -140,7 +141,8 @@ namespace TogoFogo.Controllers
                                             BindingFlags.Instance | BindingFlags.InvokeMethod |
                                             BindingFlags.NonPublic, null, mpc,
                                             new object[] { model.BrandIMG });
-                }              
+                }
+                user = Session["User"] as SessionModel;
                 var result = con.Query<int>("Add_Modify_Delete_Brand"
                     , new
                     {
@@ -156,9 +158,10 @@ namespace TogoFogo.Controllers
                         model.MetaTitle,
                         model.UrlName,
                         model.Header,
-                        model.Footer,                        
-                        User = Convert.ToInt32(Session["User_Id"]),
-                        Action = "edit"
+                        model.Footer,
+                        User = user.UserId,
+                        Action = "edit",
+                        user.CompanyId
                     },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -179,7 +182,9 @@ namespace TogoFogo.Controllers
             BrandModel objBrandModel = new BrandModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var result= con.Query<BrandModel>("Get_Brands", new { }, commandType: CommandType.StoredProcedure).ToList();
+                user = Session["User"] as SessionModel;
+                
+                var result= con.Query<BrandModel>("Get_Brands", new { companyId=user.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
            }      
          
@@ -242,6 +247,7 @@ namespace TogoFogo.Controllers
 
                 using (var con = new SqlConnection(_connectionString))
                 {
+                    user = Session["User"] as SessionModel;
                     var result = con.Query<int>("Add_Edit_Delete_Products",
                         new
                         {
@@ -259,8 +265,9 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,                         
-                            User = Convert.ToInt32(Session["User_Id"]),
-                            Action = "add"
+                            User = user.UserId,
+                            Action = "add",
+                            user.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result !=0)
@@ -303,7 +310,8 @@ namespace TogoFogo.Controllers
         {            
             using (var con = new SqlConnection(_connectionString))
             {
-              var result = con.Query<ProductModel>("GetProductDetail", new { },
+                user = Session["User"] as SessionModel;
+                var result = con.Query<ProductModel>("GetProductDetail", new { user.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
@@ -359,6 +367,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                user = Session["User"] as SessionModel;
                 if (model.ProductImg != null)
                 {                  
                     var mpc = new SaveImage();
@@ -390,8 +399,9 @@ namespace TogoFogo.Controllers
                         model.IsRepair,
                         model.IsActive,
                         model.Comments,
-                        User = Convert.ToInt32(Session["User_Id"]),
-                        Action = "edit"
+                        User = user.UserId,
+                        Action = "edit",
+                        user.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
                 if (result == 2)

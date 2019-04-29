@@ -33,7 +33,7 @@ namespace TogoFogo.Controllers
             GstTaxModel gm = new GstTaxModel();
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            gm.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            gm.GstcategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
             gm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
             gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
@@ -134,9 +134,9 @@ namespace TogoFogo.Controllers
                 result2.CTHNumberList = new SelectList(CommonModel.CTH_NumberList(), "Text", "Text");
                 result2.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-                result2.GstcategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                result2.GstcategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
                 result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
+                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(result2.Device_Cat), "Value", "Text");
                 result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
                 result2.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 if (result2 != null)

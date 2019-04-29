@@ -819,13 +819,18 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindGst()
+        public List<ListItem> BindGst( Guid? CompId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var query = "SELECT GstCategoryId,GSTCategory  from MstGstCategory where isactive=1";
+                if (CompId != null)
+                    query = query + " And CompanyId=@CompanyId";
+                query = query + " Order by GSTCategory";
+
                 List<BindGst> company = con
-                    .Query<BindGst>("SELECT GstCategoryId,GSTCategory  from MstGstCategory",
-                        null, commandType: CommandType.Text).ToList();
+                    .Query<BindGst>(query,
+                        new { CompanyId=CompId }, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
                 {

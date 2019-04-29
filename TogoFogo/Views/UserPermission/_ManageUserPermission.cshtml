@@ -7,7 +7,7 @@
         <div class="col-sm-6 col-md-6">
 
             @Html.DisplayFor(x => x.UserName)
-            @Html.HiddenFor(x=>x.UserId)
+            @Html.HiddenFor(x => x.UserId)
         </div>
     </div>
     <div class="form-group">
@@ -42,10 +42,11 @@ else
         {
             <button class="btn btn-primary" type="reset">Reset</button>
         }
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </div>
 </div>
-
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 <script>
     $(document).ready(function () {
 

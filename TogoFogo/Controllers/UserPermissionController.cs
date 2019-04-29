@@ -42,7 +42,12 @@ namespace TogoFogo.Controllers
              
                 objUserPermission._MenuList = con.Query<MenuMasterModel>("UspGetMenuByPermissionRole",
                     new { RoleId, PermissionId }, commandType: CommandType.StoredProcedure).ToList();
-                
+                var Menues = objUserPermission._MenuList.Where(x => x.ParentMenuId == 0).ToList();
+                foreach (var item in Menues)
+                {
+                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                }
+                objUserPermission._MenuList=Menues;
                 }
             var actionsList = await CommonModel.GetActionList();
             foreach (var item in objUserPermission._MenuList)
@@ -173,6 +178,12 @@ namespace TogoFogo.Controllers
                 objUserPermission._MenuList = con.Query<MenuMasterModel>("UspGetMenuByPermissionRole",
                     new { RoleId, PermissionId }, commandType: CommandType.StoredProcedure).ToList();
 
+                var Menues = objUserPermission._MenuList.Where(x => x.ParentMenuId == 0).ToList();
+                foreach (var item in Menues)
+                {
+                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                }
+                objUserPermission._MenuList = Menues;
             }
             var actionsList = await CommonModel.GetActionList();
             foreach (var item in objUserPermission._MenuList)
@@ -296,6 +307,13 @@ namespace TogoFogo.Controllers
                 Int64 PermissionId = 0;
                 var result = con.Query<MenuMasterModel>("UspGetMenuByPermissionRole",
                 new { RoleId, PermissionId }, commandType: CommandType.StoredProcedure).ToList();
+
+                var Menues = result.Where(x => x.ParentMenuId == 0).ToList();
+                foreach (var item in Menues)
+                {
+                    item.SubMenuList = result.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                }
+                result = Menues;
                 var actionsList = await CommonModel.GetActionList();                
                 foreach (var item in result)
                 {

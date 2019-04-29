@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 
 namespace TogoFogo.Repository.ServiceProviders
@@ -21,9 +22,9 @@ namespace TogoFogo.Repository.ServiceProviders
 
         }
 
-        public async Task<List<ServiceProviderModel>> GetProviders()
+        public async Task<List<ServiceProviderModel>> GetProviders(FilterModel filterModel)
         {
-            return await _context.Database.SqlQuery<ServiceProviderModel>("USPGetAllProviders").ToListAsync();
+            return await _context.Database.SqlQuery<ServiceProviderModel>("USPGetAllProviders @CompanyId", new SqlParameter("@CompanyId", ToDBNull(filterModel.CompId))).ToListAsync();
         }
 
         public async Task<ServiceProviderModel> GetProviderById(Guid? serviceProviderId)
@@ -209,10 +210,12 @@ namespace TogoFogo.Repository.ServiceProviders
             sp.Add(param);
             param = new SqlParameter("@Password", ToDBNull(provider.Password));
             sp.Add(param);
+            param = new SqlParameter("@CompanyId", ToDBNull(provider.CompanyId));
+            sp.Add(param);
 
             var sql = "USPInsertUpdateDeleteProvider @PROVIDERID,@PROCESSID,@PROVIDERCODE,@PROVIDERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password";
+                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password,@CompanyId";
        
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

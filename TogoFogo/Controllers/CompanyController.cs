@@ -77,8 +77,8 @@ namespace TogoFogo.Controllers
             CompanyData.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CompanyData.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             CompanyData.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType();
-            CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType();
+            CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType(user.CompanyId);
+            CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(user.CompanyId);
             return View(CompanyData);
         }
 
@@ -117,8 +117,8 @@ namespace TogoFogo.Controllers
             comp.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             comp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             comp.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            comp.Agreement.ServiceList = await CommonModel.GetServiceType();
-            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType();
+            comp.Agreement.ServiceList = await CommonModel.GetServiceType(null);
+            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
             if (comp.Action == 'I')
             {
                 comp.ActiveTab = "tab-2";
@@ -135,7 +135,7 @@ namespace TogoFogo.Controllers
             }
         
         }
-        private async Task<CompanyModel> GetCompany(Guid CompanyId)
+        private async Task<CompanyModel> GetCompany(Guid? CompanyId)
         {
             var   comp = await _compRepo.GetCompanyDetailByCompanyId(CompanyId);
             comp.CompanyFile = _path + "Logo/" + comp.CompanyLogo;
@@ -162,8 +162,8 @@ namespace TogoFogo.Controllers
             comp.Agreement = await _compRepo.GetAgreement(CompanyId);
             if (comp.Agreement == null)
                 comp.Agreement = new AgreementModel();
-            comp.Agreement.ServiceList = await CommonModel.GetServiceType();
-            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType();
+            comp.Agreement.ServiceList = await CommonModel.GetServiceType(null);
+            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
             if(!string.IsNullOrEmpty(comp.Agreement.AgreementFile))
             comp.Agreement.AgreementFileUrl = _path + "Agreements/" + comp.Agreement.AgreementFile;
             if (!string.IsNullOrEmpty(comp.Agreement.CancelledChequeFile))

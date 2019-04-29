@@ -12,6 +12,7 @@ using TogoFogo.Permission;
 using TogoFogo.Repository;
 using System.Reflection;
 using TogoFogo.Repository.ServiceProviders;
+using TogoFogo.Filters;
 
 namespace TogoFogo.Controllers
 {
@@ -35,7 +36,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Provider")]
         public  async Task<ActionResult> Index()
         {
-            var Providers = await _provider.GetProviders();          
+
+            user = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = user.CompanyId };
+            var Providers = await _provider.GetProviders(filter);          
             return View(Providers);
         }
         private string SaveImageFile(HttpPostedFileBase file,string folderName)
@@ -64,6 +68,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
+            user = Session["User"] as SessionModel;
 
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
             {
@@ -77,7 +82,7 @@ namespace TogoFogo.Controllers
                 bank.Action = 'U';
             else
                 bank.Action = 'I';
-            bank.UserId = Convert.ToInt32(Session["User_ID"]);
+            bank.UserId = user.UserId;
             if (TempData["provider"] != null)
             {
                 var _provider = TempData["provider"] as ServiceProviderModel;
@@ -108,6 +113,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(ContactPersonModel contact)
         {
+            user = Session["User"] as SessionModel;
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
@@ -138,7 +144,8 @@ namespace TogoFogo.Controllers
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
-            contact.UserId = Convert.ToInt32(Session["User_ID"]);
+            contact.UserId =user.UserId;
+            contact.CompanyId = user.CompanyId;
             if (TempData["provider"] != null)
             {
                 var _Provider = TempData["provider"] as ServiceProviderModel;
@@ -196,6 +203,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
             user = Session["User"] as SessionModel;
+            provider.CompanyId = user.CompanyId;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["provider"] as ServiceProviderModel;
@@ -204,7 +212,7 @@ namespace TogoFogo.Controllers
             {
                 provider.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
                 provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-                provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+                provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
                 provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -273,7 +281,7 @@ namespace TogoFogo.Controllers
             }
             provider.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");          
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -285,12 +293,12 @@ namespace TogoFogo.Controllers
             try
             {
                     provider.Activetab = "tab-1";
-                    provider.CreatedBy = Convert.ToInt32(Session["User_ID"]);              
+                    provider.CreatedBy =user.UserId;
+        
                     var response = await _provider.AddUpdateDeleteProvider(provider);
                     _provider.Save();
                     provider.ProviderId = new Guid(response.result);
                 TempData["response"] = response;
-                TempData.Keep("response");
                 if (provider.action == 'I')
                 {
                     provider.Activetab = "tab-2";
@@ -315,6 +323,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider,OrganizationModel org)
         {
+            user = Session["User"] as SessionModel;
             var cltns = TempData["provider"] as ServiceProviderModel;
             if (TempData["provider"] != null)
             {
@@ -343,12 +352,12 @@ namespace TogoFogo.Controllers
             provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             try
             {
 
                 provider.Activetab = "tab-2";
-                provider.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+                provider.CreatedBy = user.UserId;
                 var response = await _provider.AddUpdateDeleteProvider(provider);
                 _provider.Save();
                 provider.ProviderId = new Guid(response.result);
@@ -381,7 +390,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ServiceProviderModel provider)
         {
-
+            user = Session["User"] as SessionModel;
             if (provider.IsUser && !string.IsNullOrEmpty(provider.Password))
                 provider.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(provider.Password, true);
 
@@ -400,7 +409,7 @@ namespace TogoFogo.Controllers
             {
 
                 provider.Activetab = "tab-5";
-                provider.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+                provider.CreatedBy = user.UserId;
                 var response = await _provider.AddUpdateDeleteProvider(provider);
                 _provider.Save();
                 provider.ProviderId = new Guid(response.result);
@@ -433,19 +442,20 @@ namespace TogoFogo.Controllers
             var Provider = await _provider.GetProviderById(ProviderId);
             user = Session["User"] as SessionModel;
             Provider.Path = _path;
+            Provider.CompanyId = user.CompanyId;
             var processes = await CommonModel.GetProcesses();
                 Provider.ProcessList = new SelectList(processes, "Value", "Text");
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
            
             Provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(), "Value", "Text");
+            Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Provider.ServiceList = await TogoFogo.CommonModel.GetServiceType();
-            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType();        
+            Provider.ServiceList = await TogoFogo.CommonModel.GetServiceType(user.CompanyId);
+            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(user.CompanyId);        
                         
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
            

@@ -11,7 +11,7 @@ namespace TogoFogo.Models
     public class OrganizationModel
     {
         public Guid? OrgId { get; set; } 
-        public Guid RefKey { get; set; }
+        public Guid? RefKey { get; set; }
         [DisplayName("Organisation Name")]
         [Required]
         public string OrgName { get; set; }

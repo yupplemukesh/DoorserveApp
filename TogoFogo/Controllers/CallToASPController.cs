@@ -32,8 +32,8 @@ namespace TogoFogo.Controllers
             var filter = new FilterModel {CompId=user.CompanyId};
             var calls = await _customerSupport.GetASPCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(),"Name","Text") };
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(user.CompanyId),"Name","Text") };
             return View(calls);
         }
 
@@ -43,8 +43,9 @@ namespace TogoFogo.Controllers
 
             try
             {
+                user = Session["User"] as SessionModel;
                 allocate.AllocateTo = "ASP";
-                allocate.UserId = Convert.ToInt32(Session["User_ID"]);
+                allocate.UserId =user.UserId;
                  var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);

@@ -76,11 +76,12 @@ namespace TogoFogo.Models
         public string Password { get; set; }
         [DisplayName("Is Active ?")]
         public bool IsActive { get; set; }
+        public Guid? CompanyId { get; set; }
         public string Remarks { get; set; }
         public int CreatedBy { get; set; }
         public string ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
-        
+        public bool IsProvider { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList ProviderList { get; set; }
         [SkillValidation(ErrorMessage = "Select at least 1 Service Type")]
