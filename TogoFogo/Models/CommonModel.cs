@@ -216,11 +216,11 @@ namespace TogoFogo
                 return _reverseAWBStatus;
             }
         }
-        public static async Task<List<CheckBox>> GetActionList()
+        public static  List<CheckBox> GetActionList()
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _ActionList = await _context.Database.SqlQuery<CheckBox>("select ActionId as Value, ActionName Text from MstAction where IsActive = 1 ").ToListAsync();
+                var _ActionList =  _context.Database.SqlQuery<CheckBox>("select ActionId as Value, ActionName Text from MstAction where IsActive = 1 ").ToList();
                 return _ActionList;
             }
         }

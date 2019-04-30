@@ -61,7 +61,8 @@ namespace TogoFogo.Controllers
                             objUser.IsActive,
                             objUser.UserLoginId,
                             userTypeId=user.UserTypeId,
-                            RefId=user.RefKey
+                            RefId=user.RefKey,
+                            companyId= user.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -162,7 +163,8 @@ namespace TogoFogo.Controllers
                             objUser.IsActive,
                             objUser.UserLoginId,
                             userTypeId = user.UserTypeId,
-                            RefId = user.RefKey
+                            RefId = user.RefKey,
+                            companyId = user.CompanyId
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
@@ -198,15 +200,20 @@ namespace TogoFogo.Controllers
         {
             user = Session["User"] as SessionModel;
             int UserId = 0;
-          
-            if (!user.UserRole.ToLower().Contains("super admin"))
+            Guid? RefKey = null;
+            Guid? CompanyId = null;
+            if (user.UserRole.ToLower().Contains("super admin"))
                 user.UserId = user.UserId;
-            Guid? RefKey = user.RefKey;
+            else if (user.UserRole.ToLower().Contains("company admin"))
+                CompanyId = user.CompanyId;
+            else
+                RefKey = user.RefKey;
+
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {      
                     UserId = Convert.ToInt32(Session["User_ID"]);
-                var result = con.Query<dynamic>("GETUSERLIST", new { UserId,RefKey },
+                var result = con.Query<dynamic>("GETUSERLIST", new { UserId,RefKey, CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
                 {

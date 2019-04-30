@@ -124,23 +124,21 @@ else
             else {
 
                 $('.chkMenu:checkbox:checked').each(function () {
-
-                    var ActionCount = 0;
                     if ($($(this).parent().parent().find('.chkAction')[0]).prop('checked') == true ||
                         $($(this).parent().parent().find('.chkAction')[1]).prop('checked') == true ||
                         $($(this).parent().parent().find('.chkAction')[2]).prop('checked') == true ||
                         $($(this).parent().parent().find('.chkAction')[3]).prop('checked') == true) {
-                        ActionCount = 1;
+                        Valid = true;
 
                     }
-                    if (ActionCount == 0) {
+                    else {
                         $("#toast-container").fadeIn();
                         $('#msg').children('div').find('.toast-error').children('div').html('Please select at least one Action rights checkbox');
                         $('#msg').children('div').find('.toast-error').css('display', 'block');
                         $("#toast-container").fadeOut(5000);
                         Valid = false;
                         return false;
-                    }
+                        }
 
                 });
             }

@@ -143,9 +143,9 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@IsExport", true);
             sp.Add(pararm);
-            pararm = new SqlParameter("@Type", filterModel.tabIndex);
+            pararm = new SqlParameter("@Type", ToDBNull(filterModel.tabIndex));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CompId", filterModel.CompId);
+            pararm = new SqlParameter("@CompId", ToDBNull(filterModel.CompId));
             sp.Add(pararm);
             main.Calls = new CallsViewModel();
             var query = "GETDATAUPLOADEDBYCLIENT @ClientId, @IsExport , @Type,@CompId";

@@ -26,7 +26,7 @@ namespace TogoFogo.Controllers
             _customerSupport = new CustomerSupport();
         }
         // GET: CallToASC
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Call Allocate To ASC")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Service Provider")]
         public async Task<ActionResult> Index()
         {
             user = Session["User"] as SessionModel;

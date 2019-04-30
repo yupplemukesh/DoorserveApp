@@ -15,27 +15,53 @@
             </tr>
         </thead>
         <tbody>
-           @for (int i = 0; i< Model.Count(); i++)
-           {
-            <tr>
-                <td>
-                @Html.HiddenFor(x=> Model[i].MenuCapId)
-                @Html.HiddenFor(x=> Model[i].ActionRightId)
-                @Html.CheckBoxFor(model=>Model[i].CheckedStatus,new { @class= "chkMenu" })
-                </td>
-                <td>@Model[i].ParentMenuName</td>
-                <td>@Model[i].Menu_Name</td>
-                @for (int j = 0; j < Model[i].RightActionList.Count; j++)
-                {
-                <td>
-                    @Html.CheckBoxFor(model => Model[i].RightActionList[j].IsChecked, new { @class = "chkAction" })
-                    @Html.HiddenFor(model => Model[i].RightActionList[j].Value)
-                </td>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(x => Model[i].MenuCapId)
+                        @Html.HiddenFor(x => Model[i].ActionRightId)
+                        @Html.CheckBoxFor(model => Model[i].CheckedStatus, new { @class = "chkMenu" })
+                    </td>
+                    <td>@Model[i].Menu_Name</td>
+                    <td>@Model[i].Menu_Name</td>
+                    @for (int j = 0; j < Model[i].RightActionList.Count; j++)
+                    {
+                        <td>
+                            @Html.CheckBoxFor(model => Model[i].RightActionList[j].IsChecked, new { @class = "chkAction" })
+                            @Html.HiddenFor(model => Model[i].RightActionList[j].Value)
+                        </td>
 
+                    }
+                    
+
+
+                </tr>
+
+                for (int J = 0; J < Model[i].SubMenuList.Count; J++)
+                {
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(x => Model[i].SubMenuList[J].MenuCapId)
+                            @Html.HiddenFor(x => Model[i].SubMenuList[J].ActionRightId)
+                            @Html.CheckBoxFor(model => Model[i].SubMenuList[J].CheckedStatus, new { @class = "chkMenu" })
+                        </td>
+                        <td></td>
+                            @Html.HiddenFor(x => Model[i].SubMenuList[J].MenuCapId)
+                        <td>@Model[i].SubMenuList[J].Menu_Name</td>
+                        @for (int k = 0; k < Model[i].SubMenuList[J].RightActionList.Count; k++)
+                        {                            <td>
+                                @Html.CheckBoxFor(model => Model[i].SubMenuList[J].RightActionList[k].IsChecked, new { @class = "chkAction" })
+                                @Html.HiddenFor(model => Model[i].SubMenuList[J].RightActionList[k].Value)
+                            </td>
+                        }
+
+                    </tr>
                 }
 
-            </tr>
-           }
+            }
+
+
 
         </tbody>
     </table>

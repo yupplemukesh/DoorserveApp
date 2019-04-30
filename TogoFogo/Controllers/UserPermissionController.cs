@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,6 +12,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 
@@ -22,97 +24,59 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage User Permission")]
-        public async Task<ActionResult> AddUserPermission(Int64 RoleId = 0,Int64 PermissionId=0,Int64 UserId=0)
+        public async Task<ActionResult> AddUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
             user = Session["User"] as SessionModel;
-            UserPermission objUserPermission = new UserPermission();               
+            UserPermission objUserPermission = new UserPermission();
             using (var con = new SqlConnection(_connectionString))
             {
-        
-                if (!user.UserRole.ToLower().Contains("super admin"))
-                    UserId = user.UserId;
-                   Guid? RefKey = user.RefKey;
+                Guid? RefKey = null;
+                Guid? CompanyId = null;
 
-                objUserPermission.UserList = con.Query<User>("GETUSERLIST",new {UserId=0, RefKey },
+                if (user.UserRole.ToLower().Contains("super admin"))
+                    UserId = 0;
+                else if (user.UserRole.ToLower().Contains("company admin"))
+                    CompanyId = user.CompanyId;
+                else
+                    RefKey = user.RefKey;
+
+                objUserPermission.UserList = con.Query<User>("GETUSERLIST", new { UserId = 0, RefKey,CompanyId },
                 commandType: CommandType.StoredProcedure).ToList();
-    
-                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId=0, UserId=0, RefKey },
-                commandType: CommandType.StoredProcedure).ToList();    
-             
-             
+
+                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId = 0, UserId = 0, RefKey },
+                commandType: CommandType.StoredProcedure).ToList();
+
+
                 objUserPermission._MenuList = con.Query<MenuMasterModel>("UspGetMenuByPermissionRole",
                     new { RoleId, PermissionId }, commandType: CommandType.StoredProcedure).ToList();
                 var Menues = objUserPermission._MenuList.Where(x => x.ParentMenuId == 0).ToList();
                 foreach (var item in Menues)
                 {
-                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                    item.RightActionList = getActions("");
+                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, RightActionList = getActions(x.ActionIds) }).ToList();
                 }
-                objUserPermission._MenuList=Menues;
-                }
-            var actionsList = await CommonModel.GetActionList();
-            foreach (var item in objUserPermission._MenuList)
-            {
-                var actions = new List<CheckBox>();
-                foreach (var tom in actionsList)
-                {
-                    var action = new CheckBox
-                    {
-                        Value = tom.Value,
-                        IsChecked = false
-                    };
-                    if (!String.IsNullOrEmpty(item.ActionIds.Trim()))
-                    {
-                        if (item.ActionIds.Contains(tom.Value.ToString()))
-                            action.IsChecked = true;
-                    }
-                    actions.Add(action);
-                }
-                item.RightActionList = actions;
-
+                objUserPermission._MenuList = Menues;
             }
+
+
             return View(objUserPermission);
         }
         [HttpPost]
-        public ActionResult AddUserPermission(UserPermission permission,List<MenuMasterModel> objMenuMasterModel)
+        public ActionResult AddUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
             user = Session["User"] as SessionModel;
-            XmlDocument doc = new XmlDocument();
             ResponseModel objResponseModel = new ResponseModel();
-            //(1) the xml declaration is recommended, but not mandatory
-            //XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-            XmlElement root = doc.DocumentElement;
-           // doc.InsertBefore(xmlDeclaration, root);
-            //(2) string.Empty makes cleaner code
-            XmlElement element1 = doc.CreateElement(string.Empty, "MenuXML", string.Empty);
-            doc.AppendChild(element1);         
-           // doc.Save("D:\\document.xml");
-            List<MenuMasterModel> objSelectedMenuList = objMenuMasterModel.Where(x => x.CheckedStatus == true).ToList();
-            foreach(var item in objSelectedMenuList)
+            var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, Menu_Name = x.Menu_Name, ParentMenuId = x.ParentMenuId, SubMenuList = x.SubMenuList, ActionIds = getActions(x.RightActionList) }).ToList();
+            foreach (var item in selectedMenu)
             {
-                List<CheckBox> SelectedActionList = item.RightActionList.Where(x => x.IsChecked == true).ToList();
-                XmlElement element2 = doc.CreateElement(string.Empty, "item", string.Empty);
-                XmlElement element3 = doc.CreateElement(string.Empty, "MenuCap_ID", string.Empty);
-                XmlText MenuId = doc.CreateTextNode(item.MenuCapId.ToString());
-                element3.AppendChild(MenuId);
-                element2.AppendChild(element3);
-                XmlElement element4 = doc.CreateElement(string.Empty, "ActionRight_Id", string.Empty);
-                XmlText ActionRightId = doc.CreateTextNode(item.ActionRightId.ToString());
-                element4.AppendChild(ActionRightId);
-                element2.AppendChild(element4);               
-                XmlElement element5 = doc.CreateElement(string.Empty, "Action", string.Empty);
-                XmlElement element6 = doc.CreateElement(string.Empty, "item", string.Empty);
-                foreach (var ActionItem in SelectedActionList)
+                if (item.SubMenuList != null)
                 {
-                    XmlElement element7 = doc.CreateElement(string.Empty, "ActionId", string.Empty);
-                    XmlText ActionId = doc.CreateTextNode(ActionItem.Value.ToString());
-                    element7.AppendChild(ActionId);
-                    element6.AppendChild(element7);
-
+                    var menu = item.SubMenuList.Where(x => x.CheckedStatus = true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, Menu_Name = x.Menu_Name, ActionIds = getActions(x.RightActionList) }).ToList();
+                    item.SubMenuList = menu;
                 }
-                element5.AppendChild(element6);
-                element2.AppendChild(element5);
-                element1.AppendChild(element2);
+
             }
+            var xml = ToXML(selectedMenu);
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("UspInsertMenuActionRights",
@@ -121,9 +85,10 @@ namespace TogoFogo.Controllers
                         permission.PermissionId,
                         permission.UserId,
                         permission.RoleId,
-                        MenuActionRightXml = doc.InnerXml,
+                        MenuActionRightXml = xml,
                         UserLoginId = user.UserId,
-                        user.RefKey
+                        user.RefKey,
+                        companyId = user.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -154,7 +119,7 @@ namespace TogoFogo.Controllers
                 }
                 return RedirectToAction("UserPermissionList", "UserPermission");
             }
-                
+
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage User Permission")]
         public async Task<ActionResult> EditUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
@@ -162,52 +127,25 @@ namespace TogoFogo.Controllers
 
             user = Session["User"] as SessionModel;
             Guid? RefKey = user.RefKey;
-            UserPermission objUserPermission ;
+            UserPermission objUserPermission;
             using (var con = new SqlConnection(_connectionString))
             {
 
                 objUserPermission = con.Query<UserPermission>("GETUSERPERMISSIONBYID", new { PermissionId }, commandType: CommandType.StoredProcedure).SingleOrDefault();
 
-                objUserPermission.UserList = con.Query<User>("GETUSERLIST",new{UserId,RefKey },
-                commandType: CommandType.StoredProcedure).ToList();
-
-                objUserPermission.UserRoleList = con.Query<UserRole>("UspGetUserRoleDetail", new {UserId, RoleId,RefKey },
-                commandType: CommandType.StoredProcedure).ToList();
-
-
+  
                 objUserPermission._MenuList = con.Query<MenuMasterModel>("UspGetMenuByPermissionRole",
                     new { RoleId, PermissionId }, commandType: CommandType.StoredProcedure).ToList();
-
                 var Menues = objUserPermission._MenuList.Where(x => x.ParentMenuId == 0).ToList();
                 foreach (var item in Menues)
                 {
-                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
+                    item.RightActionList = getActions(item.ActionIds);
+                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, CheckedStatus = x.CheckedStatus, RightActionList = getActions(x.ActionIds) }).ToList();
                 }
                 objUserPermission._MenuList = Menues;
             }
-            var actionsList = await CommonModel.GetActionList();
-            foreach (var item in objUserPermission._MenuList)
-            {
-                var actions = new List<CheckBox>();
-                foreach (var tom in actionsList)
-                {
-                    var action = new CheckBox
-                    {
-                        Value = tom.Value,
-                        IsChecked = false
-                    };
-                    if (!String.IsNullOrEmpty(item.ActionIds.Trim()))
-                    {
-                        if (item.ActionIds.Contains(tom.Value.ToString()))
-                            action.IsChecked = true;
-                        else
-                            action.IsChecked = false;
-                    }
-                    actions.Add(action);
-                }
-                item.RightActionList = actions;
 
-            }
+
 
             objUserPermission.UserId = UserId;
             objUserPermission.RoleId = RoleId;
@@ -215,48 +153,53 @@ namespace TogoFogo.Controllers
 
             return View(objUserPermission);
         }
+        private List<CheckBox> getActions(string actionIds)
+        {
+            var actionsList = CommonModel.GetActionList();
+            foreach (var item in actionsList)
+            {
+                if (!String.IsNullOrEmpty(actionIds.Trim()))
+                {
+                    if (actionIds.Contains(item.Value.ToString()))
+                        item.IsChecked = true;
+                    else
+                        item.IsChecked = false;
+                }
+
+            }
+
+            return actionsList;
+
+        }
+
+        public string ToXML(Object oObject)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlSerializer xmlSerializer = new XmlSerializer(oObject.GetType());
+            using (MemoryStream xmlStream = new MemoryStream())
+            {
+                xmlSerializer.Serialize(xmlStream, oObject);
+                xmlStream.Position = 0;
+                xmlDoc.Load(xmlStream);
+                return xmlDoc.InnerXml;
+            }
+        }
         [HttpPost]
         public ActionResult EditUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
             user = Session["User"] as SessionModel;
-            XmlDocument doc = new XmlDocument();
-            ResponseModel objResponseModel = new ResponseModel();
-            //(1) the xml declaration is recommended, but not mandatory
-            //XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-            XmlElement root = doc.DocumentElement;
-            // doc.InsertBefore(xmlDeclaration, root);
-            //(2) string.Empty makes cleaner code
-            XmlElement element1 = doc.CreateElement(string.Empty, "MenuXML", string.Empty);
-            doc.AppendChild(element1);
-            // doc.Save("D:\\document.xml");
-            List<MenuMasterModel> objSelectedMenuList = objMenuMasterModel.Where(x => x.CheckedStatus == true).ToList();
-            foreach (var item in objSelectedMenuList)
+            var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x=>new MenuMasterModel {MenuCapId=x.MenuCapId,Menu_Name=x.Menu_Name,ParentMenuId=x.ParentMenuId, SubMenuList = x.SubMenuList,ActionIds = getActions(x.RightActionList) }).ToList();
+            foreach (var item in selectedMenu)
             {
-                List<CheckBox> SelectedActionList = item.RightActionList.Where(x => x.IsChecked == true).ToList();
-                XmlElement element2 = doc.CreateElement(string.Empty, "item", string.Empty);
-                XmlElement element3 = doc.CreateElement(string.Empty, "MenuCap_ID", string.Empty);
-                XmlText MenuId = doc.CreateTextNode(item.MenuCapId.ToString());
-                element3.AppendChild(MenuId);
-                element2.AppendChild(element3);
-                XmlElement element4 = doc.CreateElement(string.Empty, "ActionRight_Id", string.Empty);
-                XmlText ActionRightId = doc.CreateTextNode(item.ActionRightId.ToString());
-                element4.AppendChild(ActionRightId);
-                element2.AppendChild(element4);
-
-                XmlElement element5 = doc.CreateElement(string.Empty, "Action", string.Empty);
-                XmlElement element6 = doc.CreateElement(string.Empty, "item", string.Empty);
-                foreach (var ActionItem in SelectedActionList)
+                if (item.SubMenuList!=null)
                 {
-                    XmlElement element7 = doc.CreateElement(string.Empty, "ActionId", string.Empty);
-                    XmlText ActionId = doc.CreateTextNode(ActionItem.Value.ToString());
-                    element7.AppendChild(ActionId);
-                    element6.AppendChild(element7);
-
+                    var menu = item.SubMenuList.Where(x => x.CheckedStatus = true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, Menu_Name = x.Menu_Name, ActionIds = getActions(x.RightActionList) }).ToList();
+                    item.SubMenuList = menu;
                 }
-                element5.AppendChild(element6);
-                element2.AppendChild(element5);
-                element1.AppendChild(element2);
+
             }
+            var xml = ToXML(selectedMenu);
+            ResponseModel objResponseModel = new ResponseModel();
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("UspInsertMenuActionRights",
@@ -265,9 +208,10 @@ namespace TogoFogo.Controllers
                         permission.PermissionId,
                         permission.UserId,
                         permission.RoleId,
-                        MenuActionRightXml = doc.InnerXml,
-                        UserLoginId=user.UserId,
-                        refKey=user.RefKey
+                        MenuActionRightXml = xml,
+                        UserLoginId = user.UserId,
+                        refKey = user.RefKey,
+                                 companyId = user.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -298,7 +242,20 @@ namespace TogoFogo.Controllers
                 }
                 return RedirectToAction("UserPermissionList", "UserPermission");
             }
-            
+
+        }
+
+        public string getActions(List<CheckBox> Actions)
+        {
+            string actions = "";
+            foreach (var item in Actions)
+            {
+                if (item.IsChecked)
+                    actions = actions + ","+ item.Value ;
+
+            }
+            actions = actions.Trim(',');
+            return actions;
         }
         public async Task<ActionResult> BindMenu(Int64 RoleId)
         {
@@ -311,28 +268,15 @@ namespace TogoFogo.Controllers
                 var Menues = result.Where(x => x.ParentMenuId == 0).ToList();
                 foreach (var item in Menues)
                 {
-                    item.SubMenuList = result.Where(x => x.ParentMenuId == item.MenuCapId).ToList();
-                }
-                result = Menues;
-                var actionsList = await CommonModel.GetActionList();                
-                foreach (var item in result)
-                {
-                    var actions = new List<CheckBox>();
-                    foreach (var tom in actionsList)
-                    {
-                        var action = new CheckBox { Value = tom.Value,
-                            IsChecked = false
-                    };
-                        if (!String.IsNullOrEmpty(item.ActionIds.Trim()))
-                        {
-                            if (item.ActionIds.Contains(tom.Value.ToString()))
-                                action.IsChecked = true;
-                        }
-                            actions.Add(action);
-                    }
-                   item.RightActionList = actions;
+                    
+                        item.RightActionList = getActions("");
+                        item.SubMenuList = result.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, RightActionList = getActions(x.ActionIds) }).ToList();
+               
 
                 }
+                result = Menues;
+                     
+             
                 return PartialView("_Permission",result);
             }
         }
@@ -341,13 +285,18 @@ namespace TogoFogo.Controllers
         {
             user = Session["User"] as SessionModel;
             int UserId = user.UserId;
+            Guid? refKey = null;
+            Guid? companyId = null;
             if (user.UserRole.ToLower().Contains("super admin"))
                 UserId = 0;
-            
-                var objUserPermission = new List<UserPermission>();
+            else if(user.UserRole.ToLower().Contains("company admin"))
+                companyId = user.CompanyId;
+            else
+                refKey = user.RefKey;
+            var objUserPermission = new List<UserPermission>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {UserId, user.RefKey},
+                objUserPermission = con.Query<UserPermission>("UspGetActionPermissionDetail", new {UserId, refKey,companyId},
                     commandType: CommandType.StoredProcedure).ToList();
            }
            

@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="panel-body">
-    @using (Html.BeginForm("AddUserPermission", "UserPermission", FormMethod.Post, new { id = "form", @class = "form-horizontal" }))
+    @using (Html.BeginForm("EditUserPermission", "UserPermission", FormMethod.Post, new { id = "form", @class = "form-horizontal" }))
     {
         @Html.Partial("_ManageUserPermission", Model)
         <!--my-content-->

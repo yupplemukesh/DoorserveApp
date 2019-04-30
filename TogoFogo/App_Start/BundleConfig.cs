@@ -47,6 +47,10 @@ namespace TogoFogo
                       "~/Content/js/gridmvc.min.js"
               ));
 
+            // form-Material  js
+            bundles.Add(new ScriptBundle("~/bundles/js/form-m").Include(
+                      "~/Content/js/forms-material-form.min.js"
+              ));
 
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));

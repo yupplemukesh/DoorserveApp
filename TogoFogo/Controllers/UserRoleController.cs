@@ -50,15 +50,17 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;          
             string MenuList = string.Empty;
             ResponseModel objResponseModel = new ResponseModel();
-            var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
-            for(int i=0;i< SlectedMenuLis.Count;i++)
+            var SelectedMenuList = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
+            foreach (var item in SelectedMenuList)
             {
-                MenuList +=Convert.ToString(SlectedMenuLis[i].MenuCapId) + ",";
+                if (item.SubMenuList != null)
+                {
+                    var menues = item.SubMenuList.Where(x => x.CheckedStatus == true).ToList();
+                    item.SubMenuList = menues;
+                 }
+
             }
-            if(!string.IsNullOrEmpty(MenuList))
-            {
-                MenuList= MenuList.Substring(0, MenuList.Length - 1);
-            }
+            var xml = ToXML(SelectedMenuList);
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("UspInsertUserRole",
@@ -69,13 +71,13 @@ namespace TogoFogo.Controllers
                         objUserRole.IsActive,
                         objUserRole.Comments,
                         UserLoginId=user.UserId,
-                        MenuList,
+                        MenuList=xml,
                         user.RefKey,
-                        objUserRole.RefName
+                        objUserRole.RefName,
+                        companyId = user.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
-                {
-                 
+                {                 
                     objResponseModel.IsSuccess = false;
                     objResponseModel.ResponseCode = 0;
                     objResponseModel.Response = "Something went wrong";
@@ -165,8 +167,17 @@ namespace TogoFogo.Controllers
             objUserRole.UserLoginId = user.UserId;
             string MenuList = string.Empty;
             ResponseModel objResponseModel = new ResponseModel();
-            var SlectedMenuLis = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
-            var xml = ToXML(SlectedMenuLis);
+            var SelectedMenuList = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
+            foreach (var item in SelectedMenuList)
+            {
+                if (item.SubMenuList != null)
+                {
+                    var menues = item.SubMenuList.Where(x => x.CheckedStatus == true).ToList();
+                    item.SubMenuList = menues;
+                }
+
+            }
+            var xml = ToXML(SelectedMenuList);
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("UspInsertUserRole",
@@ -179,7 +190,8 @@ namespace TogoFogo.Controllers
                         objUserRole.UserLoginId,
                         MenuList=xml,
                         objUserRole.RefKey,
-                        objUserRole.RefName
+                        objUserRole.RefName,
+                        companyId = user.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {

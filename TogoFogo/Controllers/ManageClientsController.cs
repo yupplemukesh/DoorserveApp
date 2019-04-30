@@ -149,7 +149,7 @@ namespace TogoFogo.Controllers
             }
             contact.UserId = user.UserId;
             contact.CompanyId = user.CompanyId;
-            contact.AddressTypeId = 2;
+            contact.UserTypeId = 2;
             var response = await _contactPerson.AddUpdateContactDetails(contact);                       
             if (response.IsSuccess)
             {

@@ -119,7 +119,7 @@ namespace TogoFogo.Controllers
             emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             emp.Action = 'I';
             emp.UserId = user.UserId;
-
+            emp.CompanyId = user.CompanyId;
             if (user.UserRole.ToLower().Contains("provider"))
             {
                 var ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);

@@ -30,7 +30,7 @@ namespace TogoFogo.Controllers
             _dropdown = new DropdownBindController();
             _RepoCallLog = new CallLog();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Import Customers")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Assign Calls")]
         public async Task<ActionResult> Index()
         {
             user = Session["User"] as SessionModel;
@@ -105,7 +105,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Import Customers")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Assign Calls")]
         public async Task<ActionResult> Create()
         {
             user = Session["User"] as SessionModel;
@@ -213,7 +213,7 @@ namespace TogoFogo.Controllers
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
             var user = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = user.CompanyId };
+            var filter = new FilterModel { CompId = user.CompanyId,tabIndex=tabIndex };
             if (user.UserRole.ToLower().Contains("Client"))
                 filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
             var response = await _RepoUploadFile.GetExportAssingedCalls(filter);
