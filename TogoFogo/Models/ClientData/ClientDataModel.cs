@@ -28,7 +28,7 @@ namespace TogoFogo.Models
         public Guid? Id { get; set; }
         [DisplayName("Client")]
         [Required]
-        public Guid ClientId { get; set; }
+        public Guid? ClientId { get; set; }
         [Required]
         [DisplayName("Service Type")]
         public int ServiceTypeId { get; set; }

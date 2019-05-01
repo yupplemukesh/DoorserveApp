@@ -314,7 +314,7 @@ namespace TogoFogo.Controllers
          
             Guid? CenterId = null;
             if (Session["User"].ToString().ToLower().Contains("center"))
-                CenterId = await CommonModel.GetCenterIdByUser(Convert.ToInt32(Session["User_ID"]));
+                CenterId =user.RefKey;
             calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CenterId), "Name", "Text");
             return View(calls);
         }

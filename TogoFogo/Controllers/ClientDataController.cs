@@ -39,7 +39,7 @@ namespace TogoFogo.Controllers
             var filter = new FilterModel { CompId=user.CompanyId };
             if (user.UserRole.ToLower().Contains("client"))
             {
-                filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
+                filter.ClientId = user.RefKey;
                 IsClient = true;
             }
               var clientData = await _RepoUploadFile.GetUploadedList(filter);
@@ -77,7 +77,7 @@ namespace TogoFogo.Controllers
         {
             var filter = new FilterModel { CompId = user.CompanyId };
             if (user.UserRole.ToLower().Contains("client"))
-                filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
+                filter.ClientId = user.RefKey;
             var calls = await _RepoUploadFile.GetAssingedCalls(filter);
             return PartialView("_TotalCallsList", calls);
         }
@@ -122,7 +122,7 @@ namespace TogoFogo.Controllers
             clientDataModel.CompanyId = user.CompanyId;
             clientDataModel.UserId = user.UserId;
             if (clientDataModel.IsClient)
-                clientDataModel.ClientId = await CommonModel.GetClientIdByUser(Convert.ToInt32(Session["User_ID"]));        
+                clientDataModel.ClientId =user.RefKey;        
             if (clientDataModel.DataFile != null)
             {
                 string excelPath = SaveFile(clientDataModel.DataFile, "ClientData");
@@ -215,7 +215,7 @@ namespace TogoFogo.Controllers
             var user = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId = user.CompanyId,tabIndex=tabIndex };
             if (user.UserRole.ToLower().Contains("Client"))
-                filter.ClientId = await CommonModel.GetClientIdByUser(user.UserId);
+                filter.ClientId = user.RefKey;
             var response = await _RepoUploadFile.GetExportAssingedCalls(filter);
             byte[] filecontent; 
             string[] columns;

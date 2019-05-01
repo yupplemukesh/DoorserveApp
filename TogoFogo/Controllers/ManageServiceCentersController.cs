@@ -43,7 +43,7 @@ namespace TogoFogo.Controllers
              user = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId = user.CompanyId };
             if (user.UserRole.ToLower().Contains("provider"))
-                filter.ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
+                filter.ProviderId = user.RefKey;
             var Centers = await _Center.GetCenters(filter);           
             return View(Centers);
         }
@@ -199,7 +199,7 @@ namespace TogoFogo.Controllers
             var processes = await CommonModel.GetProcesses();
             if (user.UserRole.ToLower().Contains("provider"))
             {
-                var providerId = await CommonModel.GetProviderIdByUser(user.UserId);
+                var providerId = user.RefKey;
                 var provider = await _Provider.GetProviderById(providerId);
                 var seletedProcess = processes.Where(x => x.Value == provider.ProcessId);
                 Center.ProcessList = new SelectList(seletedProcess, "Value", "Text");
@@ -363,7 +363,7 @@ namespace TogoFogo.Controllers
                 Center.CompanyId = user.CompanyId;
                 if (user.UserRole.ToLower().Contains("provider"))
                 {
-                    Guid? ProviderId = await CommonModel.GetProviderIdByUser(Center.CreatedBy);
+                    Guid? ProviderId = user.RefKey;
                     if (ProviderId != null)
                     {
                         Center.ProviderId = ProviderId;

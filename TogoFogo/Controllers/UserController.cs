@@ -31,7 +31,7 @@ namespace TogoFogo.Controllers
         public ActionResult AddUser(User objUser)
         {
             user = Session["User"] as SessionModel;
-            objUser.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));            
+            objUser.UserLoginId = user.UserId;            
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -133,7 +133,7 @@ namespace TogoFogo.Controllers
         public ActionResult EditUser(User objUser)
         {
             user = Session["User"] as SessionModel;
-            objUser.UserLoginId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+            objUser.UserLoginId = user.UserId;
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -211,8 +211,8 @@ namespace TogoFogo.Controllers
 
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
-            {      
-                    UserId = Convert.ToInt32(Session["User_ID"]);
+            {
+                UserId = user.UserId;
                 var result = con.Query<dynamic>("GETUSERLIST", new { UserId,RefKey, CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
@@ -252,9 +252,10 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
+                    user = Session["User"] as SessionModel;
                     var encrpt_OldPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.CurrentPassword, true);
                     var encrpt_NewPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
-                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { UserId = Convert.ToInt32(Session["User_ID"]), OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
+                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new {  user.UserId, OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
                                             commandType: CommandType.StoredProcedure).FirstOrDefault();
 
                     if (response.ResponseCode == 0)                 
@@ -271,8 +272,9 @@ namespace TogoFogo.Controllers
 
         public ActionResult UserProfile()
         {
+            user = Session["User"] as SessionModel;
             User objUser = new User();
-            int UserId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+            int UserId = user.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
 

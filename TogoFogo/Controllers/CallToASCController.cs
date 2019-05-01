@@ -38,7 +38,7 @@ namespace TogoFogo.Controllers
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(user.CompanyId), "Name", "Text");
             Guid? providerId = null;
             if (user.UserRole.ToLower().Contains("provider"))
-                providerId = await CommonModel.GetProviderIdByUser(user.UserId);
+                providerId = user.RefKey;
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(providerId), "Name", "Text") };
             return View(calls);
         }

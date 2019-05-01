@@ -54,9 +54,9 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;
             var filter = new FilterModel();
             if (user.UserRole.ToLower().Contains("provider"))
-                filter.ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
+                filter.ProviderId = user.RefKey;
             if (user.UserRole.ToLower().Contains("center"))
-                filter.RefKey = await CommonModel.GetProviderIdByUser(user.UserId);
+                filter.RefKey = user.RefKey;
             filter.CompId = user.CompanyId;
             var employee = await _employee.GetAllEmployees(filter);
             return View(employee);
@@ -78,13 +78,13 @@ namespace TogoFogo.Controllers
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             if (user.UserRole.ToLower().Contains("provider"))
             {
-                var ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
+                var ProviderId = user.RefKey;
                 empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
                 empModel.IsProvider = true;
             }
             else if (user.UserRole.ToLower().Contains("center"))
             {
-                empModel.RefKey = await CommonModel.GetCenterIdByUser(user.UserId);
+                empModel.RefKey = user.RefKey;
                 empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
                 empModel.IsCenter = true;
             }
@@ -122,13 +122,13 @@ namespace TogoFogo.Controllers
             emp.CompanyId = user.CompanyId;
             if (user.UserRole.ToLower().Contains("provider"))
             {
-                var ProviderId = await CommonModel.GetProviderIdByUser(user.UserId);
+                var ProviderId = user.RefKey;
                 emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
                 emp.IsProvider = true;
             }
             else if (user.UserRole.ToLower().Contains("center"))
             {
-                emp.RefKey = await CommonModel.GetCenterIdByUser(user.UserId);
+                emp.RefKey = user.RefKey;
                 emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
                 emp.IsCenter = true;
             }
