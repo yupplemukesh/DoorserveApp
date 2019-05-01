@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
+using TogoFogo.Models.ClientData;
 using TogoFogo.Models.Customer_Support;
-using System.ComponentModel;
 
 namespace TogoFogo.Models.ServiceCenter
 {
@@ -14,6 +11,7 @@ namespace TogoFogo.Models.ServiceCenter
         public CallDetailsModel()
         {
             StatusList = new SelectList(Enumerable.Empty<SelectListItem>());
+            _UploadedExcelModel = new UploadedExcelModel();
         }
         
         public int StatusId { get; set; }
@@ -21,7 +19,12 @@ namespace TogoFogo.Models.ServiceCenter
         public SelectList StatusList { get; set; }
         [Required]
         public string RejectionReason { get; set; }
-        
 
+        public EmployeeModel Employee { get; set; }
+        public UploadedExcelModel _UploadedExcelModel { get; set; }
+
+        public string Param {get;set;}
+
+       
     }
 }

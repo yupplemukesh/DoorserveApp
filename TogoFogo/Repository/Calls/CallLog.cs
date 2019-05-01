@@ -36,19 +36,19 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@CustEmail", ToDBNull(newCall.CustomerEmail));
             sp.Add(pararm);
-            pararm = new SqlParameter("@AddressTypeId", newCall.address.AddressTypeId);
+            pararm = new SqlParameter("@AddressTypeId", newCall.AddressTypeId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@Address",  ToDBNull(newCall.address.Address));
+            pararm = new SqlParameter("@Address",  ToDBNull(newCall.Address));
             sp.Add(pararm);
-            pararm = new SqlParameter("@Landmark", ToDBNull( newCall.address.NearLocation));
+            pararm = new SqlParameter("@Landmark", ToDBNull( newCall.NearLocation));
             sp.Add(pararm);
-            pararm = new SqlParameter("@PinCode", ToDBNull( newCall.address.PinNumber));
+            pararm = new SqlParameter("@PinCode", ToDBNull( newCall.PinNumber));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CountyId", ToDBNull(newCall.address.CountryId));
+            pararm = new SqlParameter("@CountyId", ToDBNull(newCall.CountryId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@StateId", ToDBNull(newCall.address.StateId));
+            pararm = new SqlParameter("@StateId", ToDBNull(newCall.StateId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CityId", ToDBNull(newCall.address.CityId));
+            pararm = new SqlParameter("@CityId", ToDBNull(newCall.CityId));
             sp.Add(pararm);
             pararm = new SqlParameter("@DEVICECATEGORYID", ToDBNull(newCall.DeviceCategoryId));
             sp.Add(pararm);
@@ -80,7 +80,7 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@USERID", newCall.UserId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@CompanyId", newCall.CompanyId);
+            pararm = new SqlParameter("@CompanyId", ToDBNull(newCall.CompanyId));
             sp.Add(pararm);
             var sql = "NewCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address,"+

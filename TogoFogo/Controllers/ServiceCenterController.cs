@@ -305,15 +305,16 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AcceptCalls()
 
         {
+            user = Session["User"] as SessionModel;
             var calls = await _centerRepo.GetCallDetails();
 
             calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();
-            calls.employee = new EmployeeModel();
+            calls.Employee = new EmployeeModel();
          
             Guid? CenterId = null;
-            if (Session["RoleName"].ToString().ToLower().Contains("center"))
+            if (Session["User"].ToString().ToLower().Contains("center"))
                 CenterId = await CommonModel.GetCenterIdByUser(Convert.ToInt32(Session["User_ID"]));
-            calls.employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CenterId), "Name", "Text");
+            calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CenterId), "Name", "Text");
             return View(calls);
         }
         //public async Task<ActionResult> GetEmployeeDetailsById(int EmpId)
@@ -325,7 +326,7 @@ namespace TogoFogo.Controllers
 
         //}
 
-        [HttpPost]
+
         public async Task<ActionResult> TechnicianDetails(Guid EmpId)
         {
 
@@ -398,28 +399,64 @@ namespace TogoFogo.Controllers
             }
 
         }
-
-        public async Task<ActionResult> ManageServiceProvidersDetails(string CRN)
+        //GetCallDetailByID
+        public async Task<ActionResult> ManageServiceProvidersDetails(string CRN, string Param)
         {
             user = Session["User"] as SessionModel;
-            var callDetails = await _centerRepo.GetCallsDetailsById(CRN);
-            var callDetailsModel = Mapper.Map<CallDetailsModel>(callDetails);
-            callDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(user.CompanyId), "Value", "Text");
-            callDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            callDetailsModel.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
-            callDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
-            callDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(user.CompanyId), "Value", "Text");
-            callDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
-            callDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
-            callDetailsModel.address = new AddressDetail
+            var CallDetailsModel = await _centerRepo.GetCallsDetailsById(CRN);
+            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId), "Value", "Text");
+            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
+            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(user.CompanyId), "Value", "Text");
+            CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+            CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+            CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address Type list"), "Value", "Text");
+            CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
+            CallDetailsModel.StateList = new SelectList(dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
+            CallDetailsModel.CityList = new SelectList(dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");
+            CallDetailsModel.Param = Param;
+            if (Param == "A")
             {
-                AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
-                CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
-            };
-            return View(callDetailsModel);
+
+                //var list = await CommonModel.GetEmployeeList(user.CompanyId);
+                CallDetailsModel.Employee = new EmployeeModel
+                {
+                    EmployeeList = new SelectList(await CommonModel.GetEmployeeList(user.CompanyId), "Name", "Text")
+                };
+
+            }
+
+            return View(CallDetailsModel);
         }
+
+
+        //
+        [HttpPost]
+        public async Task<ActionResult> ManageServiceProvidersDetails(CallStatusDetailsModel callStatusDetails)
+        {
+            try
+            {
+
+                callStatusDetails.UserId = Convert.ToInt32(Session["User_ID"]);
+                var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
+                TempData["response"] = response;
+                //return Json("Ok", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("AcceptCalls");
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                //return Json("ex", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("AcceptCalls");
+            }
+
+        }
+
+
+
         [HttpPost]
         public async Task<ActionResult> CallStatusDetails(CallStatusDetailsModel callStatusDetails)
         {
@@ -440,5 +477,28 @@ namespace TogoFogo.Controllers
             }
 
         }
+
+        [HttpPost]
+        public async Task<ActionResult> SavetechnicianDetails(CallStatusDetailsModel callStatusDetails)
+        {
+            try
+            {
+
+                callStatusDetails.UserId = Convert.ToInt32(Session["User_ID"]);
+                var response = await _centerRepo.SaveTechnicianDetails(callStatusDetails);
+                TempData["response"] = response;
+                return Json("Ok", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return Json("ex", JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
     }
+    
 }

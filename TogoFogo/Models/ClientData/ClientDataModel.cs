@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class ClientDataModel
+    public class ClientDataModel:AddressDetail
     {
 
        public ClientDataModel()
@@ -35,10 +35,10 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Delivery Type")]
         public int DeliveryTypeId { get; set; }
-        public int UserId { get; set; }
+       // public int UserId { get; set; }
         public string UserName { get; set; }
         public bool IsClient { get; set; }
-        public Guid? CompanyId { get; set; }
+        //public Guid? CompanyId { get; set; }
         
     }
 }

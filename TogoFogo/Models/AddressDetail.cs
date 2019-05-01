@@ -16,10 +16,10 @@ namespace TogoFogo.Models
         public int AddressTypeId { get; set; }
         [DisplayName("Country")]
         [Required(ErrorMessage = "Enter Country")]
-        public int CountryId { get; set; }
+        public  int CountryId { get; set; }
         [DisplayName("State")]
         [Required(ErrorMessage = "Enter State")]
-        public int StateId { get; set; }
+        public  int StateId { get; set; }
         [DisplayName("City")]
         [Required(ErrorMessage = "Enter City")]
         public int CityId { get; set; }      

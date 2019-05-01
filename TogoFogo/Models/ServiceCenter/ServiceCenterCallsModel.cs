@@ -11,8 +11,11 @@ namespace TogoFogo.Models.ServiceCenter
     {
         public List<CallDetailsModel> PendingCalls { get; set; }
         public List<CallDetailsModel> AcceptedCalls { get; set; }
-        public List<CallDetailsModel> RejectedCalls { get; set; }
+        public List<CallDetailsModel> AssignedCalls { get; set; }
         public CallDetailsModel CallDetails { get; set; }
-        public EmployeeModel employee { get; set; }
+        public EmployeeModel Employee { get; set; }
+      
+        public string Param { get; set; }
+
     }
 }

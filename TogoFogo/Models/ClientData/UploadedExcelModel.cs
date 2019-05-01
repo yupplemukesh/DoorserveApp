@@ -68,7 +68,7 @@ namespace TogoFogo.Models.ClientData
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
      
-        public AddressDetail address { get; set; }
+        //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
         [Required]
         public Guid DeviceId { get; set; }

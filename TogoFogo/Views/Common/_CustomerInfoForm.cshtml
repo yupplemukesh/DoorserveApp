@@ -20,7 +20,7 @@
 
                                 <label class="col-sm-1 " for="form-control-1"> Mobile  </label>
                                 <div class="col-sm-2 col-md-2 ">
-                                    @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "form-control", onchange = "getCustomer()" })
+                                    @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "", onchange = "getCustomer()" })
                                     @Html.ValidationMessageFor(x => x.CustomerContactNumber, "", new { @class = "text-danger" })
                                 </div>
 
@@ -73,8 +73,8 @@
 
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    @Html.TextBoxFor(x => x.address.Address, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.address.Address, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger" })
                                     <label class="floating-label">Address</label>
                                 </div>
                             </div>                            
@@ -90,14 +90,14 @@
                                 <div class="row form-group">
                                     <div class="col-md-3 col-sm-3"><label class="label-font-500">Address Type</label> </div>
                                  
-                                    @foreach (var item in Model.address.AddressTypelist)
+                                    @foreach (var item in Model.AddressTypelist)
                                     {
                                         <label class="custom-control custom-control-primary custom-checkbox">
-                                            @Html.RadioButtonFor(x => x.address.AddressTypeId, item.Value)
+                                            @Html.RadioButtonFor(x => x.AddressTypeId, item.Value)
                                             <span>@item.Text</span>
                                         </label>
                                     }
-                                    @Html.ValidationMessageFor(x => x.address.AddressTypeId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
@@ -106,8 +106,8 @@
                                     <div class="form-material">
                                         <div class="col-sm-6">
                                             <div class="form-group">                                                
-                                                    @Html.TextBoxFor(x => x.address.NearLocation, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(x => x.address.NearLocation, "", new { @class = "text-danger" })
+                                                    @Html.TextBoxFor(x => x.NearLocation, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.NearLocation, "", new { @class = "text-danger" })
                                                     <label class="floating-label">Landmark</label>                                              
                                                
                                             </div>
@@ -115,8 +115,8 @@
 
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                @Html.TextBoxFor(x => x.address.PinNumber, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(x => x.address.PinNumber, "", new { @class = "text-danger" })
+                                                @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.PinNumber, "", new { @class = "text-danger" })
                                                 <label class="floating-label">Pincode</label>
                                             </div>
                                         </div>
@@ -130,28 +130,29 @@
                             </div>
                         </div>
                     <div class="form-material m-t-5">
-                        <div class="row">                           
+                        <div class="row">
                             <div class="col-sm-3">
-                                <div class="form-group">
-                                    @Html.DropDownListFor(x => x.address.CountryId, Model.address.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'address_StateId', this)" })
-                                    @Html.ValidationMessageFor(x => x.address.CountryId, "", new { @class = "text-danger" })
+                                <div class="form-group has-value">
+                                    @Html.DropDownListFor(x => x.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
+                                    @Html.ValidationMessageFor(x => x.CountryId, "", new { @class = "text-danger" })
                                     <label class="floating-label t-0">Country</label>
                                 </div>
                             </div>
+                            
 
                             <div class="col-sm-3">
-                                <div class="form-group">
-                                    @Html.DropDownListFor(x => x.address.StateId, Model.address.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'address_CityId', this)" })
-                                    @Html.ValidationMessageFor(x => x.address.CountryId, "", new { @class = "text-danger" })
+                                <div class="form-group has-value">
+                                    @Html.DropDownListFor(x => x.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
+                                    @Html.ValidationMessageFor(x => x.StateId, "", new { @class = "text-danger" })
                                     <label class="floating-label  t-0">State</label>
                                 </div>
                             </div>
 
 
                             <div class="col-sm-3">
-                                <div class="form-group">
-                                    @Html.DropDownListFor(x => x.address.CityId, Model.address.CityList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.address.CityId, "", new { @class = "text-danger" })
+                                <div class="form-group has-value">
+                                    @Html.DropDownListFor(x => x.CityId, Model.CityList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.CityId, "", new { @class = "text-danger" })
                                     <label class="floating-label  t-0">City</label>
                                 </div>
                             </div>

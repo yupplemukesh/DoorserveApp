@@ -20,7 +20,7 @@ namespace TogoFogo.Models
         public Guid EmpId { get; set; }
         [Required]
         [DisplayName("Engineer Code")]
-        public string EmpCode { get; set; }
+        public string EmpCode { get; set; }       
         public string EMPPhoto { get; set; }
         public string EMPPhotoUrl { get; set; }
         public Boolean IsPickUp { get; set; }
@@ -64,6 +64,8 @@ namespace TogoFogo.Models
         public SelectList EngineerTypeList { get; set; }
         public string EngineerType { get; set; }
 
+        public  decimal? TotalOpenCalls { get; set; }
+        public decimal? TotalCloseCalls { get; set; }
 
     }
 }

@@ -61,13 +61,13 @@ namespace TogoFogo.Controllers
                 CustomerTypeList=new SelectList( await CommonModel.GetLookup("Customer Type"),"Value","Text" ),
                 ConditionList=new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
                 IsClient=IsClient,
-                address=new AddressDetail
-                {
+               // address=new AddressDetail
+                //{
                     AddressTypelist= new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
                     CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
                     StateList= new SelectList(Enumerable.Empty<SelectListItem>()),
                     CountryList = new SelectList(_dropdown.BindCountry(),"Value","Text"),
-                }
+               // }
 
         };
             return View(clientData);

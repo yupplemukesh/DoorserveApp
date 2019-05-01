@@ -12,15 +12,10 @@
 
 
 <div>
-
     <div class="panel-heading">
-
         <div class="row">
-
             <div class="col-md-12">
-                <ul class="nav nav-tabs">
-
-
+                <ul class="nav nav-tabs nav-tabs-custom">
                     <li class="active">
                         <a href="#tab-10" role="tab" data-toggle="tab">
                             <button type="submit" class="btn btn-success m-w-120">Accept Call</button>
@@ -45,18 +40,17 @@
                 <div class="panel-default m-b-10">
                     <div class="panel-heading p-l-0">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
                                 <h4>Accept Calls</h4>
                             </div>
-                            <div class="col-md-3">
-                                <span>
+                            <div class="col-md-6">
+                                <span class="pull-right">
                                     <a href="#">
-                                        <button type="button" class="btn btn-success m-w-120" id="btnaccept">Accept</button>
+                                        <button type="button" class="btn btn-success btn-sm m-w-120" id="btnaccept">Accept</button>
                                     </a>
-                                </span>
-                                <span>
+                                
                                     <a href="#">
-                                        <button type="button" class="btn btn-danger m-w-120" data-target="#rejectpopup" id="btnreject">Reject</button>
+                                        <button type="button" class="btn btn-danger btn-sm m-w-120" data-target="#rejectpopup" id="btnreject">Reject</button>
 
                                     </a>
                                 </span>
@@ -64,10 +58,7 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="form-horizontal">
-
                     <div class="tab-content">
                         @if (Permissions.Rights.View)
                         {
@@ -86,29 +77,29 @@
                                   {
                                   count++;
                                   return @<text> @count </text>;
-         });
-          columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
-          columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-          columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
-          columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-          columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-          columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-          columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-          columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-          columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-          columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-          columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-          columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-          columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-          columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-          columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
-          columns.Add(model => model.ProviderName).Titled("ASC Name")
-                                                              .Filterable(true).Sanitized(false).Encoded(false).
-                                                               RenderValueAs(model => Html.ActionLink("Edit", "ManageServiceProviders", new { productID = model.providerId }, null));
-          columns.Add().Titled("Action")
-                                .Filterable(true).Sanitized(false).Encoded(false).
-                                 RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN }));
-      }).WithPaging(10).Sortable(true)
+                                  });
+                                   columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                   columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+                                   columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+                                   columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                                   columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                   columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                   columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                   columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                   columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                   columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                   columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                   columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                   columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                   columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+                                   columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+                                   columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+                                                                                       .Filterable(true).Sanitized(false).Encoded(false).
+                                                                                        RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "EDIT","ManageServiceCenters", new { id = model.ServiceCenterId }, null));
+                                   columns.Add().Titled("Action")
+                                                         .Filterable(true).Sanitized(false).Encoded(false).
+                                                          RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "P" }));
+                               }).WithPaging(10).Sortable(true)
                                 </div>
 
                             </div>
@@ -125,32 +116,26 @@
 
 
                 </div>
-
-
             </div>
         </div>
     </div>
+
     <div role="tabpanel" class="tab-pane fade in" id="tab-12">
-
-            <div class="panel panel-default panel-table">
-
+            <div class="">
                 <div class="panel-body">
-
-
-
                     <div class="panel-default m-b-10">
-                        <div class="panel-heading p-l-0">
+                        <div class="p-l-0">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <ul class="nav nav-tabs">
+                                    <ul class="nav nav-tabs nav-tabs-custom m-b-15">
                                         <li class="active">
                                             <a href="#tab-17" role="tab" data-toggle="tab">
-                                                <button type="submit" class="btn btn-success m-w-120">Not Assigned Calls</button>
+                                                <button type="submit" class="btn btn-success btn-sm m-w-120">Not Assigned Calls</button>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#tab-18" role="tab" data-toggle="tab">
-                                                <button type="submit" class="btn btn-primary m-w-120">Assigned Calls</button>
+                                                <button type="submit" class="btn btn-primary btn-sm  m-w-120">Assigned Calls</button>
                                             </a>
                                         </li>
                                     </ul>
@@ -160,109 +145,134 @@
                     </div>
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane fade in active" id="tab-17">
-                            <div class="form-horizontal">
-
-                                <div >
-                                    <div >
-
+                            <div class="form-horizontal">                              
                                         <div class="panel-default m-b-10">
                                             <div class="panel-heading p-l-0">
-
                                                 <div class="row">
-
                                                     <div class="col-md-12">
                                                         <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-horizontl">
-                                            <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-horizontal">
-                        <div class="panel-body">
-                            <div class="form-horizontal">
-                                <div class="form-group row m-b-0">
-                                    <div class="col-sm-2 p-l-0"> <h4>Select Technician</h4></div>
-                                    <div class="col-sm-5">
-                                        @Html.DropDownListFor(x => x.employee.EmpId, Model.employee.EmployeeList, "--Select--", new { @class = "form-control"})
-                                        @Html.ValidationMessageFor(x => x.employee.EmpId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-                                            @Html.Partial("_TechnicianDetailsForm", Model)
-
-
+                                        <div class="form-horizontal">
+                                            <div class="form-group row m-b-0" id="DropDown">
+                                                <div class="col-sm-3"> <h4>Select Technician</h4></div>
+                                                <div class="col-sm-5">
+                                                    @Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
                                         </div>
 
-
-
+                                        <div id="TechnicianDetailsForm" style="display:none;">
+                                            @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                                            <div class="col-md-3 col-md-offset-9 text-right">                                                
+                                                    <button class="btn btn-warning  btn-sm ladda-button" data-style="expand-right" type="button" id="btnback">
+                                                        <span class="ladda-label">
+                                                            Back
+                                                        </span>
+                                                        <span class="ladda-spinner"></span>
+                                              
+                                                <button class="btn btn-success btn-sm  ladda-button" data-style="expand-right" id="btnAssign" type="button">
+                                                    <span class="ladda-label">Assign to technician</span>
+                                                    <span class="ladda-spinner"></span>
+                                                </button>
+                                            </div>
+                                        </div>                                                               
+                            </div>
+                        <div class="form-horizontal">
+                                <div class="table-responsive">
+                                    <div class="code-cut">
+                                        @Html.Grid(Model.AcceptedCalls).Columns(columns => {
+                                       columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"acceptedCalls\")'  />")
+                                       .Encoded(false).Sanitized(false).SetWidth(30)
+                                       .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
+                                       columns.Add()
+                                      .Titled("#SLN")
+                                      .SetWidth(10)
+                                      .RenderValueAs(o =>
+                                      {
+                                      count1++;
+                                      return @<text> @count1 </text>;
+});
+columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+columns.Add(model => model.ProviderName).Titled("Provider Name")
+.Filterable(true).Sanitized(false).Encoded(false).
+RenderValueAs(model => Html.ActionLink(model.ProviderName, "EDIT", "ManageServiceProviders", new { id = model.providerId }, null));
+columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+.Filterable(true).Sanitized(false).Encoded(false).
+RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "EDIT", "ManageServiceCenters", new { id = model.ServiceCenterId }, null));
+columns.Add().Titled("Action")
+.Filterable(true).Sanitized(false).Encoded(false).
+RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
+}).WithPaging(10).Sortable(true)
                                     </div>
                                 </div>
 
-
-                            </div>
-
                         </div>
-                        <div role="tabpanel" class="tab-pane fade in" id="tab-18">
+                     </div>
+                        <div role="tabpanel" class="tab-pane fade in" id="tab-18">              
+                                    <div class="form-horizontal">
+                                        <div class="table-responsive">
+                                            <div class="code-cut">
+                                                @Html.Grid(Model.AssignedCalls).Columns(columns => {
+                                               columns.Add()
+                                              .Titled("#SLN")
+                                              .SetWidth(10)
+                                              .RenderValueAs(o =>
+                                              {
+                                              count1++;
+                                              return @<text> @count1 </text>;
+ });
+  columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+  columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+  columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+  columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+  columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+  columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+  columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+  columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+  columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+  columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+  columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+  columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+  columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+  columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+  columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+  columns.Add(model => model.ProviderName).Titled("Provider Name")
+  .Filterable(true).Sanitized(false).Encoded(false).
+  RenderValueAs(model => Html.ActionLink(model.ProviderName, "EDIT", "ManageServiceProviders", new { id = model.providerId }, null));
+  columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+  .Filterable(true).Sanitized(false).Encoded(false).
+  RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "EDIT", "ManageServiceCenters", new { id = model.ServiceCenterId }, null));
+  columns.Add().Titled("Action")
+   .Filterable(true).Sanitized(false).Encoded(false).
+    RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
+}).WithPaging(10).Sortable(true)
+                                            </div>
+                                        </div>
 
+                                    </div>                               
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default panel-table">
-                <div class="panel-body">
-                    <div class="form-horizontal">
-                        <div class="table-responsive">
-                            <div class="code-cut">
-                                @Html.Grid(Model.AcceptedCalls).Columns(columns => {
-                               columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"acceptedCalls\")'  />")
-                               .Encoded(false).Sanitized(false).SetWidth(30)
-                               .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
-                               columns.Add()
-                              .Titled("#SLN")
-                              .SetWidth(10)
-                              .RenderValueAs(o =>
-                              {
-                              count1++;
-                              return @<text> @count1 </text>;
-                              });
-                               columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
-                               columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-                               columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
-                               columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-                               columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-                               columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-                               columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-                               columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-                               columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-                               columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-                               columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-                               columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-                               columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-                               columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-                               columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
-                               columns.Add(model => model.ProviderName).Titled("Provider Name")
-                               .Filterable(true).Sanitized(false).Encoded(false).
-                               RenderValueAs(model => Html.ActionLink("Edit", "ManageServiceProviders", new { productID = model.providerId }, null));
-                               columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
-                               .Filterable(true).Sanitized(false).Encoded(false).
-                               RenderValueAs(model => Html.ActionLink("Edit", "ManageServiceCenters", new { serviceCenterId = model.ServiceCenterId }, null));
-                           }).WithPaging(10).Sortable(true)
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+            </div>       
 
     </div>
 </div>
@@ -277,12 +287,7 @@
                         @Html.TextAreaFor(model => model.CallDetails.RejectionReason, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CallDetails.RejectionReason, "", new { @class = "text-danger" })
                     </div>
-
-
-
-                </div>
-
-                
+                </div>              
 
             </div>
             <div class="modal-footer">
@@ -290,7 +295,6 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -300,6 +304,11 @@
     <script>
             $("#chkAll").on("click", function (e) {                
                 $(".chk-item").prop('checked', $(this).prop("checked"));
+        });       
+
+
+        $("#btnback").on("click", function () {
+            $("#TechnicianDetailsForm").hide();
         });
 
 
@@ -443,7 +452,8 @@
             });
 
             if (checkboxcount > 0) {
-                var empID = $(this).attr("empId");
+                debugger
+                var empID = $("#Employee_EmpId").val();
 
                 var obj = [];
                 $('.grid-wrap >.grid-table > tbody  > tr').each(function () {
@@ -480,27 +490,34 @@
             }  
         });
 
-        $("#employee_EmpId").change(function () {
+        $("#Employee_EmpId").change(function () {
             debugger;
-            var Id = $("#employee_EmpId").val();
+            var Id = $("#Employee_EmpId").val();
 
             $.ajax({
-                type: "POST",
-                url: "/ServiceCenter/TechnicianDetails",
+                type: "GET",
+                url: "/ServiceCenter/TechnicianDetails", 
                 data: {
                     EmpId: Id
                 },
                 success: function (response) {
-                    $("#employee_EMPId").val(response.empID);
-                    $("#employee_TechnicianTypeName").val(response.TechnicianTypeName);
-                    $("#employee_TechnicianName").val(response.Contact.TechnicianName);
-                    $("#employee_ContactNumber").val(response.Contact.ConMobileNumber);
-                    $("#employee_Vehicle_VehicleTypeName").val(response.Vehicle.VehicleTypeName);
-                    $("#employee_Vehicle_VehicleBrand").val(response.Vehicle.VehicleBrand);
-                    $("#employee_Vehicle_VHModel").val(response.Vehicle.VHModel);
-                    $("#employee_Vehicle_RcNumber").val(response.Vehicle.RcNumber);
-                    $("#employee_Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
-                    $("#employee_Vehicle_InsuranceExpairyDate").val(new Date(response.Vehicle.InsuranceExpairyDate));
+                    console.log(response);
+                    $("#EmpId").val(response.EmpId);
+                    $("#TechnicianTypeName").val(response.TechnicianTypeName);
+                    $("#TechnicianName").val(response.TechnicianName);
+                    $("#ContactNumber").val(response.ConMobileNumber);
+              
+                    if (response.EMPPhoto != null || response.EMPPhoto != "") {
+                        $("#EmpImg").prop("src",  response.EMPPhotoUrl);
+                    }
+                    $("#TotalOpenCalls").val(response.TotalOpenCalls);
+                    $("#TotalCloseCalls").val(response.TotalCloseCalls);
+                    $("#Vehicle_VehicleTypeName").val(response.Vehicle.VehicleTypeName);
+                    $("#Vehicle_VehicleBrand").val(response.Vehicle.VehicleBrand);
+                    $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
+                    $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
+                    $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
+                    $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
                     console.log(response);
                 },
                 error: function (e) {
@@ -508,7 +525,8 @@
                     alert("Something went wrong...");
                 },
                 complete: function () {
-
+                    $("#TechnicianDetailsForm").show();
+                    $("#DropDown").hide();
                 }
             })
 
@@ -523,6 +541,10 @@
                     $(".chk-item").prop('checked', $(elm).prop("checked"));
         }
 
+
+
+
+        
     </script>
 
 }

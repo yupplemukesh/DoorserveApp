@@ -268,7 +268,7 @@ namespace TogoFogo.Repository.ServiceCenters
                             .ToList();
                     reader.NextResult();
 
-                    calls.RejectedCalls =
+                    calls.AssignedCalls =
                         ((IObjectContextAdapter)_context)
                             .ObjectContext
                             .Translate<CallDetailsModel>(reader)
@@ -389,6 +389,29 @@ namespace TogoFogo.Repository.ServiceCenters
 
             SqlParameter techDetails = new SqlParameter("@EmpId", EmpId);
             return await _context.Database.SqlQuery<EmployeeModel>("USPTechnicianDetails @EmpId", techDetails).SingleOrDefaultAsync();
+        }
+
+        public async Task<ResponseModel> SaveTechnicianDetails(CallStatusDetailsModel callStatusDetails)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@EMPId", ToDBNull(callStatusDetails.EmpId));
+            sp.Add(param);            
+            param = new SqlParameter("@DeviceId", ToDBNull(callStatusDetails.DeviceId));
+            sp.Add(param);
+            param = new SqlParameter("@USER", ToDBNull(callStatusDetails.UserId));
+            sp.Add(param);
+            var sql = "USPAssignTechinical @EMPId,@DEVICEID,@USER";
+
+
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+
+            return res;
+
+
         }
 
         private object ToDBNull(object value)
