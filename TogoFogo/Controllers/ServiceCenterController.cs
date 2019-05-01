@@ -302,7 +302,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Calls Details")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Open Calls")]
         public async Task<ActionResult> AcceptCalls()
         {
             user = Session["User"] as SessionModel;
@@ -350,27 +350,7 @@ namespace TogoFogo.Controllers
 
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> AssignCalls(AssignCallsModel assignCall)
-        //{
-
-        //    try
-        //    {
-
-        //        assignCall.UserId = Convert.ToInt32(Session["User_ID"]);
-        //        var response = await _centerRepo.AssignCallsDetails(assignCall);
-        //        TempData["response"] = response;
-        //        return Json("Ok", JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
-        //        TempData["response"] = response;
-        //        TempData.Keep("response");
-        //        return Json("ex", JsonRequestBehavior.AllowGet);
-        //    }
-
-        //}
+      
         [HttpPost]
         public async Task<ActionResult> AssignCalls(EmployeeModel assignCall)
         {
@@ -491,7 +471,41 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<FileContentResult> ExportToExcel(char tabIndex)
+        {
+            var user = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = user.CompanyId, tabIndex = tabIndex, IsExport = true };
 
+            var response = await _centerRepo.GetCallDetails(filter);
+            byte[] filecontent;
+            string[] columns;
+            if (tabIndex == 'P')
+            {
+                columns = new string[]{"CRN","ClientName","CreatedOn","ServiceTypeName","CustomerName","CustomerContactNumber",
+                    "CustomerEmail","CustomerAddress","CustomerCity","CustomerPincode","DeviceCategory","DeviceBrand",
+                    "DeviceModel","DOP","PurchaseFrom","ServiceCenterName"};
+                filecontent = ExcelExportHelper.ExportExcel(response.PendingCalls, "", true, columns);
+
+            }
+            else if (tabIndex == 'A')
+            {
+                columns = new string[]{"CRN","ClientName","CreatedOn","ServiceTypeName","CustomerName","CustomerContactNumber",
+                    "CustomerEmail","CustomerAddress","CustomerCity","CustomerPincode","DeviceCategory","DeviceBrand",
+                    "DeviceModel","DOP","PurchaseFrom","ServiceCenterName"};
+                filecontent = ExcelExportHelper.ExportExcel(response.AcceptedCalls, "", true, columns);
+            }
+            else
+            {
+                columns = new string[]{"CRN","ClientName","CreatedOn","ServiceTypeName","CustomerName","CustomerContactNumber",
+                    "CustomerEmail","CustomerAddress","CustomerCity","CustomerPincode","DeviceCategory","DeviceBrand",
+                    "DeviceModel","DOP","PurchaseFrom","ProviderName","ServiceCenterName"};
+                filecontent = ExcelExportHelper.ExportExcel(response.AssignedCalls, "", true, columns);
+            }
+
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+
+        }
     }
     
 }

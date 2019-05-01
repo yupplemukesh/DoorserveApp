@@ -29,7 +29,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             user = Session["User"] as SessionModel;
-            var filter = new FilterModel {CompId=user.CompanyId};
+            var filter = new FilterModel {CompId=user.CompanyId,IsExport=false};
             var calls = await _customerSupport.GetASPCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
@@ -68,7 +68,7 @@ namespace TogoFogo.Controllers
                 ,
                 tabIndex = tabIndex
             };
-            var response = await _customerSupport.GeteExportASPCalls(filter);
+            var response = await _customerSupport.GetASPCalls(filter);
             byte[] filecontent;
             string[] columns;
             if (tabIndex == 'P')
@@ -76,14 +76,14 @@ namespace TogoFogo.Controllers
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
                                  "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
-               filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);                
+               filecontent = ExcelExportHelper.ExportExcel(response.PendingCalls, "", true, columns);                
             }
             else
             {
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
                                  "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName"};
-                filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);
+                filecontent = ExcelExportHelper.ExportExcel(response.AllocatedCalls, "", true, columns);
             }
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 

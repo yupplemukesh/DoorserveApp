@@ -21,7 +21,7 @@ namespace TogoFogo.Repository.ImportFiles
             _context = new ApplicationDbContext();
             
         }        
-        public async Task<MainClientDataModel> GetUploadedList(FilterModel filterModel)
+        public  MainClientDataModel GetUploadedList(FilterModel filterModel)
         {
             var mainModel = new MainClientDataModel();
             var param= new SqlParameter("@ClientId", ToDBNull(filterModel.ClientId));
@@ -35,7 +35,7 @@ namespace TogoFogo.Repository.ImportFiles
                 command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(false)));
                 command.Parameters.Add(new SqlParameter("@Type", ToDBNull('A')));
                 command.Parameters.Add(new SqlParameter("@CompId", ToDBNull(filterModel.CompId)));
-                using (var reader = await command.ExecuteReaderAsync())
+                using (var reader =  command.ExecuteReader())
                 {
                     mainModel.UploadedFiles =
                        ((IObjectContextAdapter)_context)

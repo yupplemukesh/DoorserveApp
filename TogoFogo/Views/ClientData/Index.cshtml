@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 
 }
-@section Styles{
-    @Styles.Render("~/Content/css/Gridmvc")
-}
+
 
 <div class="panel-body">
     <div class="row">
@@ -63,8 +61,8 @@
 @section scripts{
 
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/js/Gridmvc")
-
+    @Scripts.Render("~/bundles/js/form-m")
+    @Scripts.Render("~/bundles/js/ui-buttons")
     <script>
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
@@ -145,23 +143,20 @@
 
         //});
         $('a[data-toggle="tab"]').click(function (e) {
-            debugger
-            if (this.hash == '#tab-3') 
+            if (this.hash == '#tab-3')
                 $("#tabIndex").val('C');
-            else if (this.hash == '#tab-2')              
-                    $("#tabIndex").val('O');               
+            else if (this.hash == '#tab-2')
+                    $("#tabIndex").val('O');
             else if (this.hash == '#tab-5')
                  $("#tabIndex").val('F');
-            else 
+            else
                  $("#tabIndex").val('D');
 
         });
 
-
+        $('.mvc-grid').mvcgrid({ reload: true, query: 'myQueryKey=value' });
 
     </script>
 
-    @*<script src="~/Content/js/ui-buttons.min.js"></script>*@
-    <script src="~/Content/js/forms-material-form.min.js"></script>
-    <script src="~/Content/js/ui-buttons.min.js"></script>
+
 }

@@ -32,6 +32,7 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;
             var filter = new FilterModel();
             filter.CompId = user.CompanyId;
+            filter.IsExport = false;
             var calls = await _customerSupport.GetASCCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
@@ -70,17 +71,18 @@ namespace TogoFogo.Controllers
 
             user = Session["User"] as SessionModel;
             var filter = new FilterModel {CompId=user.CompanyId
-                ,tabIndex=tabIndex
+                ,tabIndex=tabIndex,IsExport=true
             };
-            var response = await _customerSupport.GeteExportASCCalls(filter);
+            var response = await _customerSupport.GetASCCalls(filter);
             byte[] filecontent;
             string[] columns;
             if (tabIndex == 'P')
             {
+         
                 columns = new string []{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
                                  "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName"};
-                filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);
+                filecontent = ExcelExportHelper.ExportExcel(response.PendingCalls, "", true, columns);
                
             }
             else
@@ -88,7 +90,7 @@ namespace TogoFogo.Controllers
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
                                  "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName","ServiceCenterName"};
-                filecontent = ExcelExportHelper.ExportExcel(response, "", true, columns);
+                filecontent = ExcelExportHelper.ExportExcel(response.AllocatedCalls, "", true, columns);
                 
             }
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");

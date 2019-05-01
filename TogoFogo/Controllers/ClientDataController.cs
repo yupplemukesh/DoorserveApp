@@ -32,7 +32,7 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Assign Calls")]
         public async Task<ActionResult> Index()
-        {
+            {
             user = Session["User"] as SessionModel;
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
@@ -42,7 +42,7 @@ namespace TogoFogo.Controllers
                 filter.ClientId = user.RefKey;
                 IsClient = true;
             }
-              var clientData = await _RepoUploadFile.GetUploadedList(filter);
+              var clientData =  _RepoUploadFile.GetUploadedList(filter);
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
             clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
@@ -82,7 +82,9 @@ namespace TogoFogo.Controllers
             return PartialView("_TotalCallsList", calls);
         }
 
+        
 
+       
         private string SaveFile(HttpPostedFileBase file, string folderName)
         {
             try

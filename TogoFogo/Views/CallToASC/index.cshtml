@@ -19,35 +19,26 @@
             <div class="panel-tools">
                 @if (Permissions.Rights.ExcelExport)
                 {
-                   
+
                     using (Html.BeginForm("ExportToExcel", "CallToASC", FormMethod.Get))
                     {
 
                         @Html.Hidden("tabIndex", 'P')
                         <button type="submit" class="tools-icon btn btn-primary btn-sm excel"> Export to Excel</button>
                     }
+
+
                 }
-
-                </div>
-        </div>
-    </div>
-
-</div>
-<div class="panel-body">
-    <div class="text-center">
-        <div class="form-group ">
-            <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Authorized Service Center</label>
-            <div class="col-sm-8 col-md-8">
-                @Html.DropDownListFor(x => x.CallAllocate.AllocateId, Model.CallAllocate.ToAllocateList, "Select", new { @class = "custom-select", @id = "AllocateId" })
+                @if (Permissions.Rights.Create)
+                {
+                    <button type="button" id="allocateASP" class="btn btn-primary">Allocate To ASC</button>
+                }
             </div>
-
         </div>
-        @if (Permissions.Rights.Create)
-        {
-            <button type="button" id="allocateASP" class="btn btn-primary">Allocate To ASC</button>
-        }
     </div>
+
 </div>
+
 <div class="row">
     <div class="col-md-12">
         <ul class="nav nav-tabs m-b-15">
@@ -77,28 +68,19 @@
                             <div class="col-md-12">
 
                                 <div class="panel panel-default panel-table">
-                                    @*<div class="panel-body">
-                                            <div class="text-center">
-                                                <div class="form-group ">
-                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Client</label>
-                                                    <div class="col-sm-2 col-md-2">
-                                                        @Html.DropDownListFor(x => x.ClientId, Model.ClientList, "Select", new { @class = "custom-select" })
-                                                    </div>
-
-
-                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Type</label>
-                                                    <div class="col-sm-2 col-md-2">
-                                                        @Html.DropDownListFor(x => x.ServiceTypeId, Model.ServiceTypeList, "Select", new { @class = "custom-select" })
-                                                    </div>
-
-
-                                                    <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Service Provider</label>
-                                                    <div class="col-sm-2 col-md-2">
-                                                        @Html.DropDownListFor(x => x.ServiceProviderId, Model.ServiceProviderList, "Select", new { @class = "custom-select" })
-                                                    </div>
+                                    <div class="panel-body">
+                                        <div class="text-center">
+                                            <div class="form-group ">
+                                                <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Authorized Service Center</label>
+                                                <div class="col-sm-8 col-md-8">
+                                                    @Html.DropDownListFor(x => x.CallAllocate.AllocateId, Model.CallAllocate.ToAllocateList, "Select", new { @class = "custom-select", @id = "AllocateId" })
                                                 </div>
+
                                             </div>
-                                        </div>*@
+
+                                        </div>
+                                    </div>
+
                                     <div class="panel-body">
                                         <div class="table-responsive for-popup-height">
                                             <div class="code-cut">

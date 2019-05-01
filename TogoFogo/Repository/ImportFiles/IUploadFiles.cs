@@ -12,7 +12,7 @@ namespace TogoFogo.Repository
    public interface IUploadFiles: IDisposable
     {
         Task<ResponseModel> UploadClientData(ClientDataModel client, DataTable table);
-        Task<MainClientDataModel> GetUploadedList(FilterModel filterModel);
+        MainClientDataModel GetUploadedList(FilterModel filterModel);
         Task<CallsViewModel> GetAssingedCalls(FilterModel filterModel);
         Task<MainClientDataModel> GetExportAssingedCalls(FilterModel filterModel);
 

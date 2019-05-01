@@ -52,6 +52,11 @@ namespace TogoFogo
                       "~/Content/js/forms-material-form.min.js"
               ));
 
+            // ui button  js
+            bundles.Add(new ScriptBundle("~/bundles/js/ui-buttons").Include(
+                      "~/Content/js/ui-buttons.min.js"
+              ));
+
             bundles.Add(new ScriptBundle("~/bundles/deshboard").Include(
                      "~/Content/js/dashboard-2.min.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(

@@ -15,8 +15,7 @@ namespace TogoFogo.Repository.Customer_Support
         Task<CallToASPModel> GetASPCalls(FilterModel filter);
         Task<CallToASCModel> GetASCCalls(FilterModel filter);
         Task<ResponseModel> AllocateCall(AllocateCallModel allocateCalls);
-        Task<List<CallAllocatedToASCModel>> GeteExportASCCalls(FilterModel filter);
-        Task<List<CallAllocatedToASPModel>> GeteExportASPCalls(FilterModel filter);
+      
         void Save();
     }
 }
