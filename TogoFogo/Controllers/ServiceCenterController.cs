@@ -306,7 +306,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AcceptCalls()
         {
             user = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = user.CompanyId };
+            var filter = new FilterModel { CompId = user.CompanyId,IsExport=false };
             var calls = await _centerRepo.GetCallDetails(filter);
 
             calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();

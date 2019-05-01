@@ -13,5 +13,6 @@ namespace TogoFogo.Filters
         public Guid? ClientId { get; set; }
         public int UserId { get; set; }
         public char tabIndex { get; set; }
+        public bool IsExport { get; set; }
     }
 }

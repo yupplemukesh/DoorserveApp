@@ -248,6 +248,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangePassword(ChangePasswordModel reset)
         {
+
             if (ModelState.IsValid)
             {
                 using (var con = new SqlConnection(_connectionString))

@@ -251,28 +251,55 @@ namespace TogoFogo.Repository.ServiceCenters
                 command.CommandText = "GETCenterAllocatedCalls";
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@companyId", ToDBNull(filter.CompId)));
+                command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(filter.IsExport)));
+                command.Parameters.Add(new SqlParameter("@type", ToDBNull(filter.tabIndex)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
+                    if (filter.IsExport)
+                    {
+                        if (filter.tabIndex == 'P')
+                            calls.PendingCalls =
+                             ((IObjectContextAdapter)_context)
+                                 .ObjectContext
+                                 .Translate<CallDetailsModel>(reader)
+                                 .ToList();
+                        else if (filter.tabIndex == 'A')
+                            calls.AcceptedCalls =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<CallDetailsModel>(reader)
+                            .ToList();
+                        else
+                            calls.AssignedCalls =
+                       ((IObjectContextAdapter)_context)
+                           .ObjectContext
+                           .Translate<CallDetailsModel>(reader)
+                           .ToList();
 
-                    calls.PendingCalls =
+                    }
+
+                    else
+                    {
+                        calls.PendingCalls =
+                           ((IObjectContextAdapter)_context)
+                               .ObjectContext
+                               .Translate<CallDetailsModel>(reader)
+                               .ToList();
+                        reader.NextResult();
+
+                        calls.AcceptedCalls =
                      ((IObjectContextAdapter)_context)
                          .ObjectContext
                          .Translate<CallDetailsModel>(reader)
                          .ToList();
-                    reader.NextResult();
+                        reader.NextResult();
 
-                    calls.AcceptedCalls =
-                        ((IObjectContextAdapter)_context)
-                            .ObjectContext
-                            .Translate<CallDetailsModel>(reader)
-                            .ToList();
-                    reader.NextResult();
-
-                    calls.AssignedCalls =
-                        ((IObjectContextAdapter)_context)
-                            .ObjectContext
-                            .Translate<CallDetailsModel>(reader)
-                            .ToList();
+                        calls.AssignedCalls =
+                            ((IObjectContextAdapter)_context)
+                                .ObjectContext
+                                .Translate<CallDetailsModel>(reader)
+                                .ToList();
+                    }
 
                 }
             }
