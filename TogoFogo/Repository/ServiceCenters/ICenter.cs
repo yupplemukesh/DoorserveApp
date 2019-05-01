@@ -12,7 +12,7 @@ namespace TogoFogo.Repository.ServiceCenters
 {
     public interface ICenter : IDisposable
     {
-        Task<ServiceCenterCallsModel> GetCallDetails();
+        Task<ServiceCenterCallsModel> GetCallDetails(FilterModel filterModel);
         Task<List<ServiceCenterModel>> GetCenters(FilterModel filterModel);
         Task<CallDetailsModel> GetCallsDetailsById(string CRN);
         Task<ServiceCenterModel> GetCenterById(Guid? serviceCenterId);

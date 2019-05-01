@@ -241,7 +241,7 @@ namespace TogoFogo.Repository.ServiceCenters
                 res.IsSuccess = false;
             return res;
         }
-        public async Task<ServiceCenterCallsModel> GetCallDetails()
+        public async Task<ServiceCenterCallsModel> GetCallDetails(FilterModel filter)
         {
             ServiceCenterCallsModel calls = new ServiceCenterCallsModel();
             using (var connection = _context.Database.Connection)
@@ -250,7 +250,7 @@ namespace TogoFogo.Repository.ServiceCenters
                 var command = connection.CreateCommand();
                 command.CommandText = "GETCenterAllocatedCalls";
                 command.CommandType = CommandType.StoredProcedure;
-
+                command.Parameters.Add(new SqlParameter("@companyId", ToDBNull(filter.CompId)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
 

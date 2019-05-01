@@ -1406,7 +1406,7 @@ namespace TogoFogo.Controllers
 
                 var query = "select EMPId,p.FirstName+' '+p.LastName EmployeeName   from MSTEMPLOYEES e join tblContactPersons p   on p.RefKey	=e.EMPId where  e.IsActive =1";
                 if (compId != null)
-                    query = query + " And companyId=@companyId";
+                    query = query + " And e.companyId=@companyId";
                 query = query + " Order by p.FirstName+p.LastName";
 
                 List<BindEngineerModel> company = con

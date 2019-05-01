@@ -14,6 +14,7 @@ using TogoFogo.Repository.ServiceCenters;
 using TogoFogo.Models.ServiceCenter;
 using AutoMapper;
 using TogoFogo.Repository;
+using TogoFogo.Filters;
 
 namespace TogoFogo.Controllers
 {
@@ -303,10 +304,10 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Calls Details")]
         public async Task<ActionResult> AcceptCalls()
-
         {
             user = Session["User"] as SessionModel;
-            var calls = await _centerRepo.GetCallDetails();
+            var filter = new FilterModel { CompId = user.CompanyId };
+            var calls = await _centerRepo.GetCallDetails(filter);
 
             calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();
             calls.Employee = new EmployeeModel();
@@ -317,15 +318,7 @@ namespace TogoFogo.Controllers
             calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CenterId), "Name", "Text");
             return View(calls);
         }
-        //public async Task<ActionResult> GetEmployeeDetailsById(int EmpId)
-        //{
-        //    EmployeeModel emp = new EmployeeModel();
-        //    emp =  await CommonModel.GetEmployeeDetailById(EmpId);
-        //    return Json(emp, JsonRequestBehavior.AllowGet);
-
-
-        //}
-
+      
 
         public async Task<ActionResult> TechnicianDetails(Guid EmpId)
         {
