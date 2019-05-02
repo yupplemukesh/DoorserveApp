@@ -49,6 +49,7 @@ namespace TogoFogo.Models
         public HttpPostedFileBase IconFileNamePath { get; set; }
         public string IconFileNameUl { get; set; }
         public string ParentMenuName { get; set; }
+        public string MenuCode { get; set; }  
         public Boolean CheckedStatus { get; set; }
         public string ActionIds { get; set; }
         public Int64 ActionRightId { get; set; }

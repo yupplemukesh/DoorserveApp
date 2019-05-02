@@ -82,8 +82,7 @@ namespace TogoFogo.Controllers
                 var result = await con.QueryMultipleAsync("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
                     commandType: CommandType.StoredProcedure);
                 var rs = await result.ReadSingleOrDefaultAsync<dynamic>();
-                if (rs !=null)
-                {                   
+                if (rs !=null)                {                   
                     var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;

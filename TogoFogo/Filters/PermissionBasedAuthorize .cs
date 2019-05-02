@@ -42,14 +42,15 @@ namespace TogoFogo.Permission
                 {
                     int UserId = user.UserId;
                     var menues = user.Menues as MenuMasterModel;
-                    string privilegeLevels = menues.SubMenuList.Where(x => x.Menu_Name.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                    string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCode.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                    if(string.IsNullOrEmpty(privilegeLevels))
+                        privilegeLevels = menues.ParentMenuList.Where(x => x.MenuCode.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {
                         string[] items = privilegeLevels.Split(',');
                         var UserActionRights = new UserActionRights();
                         for (int i = 0; i < items.Length; i++)
                         {
-
                             if (Convert.ToInt32(items[i]) == 1)
                                 UserActionRights.View = true;
                             if (Convert.ToInt32(items[i]) == 2)
@@ -62,7 +63,6 @@ namespace TogoFogo.Permission
                                 UserActionRights.History = true;
                             if (Convert.ToInt32(items[i]) == 6)
                                 UserActionRights.ExcelExport = true;
-
 
                         }
                         Permissions.AssignRight(UserActionRights);
@@ -77,8 +77,7 @@ namespace TogoFogo.Permission
                 Valid = false;
 
             return Valid;
-        }
-      
+        }      
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
 
