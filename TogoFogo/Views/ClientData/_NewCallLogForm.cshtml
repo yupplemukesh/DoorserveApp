@@ -27,7 +27,6 @@
         }
         @Html.Partial("~/views/common/_CustomerInfoForm.cshtml", Model)
     </div>
-
     @Html.Partial("~/views/common/_CallLogDeviceInfoForm.cshtml", Model)
     <div class="panel panel-default panel-table">
         <div class="panel-body">
@@ -94,22 +93,11 @@
             </div>
         </div>
     </div>
-
-
-
-}
+    }
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 <script>
-
     $("#oksubmit").click(function () {
         $("#submitthis").submit(); 
-    });
-
-    
-       
-        
-
-       
-
+    });                        
 </script>

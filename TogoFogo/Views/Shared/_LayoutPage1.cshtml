@@ -54,79 +54,10 @@
                                 </button>*@
                         </div>
                     </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="nav-table user-role">
-                            <a href="#" class="dropdown-toggle">
-                                <span class="nav-cell menu-icon p-r-5 ">
-                                    <img src="~/Content/img/icon-img/user-t.png">
-
-                                </span>
-                                <label class="nav-cell p-l-10">@user.UserTypeName</label>
-                            </a>
-                            <a href="#" class="dropdown-toggle">
-                                <span class="nav-cell menu-icon p-r-5 ">
-                                    <img src="~/Content/img/icon-img/user-r.png">
-                                </span>                               
-                                <label class="nav-cell p-l-10">@user.UserRole</label>
-                            </a>
-                        </li>
-                        <li class="nav-table dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="nav-cell nav-icon">
-                                    <i class="zmdi zmdi-apps"></i>
-                                </span>
-                                <span class="hidden-md-up m-l-15">Applications</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-apps custom-dropdown">
-                                <div class="dropdown-footer">
-                                    <a href="#">View all apps</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-table dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="nav-cell nav-icon">
-                                    <i class="zmdi zmdi-notifications-none"></i>
-                                </span>
-                                <span class="hidden-md-up m-l-15">Notifications</span>
-                                <span class="label label-success">3</span>
-                            </a>
-                            <div class="dropdown-menu custom-dropdown dropdown-notifications dropdown-menu-right">
-                                <div class="dropdown-header">
-                                    <span>Notifications</span>
-                                    <a href="#" class="text-primary">Mark all as read</a>
-                                </div>
-                                <div class="n-items">
-                                </div>
-                                <div class="dropdown-footer">
-                                    <a href="#">View all notifications</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-table dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="nav-cell nav-icon">
-                                    <i class="zmdi zmdi-email-open"></i>
-                                </span>
-                                <span class="hidden-md-up m-l-15">Messages</span>
-                                <span class="label label-warning">7</span>
-                            </a>
-                            <div class="dropdown-menu custom-dropdown dropdown-messages dropdown-menu-right">
-                                <div class="dropdown-header">
-                                    <span>Recent messages</span>
-                                    <a href="#" class="text-primary">New Message</a>
-                                </div>
-                                <div class="m-items">
-                                </div>
-                                <div class="dropdown-footer">
-                                    <a href="#">View all messages</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-table dropdown hidden-sm-down">
+                   
                             @Html.Partial("_LoginPartial")
-                        </li>
-                    </ul>
+                 
+                
                 </div>
             </div>
         </nav>

@@ -2851,6 +2851,13 @@ table td[class*=col-], table th[class*=col-] {
         -ms-overflow-style: -ms-autohiding-scrollbar;
         border: 1px solid #ddd;
     }
+
+    .user-role a {
+        float:none !important;
+        font-weight: 400;
+        cursor: default;
+    }	
+
     
     .company-tabs > li {
         display: inline-block !important;

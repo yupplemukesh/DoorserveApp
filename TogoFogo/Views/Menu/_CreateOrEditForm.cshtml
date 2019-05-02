@@ -1,5 +1,7 @@
 ﻿@model  TogoFogo.Models.MenuMasterModel
 @{
+    /**/
+
     ViewBag.Title = "Manage Admin Menu";
     Layout = null;
 }
@@ -10,7 +12,37 @@
 @using (Html.BeginForm("CreateOrEdit", "Menu", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(x => x.MenuCapId)
+    @Html.HiddenFor(x => x.IconFileName)
     @Html.HiddenFor(x => x.ParentMenuId)
+
+    <div class="form-group">
+        @Html.Label("ServiceType", "Service Type", true)
+        <div id="checkList">
+            @for (int x = 0; x < Model.ServiceTypeList.Count(); x++)
+            {
+                <div class="col-md-6">
+                    <label class="" for="radios-0">
+                        @Html.CheckBoxFor(p => p.ServiceTypeList[x].IsChecked)
+                        @Html.HiddenFor(p => p.ServiceTypeList[x].Text)
+                        @Model.ServiceTypeList[x].Text
+                        @Html.HiddenFor(p => p.ServiceTypeList[x].Value)
+
+
+                    </label>
+
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.ValidationMessageFor(x => x.ServiceTypeList, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+
+
     <div class="form-group">
         @Html.Label("menuName", "Menu Name", true)
         <div>
@@ -32,7 +64,7 @@
             @Html.ValidationMessageFor(x => x.IconFileNamePath, "", new { @class = "text-danger" })
         </div>
     </div>
-   
+
     <div class="form-group">
         @Html.Label("sortOrder", "Sort Order", true)
         <div>
@@ -43,7 +75,7 @@
     <div class="form-group">
         <label class="custom-control custom-control-primary custom-checkbox active" for="isActive">
             @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-indicator" })
-            <span >IsVisible</span>
+            <span>IsVisible</span>
         </label>
     </div>
     <div class="form-group">

@@ -24,13 +24,14 @@ namespace TogoFogo.Controllers
         {
             var menuesModel = new MenuesModel();
             menuesModel.Menues =await _menues.GetMenues();
-            menuesModel.menu = new MenuMasterModel();  
+            menuesModel.menu = new MenuMasterModel {ServiceTypeList=await CommonModel.GetServiceType(null)};  
             return View(menuesModel);
         }
 
         public async Task<JsonResult> GetMenu(string menuCapId)
         {
           var result = await _menues.GetMenuById(menuCapId);
+            result.PagePath = path;
           return Json(result, JsonRequestBehavior.AllowGet);
 
         }
@@ -69,7 +70,13 @@ namespace TogoFogo.Controllers
             }
             if (menu.IconFileNamePath != null)
                 menu.IconFileName = SaveImageFile(menu.IconFileNamePath);
-
+            string services = "";
+            foreach (var item in menu.ServiceTypeList)
+            {
+                if(item.IsChecked)
+                services = services + ","+item.Value;
+            }
+            menu.ServiceTypeIds = services.Trim(',');
             ResponseModel res = null;
                 if (menu.MenuCapId == 0)
                  res = await _menues.AddUpdateMenu(menu, 'I');
@@ -78,8 +85,8 @@ namespace TogoFogo.Controllers
             TempData["response"] = res;   
             var menuesModel = new MenuesModel();
             menuesModel.Menues = await _menues.GetMenues();
-            menuesModel.menu = new MenuMasterModel();
-            return View("index", menuesModel);
+            menuesModel.menu = new MenuMasterModel { ServiceTypeList = await CommonModel.GetServiceType(null) };
+            return RedirectToAction ("index", menuesModel);
 
 
         }

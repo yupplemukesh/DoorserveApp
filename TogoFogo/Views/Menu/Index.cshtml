@@ -49,7 +49,7 @@
                                                                     <img src="@item.IconFileNameUl" />
                                                                 </span>
                                                                 }
-                                                                <span class="menu-text">@item.Menu_Name</span>
+                                                                <span class="menu-text">@item.CapName</span>
                                                             </a>                                                           
                                                         </text>)
                         )
@@ -188,8 +188,17 @@
                         error: errorFunc
                     });
                     function successFunc(data, status) {
-                    
-                    
+                        $("#checkList> div").each(function (res, item) {
+
+                            var val = $("#ServiceTypeList_" + res + "__Value").val();
+                            console.log(val);
+                            if (data.ServiceTypeIds.indexOf(val) != -1) {
+                                $("#ServiceTypeList_" + res + "__IsChecked").prop("checked", true);
+                            }
+                 
+                        }
+                        )
+                        $("#IconFileName").val(data.IconFileName);
                         $("#menulist").show();
                         $("#Menu_Name").val(data.Menu_Name);
                         $("#MenuCapId").val(data.MenuCapId);

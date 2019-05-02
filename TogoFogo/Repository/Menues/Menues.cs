@@ -65,7 +65,9 @@ namespace TogoFogo.Repository.Menues
             sp.Add(param);
             param = new SqlParameter("@action", ToDBNull(action));
             sp.Add(param);
-            var sql = "Add_Modify_Menu @MenuId,@Menu_name,@CapName,@IconFileName,@PerentMenuId,@order,@IsActive,@user,@action";
+            param = new SqlParameter("@ServiceTypeIds", ToDBNull(menu.ServiceTypeIds));
+            sp.Add(param);
+            var sql = "Add_Modify_Menu @MenuId,@Menu_name,@CapName,@IconFileName,@PerentMenuId,@order,@IsActive,@user,@action,@ServiceTypeIds";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

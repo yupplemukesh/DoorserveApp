@@ -23,8 +23,8 @@
                         @Html.HiddenFor(x => Model[i].ActionRightId)
                         @Html.CheckBoxFor(model => Model[i].CheckedStatus, new { @class = "chkMenu" })
                     </td>
-                    <td>@Model[i].Menu_Name</td>
-                    <td>@Model[i].Menu_Name</td>
+                    <td>@Model[i].CapName</td>
+                    <td>@Model[i].CapName</td>
                     @for (int j = 0; j < Model[i].RightActionList.Count; j++)
                     {
                         <td>
@@ -48,7 +48,7 @@
                         </td>
                         <td></td>
                             @Html.HiddenFor(x => Model[i].SubMenuList[J].MenuCapId)
-                        <td>@Model[i].SubMenuList[J].Menu_Name</td>
+                        <td>@Model[i].SubMenuList[J].CapName</td>
                         @for (int k = 0; k < Model[i].SubMenuList[J].RightActionList.Count; k++)
                         {                            <td>
                                 @Html.CheckBoxFor(model => Model[i].SubMenuList[J].RightActionList[k].IsChecked, new { @class = "chkAction" })

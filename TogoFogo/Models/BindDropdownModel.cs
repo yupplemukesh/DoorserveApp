@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
@@ -34,6 +35,7 @@ namespace TogoFogo.Models
         public int Id { get; set; }
         public int MenuCapId { get; set; }
         public string CapName { get; set; }
+        public string Path { get; set; }
         [DisplayName("Menu Name")]
         [Required]
         public string Menu_Name { get; set; }
@@ -50,7 +52,8 @@ namespace TogoFogo.Models
         public Boolean CheckedStatus { get; set; }
         public string ActionIds { get; set; }
         public Int64 ActionRightId { get; set; }
-
+        public string ServiceTypeIds  { get; set; } 
+        public List<CheckBox> ServiceTypeList { get; set; }
         public List<CheckBox> RightActionList { get; set; }
         public List<MenuMasterModel> ParentMenuList { get; set; }
         public List<MenuMasterModel> SubMenuList { get; set; }

@@ -68,7 +68,7 @@
                                     @Html.HiddenFor(m => Model._MenuList[i].ParentMenuId)
                                     @Html.HiddenFor(m => Model._MenuList[i].MenuCapId)
                                 </td>
-                                <td class="label-font-500">@Model._MenuList[i].Menu_Name</td>
+                                <td class="label-font-500">@Model._MenuList[i].CapName</td>
                                 <td>
                                   @if (Model._MenuList[i].SubMenuList.Count>0)
                                   {
@@ -83,7 +83,7 @@
                                                         @Html.CheckBoxFor(m => Model._MenuList[i].SubMenuList[j].CheckedStatus, new { @class = "chkMenu" })
                                                     </td>
                                                     <td class="label-font-500">
-                                                        @Model._MenuList[i].SubMenuList[j].Menu_Name
+                                                        @Model._MenuList[i].SubMenuList[j].CapName
                                                     </td>
                                                 </tr>
                                             }
