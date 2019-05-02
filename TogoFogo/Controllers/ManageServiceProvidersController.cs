@@ -33,7 +33,7 @@ namespace TogoFogo.Controllers
             _contactPerson = new ContactPerson();
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Provider")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Provider)]
         public  async Task<ActionResult> Index()
         {
 
@@ -191,7 +191,7 @@ namespace TogoFogo.Controllers
 
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Service Provider")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<ActionResult> Create()
         {
             var ProviderModel = await GetProvider(null);
@@ -428,7 +428,7 @@ namespace TogoFogo.Controllers
         }
 
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Service Provider")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["provider"] = null;

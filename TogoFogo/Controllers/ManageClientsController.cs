@@ -34,7 +34,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Clients")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Clients)]
         public  async Task<ActionResult> Index()
         {
             user =  Session["User"] as SessionModel;
@@ -245,7 +245,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient/Create
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Clients")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Clients)]
         public async Task<ActionResult> Create()
         {
             var clientModel = await GetClient(null);           
@@ -483,7 +483,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient/Edit/5
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Clients")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Clients)]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["client"] = null;

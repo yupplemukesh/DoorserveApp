@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
 
         // GET: ManageCityLocation
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Cities/Locations")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Cities_Locations)]
         public ActionResult ManageCityLocation()
         {
             LocationViewModel ls = new LocationViewModel();
@@ -35,7 +35,7 @@ namespace TogoFogo.Controllers
             }
             return View(ls);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Cities/Locations")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
         public ActionResult AddCityLocation()
         {
             ViewBag.CountryName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -97,7 +97,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageCityLocation");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Cities/Locations")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Cities_Locations)]
         public ActionResult ManageCityTable()
         {
             ManageLocation objManageLocation = new ManageLocation();
@@ -111,7 +111,7 @@ namespace TogoFogo.Controllers
             //return View(objManageLocation);
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Cities/Locations")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Cities_Locations)]
         public ActionResult EditCityLocation(int LocationId)
         {
             using (var con = new SqlConnection(_connectionString))

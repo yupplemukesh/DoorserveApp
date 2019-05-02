@@ -42,7 +42,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Type")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult SpareIndex()
         {
             ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -59,7 +59,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, "Manage Spare Type")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult AddSpareType()
         {
             //using (var con = new SqlConnection(_connectionString))
@@ -119,7 +119,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("SpareIndex");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Type")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult SpareTypeTable()
         {
           
@@ -131,7 +131,7 @@ namespace TogoFogo.Controllers
                return View(result);
             }          
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Type")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult EditSpareType(int SpareTypeId)
         {
             if (SpareTypeId == 0)
@@ -209,7 +209,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("SpareIndex");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Part Name")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult ManageSparePartName()
         {
             ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -229,7 +229,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Spare Part Name")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult AddSparePartName()
         {
             var sparepart = new ManageSparePart();
@@ -302,7 +302,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartName");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Part Name")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult AddSparePartNametable()
         {         
            
@@ -315,7 +315,7 @@ namespace TogoFogo.Controllers
             }          
                      
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Part Name")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult EditSpareName(int? SpareTypeId)
         {
             if (SpareTypeId == 0)

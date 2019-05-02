@@ -11,7 +11,7 @@ namespace TogoFogo.Controllers
     public class CPCAPController : Controller
     {
         // GET: CPCAP
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Confirm Par/Com Advance Payment")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Confirm_Par_Com_Advance_Payment)]
         public ActionResult Index()
         {         
             return View();
@@ -21,7 +21,7 @@ namespace TogoFogo.Controllers
             var alldata = new AllData();
             return PartialView(alldata);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Confirm Par/Com Advance Payment")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Confirm_Par_Com_Advance_Payment)]
         public ActionResult CPCAPForm()
         {
             var rpcap = new RPCAPModel();

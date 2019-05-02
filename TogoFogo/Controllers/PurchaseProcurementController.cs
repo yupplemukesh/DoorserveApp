@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
         private SessionModel user;
         // GET: PurchaseProcurement
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Spare Parts Price & Stock")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult ManageSparePartsPriceandStock()
         {
             ViewBag.CatName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -34,7 +34,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Spare Parts Price & Stock")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult AddSparePartsPriceandStock()
         {
             user = Session["User"] as SessionModel;
@@ -105,7 +105,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartsPriceandStock");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View}, "Manage Spare Parts Price & Stock")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View}, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult PriceAndStockTable()
         {
             var objSparePartsPriceStockModel = new List<SparePartsPriceStockModel>();
@@ -127,7 +127,7 @@ namespace TogoFogo.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Spare Parts Price & Stock")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult EditSparePartsPriceandStock(int sparePriceStockId)
         {
             user = Session["User"] as SessionModel;
@@ -209,13 +209,13 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("ManageSparePartsPriceandStock");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Repair_Cost_Estimation)]
         public ActionResult RCE()
         {
 
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Repair Cost Estimation")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Repair_Cost_Estimation)]
         public ActionResult RCEForm()
         {
             user = Session["User"] as SessionModel;
@@ -229,7 +229,7 @@ namespace TogoFogo.Controllers
             rpcap.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
             return PartialView(rpcap);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Repair Cost Estimation")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Repair_Cost_Estimation)]
         public ActionResult TableRCE()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -242,7 +242,7 @@ namespace TogoFogo.Controllers
             }
      
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Parts Purchase List")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Parts_Purchase_List)]
         public ActionResult SPPLtable()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -256,7 +256,7 @@ namespace TogoFogo.Controllers
           //  objrpcamodel._RpcapModelList = new List<RPCAPModel>();
             //return View(objrpcamodel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Parts Purchase List")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Parts_Purchase_List)]
         public ActionResult SPPL()
         {
             return View();
@@ -265,7 +265,7 @@ namespace TogoFogo.Controllers
         //{
         //    return View();
         //}
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Spare Parts Purchase List")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Parts_Purchase_List)]
         public ActionResult SPPLForm(string CC_NO)
         {
 

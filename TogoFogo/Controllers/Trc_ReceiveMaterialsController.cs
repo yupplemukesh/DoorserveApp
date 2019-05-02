@@ -48,7 +48,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ReceiveMaterials
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Receive Materials")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Receive_Materials)]
         public ActionResult Index()
         {
 
@@ -96,7 +96,7 @@ namespace TogoFogo.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Receive Materials")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Receive_Materials)]
         public ActionResult RM()
         {
             user = Session["User"] as SessionModel;
@@ -247,7 +247,7 @@ namespace TogoFogo.Controllers
 
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Receive Materials")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Receive_Materials)]
         public ActionResult TableRM()
         {
             //ReceiveMaterials obj_receivematerials = new ReceiveMaterials();

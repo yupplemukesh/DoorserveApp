@@ -23,7 +23,7 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
         private  SessionModel user;
         // GET: ManagePinZIPCode
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Pin/Zip Code")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult PinZIPCode()
         {           
             using (var con = new SqlConnection(_connectionString))
@@ -33,7 +33,7 @@ namespace TogoFogo.Controllers
             }         
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Pin/Zip Code")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Create()
         {
             user = Session["User"] as SessionModel;
@@ -101,7 +101,7 @@ namespace TogoFogo.Controllers
 
            
        
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Pin/Zip Code")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Edit(int pinZipId)
         {
             DropdownBindController dropdownBindController=new DropdownBindController();

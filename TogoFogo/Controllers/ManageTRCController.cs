@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -43,6 +44,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageTRC
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Center_TRC)]
         public ActionResult TRC()
         {
             ViewBag.Supported_Category = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -63,8 +65,10 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Manage_Service_Center_TRC)]
         public ActionResult AddTRC()
         {
+
             ViewBag.STATE_TERRITORY = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.COUNTRY = new SelectList(dropdown.BindCountry(), "Value", "Text");
             ViewBag.SupportedCategory = new SelectList(dropdown.BindCategorySelectpicker(), "Value", "Text");
@@ -239,8 +243,10 @@ namespace TogoFogo.Controllers
             }
             return View(objManageTRCModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         public ActionResult EditTRC(int TRCID)
         {
+
             ViewBag.Supported_Category = new SelectList(dropdown.BindCategorySelectpicker(), "Value", "Text");
             
             ViewBag.ORG_NAME = new SelectList(dropdown.BindServiceProvider(), "Value", "Text");

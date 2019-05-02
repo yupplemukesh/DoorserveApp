@@ -26,7 +26,7 @@ namespace TogoFogo.Controllers
             _customerSupport = new CustomerSupport();
         }
         // GET: CallToASC
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Service Provider")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Service_Provider)]
         public async Task<ActionResult> Index()
         {
             user = Session["User"] as SessionModel;
@@ -70,9 +70,7 @@ namespace TogoFogo.Controllers
         {
 
             user = Session["User"] as SessionModel;
-            var filter = new FilterModel {CompId=user.CompanyId
-                ,tabIndex=tabIndex,IsExport=true
-            };
+            var filter = new FilterModel {CompId=user.CompanyId,tabIndex=tabIndex,IsExport=true};
             var response = await _customerSupport.GetASCCalls(filter);
             byte[] filecontent;
             string[] columns;
@@ -81,7 +79,7 @@ namespace TogoFogo.Controllers
          
                 columns = new string []{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
-                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName"};
+                                 "DeviceBrand","DeviceModel","DOP","PurchaseFrom"};
                 filecontent = ExcelExportHelper.ExportExcel(response.PendingCalls, "", true, columns);
                
             }
@@ -89,7 +87,7 @@ namespace TogoFogo.Controllers
             {
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
-                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom","ProviderName","ServiceCenterName"};
+                                 "DeviceBrand","DeviceModel","DOP","PurchaseFrom"};
                 filecontent = ExcelExportHelper.ExportExcel(response.AllocatedCalls, "", true, columns);
                 
             }

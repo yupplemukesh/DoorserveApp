@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
         {
             _emailHeaderFooterRepo = new EmailHeaderFooters();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "E-Mail Header and Footer Template")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Index()
        {
             var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters();
@@ -29,7 +29,7 @@ namespace TogoFogo.Controllers
             model.EmailHeaderFooter.ActionTypeList = new SelectList( await CommonModel.GetActionTypes(),"Value","Text");        
             return View(model);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "E-Mail Header and Footer Template")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Create()
         {
             var emailheaderfootermodel = new EmailHeaderFooterModel();
@@ -64,7 +64,7 @@ namespace TogoFogo.Controllers
                 return View(emailheaderfooter);
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, "E-Mail Header and Footer Template")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Edit(int id)
         {
             var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooterById(id);

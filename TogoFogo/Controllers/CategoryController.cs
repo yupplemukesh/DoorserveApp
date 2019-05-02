@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
         private SessionModel user;
         // GET: Category
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Device_Category)]
         public ActionResult DeviceCategory()
         {
             CategoryViewModel Cs = new CategoryViewModel();         
@@ -36,7 +36,7 @@ namespace TogoFogo.Controllers
 
             return View(Cs);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Device Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Category)]
         public ActionResult AddCategory()
         {
 
@@ -92,7 +92,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("DeviceCategory");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Device_Category)]
         public ActionResult DeviceCategoryTable()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -107,7 +107,7 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Device Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Category)]
         public ActionResult EditDeviceCategory(int CatId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -162,7 +162,7 @@ namespace TogoFogo.Controllers
         }
 
         //Manage Sub Category
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Sub Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult DeviceSubCategory()
         {
             ViewBag.DeviceCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -178,7 +178,7 @@ namespace TogoFogo.Controllers
 
             return View(Cse);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Device Sub Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult AddSubCategory()
         {
             user = Session["User"] as SessionModel;
@@ -240,7 +240,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("DeviceSubCategory");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Sub Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult DeviceSubCategoryTable()
         {
             SubcategoryModel objSubcategoryModel = new SubcategoryModel();
@@ -253,7 +253,7 @@ namespace TogoFogo.Controllers
 
           
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Sub Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult EditDeviceSubCategory(int SubCatId)
         {
 

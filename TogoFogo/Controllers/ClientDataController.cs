@@ -30,7 +30,7 @@ namespace TogoFogo.Controllers
             _dropdown = new DropdownBindController();
             _RepoCallLog = new CallLog();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Assign Calls")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
             {
             user = Session["User"] as SessionModel;
@@ -107,7 +107,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Assign Calls")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Create()
         {
             user = Session["User"] as SessionModel;

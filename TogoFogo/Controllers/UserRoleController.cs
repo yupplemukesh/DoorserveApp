@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         private  SessionModel user; 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage User Roles")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Roles)]
         public ActionResult AddUserRole(Int64 id=0)
         {
             user = Session["User"] as SessionModel;
@@ -115,7 +115,7 @@ namespace TogoFogo.Controllers
             }
            
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage User Roles")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_User_Roles)]
         public ActionResult EditUserRole(Int64 id = 0)
         {
              user = Session["User"] as SessionModel;        
@@ -232,7 +232,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("UserRoleList", "UserRole");
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Roles")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_User_Roles)]
         public ActionResult UserRoleList()
         {
             user = Session["User"] as SessionModel;

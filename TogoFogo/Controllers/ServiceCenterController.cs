@@ -302,7 +302,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Open Calls")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> AcceptCalls()
         {
             user = Session["User"] as SessionModel;

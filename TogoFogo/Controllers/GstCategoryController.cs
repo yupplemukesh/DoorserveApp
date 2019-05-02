@@ -17,12 +17,12 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         // GET: GstCategory
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Gst Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Gst_Category)]
         public ActionResult Gst()
         {
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Gst Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Gst_Category)]
         public ActionResult AddGst()
         {
             return View();
@@ -79,7 +79,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Gst");
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Gst Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Gst_Category)]
         public ActionResult GstTable()
         {
           
@@ -90,7 +90,7 @@ namespace TogoFogo.Controllers
             }        
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Gst Category")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Gst_Category)]
         public ActionResult EditGst(int? GstCategoryId)
         {
             using (var con = new SqlConnection(_connectionString))

@@ -20,7 +20,7 @@ namespace TogoFogo.Controllers
         {
             _templatePartRepo = new TemplateParts();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Template Part")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Index()
        {
             var templatepart = await _templatePartRepo.GetTemplatePart();
@@ -30,7 +30,7 @@ namespace TogoFogo.Controllers
            // model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Template Part")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Create()
         {
             var templatepartmodel = new TemplatePartModel();
@@ -64,7 +64,7 @@ namespace TogoFogo.Controllers
                 return View(templatepart);
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, "Template Part")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Edit(int id)
         {
             var templatepart = await _templatePartRepo.GetTemplatePartById(id);         

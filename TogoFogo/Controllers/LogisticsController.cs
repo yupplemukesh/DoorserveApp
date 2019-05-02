@@ -86,7 +86,7 @@ namespace TogoFogo.Controllers
         //}
 
         // Update Reverse AWB Status
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Update Reverse AWB Status")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Update_Reverse_AWB_Status)]
         public ActionResult UpdateReverseAWB()
         {
             if (TempData["Message"] != null)
@@ -102,7 +102,7 @@ namespace TogoFogo.Controllers
 
             return View(objUREVASmodel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Update Reverse AWB Status")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Update_Reverse_AWB_Status)]
         public async Task<ActionResult> UREVASform( string CourierId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -162,7 +162,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("UpdateReverseAWB", "Logistics");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View}, "Update AWB Status")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View}, (int)MenuCode.Update_AWB_Status)]
         public ActionResult UpdateAWBStatus()
         {
             if (TempData["Message"] != null)
@@ -213,7 +213,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("UpdateAWBStatus");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Reverse AWB Allocation")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Update_Reverse_AWB_Status)]
         public ActionResult reverse_AWB_Allocation()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -278,7 +278,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Update Reverse AWB Status (Biker)")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Update_Reverse_AWB_Status_Biker)]
         public ActionResult UAWBSB()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -316,7 +316,7 @@ namespace TogoFogo.Controllers
                 return View();
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Update Repair Status (FE)")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Update_Repair_Status_FE)]
         public ActionResult URSSE()
         {
             ViewBag.ServiceProviderName = new SelectList(Enumerable.Empty<SelectListItem>());

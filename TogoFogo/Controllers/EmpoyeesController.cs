@@ -48,7 +48,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage_Engineers")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Engineers)]
         public async Task<ActionResult> Index()
         {
             user = Session["User"] as SessionModel;
@@ -61,7 +61,7 @@ namespace TogoFogo.Controllers
             var employee = await _employee.GetAllEmployees(filter);
             return View(employee);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage_Engineers")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Engineers)]
         public async Task<ActionResult> Create()
         {
             user = Session["User"] as SessionModel;
@@ -140,7 +140,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Index");
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage_Engineers")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Engineers)]
         public async Task<ActionResult> Edit(Guid empId)
         {
             user = Session["User"] as SessionModel;

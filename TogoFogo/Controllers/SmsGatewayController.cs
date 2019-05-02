@@ -21,7 +21,7 @@ namespace TogoFogo.Controllers
         {
             _gatewayRepo = new Gateway();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "SMS Gateway")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.SMS_Gateway_Settings)]
         public async Task<ActionResult> Index()
         {
             var getwaylist = await CommonModel.GetGatewayType();
@@ -39,7 +39,7 @@ namespace TogoFogo.Controllers
             //model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "SMS Gateway")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.SMS_Gateway_Settings)]
         public async Task<ActionResult> Create()
         {
             var smsgatewaymodel = new SMSGatewayModel();
@@ -76,7 +76,7 @@ namespace TogoFogo.Controllers
                 return View(smsgateway);
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "SMS Gateway")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.SMS_Gateway_Settings)]
         public async Task<ActionResult> Edit(int id)
         {
             var smsgateway = await _gatewayRepo.GetGatewayById(id);

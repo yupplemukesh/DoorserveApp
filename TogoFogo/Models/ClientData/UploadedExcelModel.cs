@@ -10,11 +10,10 @@ namespace TogoFogo.Models.ClientData
 {
     public class UploadedExcelModel : ClientDataModel
     {
-     
-
+       
         public string ServiceTypeName { get; set; }
         public string DeliveryTypeName { get; set; }
-
+        [Required]
         [DisplayName("Client Name")]
         public string ClientName { get; set; }
         [DisplayName("Uploaded Date")]
@@ -86,6 +85,8 @@ namespace TogoFogo.Models.ClientData
         public SelectList CategoryList { get; set; }
         public SelectList BrandList { get; set; }
         public SelectList ProductList { get; set; }
+
+       
 
     }
 }

@@ -29,7 +29,7 @@ namespace TogoFogo.Controllers
 
         #endregion
         #region BRAND   
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Brands")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Brands)]
         public ActionResult Brand()
         {
             var name = User.Identity.Name;      
@@ -44,7 +44,7 @@ namespace TogoFogo.Controllers
        
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Brands")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Brands)]
         public ActionResult AddBrand()
         {
             return PartialView();
@@ -115,7 +115,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("Brand");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Brands")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Brands)]
         public ActionResult EditBrand(int brandId=0)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -176,7 +176,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("Brand", "Master");
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Brands")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Brands)]
         public ActionResult BrandTable()
         {
             BrandModel objBrandModel = new BrandModel();
@@ -191,7 +191,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region PRODUCT
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Products")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Products)]
         public ActionResult Product()
         {
             ViewBag.BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -210,7 +210,7 @@ namespace TogoFogo.Controllers
         
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Products")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Products)]
         public ActionResult AddProduct()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -305,7 +305,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("Product");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Products")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Products)]
         public ActionResult ProductTable()
         {            
             using (var con = new SqlConnection(_connectionString))
@@ -320,7 +320,7 @@ namespace TogoFogo.Controllers
 
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Products")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Products)]
         public ActionResult EditProduct(int? ProductId, int? BrandID, string ProductName, int? CategoryID)
         {
             if (ProductId == 0 || ProductId == null)
@@ -421,7 +421,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region ManageDeviceProblems
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Problem")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult ManageDeviceProblems()
         {
             ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -432,7 +432,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Device Problem")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult AddDeviceProblem()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -484,7 +484,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("ManageDeviceProblems");
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Device Problem")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult DeviceProblemtable()
         {           
             using (var con = new SqlConnection(_connectionString))
@@ -496,7 +496,7 @@ namespace TogoFogo.Controllers
             
            
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Device Problem")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult EditDeviceProblem(int? ProblemID)
         {
             user = Session["User"] as SessionModel;
@@ -555,7 +555,7 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region ColorMaster
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Color Master")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Color_Master)]
         public ActionResult ColorMaster()
         {
             ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -570,7 +570,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Color Master")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Color_Master)]
         public ActionResult AddColorMaster()
         {
             user = Session["User"] as SessionModel;
@@ -611,7 +611,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("ColorMaster", "Master");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Color Master")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Color_Master)]
         public ActionResult EditColorMaster(int ColorId)
         {
             ViewBag.pd = new SelectList(dropdown.BindModelName(), "Value", "Text");
@@ -660,7 +660,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("ColorMaster", "Master");           
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Color Master")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Color_Master)]
         public ActionResult ColorTable()
         {
             
@@ -778,7 +778,7 @@ namespace TogoFogo.Controllers
         #endregion
 
         #region WebsiteProblemList
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Problem Price matrix")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult Probs_price_Matrix()
         {
             user = Session["User"] as SessionModel;
@@ -792,7 +792,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Spare Problem Price matrix")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult AddWebsiteData()
         {
             user = Session["User"] as SessionModel;
@@ -826,7 +826,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("Probs_price_Matrix");
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Spare Problem Price matrix")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult EditWebsiteData(int websitePriceProblem, int ProblemId)
         {
 
@@ -877,7 +877,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("Probs_price_Matrix");
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Spare Problem Price matrix")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult WebsiteDataTable()
          {           
             using (var con = new SqlConnection(_connectionString))

@@ -19,13 +19,13 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
         private SessionModel user;
         // GET: GSTTax
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST Tax")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.GST_Tax)]
         public ActionResult Gst()
         {
             
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST Tax")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.GST_Tax)]
         public ActionResult AddGst()
         {
             user = Session["User"] as SessionModel;
@@ -110,7 +110,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("Gst");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View}, "GST Tax")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View}, (int)MenuCode.GST_Tax)]
         public ActionResult GstTaxtable()
         {
             var objGstTaxModel = new List<GstTaxModel>();
@@ -121,7 +121,7 @@ namespace TogoFogo.Controllers
             }         
             return View(objGstTaxModel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST Tax")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.GST_Tax)]
         public ActionResult EditGstTax(int Gsttaxid)
         {          
            

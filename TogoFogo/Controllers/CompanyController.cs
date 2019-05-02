@@ -33,7 +33,7 @@ namespace TogoFogo.Controllers
             _BankRepo = new Bank();
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View,Actions.Create,Actions.Edit }, "Manage company")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View,Actions.Create,Actions.Edit }, (int)MenuCode.Manage_company)]
         public async  Task<ActionResult> Index()
         {
             var _com = await _compRepo.GetCompanyDetails();
@@ -61,7 +61,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] {Actions.Create}, "Manage company")]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Create}, (int)MenuCode.Manage_company)]
         public async Task<ActionResult> Create()
         {
             var CompanyData = new CompanyModel();
@@ -82,7 +82,7 @@ namespace TogoFogo.Controllers
             return View(CompanyData);
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage company")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         public async Task<ActionResult> Edit(Guid CompId)
         {
 

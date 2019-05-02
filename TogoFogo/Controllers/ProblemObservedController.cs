@@ -18,7 +18,7 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
         private SessionModel user;
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Problem Observed")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult ManageProblemObserved()
         {
             ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -34,7 +34,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Problem Observed")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult AddProblemObserved()
         {
             user = Session["User"] as SessionModel;
@@ -94,7 +94,7 @@ namespace TogoFogo.Controllers
                 return RedirectToAction("ManageProblemObserved");
            }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Problem Observed")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult ProblemObservedtable()
         {
           
@@ -106,7 +106,7 @@ namespace TogoFogo.Controllers
             
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Problem Observed")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult EditProblemObserved(int ProblemId)
         {
 

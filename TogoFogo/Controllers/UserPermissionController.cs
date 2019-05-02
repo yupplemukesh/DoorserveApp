@@ -23,7 +23,7 @@ namespace TogoFogo.Controllers
         private SessionModel user;
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage User Permission")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Permission)]
         public async Task<ActionResult> AddUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
             user = Session["User"] as SessionModel;
@@ -121,7 +121,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage User Permission")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_User_Permission)]
         public async Task<ActionResult> EditUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
 
@@ -280,7 +280,7 @@ namespace TogoFogo.Controllers
                 return PartialView("_Permission",result);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage User Permission")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_User_Permission)]
         public ActionResult UserPermissionList()
         {
             user = Session["User"] as SessionModel;

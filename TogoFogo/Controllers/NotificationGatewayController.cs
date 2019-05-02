@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
         {
              _gatewayRepo = new Gateway();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Notification Gateway")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Notification_Gateway)]
         public async Task<ActionResult> Index()
 
 
@@ -42,7 +42,7 @@ namespace TogoFogo.Controllers
            // model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Notification Gateway")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Notification_Gateway)]
         public async Task<ActionResult> Create()
         {
             var notificationgatewaymodel = new NotificationGatewayModel();
@@ -80,7 +80,7 @@ namespace TogoFogo.Controllers
                 return View(notificationgateway);
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Notification Gateway")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Notification_Gateway)]
         public async Task<ActionResult> Edit(int id)
         {
             var notificationgateway = await _gatewayRepo.GetGatewayById(id);

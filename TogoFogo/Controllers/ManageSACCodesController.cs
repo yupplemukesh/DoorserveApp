@@ -23,7 +23,7 @@ namespace TogoFogo.Controllers
 
 
         // GET: ManageSACCodes
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST HSN/SAC Codes")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public ActionResult SacCodes()
         {
             ManageSACCodesViewModel Ms = new ManageSACCodesViewModel();
@@ -38,7 +38,7 @@ namespace TogoFogo.Controllers
             return View(Ms);
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "GST HSN/SAC Codes")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public ActionResult AddSacCodes()
         {
            SacCodesModel sm = new SacCodesModel
@@ -106,7 +106,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("SacCodes");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "GST HSN/SAC Codes")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public ActionResult SacCodesTable()
         {
             SacCodesModel objSacCodesModel = new SacCodesModel();
@@ -120,7 +120,7 @@ namespace TogoFogo.Controllers
           
             return View(objSacCodesModel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "GST HSN/SAC Codes")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public async Task<ActionResult> EditSacCode(int sacCodeId)
         {
           

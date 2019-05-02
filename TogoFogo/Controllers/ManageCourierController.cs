@@ -44,7 +44,7 @@ namespace TogoFogo.Controllers
             }
         }
         // GET: ManageCourier       
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Courier")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Courier)]
         public ActionResult ManageCourier()
         {            
             using (var con = new SqlConnection(_connectionString))
@@ -54,7 +54,7 @@ namespace TogoFogo.Controllers
             }           
             
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Courier)]
         public async Task<ActionResult> Create()
         {
             DropdownBindController drop = new DropdownBindController();
@@ -203,7 +203,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("ManageCourier");
         }
        
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Courier")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Courier)]
         public async Task<ActionResult> Edit(int? courierId)
         {
 

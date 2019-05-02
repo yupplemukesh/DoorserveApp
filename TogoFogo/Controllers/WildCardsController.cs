@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
             _wildCardRepo = new WildCards();
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Wild Cards")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Wild_Cards)]
         public async Task<ActionResult> Index()
         {
             var wildcards = new WildCardList();
@@ -28,7 +28,7 @@ namespace TogoFogo.Controllers
 
             return View(wildcards);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Wild Cards")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Wild_Cards)]
         public async Task<ActionResult> Create()
         {
             var wildcardmodel = new WildCardModel();
@@ -55,7 +55,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Wild Cards")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Wild_Cards)]
         public async Task<ActionResult> Edit(int id)
         {
             var wildcard = await _wildCardRepo.GetWildCardByWildCardId(id);

@@ -18,8 +18,8 @@ namespace TogoFogo.Permission
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public Actions[] AccessLevel { get; set; }
-        public string  MenuName { get; set; }
-        public PermissionBasedAuthorize(Actions[] actionRights, string menu)
+        public int  MenuName { get; set; }
+        public PermissionBasedAuthorize(Actions[] actionRights, int menu)
         {
             AccessLevel = actionRights;
             MenuName = menu;
@@ -42,9 +42,9 @@ namespace TogoFogo.Permission
                 {
                     int UserId = user.UserId;
                     var menues = user.Menues as MenuMasterModel;
-                    string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCode.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                    string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCapId== MenuName).Select(x => x.ActionIds).FirstOrDefault();
                     if(string.IsNullOrEmpty(privilegeLevels))
-                        privilegeLevels = menues.ParentMenuList.Where(x => x.MenuCode.Contains(MenuName)).Select(x => x.ActionIds).FirstOrDefault();
+                        privilegeLevels = menues.ParentMenuList.Where(x => x.MenuCapId == MenuName).Select(x => x.ActionIds).FirstOrDefault();
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {
                         string[] items = privilegeLevels.Split(',');

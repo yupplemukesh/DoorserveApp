@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -41,6 +42,7 @@ namespace TogoFogo.Controllers
             }
         }
         // GET: ManageEngineers
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Engineers)]
         public ActionResult Me()
         {
             ViewBag.Trc = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -51,6 +53,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Engineers)]
         public ActionResult AddEngineer()
         {
             ViewBag.Trc = new SelectList(dropdown.BindTrc(), "Value", "Text");
@@ -119,6 +122,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Engineers)]
         public ActionResult EditEngineer(int engineerId)
         {
             ViewBag.Trc = new SelectList(dropdown.BindTrc(), "Value", "Text");

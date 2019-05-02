@@ -17,7 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         // GET: PromoCode
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Promocode")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Promocode)]
         public ActionResult Index()
         {
             if (TempData["Message"] != null)
@@ -28,7 +28,7 @@ namespace TogoFogo.Controllers
             var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(_UserActionRights);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Promocode")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Promocode)]
         public ActionResult AddPromoCode()
         {
             var promocode = new PromoCodeModel();
@@ -55,7 +55,7 @@ namespace TogoFogo.Controllers
             }
             return RedirectToAction("Index");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Promocode")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Promocode)]
         public ActionResult PromoCodeTable()
         {
             PromoCodeModel obj_promocode = new PromoCodeModel();

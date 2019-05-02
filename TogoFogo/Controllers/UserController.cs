@@ -21,7 +21,7 @@ namespace TogoFogo.Controllers
         private  SessionModel user;
 
   
-        [PermissionBasedAuthorize(new Actions[] {Actions.Create}, "Manage Users")]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Create}, (int)MenuCode.Users)]
         public ActionResult AddUser()
         {
        
@@ -93,7 +93,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Users")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         public ActionResult EditUser(Int64 id = 0)
         {
             User objUser = new User();
@@ -195,7 +195,7 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Users")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Users)]
         public ActionResult UserList()
         {
             user = Session["User"] as SessionModel;

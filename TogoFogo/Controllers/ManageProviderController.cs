@@ -9,11 +9,13 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using System.IO;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
     public class ManageProviderController : Controller
     {
+        private SessionModel user;
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
@@ -41,6 +43,7 @@ namespace TogoFogo.Controllers
             }
         }
         // GET: Default
+
         public ActionResult ManageProvider()
         {
             ViewBag.Supported_Category = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -68,9 +71,10 @@ namespace TogoFogo.Controllers
         }
         public ActionResult AddServiceProvider()
         {
-           
+            user = Session["User"] as SessionModel;
+
             ViewBag.ProviderCity = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.GstCategory = new SelectList(dropdown.BindGst(), "Value", "Text");
+            ViewBag.GstCategory = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
             ViewBag.ProviderState = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.COUNTRY = new SelectList(dropdown.BindCountry(), "Value", "Text");
             //ViewBag.ProcessName = new SelectList(dropdown.BindProduct(), "Value", "Text");

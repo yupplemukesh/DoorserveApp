@@ -25,7 +25,7 @@ namespace TogoFogo.Controllers
             _customerSupport = new CustomerSupport();
         }
         // GET: CallToASP
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Call Allocate To ASP")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
         public async Task<ActionResult> Index()
         {
             user = Session["User"] as SessionModel;

@@ -20,7 +20,7 @@ namespace TogoFogo.Controllers
         DropdownBindController dropdown = new DropdownBindController();
         private SessionModel user;
         // GET: ManageCourierApi
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Courier API")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Courier_API)]
         public ActionResult ManageCourierApi()
         {          
             using (var con = new SqlConnection(_connectionString))
@@ -30,7 +30,7 @@ namespace TogoFogo.Controllers
             }           
            
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Courier API")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Courier_API)]
         public ActionResult Create()
         {
             user = Session["User"] as SessionModel;
@@ -86,7 +86,7 @@ namespace TogoFogo.Controllers
         }
                
      
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Courier API")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Courier_API)]
         public ActionResult Edit(int apiId)
         {
             using (var con = new SqlConnection(_connectionString))

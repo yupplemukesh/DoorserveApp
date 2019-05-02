@@ -37,7 +37,7 @@ namespace TogoFogo.Controllers
         }
 
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Manage Service Center/TRC")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Center_TRC)]
         public  async Task<ActionResult> Index()
         {
              user = Session["User"] as SessionModel;
@@ -260,7 +260,7 @@ namespace TogoFogo.Controllers
             Center.DeviceCategories = List;
             return Center;
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, "Manage Service Center/TRC")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Service_Center_TRC)]
         public async Task<ActionResult> Create()
         {
             var CenterModel = await GetCenter(null);
@@ -508,7 +508,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Manage Service Center/TRC")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["center"] = null;

@@ -20,13 +20,13 @@ namespace TogoFogo.Controllers
         private SessionModel user;
 
         // GET: DeviceServiceCharge
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Device_Service_Charge)]
         public ActionResult ServiceCharge()
         {
           
             return View();
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, "Device Service Charge")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Device_Service_Charge)]
         public ActionResult AddServiceCharge()
         {
             user = Session["User"] as SessionModel;
@@ -95,7 +95,7 @@ namespace TogoFogo.Controllers
         }
 
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, "Device Service Charge")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Device_Service_Charge)]
         public ActionResult ServiceChargeTable()
         {
             List<ServiceChargeModel> objServiceChargeModel = new List<ServiceChargeModel>();
@@ -106,7 +106,7 @@ namespace TogoFogo.Controllers
             }
             return View(objServiceChargeModel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, "Device Service Charge")]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Device_Service_Charge)]
         public ActionResult EditServiceCharge(int? ServiceChargeId)
         {
            
