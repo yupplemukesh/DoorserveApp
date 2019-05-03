@@ -77,8 +77,8 @@ namespace TogoFogo.Controllers
             CompanyData.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CompanyData.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             CompanyData.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType(user.CompanyId);
-            CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(user.CompanyId);
+            CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType(null);
+            CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
             return View(CompanyData);
         }
 

@@ -42,9 +42,7 @@ namespace TogoFogo.Permission
                 {
                     int UserId = user.UserId;
                     var menues = user.Menues as MenuMasterModel;
-                    string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCapId== MenuName).Select(x => x.ActionIds).FirstOrDefault();
-                    if(string.IsNullOrEmpty(privilegeLevels))
-                        privilegeLevels = menues.ParentMenuList.Where(x => x.MenuCapId == MenuName).Select(x => x.ActionIds).FirstOrDefault();
+                    string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCapId== MenuName).Select(x => x.ActionIds).FirstOrDefault();                   
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {
                         string[] items = privilegeLevels.Split(',');
