@@ -66,12 +66,12 @@ namespace TogoFogo.Controllers
         {
             user = Session["User"] as SessionModel;
             ResponseModel objResponseModel = new ResponseModel();
-            var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, Menu_Name = x.Menu_Name, ParentMenuId = x.ParentMenuId, SubMenuList = x.SubMenuList, ActionIds = getActions(x.RightActionList) }).ToList();
+            var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, Menu_Name = x.Menu_Name, ParentMenuId = x.ParentMenuId, SubMenuList = x.SubMenuList,CapName=x.CapName,  ActionIds = getActions(x.RightActionList) }).ToList();
             foreach (var item in selectedMenu)
             {
                 if (item.SubMenuList != null)
                 {
-                    var menu = item.SubMenuList.Where(x => x.CheckedStatus = true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, Menu_Name = x.Menu_Name, ActionIds = getActions(x.RightActionList) }).ToList();
+                    var menu = item.SubMenuList.Where(x => x.CheckedStatus = true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, Menu_Name = x.Menu_Name,CapName=x.CapName, ActionIds = getActions(x.RightActionList) }).ToList();
                     item.SubMenuList = menu;
                 }
 
@@ -140,7 +140,7 @@ namespace TogoFogo.Controllers
                 foreach (var item in Menues)
                 {
                     item.RightActionList = getActions(item.ActionIds);
-                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, CheckedStatus = x.CheckedStatus, RightActionList = getActions(x.ActionIds) }).ToList();
+                    item.SubMenuList = objUserPermission._MenuList.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, CheckedStatus = x.CheckedStatus,CapName=x.CapName,  RightActionList = getActions(x.ActionIds) }).ToList();
                 }
                 objUserPermission._MenuList = Menues;
             }

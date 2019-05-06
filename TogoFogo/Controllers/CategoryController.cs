@@ -211,7 +211,7 @@ namespace TogoFogo.Controllers
                             model.IMEILength,
                             User = user.UserId,
                             Action = "add",
-                            CompanyId = user.CompanyId
+                           user.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result != 0)
@@ -260,7 +260,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 user = Session["User"] as SessionModel;
-                var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req from MstSubCategory where SubCatId=@SubCatId", new { SubCatId = SubCatId },
+                var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req from MstSubCategory where SubCatId=@SubCatId", new { SubCatId },
                     commandType: CommandType.Text).FirstOrDefault();
                 ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
              
@@ -297,7 +297,7 @@ namespace TogoFogo.Controllers
                             model.IMEILength,
                             User = user.UserId,
                             Action = "edit",
-                            CompanyId=user.CompanyId
+                      user.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result == 2)

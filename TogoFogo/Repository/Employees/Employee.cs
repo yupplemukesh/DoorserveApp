@@ -129,7 +129,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@NearByLocation", ToDBNull(employee.NearLocation));
             sp.Add(param);
-            param = new SqlParameter("@RefKey", ToDBNull(employee.CenterId));
+            param = new SqlParameter("@RefKey", ToDBNull(employee.RefKey));
             sp.Add(param);
             param = new SqlParameter("@Action", (object)employee.Action);
             sp.Add(param);

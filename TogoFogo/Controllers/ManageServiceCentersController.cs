@@ -210,7 +210,7 @@ namespace TogoFogo.Controllers
             if (Center.Organization == null)
                 Center.Organization = new OrganizationModel();
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
+            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
@@ -278,7 +278,7 @@ namespace TogoFogo.Controllers
             {
                 Center.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
                 Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-                Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
+                Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                 Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -347,7 +347,7 @@ namespace TogoFogo.Controllers
             }
             Center.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
+            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -430,7 +430,7 @@ namespace TogoFogo.Controllers
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(user.CompanyId), "Value", "Text");
+            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
         
 
             try

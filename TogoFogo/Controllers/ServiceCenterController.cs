@@ -357,8 +357,8 @@ namespace TogoFogo.Controllers
 
             try
             {
-
-                assignCall.UserId = Convert.ToInt32(Session["User_ID"]);
+                user = Session["User"] as SessionModel;
+                assignCall.UserId = user.UserId;
                 var response = await _centerRepo.AssignCallsDetails(assignCall);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -380,7 +380,7 @@ namespace TogoFogo.Controllers
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(user.CompanyId), "Value", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(user.CompanyId), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId), "Value", "Text");
-            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
+            CallDetailsModel.ServiceTypeList = new SelectList( await CommonModel.GetServiceType(user.CompanyId),"Value","Text");
             CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(user.CompanyId), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");

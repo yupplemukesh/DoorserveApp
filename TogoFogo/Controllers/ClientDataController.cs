@@ -43,11 +43,14 @@ namespace TogoFogo.Controllers
                 IsClient = true;
             }
               var clientData =  _RepoUploadFile.GetUploadedList(filter);
+
+            var serviceType = await CommonModel.GetServiceType(user.CompanyId);
+            var deliveryType = await CommonModel.GetDeliveryServiceType(user.CompanyId);
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
             clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
-            clientData.Client.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
-            clientData.Client.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(user.CompanyId), "Value", "Text");
+            clientData.Client.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
+            clientData.Client.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
 
             // new call Log
             clientData.NewCallLog = new UploadedExcelModel
@@ -207,6 +210,8 @@ namespace TogoFogo.Controllers
             user = Session["User"] as SessionModel;
             uploads.UserId = user.UserId;
             uploads.CompanyId = user.CompanyId;
+            if (user.UserRole.ToLower().Contains("client"))
+                uploads.ClientId = user.RefKey;
             var response = await _RepoCallLog.NewCallLog(uploads);
             TempData["response"] = response;
             return RedirectToAction("Index");

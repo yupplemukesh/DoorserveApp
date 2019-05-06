@@ -113,9 +113,21 @@
     <script>
 
         $(document).ready(function (e) {
-            $('#myTable').DataTable();
-            $('#myTable1').DataTable();
-            $('#myTable2').DataTable();
+            $('#myTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
+            $('#myTable1').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
+            $('#myTable2').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
             $('.selectpicker').selectpicker();
             $(".bootstrap-select").click(function () {
                 $(this).addClass("open");
@@ -183,10 +195,6 @@
                 dateFormat: 'dd-M-yy',
                 maxDate: new Date(),
             }).datepicker("setDate", new Date());
-            //$("#datepicker1,#FromDate,#ToDate").datepicker({
-            //    dateFormat: 'dd-M-yy',
-            //    minDate: 0
-            //}).datepicker("setDate", new Date());
             $("#datepicker1").datepicker({
                 dateFormat: 'dd-M-yy',
             }).datepicker("setDate", new Date());

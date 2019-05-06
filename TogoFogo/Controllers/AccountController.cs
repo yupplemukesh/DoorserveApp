@@ -16,6 +16,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -70,8 +71,7 @@ namespace TogoFogo.Controllers
        // POST: /Account/Login
        [HttpPost]
        [AllowAnonymous]
-       [ValidateAntiForgeryToken]
-
+       [CustomHandleError]
         public async Task<ActionResult> Login(LoginViewModel m)
         {
             var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);
@@ -86,15 +86,16 @@ namespace TogoFogo.Controllers
                     var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
-                    var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };                   
+                    var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
                     var User = new SessionModel
                     {
                         UserId = rs.UserId,
                         UserRole = rs.RoleName,
-                        UserTypeId=rs.UserTypeId,
-                        UserTypeName=rs.UserTypeName,
-                        RefKey=rs.RefKey,
-                        Menues= manues,
+                        UserTypeId = rs.UserTypeId,
+                        UserTypeName = rs.UserTypeName,
+                        RefKey = rs.RefKey,
+                        UserName = rs.UserName,
+                        Menues = manues,
                         CompanyId=rs.CompanyId
 
                     };

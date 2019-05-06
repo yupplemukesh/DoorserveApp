@@ -79,7 +79,7 @@ namespace TogoFogo.Controllers
             if (user.UserRole.ToLower().Contains("provider"))
             {
                 var ProviderId = user.RefKey;
-                empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
+                empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId),"Name","Text");
                 empModel.IsProvider = true;
             }
             else if (user.UserRole.ToLower().Contains("center"))
@@ -120,10 +120,12 @@ namespace TogoFogo.Controllers
             emp.Action = 'I';
             emp.UserId = user.UserId;
             emp.CompanyId = user.CompanyId;
+            if(emp.IsUser)
+                emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             if (user.UserRole.ToLower().Contains("provider"))
             {
                 var ProviderId = user.RefKey;
-                emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId));
+                emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId), "Name", "Text");
                 emp.IsProvider = true;
             }
             else if (user.UserRole.ToLower().Contains("center"))

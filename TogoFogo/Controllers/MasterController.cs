@@ -253,8 +253,8 @@ namespace TogoFogo.Controllers
                         {
                             ProductColor = finalValue,
                             model.ProductId,
-                            CategoryID = model.Category,
-                            Brand_ID = model.BrandName,
+                            CategoryID = model.Category,    
+                            Brand_ID = model.BrandID,
                             SubCatId = model.SubCategoryId,
                             model.ProductName,
                             model.AlternateProductName,

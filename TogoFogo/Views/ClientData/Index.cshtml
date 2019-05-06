@@ -50,7 +50,11 @@
                     </div>
                 </div><!--tab-pane-6-->
                 <div role="tabpanel" class="tab-pane fade in" id="tab-7">
-                    @Html.Partial("_NewCallLogForm", Model.NewCallLog)
+                    @using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { id = "submitthis" }))
+                    {
+
+                        @Html.Partial("_NewCallLogForm", Model.NewCallLog)
+                    }
                 </div>
             </div>
         </div>
@@ -62,7 +66,7 @@
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/js/form-m")
-    @Scripts.Render("~/bundles/js/ui-buttons")
+
     <script>
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
@@ -97,8 +101,6 @@
                 }
             });
         }
-
-
         function getCustomer() {
           var mobile=  $("#CustomerContactNumber").val();
            var checked= $("#IsExistingCustomer").prop("checked");
@@ -134,6 +136,11 @@
 
         }
 
+        //$("#btnSave").click(function () {
+        //    $("#submitthis").submit();
+
+        //})
+
         //$('a[data-toggle="tab"]').click(function (e) {
         //    debugger
         //    if (this.hash == '#tab-3')
@@ -154,7 +161,7 @@
 
         });
 
-        $('.mvc-grid').mvcgrid({ reload: true, query: 'myQueryKey=value' });
+
 
     </script>
 
