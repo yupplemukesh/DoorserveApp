@@ -19,7 +19,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
           ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-        private SessionModel user;
+
         // GET: Reports
         public ActionResult RepairRequestReport()
         {
@@ -33,9 +33,9 @@ namespace TogoFogo.Controllers
         }
         public ActionResult FilterOfRepairReport()
         {
-            user = Session["User"] as SessionModel;
+          
             ViewBag.TrcName = new SelectList(dropdown.BindTrc(), "Value", "Text");
-            ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(user.CompanyId), "Value", "Text");
+            ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(SessionModel.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]

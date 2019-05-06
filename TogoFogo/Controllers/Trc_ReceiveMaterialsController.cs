@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
                    ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-        private SessionModel user;
+
         // File Save Code
         private string SaveImageFile(HttpPostedFileBase file)
         {
@@ -99,12 +99,12 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Receive_Materials)]
         public ActionResult RM()
         {
-            user = Session["User"] as SessionModel;
+         
             var receivematerials = new ReceiveMaterials();
-            receivematerials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            receivematerials.RecvdBrandlList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            receivematerials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            receivematerials.RecvdBrandlList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             receivematerials.RecvdModelList = new SelectList(Enumerable.Empty<SelectListItem>());
-            receivematerials.Engg_NameList = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
+            receivematerials.Engg_NameList = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
             return PartialView(receivematerials);
         }
         [HttpPost]

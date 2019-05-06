@@ -24,8 +24,8 @@ namespace TogoFogo.Controllers
         [Authorize]
         public ActionResult DynamicLinks()
         {
-           var user = Session["User"] as SessionModel;         
-            MenuMasterModel objMenuMaster = user.Menues; 
+                
+            MenuMasterModel objMenuMaster = SessionModel.Menues; 
             return PartialView("_SideMenu", objMenuMaster);
             
         }

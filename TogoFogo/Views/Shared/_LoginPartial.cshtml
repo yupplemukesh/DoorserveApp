@@ -1,145 +1,139 @@
 ﻿@using Microsoft.AspNet.Identity
+@using TogoFogo.Models
 
 
-@{ 
-    var user = Session["User"] as TogoFogo.Models.SessionModel;
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+{
+    @Html.AntiForgeryToken()
+    <ul class="nav navbar-nav navbar-right">
+        <li class="nav-table user-role">
+            <a href="#" class="dropdown-toggle">
+                <span class="nav-cell menu-icon p-r-5 ">
+                    <img src="~/Content/img/icon-img/user-t.png">
 
+                </span>
+                <label class="nav-cell p-l-10">
+                 @SessionModel.UserTypeName
+                </label>
+            </a>
+            <a href="#" class="dropdown-toggle">
+                <span class="nav-cell menu-icon p-r-5 ">
+                    <img src="~/Content/img/icon-img/user-r.png">
+                </span>
+                <label class="nav-cell p-l-10">
+                  
+                   @SessionModel.UserRole
+                </label>
+            </a>
+        </li>
+        <li class="nav-table dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-cell nav-icon">
+                    <i class="zmdi zmdi-apps"></i>
+                </span>
+                <span class="hidden-md-up m-l-15">Applications</span>
+            </a>
+            <div class="dropdown-menu dropdown-apps custom-dropdown">
+                <div class="dropdown-footer">
+                    <a href="#">View all apps</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-table dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-cell nav-icon">
+                    <i class="zmdi zmdi-notifications-none"></i>
+                </span>
+                <span class="hidden-md-up m-l-15">Notifications</span>
+                <span class="label label-success">3</span>
+            </a>
+            <div class="dropdown-menu custom-dropdown dropdown-notifications dropdown-menu-right">
+                <div class="dropdown-header">
+                    <span>Notifications</span>
+                    <a href="#" class="text-primary">Mark all as read</a>
+                </div>
+                <div class="n-items">
+                </div>
+                <div class="dropdown-footer">
+                    <a href="#">View all notifications</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-table dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="nav-cell nav-icon">
+                    <i class="zmdi zmdi-email-open"></i>
+                </span>
+                <span class="hidden-md-up m-l-15">Messages</span>
+                <span class="label label-warning">7</span>
+            </a>
+            <div class="dropdown-menu custom-dropdown dropdown-messages dropdown-menu-right">
+                <div class="dropdown-header">
+                    <span>Recent messages</span>
+                    <a href="#" class="text-primary">New Message</a>
+                </div>
+                <div class="m-items">
+                </div>
+                <div class="dropdown-footer">
+                    <a href="#">View all messages</a>
+                </div>
+            </div>
+        </li>
+
+        <li class="nav-table dropdown hidden-sm-down">
+
+
+            @if (Request.IsAuthenticated)
+            {
+
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="nav-cell p-r-10">
+                        <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
+                    </span>
+                    <span class="nav-cell">
+                        @SessionModel.UserName
+                        <span class="caret"></span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="@Url.Action("UserProfile", "User")">
+                            <i class="zmdi zmdi-account-o m-r-10"></i> Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ChangePassword", "User")">
+                            <i class="zmdi zmdi-settings m-r-10"></i> Change Password
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="zmdi zmdi-help-outline m-r-10"></i> Help
+                        </a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                            <i class="zmdi zmdi-power m-r-10"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <a href="@Url.Action("Login", "Master")" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="nav-cell p-r-10">
+                        <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
+                    </span>
+                    <span class="nav-cell">
+                        Login
+                        <span class="caret"></span>
+                    </span>
+                </a>
+            }
+
+        </li>
+
+
+    </ul>
 }
-
-
-    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
-    {
-        @Html.AntiForgeryToken()
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-table user-role">
-                <a href="#" class="dropdown-toggle">
-                    <span class="nav-cell menu-icon p-r-5 ">
-                        <img src="~/Content/img/icon-img/user-t.png">
-
-                    </span>
-                    <label class="nav-cell p-l-10">
-                        @if (user != null)
-                        {@user.UserTypeName}
-                    </label>
-                </a>
-                <a href="#" class="dropdown-toggle">
-                    <span class="nav-cell menu-icon p-r-5 ">
-                        <img src="~/Content/img/icon-img/user-r.png">
-                    </span>
-                    <label class="nav-cell p-l-10">
-                        @if (user != null)
-                        {@user.UserRole}
-                    </label>
-                </a>
-            </li>
-            <li class="nav-table dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-cell nav-icon">
-                        <i class="zmdi zmdi-apps"></i>
-                    </span>
-                    <span class="hidden-md-up m-l-15">Applications</span>
-                </a>
-                <div class="dropdown-menu dropdown-apps custom-dropdown">
-                    <div class="dropdown-footer">
-                        <a href="#">View all apps</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-table dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-cell nav-icon">
-                        <i class="zmdi zmdi-notifications-none"></i>
-                    </span>
-                    <span class="hidden-md-up m-l-15">Notifications</span>
-                    <span class="label label-success">3</span>
-                </a>
-                <div class="dropdown-menu custom-dropdown dropdown-notifications dropdown-menu-right">
-                    <div class="dropdown-header">
-                        <span>Notifications</span>
-                        <a href="#" class="text-primary">Mark all as read</a>
-                    </div>
-                    <div class="n-items">
-                    </div>
-                    <div class="dropdown-footer">
-                        <a href="#">View all notifications</a>
-                    </div>
-                </div>
-            </li>
-            <li class="nav-table dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-cell nav-icon">
-                        <i class="zmdi zmdi-email-open"></i>
-                    </span>
-                    <span class="hidden-md-up m-l-15">Messages</span>
-                    <span class="label label-warning">7</span>
-                </a>
-                <div class="dropdown-menu custom-dropdown dropdown-messages dropdown-menu-right">
-                    <div class="dropdown-header">
-                        <span>Recent messages</span>
-                        <a href="#" class="text-primary">New Message</a>
-                    </div>
-                    <div class="m-items">
-                    </div>
-                    <div class="dropdown-footer">
-                        <a href="#">View all messages</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-table dropdown hidden-sm-down">
-
-
-                @if (Request.IsAuthenticated)
-                {
-
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="nav-cell p-r-10">
-                            <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
-                        </span>
-                        <span class="nav-cell">
-                            @user.UserName
-                            <span class="caret"></span>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="@Url.Action("UserProfile", "User")">
-                                <i class="zmdi zmdi-account-o m-r-10"></i> Profile
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("ChangePassword", "User")">
-                                <i class="zmdi zmdi-settings m-r-10"></i> Change Password
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="zmdi zmdi-help-outline m-r-10"></i> Help
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="javascript:document.getElementById('logoutForm').submit()">
-                                <i class="zmdi zmdi-power m-r-10"></i> Logout
-                            </a>
-                        </li>
-                    </ul>
-                }
-                else
-                {
-                    <a href="@Url.Action("Login", "Master")" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="nav-cell p-r-10">
-                            <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
-                        </span>
-                        <span class="nav-cell">
-                            Login
-                            <span class="caret"></span>
-                        </span>
-                    </a>
-                    }
-
-                </li>
-
-
-            </ul>
-                }

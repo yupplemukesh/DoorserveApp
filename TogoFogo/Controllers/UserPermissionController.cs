@@ -20,25 +20,25 @@ namespace TogoFogo.Controllers
 {
     public class UserPermissionController : Controller
     {
-        private SessionModel user;
+
         private readonly string _connectionString =
         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Permission)]
         public async Task<ActionResult> AddUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
-            user = Session["User"] as SessionModel;
+   
             UserPermission objUserPermission = new UserPermission();
             using (var con = new SqlConnection(_connectionString))
             {
                 Guid? RefKey = null;
                 Guid? CompanyId = null;
 
-                if (user.UserRole.ToLower().Contains("super admin"))
+                if (SessionModel.UserRole.ToLower().Contains("super admin"))
                     UserId = 0;
-                else if (user.UserRole.ToLower().Contains("company admin"))
-                    CompanyId = user.CompanyId;
+                else if (SessionModel.UserRole.ToLower().Contains("company admin"))
+                    CompanyId = SessionModel.CompanyId;
                 else
-                    RefKey = user.RefKey;
+                    RefKey = SessionModel.RefKey;
 
                 objUserPermission.UserList = con.Query<User>("GETUSERLIST", new { UserId = 0, RefKey,CompanyId },
                 commandType: CommandType.StoredProcedure).ToList();
@@ -64,7 +64,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
-            user = Session["User"] as SessionModel;
+         
             ResponseModel objResponseModel = new ResponseModel();
             var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, Menu_Name = x.Menu_Name, ParentMenuId = x.ParentMenuId, SubMenuList = x.SubMenuList,CapName=x.CapName,  ActionIds = getActions(x.RightActionList) }).ToList();
             foreach (var item in selectedMenu)
@@ -86,9 +86,9 @@ namespace TogoFogo.Controllers
                         permission.UserId,
                         permission.RoleId,
                         MenuActionRightXml = xml,
-                        UserLoginId = user.UserId,
-                        user.RefKey,
-                        companyId = user.CompanyId
+                        UserLoginId = SessionModel.UserId,
+                        SessionModel.RefKey,
+                        companyId = SessionModel.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -125,8 +125,8 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> EditUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
 
-            user = Session["User"] as SessionModel;
-            Guid? RefKey = user.RefKey;
+         
+            Guid? RefKey = SessionModel.RefKey;
             UserPermission objUserPermission;
             using (var con = new SqlConnection(_connectionString))
             {
@@ -187,7 +187,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
-            user = Session["User"] as SessionModel;
+
             var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x=>new MenuMasterModel {MenuCapId=x.MenuCapId,Menu_Name=x.Menu_Name,ParentMenuId=x.ParentMenuId, SubMenuList = x.SubMenuList,ActionIds = getActions(x.RightActionList) }).ToList();
             foreach (var item in selectedMenu)
             {
@@ -209,9 +209,9 @@ namespace TogoFogo.Controllers
                         permission.UserId,
                         permission.RoleId,
                         MenuActionRightXml = xml,
-                        UserLoginId = user.UserId,
-                        refKey = user.RefKey,
-                                 companyId = user.CompanyId
+                        UserLoginId = SessionModel.UserId,
+                        refKey = SessionModel.RefKey,
+                                 companyId = SessionModel.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -283,16 +283,16 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_User_Permission)]
         public ActionResult UserPermissionList()
         {
-            user = Session["User"] as SessionModel;
-            int UserId = user.UserId;
+           
+            int UserId = SessionModel.UserId;
             Guid? refKey = null;
             Guid? companyId = null;
-            if (user.UserRole.ToLower().Contains("super admin"))
+            if (SessionModel.UserRole.ToLower().Contains("super admin"))
                 UserId = 0;
-            else if(user.UserRole.ToLower().Contains("company admin"))
-                companyId = user.CompanyId;
+            else if(SessionModel.UserRole.ToLower().Contains("company admin"))
+                companyId = SessionModel.CompanyId;
             else
-                refKey = user.RefKey;
+                refKey = SessionModel.RefKey;
             var objUserPermission = new List<UserPermission>();
             using (var con = new SqlConnection(_connectionString))
             {

@@ -25,7 +25,6 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-        private SessionModel user;
 
         #endregion
         #region BRAND   
@@ -70,7 +69,7 @@ namespace TogoFogo.Controllers
                 using (var con = new SqlConnection(_connectionString))
                 {
 
-                    user = Session["User"] as SessionModel;
+
                     var result = con.Query<int>("Add_Modify_Delete_Brand",
                         new
                         {
@@ -87,9 +86,9 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,                           
-                            User = user.UserId,
+                            User = SessionModel.UserId,
                             Action = "add",
-                            user.CompanyId
+                            SessionModel.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result != 0)
@@ -142,7 +141,7 @@ namespace TogoFogo.Controllers
                                             BindingFlags.NonPublic, null, mpc,
                                             new object[] { model.BrandIMG });
                 }
-                user = Session["User"] as SessionModel;
+              
                 var result = con.Query<int>("Add_Modify_Delete_Brand"
                     , new
                     {
@@ -159,9 +158,9 @@ namespace TogoFogo.Controllers
                         model.UrlName,
                         model.Header,
                         model.Footer,
-                        User = user.UserId,
+                        User = SessionModel.UserId,
                         Action = "edit",
-                        user.CompanyId
+                        SessionModel.CompanyId
                     },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -182,9 +181,9 @@ namespace TogoFogo.Controllers
             BrandModel objBrandModel = new BrandModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
+            
                 
-                var result= con.Query<BrandModel>("Get_Brands", new { companyId=user.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+                var result= con.Query<BrandModel>("Get_Brands", new { companyId= SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
            }      
          
@@ -215,12 +214,12 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
+     
                 //var Subcat = con.Query<string>("SELECT DISTINCT SubCatName, SubCatId FROM MstSubCategory", null, commandType: CommandType.Text).ToList();
-                ViewBag.BrandName = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
-                ViewBag.Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+                ViewBag.BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 //ViewBag.Sub_Cat_Id = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(user.CompanyId), "Value", "Text");
+                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
 
                 return PartialView();
             }
@@ -247,7 +246,7 @@ namespace TogoFogo.Controllers
 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    user = Session["User"] as SessionModel;
+                   
                     var result = con.Query<int>("Add_Edit_Delete_Products",
                         new
                         {
@@ -265,9 +264,9 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,                         
-                            User = user.UserId,
+                            User = SessionModel.UserId,
                             Action = "add",
-                            user.CompanyId
+                            SessionModel.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result !=0)
@@ -310,8 +309,8 @@ namespace TogoFogo.Controllers
         {            
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
-                var result = con.Query<ProductModel>("GetProductDetail", new { user.CompanyId },
+
+                var result = con.Query<ProductModel>("GetProductDetail", new { SessionModel.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
@@ -329,28 +328,28 @@ namespace TogoFogo.Controllers
                 ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
                 ViewBag.SubCategoryId = new SelectList(Enumerable.Empty<SelectListItem>());
                 ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(user.CompanyId), "Value", "Text");
+                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
             }
             else
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    user = Session["User"] as SessionModel;
+                
                     var result = con.Query<ProductModel>("Get_Single_Product", new { ProductName = ProductName },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result.Product_Color != null)
                     {
                         result.ProductColor = result.Product_Color.Split(',');
-                        ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(user.CompanyId), "Value", "Text");
+                        ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
                     }                    
                     if (result.SubCatId != null)
                     {
                         result.SubCategoryId = result.SubCatId.ToString();
                     }
 
-                    ViewBag.BrandName = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+                    ViewBag.BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
                     ViewBag.SubCategoryId = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
-                    ViewBag.Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+                    ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                     ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
                     if (result != null)
                     {
@@ -367,7 +366,6 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
                 if (model.ProductImg != null)
                 {                  
                     var mpc = new SaveImage();
@@ -399,9 +397,9 @@ namespace TogoFogo.Controllers
                         model.IsRepair,
                         model.IsActive,
                         model.Comments,
-                        User = user.UserId,
+                        User = SessionModel.UserId,
                         Action = "edit",
-                        user.CompanyId
+                        SessionModel.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
                 if (result == 2)
@@ -437,8 +435,8 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
-                ViewBag.Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+               
+                ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                // var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstDeviceProblem", null, commandType: CommandType.Text).FirstOrDefault();
                // ViewBag.SortOrder = result + 1;
                 return PartialView();
@@ -499,9 +497,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult EditDeviceProblem(int? ProblemID)
         {
-            user = Session["User"] as SessionModel;
+
             ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-            ViewBag.Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<DeviceProblemModel>("select * from MstDeviceProblem WHERE ProblemID=@ProblemID",
@@ -573,8 +571,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Color_Master)]
         public ActionResult AddColorMaster()
         {
-            user = Session["User"] as SessionModel;
-            ViewBag.Brand = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+   
+            ViewBag.Brand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             //ViewBag.Model = new SelectList(dropdown.BindModelName(), "Value", "Text");
             ViewBag.Model = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView();
@@ -781,8 +779,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult Probs_price_Matrix()
         {
-            user = Session["User"] as SessionModel;
-            ViewBag.BrandName= new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");                        
+    
+            ViewBag.BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");                        
             ViewBag.Problem = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
             ViewBag.Model_Id = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["Message"] != null)
@@ -795,9 +793,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult AddWebsiteData()
         {
-            user = Session["User"] as SessionModel;
+
             var parts = new Prob_Vs_price_matrix();
-            parts.BrandList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            parts.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             parts.ProblemList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
             parts.ModelList = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView(parts);
@@ -805,7 +803,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)
         {
-            m.UserId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+            m.UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id,Problem_Id=m.Problem,m.Market_Price,m.estimated_Price,m.Min_Price,m.Max_Price,action="Add", m.UserId },
@@ -833,12 +831,12 @@ namespace TogoFogo.Controllers
             var result = new Prob_Vs_price_matrix();
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
+              
 
                 result = con.Query<Prob_Vs_price_matrix>("sp_GetSingleRecord_Probles_VS_Price_Matrix ",
                     new { Problem_Id = ProblemId, model_ID = websitePriceProblem }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ViewBag.Problem = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
-                ViewBag.BrandName = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+                ViewBag.BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
                 if (result.Model_Id != null)
                 {
                     ViewBag.Model_Id = new SelectList(dropdown.BindProduct(Int32.Parse(result.BrandName)), "Value", "Text");
@@ -856,7 +854,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditWebsiteData(Prob_Vs_price_matrix m)
         {
-            m.UserId = (Convert.ToString(Session["User_ID"]) == null ? 0 : Convert.ToInt32(Session["User_ID"]));
+            m.UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id, Problem_Id = m.Problem, m.Market_Price, m.estimated_Price, m.Min_Price, m.Max_Price, action = "edit", m.UserId },

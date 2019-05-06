@@ -32,16 +32,16 @@ namespace TogoFogo.Permission
                 Valid = false;
             if (HttpContext.Current.Session["User"] != null)
             {
-                var user = HttpContext.Current.Session["User"] as SessionModel;
-                if (user.UserRole.ToLower().Contains("super admin"))
+               
+                if (SessionModel.UserRole.ToLower().Contains("super admin"))
                 {
                     Permissions.AssignRight(new UserActionRights { Create = true, Edit = true, ExcelExport = true, History = true, View = true });
                     return true;
                 }
                 else
                 {
-                    int UserId = user.UserId;
-                    var menues = user.Menues as MenuMasterModel;
+                    int UserId = SessionModel.UserId;
+                    var menues = SessionModel.Menues as MenuMasterModel;
                     string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCapId== MenuName).Select(x => x.ActionIds).FirstOrDefault();                   
                     if (AccessLevel.Length > 0 && privilegeLevels != null)
                     {

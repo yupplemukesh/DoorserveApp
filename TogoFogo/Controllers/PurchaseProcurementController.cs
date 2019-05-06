@@ -17,7 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-        private SessionModel user;
+
         // GET: PurchaseProcurement
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult ManageSparePartsPriceandStock()
@@ -37,7 +37,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult AddSparePartsPriceandStock()
         {
-            user = Session["User"] as SessionModel;
+          
             //using (var con = new SqlConnection(_connectionString))
             //{
             //    var result = con.Query<SparePartsPriceStockModel>("GetSparePriceData",
@@ -47,12 +47,12 @@ namespace TogoFogo.Controllers
             //    return View(result);
             //}
             var sparepartspricestock = new SparePartsPriceStockModel();
-            sparepartspricestock.CatNameList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+            sparepartspricestock.CatNameList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             sparepartspricestock.SubCatNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            sparepartspricestock.BrandList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            sparepartspricestock.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             sparepartspricestock.ProductNameList = new SelectList(Enumerable.Empty<SelectListItem>());
             sparepartspricestock.PartNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            sparepartspricestock.SpareTypeNameList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
+            sparepartspricestock.SpareTypeNameList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
             return PartialView(sparepartspricestock);
         }
         [HttpPost]
@@ -130,13 +130,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult EditSparePartsPriceandStock(int sparePriceStockId)
         {
-            user = Session["User"] as SessionModel;
-            ViewBag.CatName = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+
+            ViewBag.CatName = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             ViewBag.SubCatName = new SelectList(dropdown.BindSubCategory(),"Value","Text");
-            ViewBag.Brand = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
+            ViewBag.Brand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             
            
-            ViewBag.SpareTypeName = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
+            ViewBag.SpareTypeName = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<SparePartsPriceStockModel>("SELECT * from MstSparePriceStock where SparePriceStockId=@sparePriceStockId",
@@ -218,15 +218,15 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Repair_Cost_Estimation)]
         public ActionResult RCEForm()
         {
-            user = Session["User"] as SessionModel;
+
             var rpcap = new RPCAPModel();
-            rpcap.ReceivedDeviceList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-            rpcap.RecvdBrandList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
-            rpcap.RecvdModelList = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
-            rpcap.Engg_NameList = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
-            rpcap.SpareTypeList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
+            rpcap.ReceivedDeviceList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            rpcap.RecvdBrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+            rpcap.RecvdModelList = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
+            rpcap.Engg_NameList = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
+            rpcap.SpareTypeList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
             rpcap.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            rpcap.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+            rpcap.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(SessionModel.CompanyId), "Value", "Text");
             return PartialView(rpcap);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Repair_Cost_Estimation)]
@@ -269,7 +269,7 @@ namespace TogoFogo.Controllers
         public ActionResult SPPLForm(string CC_NO)
         {
 
-            user = Session["User"] as SessionModel;
+
             var result = new AllData();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -333,13 +333,13 @@ namespace TogoFogo.Controllers
                 result.ApprovedSpareCost = spareCost1.ToString();
                 var QC = con.Query<QCtableData>("Select * from mst_QC", null, commandType: CommandType.Text).ToList();
                 result.QC_Data = QC;
-                result.ReceivedDeviceList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
-                result.RecvdBrandlList = new SelectList(dropdown.BindBrand(user.CompanyId), "Value", "Text");
-                result.RecvdModelList = new SelectList(dropdown.BindProduct(user.CompanyId), "Value", "Text");
-                result.Engg_NameList = new SelectList(dropdown.BindEngineer(user.CompanyId), "Value", "Text");
-                result.SpareTypeList = new SelectList(dropdown.BindSpareType(user.CompanyId), "Value", "Text");
+                result.ReceivedDeviceList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                result.RecvdBrandlList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                result.RecvdModelList = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
+                result.Engg_NameList = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
+                result.SpareTypeList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
                 result.SpareNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-                result.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(user.CompanyId), "Value", "Text");
+                result.ProblemFoundList = new SelectList(dropdown.BindProblemObserved(SessionModel.CompanyId), "Value", "Text");
 
                 return View(result);
             }

@@ -18,7 +18,6 @@ namespace TogoFogo.Controllers
     public class CallToASPController : Controller
     {
         private readonly ICustomerSupport _customerSupport;
-        private SessionModel user;
         public CallToASPController()
         {
 
@@ -28,12 +27,12 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
         public async Task<ActionResult> Index()
         {
-            user = Session["User"] as SessionModel;
-            var filter = new FilterModel {CompId=user.CompanyId,IsExport=false};
+          
+            var filter = new FilterModel {CompId= SessionModel.CompanyId,IsExport=false};
             var calls = await _customerSupport.GetASPCalls(filter);
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(user.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(user.CompanyId), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(user.CompanyId),"Name","Text") };
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId),"Name","Text") };
             return View(calls);
         }
 
@@ -43,9 +42,9 @@ namespace TogoFogo.Controllers
 
             try
             {
-                user = Session["User"] as SessionModel;
+              
                 allocate.AllocateTo = "ASP";
-                allocate.UserId =user.UserId;
+                allocate.UserId = SessionModel.UserId;
                  var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -61,10 +60,10 @@ namespace TogoFogo.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            user = Session["User"] as SessionModel;
+           
             var filter = new FilterModel
             {
-                CompId = user.CompanyId
+                CompId = SessionModel.CompanyId
                 ,
                 tabIndex = tabIndex
             };

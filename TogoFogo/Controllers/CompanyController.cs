@@ -20,7 +20,6 @@ namespace TogoFogo.Controllers
        private readonly IContactPerson _ContactPersonRepo;
        private readonly IOrganization _OrgRepo;
        private readonly IBank _BankRepo;
-       private SessionModel user;
         private readonly string _path = "/UploadedImages/Companies/"; 
         // GET: Company
 
@@ -95,8 +94,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
-            user = Session["User"] as SessionModel;
-            comp.CreatedBy = user.UserId;
+         
+            comp.CreatedBy = SessionModel.UserId;
             if (comp.CompanyLogo != null && comp.CompanyPath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path+"Logo/" + comp.CompanyLogo)))
@@ -198,7 +197,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
 
-            user = Session["User"] as SessionModel;
+          
             if (organization.OrgGSTFileName != null && organization.OrgGSTNumberFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Gsts/" + organization.OrgGSTFileName)))
@@ -222,7 +221,7 @@ namespace TogoFogo.Controllers
             organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
             organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
             organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
-            organization.UserId = user.UserId;
+            organization.UserId = SessionModel.UserId;
 
             CompanyModel comp = new CompanyModel();
            if (TempData["Comp"] !=null)
@@ -252,7 +251,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(ContactPersonModel contact)
         {
-            user = Session["User"] as SessionModel;
+         
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
@@ -280,7 +279,7 @@ namespace TogoFogo.Controllers
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             contact.UserTypeId = 1;
-            contact.UserId = user.UserId;
+            contact.UserId = SessionModel.UserId;
             contact.CompanyId = contact.RefKey;
 
             if (contact.ContactId == null)
@@ -334,7 +333,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
-            user = Session["User"] as SessionModel;
+          
             if (bank.BankCancelledChequeFileName != null && bank.BankCancelledChequeFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + bank.BankCancelledChequeFileName)))
@@ -362,7 +361,7 @@ namespace TogoFogo.Controllers
             }
             else
                 comp.Action = 'U';
-            bank.UserId = user.UserId;
+            bank.UserId = SessionModel.UserId;
             var response = await _BankRepo.AddUpdateBankDetails(bank);
             TempData["response"] = response;
             if (comp.Action == 'I')
@@ -431,7 +430,7 @@ namespace TogoFogo.Controllers
             }
             agreement.DeliveryTypes = agreement.DeliveryTypes.Trim(',');
 
-            agreement.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+            agreement.CreatedBy = SessionModel.UserId;
             var response = await _compRepo.AddOrEditAgreeement(agreement);
             TempData["response"] = response;
             if(comp.Action=='I')
@@ -460,7 +459,7 @@ namespace TogoFogo.Controllers
             }
             else
                 comp.Action = 'U';
-            comp.CreatedBy = Convert.ToInt32(Session["User_ID"]);
+            comp.CreatedBy = SessionModel.UserId;
             var response = await _compRepo.AddUpdateDeleteCompany(comp);
             TempData["response"] = response;
             return RedirectToAction("Index");

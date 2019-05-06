@@ -21,7 +21,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-        private  SessionModel user;
+
         // GET: ManagePinZIPCode
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult PinZIPCode()
@@ -36,10 +36,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Create()
         {
-            user = Session["User"] as SessionModel;
+ 
             CourierPinZipCode courierPinZipCode = new CourierPinZipCode
             {
-                CourierList = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text"),
+                CourierList = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text"),
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 CityList = new SelectList(Enumerable.Empty<SelectListItem>())            
@@ -74,7 +74,7 @@ namespace TogoFogo.Controllers
                             model.OrderPreference,
                             model.IsActive,
                             model.Comments,                            
-                            User = Convert.ToInt32(Session["User_ID"]),
+                            User = SessionModel.UserId,
                             Action = "I"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                        var response = new ResponseModel();
@@ -107,7 +107,7 @@ namespace TogoFogo.Controllers
             DropdownBindController dropdownBindController=new DropdownBindController();
             using (var con = new SqlConnection(_connectionString))
             {
-                user = Session["User"] as SessionModel;
+              
                 var result = con.Query<CourierPinZipCode>("select * from MstCourierPINzip where pin_Zip_ID=@pin_Zip_ID",
                     new { @pin_Zip_ID = pinZipId }
                     , commandType: CommandType.Text).FirstOrDefault();
@@ -117,7 +117,7 @@ namespace TogoFogo.Controllers
                     result.Courier = result.CourierID.ToString();
                     result.PIN_Country1 = result.Pin_CountryID.ToString();
                     result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
-                    result.CourierList= new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
+                    result.CourierList= new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
                     result.StateList = new SelectList(dropdownBindController.BindState(result.Pin_CountryID),"Value","Text");
                     result.CityList = new SelectList(dropdownBindController.BindLocation(result.Pin_State), "Value", "Text");
                     result.PIN_State1 = result.Pin_State.ToString();
@@ -156,7 +156,7 @@ namespace TogoFogo.Controllers
                                 model.OrderPreference,
                                 model.IsActive,
                                 model.Comments,                                
-                                User = Convert.ToInt32(Session["User_ID"]),
+                                User = SessionModel.UserId,
                                 Action = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -183,9 +183,9 @@ namespace TogoFogo.Controllers
         [HttpGet]
         public ActionResult Mass_Courier_UPload()
         {
-            user = Session["User"] as SessionModel;
+           
             ViewBag.CountryBulk = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.CourierBulk = new SelectList(dropdown.BindCourier(user.CompanyId), "Value", "Text");
+            ViewBag.CourierBulk = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
             ViewBag.PIN_CountryBulk = new SelectList(dropdown.BindCountry(), "Value", "Text");
             ViewBag.PIN_StateBulk = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.PIN_CityBulk = new SelectList(Enumerable.Empty<SelectListItem>());

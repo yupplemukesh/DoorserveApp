@@ -1,4 +1,5 @@
-﻿
+﻿@using TogoFogo.Models
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -20,7 +21,16 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <a class="navbar-brand" href="@Url.Action("Index","Home")">
-                    <img src="/content/img/logo.png" />
+                    @if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
+                    {
+                        <img src="@SessionModel.LogoUrl" />
+                    }
+                    else
+                    {
+                        <img src="/content/img/logo.png" />
+
+                    }
+
                 </a>
                 <button class="navbar-toggler left-sidebar-toggle pull-left visible-xs" type="button">
                     <span class="hamburger"></span>

@@ -87,18 +87,21 @@ namespace TogoFogo.Controllers
                     PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
-                    var User = new SessionModel
-                    {
-                        UserId = rs.UserId,
-                        UserRole = rs.RoleName,
-                        UserTypeId = rs.UserTypeId,
-                        UserTypeName = rs.UserTypeName,
-                        RefKey = rs.RefKey,
-                        UserName = rs.UserName,
-                        Menues = manues,
-                        CompanyId=rs.CompanyId
 
-                    };
+
+                       SessionModel.UserId = rs.UserId;
+                       SessionModel.UserRole = rs.RoleName;
+                    SessionModel.UserTypeId = rs.UserTypeId;
+                    SessionModel.UserTypeName = rs.UserTypeName;
+                    SessionModel.RefKey = rs.RefKey;
+                    SessionModel.UserName = rs.UserName;
+                    SessionModel.Menues = manues;
+                    SessionModel.CompanyId = rs.CompanyId;
+
+             
+                    if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
+                    SessionModel.LogoUrl = "/uploadedImages/Companies/Logo/" + rs.CompLogo;
+
                     Session["User"] = User;                  
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));

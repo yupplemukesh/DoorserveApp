@@ -17,7 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
-        private SessionModel user;
+
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult ManageProblemObserved()
         {
@@ -37,11 +37,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult AddProblemObserved()
         {
-            user = Session["User"] as SessionModel;
+      
             var problemobserved = new ManageProblemObserved();
             using (var con = new SqlConnection(_connectionString))
             {
-                problemobserved.CategoryList = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+                problemobserved.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 problemobserved.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
                 //var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstProblemObserved", null, commandType: CommandType.Text).FirstOrDefault();
@@ -71,7 +71,7 @@ namespace TogoFogo.Controllers
                            model.ProblemObserved,
                            model.IsActive,                            
                            model.SortOrder,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = SessionModel.UserId,
                             Action ="add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -111,8 +111,8 @@ namespace TogoFogo.Controllers
         {
 
 
-            user = Session["User"] as SessionModel;
-            ViewBag.Device_Category = new SelectList(dropdown.BindCategory(user.CompanyId), "Value", "Text");
+   
+            ViewBag.Device_Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             
             using (var con = new SqlConnection(_connectionString))
             {
