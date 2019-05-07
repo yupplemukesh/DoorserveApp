@@ -1,4 +1,6 @@
 ﻿@model  TogoFogo.Models.User
+@using TogoFogo.Models
+
 @{
 
 }
@@ -61,26 +63,26 @@
                 <div class="row">
                     <div class="col-md-4">
                         <b>Last Name:</b>
-                        </div>
-                        <div class="col-md-2">@Html.DisplayFor(model => model._ContactPerson.ConLastName)</div>
                     </div>
+                    <div class="col-md-2">@Html.DisplayFor(model => model._ContactPerson.ConLastName)</div>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <b>Organization Code:</b>                        
+                        <b>Organization Code:</b>
                     </div>
                     <div class="col-md-2">@Html.DisplayFor(model => model._OrganizationModel.OrgCode)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <b>Organization Name:</b>                      
+                        <b>Organization Name:</b>
                     </div>
                     <div class="col-md-2">@Html.DisplayFor(model => model._OrganizationModel.OrgName)</div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <b>Process Name:</b>                        
+                        <b>Parent Name:</b>
                     </div>
-                    <div class="col-md-2">@Html.DisplayFor(model => model._ClientModel.ProcessName)</div>
+                    <div class="col-md-2">@SessionModel.RefName</div>
                 </div>
             </div>
 
@@ -89,7 +91,7 @@
         </div>
     </div>
 </div>
-    
+
 
 
 

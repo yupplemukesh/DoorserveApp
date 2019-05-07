@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-//using TogoFogo.Models;
+using TogoFogo.Models;
 using TogoFogo.Models.Template;
 using TogoFogo.Repository.EmailSmsTemplate;
 using System.Web.UI.WebControls;
@@ -34,7 +34,9 @@ namespace TogoFogo.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            var templates = await _templateRepo.GetTemplates();
+
+
+            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel {CompId= SessionModel.CompanyId });
             templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             return View(templates);
@@ -57,8 +59,9 @@ namespace TogoFogo.Controllers
                 var response =new TogoFogo.Models.ResponseModel();
                 Boolean Isvalid = false;
                 DataTable dtToEmailExcelData = new DataTable();
-                templateModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
-                if(!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
+                templateModel.UserId = SessionModel.UserId;
+               templateModel.CompanyId = SessionModel.CompanyId;
+            if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
                 {
                   templateModel.ScheduleDateTime = templateModel.ScheduleDate + " " + templateModel.ScheduleTime;
                 }
@@ -107,7 +110,6 @@ namespace TogoFogo.Controllers
                                 response.Response = "Upload Valid Email";
                                 response.IsSuccess = Isvalid;
                                 TempData["response"] = response;
-                                TempData.Keep("response");
                                 return Redirect("Create");
                             }
                             else
@@ -136,7 +138,6 @@ namespace TogoFogo.Controllers
                         response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
                         response.IsSuccess = Isvalid;
                         TempData["response"] = response;
-                        TempData.Keep("response");
                         return Redirect("Index");
                     }                    
                 }
@@ -196,7 +197,6 @@ namespace TogoFogo.Controllers
                // response.Response = "Successfully inserted record";
                 //response.IsSuccess = Isvalid;
                 TempData["response"] = response;
-                TempData.Keep("response");
             }
 
             return RedirectToAction("Index");           
@@ -227,7 +227,8 @@ namespace TogoFogo.Controllers
             var response = new TogoFogo.Models.ResponseModel();
             Boolean Isvalid = false;
             DataTable dtToEmailExcelData = new DataTable();
-            templateModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+            templateModel.UserId = SessionModel.UserId;
+            templateModel.CompanyId = SessionModel.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
             {
                 templateModel.ScheduleDateTime = templateModel.ScheduleDate + " " + templateModel.ScheduleTime;
@@ -306,7 +307,6 @@ namespace TogoFogo.Controllers
                     response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
                     response.IsSuccess = Isvalid;
                     TempData["response"] = response;
-                    TempData.Keep("response");
                     return Redirect("Create");
                 }
 
@@ -365,19 +365,12 @@ namespace TogoFogo.Controllers
             if (Isvalid)
             {
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'U');
-                //_templateRepo.Save();
+                _templateRepo.Save();
                 if (response.ResponseCode == 0)
                 {
                     response.Response = "Successfully updated";
                 }
-                //else if (response.ResponseCode == 2)
-                //{
-                //    response.Response = "Already exists details";
-                //}
-                //else
-                //{
-                //    response.Response = "Someting went wrong,please try again";
-                //}
+               
                 TempData["response"] = response;
                 TempData.Keep("response");
             }

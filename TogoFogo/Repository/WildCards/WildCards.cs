@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.Gateway;
 
@@ -17,9 +18,9 @@ namespace TogoFogo.Repository.WildCards
             _context = new ApplicationDbContext();
 
         }
-        public async Task<List<WildCardModel>> GetWildCards()
+        public async Task<List<WildCardModel>> GetWildCards(FilterModel filterModel)
         {
-            return await _context.Database.SqlQuery<WildCardModel>("USPGetAllWildCards").ToListAsync();
+            return await _context.Database.SqlQuery<WildCardModel>("USPGetAllWildCards @compId", new SqlParameter("@compId",ToDBNull(filterModel.CompId))).ToListAsync();
         }
 
         public async Task<WildCardModel> GetWildCardByWildCardId(int WildCardId)

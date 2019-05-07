@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models.Template
 {
-    public class TemplateModel
+    public class TemplateModel:RegistrationModel
     {
         public TemplateModel()
         {
@@ -61,13 +61,10 @@ namespace TogoFogo.Models.Template
         public string BccEmails { get; set; }
         [DisplayName("Is System Defined ?")]
         public bool IsSystemDefined { get; set; }
-        [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
         [DisplayName("Is Deleted ?")]
         public bool IsDeleted { get; set; }
         public DateTime AddedOn { get; set; }
         public int AddedBy { get; set; }
-        public string LastUpdatedBy { get; set; }
         //Email
         public Int64 EmailId { get; set; }
         public Int64 PixelId { get; set; }

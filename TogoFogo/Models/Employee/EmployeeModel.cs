@@ -51,6 +51,9 @@ namespace TogoFogo.Models
         {
             get; set;
         }
+
+        public string CenterName { get; set; }
+        public string ProviderName { get; set; }
         public bool IsProvider { get; set; }
         public bool IsCenter { get; set; }
         public VehicleModel Vehicle { get; set; }

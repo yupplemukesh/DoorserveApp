@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.Template;
 
@@ -18,7 +19,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
         {
             _context = new ApplicationDbContext();
         }
-        public async Task<TemplateListModel> GetTemplates()
+        public async Task<TemplateListModel> GetTemplates(FilterModel filterModel)
         {
             TemplateListModel list = new TemplateListModel();        
             using (var connection = _context.Database.Connection)
@@ -26,7 +27,8 @@ namespace TogoFogo.Repository.EmailSmsTemplate
                 connection.Open();
                 var command = connection.CreateCommand();
                 command.CommandText = "USPTemplateDetail";
-                command.CommandType = CommandType.StoredProcedure;                
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@CompId", ToDBNull(filterModel.CompId)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     list.Templates =
@@ -128,7 +130,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@ISACTIVE", templateModel.IsActive);
             sp.Add(param);
-            param = new SqlParameter("@AddedBy", templateModel.AddedBy);
+            param = new SqlParameter("@AddedBy", templateModel.UserId);
             sp.Add(param);
             param = new SqlParameter("@GUID", ToDBNull(templateModel.GUID));
             sp.Add(param);
@@ -146,9 +148,10 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             sp.Add(param);
             param = new SqlParameter("@TotalCount", ToDBNull(templateModel.TotalCount));
             sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(templateModel.CompanyId));
+            sp.Add(param);
 
-
-            var sql = "UspInsertTemplateSave   @TemplateId,@TemplateName,@MailerTemplateName,@TemplateTypeId,@MessageTypeName,@MessageTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@BccEmails,@IsSystemDefined,@IsActive,@AddedBy,@GUID,@ToEmail,@ToEmailCC,@UploadedEmail,@ToMobileNo,@UploadedMobile,@ScheduleDateTime,@TotalCount";
+            var sql = "UspInsertTemplateSave   @TemplateId,@TemplateName,@MailerTemplateName,@TemplateTypeId,@MessageTypeName,@MessageTypeId,@PriorityTypeId,@GatewayId,@EmailHeaderFooterId,@ActionTypeId,@Subject,@Content,@ContentMeta,@BccEmails,@IsSystemDefined,@IsActive,@AddedBy,@GUID,@ToEmail,@ToEmailCC,@UploadedEmail,@ToMobileNo,@UploadedMobile,@ScheduleDateTime,@TotalCount,@CompId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

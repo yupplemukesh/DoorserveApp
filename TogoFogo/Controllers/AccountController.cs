@@ -97,8 +97,9 @@ namespace TogoFogo.Controllers
                     SessionModel.UserName = rs.UserName;
                     SessionModel.Menues = manues;
                     SessionModel.CompanyId = rs.CompanyId;
+                    SessionModel.RefName = rs.RefName;
 
-             
+
                     if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
                     SessionModel.LogoUrl = "/uploadedImages/Companies/Logo/" + rs.CompLogo;
 

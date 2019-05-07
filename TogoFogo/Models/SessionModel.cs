@@ -16,5 +16,6 @@ namespace TogoFogo.Models
         public static Guid? RefKey { get; set; }
         public static MenuMasterModel Menues { get; set; }
         public static string LogoUrl { get; set; }
+        public static string RefName { get; set; }
     }
 }

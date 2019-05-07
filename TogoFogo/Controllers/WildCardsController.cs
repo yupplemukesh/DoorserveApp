@@ -23,7 +23,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             var wildcards = new WildCardList();
-            wildcards.WildCards = await _wildCardRepo.GetWildCards();
+            //wildcards.WildCards = await _wildCardRepo.GetWildCards();
            // wildcards.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
 
             return View(wildcards);

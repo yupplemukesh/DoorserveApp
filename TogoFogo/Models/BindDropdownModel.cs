@@ -168,9 +168,5 @@ namespace TogoFogo.Models
         public string ProductName { get; set; }
     }
 
-    public class ListItem
-    {
-        public string Text { get; set; }
-        public string Value { get; set; }
-    }
+   
 }
