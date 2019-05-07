@@ -88,13 +88,7 @@
 
         <div class="row">
             <div class="form-material">
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.BillAmount, "", new { @class = "text-danger" })
-                        <label class="floating-label">Invoice/Bill Amount</label>
-                    </div>
-                </div>
+               
                 </div>
             </div>
       
@@ -103,8 +97,16 @@
 
         <div class="row">
             <div class="form-material">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.BillAmount, "", new { @class = "text-danger" })
+                        <label class="floating-label">Invoice/Bill Amount</label>
+                    </div>
+                </div>
+
                 <div class="col-sm-2"> <h5 class="m-t-0">Device Condition</h5></div>
-                <div class="col-sm-10">
+                <div class="col-sm-8">
 
                     @foreach (var item in Model.ConditionList)
                     {
@@ -115,8 +117,10 @@
                     }
 
                 </div>
-                @Html.ValidationMessageFor(x => x.DeviceConditionId, "", new { @class = "text-danger" })
-</div>
+                @Html.ValidationMessageFor(x => x.DeviceConditionId, "", new { @class = "text-danger text-valid" })
+
+
+            </div>
         </div>       
 
     </div>

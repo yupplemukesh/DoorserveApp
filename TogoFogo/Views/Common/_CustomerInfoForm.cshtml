@@ -19,9 +19,9 @@
                             <div class="form-group row">
 
                                 <label class="col-sm-1 " for="form-control-1"> Mobile  </label>
-                                <div class="col-sm-2 col-md-2 ">
+                                <div class="col-sm-2 col-md-2 " >
                                     @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "", onchange = "getCustomer()" })
-                                    @Html.ValidationMessageFor(x => x.CustomerContactNumber, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(x => x.CustomerContactNumber, "", new { @class = "text-danger" ,style = "white-space:nowrap" })
                                 </div>
 
 
@@ -35,9 +35,9 @@
                                             <span>@item.Text</span>
                                         </label>
                                     }
-
+                                    @Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger p-l-40" })
                                 </div>
-                                @Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger" })
+                                
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                                             <span>@item.Text</span>
                                         </label>
                                     }
-                                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid" })
                                 </div>
                             </div>
 

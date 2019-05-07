@@ -43,16 +43,17 @@
                   {
                       rowNumber++;
                       return @<text> @rowNumber</text>;
-                 });
-           columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
-           columns.Add(c => c.CreatedOn).Titled("Date Time").Filterable(true);
-           columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-           columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-           columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
-           columns.Add(c => c.CustomerEmail).Titled("Email Address").Filterable(true);
-           columns.Add(c => c.ServiceTypeName).Titled("Service Types").Filterable(true);
-           columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Types").Filterable(true);
-       }).WithPaging(10).Sortable(true)
+                  });
+            columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+            columns.Add(c => c.CreatedOn).Titled("Date Time").Filterable(true);
+            columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+            columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+            columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
+            columns.Add(c => c.CustomerEmail).Titled("Email Address").Filterable(true);
+            columns.Add(c => c.ServiceTypeName).Titled("Service Types").Filterable(true);
+            columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Types").Filterable(true);
+           
+        }).WithPaging(10).Sortable(true)
         </div>
     </div>
 </div>

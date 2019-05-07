@@ -82,7 +82,7 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
-        public async Task<List<ContactPersonModel>> GetContactPersonsByRefKey(Guid? refKey)
+        public async Task<List<OtherContactPersonModel>> GetContactPersonsByRefKey(Guid? refKey)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@ContactId", DBNull.Value);
@@ -90,7 +90,7 @@ namespace TogoFogo.Repository
             param = new SqlParameter("@REFKEY", ToDBNull(refKey));
             sp.Add(param);
             var sql = "USPGETCONTACTPERSONS @ContactId,@REFKEY";
-            var res= await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).ToListAsync();
+            var res= await _context.Database.SqlQuery<OtherContactPersonModel>(sql, sp.ToArray()).ToListAsync();
             return res;
         }
         public async Task<ContactPersonModel> GetContactPersonByContactId(Guid contactId)

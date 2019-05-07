@@ -12,26 +12,20 @@ namespace TogoFogo.Models
     {
         public Guid AddresssId { get; set; }
         [DisplayName("Address Type")]
-        [Required]
-        public int AddressTypeId { get; set; }
+        public virtual  int? AddressTypeId { get; set; }
         [DisplayName("Country")]
-        [Required(ErrorMessage = "Enter Country")]
-        public  int CountryId { get; set; }
+        public virtual int? CountryId { get; set; }
         [DisplayName("State")]
-        [Required(ErrorMessage = "Enter State")]
-        public  int StateId { get; set; }
+        public virtual int? StateId { get; set; }
         [DisplayName("City")]
-        [Required(ErrorMessage = "Enter City")]
-        public int CityId { get; set; }      
+        public virtual int? CityId { get; set; }      
         public string City { get; set; }
         public string State { get; set; }
-        [Required(ErrorMessage = "Enter Address")]
-        public string Address { get; set; } 
+        public virtual string Address { get; set; } 
         public string Locality { get; set; }
         [DisplayName("Near By Location")]
         public string NearLocation { get; set; }
         [DisplayName("Pin Code")]
-        [Required(ErrorMessage = "Enter Pin Code")]
         public string PinNumber { get; set; }
         public SelectList AddressTypelist { get; set; }
         public SelectList CityList { get; set;}

@@ -1266,7 +1266,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public List<ListItem> BindState(int CountryId)
+        public List<ListItem> BindState(int? CountryId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
@@ -1292,7 +1292,7 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindLocation(int StateId)
+        public List<ListItem> BindLocation(int? StateId)
         {
             using (var con = new SqlConnection(_connectionString))
             {

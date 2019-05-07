@@ -13,12 +13,13 @@ namespace TogoFogo.Models.Company
         public CompanyModel()
         {
             Organization = new OrganizationModel();
-            Contacts = new List<ContactPersonModel>();
+            Contacts = new List<OtherContactPersonModel>();
             BankDetails = new List<BankDetailModel>();
             Services = new List<ServiceModel>();
-            Contact = new ContactPersonModel();
+            Contact = new OtherContactPersonModel();
             BankDetail = new BankDetailModel();
             Agreement = new AgreementModel();
+          
         }
 
         public string CompanyWebsiteDomainName { get; set; }
@@ -32,8 +33,8 @@ namespace TogoFogo.Models.Company
         public string IOSAppName { get; set; }
         public string IOSAppSetting { get; set; }
         public OrganizationModel Organization { get; set; }
-        public List<ContactPersonModel> Contacts { get; set; }
-        public ContactPersonModel Contact { get; set; }
+        public List<OtherContactPersonModel> Contacts { get; set; }
+        public OtherContactPersonModel Contact { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
         public BankDetailModel BankDetail { get; set; }
         public AgreementModel Agreement { get; set; }

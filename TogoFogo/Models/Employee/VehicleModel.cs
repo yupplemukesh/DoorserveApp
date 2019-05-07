@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,8 +11,10 @@ namespace TogoFogo.Models
     public class VehicleModel
     {
         public Guid? VHId { get; set; }
+        [Required(ErrorMessage = "Model No.Required")]
         [DisplayName("Vehicle Model")]
         public string VHModel { get; set; }
+        [Required(ErrorMessage = "RC No.Required")]
         [DisplayName("Vehicle Number")]
         public string VHNumber { get; set; }
         public int? VHTypeId { get; set; }

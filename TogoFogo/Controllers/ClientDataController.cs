@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Filters;
 using TogoFogo.Models;
+using TogoFogo.Repository.ServiceCenters;
+using TogoFogo.Models.ServiceCenter;
 using TogoFogo.Models.ClientData;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
@@ -22,7 +24,9 @@ namespace TogoFogo.Controllers
     {
         private readonly IUploadFiles _RepoUploadFile;
         private readonly ICallLog _RepoCallLog;
+        private readonly ICenter _centerRepo;
         private readonly DropdownBindController _dropdown;
+        
         public ClientDataController()
         {
             _RepoUploadFile = new UploadFiles();
@@ -31,16 +35,16 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
-            {
+        {
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
-            var filter = new FilterModel { CompId= SessionModel.CompanyId };
+            var filter = new FilterModel { CompId = SessionModel.CompanyId };
             if (SessionModel.UserRole.ToLower().Contains("client"))
             {
                 filter.ClientId = SessionModel.RefKey;
                 IsClient = true;
             }
-              var clientData =  _RepoUploadFile.GetUploadedList(filter);
+            var clientData = _RepoUploadFile.GetUploadedList(filter);
 
             var serviceType = await CommonModel.GetServiceType(SessionModel.CompanyId);
             var deliveryType = await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
@@ -57,20 +61,20 @@ namespace TogoFogo.Controllers
                 ServiceTypeList = clientData.Client.ServiceTypeList,
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
                 BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text"),
-                CategoryList=new SelectList(_dropdown.BindCategory(SessionModel.CompanyId),"Value","Text"),
-                ProductList=  new SelectList(Enumerable.Empty<SelectListItem>()),
-                CustomerTypeList=new SelectList( await CommonModel.GetLookup("Customer Type"),"Value","Text" ),
-                ConditionList=new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
-                IsClient=IsClient,
-               // address=new AddressDetail
+                CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                ProductList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text"),
+                ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
+                IsClient = IsClient,
+                // address=new AddressDetail
                 //{
-                    AddressTypelist= new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
-                    CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                    StateList= new SelectList(Enumerable.Empty<SelectListItem>()),
-                    CountryList = new SelectList(_dropdown.BindCountry(),"Value","Text"),
-               // }
+                AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
+                CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
+                // }
 
-        };
+            };
             return View(clientData);
         }
 
@@ -83,9 +87,9 @@ namespace TogoFogo.Controllers
             return PartialView("_TotalCallsList", calls);
         }
 
-        
 
-       
+
+
         private string SaveFile(HttpPostedFileBase file, string folderName)
         {
             try
@@ -100,7 +104,7 @@ namespace TogoFogo.Controllers
                 var fileName = Guid.NewGuid();
                 var savedFileName = fileName + fileExtention;
                 file.SaveAs(Path.Combine(path, savedFileName));
-                return path+"\\"+savedFileName;
+                return path + "\\" + savedFileName;
             }
             catch (Exception ex)
             {
@@ -121,11 +125,11 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
 
-          
+
             clientDataModel.CompanyId = SessionModel.CompanyId;
             clientDataModel.UserId = SessionModel.UserId;
             if (clientDataModel.IsClient)
-                clientDataModel.ClientId = SessionModel.RefKey;        
+                clientDataModel.ClientId = SessionModel.RefKey;
             if (clientDataModel.DataFile != null)
             {
                 string excelPath = SaveFile(clientDataModel.DataFile, "ClientData");
@@ -183,18 +187,18 @@ namespace TogoFogo.Controllers
                 }
                 try
                 {
-        
+
                     var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
-                    if(!response.IsSuccess)
+                    if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
                     return RedirectToAction("index");
                 }
                 catch (Exception ex)
                 {
-                    if(System.IO.File.Exists(Server.MapPath(excelPath)))
-                       System.IO.File.Delete(Server.MapPath(excelPath));
-                      return RedirectToAction("index");
+                    if (System.IO.File.Exists(Server.MapPath(excelPath)))
+                        System.IO.File.Delete(Server.MapPath(excelPath));
+                    return RedirectToAction("index");
 
                 }
             }
@@ -218,11 +222,11 @@ namespace TogoFogo.Controllers
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
 
-            var filter = new FilterModel { CompId = SessionModel.CompanyId,tabIndex=tabIndex };
+            var filter = new FilterModel { CompId = SessionModel.CompanyId, tabIndex = tabIndex };
             if (SessionModel.UserRole.ToLower().Contains("Client"))
                 filter.ClientId = SessionModel.RefKey;
             var response = await _RepoUploadFile.GetExportAssingedCalls(filter);
-            byte[] filecontent; 
+            byte[] filecontent;
             string[] columns;
             if (tabIndex == 'O')
             {
@@ -230,7 +234,7 @@ namespace TogoFogo.Controllers
                 "ServiceTypeName","DeliveryTypeName"};
                 filecontent = ExcelExportHelper.ExportExcel(response.Calls.OpenCalls, "", true, columns);
             }
-            else if (tabIndex=='C')
+            else if (tabIndex == 'C')
             {
                 columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
                 "ServiceTypeName","DeliveryTypeName"};
@@ -245,7 +249,7 @@ namespace TogoFogo.Controllers
             else
             {
                 {
-                    columns = new string[]{"UploadedDate","UserName","UploadedFilename","ServiceType","ServiceDeliveryType", 
+                    columns = new string[]{"UploadedDate","UserName","UploadedFilename","ServiceType","ServiceDeliveryType",
                     "TotalRecords","UploadedRecords","FailedRecords"};
                     filecontent = ExcelExportHelper.ExportExcel(response.UploadedFiles, "", true, columns);
                 }
@@ -253,6 +257,50 @@ namespace TogoFogo.Controllers
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
+        public async Task<ActionResult> Edit(string Crn)
+        {
+            var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
+            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId), "Value", "Text");
+            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+            CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+            CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address Type list"), "Value", "Text");
+            CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
+            CallDetailsModel.StateList = new SelectList(_dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
+            CallDetailsModel.CityList = new SelectList(_dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");    
+          
+            return PartialView("_NewCallLogForm", CallDetailsModel);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(CallStatusDetailsModel callStatusDetails)
+        {
+            try
+            {
+
+                callStatusDetails.UserId = SessionModel.UserId;
+                var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
+                TempData["response"] = response;
+                //return Json("Ok", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                //return Json("ex", JsonRequestBehavior.AllowGet);
+                return RedirectToAction("Index");
+            }
+
+        }
+
+
     }
 
     }

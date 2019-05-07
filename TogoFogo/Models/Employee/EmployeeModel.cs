@@ -6,14 +6,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models.Customer_Support;
+using TogoFogo.Models;
 
 namespace TogoFogo.Models
 {
-    public class EmployeeModel:ContactPersonModel
+    public class EmployeeModel: ContactPersonModel
     {
         public EmployeeModel()
         {
             Vehicle = new VehicleModel();
+            
         }
         public List<DeviceModel> SelectedDevices { get; set; }
 
@@ -69,6 +71,6 @@ namespace TogoFogo.Models
 
         public  decimal? TotalOpenCalls { get; set; }
         public decimal? TotalCloseCalls { get; set; }
-
+      
     }
 }

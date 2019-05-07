@@ -8,17 +8,19 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class ContactPersonModel: AddressDetail
-    {      
+    public class ContactPersonModel:AddressDetail
+    {
+        
+        
         public Guid? ContactId { get; set; }
         public Guid? RefKey { get; set; }       
         [DisplayName("First Name")]
         [Required( ErrorMessage ="Enter Name")]
         public string ConFirstName { get; set; }
         [DisplayName("Last Name")]
-        public string ConLastName { get; set; }
-        [DisplayName("Mobile No")]
+        public string ConLastName { get; set; }       
         public string TechnicianName { get { return ConFirstName + " " + ConLastName; } }
+        [DisplayName("Mobile No")]
         [Required(ErrorMessage = "Enter Mobile No")]
         public string ConMobileNumber { get; set; }
         [DisplayName("Email Address")]
@@ -48,6 +50,11 @@ namespace TogoFogo.Models
         public string ConAdhaarFileName { get; set; }
         public string ConAdhaarFileUrl { get; set; }
         public int UserTypeId { get; set; }
-    
+
+
+
+
     }
+
+  
 }

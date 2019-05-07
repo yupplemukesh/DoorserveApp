@@ -249,7 +249,7 @@ namespace TogoFogo.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrEditContactPerson(ContactPersonModel contact)
+        public async Task<ActionResult> AddOrEditContactPerson(OtherContactPersonModel contact)
         {
          
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
@@ -306,7 +306,7 @@ namespace TogoFogo.Controllers
                 comp.ActiveTab = "tab-4";
                 comp.Action = 'I';
                 TempData["Comp"] = comp;
-                comp.Contact = new ContactPersonModel
+                comp.Contact = new OtherContactPersonModel
                 {
                     AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text"),
                     RefKey = comp.CompanyId,

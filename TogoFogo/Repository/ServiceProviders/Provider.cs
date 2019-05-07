@@ -74,13 +74,14 @@ namespace TogoFogo.Repository.ServiceProviders
 
         }
 
-       private   List<ContactPersonModel> ReadPersons(DbDataReader reader)
+       private   List<OtherContactPersonModel> ReadPersons(DbDataReader reader)
         {
-            List<ContactPersonModel> contacts = new List<ContactPersonModel>();
+            List<OtherContactPersonModel> contacts = new List<OtherContactPersonModel>();
 
             while (reader.Read())
             {
-                var person = new ContactPersonModel { ContactId = new Guid(reader["ContactId"].ToString()),
+                var person = new OtherContactPersonModel
+                { ContactId = new Guid(reader["ContactId"].ToString()),
                     RefKey = new Guid(reader["RefKey"].ToString()),
                     ConFirstName = reader["ConFirstName"].ToString(),
                     ConLastName = reader["ConLastName"].ToString(),

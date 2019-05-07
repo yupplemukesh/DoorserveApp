@@ -43,18 +43,20 @@
                   {
                       rowNumber++;
                       return @<text> @rowNumber </text>;
-         });
-   columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
-   columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
-   columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
-   columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-   columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
-   columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
-   columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-   columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
-   columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
-
-}).WithPaging(10).Sortable(true)
+                  });
+            columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
+            columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+            columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
+            columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+            columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
+            columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
+            columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+            columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
+            columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
+            columns.Add().Titled("Action")
+                       .Filterable(true).Sanitized(false).Encoded(false).
+                        RenderValueAs(model => Html.ActionLink("Edit", "Edit", new { Crn = model.CRN}, null));
+        }).WithPaging(10).Sortable(true)
         </div>
     </div>
 </div>

@@ -23717,3 +23717,8 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 
 
 .font-s  tr  td{font-size:13px !important}
+
+.text-valid {
+    display: block;
+    text-align: center ;
+}

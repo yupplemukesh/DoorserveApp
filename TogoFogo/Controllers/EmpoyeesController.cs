@@ -135,8 +135,10 @@ namespace TogoFogo.Controllers
                 emp.IsCenter = true;
             }
             else
+            {
+                emp.RefKey = emp.CenterId;
                 emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-
+            }
             var response = await _employee.AddUpdateDeleteEmployee(emp);
             TempData["response"] = response;
             return RedirectToAction("Index");

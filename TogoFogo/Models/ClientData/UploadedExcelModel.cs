@@ -18,16 +18,19 @@ namespace TogoFogo.Models.ClientData
         public string ClientName { get; set; }
         [DisplayName("Uploaded Date")]
         public DateTime CreatedOn { get; set; }
+        [Required(ErrorMessage = "Name is Required")]
         [DisplayName("Customer Name")]
         public string CustomerName { get; set; }
-        [Required]
-        [DisplayName("Customer Contact Number")]
+        [Required (ErrorMessage = "Mobile No Required")]
+        [DisplayName("Contact Number")]
         public string CustomerContactNumber { get; set; }
+        [DisplayName("Alternate Contact Number")]
         public string CustomerAltConNumber { get; set; } 
         [DisplayName("Customer Email")]
-        [Required]
+        [Required(ErrorMessage = "Email is Required")]
         public string CustomerEmail { get; set; }
         [DisplayName("Customer Address Type")]
+        [Required(ErrorMessage = "Address Type Required")]
         public string CustomerAddressType { get; set; }
         [DisplayName("Customer Address")]
         public string CustomerAddress { get; set; }
@@ -47,7 +50,7 @@ namespace TogoFogo.Models.ClientData
         public string DeviceModel { get; set; }
         [DisplayName("DEVICE SLN")]
         public string DeviceSN { get; set; }
-        [DisplayName("DEVICE DOP")]
+        [DisplayName("Date of Purchase")]
         public DateTime DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
         public string PurchaseFrom { get; set; }
@@ -63,7 +66,7 @@ namespace TogoFogo.Models.ClientData
         public Guid CustomerId { get; set; }
         public bool IsExistingCustomer { get; set; }
         [DisplayName("Customer Type")]
-        [Required]
+        [Required (ErrorMessage = "Customer Type Required")]
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
      
@@ -71,14 +74,15 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("Device Brand")]
         [Required]
         public Guid DeviceId { get; set; }
+        [Required(ErrorMessage = "Device Brand is Required")]
         public int DeviceBrandId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Device Category is Required")]
         [DisplayName("Device Category")]
         public int DeviceCategoryId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Device Modal Number is Required")]
         [DisplayName("Device Modal Number")]
         public int DeviceModalId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select Device Condition")]
         [DisplayName("Device Condition")]
         public int DeviceConditionId { get; set; }
         public SelectList ConditionList { get; set; }

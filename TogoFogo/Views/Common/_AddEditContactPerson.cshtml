@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.ContactPersonModel
+﻿@model TogoFogo.Models.OtherContactPersonModel
 @Html.HiddenFor(x => x.ContactId)
 @Html.HiddenFor(x => x.RefKey)
 @Html.HiddenFor(x => x.Action)
@@ -155,7 +155,7 @@
                "Select", new { @class = "form-control" })
 
                     </div>
-                    @Html.ValidationMessageFor(model => model.AddressTypeId, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
