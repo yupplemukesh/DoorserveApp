@@ -5,7 +5,7 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
+                @Html.DropDownListFor(model => model.CategoryID,Model._Category, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -13,14 +13,14 @@
             @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
 
-                @Html.DropDownListFor(model => model.SubCategoryId, new List<SelectListItem> { }, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SubCategoryId,Model._SubCat , new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.BrandName, null, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.BrandID,Model._BrandName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.ProductColor, null, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+                @Html.DropDownListFor(model => model.ProductColor, Model._ProductColor, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
                 @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })
             </div>
         </div>

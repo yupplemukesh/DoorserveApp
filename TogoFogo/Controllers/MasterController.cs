@@ -214,14 +214,15 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-     
-                //var Subcat = con.Query<string>("SELECT DISTINCT SubCatName, SubCatId FROM MstSubCategory", null, commandType: CommandType.Text).ToList();
-                ViewBag.BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                //ViewBag.Sub_Cat_Id = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
+                ProductModel pm = new ProductModel {
+                    _BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text"),
+                    _Category= new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                    _ProductColor= new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text"),
+                    _SubCat= new SelectList(Enumerable.Empty<SelectList>())
 
-                return PartialView();
+                };               
+
+                return PartialView(pm);
             }
         }
         [HttpPost]
@@ -252,7 +253,7 @@ namespace TogoFogo.Controllers
                         {
                             ProductColor = finalValue,
                             model.ProductId,
-                            CategoryID = model.Category,    
+                            CategoryID = model.CategoryID,    
                             Brand_ID = model.BrandID,
                             SubCatId = model.SubCategoryId,
                             model.ProductName,

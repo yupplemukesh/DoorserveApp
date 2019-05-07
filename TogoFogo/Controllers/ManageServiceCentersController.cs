@@ -114,7 +114,7 @@ namespace TogoFogo.Controllers
             }       
         }
         [HttpPost]
-        public async Task<ActionResult> AddOrPersonContactDetails(ContactPersonModel contact)
+        public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
        
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)    
