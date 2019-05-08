@@ -216,6 +216,7 @@
 
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/js/form-m")
     <script>
 
       $(document).ready(function () {
@@ -261,7 +262,7 @@
                   $("#ContactNumber").val(response.ConMobileNumber);
                   if (response.EMPPhoto != null || response.EMPPhoto != "") {
                       $("#EmpImg").prop("src", response.EMPPhotoUrl);
-                  } 
+                  }
                   $("#TotalOpenCalls").val(response.TotalOpenCalls);
                   $("#TotalCloseCalls").val(response.TotalCloseCalls);
                   $("#Vehicle_VehicleTypeName").val(response.Vehicle.VehicleTypeName);

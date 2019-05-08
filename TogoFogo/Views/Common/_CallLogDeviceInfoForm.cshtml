@@ -67,7 +67,7 @@
 
                 <div class="col-sm-3">
                     <div class="row">
-                        @Html.TextBoxFor(x => x.DOP, new { @class = "form-control", @Type = "date" })
+                        @Html.TextBoxFor(x => x.DOP, "{0:yyyy-MM-dd}", new { @class = "form-control", @Type = "date" })
                         @Html.ValidationMessageFor(x => x.DOP, "", new { @class = "text-danger" })
                         <label class="floating-label t-0" >Date Of Purchased</label>
 
@@ -110,14 +110,19 @@
 
                     @foreach (var item in Model.ConditionList)
                     {
-                        <label class="custom-control custom-control-primary custom-checkbox">
+                        <label class="custom-control custom-control-primary custom-checkbox p-l-0">
                             @Html.RadioButtonFor(x => x.DeviceConditionId, item.Value)
                             <span>@item.Text</span>
                         </label>
                     }
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(x => x.DeviceConditionId, "", new { @class = "text-danger" })
 
+                        </div>
+</div>
                 </div>
-                @Html.ValidationMessageFor(x => x.DeviceConditionId, "", new { @class = "text-danger text-valid" })
+           
 
 
             </div>

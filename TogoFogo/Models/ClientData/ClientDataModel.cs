@@ -35,8 +35,9 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Delivery Type")]
         public int DeliveryTypeId { get; set; }
+        public string UploadedBy { get; set; }
        // public int UserId { get; set; }
-        public string UserName { get; set; }
+        public string GETAssignedCalls { get; set; }
         public bool IsClient { get; set; }
         //public Guid? CompanyId { get; set; }
         

@@ -72,6 +72,39 @@ namespace TogoFogo
                 foreach (DataColumn column in dataTable.Columns)
                 {
                     ExcelRange columnCells = workSheet.Cells[workSheet.Dimension.Start.Row, columnIndex, workSheet.Dimension.End.Row, columnIndex];
+                    foreach (var item in columnCells)
+                    {
+                        
+                            if (item.Value != null)
+                            {
+                                var CellText = item.Value.ToString();
+                                if (CellText.Contains("CRN"))
+                                    CellText = "CallId";
+                           if(columnsToTake.Contains(CellText))
+                            {
+                                if (CellText.Contains("DOP") == true)
+                                    item.Value = "DOP";
+                               else if (CellText.Contains("DeviceIMEIOne") == true)
+                                    item.Value = "Device IMEI First";
+                               else if (CellText.Contains("DeviceIMEISecond") == true)
+                                    item.Value = "Device IMEI Second";
+                                else
+                                    item.Value = string.Concat(CellText.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+                            }
+                            if (column.DataType == System.Type.GetType("System.DateTime"))
+                            {
+                                try
+                                {
+                                    item.Value = Convert.ToDateTime(item.Value.ToString()).ToShortDateString();
+                                }
+                                catch
+                                {
+
+                                }
+                            }
+                        }                        
+                    }
+
                     int maxLength = columnCells.Max(cell => cell.Value != null ? cell.Value.ToString().Count() : 0);
                     if (maxLength < 150)
                     {
@@ -91,20 +124,22 @@ namespace TogoFogo
                     r.Style.Fill.BackgroundColor.SetColor(System.Drawing.ColorTranslator.FromHtml("#1fb5ad"));
                 }
 
-                // format cells - add borders  
-                using (ExcelRange r = workSheet.Cells[startRowFrom + 1, 1, startRowFrom + dataTable.Rows.Count, dataTable.Columns.Count])
+                if (dataTable.Rows.Count > 0)
                 {
-                    r.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                    r.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                    r.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                    r.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    // format cells - add borders  
+                    using (ExcelRange r = workSheet.Cells[startRowFrom + 1, 1, startRowFrom + dataTable.Rows.Count, dataTable.Columns.Count])
+                    {
+                        r.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        r.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        r.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        r.Style.Border.Right.Style = ExcelBorderStyle.Thin;
 
-                    r.Style.Border.Top.Color.SetColor(System.Drawing.Color.Black);
-                    r.Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
-                    r.Style.Border.Left.Color.SetColor(System.Drawing.Color.Black);
-                    r.Style.Border.Right.Color.SetColor(System.Drawing.Color.Black);
+                        r.Style.Border.Top.Color.SetColor(System.Drawing.Color.Black);
+                        r.Style.Border.Bottom.Color.SetColor(System.Drawing.Color.Black);
+                        r.Style.Border.Left.Color.SetColor(System.Drawing.Color.Black);
+                        r.Style.Border.Right.Color.SetColor(System.Drawing.Color.Black);
+                    }
                 }
-
                 // removed ignored columns  
                 for (int i = dataTable.Columns.Count - 1; i >= 0; i--)
                 {

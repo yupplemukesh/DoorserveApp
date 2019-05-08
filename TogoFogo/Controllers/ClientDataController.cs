@@ -32,6 +32,8 @@ namespace TogoFogo.Controllers
             _RepoUploadFile = new UploadFiles();
             _dropdown = new DropdownBindController();
             _RepoCallLog = new CallLog();
+            _centerRepo = new Center();
+
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
@@ -50,6 +52,7 @@ namespace TogoFogo.Controllers
             var deliveryType = await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
+            clientData.Client.ClientId = filter.ClientId;
             clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
             clientData.Client.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
             clientData.Client.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
@@ -145,6 +148,7 @@ namespace TogoFogo.Controllers
                         break;
 
                 }
+
                 conString = string.Format(conString, excelPath);
                 DataTable dtExcelData = new DataTable();
                 using (OleDbConnection excel_con = new OleDbConnection(conString))
@@ -155,8 +159,8 @@ namespace TogoFogo.Controllers
                     dtExcelData.Columns.AddRange(new DataColumn[20] {
                 new DataColumn("CUSTOMER TYPE", typeof(string)),
                 new DataColumn("CUSTOMER NAME", typeof(string)),
-                new DataColumn("CUSTOMER  CONTACT", typeof(string)),
-                new DataColumn("CUSTOMER E-MAIL", typeof(string)),
+                new DataColumn("Customer Contact Number", typeof(string)),
+                new DataColumn("Customer Email", typeof(string)),
                 new DataColumn("CUSTOMER ADDRESS TYPE", typeof(string)),
                 new DataColumn("CUSTOMER ADDRESS", typeof(string)),
                 new DataColumn("CUSTOMER COUNTRY", typeof(string)),
@@ -169,16 +173,16 @@ namespace TogoFogo.Controllers
                 new DataColumn("DEVICE MODEL", typeof(string)),
                 new DataColumn("DEVICE IMEI FIRST", typeof(string)),
                 new DataColumn("DEVICE IMEI SECOND", typeof(string)),
-                new DataColumn("DEVICE SLN", typeof(string)),
-                new DataColumn("DEVICE DOP", typeof(DateTime)),
-                new DataColumn("DEVICE PURCHASE FROM", typeof(string)),
+                new DataColumn("DEVICE SN", typeof(string)),
+                new DataColumn("DOP", typeof(DateTime)),
+                new DataColumn("PURCHASE FROM", typeof(string)),
                 new DataColumn("DEVICE CONDITION", typeof(string))
                 });
 
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [CUSTOMER TYPE], [CUSTOMER NAME],[CUSTOMER  CONTACT],[CUSTOMER E-MAIL]," +
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [CUSTOMER TYPE], [CUSTOMER NAME],[CUSTOMER Contact Number],[CUSTOMER EMAIL]," +
                         "[CUSTOMER ADDRESS TYPE],[CUSTOMER ADDRESS],[CUSTOMER COUNTRY],[CUSTOMER STATE],[CUSTOMER CITY]," +
-                        "[CUSTOMER PINCODE],[DEVICE CATEGORY],[DEVICE BRAND],[DEVICE NAME],[DEVICE MODEL],[DEVICE IMEI FIRST]," +
-                        "[DEVICE IMEI SECOND],[DEVICE SLN],[DEVICE DOP],[DEVICE PURCHASE FROM],[DEVICE CONDITION]  FROM [" + sheet1 + "]", excel_con))
+                        "[CUSTOMER PINCODE],[DEVICE CATEGORY],[DEVICE BRAND],[DEVICE MODEL],[DEVICE IMEI FIRST]," +
+                        "[DEVICE IMEI SECOND],[DEVICE SN],[DOP],[PURCHASE FROM],[DEVICE CONDITION]  FROM [" + sheet1 + "]", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }
@@ -230,30 +234,62 @@ namespace TogoFogo.Controllers
             string[] columns;
             if (tabIndex == 'O')
             {
-                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
-                "ServiceTypeName","DeliveryTypeName"};
+                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail","CustomerCity",
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceBrand","DeviceModel","DeviceSn"};
                 filecontent = ExcelExportHelper.ExportExcel(response.Calls.OpenCalls, "", true, columns);
             }
             else if (tabIndex == 'C')
             {
-                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
-                "ServiceTypeName","DeliveryTypeName"};
+                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail","CustomerCity",
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceBrand","DeviceModel","DeviceSn"};
                 filecontent = ExcelExportHelper.ExportExcel(response.Calls.CloseCalls, "", true, columns);
             }
             else if (tabIndex == 'D')
             {
-                columns = new string[]{"UploadedDate","CRN","ClientName","CustomerName","CustomerContactNumber","CustomerEmail",
-                "ServiceTypeName","DeliveryTypeName","DeviceCategory"};
+                columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail","CustomerCity",
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceBrand","DeviceModel","DeviceSn"};
                 filecontent = ExcelExportHelper.ExportExcel(response.UploadedData, "", true, columns);
             }
-            else
-            {
-                {
-                    columns = new string[]{"UploadedDate","UserName","UploadedFilename","ServiceType","ServiceDeliveryType",
+            else if(tabIndex=='F')
+            {               
+                    columns = new string[]{"UploadedDate","UserName","UploadedFileName","ServiceType","ServiceDeliveryType",
                     "TotalRecords","UploadedRecords","FailedRecords"};
                     filecontent = ExcelExportHelper.ExportExcel(response.UploadedFiles, "", true, columns);
-                }
+               
             }
+            else
+
+            {
+                columns = new string[]{"CustomerType","CustomerName","CustomerContactNumber","CustomerEmail","CustomerAddressType",
+"CustomerAddress","CustomerCountry","CustomerState","CustomerCity","CustomerPincode","DeviceCategory","DeviceBrand", "DeviceModel","DeviceSn",
+                    "DOP","PurchaseFrom","DeviceIMEIOne","DeviceIMEISecond","DeviceCondition"};
+                var devices = new List<UploadedExcelModel> { new UploadedExcelModel
+                {
+                    CustomerType = "CORPORATE",
+                    CustomerName = "Rahul Singh",
+                    CustomerContactNumber = "9993344444",
+                    CustomerEmail = "rahul@gmail.com",
+                    CustomerAddressType = "Home",
+                    CustomerAddress = "F-451 Okhala Phase-1",
+                    CustomerCountry = "India",
+                    CustomerState = "Delhi",
+                    CustomerCity = "New Delhi",
+                    CustomerPincode = "110020",
+                    DeviceCategory = "Mobiles",
+                    DeviceBrand = "Samsung",
+                    DeviceModel = "Samsung A5-16",
+                    DeviceIMEIOne = "2456675644433",
+                    DeviceIMEISecond = "8756454444445",
+                    DeviceSn = "#45444",
+                    DOP = Convert.ToDateTime("10/12/2019"),
+                    PurchaseFrom = "Delhi",
+                    DeviceCondition = "Brand New",
+                    
+
+                }};
+                filecontent = ExcelExportHelper.ExportExcel(devices, "", false, columns);
+            }
+
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
         }

@@ -18,6 +18,7 @@ namespace TogoFogo.Models.ClientData
         public string ClientName { get; set; }
         [DisplayName("Uploaded Date")]
         public DateTime CreatedOn { get; set; }
+        public string CustomerType { get; set; }
         [Required(ErrorMessage = "Name is Required")]
         [DisplayName("Customer Name")]
         public string CustomerName { get; set; }
@@ -49,7 +50,7 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("Device Modal")]
         public string DeviceModel { get; set; }
         [DisplayName("DEVICE SLN")]
-        public string DeviceSN { get; set; }
+        public string DeviceSn { get; set; }
         [DisplayName("Date of Purchase")]
         public DateTime DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
@@ -70,6 +71,7 @@ namespace TogoFogo.Models.ClientData
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
      
+
         //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
         [Required]
@@ -80,11 +82,14 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("Device Category")]
         public int DeviceCategoryId { get; set; }
         [Required(ErrorMessage = "Device Modal Number is Required")]
-        [DisplayName("Device Modal Number")]
+        [DisplayName("Device Modal Number")]       
         public int DeviceModalId { get; set; }
+
         [Required(ErrorMessage = "Please select Device Condition")]
         [DisplayName("Device Condition")]
         public int DeviceConditionId { get; set; }
+        public string DeviceCondition { get; set; }
+   
         public SelectList ConditionList { get; set; }
         public SelectList CategoryList { get; set; }
         public SelectList BrandList { get; set; }

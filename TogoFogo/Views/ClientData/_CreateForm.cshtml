@@ -2,6 +2,7 @@
 
 @using (Html.BeginForm("Upload", "ClientData", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
     if (!Model.IsClient)
     {
         <div class="row" style="padding-bottom: 5px">
@@ -12,6 +13,9 @@
                 @Html.ValidationMessageFor(x => x.ClientId, "", new { @class = "text-danger" })
             </div>
         </div>
+    }
+    else {
+        @Html.HiddenFor(x=>x.ClientId)
     }
     <div class="row" style="padding-bottom: 5px">
         @Html.LabelFor(model => model.DeliveryTypeId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })

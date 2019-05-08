@@ -387,6 +387,7 @@ namespace TogoFogo.Controllers
             if (Param == "A")
             {
 
+
                 //var list = await CommonModel.GetEmployeeList(user.CompanyId);
                 CallDetailsModel.Employee = new EmployeeModel
                 {

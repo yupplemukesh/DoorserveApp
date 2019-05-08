@@ -17,10 +17,10 @@ namespace TogoFogo.Models
         {
             Activetab = "tab-1";
             Organization = new OrganizationModel();
-            ContactPersons = new List<ContactPersonModel>();
+            ContactPersons = new List<OtherContactPersonModel>();
             BankDetails = new List<BankDetailModel>();
             Bank = new BankDetailModel();
-            Contact = new ContactPersonModel();
+            Contact = new OtherContactPersonModel();
         }
         public string Path { get; set; }
         public string ServiceTypes
@@ -41,9 +41,9 @@ namespace TogoFogo.Models
         public string Activetab { get; set; }
         public char action { get; set; }
         public OrganizationModel Organization { get; set; }
-        public List<ContactPersonModel> ContactPersons { get; set; }
+        public List<OtherContactPersonModel> ContactPersons { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
-        public ContactPersonModel Contact { get; set; }
+        public OtherContactPersonModel Contact { get; set; }
         public BankDetailModel Bank { get; set; }
 
         public Guid CenterId { get; set; }
