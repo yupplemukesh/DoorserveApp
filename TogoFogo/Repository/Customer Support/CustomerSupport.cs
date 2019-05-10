@@ -113,9 +113,9 @@ namespace TogoFogo.Repository.Customer_Support
              
                 command.CommandText = "GETREQUESTFORASC";
                 command.CommandType = CommandType.StoredProcedure;
-                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add(new SqlParameter("@Status", ToDBNull(filter.tabIndex)));
                 command.Parameters.Add(new SqlParameter("@Export", ToDBNull(filter.IsExport)));
+                command.Parameters.Add(new SqlParameter("@ProviderId", ToDBNull(filter.ProviderId)));
                 command.Parameters.Add(new SqlParameter("@CompId", ToDBNull( filter.CompId)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {

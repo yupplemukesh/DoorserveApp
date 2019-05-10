@@ -93,13 +93,13 @@ namespace TogoFogo.Repository.ServiceCenters
 
         }
 
-        private List<ContactPersonModel> ReadPersons(DbDataReader reader)
+        private List<OtherContactPersonModel> ReadPersons(DbDataReader reader)
         {
-            List<ContactPersonModel> contacts = new List<ContactPersonModel>();
+            List<OtherContactPersonModel> contacts = new List<OtherContactPersonModel>();
 
             while (reader.Read())
             {
-                var person = new ContactPersonModel
+                var person = new OtherContactPersonModel
                 {
                     ContactId = new Guid(reader["ContactId"].ToString()),
                     RefKey = new Guid(reader["RefKey"].ToString()),
@@ -253,6 +253,8 @@ namespace TogoFogo.Repository.ServiceCenters
                 command.Parameters.Add(new SqlParameter("@companyId", ToDBNull(filter.CompId)));
                 command.Parameters.Add(new SqlParameter("@IsExport", ToDBNull(filter.IsExport)));
                 command.Parameters.Add(new SqlParameter("@type", ToDBNull(filter.tabIndex)));
+                command.Parameters.Add(new SqlParameter("@providerId", ToDBNull(filter.ProviderId)));
+                command.Parameters.Add(new SqlParameter("@RefKey", ToDBNull(filter.RefKey)));
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     if (filter.IsExport)
@@ -421,17 +423,17 @@ namespace TogoFogo.Repository.ServiceCenters
         public async Task<ResponseModel> SaveTechnicianDetails(CallStatusDetailsModel callStatusDetails)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@EMPId", ToDBNull(callStatusDetails.EmpId));
+            SqlParameter param = new SqlParameter("@DeviceId", ToDBNull(callStatusDetails.DeviceId));
             sp.Add(param);            
-            param = new SqlParameter("@DeviceId", ToDBNull(callStatusDetails.DeviceId));
+            param = new SqlParameter("@EMPId", ToDBNull(callStatusDetails.EmpId));
             sp.Add(param);
             param = new SqlParameter("@USER", ToDBNull(callStatusDetails.UserId));
             sp.Add(param);
-            var sql = "USPAssignTechinical @EMPId,@DEVICEID,@USER";
+            var sql = "USPAssignTechinical @DEVICEID,@EMPId,@USER";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
-            if (res.ResponseCode == 0)
+            if (res.ResponseCode == 1)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;

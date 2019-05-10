@@ -121,15 +121,36 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
             {
-                TypeName = "ClientDataTypes",
+                TypeName = "ClientDataType",
                 Value = table
             };
             sp.Add(pararm);
             pararm = new SqlParameter("@User",client.UserId);
             sp.Add(pararm);
             pararm = new SqlParameter("@compId", client.CompanyId);
-            sp.Add(pararm);
+            sp.Add(pararm); 
             var sql = "uploadClientData @CLIENTID,@ServiceTypeId,@DeliveryTypeId, @FileName,@DataTable,@User,@compId";
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            return res;
+        }
+        public async Task<ResponseModel> UploadServiceProviders(ProviderFileModel provider, DataTable table)
+        {
+            var sp = new List<SqlParameter>();
+            var pararm  = new SqlParameter("@FileName", provider.FileName);
+            sp.Add(pararm);
+            pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
+            {
+                TypeName = "ServiceProviders",
+                Value = table
+            };
+            sp.Add(pararm);
+            pararm = new SqlParameter("@User", provider.UserId);
+            sp.Add(pararm);
+            pararm=  new SqlParameter("@compId", ToDBNull(provider.CompanyId));
+            sp.Add(pararm);
+            var sql = "UploadServiceProviders @FileName,@DataTable, @User,@compId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

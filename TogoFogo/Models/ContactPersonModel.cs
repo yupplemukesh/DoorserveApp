@@ -50,7 +50,7 @@ namespace TogoFogo.Models
         public string ConAdhaarFileName { get; set; }
         public string ConAdhaarFileUrl { get; set; }
         public int UserTypeId { get; set; }
-
+        public bool IsSingleCenter { get; set; }
 
 
 

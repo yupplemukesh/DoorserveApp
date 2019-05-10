@@ -73,8 +73,10 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@CompId", ToDBNull(contact.CompanyId));
             sp.Add(param);
+            param = new SqlParameter("@IsSingleCenter", ToDBNull(contact.IsSingleCenter));
+            sp.Add(param);
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITYID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
-                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD,@CompId";
+                "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD,@CompId,@IsSingleCenter";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode==0)
                 res.IsSuccess = true;

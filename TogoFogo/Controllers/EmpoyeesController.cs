@@ -16,10 +16,7 @@ namespace TogoFogo.Controllers
     {
         private readonly IEmployee _employee;
         private readonly DropdownBindController drop;
-
-        private string folderPath;
-      
-
+        private string folderPath;     
         public EmployeesController()
         {
             _employee = new Employee();
@@ -53,9 +50,9 @@ namespace TogoFogo.Controllers
         {
 
             var filter = new FilterModel();
-            if (SessionModel.UserRole.ToLower().Contains("provider"))
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
                 filter.ProviderId = SessionModel.RefKey;
-            if (SessionModel.UserRole.ToLower().Contains("center"))
+            if (SessionModel.UserTypeName.ToLower().Contains("center"))
                 filter.RefKey = SessionModel.RefKey;
             filter.CompId = SessionModel.CompanyId;
             var employee = await _employee.GetAllEmployees(filter);
@@ -76,21 +73,22 @@ namespace TogoFogo.Controllers
             empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            if (SessionModel.UserRole.ToLower().Contains("provider"))
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
             {
-                var ProviderId = SessionModel.RefKey;
-                empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId),"Name","Text");
                 empModel.IsProvider = true;
+                if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                    empModel.ProviderId = SessionModel.RefKey;
+                else
+                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text");
             }
-            else if (SessionModel.UserRole.ToLower().Contains("center"))
+            else if (SessionModel.UserTypeName.ToLower().Contains("center"))
             {
-                empModel.RefKey = SessionModel.RefKey;
-                empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
+                empModel.RefKey = SessionModel.RefKey;              
                 empModel.IsCenter = true;
+                empModel.ProviderList = new SelectList(Enumerable.Empty<SelectList>());
             }
-          else
+            else
                 empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-
             return View(empModel);
 
         }
@@ -122,23 +120,13 @@ namespace TogoFogo.Controllers
             emp.CompanyId = SessionModel.CompanyId;
             if(emp.IsUser)
                 emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
-            if (SessionModel.UserRole.ToLower().Contains("provider"))
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
             {
-                var ProviderId = SessionModel.RefKey;
-                emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(ProviderId), "Name", "Text");
-                emp.IsProvider = true;
-            }
-            else if (SessionModel.UserRole.ToLower().Contains("center"))
-            {
-                emp.RefKey = SessionModel.RefKey;
-                emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
-                emp.IsCenter = true;
-            }
-            else
-            {
-                emp.RefKey = emp.CenterId;
-                emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-            }
+                if (!SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                    emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text");
+
+            }          
+         
             var response = await _employee.AddUpdateDeleteEmployee(emp);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -159,6 +147,20 @@ namespace TogoFogo.Controllers
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+            {
+                empModel.IsProvider = true;
+                if (!SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text");
+            }
+            else if (SessionModel.UserTypeName.ToLower().Contains("center"))
+            {
+                empModel.ProviderList = new SelectList(Enumerable.Empty<SelectList>());
+                empModel.IsCenter = true;
+            }
+            else
+                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+
             return View(empModel);
         }
         [HttpPost]
@@ -213,7 +215,16 @@ namespace TogoFogo.Controllers
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            empModel.Action = 'U';        
+            empModel.Action = 'U';
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+            {              
+                if (!SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text");
+            }
+            else if (SessionModel.UserTypeName.ToLower().Contains("center"))
+                empModel.ProviderList = new SelectList(Enumerable.Empty<SelectList>());
+            else
+                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
             var response = await _employee.AddUpdateDeleteEmployee(empModel);
             TempData["response"] = response;
 

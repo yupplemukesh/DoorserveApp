@@ -1,8 +1,15 @@
 ﻿@model TogoFogo.Models.EmployeeModel
+@using TogoFogo.Models
 <div class="form-group row">
     <div class="col-md-12">
         @if (Model.IsProvider)
         {
+            if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
+            {
+                @Html.HiddenFor(x=>x.ProviderId)
+            }
+            else
+            {
             <div class="col-md-6 col-sm-6">
 
                 <label class=" control-label" for="form-control-9">Service Center</label>
@@ -13,10 +20,12 @@
                 </div>
                 @Html.ValidationMessageFor(x => x.CenterId, "", new { @class = "text-danger" })
             </div>
+            }
+
         }
         @if (Model.IsCenter)
         {
-            @Html.HiddenFor(x=>x.CenterId)
+            @Html.HiddenFor(x => x.CenterId)
         }
         @if (!Model.IsProvider && !Model.IsCenter)
         {
@@ -52,7 +61,7 @@
             </div>
             @Html.ValidationMessageFor(x => x.EmpCode, "", new { @class = "text-danger" })
         </div>
-        
+
     </div>
 </div>
 

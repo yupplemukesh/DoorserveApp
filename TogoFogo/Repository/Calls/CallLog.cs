@@ -56,7 +56,7 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@DEVICEMODELID", ToDBNull(newCall.DeviceModalId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@SLN", ToDBNull(newCall.DeviceSN));
+            pararm = new SqlParameter("@SLN", ToDBNull(newCall.DeviceSn));
             sp.Add(pararm);
             pararm = new SqlParameter("@IMEI1", ToDBNull(newCall.DeviceIMEIOne));
             sp.Add(pararm);

@@ -287,9 +287,9 @@ namespace TogoFogo.Controllers
             int UserId = SessionModel.UserId;
             Guid? refKey = null;
             Guid? companyId = null;
-            if (SessionModel.UserRole.ToLower().Contains("super admin"))
+            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
                 UserId = 0;
-            else if(SessionModel.UserRole.ToLower().Contains("company admin"))
+            else if(SessionModel.UserTypeName.ToLower().Contains("company"))
                 companyId = SessionModel.CompanyId;
             else
                 refKey = SessionModel.RefKey;

@@ -158,6 +158,9 @@ namespace TogoFogo.Repository.ServiceProviders
                 cat = cat.TrimStart(',');
                 cat = cat.TrimEnd(',');
             }
+            if (provider.Organization.IsSingleCenter == null)
+                provider.Organization.IsSingleCenter = false;
+
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@PROVIDERID",ToDBNull(provider.ProviderId));          
             sp.Add(param);
@@ -213,10 +216,11 @@ namespace TogoFogo.Repository.ServiceProviders
             sp.Add(param);
             param = new SqlParameter("@CompanyId", ToDBNull(provider.CompanyId));
             sp.Add(param);
-
+            param = new SqlParameter("@IsSingleCenter", ToDBNull(provider.Organization.IsSingleCenter));
+            sp.Add(param);
             var sql = "USPInsertUpdateDeleteProvider @PROVIDERID,@PROCESSID,@PROVIDERCODE,@PROVIDERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password,@CompanyId";
+                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password,@CompanyId,@IsSingleCenter";
        
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

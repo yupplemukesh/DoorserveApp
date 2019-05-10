@@ -49,6 +49,6 @@ namespace TogoFogo.Models
         public SelectList AplicationTaxTypeList { get; set; }
         public char Action { get; set; }
         public int UserId { get; set; }
-      
+        public bool IsSingleCenter { get; set; }
     }
 }

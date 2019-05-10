@@ -217,7 +217,7 @@ namespace TogoFogo.Controllers
                 ProductModel pm = new ProductModel {
                     _BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text"),
                     _Category= new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
-                    _ProductColor= new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text"),
+                    _ProductColor= new SelectList(dropdown.BindProductColor(null), "Value", "Text"),
                     _SubCat= new SelectList(Enumerable.Empty<SelectList>())
 
                 };               
@@ -329,7 +329,7 @@ namespace TogoFogo.Controllers
                 ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
                 ViewBag.SubCategoryId = new SelectList(Enumerable.Empty<SelectListItem>());
                 ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
+                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
             }
             else
             {

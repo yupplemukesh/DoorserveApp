@@ -79,32 +79,32 @@
 
     @if (Model.Param == "A")
     {
-        using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
-        {
 
-            @Html.HiddenFor(x => x.Employee.EmpId)
-            @Html.HiddenFor(x => x.DeviceId)
-            <div class="form-horizontal">
-                <div class="panel-body p-b-0 p-t-0">
-                    <div class="panel-heading p-l-0 p-b-0">
+        <div class="form-horizontal">
+            <div class="panel-body p-b-0 p-t-0">
+                <div class="panel-heading p-l-0 p-b-0">
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
+        using (Html.BeginForm("SavetechnicianDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
+        {
 
+            @Html.HiddenFor(x => x.Employee.EmpId)
+            @Html.HiddenFor(x => x.DeviceId)
 
             <div class="form-group p-l-10" id="DropDown2">
                 <div class="col-sm-3"> <h4>Select Technician</h4></div>
                 <div class="col-sm-5">
                     @*@Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", "Text", "Value", new { @class = "form-control", id = "DropDown" })*@
 
-                    @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), new { @class = "form-control", id = "DropDown" })
+                    @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
 
                     @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
                 </div>
@@ -270,6 +270,8 @@
                   $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
                   $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
                   $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
+      
+                  if (response.Vehicle.InsuranceExpairyDate !=null)
                   $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
                   console.log(response);
               },

@@ -41,7 +41,7 @@ namespace TogoFogo.Controllers
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
             var filter = new FilterModel { CompId = SessionModel.CompanyId };
-            if (SessionModel.UserRole.ToLower().Contains("client"))
+            if (SessionModel.UserTypeName.ToLower().Contains("client"))
             {
                 filter.ClientId = SessionModel.RefKey;
                 IsClient = true;
@@ -115,6 +115,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
+
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Create()
         {
@@ -127,7 +128,6 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
-
 
             clientDataModel.CompanyId = SessionModel.CompanyId;
             clientDataModel.UserId = SessionModel.UserId;

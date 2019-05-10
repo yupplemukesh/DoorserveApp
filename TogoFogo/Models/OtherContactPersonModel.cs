@@ -20,6 +20,7 @@ namespace TogoFogo.Models
         public override int? StateId { get; set; }
         [Required]
         public override int ?CityId { get; set; }
+      
        
     }
 }

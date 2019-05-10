@@ -43,8 +43,8 @@ namespace TogoFogo.Models
         public string Department { get; set; }
         [Required]
         [DisplayName("Center Name")]
-        public Guid CenterId { get; set; }
-        public Guid ProviderId { get; set; }
+        public Guid? CenterId { get; set; }
+        public Guid? ProviderId { get; set; }
         [Required]
         [DisplayName("Designation Name")]
         public int DesignationId { get; set; }

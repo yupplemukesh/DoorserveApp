@@ -117,24 +117,32 @@
         </div>
     }
 </div>
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgPan" role="dialog" tabindex="-1" target="_blank">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body mb-0 p-0">
-                <img src="@Model.OrgPanFileUrl" alt="" style="width:100%">
-            </div>
 
+<div class="row form-group">
+    <label class="col-md-3 " for="textinput">Is this service provider itself a service center?</label>
+    <div class="col-md-9">
+            @Html.CheckBoxFor(x => x.IsSingleCenter)
         </div>
     </div>
-</div>
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgGST" role="dialog" tabindex="-1" target="_blank">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body mb-0 p-0">
-                <img src="@Model.OrgGSTFileUrl" alt="" style="width:100%">
-            </div>
 
+    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgPan" role="dialog" tabindex="-1" target="_blank">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body mb-0 p-0">
+                    <img src="@Model.OrgPanFileUrl" alt="" style="width:100%">
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
+    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgGST" role="dialog" tabindex="-1" target="_blank">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body mb-0 p-0">
+                    <img src="@Model.OrgGSTFileUrl" alt="" style="width:100%">
+                </div>
+
+            </div>
+        </div>
+    </div>
 

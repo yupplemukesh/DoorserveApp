@@ -29,18 +29,19 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Service_Provider)]
         public async Task<ActionResult> Index()
         {
-
             var filter = new FilterModel();
+
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+                filter.ProviderId = SessionModel.RefKey;
+
             filter.CompId = SessionModel.CompanyId;
             filter.IsExport = false;
             var calls = await _customerSupport.GetASCCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
             calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-            Guid? providerId = null;
-            if (SessionModel.UserRole.ToLower().Contains("provider"))
-                providerId = SessionModel.RefKey;
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(providerId), "Name", "Text") };
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text") };
             return View(calls);
         }
         [HttpPost]

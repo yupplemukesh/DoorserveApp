@@ -13,6 +13,10 @@ using TogoFogo.Repository;
 using System.Reflection;
 using TogoFogo.Repository.ServiceProviders;
 using TogoFogo.Filters;
+using System.Configuration;
+using System.Data;
+using System.Data.OleDb;
+using TogoFogo.Repository.ImportFiles;
 
 namespace TogoFogo.Controllers
 {
@@ -24,6 +28,7 @@ namespace TogoFogo.Controllers
         private readonly IContactPerson _contactPerson;
         private readonly string _path = "/UploadedImages/Providers/";
         private readonly DropdownBindController dropdown;
+        private readonly IUploadFiles _RepoUploadFile;
 
         public ManageServiceProvidersController()
         {
@@ -31,6 +36,7 @@ namespace TogoFogo.Controllers
              dropdown= new DropdownBindController();
             _bank = new Bank();
             _contactPerson = new ContactPerson();
+            _RepoUploadFile = new UploadFiles();
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Provider)]
@@ -162,10 +168,7 @@ namespace TogoFogo.Controllers
                                         BindingFlags.NonPublic, null, mpc,
                                         new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
             }
-
-            /* contact.UserID = Convert.ToInt32(Session["User_ID"]);
-             var response = await _contactPerson.AddUpdateContactDetails(contact);
-             TempData["response"] = response;*/
+         
             TempData["response"] = response;
 
             if (TempData["Provider"] != null)
@@ -557,8 +560,120 @@ namespace TogoFogo.Controllers
                 return View(provider);
             }
         }
+        [HttpPost]
+        private string SaveFile(HttpPostedFileBase file, string folderName)
+        {
+            try
+            {
+                string path = Server.MapPath("~/Files/" + folderName);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileFullName = file.FileName;
+                var fileExtention = Path.GetExtension(fileFullName);
+                var fileName = Guid.NewGuid();
+                var savedFileName = fileName + fileExtention;
+                file.SaveAs(Path.Combine(path, savedFileName));
+                return path + "\\" + savedFileName;
+            }
+            catch (Exception ex)
+            {
 
-       
-      
+                return ViewBag.Message = ex.Message;
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> ImportProviders(ProviderFileModel provider)
+        {
+            provider.CompanyId = SessionModel.CompanyId;
+            provider.UserId = SessionModel.UserId;
+           
+            if (provider.DataFile != null)
+            {
+                string excelPath = SaveFile(provider.DataFile, "ProviderData");
+                string conString = string.Empty;
+                string extension = Path.GetExtension(provider.DataFile.FileName);
+                switch (extension)
+                {
+                    case ".xls": //Excel 97-03
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx": //Excel 07 or higher
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+
+                }
+
+                conString = string.Format(conString, excelPath);
+                DataTable dtExcelData = new DataTable();
+                using (OleDbConnection excel_con = new OleDbConnection(conString))
+                {
+                    excel_con.Open();
+
+                    string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                    dtExcelData.Columns.AddRange(new DataColumn[29] {
+                new DataColumn("Process Name", typeof(string)),
+                new DataColumn("Service Provider Code", typeof(string)),
+                new DataColumn("Service Provider Name", typeof(string)),
+                new DataColumn("Service Delivery Type", typeof(string)),
+                new DataColumn("Supported Device Category", typeof(string)),
+                new DataColumn("Service Type", typeof(string)),
+                new DataColumn("Organization Name", typeof(string)),
+                new DataColumn("Organization Code", typeof(string)),
+                new DataColumn("Organization IEC Number", typeof(string)),
+                new DataColumn("Statutory Type", typeof(string)),
+                new DataColumn("Applicable Tax Type", typeof(string)),
+                new DataColumn("GST Category", typeof(string)),
+                new DataColumn("GST Number", typeof(string)),
+                 new DataColumn("PAN Card Number", typeof(string)),
+                new DataColumn("IsServiceCenter", typeof(string)),
+                new DataColumn("Contact Name", typeof(string)),
+                new DataColumn("Contact Mobile", typeof(string)),
+                new DataColumn("Contact Email", typeof(string)),
+                new DataColumn("Contact PAN", typeof(string)),
+                new DataColumn("Contact Voter Id", typeof(string)),
+                new DataColumn("Contact Adhaar", typeof(string)),
+                new DataColumn("Address Type", typeof(string)),
+                new DataColumn("Country", typeof(string)),
+                new DataColumn("State", typeof(string)),
+                  new DataColumn("City", typeof(string)),
+                     new DataColumn("Locality", typeof(string)),
+                  new DataColumn("Near By Location", typeof(string)),
+                   new DataColumn("Pin Code", typeof(string)),
+                     new DataColumn("IsUser", typeof(string))
+                });
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Process Name], [Service Provider Name],[Service Delivery Type],[Supported Device Category]," +
+                        "[Service Type],[Organization Name],[Organization Code],[Organization IEC Number],[Statutory Type]," +
+                        "[Applicable Tax Type],[GST Category],[GST Number],[PAN Card Number],[IsServiceCenter] ," +
+                        "[Contact Name],[Contact Email],[Contact PAN],[Contact Voter Id],[Contact Adhaar], " +
+                        " [Address Type],[Country],[State],[City],[Address],[Locality],[Near By Location], " +
+                        " [Pin Code], [IsUser] FROM [" + sheet1 + "]", excel_con))
+                    {
+                        oda.Fill(dtExcelData);
+                    }
+                    excel_con.Close();
+
+                }
+                try
+                {
+
+                    var response = await _RepoUploadFile.UploadServiceProviders(provider, dtExcelData);
+                    if (!response.IsSuccess)
+                        System.IO.File.Delete(excelPath);
+                    TempData["response"] = response;
+                    return RedirectToAction("index");
+                }
+                catch (Exception ex)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(excelPath)))
+                        System.IO.File.Delete(Server.MapPath(excelPath));
+                    return RedirectToAction("index");
+
+                }
+            }
+            return RedirectToAction("index");
+
+        }      
     }
 }

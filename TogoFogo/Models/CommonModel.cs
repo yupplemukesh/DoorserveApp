@@ -14,17 +14,53 @@ namespace TogoFogo
     public static class CommonModel
     {
                 
-        public static async Task<List<CheckBox>> GetEmployeeList(Guid? EmpId)
+        public static async Task<List<CheckBox>> GetEmployeeList(Guid? RefKey)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var param = new SqlParameter("@empId", DBNull.Value);
+                var param = new SqlParameter("@RefKey", DBNull.Value);
 
                 var query = "select EMPId Name ,p.FirstName+' '+p.LastName Text from MSTEMPLOYEES emp join tblContactPersons p on p.RefKey = emp.EMPId where emp.IsActive = 1";
-                if (EmpId != null)
+                if (RefKey != null)
                 {
-                    query = query + " and p.RefKey = @empId";
-                    param.Value = EmpId;
+                    query = query + " and emp.RefKey = @RefKey";
+                    param.Value = RefKey;
+
+                }
+                var _employee = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                return _employee;
+            }
+        }
+
+        public static async Task<List<CheckBox>> GetEmployeeListByCompany(Guid? CompId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var param = new SqlParameter("@CompId", DBNull.Value);
+
+                var query = "select EMPId Name ,p.FirstName+' '+p.LastName Text from MSTEMPLOYEES emp join tblContactPersons p on p.RefKey = emp.EMPId where emp.IsActive = 1";
+                if (CompId != null)
+                {
+                    query = query + " and emp.companyId= @CompId";
+                    param.Value = CompId;
+
+                }
+                var _employee = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                return _employee;
+            }
+        }
+
+        public static async Task<List<CheckBox>> GetEmployeeByProvider(Guid? CompId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var param = new SqlParameter("@providerId", DBNull.Value);
+
+                var query = "select EMPId Name ,p.FirstName+' '+p.LastName Text from MSTEMPLOYEES emp join tblContactPersons p on p.RefKey = emp.EMPId where emp.IsActive = 1";
+                if (CompId != null)
+                {
+                    query = query + " and emp.providerId= @providerId";
+                    param.Value = CompId;
 
                 }
                 var _employee = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();

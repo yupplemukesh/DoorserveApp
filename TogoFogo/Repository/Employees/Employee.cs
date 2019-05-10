@@ -155,10 +155,12 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@CompanyId", ToDBNull(employee.CompanyId));
             sp.Add(param);
+            param = new SqlParameter("@ProviderId", ToDBNull(employee.ProviderId));
+            sp.Add(param);
             var sql = "USPInsertUpdateEMPDetails @EMPID,@EMPCode,@EMPFNAME,@EMPLName,@EMPPhoto,@EMPMobileNo ,@EMPEmail ,@EMPPAN ,@EMPPANFILENAME,@EMPVOTERID," +
                         "@EMPVOTERIDFILENAME,@EMPADHAAR,@EMPADHAARFILENAME,@contactId,@DesignationId, @DepartmentId ,@EMPDOJ , @EMPDOB , @USER,@IsActive" +
                         ",@IsPickUp,@AddressTypeId,@CityId,@StateId,@CountryId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel,@VehicleBrand,@DrivingLicense,@InsuranceExpairyDate,@EmployeeTypeId," +
-                        "@ISUSER,@DefautPwd,@CompanyId";
+                        "@ISUSER,@DefautPwd,@CompanyId,@ProviderId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

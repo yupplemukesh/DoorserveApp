@@ -10,7 +10,19 @@
     var count2 = 0;
 }
 
+@helper CustomRenderingOfColumn(TogoFogo.Models.ServiceCenter.CallDetailsModel  calls)
+{
+if (calls.ServiceCenterId != null)
+{
+   @Html.ActionLink(calls.ServiceCenterName, "EDIT", "ManageServiceCenters", new { id = calls.ServiceCenterId }, null)    
 
+}
+else
+{
+      @Html.Raw("");
+
+    }
+}
 <div>
     <div class="panel-heading">
         <div class="row">
@@ -84,6 +96,7 @@
                                 <div class="code-cut">
                                     @Html.Grid(Model.PendingCalls).Columns(columns =>
                                {
+                         
                                    columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"pendingCalls\")'  />")
                                    .Encoded(false).Sanitized(false).SetWidth(30)
                                    .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
@@ -94,29 +107,30 @@
                                   {
                                   count++;
                                   return @<text> @count </text>;
-         });
-          columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
-          columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-          columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
-          columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-          columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-          columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-          columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-          columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-          columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-          columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-          columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-          columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-          columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-          columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-          columns.Add(c => c.PurchaseFrom).Titled("Device Purchase From").Filterable(true);
-          columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
-                                                                             .Filterable(true).Sanitized(false).Encoded(false).
-                                                                              RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "EDIT", "ManageServiceCenters", new { id = model.ServiceCenterId }, null));
-          columns.Add().Titled("Action")
-                                               .Filterable(true).Sanitized(false).Encoded(false).
-                                                RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "P" }));
-      }).WithPaging(10).Sortable(true)
+                                  });
+                                   columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                   columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+                                   columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+                                   columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                                   columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                   columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                   columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                   columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                   columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                   columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                   columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                   columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                   columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                   columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+                                   columns.Add(c => c.PurchaseFrom).Titled("Device Purchase From").Filterable(true);
+                                   columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+                                                           .Filterable(true).Sanitized(false).Encoded(false).
+                                                            RenderValueAs(o => CustomRenderingOfColumn(o));
+
+                                   columns.Add().Titled("Action")
+                                                                        .Filterable(true).Sanitized(false).Encoded(false).
+                                                                         RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "P" }));
+                               }).WithPaging(10).Sortable(true)
                                 </div>
 
                             </div>
@@ -232,32 +246,32 @@
                                   {
                                   count1++;
                                   return @<text> @count1 </text>;
- });
-  columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
-  columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-  columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
-  columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-  columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-  columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-  columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-  columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-  columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-  columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-  columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-  columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-  columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-  columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-  columns.Add(c => c.PurchaseFrom).Titled("Device Purchase From").Filterable(true);
-  columns.Add(model => model.ProviderName).Titled("Provider Name")
-  .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink(model.ProviderName, "EDIT", "ManageServiceProviders", new { id = model.providerId }, null));
-  columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
-  .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "EDIT", "ManageServiceCenters", new { id = model.ServiceCenterId }, null));
-  columns.Add().Titled("Action")
-  .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
-}).WithPaging(10).Sortable(true)
+                                  });
+                                   columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                   columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+                                   columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+                                   columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                                   columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                   columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                   columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                   columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                   columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                   columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                   columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                   columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                   columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                   columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+                                   columns.Add(c => c.PurchaseFrom).Titled("Device Purchase From").Filterable(true);
+                                   columns.Add(model => model.ProviderName).Titled("Provider Name")
+                                   .Filterable(true).Sanitized(false).Encoded(false).
+                                   RenderValueAs(model => Html.ActionLink(model.ProviderName, "EDIT", "ManageServiceProviders", new { id = model.providerId }, null));
+                                   columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+                                   .Filterable(true).Sanitized(false).Encoded(false).
+                               RenderValueAs(o => CustomRenderingOfColumn(o));
+                                   columns.Add().Titled("Action")
+      .Filterable(true).Sanitized(false).Encoded(false).
+      RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
+                               }).WithPaging(10).Sortable(true)
                                 </div>
                             </div>
                         </div>
@@ -293,32 +307,32 @@
                                   {
                                   count2++;
                                   return @<text> @count2 </text>;
- });
-  columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
-  columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-  columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
-  columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-  columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-  columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-  columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-  columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-  columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-  columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-  columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-  columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-  columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-  columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-  columns.Add(c => c.PurchaseFrom).Titled("Device Purchase From").Filterable(true);
-  columns.Add(model => model.ProviderName).Titled("Provider Name")
-  .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink(model.ProviderName, "EDIT", "ManageServiceProviders", new { id = model.providerId }, null));
-  columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
-  .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "EDIT", "ManageServiceCenters", new { id = model.ServiceCenterId }, null));
-  columns.Add().Titled("Technician Name")
-   .Filterable(true).Sanitized(false).Encoded(false).
-    RenderValueAs(model => Html.ActionLink(model.TechnicianName, "Edit", "Employees", new { empId = model.EmpId }, null));
-}).WithPaging(10).Sortable(true)
+     });
+      columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+      columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+      columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+      columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+      columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+      columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+      columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+      columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+      columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+      columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+      columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+      columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+      columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+      columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+      columns.Add(c => c.PurchaseFrom).Titled("Device Purchase From").Filterable(true);
+      columns.Add(model => model.ProviderName).Titled("Provider Name")
+      .Filterable(true).Sanitized(false).Encoded(false).
+      RenderValueAs(model => Html.ActionLink(model.ProviderName, "EDIT", "ManageServiceProviders", new { id = model.providerId }, null));
+      columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+      .Filterable(true).Sanitized(false).Encoded(false).
+      RenderValueAs(model => CustomRenderingOfColumn(model));
+      columns.Add().Titled("Technician Name")
+       .Filterable(true).Sanitized(false).Encoded(false).
+        RenderValueAs(model => Html.ActionLink(model.TechnicianName, "Edit", "Employees", new { empId = model.EmpId }, null));
+  }).WithPaging(10).Sortable(true)
                                 </div>
                             </div>
 
@@ -547,7 +561,6 @@
         });
 
         $("#Employee_EmpId").change(function () {
-            debugger;
             var Id = $("#Employee_EmpId").val();
 
             $.ajax({
@@ -573,6 +586,7 @@
                     $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
                     $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
                     $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
+                    if(response.Vehicle.InsuranceExpairyDate !=null)
                     $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
                     console.log(response);
                 },

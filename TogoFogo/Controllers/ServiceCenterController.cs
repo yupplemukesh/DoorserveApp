@@ -301,16 +301,18 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> AcceptCalls()
         {
-            var filter = new FilterModel { CompId = SessionModel.CompanyId,IsExport=false };
-            var calls = await _centerRepo.GetCallDetails(filter);
+            var filter = new FilterModel { CompId = SessionModel.CompanyId,IsExport=false};
+            if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                filter.ProviderId = SessionModel.RefKey;
+            if (SessionModel.UserTypeName.ToLower().Contains("center"))
+                filter.RefKey = SessionModel.RefKey;
 
-            calls.CallDetails = new Models.ServiceCenter.CallDetailsModel();
-            calls.Employee = new EmployeeModel();
-         
-            Guid? CenterId = null;
-            if (Session["User"].ToString().ToLower().Contains("center"))
-                CenterId = SessionModel.RefKey;
-            calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CenterId), "Name", "Text");
+            var calls = await _centerRepo.GetCallDetails(filter);
+            calls.Employee = new EmployeeModel();        
+            if (SessionModel.UserTypeName.ToLower().Contains("center"))
+            calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
+            if(SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
             return View(calls);
         }
       
@@ -379,20 +381,24 @@ namespace TogoFogo.Controllers
             CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
-            CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address Type list"), "Value", "Text");
+            CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CallDetailsModel.StateList = new SelectList(dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
             CallDetailsModel.CityList = new SelectList(dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");
             CallDetailsModel.Param = Param;
+            CallDetailsModel.StatusId = 11;
             if (Param == "A")
             {
+                CallDetailsModel.Employee = new EmployeeModel();
 
-
+                if (SessionModel.UserTypeName.ToLower().Contains("center"))
+                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
                 //var list = await CommonModel.GetEmployeeList(user.CompanyId);
-                CallDetailsModel.Employee = new EmployeeModel
-                {
-                    EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.CompanyId), "Name", "Text")
-                };
+                else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
+                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
+                else
+                CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
+                
 
             }
 
@@ -450,21 +456,12 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> SavetechnicianDetails(CallStatusDetailsModel callStatusDetails)
         {
-            try
-            {
+           
 
                 callStatusDetails.UserId = SessionModel.UserId;
                 var response = await _centerRepo.SaveTechnicianDetails(callStatusDetails);
                 TempData["response"] = response;
-                return Json("Ok", JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
-                TempData["response"] = response;
-                TempData.Keep("response");
-                return Json("ex", JsonRequestBehavior.AllowGet);
-            }
+            return RedirectToAction("AcceptCalls");            
 
         }
         [HttpGet]
