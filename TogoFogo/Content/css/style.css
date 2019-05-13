@@ -23722,3 +23722,8 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     display: block;
     text-align: center ;
 }
+
+.dis-inline {
+    display:inline;
+    
+}

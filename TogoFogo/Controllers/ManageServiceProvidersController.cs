@@ -32,27 +32,27 @@ namespace TogoFogo.Controllers
 
         public ManageServiceProvidersController()
         {
-            _provider = new Provider() ;
-             dropdown= new DropdownBindController();
+            _provider = new Provider();
+            dropdown = new DropdownBindController();
             _bank = new Bank();
             _contactPerson = new ContactPerson();
             _RepoUploadFile = new UploadFiles();
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Provider)]
-        public  async Task<ActionResult> Index()
+        public async Task<ActionResult> Index()
         {
 
 
             var filter = new FilterModel { CompId = SessionModel.CompanyId };
-            var Providers = await _provider.GetProviders(filter);          
+            var Providers = await _provider.GetProviders(filter);
             return View(Providers);
         }
-        private string SaveImageFile(HttpPostedFileBase file,string folderName)
+        private string SaveImageFile(HttpPostedFileBase file, string folderName)
         {
             try
             {
-                string path = Server.MapPath("~/UploadedImages/Providers/"+ folderName);
+                string path = Server.MapPath("~/UploadedImages/Providers/" + folderName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -119,7 +119,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
-       
+
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
@@ -168,7 +168,7 @@ namespace TogoFogo.Controllers
                                         BindingFlags.NonPublic, null, mpc,
                                         new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
             }
-         
+
             TempData["response"] = response;
 
             if (TempData["Provider"] != null)
@@ -205,7 +205,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
-   
+
             provider.CompanyId = SessionModel.CompanyId;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
@@ -229,63 +229,63 @@ namespace TogoFogo.Controllers
                 else
                     return View("Edit", provider);
             }
-            if (TempData["provider"] != null )
+            if (TempData["provider"] != null)
             {
-                    provider = cltns;
-             
-                    string _servicetype = "";
-                    foreach (var item in provider.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
+                provider = cltns;
 
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
+                string _servicetype = "";
+                foreach (var item in provider.ServiceList)
+                {
+                    if (item.IsChecked)
+                        _servicetype = _servicetype + "," + item.Value;
 
-                    string __deliveryType = "";
-                    foreach (var item in provider.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
+                }
+                _servicetype = _servicetype.TrimEnd(',');
+                _servicetype = _servicetype.TrimStart(',');
 
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    provider.ServiceTypes = _servicetype;
-                    provider.ServiceDeliveryTypes = __deliveryType;
-               
+                string __deliveryType = "";
+                foreach (var item in provider.DeliveryServiceList)
+                {
+                    if (item.IsChecked)
+                        __deliveryType = __deliveryType + "," + item.Value;
+
+                }
+                __deliveryType = __deliveryType.TrimStart(',');
+                __deliveryType = __deliveryType.TrimEnd(',');
+                provider.ServiceTypes = _servicetype;
+                provider.ServiceDeliveryTypes = __deliveryType;
+
             }
             else
             {
-              
-                    string _servicetype = "";
-                    foreach (var item in provider.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
 
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
+                string _servicetype = "";
+                foreach (var item in provider.ServiceList)
+                {
+                    if (item.IsChecked)
+                        _servicetype = _servicetype + "," + item.Value;
 
-                    string __deliveryType = "";
-                    foreach (var item in provider.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
+                }
+                _servicetype = _servicetype.TrimEnd(',');
+                _servicetype = _servicetype.TrimStart(',');
 
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    provider.ServiceTypes = _servicetype;
-                    provider.ServiceDeliveryTypes = __deliveryType;
-                
+                string __deliveryType = "";
+                foreach (var item in provider.DeliveryServiceList)
+                {
+                    if (item.IsChecked)
+                        __deliveryType = __deliveryType + "," + item.Value;
+
+                }
+                __deliveryType = __deliveryType.TrimStart(',');
+                __deliveryType = __deliveryType.TrimEnd(',');
+                provider.ServiceTypes = _servicetype;
+                provider.ServiceDeliveryTypes = __deliveryType;
+
             }
-            provider.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
+            provider.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
             provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-            provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");          
+            provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
@@ -295,28 +295,28 @@ namespace TogoFogo.Controllers
 
             try
             {
-                    provider.Activetab = "tab-1";
-                    provider.CreatedBy = SessionModel.UserId;
-        
-                    var response = await _provider.AddUpdateDeleteProvider(provider);
-                    _provider.Save();
-                    provider.ProviderId = new Guid(response.result);
+                provider.Activetab = "tab-1";
+                provider.CreatedBy = SessionModel.UserId;
+
+                var response = await _provider.AddUpdateDeleteProvider(provider);
+                _provider.Save();
+                provider.ProviderId = new Guid(response.result);
                 TempData["response"] = response;
                 if (provider.action == 'I')
                 {
                     provider.Activetab = "tab-2";
                     TempData["provider"] = provider;
                     TempData.Keep("provider");
-                    return View("Create",provider);
+                    return View("Create", provider);
                 }
-               else
+                else
                     return RedirectToAction("Index");
-                                                                                         
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(provider.action=='I')
-                return View("Create", provider);
+                if (provider.action == 'I')
+                    return View("Create", provider);
                 else
                     return View("Edit", provider);
             }
@@ -324,16 +324,16 @@ namespace TogoFogo.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider,OrganizationModel org)
+        public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
         {
 
             var cltns = TempData["provider"] as ServiceProviderModel;
             if (TempData["provider"] != null)
             {
                 provider = cltns;
-                provider.Organization = org;                
+                provider.Organization = org;
             }
-            else          
+            else
                 provider.Organization = org;
 
             if (provider.Organization.OrgGSTNumberFilePath != null && provider.Organization.OrgGSTFileName != null)
@@ -371,7 +371,7 @@ namespace TogoFogo.Controllers
                     provider.Activetab = "tab-3";
                     TempData["provider"] = provider;
                     TempData.Keep("provider");
-                    return View("Create",provider);
+                    return View("Create", provider);
 
                 }
                 else
@@ -383,8 +383,8 @@ namespace TogoFogo.Controllers
             catch (Exception ex)
             {
                 if (provider.action == 'I')
-                    return View("Create",provider);
-                 else
+                    return View("Create", provider);
+                else
                     return RedirectToAction("Index");
             }
         }
@@ -393,7 +393,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ServiceProviderModel provider)
         {
-  
+
             if (provider.IsUser && !string.IsNullOrEmpty(provider.Password))
                 provider.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(provider.Password, true);
 
@@ -406,8 +406,8 @@ namespace TogoFogo.Controllers
                 cltns.IsUser = provider.IsUser;
                 cltns.UserName = provider.UserName;
                 cltns.Password = provider.Password;
-                provider = cltns;               
-            }                    
+                provider = cltns;
+            }
             try
             {
 
@@ -417,8 +417,8 @@ namespace TogoFogo.Controllers
                 _provider.Save();
                 provider.ProviderId = new Guid(response.result);
                 TempData["response"] = response;
-                TempData.Keep("response");              
-               return RedirectToAction("Index");
+                TempData.Keep("response");
+                return RedirectToAction("Index");
 
             }
             catch (Exception ex)
@@ -447,10 +447,10 @@ namespace TogoFogo.Controllers
             Provider.Path = _path;
             Provider.CompanyId = SessionModel.CompanyId;
             var processes = await CommonModel.GetProcesses();
-                Provider.ProcessList = new SelectList(processes, "Value", "Text");
+            Provider.ProcessList = new SelectList(processes, "Value", "Text");
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
-           
+
             Provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
@@ -458,10 +458,10 @@ namespace TogoFogo.Controllers
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Provider.ServiceList = await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId);
-            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);        
-                        
+            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
+
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
-           
+
             Provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Provider.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
@@ -508,14 +508,14 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(ServiceProviderModel provider, OrganizationModel org)
         {
-            
+
             try
             {
 
                 provider.Organization = new OrganizationModel();
                 if (provider.Activetab.ToLower() == "tab-1")
                 {
-                   
+
                     string _servicetype = "";
                     foreach (var item in provider.ServiceList)
                     {
@@ -541,22 +541,22 @@ namespace TogoFogo.Controllers
                 }
                 else if (provider.Activetab.ToLower() == "tab-2")
                     provider.Organization = org;
-                
-                    provider.CreatedBy = SessionModel.UserId;
-                    var response = await _provider.AddUpdateDeleteProvider(provider);
-                    _provider.Save();
-                    // TODO: Add insert logic here
-                    TempData["response"] = "Edited Successfully";
 
-                    // TODO: Add update logic here
+                provider.CreatedBy = SessionModel.UserId;
+                var response = await _provider.AddUpdateDeleteProvider(provider);
+                _provider.Save();
+                // TODO: Add insert logic here
+                TempData["response"] = "Edited Successfully";
 
-                    return RedirectToAction("index");
-                
-               
+                // TODO: Add update logic here
+
+                return RedirectToAction("index");
+
+
             }
             catch
             {
-                
+
                 return View(provider);
             }
         }
@@ -685,5 +685,54 @@ namespace TogoFogo.Controllers
         }
 
 
+
+        public async Task<FileContentResult> ExportToExcel()
+        {
+
+            string[] columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName","ServiceDeliveryType","SupportedDeviceCategory",
+                                "ServiceType","OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PaNCardNumber",
+                    "IsServiceCenter","ContactName","ContactMobile","ContactEmail","Contact PAN","ContactVoterId","ContactAdhaar",
+                    "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser"
+            };
+            var providerData = new List<serviceProviderData> { new serviceProviderData
+                {
+                    ProcessName = "OEM Installation",
+                    ServiceProviderCode = "SP000005",
+                    ServiceProviderName="Ambica services",
+                    ServiceDeliveryType="On Site",
+                    SupportedDeviceCategory="Air Conditioner",
+                    ServiceType="Installation",
+                    OrganizationName="Ambica Service PVT LTD",
+                    OrganizationCode="ORG000015",
+                    OrganizationIECNumber="IEC55588455",
+                StatutoryType="Private Limited",
+                ApplicableTaxType="Indian GST",
+                GSTCategory="Services",
+                GSTNumber="33ABCDE1234E1ZI",
+                PANCardNumber="AYJPK5904C",
+                IsServiceCenter ="Yes",
+                ContactName="Gaurab Sharma",
+                ContactMobile="8557854455",
+                ContactEmail="gaurab@sharma.com",
+                ContactPAN="AYJP5904C",
+               AddressType="Home",
+               Country="India",
+               State="Uttar Pradesh",
+               City="GAUTAM BUDDHA NAGAR",
+               Address="Address",
+               Locality="Noida",
+               NearByLocation="Kailash Hospital",
+               PinCode="201301",
+               IsUser="No",
+
+
+
+
+
+                }};
+            byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+
+        }
     }
 }

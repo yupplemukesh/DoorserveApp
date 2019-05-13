@@ -16,27 +16,35 @@
                     @if (Permissions.Rights.ExcelExport)
                     {
 
-                        <button class="btn btn-primary template">
-                            template
-                        </button>
+                        using (Html.BeginForm("ExportToExcel", "ManageServiceProviders", FormMethod.Get, new {@class="dis-inline" }))
+                        {
+
+
+                                <button type="submit" class="btn btn-primary"> Template</button>
+                    
+                        }
 
                         <button class="btn btn-primary excel">
                             Export Excel
                         </button>
 
 
+
                     }
                     @if (Permissions.Rights.Create)
                     {
+
+
+                        <a href="#" data-target="#UploadModel" data-toggle="modal" class="btn btn-primary">
+                            Import
+
+                        </a>
                         <a class="btn btn-primary" href="@Url.Action("Create", "ManageServiceProviders")">
                             <span>
                                 Add ASP
                             </span>
                         </a>
 
-                        <a href="#"  data-target="#UploadModel" data-toggle="modal" class= "btn btn-primary">Import
-                    
-                    </a>
 
                     }
 

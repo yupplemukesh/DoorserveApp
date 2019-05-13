@@ -82,7 +82,24 @@ namespace TogoFogo
                                     CellText = "CallId";
                            if(columnsToTake.Contains(CellText))
                             {
-                                if (CellText.Contains("DOP") == true)
+                                if(CellText.Contains("IsUser"))
+                                    item.Value = "IsUser";
+
+                                else if(CellText.Contains("IsServiceCenter"))
+                                    item.Value = "IsServiceCenter";
+                                else if (CellText.Contains("GSTNumber"))
+                                    item.Value = "GST Number";
+                                else if (CellText.Contains("GSTCategory"))
+                                    item.Value = "GST Category";
+                                else if (CellText.Contains("OrganizationIECNumber"))
+                                    item.Value = "Organization IEC Number";
+                                else if (CellText.Contains("PANCardNumber"))
+                                    item.Value = "PAN Card Number";
+                                else if (CellText.Contains("ContactPAN"))
+                                    item.Value = "Contact PAN";
+                                else if (CellText.Contains("ContactPAN"))
+                                    item.Value = "Contact PAN";
+                                else if (CellText.Contains("DOP") == true)
                                     item.Value = "DOP";
                                else if (CellText.Contains("DeviceIMEIOne") == true)
                                     item.Value = "Device IMEI First";
