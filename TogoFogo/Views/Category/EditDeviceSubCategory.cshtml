@@ -12,7 +12,7 @@
                 @Html.LabelFor(model => model.CatId, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.CatId, ViewBag.DeviceCategory as SelectList, "Select Category", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CatId, Model.CategoryList, "Select Category", new { @class = "form-control" })
                 </div>
                 @Html.ValidationMessageFor(model => model.CatId, "", new { @class = "text-danger" })
             </div>

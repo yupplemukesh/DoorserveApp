@@ -5,7 +5,7 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.CategoryID,Model._Category, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
+                @Html.DropDownListFor(model => model.CategoryID,Model._Category, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatId', this)" })
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -13,7 +13,7 @@
             @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
 
-                @Html.DropDownListFor(model => model.SubCategoryId,Model._SubCat , new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SubCatId,Model._SubCat , new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -136,7 +136,9 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Edit(Guid empId)
         {
           
-            var empModel = await _employee.GetEmployeeById(empId);          
+            var empModel = await _employee.GetEmployeeById(empId);
+
+            empModel.RefKey = empModel.CenterId;
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");

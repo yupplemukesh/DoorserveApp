@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
@@ -16,9 +17,9 @@ namespace TogoFogo.Models
         [DisplayName("Sub Category")] 
         public string SubCategory { get; set; }
         public int Id { get; set; }
-        public string CatId { get; set; }
-        public string SubCatId { get; set; }
-        public string ProblemID { get; set; }
+        public int CatId { get; set; }
+        public int SubCatId { get; set; }
+        public int ProblemID { get; set; }
         [Required]
         public string Problem { get; set; }
         public int SortOrder { get; set; }
@@ -42,6 +43,8 @@ namespace TogoFogo.Models
         [DisplayName("Category Name")]
         public string CatName { get; set; }
         public string User { get; set; }      
-
+         public SelectList CatIdList { get; set; }
+        public SelectList SubCatIdList { get; set; }
+        public SelectList ProblemList { get; set; }
     }
 }

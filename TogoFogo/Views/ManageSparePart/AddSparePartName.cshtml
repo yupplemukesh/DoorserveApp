@@ -8,28 +8,28 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Category, Model.CategoryList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
+                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.SubCategory,Model.SubCategoryList,"Select" @*new List<SelectListItem> { }*@, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SubCategory,Model.SubCategoryList,"Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.Brand, Model.BrandList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'DeviceModelName', this)" })
+                @Html.DropDownListFor(model => model.BrandId, Model.BrandList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'ProductId,', this)" })
                 @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.DeviceModelName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.DeviceModelName, Model.DeviceModelNameList,"Select", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ProductId, Model.DeviceModelNameList,"Select", new { @class = "form-control" })
             </div>
         </div>
 
@@ -42,7 +42,7 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.SpareTypeName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.SpareTypeName, Model.SpareTypeNameList,"Select", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SpareTypeId, Model.SpareTypeIdList,"Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SpareTypeName, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -114,6 +114,3 @@
 
         </script>
     }*@
-<script src="~/Content/Scripts/jquery-1.10.2.js"></script>
-<script src="~/Content/Scripts/jquery.validate.js"></script>
-<script src="~/Content/Scripts/jquery.validate.unobtrusive.js"></script>

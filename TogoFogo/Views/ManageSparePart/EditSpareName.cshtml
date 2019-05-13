@@ -14,17 +14,17 @@
                 @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
+                    @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
                 </div>
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.SubCategoryId, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.SubCategory, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.SubCategoryId, Model.SubCategoryList, new { @class = "form-control" })
                 </div>
-                @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
                 @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.Brand, null, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'DeviceModelName', this)" })
+                    @Html.DropDownListFor(model => model.BrandId, Model.BrandList, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'DeviceModelName', this)" })
                 </div>
                 @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
             </div>
@@ -45,7 +45,7 @@
                 @Html.LabelFor(model => model.DeviceModelName, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.DeviceModelName, null, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.ProductId, Model.DeviceModelNameList, new { @class = "form-control" })
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                 @Html.LabelFor(model => model.CTHNo, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.CTHNo, null, htmlAttributes: new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CTHNo, Model.CTHNoList, htmlAttributes: new { @class = "form-control" })
                 </div>
             </div>
         </div>

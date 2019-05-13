@@ -179,10 +179,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult AddSubCategory()
         {
-         
-            ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            SubcategoryModel sm = new SubcategoryModel();
+            sm.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             
-            return View();
+            return View(sm);
         }
         [HttpPost]
         public ActionResult AddSubCategory(SubcategoryModel model)
@@ -254,13 +254,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult EditDeviceSubCategory(int SubCatId)
         {
+            SubcategoryModel sm = new SubcategoryModel();
 
             using (var con = new SqlConnection(_connectionString))
             {
               
                 var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req from MstSubCategory where SubCatId=@SubCatId", new { SubCatId },
                     commandType: CommandType.Text).FirstOrDefault();
-                ViewBag.DeviceCategory = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                sm.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
              
                 if (result != null)
                 {

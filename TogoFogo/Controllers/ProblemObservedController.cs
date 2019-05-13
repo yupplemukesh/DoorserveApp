@@ -72,6 +72,7 @@ namespace TogoFogo.Controllers
                            model.IsActive,                            
                            model.SortOrder,
                             User = SessionModel.UserId,
+                            SessionModel.CompanyId,
                             Action ="add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -100,7 +101,7 @@ namespace TogoFogo.Controllers
           
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
             
@@ -149,7 +150,8 @@ namespace TogoFogo.Controllers
                             model.ProblemObserved,
                             model.IsActive,
                             model.SortOrder,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = SessionModel.UserId,
+                            SessionModel.CompanyId,
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();

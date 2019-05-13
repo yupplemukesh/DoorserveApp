@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 
@@ -18,27 +19,28 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Device Category")]
         public int CatId { get; set; }
+        public SelectList CategoryList { get; set; }
         [Required]
         [DisplayName("Sub Category")]
         public string SubCatName { get; set; }
         public int SubCatId { get; set; }
-        [Required]
+        
         [DisplayName("Sort Order")]
-        public int SortOrder { get; set; }
+        public int? SortOrder { get; set; }
         [DisplayName("Is IMEI-1 Required?")]
         public Boolean IsRequiredIMEI1 { get; set; }
         [DisplayName("Is IMEI-2 Required?")]
         public Boolean IsRequiredIMEI2 { get; set; }
         [DisplayName("IMEI Length")]
-        public int IMEILength { get; set; }
+        public int? IMEILength { get; set; }
         [DisplayName("Is Serial Number Required?")]
         public Boolean IsRequiredSerialNo { get; set; }
         [DisplayName("Serial Number Length")]
-        public int SRNOLength { get; set; }
-        [Required]
+        public int? SRNOLength { get; set; }
+     
         [DisplayName("Is Repair?")]
         public Boolean IsRepair { get; set; }
-        [Required]
+        
         [DisplayName("Is Active?")]
         public Boolean IsActive { get; set; }
         [DisplayName("Comments")]

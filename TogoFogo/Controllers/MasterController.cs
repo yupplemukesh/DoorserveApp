@@ -193,9 +193,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Products)]
         public ActionResult Product()
         {
-            ViewBag.BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Sub_Cat_Id = new SelectList(Enumerable.Empty<SelectListItem>());
+            ProductModel pm = new ProductModel();
+            pm._BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
+            pm._Category = new SelectList(Enumerable.Empty<SelectListItem>());
+            pm._SubCat = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["AddProduct"] != null)
             {
                 ViewBag.AddProduct = TempData["AddProduct"].ToString();
@@ -251,11 +252,11 @@ namespace TogoFogo.Controllers
                     var result = con.Query<int>("Add_Edit_Delete_Products",
                         new
                         {
-                            ProductColor = finalValue,
                             model.ProductId,
-                            model.CategoryID,    
+                            model.CategoryID,
                             Brand_ID = model.BrandID,
-                            SubCatId = model.SubCategoryId,
+                            //SubCatId = model.SubCategoryId,
+                            model.SubCatId,
                             model.ProductName,
                             model.AlternateProductName,
                             model.MRP,
@@ -264,10 +265,11 @@ namespace TogoFogo.Controllers
                             model.ProductImage,
                             model.IsRepair,
                             model.IsActive,
-                            model.Comments,                         
+                            model.Comments,
                             User = SessionModel.UserId,
-                            Action = "add",
-                            SessionModel.CompanyId
+                            ProductColor = finalValue,
+                            SessionModel.CompanyId,
+                            Action = "add"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result !=0)
@@ -282,7 +284,7 @@ namespace TogoFogo.Controllers
                                   ModelId = result,
                                   ColorId = Data,
                                   Action = "add",
-                                  BrandId = model.BrandName
+                                  BrandId = model.BrandID,
                               }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         }
                         response.IsSuccess = true;
@@ -323,13 +325,13 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Products)]
         public ActionResult EditProduct(int? ProductId, int? BrandID, string ProductName, int? CategoryID)
         {
+            ProductModel pm = new ProductModel();
             if (ProductId == 0 || ProductId == null)
             {
-                ViewBag.BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.SubCategoryId = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
+                pm._BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
+                pm._Category = new SelectList(Enumerable.Empty<SelectListItem>());
+                pm._SubCat = new SelectList(Enumerable.Empty<SelectListItem>());
+                pm._ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
             }
             else
             {
@@ -348,10 +350,9 @@ namespace TogoFogo.Controllers
                         result.SubCategoryId = result.SubCatId.ToString();
                     }
 
-                    ViewBag.BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                    ViewBag.SubCategoryId = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
-                    ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                    ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
+                    result._BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                    result._SubCat = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
+                    result._Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                     if (result != null)
                     {
                         result.BrandName = result.BrandID.ToString();
@@ -384,11 +385,11 @@ namespace TogoFogo.Controllers
                 var result = con.Query<int>("Add_Edit_Delete_Products",
                     new
                     {
-                        ProductColor=finalValue,
+                        ProductColor = finalValue,
                         model.ProductId,
-                        CategoryID = model.Category,
-                        Brand_ID = model.BrandName,
-                        SubCatId = model.SubCategoryId,
+                        model.CategoryID,
+                        Brand_ID = model.BrandID,                        
+                        model.SubCatId,
                         model.ProductName,
                         model.AlternateProductName,
                         model.MRP,
@@ -423,24 +424,28 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult ManageDeviceProblems()
         {
-            ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
+            DeviceProblemModel dcm = new DeviceProblemModel();
+            dcm.CatIdList = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["DeviceProblem"] != null)
             {
                 ViewBag.DeviceProblem = TempData["DeviceProblem"].ToString();
             }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+           
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult AddDeviceProblem()
         {
             using (var con = new SqlConnection(_connectionString))
             {
+
+                DeviceProblemModel dcm = new DeviceProblemModel();
+
+
+                dcm.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                dcm.SubCatIdList = new SelectList(dropdown.BindSubCategory(dcm.CatId), "Value", "Text");
                
-                ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-               // var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstDeviceProblem", null, commandType: CommandType.Text).FirstOrDefault();
-               // ViewBag.SortOrder = result + 1;
-                return PartialView();
+                return PartialView(dcm);
             }
         }
         [HttpPost]
@@ -456,13 +461,14 @@ namespace TogoFogo.Controllers
                     var result = con.Query<int>("Add_Edit_Problem"
                         , new
                         {
-                            CatId = model.Category,
-                            SubCatId = model.SubCategory,
+                            model.CatId,
+                            model.SubCatId,
                             model.ProblemID,
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
                             User = Convert.ToInt32(Session["User_Id"]),
+                            SessionModel.CompanyId,
                             Action = "add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -488,7 +494,7 @@ namespace TogoFogo.Controllers
         {           
             using (var con = new SqlConnection(_connectionString))
             {
-                var result= con.Query<DeviceProblemModel>("GetProblemDetail", new { },
+                var result= con.Query<DeviceProblemModel>("GetProblemDetail", new { SessionModel.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
@@ -498,9 +504,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult EditDeviceProblem(int? ProblemID)
         {
-
-            ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-            ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            DeviceProblemModel dcm = new DeviceProblemModel();
+            dcm.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            dcm.SubCatIdList = new SelectList(dropdown.BindSubCategory(dcm.CatId), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<DeviceProblemModel>("select * from MstDeviceProblem WHERE ProblemID=@ProblemID",
@@ -511,7 +517,8 @@ namespace TogoFogo.Controllers
                     result.Category = result.CatId.ToString();
                     result.SubCategory = result.SubCatId.ToString();
                 }
-
+                result.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                result.SubCatIdList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 return View(result);
             }
             
@@ -530,13 +537,14 @@ namespace TogoFogo.Controllers
                     var result = con.Query<int>("Add_Edit_Problem"
                         , new
                         {
-                            CatId = model.Category,
-                            SubCatId = model.SubCategory,
+                            model.CatId,
+                            model.SubCatId,
                             model.ProblemID,
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
                             User = Convert.ToInt32(Session["User_Id"]),
+                            SessionModel.CompanyId,
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -591,6 +599,7 @@ namespace TogoFogo.Controllers
                                m.IsActive,
                                m.Comments,
                                User = Convert.ToInt32(Session["User_Id"]),
+                               SessionModel.CompanyId,
                                Action = "add"                               
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -638,6 +647,7 @@ namespace TogoFogo.Controllers
                                m.IsActive,
                                m.Comments,
                                User = Convert.ToInt32(Session["User_Id"]),
+                               SessionModel.CompanyId,
                                Action = "edit",                            
 
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -665,7 +675,7 @@ namespace TogoFogo.Controllers
             
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { },
+                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { SessionModel.CompanyId, },
                     commandType: CommandType.Text).ToList();
                 return View(result);
             }        
@@ -807,7 +817,17 @@ namespace TogoFogo.Controllers
             m.UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id,Problem_Id=m.Problem,m.Market_Price,m.estimated_Price,m.Min_Price,m.Max_Price,action="Add", m.UserId },
+                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new {
+                    m.Model_Id,
+                    Problem_Id =m.Problem,
+                    m.Market_Price,
+                    m.estimated_Price,
+                    m.Min_Price,
+                    m.Max_Price,
+                    action ="Add",
+                    m.UserId,
+                    SessionModel.CompanyId
+                },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
                 if (result == 1)
@@ -858,7 +878,17 @@ namespace TogoFogo.Controllers
             m.UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new { m.Model_Id, Problem_Id = m.Problem, m.Market_Price, m.estimated_Price, m.Min_Price, m.Max_Price, action = "edit", m.UserId },
+                var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", 
+                    new { m.Model_Id,
+                        Problem_Id = m.Problem,
+                        m.Market_Price,
+                        m.estimated_Price,
+                        m.Min_Price,
+                        m.Max_Price,
+                        action = "edit",
+                        m.UserId,
+                        SessionModel.CompanyId
+                    },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
                 if (result == 2)
@@ -881,7 +911,7 @@ namespace TogoFogo.Controllers
          {           
             using (var con = new SqlConnection(_connectionString))
             {
-               var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", null,
+               var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", new { SessionModel.CompanyId },
                    commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
 

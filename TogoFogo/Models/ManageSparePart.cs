@@ -36,7 +36,7 @@ namespace TogoFogo.Models
             CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
             BrandList = new SelectList(Enumerable.Empty<SelectListItem>());
             DeviceModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            SpareTypeNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+            SpareTypeIdList = new SelectList(Enumerable.Empty<SelectListItem>());
             SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
 
         }
@@ -50,7 +50,8 @@ namespace TogoFogo.Models
         public string Category { get; set; }
         [Required]
         [DisplayName("Sub Category")]
-        public string SubCategory { get; set; }
+        public int SubCategory { get; set; }
+
         public string Brand { get; set; }
         [Required]
         [DisplayName("Device Model Name")]
@@ -59,7 +60,7 @@ namespace TogoFogo.Models
         [DisplayName("Spare Type")]
         public string SpareTypeName { get; set; }
         public int SpareTypeId {get;set;}
-        public string CategoryId {get;set;}
+        public int CategoryId {get;set;}
         public int BrandId {get;set;}
         public int ProductId {get;set;}
         public int PartId {get;set;}
@@ -95,7 +96,7 @@ namespace TogoFogo.Models
         public SelectList CategoryList { get; set; }
         public SelectList BrandList { get; set; }
         public SelectList DeviceModelNameList { get; set; }
-        public SelectList SpareTypeNameList { get; set; }
+        public SelectList SpareTypeIdList { get; set; }
         public SelectList SubCategoryList { get; set; }
 
 

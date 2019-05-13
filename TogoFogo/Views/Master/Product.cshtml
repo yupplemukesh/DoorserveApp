@@ -84,11 +84,11 @@
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        function EditProduct(ProductId, Brand_ID, ProductName, Category_ID) {
+        function EditProduct(ProductId, BrandID, ProductName, CategoryID) {
             $.ajax({
 
                 type: 'GET',
-                url: "/Master/EditProduct?ProductId=" + ProductId + "&BrandID=" + Brand_ID + "&ProductName=" + ProductName + "&CategoryID=" + Category_ID,
+                url: "/Master/EditProduct?ProductId=" + ProductId + "&BrandID=" + BrandID + "&ProductName=" + ProductName + "&CategoryID=" + CategoryID,
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 success: function (response) {

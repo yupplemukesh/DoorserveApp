@@ -68,9 +68,12 @@ namespace TogoFogo.Controllers
             //    ViewBag.SortOrder = result + 1;
             //}
 
-            var sparetype = new ManageSpareType();
-            sparetype.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            sparetype.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            var sparetype = new ManageSpareType {
+                CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>())
+
+        };
+            
             return PartialView(sparetype);
         }
         [HttpPost]
@@ -86,8 +89,8 @@ namespace TogoFogo.Controllers
                         {
                             SpareTypeId = "",
                             model.SpareTypeName,
-                            CategoryId = model.Category,
-                            SubCategoryid = model.SubCategory,
+                            model.CategoryId,
+                            model.SubCategoryId,
                             model.SortOrder,
                             model.IsActive,
                             User = SessionModel.UserId,
@@ -134,10 +137,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult EditSpareType(int SpareTypeId)
         {
+            ManageSpareType mst = new ManageSpareType();
             if (SpareTypeId == 0)
             {
-                ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
+                mst.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+                mst.CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
             }
             else
             {
@@ -146,8 +150,8 @@ namespace TogoFogo.Controllers
         
                     var result = con.Query<ManageSpareType>("Select * from MstSpareType where SpareTypeId=@SpareTypeId", new { SpareTypeId = SpareTypeId },
                         commandType: CommandType.Text).FirstOrDefault();
-                    ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                    ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
+                    result.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                    result.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                     //testing
                     //ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(result.CategoryId), "Value", "Text");
                     if (result != null)
@@ -175,8 +179,8 @@ namespace TogoFogo.Controllers
                         {
                             model.SpareTypeId,
                             model.SpareTypeName,
-                            CategoryId = model.Category,
-                            SubCategoryid = model.SubCategory,
+                            model.CategoryId,
+                            model.SubCategoryId,
                             model.SortOrder,
                             model.IsActive,
                             User = SessionModel.UserId,
@@ -212,11 +216,16 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult ManageSparePartName()
         {
-            ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.DeviceModelName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.CTHNo = new SelectList(Enumerable.Empty<SelectListItem>());
+            ManageSparePart msp = new ManageSparePart
+            {
+                SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CategoryList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                BrandList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                DeviceModelNameList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                CTHNoList = new SelectList(Enumerable.Empty<SelectListItem>())
+
+        };
+           
             if (TempData["AddSpareName"] != null)
             {
                 ViewBag.AddSpareName = TempData["AddSpareName"].ToString();
@@ -226,19 +235,20 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.EditSpareName = TempData["EditSpareName"].ToString();
             }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+            
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult AddSparePartName()
         {
             var sparepart = new ManageSparePart();
             sparepart.CTHNoList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
-         
             sparepart.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             sparepart.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-            sparepart.DeviceModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());
-            sparepart.SpareTypeNameList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+            sparepart.DeviceModelNameList = new SelectList(dropdown.BindProduct(sparepart.BrandId), "Value", "Text");
+            sparepart.SpareTypeIdList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+            sparepart.SubCategoryList = new SelectList(dropdown.BindSubCategory(sparepart.CategoryId), "Value", "Text");
+                    
             return PartialView(sparepart);
         }
 
@@ -258,38 +268,38 @@ namespace TogoFogo.Controllers
                     var result = con.Query<int>("Add_Edit_Delete_SparePart",
                         new
                         {
-                            PartId = "",
-                            SpareTypeId = model.SpareTypeName,
-                            BrandId=model.Brand,
-                            CategoryId = model.Category,
-                            SpareCode= model.SpareCode,
-                            ProductId = model.DeviceModelName,
+                            model.PartId,
+                            model.CategoryId,
                             model.SubCategory,
+                            model.SpareTypeId,
+                            model.BrandId,
+                            model.PartName,
+                            model.ProductId,
+                            model.TUPC,
+                            model.TGFGCode,
+                            model.SpareCode,
                             model.CTHNo,
                             model.Part_Image,
-                            model.PartName,
-                            model.SortOrder,
                             model.IsActive,
+                            model.SortOrder,
                             User = SessionModel.UserId,
-                            Action = "add",
-                            TGFGCode="",
-                            model.TUPC,
-                            SessionModel.CompanyId
-
-                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                            SessionModel.CompanyId,
+                            Action = "add"                       
+                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result == 1)
                     {
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
-                        TempData["response"] = Response;
-                       
+                        TempData["response"] = response;
+                        
+
                     }
                     else
                     {
-                        response.IsSuccess = true;
+                        response.IsSuccess = false;
                         response.Response = "Spare Part Name Already Exist";
-                        TempData["response"] = Response;                      
+                        TempData["response"] = response;                      
                     }
                 }
 
@@ -318,12 +328,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult EditSpareName(int? SpareTypeId)
         {
+            ManageSparePart msp = new ManageSparePart();
             if (SpareTypeId == 0)
             {
-                ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.Brand = new SelectList(Enumerable.Empty<SelectListItem>());
-                ViewBag.DeviceModelName = new SelectList(Enumerable.Empty<SelectListItem>());
+                msp.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+                msp.CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+                msp.BrandList = new SelectList(Enumerable.Empty<SelectListItem>());
+                msp.DeviceModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());
+                msp.SpareTypeIdList= new SelectList(Enumerable.Empty<SelectListItem>());
             }
             else
             {
@@ -333,11 +345,11 @@ namespace TogoFogo.Controllers
                 
                     var result = con.Query<ManageSparePart>("Select * from MstSparePart where SpareTypeId=@SpareTypeId", new { SpareTypeId = SpareTypeId },
                         commandType: CommandType.Text).FirstOrDefault();
-                    ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                    ViewBag.Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                    ViewBag.Brand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                    ViewBag.DeviceModelName = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
-                    ViewBag.SpareTypeName = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+                    result.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
+                    result.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                    result.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                    result.DeviceModelNameList = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
+                    result.SpareTypeIdList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
                     if (result != null)
                     {
                         result.Brand = result.BrandId.ToString();
@@ -363,16 +375,16 @@ namespace TogoFogo.Controllers
                 }
                 using (var con = new SqlConnection(_connectionString))
                 {
-        
+
                     var result = con.Query<int>("Add_Edit_Delete_SparePart",
                         new
                         {
-                           model.PartId,
+                            model.PartId,
                             model.SpareTypeId,
-                            BrandId = model.Brand,
-                            CategoryId = model.Category,
+                            model.BrandId,
+                            model.CategoryId,
                             model.SpareCode,
-                            ProductId = model.DeviceModelName,
+                            model.ProductId,
                             model.SubCategory,
                             model.CTHNo,
                             model.Part_Image,

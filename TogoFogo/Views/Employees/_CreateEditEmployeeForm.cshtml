@@ -16,9 +16,9 @@
 
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(x => x.CenterId, Model.CenterList, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.RefKey, Model.CenterList, "Select", new { @class = "form-control" })
                 </div>
-                @Html.ValidationMessageFor(x => x.CenterId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(x => x.RefKey, "", new { @class = "text-danger" })
             </div>
             }
 
@@ -34,7 +34,7 @@
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(x => x.ProviderId, Model.ProviderList, "Select", new { @class = "form-control",
-                   onchange = "AjaxWithValue('JsonCentersByProvider', 'CenterId', this)"
+                   onchange = "AjaxWithValue('JsonCentersByProvider', 'RefKey', this)"
                })
                 </div>
                 @Html.ValidationMessageFor(x => x.ProviderId, "", new { @class = "text-danger" })
@@ -43,9 +43,9 @@
                 <label class=" control-label" for="form-control-9">Service Center</label>
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(x => x.CenterId, Model.CenterList, "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(x => x.RefKey, Model.CenterList, "Select", new { @class = "form-control" })
                 </div>
-                @Html.ValidationMessageFor(x => x.CenterId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(x => x.RefKey, "", new { @class = "text-danger" })
             </div>
         }
     </div>
