@@ -15,11 +15,16 @@
                 <div class="pull-right">
                     @if (Permissions.Rights.ExcelExport)
                     {
+
+                        <button class="btn btn-primary template">
+                            template
+                        </button>
+
                         <button class="btn btn-primary excel">
                             Export Excel
                         </button>
 
-                        
+
                     }
                     @if (Permissions.Rights.Create)
                     {
@@ -28,7 +33,14 @@
                                 Add ASP
                             </span>
                         </a>
+
+                        <a href="#"  data-target="#UploadModel" data-toggle="modal" class= "btn btn-primary">Import
+                    
+                    </a>
+
                     }
+
+
                 </div>
             </div>
         </div>
@@ -129,4 +141,17 @@
             <!--/.panel
     </div><!--/.col-->
         </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="UploadModel" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+
+               @Html.Action("_GetUploadForm")
+
+                </div>
+
+        </div>
+    </div>
 </div>

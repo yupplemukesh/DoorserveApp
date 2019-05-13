@@ -588,10 +588,10 @@ namespace TogoFogo.Controllers
         {
             provider.CompanyId = SessionModel.CompanyId;
             provider.UserId = SessionModel.UserId;
-           
+
             if (provider.DataFile != null)
             {
-                string excelPath = SaveFile(provider.DataFile, "ProviderData");
+                string excelPath = SaveFile(provider.DataFile, "Providers");
                 string conString = string.Empty;
                 string extension = Path.GetExtension(provider.DataFile.FileName);
                 switch (extension)
@@ -612,7 +612,7 @@ namespace TogoFogo.Controllers
                     excel_con.Open();
 
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[29] {
+                    dtExcelData.Columns.AddRange(new DataColumn[30] {
                 new DataColumn("Process Name", typeof(string)),
                 new DataColumn("Service Provider Code", typeof(string)),
                 new DataColumn("Service Provider Name", typeof(string)),
@@ -638,17 +638,18 @@ namespace TogoFogo.Controllers
                 new DataColumn("Country", typeof(string)),
                 new DataColumn("State", typeof(string)),
                   new DataColumn("City", typeof(string)),
+                                    new DataColumn("Address", typeof(string)),
                      new DataColumn("Locality", typeof(string)),
                   new DataColumn("Near By Location", typeof(string)),
                    new DataColumn("Pin Code", typeof(string)),
                      new DataColumn("IsUser", typeof(string))
                 });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Process Name], [Service Provider Name],[Service Delivery Type],[Supported Device Category]," +
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Process Name],[Service Provider Code], [Service Provider Name],[Service Delivery Type],[Supported Device Category]," +
                         "[Service Type],[Organization Name],[Organization Code],[Organization IEC Number],[Statutory Type]," +
                         "[Applicable Tax Type],[GST Category],[GST Number],[PAN Card Number],[IsServiceCenter] ," +
-                        "[Contact Name],[Contact Email],[Contact PAN],[Contact Voter Id],[Contact Adhaar], " +
+                        "[Contact Name],[Contact Mobile],[Contact Email],[Contact PAN],[Contact Voter Id],[Contact Adhaar], " +
                         " [Address Type],[Country],[State],[City],[Address],[Locality],[Near By Location], " +
-                        " [Pin Code], [IsUser] FROM [" + sheet1 + "]", excel_con))
+                        " [Pin Code], [IsUser] FROM [" + sheet1 + "] where  [Process Name] is not null", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }
@@ -665,15 +666,24 @@ namespace TogoFogo.Controllers
                     return RedirectToAction("index");
                 }
                 catch (Exception ex)
+
                 {
-                    if (System.IO.File.Exists(Server.MapPath(excelPath)))
-                        System.IO.File.Delete(Server.MapPath(excelPath));
+                    if (System.IO.File.Exists(excelPath))
+                        System.IO.File.Delete(excelPath);
                     return RedirectToAction("index");
 
                 }
             }
             return RedirectToAction("index");
 
-        }      
+        }
+
+        public ActionResult _GetUploadForm()
+        {
+            return PartialView("_ImportForm", new ProviderFileModel());
+
+        }
+
+
     }
 }

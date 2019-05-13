@@ -42,6 +42,9 @@ namespace TogoFogo.Controllers
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
             if (SessionModel.UserTypeName.ToLower().Contains("provider"))
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text") };
+        else
+                calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceComp(SessionModel.CompanyId), "Name", "Text") };
+
             return View(calls);
         }
         [HttpPost]

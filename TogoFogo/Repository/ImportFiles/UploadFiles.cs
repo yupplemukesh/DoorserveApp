@@ -138,7 +138,7 @@ namespace TogoFogo.Repository.ImportFiles
         public async Task<ResponseModel> UploadServiceProviders(ProviderFileModel provider, DataTable table)
         {
             var sp = new List<SqlParameter>();
-            var pararm  = new SqlParameter("@FileName", provider.FileName);
+            var pararm  = new SqlParameter("@FileName", ToDBNull( provider.FileName));
             sp.Add(pararm);
             pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
             {

@@ -311,8 +311,12 @@ namespace TogoFogo.Controllers
             calls.Employee = new EmployeeModel();        
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
             calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
-            if(SessionModel.UserRole.Contains("Service Provider SC Admin"))
+          else  if(SessionModel.UserRole.Contains("Service Provider SC Admin"))
                 calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
+            else
+                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
+
+
             return View(calls);
         }
       

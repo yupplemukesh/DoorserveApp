@@ -313,8 +313,25 @@ namespace TogoFogo
                 return _serviceCeters;
             }
         }
+        public static async Task<List<CheckBox>> GetServiceComp(Guid? compId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                string query = "SELECT CenterId Name ,CenterName Text FROM MSTServiceCenters where IsActive=1";
+                SqlParameter param = new SqlParameter();
+                if (compId != null)
+                {
+                    param.Value = compId;
+                    query = query + " and companyId=@companyId";
+                }
+                else
+                    param.Value = DBNull.Value;
+                param.ParameterName = "@companyId";
+                var _serviceCeters = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                return _serviceCeters;
+            }
+        }
 
-        
 
         public static async Task<List<CheckBox>> GetDepartments()
         {
