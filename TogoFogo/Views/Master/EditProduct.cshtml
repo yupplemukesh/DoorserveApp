@@ -11,7 +11,7 @@
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.CategoryID, Model._Category, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
+                @Html.DropDownListFor(model => model.CategoryID, Model._Category,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
             </div>
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
@@ -20,7 +20,7 @@
             @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.SubCategoryId, Model._SubCat, new { @class = "form-control", @id = "SubCat" })
+                @Html.DropDownListFor(model => model.SubCatId, Model._SubCat, new { @class = "form-control", @id = "SubCat" })
             </div>
                 @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })            
         </div>
@@ -31,7 +31,7 @@
             @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.BrandID,Model._BrandName, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.BrandID, Model._BrandName, new { @class = "form-control" })
             </div>
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })            
         </div>

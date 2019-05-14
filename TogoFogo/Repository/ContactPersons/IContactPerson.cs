@@ -12,6 +12,7 @@ namespace TogoFogo.Repository
         Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact);
         Task<List<OtherContactPersonModel>> GetContactPersonsByRefKey(Guid? refkey);
         Task<ContactPersonModel> GetContactPersonByContactId(Guid contactId);
+        bool GetContact(string email);
         void Save();
 
     }

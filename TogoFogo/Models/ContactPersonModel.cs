@@ -27,7 +27,9 @@ namespace TogoFogo.Models
         [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
         ErrorMessage = "Please Enter Correct Email Address")]
         [Required(ErrorMessage = "Enter Email")]
+        [Remote("IsEmailAddressAlreadyExist", "ClientData", HttpMethod = "GET", AdditionalFields = "InitialEmailAddress", ErrorMessage = "EmailId Already Exist Please Try Another EmailId")]
         public string ConEmailAddress { get; set; }
+        public string InitialEmailAddress { get; set; }
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = "Invalid PAN Number")]
         [DisplayName("Client PAN Card Number")]
         public string ConPanNumber { get; set; }

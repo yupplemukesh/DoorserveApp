@@ -45,8 +45,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult SpareIndex()
         {
-            ViewBag.SubCategory = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.Category = new SelectList(Enumerable.Empty<SelectListItem>());
+            ManageSpareType mst = new ManageSpareType();
+            mst.CategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            mst.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["AddSparePart"] != null)
             {
                 ViewBag.AddSparePart = TempData["AddSparePart"].ToString();
@@ -56,8 +57,8 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.EditSparePart = TempData["EditSparePart"].ToString();
             }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+            
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult AddSpareType()

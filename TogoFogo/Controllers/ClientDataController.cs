@@ -25,6 +25,7 @@ namespace TogoFogo.Controllers
         private readonly IUploadFiles _RepoUploadFile;
         private readonly ICallLog _RepoCallLog;
         private readonly ICenter _centerRepo;
+        private readonly IContactPerson _contactPerson;
         private readonly DropdownBindController _dropdown;
         
         public ClientDataController()
@@ -33,6 +34,7 @@ namespace TogoFogo.Controllers
             _dropdown = new DropdownBindController();
             _RepoCallLog = new CallLog();
             _centerRepo = new Center();
+            _contactPerson = new ContactPerson();
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
@@ -336,7 +338,29 @@ namespace TogoFogo.Controllers
 
         }
 
+        
+        public JsonResult IsHSNCodeAlreadyExist(string ConEmailAddress, string InitialEmailAddress)
+        {
+
+            try
+            {
+                if (ConEmailAddress == InitialEmailAddress)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+
+                }
+                return _contactPerson.GetContact(ConEmailAddress) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            
+        }
+
 
     }
 
-    }
+}

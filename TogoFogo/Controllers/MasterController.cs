@@ -266,13 +266,13 @@ namespace TogoFogo.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,
-                            User = SessionModel.UserId,
                             ProductColor = finalValue,
-                            SessionModel.CompanyId,
-                            Action = "add"
+                            User = SessionModel.UserId,                                                        
+                            Action = "add",
+                            SessionModel.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
-                    if (result !=0)
+                    if (result >0)
                     {
                         var problem1 = model.ProductColor.Length;
                         for (var i = 0; i <= problem1 - 1; i++)
@@ -287,6 +287,7 @@ namespace TogoFogo.Controllers
                                   BrandId = model.BrandID,
                               }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         }
+
                         response.IsSuccess = true;
                         response.Response = "Successfully Added";
                         TempData["response"] = response;
@@ -328,8 +329,8 @@ namespace TogoFogo.Controllers
             ProductModel pm = new ProductModel();
             if (ProductId == 0 || ProductId == null)
             {
-                pm._BrandName = new SelectList(Enumerable.Empty<SelectListItem>());
-                pm._Category = new SelectList(Enumerable.Empty<SelectListItem>());
+                pm._BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                pm._Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 pm._SubCat = new SelectList(Enumerable.Empty<SelectListItem>());
                 pm._ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
             }
@@ -337,27 +338,27 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                
+
                     var result = con.Query<ProductModel>("Get_Single_Product", new { ProductName = ProductName },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result.Product_Color != null)
                     {
                         result.ProductColor = result.Product_Color.Split(',');
-                        ViewBag.ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
-                    }                    
-                    if (result.SubCatId != null)
-                    {
-                        result.SubCategoryId = result.SubCatId.ToString();
+                        //result._ProductColor = new SelectList(dropdown.BindProductColor(SessionModel.CompanyId), "Value", "Text");
                     }
 
+                    if (result != null)
+                    {
+                        result.CategoryID.ToString();
+                        result.SubCatId.ToString();
+                        result.BrandID.ToString();
+                    }
+                  
                     result._BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
                     result._SubCat = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
                     result._Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                    if (result != null)
-                    {
-                        result.BrandName = result.BrandID.ToString();
-                        result.Category = result.CategoryID.ToString();
-                    }
+                    result._ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
+                 
                     return PartialView("EditProduct", result);
                 }
             }
