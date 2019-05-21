@@ -140,12 +140,11 @@ namespace TogoFogo.Controllers
                 contact.Action = 'U';
             else
                 contact.Action = 'I';
-
-            if (TempData["client"] != null)
-            {
-                var Client = TempData["client"] as ClientModel;
-                contact.RefKey = Client.ClientId;
-            }
+            var Client = TempData["client"] as ClientModel;
+            if (TempData["client"] != null)                
+                contact.RefKey =Client.ClientId;
+                
+           
             contact.UserId = SessionModel.UserId;
             contact.CompanyId = SessionModel.CompanyId;
             contact.UserTypeId = 2;
@@ -162,7 +161,6 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             if (TempData["client"] != null)
             {
-                var Client = TempData["client"] as ClientModel;
                 contact.ContactId = new Guid(response.result);
                 var cityName =  dropdown.BindLocation(contact.StateId).Where(x=> x.Value==contact.CityId.ToString()).FirstOrDefault();
                 contact.City = cityName.Text;
@@ -174,7 +172,7 @@ namespace TogoFogo.Controllers
             }
             else
             {
-                var Client = await GetClient(contact.RefKey);
+                Client = await GetClient(contact.RefKey);
                 Client.action = 'U';
                 Client.Activetab = "tab-3";
                 return View("Edit", Client);

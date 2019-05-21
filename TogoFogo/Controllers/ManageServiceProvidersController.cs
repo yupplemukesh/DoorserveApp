@@ -690,8 +690,8 @@ namespace TogoFogo.Controllers
         {
 
             string[] columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName","ServiceDeliveryType","SupportedDeviceCategory",
-                                "ServiceType","OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PaNCardNumber",
-                    "IsServiceCenter","ContactName","ContactMobile","ContactEmail","Contact PAN","ContactVoterId","ContactAdhaar",
+                                "ServiceType","OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
+                    "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
                     "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser"
             };
             var providerData = new List<serviceProviderData> { new serviceProviderData
@@ -699,7 +699,7 @@ namespace TogoFogo.Controllers
                     ProcessName = "OEM Installation",
                     ServiceProviderCode = "SP000005",
                     ServiceProviderName="Ambica services",
-                    ServiceDeliveryType="On Site",
+                    ServiceDeliveryType="OnSite",
                     SupportedDeviceCategory="Air Conditioner",
                     ServiceType="Installation",
                     OrganizationName="Ambica Service PVT LTD",

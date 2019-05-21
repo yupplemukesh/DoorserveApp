@@ -155,10 +155,10 @@ namespace TogoFogo.Controllers
                             objUser._ContactPerson.ConFirstName,
                             objUser._ContactPerson.ConMobileNumber,
                             objUser._ContactPerson.ConEmailAddress,
-                            objUser._AddressDetail.AddressTypeId,
-                            objUser._AddressDetail.Address,
-                            objUser._AddressDetail.CityId,
                             objUser._AddressDetail.StateId,
+                            objUser._AddressDetail.CityId,
+                            objUser._AddressDetail.Address,
+                            objUser._AddressDetail.AddressTypeId,
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
                             objUser.UserLoginId,
@@ -229,6 +229,7 @@ namespace TogoFogo.Controllers
                     objUser.LastUpdatedBy = item.LastUpdatedBy;
                     objUser._AddressDetail.City = item.City;
                     objUser._AddressDetail.State = item.State;
+                    objUser.RoleName = item.RoleName;
                     objUser._ContactPerson.ConFirstName = item.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = item.ConMobileNumber;
                     objUser._ContactPerson.ConEmailAddress = item.ConEmailAddress;

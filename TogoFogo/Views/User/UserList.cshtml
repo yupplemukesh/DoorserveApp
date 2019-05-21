@@ -47,6 +47,9 @@
                         @Html.DisplayName("User Name")
                     </th>
                     <th>
+                        @Html.DisplayName("Role Name")
+                    </th>
+                    <th>
                         @Html.DisplayName("Email")
                     </th>
                     <th>
@@ -61,7 +64,7 @@
                     <th>
                         @Html.DisplayName("Pin Code")
                     </th>
-                   
+
                     <th>
                         @Html.DisplayName("Is Active")
                     </th>
@@ -88,6 +91,10 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @item.RoleName
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item._ContactPerson.ConEmailAddress)

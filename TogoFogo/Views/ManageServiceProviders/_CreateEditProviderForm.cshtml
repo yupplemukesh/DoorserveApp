@@ -105,7 +105,6 @@
                     </li>
 
                 }
-
                 else if (Model.Activetab == "tab-4")
                 {
 
@@ -246,9 +245,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group" id="serviceDelType">
-                                    @*@Html.HiddenFor(x=>x.ServiceDeliveryType)*@
-                                    <!-- Multiple Radios (inline) -->
+                                <div class="row form-group">
+                
                                     <label class="col-md-3 control-label" for="radios">Service Delivery Type</label>
                                     <div class="col-md-9">
                                         <div class="row">
@@ -347,6 +345,7 @@
 
                             @Html.HiddenFor(x => x.ProviderId)
                             @Html.HiddenFor(x => x.action)
+                            Model.Organization.Type = "Provider";
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
                                 @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
                                 <div class="row form-group pull-right">

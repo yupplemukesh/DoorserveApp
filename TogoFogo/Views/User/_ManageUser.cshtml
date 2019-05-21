@@ -31,7 +31,7 @@
                 @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="row" style="padding-bottom: 5px;">
+        @*<div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.TextBoxFor(model => model.Password, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "5" })
@@ -44,7 +44,7 @@
                 @Html.TextBoxFor(model => model.ConfirmPassword, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "6" })
                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">

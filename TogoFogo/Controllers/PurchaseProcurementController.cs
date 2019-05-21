@@ -243,6 +243,7 @@ namespace TogoFogo.Controllers
      
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Parts_Purchase_List)]
+        [CustomHandleError]
         public ActionResult SPPLtable()
         {
             using (var con = new SqlConnection(_connectionString))

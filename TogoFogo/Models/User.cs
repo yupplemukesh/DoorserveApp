@@ -27,6 +27,7 @@ namespace TogoFogo.Models
         public DateTime? ModifyDate { get; set; }
         public string LastUpdatedBy { get; set; }
         public int UserLoginId { get; set; }
+        public string RoleName { get; set; }
         public ContactPersonModel _ContactPerson { get;set;} 
         public AddressDetail _AddressDetail { get; set; }
         public UserRole _UserRole { get; set; }

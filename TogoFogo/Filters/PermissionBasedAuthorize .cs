@@ -120,7 +120,7 @@ namespace TogoFogo.Permission
                  new RouteValueDictionary
                  {
                     { "action", "Index" },
-                    { "controller", "Home" }
+                    { "controller", "ErrorPage" }
                  });
 
             filterContext.ExceptionHandled = true;

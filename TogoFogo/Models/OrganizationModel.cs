@@ -28,7 +28,7 @@ namespace TogoFogo.Models
         public int OrgApplicationTaxType { get; set; }
         [DisplayName("Organisation GST Category")]
         [Required]
-        public int OrgGSTCategory { get; set; }
+        public int? OrgGSTCategory { get; set; }
         public string OrgGSTCat { get; set; }
         [DisplayName("Organisation GST Number")]
         [Required]
@@ -50,5 +50,6 @@ namespace TogoFogo.Models
         public char Action { get; set; }
         public int UserId { get; set; }
         public bool IsSingleCenter { get; set; }
+        public string Type { get; set; }
     }
 }
