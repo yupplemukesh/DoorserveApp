@@ -21,7 +21,7 @@ namespace TogoFogo.Models.ClientData
         public string CustomerType { get; set; }
         [Required(ErrorMessage = "Name is Required")]
         [DisplayName("Customer Name")]
-        public string CustomerName { get; set; }
+        public string CustomerName { get; set; }        
         [Required (ErrorMessage = "Mobile No Required")]
         [DisplayName("Contact Number")]
         public string CustomerContactNumber { get; set; }
@@ -29,7 +29,8 @@ namespace TogoFogo.Models.ClientData
         public string CustomerAltConNumber { get; set; } 
         [DisplayName("Customer Email")]
         [Required(ErrorMessage = "Email is Required")]
-        public string CustomerEmail { get; set; }
+        [RegularExpression (@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$", ErrorMessage = "Invalid email format.")]
+        public string CustomerEmail { get; set; }        
         [DisplayName("Customer Address Type")]
         [Required(ErrorMessage = "Address Type Required")]
         public string CustomerAddressType { get; set; }
@@ -67,7 +68,7 @@ namespace TogoFogo.Models.ClientData
         public Guid CustomerId { get; set; }
         public bool IsExistingCustomer { get; set; }
         [DisplayName("Customer Type")]
-        [Required (ErrorMessage = "Customer Type Required")]
+        [Required(ErrorMessage="Customer Type Required")]
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
      

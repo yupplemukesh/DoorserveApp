@@ -10,11 +10,9 @@ namespace TogoFogo.Models
 {
     public class VehicleModel
     {
-        public Guid? VHId { get; set; }
-        [Required(ErrorMessage = "Model No.Required")]
+        public Guid? VHId { get; set; }       
         [DisplayName("Vehicle Model")]
-        public string VHModel { get; set; }
-        [Required(ErrorMessage = "RC No.Required")]
+        public string VHModel { get; set; }       
         [DisplayName("Vehicle Number")]
         public string VHNumber { get; set; }
         public int? VHTypeId { get; set; }

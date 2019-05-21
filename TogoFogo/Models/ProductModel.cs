@@ -12,8 +12,9 @@ namespace TogoFogo.Models
     {
         public int SerialNo { get; set; }
         public HttpPostedFileBase BulkProduct { get; set; }
+        [Required]
         [DisplayName("Product Color")]
-        public string[] ProductColor { get; set; }
+        public string[]  ProductColor { get; set; }
         public string Product_Color { get; set; }
         [DisplayName("Product Color")]
         public string Pro_Color { get; set; }

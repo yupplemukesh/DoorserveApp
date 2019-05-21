@@ -327,7 +327,7 @@ namespace TogoFogo.Controllers
                      
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Part_Name)]
-        public ActionResult EditSpareName(int? SpareTypeId)
+        public ActionResult EditSpareName(int SpareTypeId)
         {
             ManageSparePart msp = new ManageSparePart();
             if (SpareTypeId == 0)
@@ -340,7 +340,7 @@ namespace TogoFogo.Controllers
             }
             else
             {
-                ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
+                //ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 using (var con = new SqlConnection(_connectionString))
                 {
                 
@@ -351,6 +351,7 @@ namespace TogoFogo.Controllers
                     result.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
                     result.DeviceModelNameList = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
                     result.SpareTypeIdList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+                    result.CTHNoList= new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                     if (result != null)
                     {
                         result.Brand = result.BrandId.ToString();
@@ -382,21 +383,23 @@ namespace TogoFogo.Controllers
                         {
                             model.PartId,
                             model.SpareTypeId,
-                            model.BrandId,
                             model.CategoryId,
-                            model.SpareCode,
-                            model.ProductId,
                             model.SubCategory,
+                            model.BrandId,
+                            model.PartName,
+                            model.ProductId,
+                            model.TUPC,                            
+                            model.TGFGCode,
+                            model.SpareCode,
                             model.CTHNo,
                             model.Part_Image,
-                            model.PartName,
+                            model.IsActive,                            
                             model.SortOrder,
-                            model.IsActive,
+                            SessionModel.CompanyId,
                             User = SessionModel.UserId,
-                            Action = "edit",
-                            TGFGCode = "",
-                            model.TUPC,
-                            SessionModel.CompanyId
+                            Action = "edit"                        
+                            
+                            
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();

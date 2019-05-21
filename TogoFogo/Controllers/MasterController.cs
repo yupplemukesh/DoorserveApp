@@ -684,6 +684,9 @@ namespace TogoFogo.Controllers
         }
         #endregion
         #region RemoteValidation
+
+       
+
         public ActionResult RemoteValidationforUserName(string Username, string CurrentUserName, Int64 UserId = 0)
         {
 
@@ -711,6 +714,12 @@ namespace TogoFogo.Controllers
             }
         }
 
+        public ActionResult RemoteValidationConEmailAddress(string ConEmailAddress, string currentEmail)
+        {
+            return RemoteValidationforUserName(ConEmailAddress, currentEmail, 0);
+
+        }
+
         public ActionResult RemoteValidationClientName(string ClientName, string CurrentClientName)
         {
 
@@ -722,7 +731,7 @@ namespace TogoFogo.Controllers
 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var ifEmailExist = con.Query<bool>("Select 1 from MSTCLIENTS WHERE ISACTIVE=1 and ClientName=@ClientName",
+                    var ifEmailExist = con.Query<bool>("Select 1 from MSTCLIENTS WHERE  ClientName=@ClientName",
                   new { ClientName }).FirstOrDefault();
                     //ifEmailExist = result==0 ? false : true;
 
@@ -748,7 +757,7 @@ namespace TogoFogo.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var ifEmailExist = con.Query<bool>("Select 1 from MstServiceProviders WHERE ISACTIVE=1 and ProviderName=@ProviderName",
+                    var ifEmailExist = con.Query<bool>("Select 1 from MstServiceProviders WHERE  ProviderName=@ProviderName",
                     new { ProviderName }).FirstOrDefault();
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
                 }
@@ -772,7 +781,7 @@ namespace TogoFogo.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var ifEmailExist = con.Query<bool>("Select 1 from MSTServiceCenters WHERE ISACTIVE=1 and CenterName=@CenterName",
+                    var ifEmailExist = con.Query<bool>("Select 1 from MSTServiceCenters WHERE   CenterName=@CenterName",
                     new { CenterName }).FirstOrDefault();
                     return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
                 }

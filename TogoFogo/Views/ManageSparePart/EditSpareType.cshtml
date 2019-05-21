@@ -13,7 +13,7 @@
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
+                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
             </div>
             @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
         </div>

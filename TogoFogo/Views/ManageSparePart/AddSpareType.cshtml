@@ -8,14 +8,14 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList,"Select" ,new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
+                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList,"Select" ,new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
                 @Html.ValidationMessageFor(model => model.Category,"", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.SubCategoryId,Model.SubCategoryList,"Select" ,@*new List<SelectListItem> { },*@ new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SubCategoryId,Model.SubCategoryList,"Select" ,new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubCategory, "",new { @class = "text-danger" })
             </div>
         </div>
