@@ -15,15 +15,24 @@ namespace TogoFogo.Repository.EmailHeaderFooters
         {
             _context = new ApplicationDbContext();
         }
-        public async Task<List<TemplatePartModel>> GetTemplatePart()
-        {          
-            return await _context.Database.SqlQuery<TemplatePartModel>("USPTemplatePartDetail @TemplatePartId =null").ToListAsync();
+        public async Task<List<TemplatePartModel>> GetTemplatePart( Filters.FilterModel filter)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@TemplatePartId", DBNull.Value);
+            sp.Add(param);
+            param = new SqlParameter("@CompId",ToDBNull(filter.CompId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<TemplatePartModel>("USPTemplatePartDetail @TemplatePartId,@CompId",sp.ToArray()).ToListAsync();
         }
         public async Task<TemplatePartModel> GetTemplatePartById(int TemplatePartId)
         {
-       
+
+            List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@TemplatePartId", TemplatePartId);
-            return await _context.Database.SqlQuery<TemplatePartModel>("USPTemplatePartDetail @TemplatePartId", param ).SingleOrDefaultAsync();
+            sp.Add(param);
+            param = new SqlParameter("@CompId", DBNull.Value);
+            sp.Add(param);
+            return await _context.Database.SqlQuery<TemplatePartModel>("USPTemplatePartDetail @TemplatePartId,@CompId", sp.ToArray()).SingleOrDefaultAsync();
         }
         public async Task<ResponseModel> AddUpdateDeleteTemplatePart(TemplatePartModel templatePartModel, char action)
         {
@@ -36,14 +45,16 @@ namespace TogoFogo.Repository.EmailHeaderFooters
             sp.Add(param);
             param = new SqlParameter("@PlainTextPart", (object)templatePartModel.PlainTextPart);
             sp.Add(param);
-            param = new SqlParameter("@User", (object)templatePartModel.AddeddBy);
+            param = new SqlParameter("@User", (object)templatePartModel.UserId);
             sp.Add(param);
             param = new SqlParameter("@IsActive", (object)templatePartModel.IsActive);
             sp.Add(param);
             param = new SqlParameter("@Action", (object)action);
             sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(templatePartModel.CompanyId));
+            sp.Add(param);
 
-            var sql = "USPTemplatePartADDUPDATE @TemplatePartId,@TemplatePartName,@HTMLPart,@PlainTextPart,@User,@IsActive,@Action";
+            var sql = "USPTemplatePartADDUPDATE @TemplatePartId,@TemplatePartName,@HTMLPart,@PlainTextPart,@User,@IsActive,@Action,@CompId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

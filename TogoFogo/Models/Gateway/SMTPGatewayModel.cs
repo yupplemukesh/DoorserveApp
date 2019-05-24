@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class SMTPGatewayModel
+    public class SMTPGatewayModel:RegistrationModel
     {
         public SMTPGatewayModel()
         {
@@ -22,8 +22,7 @@ namespace TogoFogo.Models
         public string GatewayName { get; set; }
         [DisplayName("Gateway Type Id")]
         public Int64 GatewayTypeId { get; set; }
-        public bool IsActive { get; set; }
-        [DisplayName("Is Default ?")]
+   
         public bool IsDefault { get; set; }
         [DisplayName("Is Process By AWS ?")]
         public bool IsProcessByAWS { get; set; }
@@ -41,9 +40,7 @@ namespace TogoFogo.Models
         [Required]
         public string PortNumber { get; set; }
         public bool SSLEnabled { get; set; }
-        public int AddeddBy { get; set; }
-        public DateTime LastUpdatedDateTime { get; set; }
-        public string LastUpdateBy { get; set; }
+       
         public SelectList GatewayList { get;set;}
     }
     public class SMTPGateWayMainModel

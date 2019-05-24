@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models.Gateway
 {
-    public class GatewayModel
+    public class GatewayModel:RegistrationModel
     {
         public GatewayModel(){
 
@@ -18,8 +18,8 @@ namespace TogoFogo.Models.Gateway
         public string GatewayName { get; set; }
         [DisplayName("Gateway Type Id")]
         public Int64 GatewayTypeId { get; set; }
-        [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
+
+      
 
         // SMS Gateway
         [DisplayName("URL Setting")]
@@ -51,9 +51,8 @@ namespace TogoFogo.Models.Gateway
         public string GoogleProjectID { get; set; }
         public string GoogleProjectName { get; set; }
 
-        public int AddeddBy { get; set; }
-        public DateTime LastUpdatedDateTime { get; set; }
-        public string LastUpdateBy { get; set; }
+
+      
         public SelectList GatewayList { get; set; }
     }
 }

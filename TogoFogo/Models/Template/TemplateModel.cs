@@ -62,7 +62,8 @@ namespace TogoFogo.Models.Template
         [DisplayName("Is System Defined ?")]
         public bool IsSystemDefined { get; set; }
         [DisplayName("Is Deleted ?")]
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
+      
         public DateTime AddedOn { get; set; }
         public int AddedBy { get; set; }
         //Email

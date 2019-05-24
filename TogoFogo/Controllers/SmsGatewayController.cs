@@ -29,7 +29,7 @@ namespace TogoFogo.Controllers
 
             var getwayTypeId = getwaylist.Where(x => x.Text == "SMS Gateway").Select(x => x.Value).SingleOrDefault();
             
-            var smsgateway = await _gatewayRepo.GetGatewayByType(getwayTypeId);
+            var smsgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=SessionModel.CompanyId });
             
             SMSGateWayMainModel model = new SMSGateWayMainModel();
             model.Gateway = new SMSGatewayModel();
@@ -51,16 +51,17 @@ namespace TogoFogo.Controllers
             if (ModelState.IsValid)
             {
                 var gatewayModel = new GatewayModel {
-                    GatewayId=smsgateway.GatewayId,
-                    GatewayTypeId=smsgateway.GatewayTypeId,
-                    GatewayName=smsgateway.GatewayName,
-                    IsActive=smsgateway.IsActive,
-                    OTPApikey=smsgateway.OTPApikey,
-                    TransApikey=smsgateway.TransApikey,
-                    URL=smsgateway.URL,
-                    OTPSender=smsgateway.OTPSender,
-                    SuccessMessage=smsgateway.SuccessMessage,
-                    AddeddBy= Convert.ToInt32(Session["User_ID"])
+                    GatewayId = smsgateway.GatewayId,
+                    GatewayTypeId = smsgateway.GatewayTypeId,
+                    GatewayName = smsgateway.GatewayName,
+                    IsActive = smsgateway.IsActive,
+                    OTPApikey = smsgateway.OTPApikey,
+                    TransApikey = smsgateway.TransApikey,
+                    URL = smsgateway.URL,
+                    OTPSender = smsgateway.OTPSender,
+                    SuccessMessage = smsgateway.SuccessMessage,
+                    UserId = SessionModel.UserId,
+                    CompanyId=SessionModel.CompanyId
                 };
                 ResponseModel response= new ResponseModel();
                 if (gatewayModel.GatewayId != 0)
@@ -69,7 +70,6 @@ namespace TogoFogo.Controllers
                     response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'I');
                 _gatewayRepo.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else

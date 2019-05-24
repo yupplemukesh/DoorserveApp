@@ -339,26 +339,7 @@ namespace TogoFogo.Controllers
         }
 
         
-        public JsonResult IsHSNCodeAlreadyExist(string ConEmailAddress, string InitialEmailAddress)
-        {
-
-            try
-            {
-                if (ConEmailAddress == InitialEmailAddress)
-                {
-                    return Json(true, JsonRequestBehavior.AllowGet);
-
-                }
-                return _contactPerson.GetContact(ConEmailAddress) ? Json(true, JsonRequestBehavior.AllowGet) : Json(false, JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception)
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-            }
-
-            
-        }
+    
 
 
     }

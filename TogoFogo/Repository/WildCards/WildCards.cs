@@ -47,11 +47,13 @@ namespace TogoFogo.Repository.WildCards
             sp.Add(param);
             param = new SqlParameter("@ACTION", (object)action);
             sp.Add(param);
-            param = new SqlParameter("@USER", (object)wildCardModel.AddedBy);
+            param = new SqlParameter("@USER", (object)wildCardModel.UserId);
             sp.Add(param);
             param = new SqlParameter("@ActionTypeIds", (object)actionTypeIds);
             sp.Add(param);
-            var sql = "USPInsertUpdateDeleteWildCards @WildCardId,@WildCard,@IsActive,@ACTION,@USER,@ActionTypeIds";
+            param = new SqlParameter("@compId", ToDBNull(wildCardModel.CompanyId));
+            sp.Add(param);
+            var sql = "USPInsertUpdateDeleteWildCards @WildCardId,@WildCard,@IsActive,@ACTION,@USER,@ActionTypeIds,@compId";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();

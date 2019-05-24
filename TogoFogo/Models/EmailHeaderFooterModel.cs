@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class EmailHeaderFooterModel
+    public class EmailHeaderFooterModel:RegistrationModel
     {
         public int EmailHeaderFooterId { get; set; }
         [Required]
@@ -24,12 +24,7 @@ namespace TogoFogo.Models
         [Required]
         [AllowHtml]
         [DisplayName("Footer HTML")]
-        public string FooterHTML { get; set; }
-        public bool ISACTIVE { get; set; }
-        public DateTime AddedOn { get; set; }
-        public int AddeddBy { get; set; }
-        public DateTime ModifiedOn { get; set; }
-        public int ModifiedBy { get; set; }
+        public string FooterHTML { get; set; }     
         public SelectList ActionTypeList { get; set; }
     }
 

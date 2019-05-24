@@ -32,14 +32,14 @@ namespace TogoFogo.Controllers
 
             var getwayTypeId = getwaylist.Where(x => x.Text == "Notification Gateway").Select(x => x.Value).SingleOrDefault();
 
-            var notificationgateway = await _gatewayRepo.GetGatewayByType(getwayTypeId);
+            var notificationgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=SessionModel.CompanyId });
 
             NotificationGateWayMainModel model = new NotificationGateWayMainModel();
             model.Gateway = new NotificationGatewayModel();
             model.mainModel = Mapper.Map<List<NotificationGatewayModel>>(notificationgateway);
             model.Gateway.GatewayTypeId = getwayTypeId;
             model.Gateway.GatewayList = new SelectList(notificationgateway, "GatewayId", "GatewayName");
-           // model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Notification_Gateway)]
@@ -64,7 +64,8 @@ namespace TogoFogo.Controllers
                     GoogleApiURL = notificationgateway.GoogleApiUrl,
                     GoogleProjectID = notificationgateway.GoogleProjectID,
                     GoogleProjectName = notificationgateway.GoogleProjectName,
-                    AddeddBy = Convert.ToInt32(Session["User_ID"])
+                    UserId = SessionModel.UserId,
+                    CompanyId=SessionModel.CompanyId,
                 };
                 ResponseModel response = new ResponseModel();
                 if (gatewayModel.GatewayId != 0)

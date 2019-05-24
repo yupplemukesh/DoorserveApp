@@ -23,12 +23,10 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Index()
        {
-            var templatepart = await _templatePartRepo.GetTemplatePart();
-            TemplatePartMainModel model = new TemplatePartMainModel();
-            model.TemplatePart = new TemplatePartModel();
-            model.mainModel = Mapper.Map<List<TemplatePartModel>>(templatepart);           
-           // model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(model);
+            var templatePart =new TemplatePartMainModel();
+            templatePart.mainModel = await _templatePartRepo.GetTemplatePart(new Filters.FilterModel {CompId=SessionModel.CompanyId });
+            templatePart.TemplatePart = new TemplatePartModel();
+            return View(templatePart);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Create()
@@ -48,7 +46,8 @@ namespace TogoFogo.Controllers
                     IsActive= templatepart.IsActive,
                     HTMLPart = templatepart.HTMLPart,
                     PlainTextPart = templatepart.PlainTextPart,
-                    AddeddBy = Convert.ToInt32(Session["User_ID"])
+                    UserId = SessionModel.UserId,
+                    CompanyId=SessionModel.CompanyId
                 };
                 ResponseModel response = new ResponseModel();
                 if (templatepartModel.TemplatePartId != 0)
@@ -57,7 +56,6 @@ namespace TogoFogo.Controllers
                     response = await _templatePartRepo.AddUpdateDeleteTemplatePart(templatepartModel, 'I');
                 _templatePartRepo.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else

@@ -9,7 +9,7 @@ namespace TogoFogo.Repository.EmailHeaderFooters
 {
     interface ITemplateParts:IDisposable
     {
-        Task<List<TemplatePartModel>> GetTemplatePart();
+        Task<List<TemplatePartModel>> GetTemplatePart(Filters.FilterModel filter);
         Task<TemplatePartModel> GetTemplatePartById(int TemplatePartId);
         Task<ResponseModel> AddUpdateDeleteTemplatePart(TemplatePartModel templatePartModel, char action);
         void Save();

@@ -14,5 +14,6 @@ namespace TogoFogo.Filters
         public int UserId { get; set; }
         public char tabIndex { get; set; }
         public bool IsExport { get; set; }
+        public int? GatewayTypeId { get; set; }
     }
 }

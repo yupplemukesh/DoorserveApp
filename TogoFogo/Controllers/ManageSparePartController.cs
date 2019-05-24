@@ -158,7 +158,7 @@ namespace TogoFogo.Controllers
                     if (result != null)
                     {
                         result.Category = result.CategoryId.ToString();
-                        result.SubCategory = result.SubCategoryId.ToString();
+                        result.SubCategory = Convert.ToString(result.SubCategoryId);
 
                     }
                     return PartialView("EditSpareType", result);

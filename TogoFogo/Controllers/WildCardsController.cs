@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.WildCards;
 using TogoFogo.Permission;
@@ -22,10 +23,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Wild_Cards)]
         public async Task<ActionResult> Index()
         {
-            var wildcards = new WildCardList();
-            //wildcards.WildCards = await _wildCardRepo.GetWildCards();
-           // wildcards.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
-
+         
+            var wildcards = await _wildCardRepo.GetWildCards(new FilterModel { CompId=SessionModel.CompanyId} );
+  
             return View(wildcards);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Wild_Cards)]
@@ -41,11 +41,11 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-                wildcardModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+                wildcardModel.UserId = SessionModel.UserId;
+                wildcardModel.CompanyId = SessionModel.CompanyId;
                 var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'I');
                 _wildCardRepo.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else
@@ -76,13 +76,13 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-                wildcardModel.AddedBy = Convert.ToInt32(Session["User_ID"]);
+                wildcardModel.UserId = SessionModel.UserId;
+                wildcardModel.CompanyId = SessionModel.CompanyId;
 
                 var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'U');
                 _wildCardRepo.Save();
                 
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class TemplatePartModel
+    public class TemplatePartModel:RegistrationModel
     {
         public int TemplatePartId { get; set; }
         [Required]
@@ -20,12 +20,7 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Plain Text Part")]
         public string PlainTextPart { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime AddedOn { get; set; }
-        public int AddeddBy { get; set; }
-        public DateTime ModifiedOn { get; set; }
-        public int ModifiedBy { get; set; }
-       
+            
     }
 
 
@@ -34,7 +29,7 @@ namespace TogoFogo.Models
     {
         public List<TemplatePartModel> mainModel { get; set; }
         public TemplatePartModel TemplatePart { get; set; }
-        public UserActionRights Rights { get; set; }
+    
 
 
     }

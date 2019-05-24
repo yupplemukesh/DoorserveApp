@@ -15,15 +15,24 @@ namespace TogoFogo.Repository.EmailHeaderFooters
         {
             _context = new ApplicationDbContext();
         }
-        public async Task<List<EmailHeaderFooterModel>> GetEmailHeaderFooters()
-        {          
-            return await _context.Database.SqlQuery<EmailHeaderFooterModel>("USPEmailHeaderFooterDetail @EmailHeaderFooterId =null").ToListAsync();
+        public async Task<List<EmailHeaderFooterModel>> GetEmailHeaderFooters(Filters.FilterModel filter)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@EmailHeaderFooterId", DBNull.Value);
+            sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(filter.CompId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<EmailHeaderFooterModel>("USPEmailHeaderFooterDetail @EmailHeaderFooterId,@CompId",sp.ToArray()).ToListAsync();
         }
         public async Task<EmailHeaderFooterModel> GetEmailHeaderFooterById(int EmailHeaderFooterId)
         {
-       
+
+            List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@EmailHeaderFooterId", EmailHeaderFooterId);
-            return await _context.Database.SqlQuery<EmailHeaderFooterModel>("USPEmailHeaderFooterDetail @EmailHeaderFooterId", param ).SingleOrDefaultAsync();
+            sp.Add(param);
+            param = new SqlParameter("@CompId", DBNull.Value);
+            sp.Add(param);
+            return await _context.Database.SqlQuery<EmailHeaderFooterModel>("USPEmailHeaderFooterDetail @EmailHeaderFooterId,@CompId", sp.ToArray()).SingleOrDefaultAsync();
         }
         public async Task<ResponseModel> AddUpdateDeleteEmailHeaderFooter(EmailHeaderFooterModel emailHeaderFooterModel, char action)
         {
@@ -45,14 +54,15 @@ namespace TogoFogo.Repository.EmailHeaderFooters
             sp.Add(param);
             param = new SqlParameter("@FooterHTML", (object)emailHeaderFooterModel.FooterHTML);
             sp.Add(param);
-            param = new SqlParameter("@User", (object)emailHeaderFooterModel.AddeddBy);
+            param = new SqlParameter("@User", (object)emailHeaderFooterModel.UserId);
             sp.Add(param);
-            param = new SqlParameter("@ISACTIVE", (object)emailHeaderFooterModel.ISACTIVE);
+            param = new SqlParameter("@ISACTIVE", (object)emailHeaderFooterModel.IsActive);
             sp.Add(param);
             param = new SqlParameter("@Action", (object)action);
             sp.Add(param);
-
-            var sql = "USPEmailHeaderFooterADDUPDATE @EmailHeaderFooterId,@ActionTypeId,@Name,@HeaderHTML,@FooterHTML,@User,@ISACTIVE,@Action";
+            param = new SqlParameter("@CompId", ToDBNull(emailHeaderFooterModel.CompanyId));
+            sp.Add(param);
+            var sql = "USPEmailHeaderFooterADDUPDATE @EmailHeaderFooterId,@ActionTypeId,@Name,@HeaderHTML,@FooterHTML,@User,@ISACTIVE,@Action,@CompId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

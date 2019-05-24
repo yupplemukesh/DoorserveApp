@@ -9,74 +9,71 @@
     <h3 class="m-y-0">Template Part</h3>
 </div>
 <div class="panel-body">
-
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default panel-table">
-                <div class="panel-heading">
-                    <div class="panel-tools">
-                        <a href="#" class="tools-icon">
-                            <i class="zmdi zmdi-refresh"></i>
-                        </a>
-                        <a href="#" class="tools-icon">
-                            <i class="zmdi zmdi-close"></i>
-                        </a>
-                    </div>
-                    <h3 class="panel-title">Template Part</h3>
-                    <div class="panel-subtitle"></div>
-
-                </div>
-                <div class="panel-body" style="border:0px solid red">
-                    <div class="table-responsive">
-                        @if (Permissions.Rights.View)
-                        {
-                            @Html.Partial("_TemplatePartTable", Model.mainModel, new ViewDataDictionary { { "rights", Model.Rights } })
-                        }
-                    </div>
-                </div>
+    <div class="col-md-6">
+        <div class="panel-heading">
+            <div class="panel-tools">
+                <a href="#" class="tools-icon">
+                    <i class="zmdi zmdi-refresh"></i>
+                </a>
+                <a href="#" class="tools-icon">
+                    <i class="zmdi zmdi-close"></i>
+                </a>
             </div>
-
+            <h3 class="panel-title">Template Part</h3>
+            <div class="panel-subtitle"></div>
 
         </div>
+        <div class="panel-body" style="border:0px solid red">
+            <div class="table-responsive">
+                @if (Permissions.Rights.View)
+                {
+                    @Html.Partial("_TemplatePartTable", Model.mainModel)
+                }
+            </div>
+        </div>
 
-        <div class="col-md-6">
-            <div class="panel panel-default panel-table">
-                <div class="panel-heading">
-                    <div class="panel-tools">
-                        <a href="#" class="tools-icon">
-                            <i class="zmdi zmdi-refresh"></i>
-                        </a>
-                        <a href="#" class="tools-icon">
-                            <i class="zmdi zmdi-close"></i>
-                        </a>
-                    </div>
-                    <h3 class="panel-title">Create / Update</h3>
-                    <div class="panel-subtitle"></div>
+    </div>
 
+    
+
+
+
+    <div class="col-md-6">
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="panel-tools">
+                    <a href="#" class="tools-icon">
+                        <i class="zmdi zmdi-refresh"></i>
+                    </a>
+                    <a href="#" class="tools-icon">
+                        <i class="zmdi zmdi-close"></i>
+                    </a>
                 </div>
-                <div class="panel-body" style="border:0px solid red">
-                    <div class="row ">
-                        <div class="col-md-12 ">
-                            @if (Permissions.Rights.Create)
+                <h3 class="panel-title">Create / Update</h3>
+                <div class="panel-subtitle"></div>
+
+            </div>
+            <div class="panel-body" style="border:0px solid red">
+                <div class="row ">
+                    <div class="col-md-12 ">
+                        @if (Permissions.Rights.Create)
+                        {
+                            using (Html.BeginForm("create", "TemplatePart", FormMethod.Post, new { @class = "form - horizontal" }))
                             {
-                                using (Html.BeginForm("create", "TemplatePart", FormMethod.Post, new { @class = "form - horizontal" }))
-                                {
 
-                                    @Html.Partial("_CreateEditTemplatePartForm", Model.TemplatePart)
+                                @Html.Partial("_CreateEditTemplatePartForm", Model.TemplatePart)
 
 
-                                }
                             }
-
-                        </div>
+                        }
 
                     </div>
 
-
-
-
                 </div>
+
+
+
+
             </div>
         </div>
     </div>

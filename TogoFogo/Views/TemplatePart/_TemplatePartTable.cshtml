@@ -1,7 +1,5 @@
 ﻿@model IList<TogoFogo.Models.TemplatePartModel>
 @using TogoFogo.Models
-@{  var rights = ViewData["rights"] as TogoFogo.Models.UserActionRights;
- }
 
 
 <div class="table-responsive">
@@ -28,7 +26,7 @@
                         @Html.DisplayFor(modelItem => item.TemplatePartName) 
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.AddedOn)
+                        @Html.DisplayFor(modelItem => item.LastUpdateDate)
                     </td>
                     <td class="text-center">
                         @if (Permissions.Rights.Edit)

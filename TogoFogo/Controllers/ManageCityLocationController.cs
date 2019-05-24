@@ -122,7 +122,7 @@ namespace TogoFogo.Controllers
                 ViewBag.StateName = new SelectList(dropdown.BindState(), "Value", "Text");
                 if (result != null)
                 {
-                    result.CountryName = result.CountryId.ToString();
+                    result.CountryName =Convert.ToString(result.CountryId);
                     result.StateName = result.StateId.ToString();
 
                 }

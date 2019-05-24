@@ -27,16 +27,13 @@ namespace TogoFogo.Controllers
          //   var smtpgateway = new SMTPGatewayList();
             var Gatewaylist = await CommonModel.GetGatewayType();
             var GatewayTypeId = Gatewaylist.Where(x => x.Text == "SMTP Gateway").Select(x => x.Value).SingleOrDefault();
-            var GatewayModel = await _gatewayRepo.GetGatewayByType(GatewayTypeId);
+            var GatewayModel = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=GatewayTypeId,CompId=SessionModel.CompanyId });
             SMTPGateWayMainModel model = new SMTPGateWayMainModel();
             model.Gateway = new SMTPGatewayModel();
             
             model.Gateway.GatewayTypeId = GatewayTypeId;
             model.Gateway.GatewayList = new SelectList(GatewayModel, "GatewayId", "GatewayName");
             model.mainModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
-            // var SmtpGatewayModel = Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
-            // smtpgateway.SMTPGateway= Mapper.Map<List<SMTPGatewayModel>>(GatewayModel);
-            //smtpgateway.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Gateway_Settings)]
@@ -67,7 +64,8 @@ namespace TogoFogo.Controllers
                     SmtpPassword=smtpgateway.SmtpPassword,
                     PortNumber=smtpgateway.PortNumber,
                     SSLEnabled=smtpgateway.SSLEnabled,
-                    AddeddBy = Convert.ToInt32(Session["User_ID"])
+                    UserId =SessionModel.UserId,
+                    CompanyId=SessionModel.CompanyId
                 };
                
               var   response = await _gatewayRepo.AddUpdateDeleteGateway(GatewayModel, 'I');
@@ -107,12 +105,13 @@ namespace TogoFogo.Controllers
                     SmtpPassword = smtpgateway.SmtpPassword,
                     PortNumber = smtpgateway.PortNumber,
                     SSLEnabled = smtpgateway.SSLEnabled,
-                    AddeddBy = Convert.ToInt32(Session["User_ID"])
+                    UserId = SessionModel.UserId,
+                    CompanyId=SessionModel.CompanyId
                 };
                    var  response = await _gatewayRepo.AddUpdateDeleteGateway(GatewayModel, 'U');
                 _gatewayRepo.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
+
                 return RedirectToAction("Index");
             }
             else

@@ -231,7 +231,7 @@ namespace TogoFogo.Controllers
             templateModel.CompanyId = SessionModel.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
             {
-                templateModel.ScheduleDateTime = templateModel.ScheduleDate + " " + templateModel.ScheduleTime;
+                templateModel.ScheduleDateTime = Convert.ToDateTime(templateModel.ScheduleDate) + " " + templateModel.ScheduleTime;
             }
             if (templateModel.MessageTypeName == "SMTP Gateway")
             {

@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.Gateway;
 
@@ -18,16 +19,18 @@ namespace TogoFogo.Repository.SMSGateway
 
         }
 
-        public async Task<List<GatewayModel>> GetGatewayByType(int GatewayTypeId)
+        public async Task<List<GatewayModel>> GetGatewayByType(FilterModel filter )
         {
 
             List<SqlParameter> sp = new List<SqlParameter>();
 
             SqlParameter param = new SqlParameter("@GatewayId",DBNull.Value);
             sp.Add(param);
-            param = new SqlParameter("@GatewayTypeId", GatewayTypeId);
+            param = new SqlParameter("@GatewayTypeId", filter.GatewayTypeId);
             sp.Add(param);
-            return await _context.Database.SqlQuery<GatewayModel>("USPGatewayDetail @GatewayId,@GatewayTypeId", sp.ToArray()).ToListAsync();
+            param = new SqlParameter("@CompId",ToDBNull(filter.CompId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<GatewayModel>("USPGatewayDetail @GatewayId,@GatewayTypeId,@CompId", sp.ToArray()).ToListAsync();
         }
         public async Task<GatewayModel> GetGatewayById(int GatewayId)
         {
@@ -37,7 +40,9 @@ namespace TogoFogo.Repository.SMSGateway
             sp.Add(param);
             param = new SqlParameter("@GatewayTypeId", DBNull.Value);
             sp.Add(param);
-            return await _context.Database.SqlQuery<GatewayModel>("USPGatewayDetail @GatewayId,@GatewayTypeId", sp.ToArray()).SingleOrDefaultAsync();
+            param = new SqlParameter("@CompId", DBNull.Value);
+            sp.Add(param);
+            return await _context.Database.SqlQuery<GatewayModel>("USPGatewayDetail @GatewayId,@GatewayTypeId,@CompId", sp.ToArray()).SingleOrDefaultAsync();
         }
         public async Task<ResponseModel> AddUpdateDeleteGateway(GatewayModel gatewayModel, char action)
         {
@@ -78,7 +83,7 @@ namespace TogoFogo.Repository.SMSGateway
             sp.Add(param);
             param = new SqlParameter("@OtpSender", ToDBNull(gatewayModel.OTPSender));
             sp.Add(param);
-            param = new SqlParameter("@USERID", (object)gatewayModel.AddeddBy);
+            param = new SqlParameter("@USERID", (object)gatewayModel.UserId);
             sp.Add(param);
             param = new SqlParameter("@SenderId", ToDBNull(gatewayModel.SenderID));
             sp.Add(param);
@@ -90,9 +95,10 @@ namespace TogoFogo.Repository.SMSGateway
             sp.Add(param);
             param = new SqlParameter("@GoogleProjectName", ToDBNull(gatewayModel.GoogleProjectName));
             sp.Add(param);
-
+            param = new SqlParameter("@CompId", ToDBNull(gatewayModel.CompanyId));
+            sp.Add(param);
             var sql = "USPGatewayADDUPDATE @GatewayId,@GatewayTypeId,@GatewayName,@ISACTIVE,@IsDefault,@IsProcessByAWS,@Name,@Email,@SmtpServerName,@SmtpUserName,@SmtpPassword,@PortNumber,@SSLEnabled," +
-                "@URL,@TransApikey,@OTPApikey,@SuccessMessage,@OtpSender,@USERID,@SenderId,@GoogleApikey,@GoogleApiURL,@GoogleProjectID,@GoogleProjectName";			
+                "@URL,@TransApikey,@OTPApikey,@SuccessMessage,@OtpSender,@USERID,@SenderId,@GoogleApikey,@GoogleApiURL,@GoogleProjectID,@GoogleProjectName,@CompId";			
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();                                                                                                                                                         			
             if (res.ResponseCode==0)                                                                                                                                                                                                                                    		
                 res.IsSuccess = true;                                                                                                                                                                                                                               

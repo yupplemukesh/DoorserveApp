@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class SMSGatewayModel
+    public class SMSGatewayModel:RegistrationModel
     {
         public SMSGatewayModel()
         {
@@ -33,13 +33,8 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Success Message")]
         public string SuccessMessage { get; set; }
-        [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
         [DisplayName("OTP Sender")]
         public int? OTPSender { get; set; }
-        public int AddeddBy { get; set; }
-        public DateTime LastUpdatedDateTime { get; set; }
-        public string LastUpdateBy { get; set; }
         public SelectList GatewayList { get; set; }
         
 

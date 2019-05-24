@@ -41,7 +41,7 @@ namespace TogoFogo.Controllers
                                     new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
             if (Status == 1)
             {
-                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
+                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("UspInsertUser",
@@ -143,7 +143,7 @@ namespace TogoFogo.Controllers
                                     new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
             if (Status == 1)
             {
-                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
+                //objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("UspInsertUser",

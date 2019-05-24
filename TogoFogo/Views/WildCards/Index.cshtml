@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.WildCards.WildCardList
+﻿@model IEnumerable<TogoFogo.Models.WildCardModel>
 @using TogoFogo.Models
 @{
     ViewBag.Title = "Index";
@@ -61,7 +61,7 @@
 
                 </tr>
             </thead>
-            @foreach (var item in Model.WildCards)
+            @foreach (var item in Model)
             {
                 <tr>
                     <td>

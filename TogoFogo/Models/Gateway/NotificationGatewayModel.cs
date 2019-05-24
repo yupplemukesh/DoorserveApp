@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models.Gateway
 {
-    public class NotificationGatewayModel
+    public class NotificationGatewayModel:RegistrationModel
     {
         public NotificationGatewayModel()
         {
@@ -21,8 +21,7 @@ namespace TogoFogo.Models.Gateway
         public string GatewayName { get; set; }
         [DisplayName("Gateway Type Id")]
         public Int64 GatewayTypeId { get; set; }
-        [DisplayName("Is Active ?")]
-        public bool IsActive { get; set; }
+   
         [Required]
         [DisplayName("Sender ID")]
         public string SenderID { get; set; }

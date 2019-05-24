@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.PromoCodeModel
+﻿@model IEnumerable<TogoFogo.Models.PromoCodeModel>
 @{ 
     Layout = null;
 }
@@ -20,7 +20,7 @@
         
     </tr>
 
-@foreach (var item in Model._PromoCodeList) {
+@foreach (var item in Model) {
    
     <tr>
         <td>

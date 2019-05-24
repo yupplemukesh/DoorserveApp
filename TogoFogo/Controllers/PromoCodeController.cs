@@ -24,9 +24,8 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
 
-            }
-            var _UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(_UserActionRights);
+            }         
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Promocode)]
         public ActionResult AddPromoCode()
@@ -41,7 +40,7 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Insert_into_MstPromoCode", new {m.PromoCode,m.Amount,m.FromDate,m.ToDate },
+                    var result = con.Query<int>("Insert_into_MstPromoCode", new {m.PromoCode,m.Amount,m.FromDate,m.ToDate,SessionModel.UserId, SessionModel.CompanyId},
                  commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 1)
                     {
@@ -58,15 +57,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Promocode)]
         public ActionResult PromoCodeTable()
         {
-            PromoCodeModel obj_promocode = new PromoCodeModel();
+
             using (var con = new SqlConnection(_connectionString))
             {
-                obj_promocode._PromoCodeList = con.Query<PromoCodeModel>("Select * from MstPromoCode", new { }, commandType: CommandType.Text).ToList();
-                
-               // return View(result);
+                var promoCodes = con.Query<PromoCodeModel>("Select * from MstPromoCode where companyId=@compId", new { compId=SessionModel.CompanyId }, commandType: CommandType.Text).ToList();
+
+                return View(promoCodes);
             }
-            obj_promocode._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-            return View(obj_promocode);
+           
 
         }
 

@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Index()
        {
-            var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters();
+            var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters( new Filters.FilterModel {CompId=SessionModel.CompanyId});
             EmailHeaderFooterMainModel model = new EmailHeaderFooterMainModel();
             model.EmailHeaderFooter = new EmailHeaderFooterModel();
             model.mainModel = Mapper.Map<List<EmailHeaderFooterModel>>(emailheaderfooter);
@@ -45,10 +45,11 @@ namespace TogoFogo.Controllers
                     EmailHeaderFooterId = emailheaderfooter.EmailHeaderFooterId,
                     ActionTypeId = emailheaderfooter.ActionTypeId,
                     Name = emailheaderfooter.Name,
-                    ISACTIVE=emailheaderfooter.ISACTIVE,
+                    IsActive=emailheaderfooter.IsActive,
                     HeaderHTML = emailheaderfooter.HeaderHTML,
                     FooterHTML = emailheaderfooter.FooterHTML,
-                    AddeddBy = Convert.ToInt32(Session["User_ID"])
+                    UserId = SessionModel.UserId,
+                    CompanyId=SessionModel.CompanyId
                 };
                 ResponseModel response = new ResponseModel();
                 if (emailheaderfooterModel.EmailHeaderFooterId != 0)
@@ -57,7 +58,6 @@ namespace TogoFogo.Controllers
                     response = await _emailHeaderFooterRepo.AddUpdateDeleteEmailHeaderFooter(emailheaderfooterModel, 'I');
                 _emailHeaderFooterRepo.Save();
                 TempData["response"] = response;
-                TempData.Keep("response");
                 return RedirectToAction("Index");
             }
             else
