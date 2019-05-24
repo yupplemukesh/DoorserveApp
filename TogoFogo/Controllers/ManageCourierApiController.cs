@@ -25,7 +25,7 @@ namespace TogoFogo.Controllers
         {          
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { SessionModel.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }           
            
@@ -49,7 +49,7 @@ namespace TogoFogo.Controllers
                 {
         
                 // ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                // ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");
+                // ViewBag.Courier = new SelectList(dropdown.BindCourier(), "Value", "Text");/
                 var result = con.Query<int>("Add_Edit_Delete_CourierApi",
                         new
                         {
@@ -67,6 +67,7 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Comments,
                             User = SessionModel.UserId,
+                            SessionModel.CompanyId,
                             Action = "I",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                             var response = new ResponseModel();
@@ -132,6 +133,7 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Comments,
                             User = SessionModel.UserId,
+                            SessionModel.CompanyId,
                             Action = "U",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();

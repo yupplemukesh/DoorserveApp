@@ -22,7 +22,7 @@ namespace TogoFogo.Controllers
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
 
-        // GET: ManagePinZIPCode
+        /// GET: ManagePinZIPCode
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult PinZIPCode()
         {           

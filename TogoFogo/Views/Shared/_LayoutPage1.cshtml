@@ -191,10 +191,11 @@
                     $('#hideLink').hide()
                 }
             });
-            $("#datepicker,#AgreementEndDate,#editAgreementStartDate,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
+            $("#datepicker,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
                 .datepicker({
-                    dateFormat: 'dd-M-yy',
+                    dateFormat: 'dd-MM-yy',
                 }).datepicker("setDate", new Date());
+
             $('#date_begin,#date_end').datetimepicker();
             $("#form_datetime,#form_datetime1,#form_datetime2").datetimepicker({ format: 'yyyy-mm-dd hh:ii' });
             $('#ReportFromDate,#ReportToDate').datepicker({

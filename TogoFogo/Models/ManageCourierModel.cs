@@ -23,11 +23,11 @@ namespace TogoFogo.Models
 
         public int SerialNo { get; set; }
         [Required]
-        public string Country { get; set; }
+        public int Country { get; set; }
         [Required]
-        public string StateDropdown { get; set; }
+        public int StateDropdown { get; set; }
         [Required]
-        public string CityDropdown { get; set; }
+        public int CityDropdown { get; set; }
         
         public string PinCodeDropdown { get; set; }
 
@@ -103,13 +103,13 @@ namespace TogoFogo.Models
         [DisplayName("Is Allow Order Preference")]
         public Boolean IsAllowPreference { get; set; }
         [DisplayName("Country Name")]
-        public string CountryId { get; set; }     
+        public int CountryId { get; set; }     
         public string Cnty_Name { get; set; }
         [DisplayName("State Name")]
-        public string StateId { get; set; }       
+        public int StateId { get; set; }       
         public string St_Name { get; set; }
         [DisplayName("City Name")]
-        public string CityId { get; set; }       
+        public int CityId { get; set; }       
         public string City_Name { get; set; }
         [Required]
         [DisplayName("Courier Name")]
@@ -182,22 +182,15 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("PAN Card Number")]
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = " Invalid PAN Number")]
-        public string UserPANCard { get; set; }
-        
-        public string UserPANCardFile { get; set; }
-      
-        [DisplayName("Voter ID Card Number")]
-        [RegularExpression(@"[A-Z]{3}\d{7}", ErrorMessage = "Invalid Voter ID Card Number")]
-        public string VoterIDCardNo { get; set; }
-   
+        public string UserPANCard { get; set; }        
+        public string UserPANCardFile { get; set; }      
+        [DisplayName("Voter ID Card Number")]        
+        public string VoterIDCardNo { get; set; }   
         public string VoterIDFile { get; set; }
        
-        [DisplayName("Aadhaar Card Number")]
-        [RegularExpression(@"^\d{4}\s\d{4}\s\d{4}$", ErrorMessage = "Invalid Aadhaar Card Number Must Give Space After 4 Number")]
-        public string AadhaarCardNo { get; set; }
-        
-        public string AadhaarCardFile { get; set; }
-        
+        [DisplayName("Aadhaar Card Number")]        
+        public string AadhaarCardNo { get; set; }        
+        public string AadhaarCardFile { get; set; }        
         [DisplayName("Item Type")]
         public Boolean ItemType { get; set; }
         [DisplayName("Country")]
@@ -219,6 +212,7 @@ namespace TogoFogo.Models
         public string ServiceCharge { get; set; }
         [Required]
         [DisplayName("Applicable From Date")]
+       // [DataType(DataType.Date)]
         public string ApplicableFromDate { get; set; }
         [Required]
         [DisplayName("Legal Document Verification Status")]
@@ -228,11 +222,12 @@ namespace TogoFogo.Models
         public string AgreementSignupStatus { get; set; }
         [Required]
         [DisplayName("Agreement Start Date")]
+       // [DataType(DataType.Date)]
         public string AgreementStartDate { get; set; }
         [Required]
         [DisplayName("Agreement End Date")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime AgreementEndDate { get; set; }
+      //[DataType(DataType.Date)]
+        public string AgreementEndDate { get; set; }
         [DisplayName("Agreement Number")]
         public string AgreementNumber { get; set; }
         public string AgreementScanFile { get; set; }       
@@ -240,14 +235,13 @@ namespace TogoFogo.Models
         [DisplayName("Bank Name")]
         public string BankName { get; set; }
         [Required]
-        [DisplayName("Bank Account Number")]
-        [RegularExpression(@"^\d{9,18}$", ErrorMessage = "Invalid Bank Account Number")]
+        [DisplayName("Bank Account Number")]       
         public string BankAccountNumber { get; set; }
         [Required]
         [DisplayName("Company Name at Bank Account")]
         public string CompanyNameatBank { get; set; }
         [Required]
-        [RegularExpression(@"^[A-Za-z]{4}[0-9]{7}$", ErrorMessage = "Invalid IFSC Code  Number")]
+        [RegularExpression(@"[A-Z|a-z]{4}[0][a-zA-Z0-9]{6}$", ErrorMessage = "Invalid IFSC Code Number")]
         [DisplayName("IFSC Code")]
         public string IFSCCode { get; set; }
         [Required]

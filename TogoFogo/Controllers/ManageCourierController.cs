@@ -49,7 +49,7 @@ namespace TogoFogo.Controllers
         {            
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<ManageCourierModel>("GETCourierMasterData", null, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<ManageCourierModel>("GETCourierMasterData", new { SessionModel.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }           
             
@@ -73,17 +73,17 @@ namespace TogoFogo.Controllers
             return View(courierModel);
         }
         [HttpPost]
-        public ActionResult Create(ManageCourierModel model)
+        public async Task<ActionResult> Create(ManageCourierModel model)
         {
             try
-            {          
-                           
-                    if (ModelState.IsValid)
-                    {
+            {
+
+                if (ModelState.IsValid)
+                {
                     using (var con = new SqlConnection(_connectionString))
                     {
                         string UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");
-                        string UploadedGSTFile= SaveImageFile(model.UploadedGSTFilePath, "Courier/Gst");
+                        string UploadedGSTFile = SaveImageFile(model.UploadedGSTFilePath, "Courier/Gst");
                         string PANCardFile = SaveImageFile(model.PANCardFilePath, "Courier/PanCards");
                         string UserPANCardFile = SaveImageFile(model.UserPANCardFilePath, "Courier/Pancards");
                         string VoterIDFile = SaveImageFile(model.VoterIDFilePath, "Courier/VoterCards");
@@ -100,10 +100,14 @@ namespace TogoFogo.Controllers
                                 model.CourierBrandName,
                                 model.Priority,
                                 model.CourierTAT,
-                                model.AWBNumber, 
-                                CountryId = model.Country,                             
-                                StateId = model.StateDropdown,
-                                CityId = model.CityDropdown,                            
+                                model.AWBNumber,
+                                //CountryId = model.Country,                             
+                                //StateId = model.StateDropdown,
+                                // CityId = model.CityDropdown,
+                                model.CountryId,
+                                model.StateId,
+                                model.CityId,
+
                                 UploadedCourierFile,
                                 model.IsReverse,
                                 model.IsAllowPreference,
@@ -167,9 +171,10 @@ namespace TogoFogo.Controllers
                                 //Registration
                                 model.LuluandSky_Status,
                                 model.Comments,
-                                model.IsActive,                               
-                                User = Convert.ToInt32(Session["User_ID"]),
-                                Action = "I",                              
+                                model.IsActive,
+                                User = SessionModel.UserId,
+                                SessionModel.CompanyId,
+                                Action = "I",
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();
                         if (result == 1)
@@ -177,11 +182,11 @@ namespace TogoFogo.Controllers
                             response.IsSuccess = true;
                             response.Response = "New Courier Successfully Added ";
                             TempData["response"] = response;
-                            
+
                         }
-                    
-                    else
-                    {
+
+                        else
+                        {
                             response.IsSuccess = true;
                             response.Response = "Courier Already Exist ";
                             TempData["response"] = response;
@@ -192,15 +197,38 @@ namespace TogoFogo.Controllers
                     //return View(model);
                     return RedirectToAction("ManageCourier");
                 }
+                else
+                {
+
+                    model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                    model.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    model.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    model.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    model.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
+                    model.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text");
+                    model.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text");
+                    model.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(), "Value", "Text");
+                    model.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
+                    return View(model);
+                }
 
             }
             catch (Exception e)
             {
-                TempData["AddCourier"] = e;
-
+                model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                model.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+                model.CityList = new SelectList(Enumerable.Empty<SelectListItem>()); 
+                model.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                model.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
+                model.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text");
+                model.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text");
+                model.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(), "Value", "Text");
+                model.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
+                
+                return View(model);
             }
 
-            return RedirectToAction("ManageCourier");
+
         }
        
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Courier)]
@@ -222,9 +250,10 @@ namespace TogoFogo.Controllers
                 if (result != null)
                 {
 
-                    result.Country = result.CountryId;
+                     result.Country = result.CountryId;
                     result.StateDropdown = result.StateId;
-                    result.CityDropdown = result.CityId;
+                     result.CityDropdown = result.CityId;                    
+
                     result.PinCodeDropdown = result.Pincode;
                     result.SC_CountryDropdown = result.SC_Country;
                     result.PersonCountryDropdown = result.PersonCountry;
@@ -248,25 +277,27 @@ namespace TogoFogo.Controllers
                     string[] parts1 = weight.ToString().Split('-');
                     result.WeightRange1 = parts[0];
                     result.WeightRange2 = parts[1];
-                    result.AgreementEndDate = result.AgreementEndDate;
-
+                    result.AgreementEndDate =Convert.ToDateTime( result.AgreementEndDate).ToString("MM-dd-yyyy");
+                   result.AgreementStartDate = Convert.ToDateTime(result.AgreementStartDate).ToString("MM-dd-yyyy");
+                  result.ApplicableFromDate = Convert.ToDateTime(result.ApplicableFromDate).ToString("MM-dd-yyyy");
+                    
                 }
 
                 return View(result);
             }
         }
         [HttpPost]
-        public ActionResult Edit(ManageCourierModel model)
+        public async Task<ActionResult> Edit(ManageCourierModel model)
         {
             try
             {
-                
+
                 if (ModelState.IsValid)
                 {
                     using (var con = new SqlConnection(_connectionString))
-                {                        
+                    {
                         var path = Server.MapPath("/UploadedImages/Courier/");
-                        
+
                         if (model.UploadedCourierFilePath != null && model.UploadedCourierFile != null)
                         {
 
@@ -274,10 +305,10 @@ namespace TogoFogo.Controllers
                             if (System.IO.File.Exists(path + "Logo/ " + model.UploadedCourierFile))
                             {
                                 System.IO.File.Delete(path + "Logo/" + model.UploadedCourierFile);
-                            }                         
+                            }
                         }
                         if (model.UploadedCourierFilePath != null)
-                        {                        
+                        {
 
                             model.UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");
                         }
@@ -299,7 +330,7 @@ namespace TogoFogo.Controllers
                         if (model.PANCardFilePath != null && model.PANCardFile != null)
                         {
                             if (System.IO.File.Exists(path + "PanCards/ " + model.PANCardFile))
-                            { 
+                            {
                                 System.IO.File.Delete(path + "PanCards/" + model.PANCardFile);
                             }
                         }
@@ -312,7 +343,7 @@ namespace TogoFogo.Controllers
                         if (model.UserPANCardFilePath != null && model.UserPANCardFile != null)
                         {
                             if (System.IO.File.Exists(path + "PanCards/ " + model.UserPANCardFile))
-                            { 
+                            {
                                 System.IO.File.Delete(path + "PanCards/" + model.UserPANCardFile);
                             }
                         }
@@ -325,7 +356,7 @@ namespace TogoFogo.Controllers
                         if (model.VoterIDFilePath != null && model.VoterIDFile != null)
                         {
                             if (System.IO.File.Exists(path + "VoterCards/ " + model.VoterIDFile))
-                            { 
+                            {
                                 System.IO.File.Delete(path + "VoterCards/" + model.VoterIDFile);
                             }
                         }
@@ -337,7 +368,7 @@ namespace TogoFogo.Controllers
                         if (model.AadhaarCardFilePath != null && model.AadhaarCardFile != null)
                         {
                             if (System.IO.File.Exists(path + "AdharCards/ " + model.AadhaarCardFile))
-                            { 
+                            {
                                 System.IO.File.Delete(path + "AdharCards/" + model.AadhaarCardFile);
                             }
                         }
@@ -350,7 +381,7 @@ namespace TogoFogo.Controllers
                         if (model.AgreementScanFilePath != null && model.AgreementScanFile != null)
                         {
                             if (System.IO.File.Exists(path + "ScanAgreement/ " + model.AgreementScanFile))
-                            { 
+                            {
                                 System.IO.File.Delete(path + "ScanAgreement/" + model.AgreementScanFile);
                             }
                         }
@@ -363,7 +394,7 @@ namespace TogoFogo.Controllers
                         if (model.CancelledChequeFilePath != null && model.CancelledChequeFile != null)
                         {
                             if (System.IO.File.Exists(path + "CancelledCheques/ " + model.CancelledChequeFile))
-                            { 
+                            {
                                 System.IO.File.Delete(path + "CancelledCheques/" + model.CancelledChequeFile);
                             }
                         }
@@ -384,9 +415,13 @@ namespace TogoFogo.Controllers
                                 model.Priority,
                                 model.CourierTAT,
                                 model.AWBNumber,
-                                CountryId = model.Country,
-                                StateId = model.StateDropdown,
-                                CityId = model.CityDropdown,
+                                //CountryId = model.Country,
+                                //StateId = model.StateDropdown,
+                                // CityId = model.CityDropdown,
+                                model.CountryId,
+                                model.StateId,
+                                model.CityId,
+
                                 model.UploadedCourierFile,
                                 model.IsReverse,
                                 model.IsAllowPreference,
@@ -450,42 +485,65 @@ namespace TogoFogo.Controllers
                                 //Registration
                                 model.LuluandSky_Status,
                                 model.Comments,
-                                model.IsActive,                              
-                                User = Convert.ToInt32(Session["User_ID"]),
-                                Action = "U",                               
+                                model.IsActive,
+                                User = SessionModel.UserId,
+                                SessionModel.CompanyId,
+                                Action = "U",
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                        
+
                         var response = new ResponseModel();
+
                         if (result == 2)
                         {
                             response.IsSuccess = true;
                             response.Response = "Courier Name Updated Successfully";
                             TempData["response"] = response;
                             TempData.Keep("response");
-                        
+
                         }
-                   
-                    else
-                    {
+
+                        else
+                        {
                             response.IsSuccess = true;
                             response.Response = "Courier Name Not Updated Successfully";
                             TempData["response"] = response;
                             TempData.Keep("response");
 
                         }
-                   
-                    return RedirectToAction("ManageCourier");
+                        return RedirectToAction("ManageCourier");
+
+                    }
+
                 }
+                else
+                {
+                    model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                    model.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    model.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    model.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                    model.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
+                    model.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text");
+                    model.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text");
+                    model.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(), "Value", "Text");
+                    model.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
+                    return View(model);
                 }
-               
             }
             catch (Exception e)
             {
-                TempData["AddCourier"] = e;
-                //throw;
+                model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                model.StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+                model.CityList = new SelectList(Enumerable.Empty<SelectListItem>());
+                model.PincodeList = new SelectList(Enumerable.Empty<SelectListItem>());
+                model.ApplicableTaxTypeList = new SelectList(await CommonModel.GetApplicationTaxType(), "Value", "Text");
+                model.PersonAddressTypeList = new SelectList(CommonModel.GetAddressTypes(), "Value", "Text");
+                model.AWBNumberUsedList = new SelectList(await CommonModel.GetAWBNumberUsedTypes(), "Value", "Text");
+                model.AgreementSignupList = new SelectList(await CommonModel.GetAgreementSignup(), "Value", "Text");
+                model.LegalDocumentVerificationList = new SelectList(await CommonModel.GetLegalDocumentVerification(), "Value", "Text");
+                return View(model);
             }
 
-            return RedirectToAction("ManageCourier");
+       
         }
       
     }

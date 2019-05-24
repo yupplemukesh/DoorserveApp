@@ -33,8 +33,7 @@ namespace TogoFogo.Models
         [Required(ErrorMessage = "Version is required")]
         [DisplayName("Version")]
         public string AppVersion  {get;set;}
-        [Required]
-        [RegularExpression(@"^\d{9,18}$", ErrorMessage = "Invalid Account Number")]
+        [Required]        
         [DisplayName("Account Number")]
         public string AccountNo   {get;set;}
         [Required]

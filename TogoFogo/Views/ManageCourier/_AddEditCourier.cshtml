@@ -62,21 +62,21 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Country, Model.CountryList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateDropdown', this)" })
+                    @Html.DropDownListFor(model => model.CountryId, Model.CountryList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
                     @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.Label("State", htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.StateDropdown, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityDropdown', this)" })
+                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
                     @Html.ValidationMessageFor(model => model.StateDropdown, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
                 @Html.Label("City", htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CityDropdown, Model.CityList, htmlAttributes: new { @class = "form-control", placeholder = "" })
+                    @Html.DropDownListFor(model => model.CityId, Model.CityList, htmlAttributes: new { @class = "form-control", placeholder = "" })
                     @Html.ValidationMessageFor(model => model.CityDropdown, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -285,7 +285,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.ApplicableFromDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.ApplicableFromDate, null, htmlAttributes: new { @class = "form-control", id = "datepicker", autocomplete = "off" })
+                    @Html.TextBoxFor(model => model.ApplicableFromDate,null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.ApplicableFromDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -487,7 +487,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.AgreementStartDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AgreementStartDate, null, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                    @Html.TextBoxFor(model => model.AgreementStartDate,null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AgreementStartDate, "", new { @class = "text-danger" })
 
                 </div>
@@ -495,7 +495,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.AgreementEndDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.TextBoxFor(model => model.AgreementEndDate, null, htmlAttributes: new { @class = "form-control", autocomplete = "off" })
+                    @Html.TextBoxFor(model => model.AgreementEndDate, null, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.AgreementEndDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -626,3 +626,4 @@
     <div class="ln_solid"></div>
 </div>
 @Scripts.Render("~/bundles/jqueryval")
+
