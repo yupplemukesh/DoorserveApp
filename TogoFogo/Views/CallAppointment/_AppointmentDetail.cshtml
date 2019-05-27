@@ -1,0 +1,121 @@
+﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
+
+@using (Html.BeginForm("Edit", "CallAppointment", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(x=>x.DeviceId)
+
+@Html.Partial("~/views/common/_CustomerInfoForm.cshtml", Model)
+
+@Html.Partial("~/views/common/_CallLogDeviceInfoForm.cshtml", Model)
+
+<div class="panel panel-default panel-table">
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="panel-default m-b-10">
+                <div class="panel-heading p-l-0 p-t-0 ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="m-t-0 m-b-5">Call Information</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3"> <h5 class="m-t-0">Service Type</h5></div>
+                <div class="col-sm-9">
+
+                    @foreach (var item in Model.ServiceTypeList)
+                    {
+                        <label class="custom-control custom-control-primary custom-checkbox p-l-0">
+                            @Html.RadioButtonFor(x => x.ServiceTypeId, item.Value)
+                            <span>@item.Text</span>
+                        </label>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(x => x.ServiceTypeId, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3"> <h5 class="m-t-0">Service Delivery Type</h5></div>
+                <div class="col-sm-9">
+                    @foreach (var item in Model.DeliveryTypeList)
+                    {
+                        <label class="custom-control custom-control-primary custom-checkbox p-l-0">
+                            @Html.RadioButtonFor(x => x.DeliveryTypeId, item.Value)
+                            @Html.HiddenFor(x => item)
+                            <span>@item.Text</span>
+                        </label>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.ValidationMessageFor(x => x.DeliveryTypeId, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="panel panel-default panel-table">
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="panel-default m-b-10">
+                <div class="panel-heading p-l-0 p-t-0 ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="m-t-0 m-b-5">Appointment Detail</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.LabelFor(model => model.AppointmentDate, htmlAttributes: new { @class = "control-label" })
+                            <div class="input-group">
+                                <span class="input-group-addon"></span>
+                                @Html.TextBoxFor(x => x.AppointmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @placeholder = "Appointment Date", @type = "date" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label" })
+                            <div class="input-group">
+                                <span class="input-group-addon"></span>
+                                @Html.TextAreaFor(x => x.Remark, new { @class = "form-control", @placeholder = "Remark" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+                        <div class="form-group row m-t-5">
+                            <div class="col-md-4 col-md-offset-8">
+                                <button class="btn btn-success" type="submit" id="btnSave">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+}

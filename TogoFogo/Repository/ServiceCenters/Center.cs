@@ -443,6 +443,27 @@ namespace TogoFogo.Repository.ServiceCenters
 
         }
 
+        public async Task<ResponseModel> EditCallAppointment(CallDetailsModel cam)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@DeviceId", ToDBNull(cam.DeviceId));
+            sp.Add(param);            
+            param = new SqlParameter("@altcontactnumber", ToDBNull(cam.CustomerAltConNumber));
+            sp.Add(param);
+            param = new SqlParameter("@appointmentdate", ToDBNull(cam.AppointmentDate));
+            sp.Add(param);
+            param = new SqlParameter("@remark", ToDBNull(cam.Remark));
+            sp.Add(param);
+            var sql = "UpdateAppointmentDetail @DeviceId,@altcontactnumber,@appointmentdate,@remark";
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 1)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
+
+        }
+
         private object ToDBNull(object value)
         {
             if (null != value)

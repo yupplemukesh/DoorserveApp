@@ -22,6 +22,7 @@ namespace TogoFogo.Repository.ServiceCenters
         Task<ResponseModel> AssignCallsDetails(EmployeeModel assignCalls);
         Task<ResponseModel> UpdateCallsStatusDetails(CallStatusDetailsModel callStatusDetails);
         Task<ResponseModel> SaveTechnicianDetails(CallStatusDetailsModel callStatusDetails);
+        Task<ResponseModel> EditCallAppointment(CallDetailsModel CallAppointment);
         void Save();
     }
 }

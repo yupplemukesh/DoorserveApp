@@ -11,7 +11,7 @@
                 @foreach (var item in Model.ServiceTypesList)
                 {
                     <label class="custom-control custom-control-primary custom-checkbox">
-                        @Html.RadioButtonFor(x => x.nse, item.Value)
+                        @Html.RadioButtonFor(x => x.ServiceTypeId, item.Value)
                         <span>@item.Text</span>
                     </label>
                 }

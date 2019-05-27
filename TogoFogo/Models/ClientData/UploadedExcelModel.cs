@@ -53,7 +53,7 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("DEVICE SLN")]
         public string DeviceSn { get; set; }
         [DisplayName("Date of Purchase")]
-        public DateTime DOP { get; set; }
+        public DateTime ? DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
         public string PurchaseFrom { get; set; }
         [DisplayName("DEVICE IMEI FIRST")]

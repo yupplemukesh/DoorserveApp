@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TogoFogo.Models;
+using TogoFogo.Models.ClientData;
 
 namespace TogoFogo.AutoMapper
 {
@@ -14,8 +15,8 @@ namespace TogoFogo.AutoMapper
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<SMSGateway, SMSGatewayModel>().ReverseMap();
-                 cfg.CreateMap<SMSGateway, SMTPGatewayModel>().ReverseMap();
-
+                cfg.CreateMap<SMSGateway, SMTPGatewayModel>().ReverseMap();
+                cfg.CreateMap<CallAppointmentModel, UploadedExcelModel>().ReverseMap();
 
             });
         }
