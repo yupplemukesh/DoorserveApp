@@ -11,6 +11,7 @@ using System.Reflection;
 using TogoFogo.Permission;
 using System.Web;
 using System.Threading.Tasks;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -19,8 +20,14 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
           ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
+   public UserController()
+        {
 
-  
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
+        }
         [PermissionBasedAuthorize(new Actions[] {Actions.Create}, (int)MenuCode.Users)]
         public ActionResult AddUser()
         {
@@ -259,10 +266,13 @@ namespace TogoFogo.Controllers
                     var encrpt_NewPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
                     var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { SessionModel.UserId, OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
                                             commandType: CommandType.StoredProcedure).FirstOrDefault();
-
-                    if (response.ResponseCode == 0)                 
+                    if (response.ResponseCode == 0)
+                    {
                         response.IsSuccess = true;
-                   
+                        var Template = await _templateRepo.GetTemplateByActionName("Change Password");
+                        if (Template != null)
+                            await _emailSmsServices.Send(Template, User.Identity.Name, User.Identity.Name, SessionModel.UserName, SessionModel._Mobile);
+                    }
                     else
                         response.IsSuccess = false;
                   

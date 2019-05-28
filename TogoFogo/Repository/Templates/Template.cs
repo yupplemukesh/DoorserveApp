@@ -60,10 +60,18 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@TemplateId", TemplateId);
             sp.Add(param);
-            param = new SqlParameter("@GUID", GUID);
+            param = new SqlParameter("@GUID",ToDBNull(  GUID));
             sp.Add(param);
-       
+      
             return await _context.Database.SqlQuery<TemplateModel>("UspGetActionNonActionListByGUID  @TemplateId,@GUID", sp.ToArray()).SingleOrDefaultAsync();
+        }
+
+        public async Task<TemplateModel> GetTemplateByActionName(string TemplateName)
+        {
+
+            SqlParameter param = new SqlParameter("@ActionName", TemplateName);
+        
+            return await _context.Database.SqlQuery<TemplateModel>("UspGetTemplateByActionName  @ActionName", param).SingleOrDefaultAsync();
         }
         public async Task<List<TemplateModel>> GetUploadedExcelListByGUID(Guid GUID,string MessageTypeName)
         {
@@ -202,14 +210,7 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        void ITemplate.Save()
-        {
-            throw new NotImplementedException();
-        }
-        void IDisposable.Dispose()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         
     }

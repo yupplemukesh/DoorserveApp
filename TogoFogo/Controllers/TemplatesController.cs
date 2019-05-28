@@ -35,7 +35,6 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
 
-
             var templates = await _templateRepo.GetTemplates(new Filters.FilterModel {CompId= SessionModel.CompanyId });
             templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
@@ -49,7 +48,8 @@ namespace TogoFogo.Controllers
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(), "Value", "Text");
+            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Value", "Text");
+            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(SessionModel.CompanyId), "Value", "Text");
             templatemodel.IsSystemDefined = true;
             return View(templatemodel);
         }
@@ -63,7 +63,10 @@ namespace TogoFogo.Controllers
                templateModel.CompanyId = SessionModel.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
                 {
-                  templateModel.ScheduleDateTime = templateModel.ScheduleDate + " " + templateModel.ScheduleTime;
+
+                var times = templateModel.ScheduleTime.Split(':');
+
+                templateModel.ScheduleDateTime = Convert.ToDateTime(templateModel.ScheduleDate).AddHours(Convert.ToInt32(times[0])).AddMinutes(Convert.ToInt32(times[1])).ToString();
                 }
                 if (templateModel.MessageTypeName == "SMTP Gateway")
                 {
@@ -211,12 +214,13 @@ namespace TogoFogo.Controllers
                 templatemodel.ScheduleDate = strSheduleArray[0];
                 templatemodel.ScheduleTime = strSheduleArray[1];
             }
-           
+
+            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Value", "Text");
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(), "Value", "Text");
+            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(SessionModel.CompanyId), "Value", "Text");
             templatemodel.GatewayList=new SelectList(await CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId), "GatewayId", "GatewayName"); 
 
             return View(templatemodel);
@@ -231,7 +235,8 @@ namespace TogoFogo.Controllers
             templateModel.CompanyId = SessionModel.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
             {
-                templateModel.ScheduleDateTime = Convert.ToDateTime(templateModel.ScheduleDate) + " " + templateModel.ScheduleTime;
+                var times = templateModel.ScheduleTime.Split(':');
+                templateModel.ScheduleDateTime = Convert.ToDateTime(templateModel.ScheduleDate).AddHours(Convert.ToInt32(times[0])).AddMinutes(Convert.ToInt32(times[1])).ToString();
             }
             if (templateModel.MessageTypeName == "SMTP Gateway")
             {
@@ -299,6 +304,12 @@ namespace TogoFogo.Controllers
                 if (!string.IsNullOrEmpty(templateModel.ToCCEmail))
                 {
                     string[] strToEmailcc = templateModel.ToCCEmail.Split(';');
+                    templateModel.TotalCount += strToEmailcc.Length;
+                    Isvalid = true;
+                }
+                if (!string.IsNullOrEmpty(templateModel.BccEmails))
+                {
+                    string[] strToEmailcc = templateModel.BccEmails.Split(';');
                     templateModel.TotalCount += strToEmailcc.Length;
                     Isvalid = true;
                 }

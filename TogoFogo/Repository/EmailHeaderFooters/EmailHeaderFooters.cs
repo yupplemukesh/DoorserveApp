@@ -24,7 +24,7 @@ namespace TogoFogo.Repository.EmailHeaderFooters
             sp.Add(param);
             return await _context.Database.SqlQuery<EmailHeaderFooterModel>("USPEmailHeaderFooterDetail @EmailHeaderFooterId,@CompId",sp.ToArray()).ToListAsync();
         }
-        public async Task<EmailHeaderFooterModel> GetEmailHeaderFooterById(int EmailHeaderFooterId)
+        public async Task<EmailHeaderFooterModel> GetEmailHeaderFooterById(int? EmailHeaderFooterId)
         {
 
             List<SqlParameter> sp = new List<SqlParameter>();

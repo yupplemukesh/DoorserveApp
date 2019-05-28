@@ -324,7 +324,7 @@ namespace TogoFogo.Controllers
             
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Products)]
-        public ActionResult EditProduct(int? ProductId, int? BrandID, string ProductName, int? CategoryID)
+        public ActionResult EditProduct(int? ProductId)
         {
             ProductModel pm = new ProductModel();
             if (ProductId == 0 || ProductId == null)
@@ -339,7 +339,7 @@ namespace TogoFogo.Controllers
                 using (var con = new SqlConnection(_connectionString))
                 {
 
-                    var result = con.Query<ProductModel>("Get_Single_Product", new { ProductName = ProductName },
+                    var result = con.Query<ProductModel>("Get_Single_Product", new { ProductId },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result.Product_Color != null)
                     {

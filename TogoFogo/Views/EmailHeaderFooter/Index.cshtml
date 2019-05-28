@@ -101,7 +101,7 @@
                     $("#EmailHeaderFooterId").val(response.EmailHeaderFooterId);
                     $("#Name").val(response.Name);
                     $("#ActionTypeId").val(response.ActionTypeId);
-                    $("#ISACTIVE").prop("checked", response.ISACTIVE);
+                    $("#IsActive").prop("checked", response.IsActive);
                     CKEDITOR.instances['editor1'].setData(response.HeaderHTML);
                     CKEDITOR.instances['editor2'].setData(response.FooterHTML);
                     $('.selectpicker').selectpicker('refresh')

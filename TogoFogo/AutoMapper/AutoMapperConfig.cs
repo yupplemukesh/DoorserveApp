@@ -16,7 +16,6 @@ namespace TogoFogo.AutoMapper
             {
                 cfg.CreateMap<SMSGateway, SMSGatewayModel>().ReverseMap();
                 cfg.CreateMap<SMSGateway, SMTPGatewayModel>().ReverseMap();
-                cfg.CreateMap<CallAppointmentModel, UploadedExcelModel>().ReverseMap();
 
             });
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace TogoFogo.Filters
 {
@@ -16,6 +17,22 @@ namespace TogoFogo.Filters
         {
             LogError(filterContext);
             base.OnException(filterContext);
+            var controllerName = (string)filterContext.RouteData.Values["controller"];
+            var actionName = (string)filterContext.RouteData.Values["action"];
+            var model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
+            if (filterContext.Exception is HttpAntiForgeryException)
+            {
+
+            }
+            filterContext.Result = new RedirectToRouteResult(
+                 new RouteValueDictionary
+                 {
+                    { "action", "Index" },
+                    { "controller", "ErrorPage" }
+                 });
+
+            filterContext.ExceptionHandled = true;
+
         }
 
         public void LogError(ExceptionContext filterContext)

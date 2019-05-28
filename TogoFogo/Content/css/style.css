@@ -23726,3 +23726,19 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .dis-inline {
     display:inline;    
 }
+.wild-cart-m {
+    display: none;
+    position: fixed;
+    left: 36%;
+    top: 26%;
+}
+
+    .wild-cart-m > .modal-dialog {
+        width: 300px;
+        z-index: 2;
+    }
+
+.cke_button__superbutton_icon {
+    width: 60px !important;
+    background-size: 100% !important;
+}

@@ -12,8 +12,7 @@ using TogoFogo.Models.Template;
 namespace TogoFogo
 {
     public static class CommonModel
-    {
-                
+    {                
         public static async Task<List<CheckBox>> GetEmployeeList(Guid? RefKey)
         {
             using (var _context = new ApplicationDbContext())
@@ -31,7 +30,6 @@ namespace TogoFogo
                 return _employee;
             }
         }
-
         public static async Task<List<CheckBox>> GetEmployeeListByCompany(Guid? CompId)
         {
             using (var _context = new ApplicationDbContext())
@@ -49,7 +47,6 @@ namespace TogoFogo
                 return _employee;
             }
         }
-
         public static async Task<List<CheckBox>> GetEmployeeByProvider(Guid? CompId)
         {
             using (var _context = new ApplicationDbContext())
@@ -67,7 +64,6 @@ namespace TogoFogo
                 return _employee;
             }
         }
-
         public static async Task<List<CheckBox>> GetStatusTypes()
         {
             using (var _context = new ApplicationDbContext())
@@ -84,11 +80,19 @@ namespace TogoFogo
                 return _actionTypes;
             }
         }
-        public static async Task<List<CheckBox>> GetHeaderFooter()
+        public static async Task<List<CheckBox>> GetHeaderFooter(Guid? CompId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _headerTypes = await _context.Database.SqlQuery<CheckBox>("select emailHeaderFooterId value,name text from EmailHeaderFooter where isActive=1").ToListAsync();
+
+                var param = new SqlParameter("@compId", DBNull.Value);
+                var query = "select emailHeaderFooterId value,name text from EmailHeaderFooter where isActive=1";
+                if (CompId != null)
+                {
+                    param.Value = CompId;
+                    query = query + " and CompanyId=@compId";
+                }
+                var _headerTypes = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
                 return _headerTypes;
             }
         }
@@ -100,14 +104,25 @@ namespace TogoFogo
                 return _Gateways;
             }
         }
-      
-
         public static async Task<List<CheckBox>> GetLookup( string type)
         {
             using (var _context = new ApplicationDbContext())
             {
                 var _type = await _context.Database.SqlQuery<CheckBox>("select id value,name text from tblCommon where Type='"+type+"' and isActive=1").ToListAsync();
                 return _type;
+            }
+        }
+
+        public static async Task<List<CheckBox>> GetWildCards()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                
+                var query = "select WildCardId Value,WildCard Text from WildCard where IsActive=1";
+              
+
+                var _clientData = await _context.Database.SqlQuery<CheckBox>(query).ToListAsync();
+                return _clientData;
             }
         }
         public static async Task<List<CheckBox>> GetClientData( Guid ?CompId)
@@ -331,8 +346,6 @@ namespace TogoFogo
                 return _serviceCeters;
             }
         }
-
-
         public static async Task<List<CheckBox>> GetDepartments()
         {
             using (var _context = new ApplicationDbContext())
@@ -350,6 +363,7 @@ namespace TogoFogo
                 return _desgnations;
             }
         }
+
     }
     public class CheckBox
     {

@@ -17,7 +17,8 @@ namespace TogoFogo.Models.Template
             MessageTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             PriorityTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
             EmailHeaderFooterList = new SelectList(Enumerable.Empty<SelectListItem>());
-            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());            
+            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());  
+            WildCardList= new SelectList(Enumerable.Empty<SelectListItem>());
         }
        
         [Required(ErrorMessage = "Select Mailer Gateway")]
@@ -100,8 +101,10 @@ namespace TogoFogo.Models.Template
         public SelectList TemplateTypeList { get; set; }
         public SelectList PriorityTypeList { get; set; }
         public SelectList GatewayList { get; set; }
+        public SelectList WildCardList { get; set; }
         public SelectList EmailHeaderFooterList { get; set; }
         public List<TemplateTracker> TemplateTrackers{ get; set; }
+  
     }
     public class BindGateway
     {
