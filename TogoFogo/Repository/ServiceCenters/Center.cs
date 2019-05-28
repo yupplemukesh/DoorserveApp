@@ -454,7 +454,9 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@remark", ToDBNull(cam.Remark));
             sp.Add(param);
-            var sql = "UpdateAppointmentDetail @DeviceId,@altcontactnumber,@appointmentdate,@remark";
+            param = new SqlParameter("@StatusId", ToDBNull(cam.StatusId));
+            sp.Add(param);
+            var sql = "UpdateAppointmentDetail @DeviceId,@altcontactnumber,@appointmentdate,@remark,@StatusId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;

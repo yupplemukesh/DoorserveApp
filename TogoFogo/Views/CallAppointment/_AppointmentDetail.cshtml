@@ -88,7 +88,7 @@
                                 @Html.TextBoxFor(x => x.AppointmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @placeholder = "Appointment Date", @type = "date" })
                             </div>
                             @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,18 +104,35 @@
                             @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+
+                            <div class="col-sm-12">
+                                <div class="form-group has-value">
+                                    <label class="floating-label  t-0">Status</label>
+                                    @Html.DropDownListFor(x => x.StatusId, Model.StatusList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.StatusId, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
 
-
-                        <div class="form-group row m-t-5">
-                            <div class="col-md-4 col-md-offset-8">
-                                <button class="btn btn-success" type="submit" id="btnSave">
-                                    Submit
-                                </button>
+                            <div class="row m-t-5">
+                                <div class="col-md-4 col-md-offset-5">
+                                    <button class="btn btn-success" type="submit" id="btnSave">
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-}
+                }
