@@ -58,9 +58,11 @@ namespace TogoFogo.Models
         public string Product_Sale_Range {get;set;}
         [Required]
         [DisplayName("From")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string Product_Sale_From { get; set; }
         [Required]
         [DisplayName("To")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string Product_Sale_TO { get; set; }
         [Required]
         [DisplayName("CGST Rate (%)")]

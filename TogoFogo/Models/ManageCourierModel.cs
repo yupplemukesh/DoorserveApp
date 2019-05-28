@@ -184,11 +184,12 @@ namespace TogoFogo.Models
         [RegularExpression(@"[A-Z]{5}\d{4}[A-Z]{1}", ErrorMessage = " Invalid PAN Number")]
         public string UserPANCard { get; set; }        
         public string UserPANCardFile { get; set; }      
-        [DisplayName("Voter ID Card Number")]        
+        [DisplayName("Voter ID Card Number")]
+        [RegularExpression(@"[A-Z]{3}\d{7}", ErrorMessage = "Invalid Voter ID Card Number")]
         public string VoterIDCardNo { get; set; }   
-        public string VoterIDFile { get; set; }
-       
-        [DisplayName("Aadhaar Card Number")]        
+        public string VoterIDFile { get; set; }       
+        [DisplayName("Aadhaar Card Number")]
+        [RegularExpression(@"^([0-9]{12})$", ErrorMessage = "Invalid Aadhaar Number")]
         public string AadhaarCardNo { get; set; }        
         public string AadhaarCardFile { get; set; }        
         [DisplayName("Item Type")]
@@ -235,7 +236,8 @@ namespace TogoFogo.Models
         [DisplayName("Bank Name")]
         public string BankName { get; set; }
         [Required]
-        [DisplayName("Bank Account Number")]       
+        [DisplayName("Bank Account Number")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string BankAccountNumber { get; set; }
         [Required]
         [DisplayName("Company Name at Bank Account")]

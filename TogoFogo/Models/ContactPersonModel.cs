@@ -21,6 +21,7 @@ namespace TogoFogo.Models
         public string ConLastName { get; set; }       
         public string TechnicianName { get { return ConFirstName + " " + ConLastName; } }
         [DisplayName("Mobile No")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number")]
         [Required(ErrorMessage = "Enter Mobile No")]
         public string ConMobileNumber { get; set; }
         [DisplayName("Email Address")]
@@ -37,6 +38,7 @@ namespace TogoFogo.Models
         public string ConPanFileName { get; set; }
         public string ConPanFileUrl { get; set; }
         [DisplayName("Voter ID Card Number")]
+        [RegularExpression(@"[A-Z]{3}\d{7}", ErrorMessage = "Invalid Voter ID Card Number")]
         public string ConVoterId { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
@@ -44,6 +46,7 @@ namespace TogoFogo.Models
         public string ConVoterIdFileName { get; set; }
         public string ConVoterIdFileUrl { get; set; }       
         [DisplayName("Aadhaar Number")]
+        [RegularExpression(@"^([0-9]{12})$", ErrorMessage = "Invalid Aadhaar Number")]
         public string ConAdhaarNumber { get; set; }
         [DisplayName("Upload Aadhaar Number")]
         public HttpPostedFileBase ConAdhaarNumberFilePath { get; set; }      

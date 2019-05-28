@@ -35,6 +35,7 @@ namespace TogoFogo.Models
         public string AppVersion  {get;set;}
         [Required]        
         [DisplayName("Account Number")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string AccountNo   {get;set;}
         [Required]
         [DisplayName("Account Pin")]

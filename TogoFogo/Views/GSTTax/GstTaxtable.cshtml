@@ -186,17 +186,17 @@
                 {
                     <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditGstTax(@item.GstTaxId)">Edit</a>
                 }
-                @if (Permissions.Rights.History)
-                {
-                    <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-                }
-                @if (Permissions.Rights.Delete)
-                {
-                    <input type="button" value="Delete" class="btn btn-danger btnSize" />
-                }
-            </td>
-        </tr>
+                @*@if (Permissions.Rights.History)
+        {
+            <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
         }
+        @if (Permissions.Rights.Delete)
+        {
+            <input type="button" value="Delete" class="btn btn-danger btnSize" />
+        }*@
+            </td>
+                </tr>
+                }
 
-    </table>
-</div>
+            </table>
+        </div>

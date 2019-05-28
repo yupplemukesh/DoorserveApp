@@ -24,6 +24,7 @@ namespace TogoFogo.Models
         public int BankNameId { get; set; }
         [Required]
         [DisplayName("Bank Account Number")]
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public string BankAccountNumber { get; set; }
         [Required]
         [DisplayName("Company Name at Bank Account")]

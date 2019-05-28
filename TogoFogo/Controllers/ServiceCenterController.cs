@@ -504,8 +504,27 @@ namespace TogoFogo.Controllers
 
         }
 
-
        
+        [HttpPost]
+        public async Task<ActionResult> EditAppointment(CallDetailsModel Appointment)
+        {
+            try
+            {
+                var response = await _centerRepo.EditCallAppointment(Appointment);
+                TempData["response"] = response;
+                return RedirectToAction("AcceptCalls");
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
+                TempData["response"] = response;
+                TempData.Keep("response");
+                return RedirectToAction("AcceptCalls");
+
+            }
+
+
+        }
     }
     
 }

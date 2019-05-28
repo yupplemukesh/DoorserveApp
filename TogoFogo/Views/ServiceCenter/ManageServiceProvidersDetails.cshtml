@@ -79,48 +79,85 @@
 
     @if (Model.Param == "A")
     {
+        using (Html.BeginForm("EditAppointment", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(x => x.DeviceId)     
 
-        <div class="form-horizontal">
-            <div class="panel-body p-b-0 p-t-0">
-                <div class="panel-heading p-l-0 p-b-0">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+            <div class="panel-body">
+                <div class="form-horizontl">
+                    <h4 class="m-t-10 m-b-5 m-b-10 p-b-10">Appointment Detail</h4>
+                    <div class="form-group row">
+
+                        <label class="col-sm-2 control-label" for="form-control-1">Appointment Date</label>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(x => x.AppointmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @placeholder = "Appointment Date", @type = "date" })
+                            @Html.ValidationMessageFor(model => model.AppointmentDate, "", new { @class = "text-danger" })
                         </div>
+
+
+                        <label class="col-sm-2 control-label" for="form-control-1">Remark</label>
+                        <div class="col-sm-4">
+                            @Html.TextAreaFor(x => x.Remark, new { @class = "form-control", @placeholder = "Remark" })
+                            @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                        </div>
+
                     </div>
                 </div>
-            </div>
-        </div>
-
-        using (Html.BeginForm("SavetechnicianDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
-        {
-
-            @Html.HiddenFor(x => x.Employee.EmpId)
-            @Html.HiddenFor(x => x.DeviceId)
-
-            <div class="form-group p-l-10" id="DropDown2">
-                <div class="col-sm-3"> <h4>Select Technician</h4></div>
-                <div class="col-sm-5">
-                    @*@Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", "Text", "Value", new { @class = "form-control", id = "DropDown" })*@
-
-                    @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
-
-                    @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="panel-body">
-                <div id="TechnicianDetailsForm2" style="display:none;">
-                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                    <button type="button" id="btnemp" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Submit</button>
+
+                    }
+
+
+                    <div class="form-horizontal">
+                        <div class="panel-body p-b-0 p-t-0">
+                            <div class="panel-heading p-l-0 p-b-0">
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    using (Html.BeginForm("SavetechnicianDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
+                    {
+
+                    @Html.HiddenFor(x => x.Employee.EmpId)
+                    @Html.HiddenFor(x => x.DeviceId)
+
+                    <div class="form-group p-l-10" id="DropDown2">
+                        <div class="col-sm-3"> <h4>Select Technician</h4></div>
+                        <div class="col-sm-5">
+                            @*@Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", "Text", "Value", new { @class = "form-control", id = "DropDown" })*@
+
+                            @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
+
+                            @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div id="TechnicianDetailsForm2" style="display:none;">
+                            @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                            <div class="form-group m-t-5">
+                                <div class="col-md-4 col-md-offset-8">
+                                    <button type="button" id="btnemp" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    }
+                    }
+
+
+
                 </div>
-            </div>
-
-
-        }
-    }
-</div>
 
 
 
@@ -128,96 +165,96 @@
 
 
 
-@*
-    <div role="tabpanel" class="tab-pane fade in" id="tab-12">
-        <div class="panel panel-default panel-table">
-            <div class="panel-body">
-                <div class="panel-default m-b-10">
-                    <div class="panel-heading p-l-0">
+                @*
+                    <div role="tabpanel" class="tab-pane fade in" id="tab-12">
+                        <div class="panel panel-default panel-table">
+                            <div class="panel-body">
+                                <div class="panel-default m-b-10">
+                                    <div class="panel-heading p-l-0">
 
-                        <div class="row">
+                                        <div class="row">
 
-                            <div class="col-md-12">
-                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
-                                @Html.Partial("_CustomerInfoForm", Model)
-                                </div>
+                                            <div class="col-md-12">
+                                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                                                @Html.Partial("_CustomerInfoForm", Model)
+                                                </div>
 
-                                </div>
-                                </div>
-                                </div>
-                                </div>
-                                </div>
-
-
-                                <div class="panel panel-default panel-table">
-                                     @Html.Partial("~/view/Common/_CallLogDeviceInfoForm.cshtml", Model)
-                                </div>
-
-                                <div class="panel panel-default panel-table">
-                                   @Html.Partial("_CallInformationForm", Model)
-                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
 
 
+                                                <div class="panel panel-default panel-table">
+                                                     @Html.Partial("~/view/Common/_CallLogDeviceInfoForm.cshtml", Model)
+                                                </div>
 
-                                <div class="panel panel-default panel-table">
-                                    <div class="panel panel-default panel-table">
-                                        <div class="panel-body">
-                                            <div class="form-horizontal">
-                                                <div class="panel-default m-b-10">
-                                                    <div class="panel-heading p-l-0">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <h4 class="m-t-0 m-b-5">Technician Installation</h4>
-                                                                @Html.Partial("_TechnicianDetailsForm", Model)
+                                                <div class="panel panel-default panel-table">
+                                                   @Html.Partial("_CallInformationForm", Model)
+                                                </div>
+
+
+
+                                                <div class="panel panel-default panel-table">
+                                                    <div class="panel panel-default panel-table">
+                                                        <div class="panel-body">
+                                                            <div class="form-horizontal">
+                                                                <div class="panel-default m-b-10">
+                                                                    <div class="panel-heading p-l-0">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12">
+                                                                                <h4 class="m-t-0 m-b-5">Technician Installation</h4>
+                                                                                @Html.Partial("_TechnicianDetailsForm", Model)
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                                </div>
+                *@
+
+
+
+
+                <div id="rejectpopup" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="form-group col-md-12" id="rejectResonDiv">
+                                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Rejected Reason</label>
+                                    <div class="col-sm-8 col-md-8">
+
+                                        @Html.TextAreaFor(model => model.RejectionReason, new { @class = "form-control", id = "Reasontxt" })
+                                        @Html.ValidationMessageFor(model => model.RejectionReason, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
-                                </div>
-*@
 
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btnrejectreasion" class="btn btn-primary" deviceID="@Model.DeviceId">Submit</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
 
-
-
-<div id="rejectpopup" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-group col-md-12" id="rejectResonDiv">
-                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Rejected Reason</label>
-                    <div class="col-sm-8 col-md-8">
-
-                        @Html.TextAreaFor(model => model.RejectionReason, new { @class = "form-control", id = "Reasontxt" })
-                        @Html.ValidationMessageFor(model => model.RejectionReason, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnrejectreasion" class="btn btn-primary" deviceID="@Model.DeviceId">Submit</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 
 
 
 
 
-
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/js/form-m")
-    <script>
+                @section scripts{
+                    @Scripts.Render("~/bundles/jqueryval")
+                    @Scripts.Render("~/bundles/js/form-m")
+                    <script>
 
       $(document).ready(function () {
 
@@ -270,7 +307,7 @@
                   $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
                   $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
                   $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
-      
+
                   if (response.Vehicle.InsuranceExpairyDate !=null)
                   $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
                   console.log(response);
@@ -295,6 +332,34 @@
 
 
 
+        $(document).ready(function () {
+
+            $("#IsExistingCustomer").attr('disabled', true);
+            $("#CustomerContactNumber").attr('disabled', true);
+            $("#CustomerTypeId").attr('disabled', true);
+            $("#CustomerName").attr('disabled', true);
+            $("#CustomerEmail").attr('disabled', true);
+            $("#Address").attr('disabled', true);
+            $("#NearLocation").attr('disabled', true);
+            $("#PinNumber").attr('disabled', true);
+            $("#CountryId").attr('disabled', true);
+            $("#StateId").attr('disabled', true);
+            $("#CityId").attr('disabled', true);
+            $("#DeviceCategoryId").attr('disabled', true);
+            $("#DeviceBrandId").attr('disabled', true);
+            $("#DeviceModalId").attr('disabled', true);
+            $("#DeviceIMEIOne").attr('disabled', true);
+            $("#DeviceIMEISecond").attr('disabled', true);
+            $("#PurchaseFrom").attr('disabled', true);
+            $("#DOP").attr('disabled', true);
+            $("#BillAmount").attr('disabled', true);
+            $("#DeviceConditionId").attr('disabled', true);
+            $("input:radio").prop('disabled', true);
+            $("#AppointmentDate").attr('disabled', true);
+            $("#Remark").attr('disabled', true);
+            $("#CustomerAltConNumber").attr('disabled', true);
+
+        });
 
 
 
@@ -363,5 +428,5 @@
 
 
 
-    </script>
-}
+                    </script>
+                }
