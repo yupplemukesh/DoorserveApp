@@ -291,8 +291,7 @@
     </div>
 </div>
 
-@Scripts.Render("~/bundles/jquery")
-
+@Scripts.Render("~/bundles/customBundle")
 <div class="row form-group">
     <div class="col-md-12">
         @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
@@ -305,7 +304,7 @@
 
             editor.addCommand("mySimpleCommand", {
                 exec: function (edt) {
-                    fadeIn('.wild-cart-m');
+                  $('.wild-cart-m').hide().fadeIn(400);
                 }
             });
 
@@ -318,7 +317,7 @@
 
             });
 
-    
+
 
             $(document).ready(function () {
                 $(".cke_button__superbutton_icon").click(function () {
@@ -326,7 +325,7 @@
                     $(".wild-cart-m").fadeIn();
 
                 });
-                    $(".zmdi-close").click(function () {
+                $(".zmdi-close").click(function () {
                     $(".wild-cart-m").fadeOut();
 
                 });
@@ -335,12 +334,12 @@
                     var value = $("#WildCards").val();
                     console.log(value);
                     CKEDITOR.instances['editor1'].insertHtml('$[' + value + ']');
-                     $('.wild-cart-m').modal('toggle');
-    
+                    $('.wild-cart-m').modal('toggle');
+
                 });
             });
 
-   
+
 
         </script>
     </div>
@@ -633,4 +632,3 @@
 
 
 
-@Scripts.Render("~/bundles/jqueryval")

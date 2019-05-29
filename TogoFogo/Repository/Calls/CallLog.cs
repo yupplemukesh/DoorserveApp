@@ -19,7 +19,7 @@ namespace TogoFogo.Repository
         public async Task<ResponseModel> AddOrEditCallLog(UploadedExcelModel Call)
         {
             var sp = new List<SqlParameter>();
-            var pararm = new SqlParameter("@ID", DBNull.Value);
+            var pararm = new SqlParameter("@ID", ToDBNull(Call.Id));
             sp.Add(pararm);
             pararm = new SqlParameter("@CLIENTID", Call.ClientId);
             sp.Add(pararm);
@@ -81,11 +81,14 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@CompanyId", ToDBNull(Call.CompanyId));
             sp.Add(pararm);
-          
+            pararm = new SqlParameter("@DEVICEID", ToDBNull(Call.DeviceId));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@CUSTOMERID", ToDBNull(Call.CustomerId));
+            sp.Add(pararm);
             var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address,"+
                 "@Landmark,@PinCode,@CountyId,@StateId,@CityId,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP,"+
-                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId";
+                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
