@@ -9,7 +9,7 @@ namespace TogoFogo.Repository
 {
     public interface ICallLog:IDisposable
     {
-        Task<ResponseModel> NewCallLog(UploadedExcelModel newCall);
+        Task<ResponseModel> AddOrEditCallLog(UploadedExcelModel newCall);
         void Save();
     }
 }

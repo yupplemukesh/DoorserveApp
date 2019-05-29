@@ -16,76 +16,76 @@ namespace TogoFogo.Repository
         {
             _context = new ApplicationDbContext();
         }
-
-        public async Task<ResponseModel> NewCallLog(UploadedExcelModel newCall)
+        public async Task<ResponseModel> AddOrEditCallLog(UploadedExcelModel Call)
         {
             var sp = new List<SqlParameter>();
             var pararm = new SqlParameter("@ID", DBNull.Value);
             sp.Add(pararm);
-            pararm = new SqlParameter("@CLIENTID", newCall.ClientId);
+            pararm = new SqlParameter("@CLIENTID", Call.ClientId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@isExistingCustomer", newCall.IsExistingCustomer);
+            pararm = new SqlParameter("@isExistingCustomer", Call.IsExistingCustomer);
             sp.Add(pararm);
-            pararm = new SqlParameter("@CustMobileNubmer", ToDBNull(newCall.CustomerContactNumber));
+            pararm = new SqlParameter("@CustMobileNubmer", ToDBNull(Call.CustomerContactNumber));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CustType", newCall.CustomerTypeId);
+            pararm = new SqlParameter("@CustType", Call.CustomerTypeId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@CustName", newCall.CustomerName);
+            pararm = new SqlParameter("@CustName", Call.CustomerName);
             sp.Add(pararm);
-            pararm = new SqlParameter("@CustAltCont", ToDBNull(newCall.CustomerAltConNumber));
+            pararm = new SqlParameter("@CustAltCont", ToDBNull(Call.CustomerAltConNumber));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CustEmail", ToDBNull(newCall.CustomerEmail));
+            pararm = new SqlParameter("@CustEmail", ToDBNull(Call.CustomerEmail));
             sp.Add(pararm);
-            pararm = new SqlParameter("@AddressTypeId", newCall.AddressTypeId);
+            pararm = new SqlParameter("@AddressTypeId", Call.AddressTypeId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@Address",  ToDBNull(newCall.Address));
+            pararm = new SqlParameter("@Address",  ToDBNull(Call.Address));
             sp.Add(pararm);
-            pararm = new SqlParameter("@Landmark", ToDBNull( newCall.NearLocation));
+            pararm = new SqlParameter("@Landmark", ToDBNull( Call.NearLocation));
             sp.Add(pararm);
-            pararm = new SqlParameter("@PinCode", ToDBNull( newCall.PinNumber));
+            pararm = new SqlParameter("@PinCode", ToDBNull( Call.PinNumber));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CountyId", ToDBNull(newCall.CountryId));
+            pararm = new SqlParameter("@CountyId", ToDBNull(Call.CountryId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@StateId", ToDBNull(newCall.StateId));
+            pararm = new SqlParameter("@StateId", ToDBNull(Call.StateId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CityId", ToDBNull(newCall.CityId));
+            pararm = new SqlParameter("@CityId", ToDBNull(Call.CityId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DEVICECATEGORYID", ToDBNull(newCall.DeviceCategoryId));
+            pararm = new SqlParameter("@DEVICECATEGORYID", ToDBNull(Call.DeviceCategoryId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DEVICEBRANDID", ToDBNull(newCall.DeviceBrandId));
+            pararm = new SqlParameter("@DEVICEBRANDID", ToDBNull(Call.DeviceBrandId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DEVICEMODELID", ToDBNull(newCall.DeviceModalId));
+            pararm = new SqlParameter("@DEVICEMODELID", ToDBNull(Call.DeviceModalId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@SLN", ToDBNull(newCall.DeviceSn));
+            pararm = new SqlParameter("@SLN", ToDBNull(Call.DeviceSn));
             sp.Add(pararm);
-            pararm = new SqlParameter("@IMEI1", ToDBNull(newCall.DeviceIMEIOne));
+            pararm = new SqlParameter("@IMEI1", ToDBNull(Call.DeviceIMEIOne));
             sp.Add(pararm);
-            pararm = new SqlParameter("@IMEI2", ToDBNull(newCall.DeviceIMEISecond));
+            pararm = new SqlParameter("@IMEI2", ToDBNull(Call.DeviceIMEISecond));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DEVICEPURCHASEFROM", ToDBNull(newCall.PurchaseFrom));
+            pararm = new SqlParameter("@DEVICEPURCHASEFROM", ToDBNull(Call.PurchaseFrom));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DOP", ToDBNull(newCall.DOP));
+            pararm = new SqlParameter("@DOP", ToDBNull(Call.DOP));
             sp.Add(pararm);
-            pararm = new SqlParameter("@BILLNUBMER", ToDBNull(newCall.BillNo));
+            pararm = new SqlParameter("@BILLNUBMER", ToDBNull(Call.BillNo));
             sp.Add(pararm);
-            pararm = new SqlParameter("@BILLAMOUNT", ToDBNull(newCall.BillAmount));
+            pararm = new SqlParameter("@BILLAMOUNT", ToDBNull(Call.BillAmount));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DEVICECONDITIONID", ToDBNull(newCall.DeviceConditionId));
+            pararm = new SqlParameter("@DEVICECONDITIONID", ToDBNull(Call.DeviceConditionId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@SERVICETYPEID", ToDBNull(newCall.ServiceTypeId));
+            pararm = new SqlParameter("@SERVICETYPEID", ToDBNull(Call.ServiceTypeId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DELIVERYTYPEID", ToDBNull(newCall.DeliveryTypeId));
+            pararm = new SqlParameter("@DELIVERYTYPEID", ToDBNull(Call.DeliveryTypeId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@ACTION", 'I');
+            pararm = new SqlParameter("@ACTION", Call.Action);
             sp.Add(pararm);
-            pararm = new SqlParameter("@USERID", newCall.UserId);
+            pararm = new SqlParameter("@USERID", Call.UserId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@CompanyId", ToDBNull(newCall.CompanyId));
+            pararm = new SqlParameter("@CompanyId", ToDBNull(Call.CompanyId));
             sp.Add(pararm);
-            var sql = "NewCallLog " +
+          
+            var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address,"+
                 "@Landmark,@PinCode,@CountyId,@StateId,@CityId,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP,"+
-                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId ";
+                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

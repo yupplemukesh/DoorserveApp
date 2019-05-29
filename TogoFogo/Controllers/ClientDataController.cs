@@ -60,7 +60,7 @@ namespace TogoFogo.Controllers
             clientData.Client.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
 
             // new call Log
-            clientData.NewCallLog = new UploadedExcelModel
+            clientData.NewCallLog = new CallDetailsModel
             {
                 ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
@@ -220,7 +220,8 @@ namespace TogoFogo.Controllers
             uploads.CompanyId = SessionModel.CompanyId;
             if (SessionModel.UserRole.ToLower().Contains("client"))
                 uploads.ClientId = SessionModel.RefKey;
-            var response = await _RepoCallLog.NewCallLog(uploads);
+            uploads.Action = 'I';
+            var response = await _RepoCallLog.AddOrEditCallLog(uploads);
             TempData["response"] = response;
             return RedirectToAction("Index");
         }
@@ -299,6 +300,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Edit(string Crn)
         {
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
+            CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId), "Value", "Text");
@@ -306,25 +308,25 @@ namespace TogoFogo.Controllers
             CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
-            CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address Type list"), "Value", "Text");
+            CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CallDetailsModel.StateList = new SelectList(_dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
             CallDetailsModel.CityList = new SelectList(_dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");    
           
-            return PartialView("_NewCallLogForm", CallDetailsModel);
+            return View("_EditForm", CallDetailsModel);
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(CallStatusDetailsModel callStatusDetails)
+        public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
             try
             {
-
-                callStatusDetails.UserId = SessionModel.UserId;
-                var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
+                CallDetailsModel.UserId = SessionModel.UserId;
+                CallDetailsModel.CompanyId = SessionModel.CompanyId;
+                CallDetailsModel.Action = 'U';
+                var response = await _RepoCallLog.AddOrEditCallLog(CallDetailsModel);
                 TempData["response"] = response;
-                //return Json("Ok", JsonRequestBehavior.AllowGet);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
