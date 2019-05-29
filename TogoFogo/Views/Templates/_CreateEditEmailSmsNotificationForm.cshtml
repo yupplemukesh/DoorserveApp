@@ -291,21 +291,21 @@
     </div>
 </div>
 
-
+@Scripts.Render("~/bundles/customBundle")
 
 <div class="row form-group">
     <div class="col-md-12">
         @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
         <script>
 
-      editor=   CKEDITOR.replace('editor1', {
-        height: 300,
-        extraPlugins: 'colorbutton,colordialog'
-    });
+            editor = CKEDITOR.replace('editor1', {
+                height: 300,
+                extraPlugins: 'colorbutton,colordialog'
+            });
 
             editor.addCommand("mySimpleCommand", {
                 exec: function (edt) {
-                    fadeIn('wild-cart-m');
+                    fadeIn('.wild-cart-m');
                 }
             });
 
@@ -318,8 +318,7 @@
 
             });
 
-        </script>
-        <script>
+    
 
             $(document).ready(function () {
                 $(".cke_button__superbutton_icon").click(function () {
@@ -327,14 +326,21 @@
                     $(".wild-cart-m").fadeIn();
 
                 });
-            });
-
-            $(document).ready(function () {
-                $(".zmdi-close").click(function () {
+                    $(".zmdi-close").click(function () {
                     $(".wild-cart-m").fadeOut();
 
                 });
+
+                $("#addWildCard").click(function (e) {
+                    var value = $("#WildCards").val();
+                    console.log(value);
+                    CKEDITOR.instances['editor1'].insertHtml('$[' + value + ']');
+                     $('.wild-cart-m').modal('toggle');
+    
+                });
             });
+
+   
 
         </script>
     </div>
@@ -366,7 +372,7 @@
 
                                 <div class="col-md-12">
                                     <label class="control-label" for="form-control-9">Wild Cards</label>
-                                    @Html.DropDownList("WildCards",Model.WildCardList,"--Select--", new  {@class="form-control" })
+                                    @Html.DropDownList("WildCards", Model.WildCardList, "--Select--", new { @class = "form-control" })
                                 </div>
 
                             </div>
@@ -374,19 +380,19 @@
                     </div>
 
 
-                    
+
 
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-success">OK</button>
+                <button type="button" id="addWildCard" data-dismiss="modal" class="btn btn-success">OK</button>
 
             </div>
         </div>
     </div>
 </div>
-@Scripts.Render("~/bundles/customBundle")
+
 <script>
     $(document).on("change", "#TemplateTypeId", function () {
         debugger
@@ -619,34 +625,12 @@
     });
 </script>
 
-<script>
-
-
-
-
-
-</script>
 
 
 
 
 
 
-<script>
 
-    $(document).ready(function () {
-        $(".cke_button__superbutton_icon").click(function () {
-            $(".wild-cart-m").fadeIn();
 
-        });
-    });
-
-    $(document).ready(function () {
-        $(".zmdi-close").click(function () {
-            $(".wild-cart-m").fadeOut();
-
-        });
-    });
-
-</script>
 @Scripts.Render("~/bundles/jqueryval")

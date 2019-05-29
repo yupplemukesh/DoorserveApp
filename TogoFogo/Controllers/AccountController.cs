@@ -74,6 +74,11 @@ namespace TogoFogo.Controllers
        [CustomHandleError]
         public async Task<ActionResult> Login(LoginViewModel m)
         {
+            if (string.IsNullOrEmpty(m.Email) || string.IsNullOrEmpty(m.Password))
+            {
+                ViewBag.Message = "Please provide email and password";
+                return View(m);
+            }
             var encrpt_Pass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(m.Password, true);
             using (var con = new SqlConnection(_connectionString))
             {

@@ -17,8 +17,15 @@
     <title>Repairgreen</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
     @Styles.Render("~/Content/css")
+<SCRIPT type='text/javascript'>
+    window.history.forward();
+    function noBack() { window.history.forward(); }
+    window.onload = noBack;
+    window.onpageshow = function (evt) { if (evt.persisted) noBack() }
+    window.onunload = function () { void (0) }
+</SCRIPT>
 </head>
-<body class="authentication-body">
+<body class="authentication-body" onload="noBack();">
     <div class="container-fluid">
         <div class="authentication-header m-b-30">
             <div class="clearfix">

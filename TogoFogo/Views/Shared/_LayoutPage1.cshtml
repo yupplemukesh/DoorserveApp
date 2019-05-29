@@ -14,6 +14,8 @@
     @Styles.Render("~/Content/css/Gridmvc")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", required: false)
+ 
+
 </head>
 <body class="layout layout-header-fixed layout-left-sidebar-fixed">
     <div class="site-overlay"></div>
@@ -120,9 +122,21 @@
     @Scripts.Render("~/bundles/customBundle")
     @Scripts.Render("~/bundles/js/Gridmvc")
     @Scripts.Render("~/bundles/bootstrap")
-    <script>
+<script>
 
-        $(document).ready(function (e) {
+//         $(window).on("navigate", function (event, data)
+//        {
+//            debugger
+//	var direction = data.state.direction;
+//	if (direction == 'back') {
+//        alert('back button was pressed');
+//	}
+//});
+
+    $(document).ready(function (e) {
+
+       
+
             $('#myTable').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found"

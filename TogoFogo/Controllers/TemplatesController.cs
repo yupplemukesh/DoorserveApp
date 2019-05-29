@@ -48,7 +48,7 @@ namespace TogoFogo.Controllers
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Value", "Text");
+            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Text", "Text");
             templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(SessionModel.CompanyId), "Value", "Text");
             templatemodel.IsSystemDefined = true;
             return View(templatemodel);
@@ -215,7 +215,7 @@ namespace TogoFogo.Controllers
                 templatemodel.ScheduleTime = strSheduleArray[1];
             }
 
-            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Value", "Text");
+            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Text", "Text");
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
