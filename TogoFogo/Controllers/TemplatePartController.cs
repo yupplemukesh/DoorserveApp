@@ -22,7 +22,8 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Index()
-       {
+        {
+            var SessionModel = Session["User"] as SessionModel;
             var templatePart =new TemplatePartMainModel();
             templatePart.mainModel = await _templatePartRepo.GetTemplatePart(new Filters.FilterModel {CompId=SessionModel.CompanyId });
             templatePart.TemplatePart = new TemplatePartModel();
@@ -39,6 +40,7 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var templatepartModel = new TemplatePartModel
                 {
                     TemplatePartId = templatepart.TemplatePartId,                    

@@ -28,12 +28,12 @@ namespace TogoFogo.Controllers
         public ActionResult AddGst()
         {
 
-
+            var session = Session["User"] as SessionModel;
             GstTaxModel gm = new GstTaxModel();
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            gm.GstcategoryList = new SelectList(dropdown.BindGst(SessionModel.CompanyId), "Value", "Text");
-            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            gm.GstcategoryList = new SelectList(dropdown.BindGst(session.CompanyId), "Value", "Text");
+            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
             gm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
             gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
             gm.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(),"Value","Text");
@@ -51,6 +51,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_GstTax",
                             new
                             {
@@ -126,7 +127,7 @@ namespace TogoFogo.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-
+                var SessionModel = Session["User"] as SessionModel;
                 var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = Gsttaxid },
                 commandType: CommandType.Text).FirstOrDefault();
                 result2.SACList = new SelectList(CommonModel.SAC_NumberList(), "Text", "Text");

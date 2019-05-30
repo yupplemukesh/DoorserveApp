@@ -63,6 +63,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult AddSpareType()
         {
+            var SessionModel = Session["User"] as SessionModel;
             //using (var con = new SqlConnection(_connectionString))
             //{
             //    var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstSpareType", null, commandType: CommandType.Text).FirstOrDefault();
@@ -81,7 +82,8 @@ namespace TogoFogo.Controllers
         public ActionResult AddSpareType(ManageSpareType model)
         {
             try
-            {              
+            {
+                var SessionModel = Session["User"] as SessionModel;
                 using (var con = new SqlConnection(_connectionString))
                 {
  
@@ -129,7 +131,7 @@ namespace TogoFogo.Controllers
           
             using (var con = new SqlConnection(_connectionString))
             {
-
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ManageSpareType>("GetSpareTypeDetail", new {companyId= SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
 
                return View(result);
@@ -138,6 +140,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult EditSpareType(int SpareTypeId)
         {
+            var SessionModel = Session["User"] as SessionModel;
             ManageSpareType mst = new ManageSpareType();
             if (SpareTypeId == 0)
             {
@@ -170,6 +173,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditSpareType(ManageSpareType model)
         {
+            var SessionModel = Session["User"] as SessionModel;
             try
             {               
                 using (var con = new SqlConnection(_connectionString))
@@ -242,6 +246,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult AddSparePartName()
         {
+            var SessionModel = Session["User"] as SessionModel;
             var sparepart = new ManageSparePart();
             sparepart.CTHNoList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
             sparepart.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
@@ -256,6 +261,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddSparePartName(ManageSparePart model)
         {
+            var SessionModel = Session["User"] as SessionModel;
             try
             {                
                 if (model.PartImage1 != null)
@@ -319,7 +325,7 @@ namespace TogoFogo.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-
+                var SessionModel = Session["User"] as SessionModel;
                 var result= con.Query<ManageSparePart>("GetSparePartDetails", new { SessionModel.CompanyId}, commandType: CommandType.StoredProcedure).ToList();
 
                 return View(result);
@@ -343,7 +349,7 @@ namespace TogoFogo.Controllers
                 //ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 using (var con = new SqlConnection(_connectionString))
                 {
-                
+                    var SessionModel = Session["User"] as SessionModel;
                     var result = con.Query<ManageSparePart>("Select * from MstSparePart where SpareTypeId=@SpareTypeId", new { SpareTypeId = SpareTypeId },
                         commandType: CommandType.Text).FirstOrDefault();
                     result.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
@@ -369,7 +375,8 @@ namespace TogoFogo.Controllers
         public ActionResult EditSpareName(ManageSparePart model)
         {
             try
-            {               
+            {
+                var SessionModel = Session["User"] as SessionModel;
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);

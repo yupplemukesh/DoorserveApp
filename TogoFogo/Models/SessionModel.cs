@@ -5,18 +5,19 @@ using System.Web;
 
 namespace TogoFogo.Models
 {
-    public  static class SessionModel
+    public   class SessionModel
     {
-        public static int UserId { get; set; }
-        public static string UserRole { get; set; }
-        public static string UserName { get; set; }
-        public static int UserTypeId { get; set; }
-        public static string UserTypeName { get; set; }
-        public static Guid? CompanyId { get; set; }
-        public static Guid? RefKey { get; set; }
-        public static MenuMasterModel Menues { get; set; }
-        public static string LogoUrl { get; set; }
-        public static string RefName { get; set; }
-        public static string _Mobile { get; set; }
+        public  int UserId { get; set; }
+        public  string UserRole { get; set; }
+        public  string UserName { get; set; }
+        public  int UserTypeId { get; set; }
+        public  string UserTypeName { get; set; }
+        public  Guid? CompanyId { get; set; }
+        public  Guid? RefKey { get; set; }
+        public  MenuMasterModel Menues { get; set; }
+        public  string LogoUrl { get; set; }
+        public  string RefName { get; set; }
+        public  string Email { get; set; }
+        public  string Mobile { get; set; }
     }
 }

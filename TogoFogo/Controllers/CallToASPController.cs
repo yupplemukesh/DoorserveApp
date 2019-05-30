@@ -27,12 +27,12 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
         public async Task<ActionResult> Index()
         {
-          
-            var filter = new FilterModel {CompId= SessionModel.CompanyId,IsExport=false};
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel {CompId= session.CompanyId,IsExport=false};
             var calls = await _customerSupport.GetASPCalls(filter);
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId),"Name","Text") };
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(session.CompanyId),"Name","Text") };
             return View(calls);
         }
 
@@ -42,7 +42,7 @@ namespace TogoFogo.Controllers
 
             try
             {
-              
+                var SessionModel = Session["User"] as SessionModel;
                 allocate.AllocateTo = "ASP";
                 allocate.UserId = SessionModel.UserId;
                  var response = await _customerSupport.AllocateCall(allocate);
@@ -60,10 +60,10 @@ namespace TogoFogo.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-           
+            var session = Session["User"] as SessionModel;
             var filter = new FilterModel
             {
-                CompId = SessionModel.CompanyId
+                CompId = session.CompanyId
                 ,
                 tabIndex = tabIndex
             };

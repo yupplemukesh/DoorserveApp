@@ -22,7 +22,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Index()
        {
-            var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters( new Filters.FilterModel {CompId=SessionModel.CompanyId});
+            var session = Session["User"] as SessionModel;
+            var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters( new Filters.FilterModel {CompId= session.CompanyId});
             EmailHeaderFooterMainModel model = new EmailHeaderFooterMainModel();
             model.EmailHeaderFooter = new EmailHeaderFooterModel();
             model.mainModel = Mapper.Map<List<EmailHeaderFooterModel>>(emailheaderfooter);
@@ -38,9 +39,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(EmailHeaderFooterModel emailheaderfooter)
         {
-            if (ModelState.IsValid)
-            {
-                var emailheaderfooterModel = new EmailHeaderFooterModel
+
+            var session = Session["User"] as SessionModel;
+            var emailheaderfooterModel = new EmailHeaderFooterModel
                 {
                     EmailHeaderFooterId = emailheaderfooter.EmailHeaderFooterId,
                     ActionTypeId = emailheaderfooter.ActionTypeId,
@@ -48,8 +49,8 @@ namespace TogoFogo.Controllers
                     IsActive=emailheaderfooter.IsActive,
                     HeaderHTML = emailheaderfooter.HeaderHTML,
                     FooterHTML = emailheaderfooter.FooterHTML,
-                    UserId = SessionModel.UserId,
-                    CompanyId=SessionModel.CompanyId
+                    UserId = session.UserId,
+                    CompanyId= session.CompanyId
                 };
                 ResponseModel response = new ResponseModel();
                 if (emailheaderfooterModel.EmailHeaderFooterId != 0)
@@ -57,19 +58,16 @@ namespace TogoFogo.Controllers
                 else
                     response = await _emailHeaderFooterRepo.AddUpdateDeleteEmailHeaderFooter(emailheaderfooterModel, 'I');
                 _emailHeaderFooterRepo.Save();
-                TempData["response"] = response;
-                return RedirectToAction("Index");
-            }
-            else
-                return View(emailheaderfooter);
+                TempData["response"] = response;            
+            return RedirectToAction("Index");
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Edit(int id)
         {
             var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooterById(id);
-            var seletedActions = emailheaderfooter.ActionTypeIds.Split(',').ToList();
-            emailheaderfooter.ActionTypeId = seletedActions.Select(int.Parse).ToList();
+            //var seletedActions = emailheaderfooter.ActionTypeIds.Split(',').ToList();
+            //emailheaderfooter.ActionTypeId = seletedActions.Select(int.Parse).ToList();
             return Json(emailheaderfooter, JsonRequestBehavior.AllowGet);
         }
 

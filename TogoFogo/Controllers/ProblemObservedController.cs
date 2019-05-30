@@ -41,6 +41,7 @@ namespace TogoFogo.Controllers
             var problemobserved = new ManageProblemObserved();
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 problemobserved.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 problemobserved.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
 
@@ -56,6 +57,7 @@ namespace TogoFogo.Controllers
         {          
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 if (model.ProblemObserved == null)
                 {
 
@@ -101,6 +103,7 @@ namespace TogoFogo.Controllers
           
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ManageProblemObserved>("GetProbObsrvDetails", new { SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
@@ -110,9 +113,9 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Problem_Observed)]
         public ActionResult EditProblemObserved(int ProblemId)
         {
+            var SessionModel = Session["User"] as SessionModel;
 
 
-   
             ViewBag.Device_Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             
             using (var con = new SqlConnection(_connectionString))
@@ -134,6 +137,7 @@ namespace TogoFogo.Controllers
         {           
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 if (model.ProblemId == null)
                 {
                     TempData["ProblemObserved"] = "Problem Id Not Found";

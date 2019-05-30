@@ -133,7 +133,7 @@ namespace TogoFogo.Controllers
         public ActionResult EditRepairStatus1()
         {
 
-  
+            var SessionModel = Session["User"] as SessionModel;
             ViewBag.CourierName = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
             ViewBag.PrblmObsrvd = new SelectList(dropdown.BindProblemObserved(SessionModel.CompanyId), "Value", "Text");
             ViewBag.SpareType = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");

@@ -36,23 +36,17 @@ namespace TogoFogo.Repository.EmailHeaderFooters
         }
         public async Task<ResponseModel> AddUpdateDeleteEmailHeaderFooter(EmailHeaderFooterModel emailHeaderFooterModel, char action)
         {
-            var cat = "";
-            foreach(var item in emailHeaderFooterModel.ActionTypeId)
-            {
-                cat = cat + "," + item;
-            }
-            cat = cat.TrimStart(',');
-            cat = cat.TrimEnd(',');
+          
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@EmailHeaderFooterId",ToDBNull(emailHeaderFooterModel.EmailHeaderFooterId));
             sp.Add(param);
-            param = new SqlParameter("@ActionTypeId", (object)cat);
+            param = new SqlParameter("@ActionTypeId", ToDBNull(emailHeaderFooterModel.ActionTypeId) );
             sp.Add(param);
             param = new SqlParameter("@Name", (object)emailHeaderFooterModel.Name);
             sp.Add(param);
-            param = new SqlParameter("@HeaderHTML", (object)emailHeaderFooterModel.HeaderHTML);
+            param = new SqlParameter("@HeaderHTML", ToDBNull(emailHeaderFooterModel.HeaderHTML));
             sp.Add(param);
-            param = new SqlParameter("@FooterHTML", (object)emailHeaderFooterModel.FooterHTML);
+            param = new SqlParameter("@FooterHTML", ToDBNull(emailHeaderFooterModel.FooterHTML));
             sp.Add(param);
             param = new SqlParameter("@User", (object)emailHeaderFooterModel.UserId);
             sp.Add(param);

@@ -24,6 +24,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.SMS_Gateway_Settings)]
         public async Task<ActionResult> Index()
         {
+            var SessionModel = Session["User"] as SessionModel;
             var getwaylist = await CommonModel.GetGatewayType();
 
 
@@ -50,6 +51,7 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var gatewayModel = new GatewayModel {
                     GatewayId = smsgateway.GatewayId,
                     GatewayTypeId = smsgateway.GatewayTypeId,

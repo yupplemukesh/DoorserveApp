@@ -115,7 +115,7 @@ namespace TogoFogo.Controllers
         }
         public ActionResult PFQCForm()
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");

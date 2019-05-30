@@ -36,7 +36,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Create()
         {
- 
+            var SessionModel = Session["User"] as SessionModel;
+
             CourierPinZipCode courierPinZipCode = new CourierPinZipCode
             {
                 CourierList = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text"),
@@ -50,9 +51,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         [ValidateModel]
         public ActionResult Create(CourierPinZipCode model)
-        {        
-           
-                using (var con = new SqlConnection(_connectionString))
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            using (var con = new SqlConnection(_connectionString))
                 {                   
                         var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
                         new
@@ -104,6 +105,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Edit(int pinZipId)
         {
+            var SessionModel = Session["User"] as SessionModel;
             DropdownBindController dropdownBindController=new DropdownBindController();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -131,8 +133,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         [ValidateModel]
         public ActionResult Edit(CourierPinZipCode model)
-        {            
-                int PinZipId = Convert.ToInt32(TempData["PinZipId"]);
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            int PinZipId = Convert.ToInt32(TempData["PinZipId"]);
                 model.Pin_ZIP_ID = PinZipId;
                 using (var con = new SqlConnection(_connectionString))
                 {                   
@@ -183,7 +186,8 @@ namespace TogoFogo.Controllers
         [HttpGet]
         public ActionResult Mass_Courier_UPload()
         {
-           
+            var SessionModel = Session["User"] as SessionModel;
+
             ViewBag.CountryBulk = new SelectList(dropdown.BindCountry(), "Value", "Text");
             ViewBag.CourierBulk = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
             ViewBag.PIN_CountryBulk = new SelectList(dropdown.BindCountry(), "Value", "Text");

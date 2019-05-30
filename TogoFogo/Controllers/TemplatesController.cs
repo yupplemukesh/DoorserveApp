@@ -34,6 +34,7 @@ namespace TogoFogo.Controllers
         }
         public async Task<ActionResult> Index()
         {
+            var SessionModel = Session["User"] as SessionModel;
 
             var templates = await _templateRepo.GetTemplates(new Filters.FilterModel {CompId= SessionModel.CompanyId });
             templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
@@ -42,6 +43,7 @@ namespace TogoFogo.Controllers
         }
         public async Task<ActionResult> Create()
         {
+            var SessionModel = Session["User"] as SessionModel;
             var templatemodel = new TemplateModel();
             templatemodel.IsActive = true;
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
@@ -56,7 +58,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(TemplateModel templateModel)
         {
-                var response =new TogoFogo.Models.ResponseModel();
+            var SessionModel = Session["User"] as SessionModel;
+            var response =new TogoFogo.Models.ResponseModel();
                 Boolean Isvalid = false;
                 DataTable dtToEmailExcelData = new DataTable();
                 templateModel.UserId = SessionModel.UserId;
@@ -135,7 +138,11 @@ namespace TogoFogo.Controllers
                         string[] strToEmailcc = templateModel.ToCCEmail.Split(';');
                         templateModel.TotalCount += strToEmailcc.Length;
                         Isvalid = true;
-                    }                    
+                    }
+                if (templateModel.TemplateTypeId == 69)
+                {
+                    Isvalid = true;
+                }
                     if (!Isvalid)
                     {
                         response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
@@ -206,6 +213,7 @@ namespace TogoFogo.Controllers
         }
         public async Task<ActionResult> Edit(int id,Guid? GUID)
         {
+            var SessionModel = Session["User"] as SessionModel;
             var templatemodel = new TemplateModel();
             templatemodel = await _templateRepo.GetTemplateByGUID(id,GUID);
             if(!string.IsNullOrEmpty(templatemodel.ScheduleDateTime))
@@ -228,6 +236,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(TemplateModel templateModel)
         {
+            var SessionModel = Session["User"] as SessionModel;
             var response = new TogoFogo.Models.ResponseModel();
             Boolean Isvalid = false;
             DataTable dtToEmailExcelData = new DataTable();

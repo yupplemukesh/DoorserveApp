@@ -29,11 +29,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Device_Service_Charge)]
         public ActionResult AddServiceCharge()
         {
-
+            var session = Session["User"] as SessionModel;
             ServiceChargeModel scm = new ServiceChargeModel();
-            scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
             scm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
-            scm.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+            scm.BrandList = new SelectList(dropdown.BindBrand(session.CompanyId), "Value", "Text");
             scm.ModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());           
             return View(scm);
         }
@@ -46,6 +46,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_ServiceCharge",
                             new
                             {
@@ -112,7 +113,7 @@ namespace TogoFogo.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-              
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ServiceChargeModel>("SELECT * from MstDeviceServiceCharge Where ServiceChargeId=@serviceChargeId", new { @serviceChargeId = ServiceChargeId },
                 commandType: CommandType.Text).FirstOrDefault();               
                 result.DeviceCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
@@ -133,6 +134,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_ServiceCharge",
                             new
                             {

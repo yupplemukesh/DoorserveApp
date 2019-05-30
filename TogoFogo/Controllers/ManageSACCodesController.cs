@@ -41,7 +41,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public ActionResult AddSacCodes()
         {
-           SacCodesModel sm = new SacCodesModel
+            var SessionModel = Session["User"] as SessionModel;
+            SacCodesModel sm = new SacCodesModel
             {
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
@@ -59,6 +60,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_SACCodes",
                             new
                             {
@@ -128,7 +130,7 @@ namespace TogoFogo.Controllers
          
             using (var con = new SqlConnection(_connectionString))
             {
-
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<SacCodesModel>("Select * from MstSacCodes Where SacCodesId=@SacCodesId", new { @SacCodesId = sacCodeId },
                     commandType: CommandType.Text).FirstOrDefault();
                 result.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -163,6 +165,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditSacCode(SacCodesModel model)
         {
+            var SessionModel = Session["User"] as SessionModel;
             try
             {
                 if (ModelState.IsValid)
@@ -170,6 +173,7 @@ namespace TogoFogo.Controllers
 
                     using (var con = new SqlConnection(_connectionString))
                     {
+                    
                         var result = con.Query<int>("Add_Edit_Delete_SACCodes",
                             new
                             {
@@ -213,6 +217,7 @@ namespace TogoFogo.Controllers
 
                 else
                 {
+                 
                     model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                     model.StateList = new SelectList(dropdown.BindState(model.CountryId), "Value", "Text");
                     model.GstList = new SelectList(dropdown.BindGst(SessionModel.CompanyId), "Value", "Text");

@@ -36,7 +36,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Clients)]
         public  async Task<ActionResult> Index()
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId= SessionModel.CompanyId};
             var clients=  await _client.GetClients(filter);  
             return View(clients);
@@ -77,9 +77,9 @@ namespace TogoFogo.Controllers
             if (bank.BankCancelledChequeFilePath != null)
                 bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
             if (bank.bankId != null)
-                bank.Action = 'U';
+                bank.EventAction = 'U';
             else
-                bank.Action = 'I';
+                bank.EventAction = 'I';
             bank.UserId = Convert.ToInt32(Session["User_ID"]);
             if (TempData["client"] != null)
             {
@@ -111,7 +111,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
@@ -183,7 +183,7 @@ namespace TogoFogo.Controllers
         }
         private async Task<ClientModel> GetClient(Guid? clientId)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var Client = await _client.GetClientByClientId(clientId);
             Client.Path = _path;
             var processes = await CommonModel.GetProcesses();           
@@ -254,7 +254,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditClient(ClientModel client)
         {
 
-
+            var SessionModel = Session["User"] as SessionModel;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["client"] as ClientModel;
@@ -374,7 +374,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ClientModel client,OrganizationModel org)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var cltns = TempData["client"] as ClientModel;
             if (TempData["client"] != null)
             {
@@ -442,7 +442,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             if (client.IsUser && !string.IsNullOrEmpty(client.Password))
                 client.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(client.Password, true);
 

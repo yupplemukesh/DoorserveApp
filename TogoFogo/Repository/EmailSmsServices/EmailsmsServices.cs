@@ -26,40 +26,54 @@ namespace TogoFogo.Repository
             _headerFooters = new TogoFogo.Repository.EmailHeaderFooters.EmailHeaderFooters();
             _gateway = new TogoFogo.Repository.SMSGateway.Gateway();
         }
-        public async Task<string> Send(TemplateModel template, string ToEmail,string EmailFrom,string UserName,string ToMobile)
+        public async Task<string> Send( List<TemplateModel> templates, List<CheckBox> wildcards, SessionModel session)
         {
-            var getwaymodel = await Getgateway(Convert.ToInt32(template.GatewayId));
-            bool flag = false;
-            if (template.ActionTypeName.ToLower() == "actionbased")
-            {
-                if (template.MessageTypeName == "SMTP Gateway")
-                {
-                    var headerFooter = await getHeaderfooter(template.EmailHeaderFooterId);
-                    var emailBody = headerFooter.HeaderHTML + template.EmailBody + headerFooter.FooterHTML;
-                    template.EmailBody = emailBody.Replace("[USER NAME]", UserName);
-                    MailMessage mail = new MailMessage();
-                    mail.To.Add(ToEmail);
-                    mail.Subject = template.Subject;
-                    if(!string.IsNullOrEmpty(template.BccEmails))
-                    mail.Bcc.Add(template.BccEmails);
-                    mail.From = new MailAddress(EmailFrom);
-                    mail.Body = template.EmailBody;
-                    mail.IsBodyHtml = true;
-                    if(template.PriorityTypeId==70)
-                    mail.Priority = MailPriority.High;
-                    else if (template.PriorityTypeId == 71)
-                        mail.Priority = MailPriority.Normal;
-                    else
-                        mail.Priority = MailPriority.Low;
-                    flag = SendEmail(mail, getwaymodel);
-                }
-                else if(template.MessageTypeName == "SMS Gateway")
-                {
-                    template.MessageText = template.MessageText.Replace("[User Name]", UserName);
-                    template.PhoneNumber = ToMobile;
-                  var res=  SendSms(template, getwaymodel);
-                }
 
+            foreach (var template in templates)
+            {
+
+                var getwaymodel = await Getgateway(Convert.ToInt32(template.GatewayId));
+                bool flag = false;
+
+                if (template.ActionTypeName.ToLower() == "actionbased")
+                {
+                    if (template.MessageTypeName == "SMTP Gateway")
+                    {
+                        var headerFooter = await getHeaderfooter(template.EmailHeaderFooterId);
+                        var emailBody = headerFooter.HeaderHTML + template.EmailBody + headerFooter.FooterHTML;
+                        template.EmailBody = emailBody;
+                        foreach (var item in wildcards)
+                        {
+                            template.EmailBody = template.EmailBody.Replace("$["+ item.Text + "]", item.Val);
+                        }
+                        MailMessage mail = new MailMessage();
+                        mail.To.Add(session.Email);
+                        mail.Subject = template.Subject;
+                        if (!string.IsNullOrEmpty(template.BccEmails))
+                            mail.Bcc.Add(template.BccEmails);
+                        mail.Body = template.EmailBody;
+                        mail.IsBodyHtml = true;
+                        if (template.PriorityTypeId == 70)
+                            mail.Priority = MailPriority.High;
+                        else if (template.PriorityTypeId == 71)
+                            mail.Priority = MailPriority.Normal;
+                        else
+                            mail.Priority = MailPriority.Low;
+                        flag = SendEmail(mail, getwaymodel);
+                    }
+                    else if (template.MessageTypeName == "SMS Gateway")
+                    {
+
+                        foreach (var item in wildcards)
+                        {
+                            template.MessageText = template.MessageText.Replace("$["+item.Text+"]", item.Val);
+                        }
+                 
+                        template.PhoneNumber = session.Mobile;
+                        var res = SendSms(template, getwaymodel);
+                    }
+
+                }
             }
             return "hello";
         }
@@ -73,7 +87,7 @@ namespace TogoFogo.Repository
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new System.Net.NetworkCredential(gateway.SmtpUserName, gateway.SmtpPassword);
             smtp.EnableSsl = gateway.SSLEnabled;
-
+            mail.From = new MailAddress(gateway.Email) ;
             bool flag = false;
             try
             {

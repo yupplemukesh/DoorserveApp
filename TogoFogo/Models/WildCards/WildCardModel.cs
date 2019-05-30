@@ -14,7 +14,6 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Wild Card")]
         public string WildCard { get; set; }
-        [DisplayName("Is Active ?")]
         [Required]
         public List<int> actionTypes { get; set; }
         public string ActionTypeIds { get; set; }

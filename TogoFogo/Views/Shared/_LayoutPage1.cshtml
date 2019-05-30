@@ -14,7 +14,9 @@
     @Styles.Render("~/Content/css/Gridmvc")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", required: false)
- 
+ @{
+         var SessionModel = Session["User"] as SessionModel;
+ }
 
 </head>
 <body class="layout layout-header-fixed layout-left-sidebar-fixed">

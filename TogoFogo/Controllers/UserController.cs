@@ -37,8 +37,9 @@ namespace TogoFogo.Controllers
         [HttpPost]      
         public ActionResult AddUser(User objUser)
         {
-      
-            objUser.UserLoginId = SessionModel.UserId;            
+
+            var session = Session["User"] as SessionModel;
+            objUser.UserLoginId = session.UserId;            
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -67,9 +68,9 @@ namespace TogoFogo.Controllers
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
                             objUser.UserLoginId,
-                            userTypeId= SessionModel.UserTypeId,
-                            RefId= SessionModel.RefKey,
-                            companyId= SessionModel.CompanyId
+                            userTypeId= session.UserTypeId,
+                            RefId= session.RefKey,
+                            companyId= session.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -139,8 +140,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditUser(User objUser)
         {
-           
-            objUser.UserLoginId = SessionModel.UserId;
+            var session = Session["User"] as SessionModel;
+            objUser.UserLoginId = session.UserId;
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -169,9 +170,9 @@ namespace TogoFogo.Controllers
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
                             objUser.UserLoginId,
-                            userTypeId = SessionModel.UserTypeId,
-                            RefId = SessionModel.RefKey,
-                            companyId = SessionModel.CompanyId
+                            userTypeId = session.UserTypeId,
+                            RefId = session.RefKey,
+                            companyId = session.CompanyId
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
@@ -205,21 +206,21 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Users)]
         public ActionResult UserList()
         {
-
+            var session = Session["User"] as SessionModel;
             int UserId = 0;
             Guid? RefKey = null;
             Guid? CompanyId = null;
-            if (SessionModel.UserRole.ToLower().Contains("super admin"))
-                UserId = SessionModel.UserId;
-            else if (SessionModel.UserRole.ToLower().Contains("company admin"))
-                CompanyId = SessionModel.CompanyId;
+            if (session.UserRole.ToLower().Contains("super admin"))
+                UserId = session.UserId;
+            else if (session.UserRole.ToLower().Contains("company admin"))
+                CompanyId = session.CompanyId;
             else
-                RefKey = SessionModel.RefKey;
+                RefKey = session.RefKey;
 
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
-                UserId = SessionModel.UserId;
+                UserId = session.UserId;
                 var result = con.Query<dynamic>("GETUSERLIST", new { UserId,RefKey, CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
@@ -261,17 +262,26 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                  
+
+                    var session = Session["User"] as SessionModel;
                     var encrpt_OldPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.CurrentPassword, true);
                     var encrpt_NewPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
-                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { SessionModel.UserId, OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
+                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { session.UserId, OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
                                             commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (response.ResponseCode == 0)
                     {
                         response.IsSuccess = true;
-                        var Template = await _templateRepo.GetTemplateByActionName("Change Password");
-                        if (Template != null)
-                            await _emailSmsServices.Send(Template, User.Identity.Name, User.Identity.Name, SessionModel.UserName, SessionModel._Mobile);
+                        var Templates = await _templateRepo.GetTemplateByActionName("Change Password");
+                        session.Email = User.Identity.Name;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = session.UserName;
+                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = reset.NewPassword;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, session);
                     }
                     else
                         response.IsSuccess = false;
@@ -284,7 +294,7 @@ namespace TogoFogo.Controllers
 
         public ActionResult UserProfile()
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             User objUser = new User();
             int UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))

@@ -12,7 +12,8 @@ using TogoFogo.Models.Template;
 namespace TogoFogo
 {
     public static class CommonModel
-    {                
+    {
+     
         public static async Task<List<CheckBox>> GetEmployeeList(Guid? RefKey)
         {
             using (var _context = new ApplicationDbContext())
@@ -118,7 +119,7 @@ namespace TogoFogo
             using (var _context = new ApplicationDbContext())
             {
                 
-                var query = "select WildCardId Value,WildCard Text from WildCard where IsActive=1";
+                var query = "select WildCardId Value,WildCard Text,'' Val  from WildCard where IsActive=1";
               
 
                 var _clientData = await _context.Database.SqlQuery<CheckBox>(query).ToListAsync();
@@ -367,6 +368,7 @@ namespace TogoFogo
     }
     public class CheckBox
     {
+        public string Val { get; set; }
         public string Text { get; set; }
         public int Value { get; set; }
         public bool IsChecked { get; set; }

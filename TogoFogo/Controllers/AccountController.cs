@@ -93,22 +93,20 @@ namespace TogoFogo.Controllers
                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
 
+                    SessionModel session = new SessionModel {UserId=rs.UserId,
+                        Email=rs.Email,RefKey=rs.RefKey, CompanyId=rs.CompanyId,
+                        UserTypeName=rs.UserTypeName,
+                        UserRole = rs.RoleName,
+                        UserName=rs.UserName,
+                        Mobile= rs.Mobile,
+                       Menues= manues
+                    };
 
-                       SessionModel.UserId = rs.UserId;
-                       SessionModel.UserRole = rs.RoleName;
-                    SessionModel.UserTypeId = rs.UserTypeId;
-                    SessionModel.UserTypeName = rs.UserTypeName;
-                    SessionModel.RefKey = rs.RefKey;
-                    SessionModel.UserName = rs.UserName;
-                    SessionModel.Menues = manues;
-                    SessionModel.CompanyId = rs.CompanyId;
-                    SessionModel.RefName = rs.RefName;
+                    if (!session.UserTypeName.ToLower().Contains("super admin"))
+                        session.LogoUrl = "/uploadedImages/Companies/Logo/" + rs.CompLogo;
+                 
 
-
-                    if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
-                    SessionModel.LogoUrl = "/uploadedImages/Companies/Logo/" + rs.CompLogo;
-
-                    Session["User"] = User;                  
+                    Session["User"] = session;                  
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, m.Email));
@@ -138,7 +136,10 @@ namespace TogoFogo.Controllers
             {
                 Response.Cookies.Remove(cookie);
             }
-
+         
+            Session["User"] = null;
+            Session.Abandon();
+            Session.Clear();
             return View("Login",null);
         }       
         //GET: /Account/VerifyCode

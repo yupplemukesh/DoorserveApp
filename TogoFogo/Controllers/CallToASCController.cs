@@ -29,21 +29,22 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Service_Provider)]
         public async Task<ActionResult> Index()
         {
+            var session = Session["User"] as SessionModel;
             var filter = new FilterModel();
 
-            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
-                filter.ProviderId = SessionModel.RefKey;
+            if (session.UserTypeName.ToLower().Contains("provider"))
+                filter.ProviderId = session.RefKey;
 
-            filter.CompId = SessionModel.CompanyId;
+            filter.CompId = session.CompanyId;
             filter.IsExport = false;
             var calls = await _customerSupport.GetASCCalls(filter);
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
-            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text") };
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
+            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
+            if (session.UserTypeName.ToLower().Contains("provider"))
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(session.RefKey), "Name", "Text") };
         else
-                calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceComp(SessionModel.CompanyId), "Name", "Text") };
+                calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceComp(session.CompanyId), "Name", "Text") };
 
             return View(calls);
         }
@@ -53,9 +54,9 @@ namespace TogoFogo.Controllers
 
             try
             {
-               
+                var session = Session["User"] as SessionModel;
                 allocate.AllocateTo = "ASC";
-                allocate.UserId = SessionModel.UserId;
+                allocate.UserId = session.UserId;
                 var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -72,8 +73,8 @@ namespace TogoFogo.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-
-            var filter = new FilterModel {CompId= SessionModel.CompanyId,tabIndex=tabIndex,IsExport=true};
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel {CompId= session.CompanyId,tabIndex=tabIndex,IsExport=true};
             var response = await _customerSupport.GetASCCalls(filter);
             byte[] filecontent;
             string[] columns;

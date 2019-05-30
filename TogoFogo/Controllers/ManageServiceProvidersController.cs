@@ -42,7 +42,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<ActionResult> Index()
         {
-
+            var SessionModel = Session["User"] as SessionModel;
 
             var filter = new FilterModel { CompId = SessionModel.CompanyId };
             var Providers = await _provider.GetProviders(filter);
@@ -75,7 +75,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
 
-
+            var SessionModel = Session["User"] as SessionModel;
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Banks/" + bank.BankCancelledChequeFileName)))
@@ -85,9 +85,9 @@ namespace TogoFogo.Controllers
             if (bank.BankCancelledChequeFilePath != null)
                 bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
             if (bank.bankId != null)
-                bank.Action = 'U';
+                bank.EventAction = 'U';
             else
-                bank.Action = 'I';
+                bank.EventAction = 'I';
             bank.UserId = SessionModel.UserId;
             if (TempData["provider"] != null)
             {
@@ -119,7 +119,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
             {
 
@@ -205,7 +205,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             provider.CompanyId = SessionModel.CompanyId;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
@@ -326,7 +326,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var cltns = TempData["provider"] as ServiceProviderModel;
             if (TempData["provider"] != null)
             {
@@ -393,6 +393,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ServiceProviderModel provider)
         {
+            var SessionModel = Session["User"] as SessionModel;
 
             if (provider.IsUser && !string.IsNullOrEmpty(provider.Password))
                 provider.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(provider.Password, true);
@@ -442,6 +443,7 @@ namespace TogoFogo.Controllers
 
         private async Task<ServiceProviderModel> GetProvider(Guid? ProviderId)
         {
+            var SessionModel = Session["User"] as SessionModel;
             var Provider = await _provider.GetProviderById(ProviderId);
 
             Provider.Path = _path;
@@ -508,7 +510,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(ServiceProviderModel provider, OrganizationModel org)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             try
             {
 
@@ -586,6 +588,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> ImportProviders(ProviderFileModel provider)
         {
+            var SessionModel = Session["User"] as SessionModel;
             provider.CompanyId = SessionModel.CompanyId;
             provider.UserId = SessionModel.UserId;
 

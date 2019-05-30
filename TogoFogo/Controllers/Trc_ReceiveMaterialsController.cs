@@ -99,7 +99,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Receive_Materials)]
         public ActionResult RM()
         {
-         
+            var SessionModel = Session["User"] as SessionModel;
             var receivematerials = new ReceiveMaterials();
             receivematerials.ReceivedDeviceList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             receivematerials.RecvdBrandlList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");

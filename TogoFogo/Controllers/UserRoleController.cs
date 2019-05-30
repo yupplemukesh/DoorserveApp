@@ -63,6 +63,7 @@ namespace TogoFogo.Controllers
             var xml = ToXML(SelectedMenuList);
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<int>("UspInsertUserRole",
                     new
                     {
@@ -163,7 +164,7 @@ namespace TogoFogo.Controllers
         public ActionResult EditUserRole(UserRole objUserRole)
         {
 
-       
+            var SessionModel = Session["User"] as SessionModel;
             objUserRole.UserLoginId = SessionModel.UserId;
             string MenuList = string.Empty;
             ResponseModel objResponseModel = new ResponseModel();
@@ -235,7 +236,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_User_Roles)]
         public ActionResult UserRoleList()
         {
-         
+            var SessionModel = Session["User"] as SessionModel;
             Int64 RoleId = 0;
             int UserId = 0;
             if (!SessionModel.UserRole.ToLower().Contains("super admin"))

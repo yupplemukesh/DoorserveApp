@@ -40,6 +40,7 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
+                    var SessionModel = Session["User"] as SessionModel;
                     var result = con.Query<int>("Insert_into_MstPromoCode", new {m.PromoCode,m.Amount,m.FromDate,m.ToDate,SessionModel.UserId, SessionModel.CompanyId},
                  commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 1)
@@ -60,6 +61,7 @@ namespace TogoFogo.Controllers
 
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var promoCodes = con.Query<PromoCodeModel>("Select * from MstPromoCode where companyId=@compId", new { compId=SessionModel.CompanyId }, commandType: CommandType.Text).ToList();
 
                 return View(promoCodes);

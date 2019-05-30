@@ -75,7 +75,7 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@DELIVERYTYPEID", ToDBNull(Call.DeliveryTypeId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@ACTION", Call.Action);
+            pararm = new SqlParameter("@ACTION", Call.EventAction);
             sp.Add(pararm);
             pararm = new SqlParameter("@USERID", Call.UserId);
             sp.Add(pararm);

@@ -1,6 +1,10 @@
 ﻿@using Microsoft.AspNet.Identity
 @using TogoFogo.Models
+@{
 
+    var SessionModel = Session["User"] as SessionModel;
+
+}
 
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
 {
@@ -13,7 +17,7 @@
 
                 </span>
                 <label class="nav-cell p-l-10">
-                 @SessionModel.UserTypeName
+                    @SessionModel.UserTypeName
                 </label>
             </a>
             <a href="#" class="dropdown-toggle">
@@ -21,8 +25,8 @@
                     <img src="~/Content/img/icon-img/user-r.png">
                 </span>
                 <label class="nav-cell p-l-10">
-                  
-                   @SessionModel.UserRole
+
+                    @SessionModel.UserRole
                 </label>
             </a>
         </li>

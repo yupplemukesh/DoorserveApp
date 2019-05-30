@@ -26,7 +26,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Permission)]
         public async Task<ActionResult> AddUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
-   
+            var SessionModel = Session["User"] as SessionModel;
             UserPermission objUserPermission = new UserPermission();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -79,6 +79,7 @@ namespace TogoFogo.Controllers
             var xml = ToXML(selectedMenu);
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<int>("UspInsertMenuActionRights",
                     new
                     {
@@ -124,8 +125,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_User_Permission)]
         public async Task<ActionResult> EditUserPermission(Int64 RoleId = 0, Int64 PermissionId = 0, Int64 UserId = 0)
         {
+            var SessionModel = Session["User"] as SessionModel;
 
-         
             Guid? RefKey = SessionModel.RefKey;
             UserPermission objUserPermission;
             using (var con = new SqlConnection(_connectionString))
@@ -187,7 +188,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var selectedMenu = objMenuMasterModel.Where(x => x.CheckedStatus == true).Select(x=>new MenuMasterModel {MenuCapId=x.MenuCapId,Menu_Name=x.Menu_Name,ParentMenuId=x.ParentMenuId, SubMenuList = x.SubMenuList,ActionIds = getActions(x.RightActionList) }).ToList();
             foreach (var item in selectedMenu)
             {
@@ -283,7 +284,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_User_Permission)]
         public ActionResult UserPermissionList()
         {
-           
+            var SessionModel = Session["User"] as SessionModel;
             int UserId = SessionModel.UserId;
             Guid? refKey = null;
             Guid? companyId = null;

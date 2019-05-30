@@ -29,7 +29,7 @@ namespace TogoFogo.Controllers
         {
             var getwaylist = await CommonModel.GetGatewayType();
 
-
+            var SessionModel = Session["User"] as SessionModel;
             var getwayTypeId = getwaylist.Where(x => x.Text == "Notification Gateway").Select(x => x.Value).SingleOrDefault();
 
             var notificationgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=SessionModel.CompanyId });
@@ -51,6 +51,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(NotificationGatewayModel notificationgateway)
         {
+            var SessionModel = Session["User"] as SessionModel;
             if (ModelState.IsValid)
             {
                 var gatewayModel = new GatewayModel

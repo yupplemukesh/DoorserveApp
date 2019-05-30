@@ -94,7 +94,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
-         
+            var SessionModel = Session["User"] as SessionModel;
             comp.CreatedBy = SessionModel.UserId;
             if (comp.CompanyLogo != null && comp.CompanyPath != null)
             {
@@ -197,7 +197,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
 
-          
+            var SessionModel = Session["User"] as SessionModel;
             if (organization.OrgGSTFileName != null && organization.OrgGSTNumberFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Gsts/" + organization.OrgGSTFileName)))
@@ -251,7 +251,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(OtherContactPersonModel contact)
         {
-         
+            var SessionModel = Session["User"] as SessionModel;
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
@@ -333,7 +333,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
-          
+            var SessionModel = Session["User"] as SessionModel;
             if (bank.BankCancelledChequeFileName != null && bank.BankCancelledChequeFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + bank.BankCancelledChequeFileName)))
@@ -343,9 +343,9 @@ namespace TogoFogo.Controllers
             if (bank.BankCancelledChequeFilePath!= null)
                 bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Cheques/");
             if (bank.bankId == null)
-                bank.Action = 'I';
+                bank.EventAction = 'I';
             else
-                bank.Action = 'U';
+                bank.EventAction = 'U';
             CompanyModel comp = new CompanyModel();
             if (TempData["Comp"] != null)
             {
@@ -376,6 +376,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
+            var SessionModel = Session["User"] as SessionModel;
             CompanyModel comp = new CompanyModel();
             if (TempData["Comp"] != null)
             {
@@ -446,7 +447,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> Registration(CompanyModel comp)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var CMP = comp;
             comp.ActiveTab = "tab-6";
             if (TempData["Comp"] != null)

@@ -37,7 +37,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult AddSparePartsPriceandStock()
         {
-          
+            var SessionModel = Session["User"] as SessionModel;
             //using (var con = new SqlConnection(_connectionString))
             //{
             //    var result = con.Query<SparePartsPriceStockModel>("GetSparePriceData",
@@ -130,7 +130,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         public ActionResult EditSparePartsPriceandStock(int sparePriceStockId)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             ViewBag.CatName = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             ViewBag.SubCatName = new SelectList(dropdown.BindSubCategory(),"Value","Text");
             ViewBag.Brand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
@@ -218,7 +218,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Repair_Cost_Estimation)]
         public ActionResult RCEForm()
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var rpcap = new RPCAPModel();
             rpcap.ReceivedDeviceList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             rpcap.RecvdBrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
@@ -269,7 +269,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Parts_Purchase_List)]
         public ActionResult SPPLForm(string CC_NO)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
 
             var result = new AllData();
             using (var con = new SqlConnection(_connectionString))

@@ -36,8 +36,8 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-             
-                actiontype.AddeddBy = SessionModel.UserId;
+                var session = Session["User"] as SessionModel;
+                actiontype.AddeddBy = session.UserId;
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'I');
                 _actionTypeModel.Save();
                 TempData["response"] = response;
@@ -58,9 +58,9 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-   
-                    actiontype.AddeddBy = SessionModel.UserId;
+
+                var session = Session["User"] as SessionModel;
+                actiontype.AddeddBy = session.UserId;
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'U');
                 _actionTypeModel.Save();
                 TempData["response"] = response;

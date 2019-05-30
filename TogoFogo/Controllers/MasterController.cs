@@ -51,6 +51,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddBrand(BrandModel model)
         {
+            var SessionModel = Session["User"] as SessionModel;
             try
             {
                 if (model.BrandIMG != null)
@@ -130,6 +131,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 if (model.BrandIMG != null)
                 {
                   
@@ -181,8 +183,8 @@ namespace TogoFogo.Controllers
             BrandModel objBrandModel = new BrandModel();
             using (var con = new SqlConnection(_connectionString))
             {
-            
-                
+
+                var SessionModel = Session["User"] as SessionModel;
                 var result= con.Query<BrandModel>("Get_Brands", new { companyId= SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
            }      
@@ -215,6 +217,7 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 ProductModel pm = new ProductModel {
                     _BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text"),
                     _Category= new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
@@ -248,7 +251,7 @@ namespace TogoFogo.Controllers
 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                   
+                    var SessionModel = Session["User"] as SessionModel;
                     var result = con.Query<int>("Add_Edit_Delete_Products",
                         new
                         {
@@ -313,7 +316,7 @@ namespace TogoFogo.Controllers
         {            
             using (var con = new SqlConnection(_connectionString))
             {
-
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ProductModel>("GetProductDetail", new { SessionModel.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
@@ -326,6 +329,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Products)]
         public ActionResult EditProduct(int? ProductId)
         {
+            var SessionModel = Session["User"] as SessionModel;
             ProductModel pm = new ProductModel();
             if (ProductId == 0 || ProductId == null)
             {
@@ -367,6 +371,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditProduct(ProductModel model)
         {
+            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProductImg != null)
@@ -437,6 +442,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult AddDeviceProblem()
         {
+            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
             {
 
@@ -451,7 +457,8 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult AddDeviceProblem(DeviceProblemModel model)
-        {            
+        {
+            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.Problem == null)
@@ -495,6 +502,7 @@ namespace TogoFogo.Controllers
         {           
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result= con.Query<DeviceProblemModel>("GetProblemDetail", new { SessionModel.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
@@ -505,6 +513,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult EditDeviceProblem(int? ProblemID)
         {
+            var SessionModel = Session["User"] as SessionModel;
             DeviceProblemModel dcm = new DeviceProblemModel();
             dcm.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             dcm.SubCatIdList = new SelectList(dropdown.BindSubCategory(dcm.CatId), "Value", "Text");
@@ -527,6 +536,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditDeviceProblem(DeviceProblemModel model)
         {
+            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemID == null)
@@ -581,7 +591,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Color_Master)]
         public ActionResult AddColorMaster()
         {
-   
+            var SessionModel = Session["User"] as SessionModel;
             ViewBag.Brand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             //ViewBag.Model = new SelectList(dropdown.BindModelName(), "Value", "Text");
             ViewBag.Model = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -589,7 +599,8 @@ namespace TogoFogo.Controllers
         }
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
-        {         
+        {
+            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
@@ -640,6 +651,7 @@ namespace TogoFogo.Controllers
         {        
            using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
                            new
                            {
@@ -676,6 +688,7 @@ namespace TogoFogo.Controllers
             
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { SessionModel.CompanyId, },
                     commandType: CommandType.Text).ToList();
                 return View(result);
@@ -800,7 +813,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult Probs_price_Matrix()
         {
-    
+            var SessionModel = Session["User"] as SessionModel;
             ViewBag.BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");                        
             ViewBag.Problem = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
             ViewBag.Model_Id = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -814,7 +827,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult AddWebsiteData()
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var parts = new Prob_Vs_price_matrix();
             parts.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             parts.ProblemList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
@@ -824,6 +837,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)
         {
+            var SessionModel = Session["User"] as SessionModel;
             m.UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
@@ -858,7 +872,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult EditWebsiteData(int websitePriceProblem, int ProblemId)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var result = new Prob_Vs_price_matrix();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -885,6 +899,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public ActionResult EditWebsiteData(Prob_Vs_price_matrix m)
         {
+            var SessionModel = Session["User"] as SessionModel;
             m.UserId = SessionModel.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
@@ -921,7 +936,8 @@ namespace TogoFogo.Controllers
          {           
             using (var con = new SqlConnection(_connectionString))
             {
-               var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", new { SessionModel.CompanyId },
+                var SessionModel = Session["User"] as SessionModel;
+                var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", new { SessionModel.CompanyId },
                    commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
 

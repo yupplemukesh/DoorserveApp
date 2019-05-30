@@ -37,7 +37,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@REFKEY", ToDBNull(bank.RefKey));
             sp.Add(param);
-            param = new SqlParameter("@ACTION", (object)bank.Action);
+            param = new SqlParameter("@ACTION", (object)bank.EventAction);
             sp.Add(param);
             param = new SqlParameter("@IsDefault", (object)bank.IsDefault);
             sp.Add(param);            

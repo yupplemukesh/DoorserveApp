@@ -40,7 +40,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Center_TRC)]
         public  async Task<ActionResult> Index()
         {
-      
+            var SessionModel = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId = SessionModel.CompanyId };
             if (SessionModel.UserRole.ToLower().Contains("provider"))
                 filter.ProviderId = SessionModel.RefKey;
@@ -72,7 +72,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path+"Banks/" + bank.BankCancelledChequeFileName)))
@@ -82,9 +82,9 @@ namespace TogoFogo.Controllers
             if (bank.BankCancelledChequeFilePath != null)
                 bank.BankCancelledChequeFileName = SaveImageFile(bank.BankCancelledChequeFilePath, "Banks");
             if (bank.bankId != null)
-                bank.Action = 'U';
+                bank.EventAction = 'U';
             else
-                bank.Action = 'I';
+                bank.EventAction = 'I';
               bank.UserId = SessionModel.UserId;
             if (TempData["center"] != null)
             {
@@ -116,7 +116,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
-       
+            var SessionModel = Session["User"] as SessionModel;
+
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)    
             {   
 
@@ -193,7 +194,7 @@ namespace TogoFogo.Controllers
         private async Task<ServiceCenterModel> GetCenter(Guid ? centerId)
         {
 
-         
+            var SessionModel = Session["User"] as SessionModel;
             var Center = await _Center.GetCenterById(centerId);
             Center.Path = _path;
             var processes = await CommonModel.GetProcesses();
@@ -269,7 +270,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
-
+            var SessionModel = Session["User"] as SessionModel;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["center"] as ServiceCenterModel;     
@@ -401,7 +402,7 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
         {
-   
+            var SessionModel = Session["User"] as SessionModel;
             var cltns = TempData["center"] as ServiceCenterModel;
             if (TempData["center"] != null)
             {
@@ -471,7 +472,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddOrEditClientReg(ServiceCenterModel Center)
         {
 
-
+            var SessionModel = Session["User"] as SessionModel;
             if (Center.IsUser && !string.IsNullOrEmpty(Center.Password))
                 Center.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(Center.Password, true);
 

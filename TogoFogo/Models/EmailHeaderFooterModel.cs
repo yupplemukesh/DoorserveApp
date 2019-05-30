@@ -15,13 +15,11 @@ namespace TogoFogo.Models
         public string Name { get; set; }
         [Required]
         [DisplayName("Action Type Id")]
-        public List<int> ActionTypeId { get; set; }
+        public int ActionTypeId { get; set; }
         public string ActionTypeIds { get; set; }
-        [Required]
         [AllowHtml]
         [DisplayName("Header HTML")]
         public string HeaderHTML { get; set; }
-        [Required]
         [AllowHtml]
         [DisplayName("Footer HTML")]
         public string FooterHTML { get; set; }     

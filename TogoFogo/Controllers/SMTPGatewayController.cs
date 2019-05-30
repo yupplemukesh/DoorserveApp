@@ -23,8 +23,8 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Gateway_Settings)]
         public async Task<ActionResult> Index()
         {
-
-         //   var smtpgateway = new SMTPGatewayList();
+            var SessionModel = Session["User"] as SessionModel;
+            //   var smtpgateway = new SMTPGatewayList();
             var Gatewaylist = await CommonModel.GetGatewayType();
             var GatewayTypeId = Gatewaylist.Where(x => x.Text == "SMTP Gateway").Select(x => x.Value).SingleOrDefault();
             var GatewayModel = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=GatewayTypeId,CompId=SessionModel.CompanyId });
@@ -47,6 +47,7 @@ namespace TogoFogo.Controllers
            {
             if (ModelState.IsValid)
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var Gatewaylist = await CommonModel.GetGatewayType();
                 var GatewayTypeId = Gatewaylist.Where(x => x.Text == "SMTP Gateway").Select(x => x.Value).SingleOrDefault();
                 var GatewayModel = new GatewayModel
@@ -90,6 +91,7 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var GatewayModel = new GatewayModel
                 {
                     GatewayId = smtpgateway.GatewayId,

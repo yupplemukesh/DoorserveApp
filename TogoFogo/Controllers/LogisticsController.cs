@@ -230,8 +230,9 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
 
-                ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(SessionModel.CompanyId), "Value", "Text");
-                ViewBag.CourierName = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
+                var session = Session["User"] as SessionModel;
+                ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(session.CompanyId), "Value", "Text");
+                ViewBag.CourierName = new SelectList(dropdown.BindCourier(session.CompanyId), "Value", "Text");
                 ViewBag.CallStatus = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
                 var result = con.Query<ReverseAWB_AllocationModel>("GetDataIn_Reverse_AWB_Allocation",
                         new { CC_NO = CC_NO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -340,7 +341,7 @@ namespace TogoFogo.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-
+            var SessionModel = Session["User"] as SessionModel;
             ViewBag.CallStatus = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
             ViewBag.CourierName = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
             ViewBag.EngineerName = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");

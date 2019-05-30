@@ -25,6 +25,7 @@ namespace TogoFogo.Controllers
         {          
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { SessionModel.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }           
@@ -33,7 +34,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Courier_API)]
         public ActionResult Create()
         {
-  
+            var SessionModel = Session["User"] as SessionModel;
             ManageCourierApiModel courierApiModel = new ManageCourierApiModel
             {
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
@@ -44,8 +45,9 @@ namespace TogoFogo.Controllers
         [HttpPost]
         [ValidateModel]
         public ActionResult Create(ManageCourierApiModel model)
-        {          
-           using (var con = new SqlConnection(_connectionString))
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            using (var con = new SqlConnection(_connectionString))
                 {
         
                 // ViewBag.Country = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -97,6 +99,7 @@ namespace TogoFogo.Controllers
                     , commandType: CommandType.Text).FirstOrDefault();
                 if (result != null)
                 {
+                    var SessionModel = Session["User"] as SessionModel;
                     result.Country = result.CountryID.ToString();
                     result.Courier = result.CourierID.ToString();
                     result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -112,7 +115,8 @@ namespace TogoFogo.Controllers
         [ValidateModel]
         public ActionResult Edit(ManageCourierApiModel model)
         {
-              using (var con = new SqlConnection(_connectionString))
+            var SessionModel = Session["User"] as SessionModel;
+            using (var con = new SqlConnection(_connectionString))
                 {
 
 

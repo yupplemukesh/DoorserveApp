@@ -33,7 +33,8 @@ namespace TogoFogo.Controllers
     // GET: CallAppointment
         public async Task<ActionResult> Index()
         {
-            var filter = new FilterModel { CompId = SessionModel.CompanyId };
+            var user = Session["User"] as SessionModel; 
+            var filter = new FilterModel { CompId = user.CompanyId };
             var Appointcalls = await _centerRepo.GetCallDetails(filter);
 
             return View(Appointcalls);
@@ -41,12 +42,13 @@ namespace TogoFogo.Controllers
 
         public async Task<ActionResult> Edit(string CRN)
         {
+            var session = Session["User"] as SessionModel;
             var CalAppintmentModel = await _centerRepo.GetCallsDetailsById(CRN);
-            CalAppintmentModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-            CalAppintmentModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            CalAppintmentModel.BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text");
+            CalAppintmentModel.CategoryList = new SelectList(_dropdown.BindCategory(session.CompanyId), "Value", "Text");
             CalAppintmentModel.ProductList = new SelectList(_dropdown.BindProduct(CalAppintmentModel.DeviceBrandId), "Value", "Text");
-            CalAppintmentModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
-            CalAppintmentModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+            CalAppintmentModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
+            CalAppintmentModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(session.CompanyId), "Value", "Text");
             CalAppintmentModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CalAppintmentModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CalAppintmentModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");

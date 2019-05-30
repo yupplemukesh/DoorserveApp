@@ -49,6 +49,7 @@ namespace TogoFogo.Controllers
         {            
             using (var con = new SqlConnection(_connectionString))
             {
+                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ManageCourierModel>("GETCourierMasterData", new { SessionModel.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }           
@@ -82,6 +83,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
+                        var SessionModel = Session["User"] as SessionModel;
                         string UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");
                         string UploadedGSTFile = SaveImageFile(model.UploadedGSTFilePath, "Courier/Gst");
                         string PANCardFile = SaveImageFile(model.PANCardFilePath, "Courier/PanCards");
@@ -291,7 +293,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-
+                var SessionModel = Session["User"] as SessionModel;
                 if (ModelState.IsValid)
                 {
                     using (var con = new SqlConnection(_connectionString))
