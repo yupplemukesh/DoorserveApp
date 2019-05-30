@@ -90,7 +90,7 @@ namespace TogoFogo.Controllers
             comp.ActiveTab = "tab-1";
             return View(comp);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
@@ -192,7 +192,7 @@ namespace TogoFogo.Controllers
 
             return comp;
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
@@ -247,7 +247,7 @@ namespace TogoFogo.Controllers
             }      
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] {Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(OtherContactPersonModel contact)
         {
@@ -329,7 +329,7 @@ namespace TogoFogo.Controllers
             }  
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -373,6 +373,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", comp);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
@@ -443,7 +444,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", comp);
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> Registration(CompanyModel comp)
         {

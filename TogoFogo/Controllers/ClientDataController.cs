@@ -129,7 +129,8 @@ namespace TogoFogo.Controllers
             clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
             return View(clientDate);
         }
-        [HttpPost]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
+        [HttpPost]        
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
             var session = Session["User"] as SessionModel;
@@ -213,7 +214,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("index");
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
         public async Task<ActionResult> NewCallLog(UploadedExcelModel uploads)
         {
@@ -228,6 +229,7 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             return RedirectToAction("Index");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Assign_Calls)]
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
@@ -321,6 +323,7 @@ namespace TogoFogo.Controllers
 
         }
 
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {

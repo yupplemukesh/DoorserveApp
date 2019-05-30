@@ -51,6 +51,7 @@ namespace TogoFogo.Controllers
 
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
         [HttpPost]
         public ActionResult AddCityLocation(ManageLocation model)
         {
@@ -130,6 +131,7 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Cities_Locations)]
         [HttpPost]
         public ActionResult EditCityLocation(ManageLocation model)
         {

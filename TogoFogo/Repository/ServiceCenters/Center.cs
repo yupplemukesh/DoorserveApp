@@ -124,7 +124,7 @@ namespace TogoFogo.Repository.ServiceCenters
                     Address = reader["Address"].ToString(),
                     City = reader["City"].ToString()
                 };
-
+                person.CurrentEmail = person.ConEmailAddress;
                 person.ConVoterIdFileUrl = "/UploadedImages/Centers/VoterIds/" + person.ConVoterIdFileName;
                 person.ConAdhaarFileUrl = "/UploadedImages/Centers/ADHRS/" + person.ConAdhaarFileName;
                 person.ConPanFileUrl = "/UploadedImages/Centers/PANCards/" + person.ConPanFileName;

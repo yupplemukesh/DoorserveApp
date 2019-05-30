@@ -48,6 +48,7 @@ namespace TogoFogo.Controllers
 
             return View(calls);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> Allocate(AllocateCallModel allocate)
         {
@@ -69,7 +70,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Service_Provider)]
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {

@@ -2,7 +2,7 @@
 @using TogoFogo.Models
 @{
     Layout = null;
-    int Count = 1;
+    int Count = 0;
 }
 
 <div class="panel panel-default panel-table">
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <table class="table" id="myTable">
+    <table class="table table-striped table-bordered table-condensed" id="myTable">
         <thead>
             <tr>
                 <th> @Html.DisplayName("Serial No")</th>
@@ -94,17 +94,17 @@
                         <a href="#Editmodel" data-toggle="modal" class="btn btn-info btnSize " onclick="EditGstCategory(@item.GstCategoryId)">Edit</a>
                     }
                     @* @if (Permissions.Rights.History)
-        {
-            <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
-        }
-        @if (Permissions.Rights.Delete)
-        {
-            <input type="button" value="Delete" class="btn btn-danger btnSize " />
-        }*@
+                    {
+                        <a href="#Historymodel" data-toggle="modal" class="btn btn-success btnSize ">History</a>
+                    }
+                    @if (Permissions.Rights.Delete)
+                    {
+                        <input type="button" value="Delete" class="btn btn-danger btnSize " />
+                    }*@
                 </td>
-                    </tr>
-                    Count++;
-                }
+            </tr>
 
-            </table>
+        }
+    </table>
+            
         </div>

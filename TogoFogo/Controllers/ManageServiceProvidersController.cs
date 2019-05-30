@@ -70,7 +70,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -116,6 +116,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Provider);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
@@ -201,7 +202,8 @@ namespace TogoFogo.Controllers
             return View(ProviderModel);
         }
 
-        // POST: ManageClient/Create    
+        // POST: ManageClient/Create  
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
@@ -322,7 +324,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
         {
@@ -389,7 +391,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ServiceProviderModel provider)
         {
@@ -507,6 +509,7 @@ namespace TogoFogo.Controllers
         }
 
         // POST: ManageClient/Edit/5
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> Edit(ServiceProviderModel provider, OrganizationModel org)
         {
@@ -688,7 +691,7 @@ namespace TogoFogo.Controllers
         }
 
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<FileContentResult> ExportToExcel()
         {
 

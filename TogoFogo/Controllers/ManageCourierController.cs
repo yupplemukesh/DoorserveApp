@@ -73,6 +73,7 @@ namespace TogoFogo.Controllers
             };
             return View(courierModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Courier)]
         [HttpPost]
         public async Task<ActionResult> Create(ManageCourierModel model)
         {
@@ -288,6 +289,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Courier)]
         [HttpPost]
         public async Task<ActionResult> Edit(ManageCourierModel model)
         {

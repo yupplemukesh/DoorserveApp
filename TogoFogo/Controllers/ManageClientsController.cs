@@ -63,7 +63,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -108,6 +108,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Client);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
@@ -249,7 +250,8 @@ namespace TogoFogo.Controllers
             return View(clientModel);
         }
 
-        // POST: ManageClient/Create    
+        // POST: ManageClient/Create  
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddorEditClient(ClientModel client)
         {
@@ -370,7 +372,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ClientModel client,OrganizationModel org)
         {
@@ -438,7 +440,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {
@@ -480,7 +482,7 @@ namespace TogoFogo.Controllers
         }
 
         // GET: ManageClient/Edit/5
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Clients)]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["client"] = null;

@@ -27,7 +27,7 @@ namespace TogoFogo.Controllers
         {
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Gst_Category)]
         [HttpPost]
         public ActionResult AddGst(GstCategoryModel model)
         {
@@ -100,6 +100,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Gst_Category)]
         [HttpPost]
         public ActionResult EditGst(GstCategoryModel model)
         {

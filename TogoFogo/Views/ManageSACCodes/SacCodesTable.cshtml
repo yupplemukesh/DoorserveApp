@@ -1,7 +1,7 @@
-﻿@model TogoFogo.Models.SacCodesModel
+﻿@model IEnumerable<TogoFogo.Models.SacCodesModel>
 @{
     Layout = null;
-    int Count = 0;
+    int Count = 1;
 }
 <div class="panel panel-default panel-table">
     <div class="panel-heading">
@@ -101,10 +101,10 @@
         </thead>
 
 
-        @foreach (var item in Model._SacCodesModelList)
+        @foreach (var item in Model)
         {
             <tr>
-                <td>@(Count=Count+1)</td>
+                <td>@Html.DisplayFor(ModelItem=>item.SerialNo)</td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cnty_Name)
                 </td>
@@ -178,18 +178,18 @@
                     </td>*@
                 <td style="display: inline-flex">
                     @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-                  
-                        <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSAC(@item.SacCodesId)">Edit</a>
-                    
-                    
-                        <a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
-                   
-                    
-                        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-                   
-                </td>
-            </tr>
-        }
 
-    </table>
-</div>
+                    <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditSAC(@item.SacCodesId)">Edit</a>
+
+
+                    @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>
+
+
+        <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />*@
+
+                </td>
+                    </tr>
+                }
+
+            </table>
+        </div>

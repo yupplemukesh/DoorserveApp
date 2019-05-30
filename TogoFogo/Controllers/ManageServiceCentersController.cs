@@ -69,6 +69,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -113,6 +114,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Center);
             }       
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
@@ -149,6 +151,7 @@ namespace TogoFogo.Controllers
                 contact.Action = 'I';
             contact.UserId = SessionModel.UserId;
             contact.CompanyId = SessionModel.CompanyId;
+            
             if (TempData["center"] != null)
             {
                 var _center = TempData["center"] as ServiceCenterModel;
@@ -182,7 +185,7 @@ namespace TogoFogo.Controllers
             }
             else
             {
-                var Center = await GetCenter(contact.RefKey);
+                var Center = await GetCenter(contact.RefKey);                
                 Center.action = 'U';
                 Center.Activetab = "tab-3";
                 return View("Edit", Center);
@@ -224,8 +227,10 @@ namespace TogoFogo.Controllers
             Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Center.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             Center.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            
             if (centerId != null)
                 Center.action = 'U';
+            
             else
                 Center.action = 'I';
             List<int> List = new List<int>();
@@ -267,6 +272,7 @@ namespace TogoFogo.Controllers
             var CenterModel = await GetCenter(null);
             return View(CenterModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
@@ -398,7 +404,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
         {
@@ -467,7 +473,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ServiceCenterModel Center)
         {

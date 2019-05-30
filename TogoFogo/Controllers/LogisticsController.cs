@@ -129,6 +129,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Update_Reverse_AWB_Status)]
         [HttpPost]
         public ActionResult FinalUpdateReverseAWB(ReverseAWBStatusModel m)
         {
@@ -145,6 +146,7 @@ namespace TogoFogo.Controllers
                 return View();
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Update_Reverse_AWB_Status)]
         [HttpPost]
         public ActionResult UREVASform(ReverseAWBStatusModel m)
         {
@@ -189,6 +191,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Update_AWB_Status)]
         [HttpPost]
         public ActionResult AWBStatusform(AWBStatusModel m)
         {
@@ -253,6 +256,7 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Update_Reverse_AWB_Status)]
         [HttpPost]
         public ActionResult PFRAWBAForm(ReverseAWB_AllocationModel m)
         {
@@ -397,6 +401,7 @@ namespace TogoFogo.Controllers
             }
                 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Update_Repair_Status_FE)]
         [HttpPost]
         public ActionResult URSSE_Child_Form(URSSEModel m)
         {

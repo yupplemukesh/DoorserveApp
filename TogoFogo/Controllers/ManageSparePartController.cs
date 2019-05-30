@@ -78,6 +78,7 @@ namespace TogoFogo.Controllers
             
             return PartialView(sparetype);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Manage_Spare_Type)]
         [HttpPost]
         public ActionResult AddSpareType(ManageSpareType model)
         {
@@ -170,6 +171,7 @@ namespace TogoFogo.Controllers
 
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Manage_Spare_Type)]
         [HttpPost]
         public ActionResult EditSpareType(ManageSpareType model)
         {
@@ -257,7 +259,7 @@ namespace TogoFogo.Controllers
                     
             return PartialView(sparepart);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Part_Name)]
         [HttpPost]
         public ActionResult AddSparePartName(ManageSparePart model)
         {
@@ -370,7 +372,7 @@ namespace TogoFogo.Controllers
 
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Part_Name)]
         [HttpPost]
         public ActionResult EditSpareName(ManageSparePart model)
         {

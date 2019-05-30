@@ -36,6 +36,7 @@ namespace TogoFogo.Controllers
             var emailheaderfootermodel = new EmailHeaderFooterModel();
             return View(emailheaderfootermodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         [HttpPost]
         public async Task<ActionResult> Create(EmailHeaderFooterModel emailheaderfooter)
         {

@@ -35,7 +35,7 @@ namespace TogoFogo.Controllers
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(session.CompanyId),"Name","Text") };
             return View(calls);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
         [HttpPost]
         public async Task<ActionResult> Allocate(AllocateCallModel allocate)
         {
@@ -57,6 +57,7 @@ namespace TogoFogo.Controllers
             }
           
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Call_Allocate_To_ASP)]
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {

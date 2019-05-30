@@ -30,7 +30,8 @@ namespace TogoFogo.Controllers
             _centerRepo = new Center();          
             _dropdown = new DropdownBindController();
         }
-    // GET: CallAppointment
+        // GET: CallAppointment
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Schedule_Appointment)]
         public async Task<ActionResult> Index()
         {
             var user = Session["User"] as SessionModel; 
@@ -39,7 +40,7 @@ namespace TogoFogo.Controllers
 
             return View(Appointcalls);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Schedule_Appointment)]
         public async Task<ActionResult> Edit(string CRN)
         {
             var session = Session["User"] as SessionModel;
@@ -59,6 +60,7 @@ namespace TogoFogo.Controllers
             return PartialView(Mapper.Map<CallDetailsModel>(CalAppintmentModel));
             //UpdateAppointmentDetail
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Schedule_Appointment)]
         [HttpPost]
         public async Task<ActionResult> Edit(CallDetailsModel Appointment)
         {

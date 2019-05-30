@@ -59,6 +59,7 @@ namespace TogoFogo.Controllers
             ViewBag.Trc = new SelectList(dropdown.BindTrc(), "Value", "Text");
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Engineers)]
         [HttpPost]
         public ActionResult AddEngineer(ManageEngineerModel model)
         {
@@ -142,6 +143,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Manage_Engineers)]
         [HttpPost]
         public ActionResult EditEngineer(ManageEngineerModel model)
         {

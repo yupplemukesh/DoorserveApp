@@ -42,6 +42,7 @@ namespace TogoFogo.Controllers
 
             return PartialView (new DeviceCategoryModel());
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Category)]
         [HttpPost]
         public ActionResult AddCategory(DeviceCategoryModel model)
         {
@@ -118,6 +119,7 @@ namespace TogoFogo.Controllers
                 return PartialView("EditDeviceCategory", result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Category)]
         [HttpPost]
         public ActionResult EditDeviceCategory(DeviceCategoryModel model)
         {
@@ -187,6 +189,7 @@ namespace TogoFogo.Controllers
             
             return View(sm);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Device_Sub_Category)]
         [HttpPost]
         public ActionResult AddSubCategory(SubcategoryModel model)
         {
@@ -275,6 +278,7 @@ namespace TogoFogo.Controllers
                 return PartialView("EditDeviceSubCategory", result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Device_Sub_Category)]
         [HttpPost]
         public ActionResult EditDeviceSubCategory(SubcategoryModel model)
         {

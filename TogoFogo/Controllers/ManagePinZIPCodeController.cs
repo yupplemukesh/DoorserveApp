@@ -47,7 +47,7 @@ namespace TogoFogo.Controllers
         };
         return View(courierPinZipCode);
     }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Pin_Zip_Code)]
         [HttpPost]
         [ValidateModel]
         public ActionResult Create(CourierPinZipCode model)
@@ -129,7 +129,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Pin_Zip_Code)]
         [HttpPost]
         [ValidateModel]
         public ActionResult Edit(CourierPinZipCode model)

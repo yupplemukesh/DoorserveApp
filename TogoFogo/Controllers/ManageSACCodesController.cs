@@ -19,6 +19,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+       
 
 
 
@@ -41,16 +42,17 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public ActionResult AddSacCodes()
         {
-            var SessionModel = Session["User"] as SessionModel;
+           var SessionModel = Session["User"] as SessionModel;
             SacCodesModel sm = new SacCodesModel
             {
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
-                GstList = new SelectList(dropdown.BindGst(SessionModel.CompanyId), "Value", "Text"),
+                GstList = new SelectList(dropdown.BindGst(null), "Value", "Text"),
                 AplicationTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text"),
             };
             return View(sm);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.GST_HSN_SAC_Codes)]
         [HttpPost]
         public ActionResult AddSacCodes(SacCodesModel model)
         {
@@ -60,7 +62,7 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
+                      var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_SACCodes",
                             new
                             {
@@ -84,6 +86,7 @@ namespace TogoFogo.Controllers
                                 model.IsActive,
                                 model.Comments,
                                 User = SessionModel.UserId,
+                                SessionModel.CompanyId,
                                 ACTION = "I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
@@ -111,16 +114,14 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public ActionResult SacCodesTable()
         {
-            SacCodesModel objSacCodesModel = new SacCodesModel();
+           
             using (var con = new SqlConnection(_connectionString))
             {
-                //var result = con.Query<SacCodesModel>("Select * from MstSacCodes", new { }, commandType: CommandType.Text).ToList();
-                objSacCodesModel._SacCodesModelList = con.Query <SacCodesModel>("select c.Cnty_Name,s.St_Name,m.SacCodesId, m.Applicable_Tax,m.GstCategoryid, m.GstHeading, m.Gst_HSN_Code, m.CTH_Number, m.SAC, g.Gstcategory,m.Product_Sale_Range, m.CGST, m.SGST_UTGST, m.IGST, m.GstProductCat, com.name Applicabletax, m.GstProductSubCat, m.Description_Of_Goods, m.IsActive, m.Comments,m.CreatedDate, m.ModifyDate, u.Username Cby, u1.Username Mby from MstSacCodes m  join create_User_Master u on u.id = m.CreatedBy  left outer join create_User_Master u1 on m.ModifyBy = u1.id  left outer join MstCountry c on c.Cnty_ID = m.CountryId left outer join mststate s on s.St_ID = m.StateId left outer join tblcommon com on com.ID = m.Applicable_Tax left outer join MstGstCategory AS g ON g.GstCategoryId = m.GstCategoryId ", new { }, commandType: CommandType.Text).ToList();
-               
+                var SessionModel = Session["User"] as SessionModel;
+                var result = con.Query<SacCodesModel>("Get_SacCodes", new { companyId = SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+                return View(result);
             }
-            objSacCodesModel._UserActionRights = (UserActionRights)HttpContext.Items["ActionsRights"];
-          
-            return View(objSacCodesModel);
+            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.GST_HSN_SAC_Codes)]
         public async Task<ActionResult> EditSacCode(int sacCodeId)
@@ -135,7 +136,7 @@ namespace TogoFogo.Controllers
                     commandType: CommandType.Text).FirstOrDefault();
                 result.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result.StateList = new SelectList(dropdown.BindState(result.CountryId), "Value", "Text");
-                result.GstList = new SelectList(dropdown.BindGst(SessionModel.CompanyId), "Value", "Text");
+                result.GstList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                 var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
                result.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 result.InitialHSNCode = result.Gst_HSN_Code;
@@ -162,10 +163,11 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.GST_HSN_SAC_Codes)]
         [HttpPost]
         public ActionResult EditSacCode(SacCodesModel model)
         {
-            var SessionModel = Session["User"] as SessionModel;
+          var SessionModel = Session["User"] as SessionModel;
             try
             {
                 if (ModelState.IsValid)
@@ -173,7 +175,7 @@ namespace TogoFogo.Controllers
 
                     using (var con = new SqlConnection(_connectionString))
                     {
-                    
+                      
                         var result = con.Query<int>("Add_Edit_Delete_SACCodes",
                             new
                             {
@@ -197,6 +199,7 @@ namespace TogoFogo.Controllers
                                 model.IsActive,
                                 model.Comments,
                                 User = SessionModel.UserId,
+                                SessionModel.CompanyId,
                                 ACTION = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)
@@ -220,7 +223,7 @@ namespace TogoFogo.Controllers
                  
                     model.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                     model.StateList = new SelectList(dropdown.BindState(model.CountryId), "Value", "Text");
-                    model.GstList = new SelectList(dropdown.BindGst(SessionModel.CompanyId), "Value", "Text");
+                    model.GstList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                     return View(model);
 
                 }

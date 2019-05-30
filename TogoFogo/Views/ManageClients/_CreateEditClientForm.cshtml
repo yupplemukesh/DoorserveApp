@@ -552,7 +552,7 @@
             $("#ContactId").val('');
 
         })
-        console.log($("#ClientId").val());
+       // console.log($("#ClientId").val());
         $("#ContactPerson").show();
     });
     $(".reset").click(function () {
@@ -595,7 +595,7 @@
     function AjaxWithValue(method, ddl, e) {
         var val = e.value;
         var other = e.Other;
-        console.log(other);
+        //console.log(other);
         $.ajax({
             type: "GET",
             url: "/DropdownBind/" + method + "?value=" + val,
@@ -651,6 +651,7 @@
                     $("#ConPanFileName").val(data.ConPanFileName);
                     $("#ConFirstName").val(data.ConFirstName);
                     $("#ConEmailAddress").val(data.ConEmailAddress);
+                    $("#CurrentEmail").val(data.ConEmailAddress);
                     $("#ConLastName").val(data.ConLastName);
                     $("#ConMobileNumber").val(data.ConMobileNumber);
                     $("#ConPanNumber").val(data.ConPanNumber);

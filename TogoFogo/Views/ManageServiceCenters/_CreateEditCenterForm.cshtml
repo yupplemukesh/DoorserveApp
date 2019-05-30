@@ -398,6 +398,7 @@
                                         @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceCenters", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
                                         {
                                             Model.Contact.RefKey = Model.CenterId;
+                                            
                                             <div class="col-12">
                                                 @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
                                             </div>
@@ -654,6 +655,7 @@
                     $("#ConPanFileName").val(data.ConPanFileName);
                     $("#ConFirstName").val(data.ConFirstName);
                     $("#ConEmailAddress").val(data.ConEmailAddress);
+                    $("#CurrentEmail").val(data.ConEmailAddress);
                     $("#ConLastName").val(data.ConLastName);
                     $("#ConMobileNumber").val(data.ConMobileNumber);
                     $("#ConPanNumber").val(data.ConPanNumber);

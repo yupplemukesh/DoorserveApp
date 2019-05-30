@@ -17,6 +17,7 @@ namespace TogoFogo.Controllers
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         DropdownBindController dropdown = new DropdownBindController();
+     
         // GET: GSTTax
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.GST_Tax)]
         public ActionResult Gst()
@@ -32,7 +33,7 @@ namespace TogoFogo.Controllers
             GstTaxModel gm = new GstTaxModel();
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            gm.GstcategoryList = new SelectList(dropdown.BindGst(session.CompanyId), "Value", "Text");
+            gm.GstcategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
             gm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
             gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
@@ -41,7 +42,7 @@ namespace TogoFogo.Controllers
             gm.CTHNumberList = new SelectList(CommonModel.CTH_NumberList(), "Text", "Text");
             return View(gm);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.GST_Tax)]
         [HttpPost]
         public ActionResult AddGst(GstTaxModel model)
         {
@@ -78,6 +79,7 @@ namespace TogoFogo.Controllers
                                 model.IsActive,
                                 model.Comments,
                                 User = SessionModel.UserId,
+                                SessionModel.CompanyId,
                                 Action="I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();
@@ -113,10 +115,11 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View}, (int)MenuCode.GST_Tax)]
         public ActionResult GstTaxtable()
         {
+            var SessionModel = Session["User"] as SessionModel;
             var objGstTaxModel = new List<GstTaxModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objGstTaxModel= con.Query<GstTaxModel>("Get_GstTax", new { }, commandType: CommandType.StoredProcedure).ToList();
+                objGstTaxModel= con.Query<GstTaxModel>("Get_GstTax", new { companyId = SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
               
             }         
             return View(objGstTaxModel);
@@ -127,14 +130,14 @@ namespace TogoFogo.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
+              var SessionModel = Session["User"] as SessionModel;
                 var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = Gsttaxid },
                 commandType: CommandType.Text).FirstOrDefault();
                 result2.SACList = new SelectList(CommonModel.SAC_NumberList(), "Text", "Text");
                 result2.CTHNumberList = new SelectList(CommonModel.CTH_NumberList(), "Text", "Text");
                 result2.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-                result2.GstcategoryList = new SelectList(dropdown.BindGst(SessionModel.CompanyId), "Value", "Text");
+                result2.GstcategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                 result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(result2.Device_Cat), "Value", "Text");
                 result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
@@ -164,8 +167,8 @@ namespace TogoFogo.Controllers
 
             
              }
-       
-         [HttpPost]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.GST_Tax)]
+        [HttpPost]
          public ActionResult EditGstTax(GstTaxModel model)
          {
              try
@@ -174,7 +177,8 @@ namespace TogoFogo.Controllers
                  {
                      using (var con = new SqlConnection(_connectionString))
                      {
-                         var result = con.Query<int>("Add_Edit_Delete_GstTax",
+                        var SessionModel = Session["User"] as SessionModel;
+                        var result = con.Query<int>("Add_Edit_Delete_GstTax",
                              new
                              {
                                  model.GstTaxId,
@@ -199,7 +203,8 @@ namespace TogoFogo.Controllers
                                  model.Gst_Applicable_date,
                                  model.IsActive,
                                  model.Comments,
-                                 User = Convert.ToInt32(Session["User_Id"]),
+                                 User = SessionModel.UserId,
+                                 SessionModel.CompanyId,
                                  Action = "U"
                              }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 

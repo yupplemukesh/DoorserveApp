@@ -48,6 +48,7 @@ namespace TogoFogo.Controllers
         {
             return PartialView();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Brands)]
         [HttpPost]
         public ActionResult AddBrand(BrandModel model)
         {
@@ -126,6 +127,7 @@ namespace TogoFogo.Controllers
             }
            
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Brands)]
         [HttpPost]
         public ActionResult EditBrand(BrandModel model)
         {
@@ -229,6 +231,7 @@ namespace TogoFogo.Controllers
                 return PartialView(pm);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Products)]
         [HttpPost]
         public ActionResult AddProduct(ProductModel model)
         {
@@ -368,6 +371,7 @@ namespace TogoFogo.Controllers
             }
             return PartialView("EditProduct");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Products)]
         [HttpPost]
         public ActionResult EditProduct(ProductModel model)
         {
@@ -455,6 +459,7 @@ namespace TogoFogo.Controllers
                 return PartialView(dcm);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Problem)]
         [HttpPost]
         public ActionResult AddDeviceProblem(DeviceProblemModel model)
         {
@@ -533,6 +538,7 @@ namespace TogoFogo.Controllers
             }
             
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         [HttpPost]
         public ActionResult EditDeviceProblem(DeviceProblemModel model)
         {
@@ -597,6 +603,7 @@ namespace TogoFogo.Controllers
             ViewBag.Model = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Color_Master)]
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
         {
@@ -646,6 +653,7 @@ namespace TogoFogo.Controllers
                 return PartialView("EditColorMaster", result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Color_Master)]
         [HttpPost]
         public ActionResult EditColorMaster(ColorModel m)
         {        
@@ -727,10 +735,30 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public ActionResult RemoteValidationConEmailAddress(string ConEmailAddress, string currentEmail)
+        public ActionResult RemoteValidationConEmailAddress(string ConEmailAddress, string CurrentEmail)
         {
-            return RemoteValidationforUserName(ConEmailAddress, currentEmail, 0);
+            // return RemoteValidationforUserName(ConEmailAddress, CurrentEmail, 0);
+            try
+            {
+                if (ConEmailAddress == CurrentEmail)
+                    return Json(true, JsonRequestBehavior.AllowGet);
 
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var ifEmailExist = con.Query<bool>("Select 1 from tblContactPersons WHERE  Email=@ConEmailAddress",
+                  new { ConEmailAddress }, commandType: CommandType.Text).FirstOrDefault();
+                    //ifEmailExist = result==0 ? false : true;UspCheckEmailExist
+
+                    return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
         }
 
         public ActionResult RemoteValidationClientName(string ClientName, string CurrentClientName)
@@ -834,6 +862,7 @@ namespace TogoFogo.Controllers
             parts.ModelList = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView(parts);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)
         {
@@ -896,6 +925,7 @@ namespace TogoFogo.Controllers
             
             return PartialView("EditWebsiteData", result);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Spare_Problem_Price_matrix)]
         [HttpPost]
         public ActionResult EditWebsiteData(Prob_Vs_price_matrix m)
         {

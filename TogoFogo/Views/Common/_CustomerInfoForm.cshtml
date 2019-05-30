@@ -36,11 +36,11 @@
                                         </label>
                                     }
 
-                                </div>
-                                @Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger p-l-40" })
+                                </div>                               
+                                        @Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger text-valid" })                                   
                             </div>
-                        </div>
-                    </div>
+                                </div>
+                            </div>
 
 
                     <div class="row">
@@ -97,7 +97,7 @@
                                             <span>@item.Text</span>
                                         </label>
                                     }
-                                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid" })
+                                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid"})
                                 </div>
                             </div>
 

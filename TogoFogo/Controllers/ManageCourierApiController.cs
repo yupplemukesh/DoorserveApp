@@ -42,6 +42,7 @@ namespace TogoFogo.Controllers
             };
             return View(courierApiModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Courier_API)]
         [HttpPost]
         [ValidateModel]
         public ActionResult Create(ManageCourierApiModel model)
@@ -111,6 +112,7 @@ namespace TogoFogo.Controllers
                 return View(result);
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Courier_API)]
         [HttpPost]
         [ValidateModel]
         public ActionResult Edit(ManageCourierApiModel model)

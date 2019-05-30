@@ -31,6 +31,7 @@ namespace TogoFogo.Controllers
             var actiontypemodel = new ActionTypeModel();
             return View(actiontypemodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Action_Types)]
         [HttpPost]
         public async Task<ActionResult> Create(ActionTypeModel actiontype)
         {
@@ -53,6 +54,7 @@ namespace TogoFogo.Controllers
             var actiontype = await _actionTypeModel.GetActionByActionId(id);
             return View(actiontype);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Action_Types)]
         [HttpPost]
         public async Task<ActionResult> Edit(ActionTypeModel actiontype)
         {

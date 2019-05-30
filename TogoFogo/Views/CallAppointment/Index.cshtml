@@ -14,36 +14,37 @@ var count = 0;
             <div class="row">
                 <div class="col-md-6">
                     List Of Appointments
-                    </div>
-                </div>
                 </div>
             </div>
-
-            <div class="table-responsive">
-                @Html.Grid(Model.PendingCalls).Columns(columns =>
-                                               {
+        </div>
 
 
-                                                   columns.Add()
-                                                  .Titled("#SLN")
-                                                  .SetWidth(10)
-                                                  .RenderValueAs(o =>
-                                                  {
-                                                  count++;
-                                                  return @<text> @count </text>;
-                                             });
-                                              columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
-                                              columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-                                              columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-                                              columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-                                              columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-                                              columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-                                              columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-                                              columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-                                              columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-                                              columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-                                              columns.Add().Titled("Action").Filterable(true).Sanitized(false).Encoded(false).
-                           RenderValueAs(model => Html.ActionLink("Edit","Edit", "CallAppointment", new { CRN = model.CRN},null));
-                                          }).WithPaging(10).Sortable(true)
-            </div>
+        <div class="table-responsive">
+            @Html.Grid(Model.PendingCalls).Columns(columns =>
+                                           {
+
+
+                                               columns.Add()
+                                              .Titled("#SLN")
+                                              .SetWidth(10)
+                                              .RenderValueAs(o =>
+                                              {
+                                              count++;
+                                              return @<text> @count </text>;
+                                     });
+                                      columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                      columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                      columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                      columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                      columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                      columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                      columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                      columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                      columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                      columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                      columns.Add().Titled("Action").Filterable(true).Sanitized(false).Encoded(false).
+                  RenderValueAs(model => Html.ActionLink("Edit", "Edit", "CallAppointment", new { CRN = model.CRN }, null));
+                                  }).WithPaging(10).Sortable(true)
+        </div>
+    </div>
         </div>

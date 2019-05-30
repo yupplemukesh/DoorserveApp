@@ -37,6 +37,7 @@ namespace TogoFogo.Controllers
             scm.ModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());           
             return View(scm);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Device_Service_Charge)]
         [HttpPost]
         public ActionResult AddServiceCharge(ServiceChargeModel model)
         {
@@ -125,6 +126,7 @@ namespace TogoFogo.Controllers
 
            
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Device_Service_Charge)]
         [HttpPost]
         public ActionResult EditServiceCharge(ServiceChargeModel model)
         {

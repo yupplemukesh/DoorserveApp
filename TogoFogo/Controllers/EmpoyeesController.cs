@@ -92,6 +92,7 @@ namespace TogoFogo.Controllers
             return View(empModel);
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Engineers)]
         [HttpPost]
         [ValidateModel]
         public async Task<ActionResult> Create(EmployeeModel emp,ContactPersonModel contact)
@@ -149,6 +150,7 @@ namespace TogoFogo.Controllers
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
+            empModel.CurrentEmail = empModel.ConEmailAddress;
             if (session.UserTypeName.ToLower().Contains("provider"))
             {
                 empModel.IsProvider = true;
@@ -165,6 +167,7 @@ namespace TogoFogo.Controllers
 
             return View(empModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Engineers)]
         [HttpPost]
         [ValidateModel]
         public async Task<ActionResult> Edit(EmployeeModel empModel)

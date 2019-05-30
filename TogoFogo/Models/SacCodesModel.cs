@@ -10,7 +10,7 @@ namespace TogoFogo.Models
 {
     public class SacCodesModel
     {
-
+        public int SerialNo { get; set; }
         public int SacCodesId { get; set; }
         [Required]
         [DisplayName("Country")]
@@ -83,6 +83,7 @@ namespace TogoFogo.Models
         public string ModifyDate { get; set; }
         public string Cby { get; set; }
         public string Mby { get; set; }
+
        // public int DeleteBy { get; set; }
       //  public string DeleteDate { get; set; }
 
