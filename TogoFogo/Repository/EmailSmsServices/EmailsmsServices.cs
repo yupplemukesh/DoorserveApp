@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
@@ -44,7 +45,7 @@ namespace TogoFogo.Repository
                         template.EmailBody = emailBody;
                         foreach (var item in wildcards)
                         {
-                            template.EmailBody = template.EmailBody.Replace("$["+ item.Text + "]", item.Val);
+                            template.EmailBody = template.EmailBody.Replace("[%"+ item.Text + "%]", item.Val);
                         }
                         MailMessage mail = new MailMessage();
                         mail.To.Add(session.Email);
@@ -66,7 +67,7 @@ namespace TogoFogo.Repository
 
                         foreach (var item in wildcards)
                         {
-                            template.MessageText = template.MessageText.Replace("$["+item.Text+"]", item.Val);
+                            template.EmailBody = template.EmailBody.Replace("[%"+item.Text+"%]", item.Val);
                         }
                  
                         template.PhoneNumber = session.Mobile;
@@ -111,18 +112,17 @@ namespace TogoFogo.Repository
             string mobileNumber = template.PhoneNumber;
             //Sender ID,While using route4 sender id should be 6 characters long.
             string senderId = gatway.SenderID;
-            template.MessageText = template.MessageText;
+            template.MessageText = template.EmailBody;
             //Your message to send, Add URL encoding here.
-            string message = HttpUtility.UrlEncode(template.MessageText);
+            string message = Regex.Replace(template.MessageText, "<.*?>", string.Empty);
+             message = Regex.Replace(message, "&nbsp;", string.Empty);
 
             //Prepare you post parameters
             StringBuilder sbPostData = new StringBuilder();
             sbPostData.AppendFormat("authkey={0}", authKey);
             sbPostData.AppendFormat("&mobiles={0}", mobileNumber);
             sbPostData.AppendFormat("&message={0}", message);
-            sbPostData.AppendFormat("&sender={0}", senderId);
             sbPostData.AppendFormat("&route={0}", "default");
-
             try
             {
                 //Call Send SMS API

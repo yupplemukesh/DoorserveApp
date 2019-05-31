@@ -25,7 +25,9 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <a class="navbar-brand" href="@Url.Action("Index","Home")">
-                    @if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
+                   @if (SessionModel != null)
+                   {
+                    if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
                     {
                         <img src="@SessionModel.LogoUrl" />
                     }
@@ -34,6 +36,7 @@
                         <img src="/content/img/logo.png" />
 
                     }
+                   }
 
                 </a>
                 <button class="navbar-toggler left-sidebar-toggle pull-left visible-xs" type="button">

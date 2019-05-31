@@ -22,7 +22,6 @@ namespace TogoFogo.Models
         [DisplayName("Gateway Type Id")]
         public Int64 GatewayTypeId { get; set; }
         [Required]
-        [Url]
         [DisplayName("URL Setting")]
         public string URL { get; set; }
         [Required]

@@ -2,44 +2,21 @@
 @model LoginViewModel
 @{
     ViewBag.Title = "Log in";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
+        <SCRIPT type='text/javascript'>
+            window.history.forward();
+                function noBack() {window.history.forward(); }
+            window.onload = noBack;
+                window.onpageshow = function (evt) { if (evt.persisted) noBack() }
+                window.onunload = function () {void (0)}
 
-<!DOCTYPE html>
-<html lang="en">
+       </script>
 
-<!-- Mirrored from big-bang-studio.com/cosmos/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Nov 2017 05:36:02 GMT -->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="description" content="">
-    <title>Repairgreen</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
-    @Styles.Render("~/Content/css")
-<SCRIPT type='text/javascript'>
-    window.history.forward();
-    function noBack() { window.history.forward(); }
-    window.onload = noBack;
-    window.onpageshow = function (evt) { if (evt.persisted) noBack() }
-    window.onunload = function () { void (0) }
-</SCRIPT>
-</head>
-<body class="authentication-body" onload="noBack();">
-    <div class="container-fluid">
-        <div class="authentication-header m-b-30">
-            <div class="clearfix">
-                <div class="pull-left">
-                    <a class="authentication-logo" href="@Url.Action("Index","Home")">
-                        <img src="~/Content/img/logo.png" alt="" style="width:100%">
-                    </a>
-                </div>                
-                @*<div class="pull-right">
-            <a href="http://big-bang-studio.com/pages-signup.html" class="btn btn-outline-info">Sign up</a>
-        </div>*@
-            </div>
-        </div>
+
         <div class="row">
+
             <div class="col-sm-4 col-sm-offset-4">
               
                 <div class="authentication-content m-b-30">
@@ -62,20 +39,13 @@
                             <span class="custom-control-indicator"></span>
                             <span class="custom-control-label">Keep me signed in</span>
                         </label>
-                        <a href="void()" class="text-info pull-right">Forgot password?</a>
+                        <a href="@Url.Action("ForgotPassword","Account")" class="text-info pull-right">Forgot password?</a>
                     </div>
                     <button type="submit" class="btn btn-info btn-block">Submit</button>
                 }
                 </div>
             </div>
         </div>
-        @*<div class="authentication-footer">
-            <span class="text-muted">Need help? Contact us mail@example.com</span>
-        </div>*@
-    </div>
-    @Scripts.Render("~/bundles/customBundle")
-</body>
+      
 
-<!-- Mirrored from big-bang-studio.com/cosmos/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Nov 2017 05:36:02 GMT -->
-</html>
 

@@ -77,7 +77,7 @@ namespace TogoFogo
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _actionTypes = await _context.Database.SqlQuery<CheckBox>("select actionTypeID value,name text from ActionType where isActive=1").ToListAsync();
+                var _actionTypes = await _context.Database.SqlQuery<CheckBox>("GetActionTypeList",new{ },CommandType.StoredProcedure).ToListAsync();
                 return _actionTypes;
             }
         }

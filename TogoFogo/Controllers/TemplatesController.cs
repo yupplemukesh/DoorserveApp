@@ -204,6 +204,10 @@ namespace TogoFogo.Controllers
                     templateModel.TotalCount += strPhoneNumber.Length;
                     Isvalid = true;
                 }
+                if (templateModel.TemplateTypeId == 69)
+                {
+                    Isvalid = true;
+                }
             }            
             if (Isvalid)
             {

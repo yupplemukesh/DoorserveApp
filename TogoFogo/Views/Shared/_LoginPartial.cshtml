@@ -17,7 +17,10 @@
 
                 </span>
                 <label class="nav-cell p-l-10">
+                    @if (SessionModel != null)
+                    {
                     @SessionModel.UserTypeName
+                    }
                 </label>
             </a>
             <a href="#" class="dropdown-toggle">
@@ -25,8 +28,10 @@
                     <img src="~/Content/img/icon-img/user-r.png">
                 </span>
                 <label class="nav-cell p-l-10">
-
-                    @SessionModel.UserRole
+                    @if (SessionModel != null)
+                    {
+                        @SessionModel.UserRole
+                    }
                 </label>
             </a>
         </li>
@@ -95,7 +100,10 @@
                         <img class="img-circle" src="/content/img/avatars/1.jpg" alt="" width="32" height="32">
                     </span>
                     <span class="nav-cell">
+                       @if (SessionModel != null)
+                       {
                         @SessionModel.UserName
+                       }
                         <span class="caret"></span>
                     </span>
                 </a>
