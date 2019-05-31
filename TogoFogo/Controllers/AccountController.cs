@@ -17,6 +17,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TogoFogo.Models;
 using TogoFogo.Permission;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -28,9 +29,14 @@ namespace TogoFogo.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         ApplicationDbContext context;
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public AccountController()
         {
             context = new ApplicationDbContext();
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
+
         }
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
@@ -269,12 +275,38 @@ namespace TogoFogo.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                using (var con = new SqlConnection(_connectionString))
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    var UserPassword = con.Query<SessionModel>("GETUSERBYUSERNAME",
+                    new { Username=model.Email}, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                    if (!string.IsNullOrEmpty(UserPassword.Password))
+                    {
+                        UserPassword.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(UserPassword.Password, true);
+                        var Templates = await _templateRepo.GetTemplateByActionName("Forget Password");
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = UserPassword.UserName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = UserPassword.Password;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, UserPassword);
+                        ResponseModel response = new ResponseModel { IsSuccess = true, Response = "Password sent successfully" };
+                        TempData["response"] = response;
+                        return RedirectToAction("Login");
+
+
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "Email Does not exits";
+                        return View(model);
+
+                    }
+          
                 }
+              
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link

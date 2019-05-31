@@ -10,10 +10,16 @@
         <thead>
             <tr>
                 <th>
+                    @Html.DisplayName("Action Type")
+                </th>
+                <th>
                     @Html.DisplayName("Template Name")
                 </th>
                 <th>
                     @Html.DisplayName("Date Of Creation")
+                </th>
+                <th>
+                    @Html.DisplayName("Is Active")
                 </th>
                 <th>
                     @Html.DisplayName("Action")
@@ -24,22 +30,28 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name) 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastUpdateDate)
-                    </td>
-                    <td class="text-center">
-                        @if (Permissions.Rights.Edit)
-                        {
-                            <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetEmailHeaderFooterDetails(@item.EmailHeaderFooterId)"><i class="glyphicon glyphicon-pencil"></i></button>
-                        }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActionTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td class="text-center">
+                    @if (Permissions.Rights.Edit)
+                    {
+                        <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetEmailHeaderFooterDetails(@item.EmailHeaderFooterId)"><i class="glyphicon glyphicon-pencil"></i></button>
+                    }
 
-                        </td>
+                </td>
 
-                </tr>
+            </tr>
 
             }
 

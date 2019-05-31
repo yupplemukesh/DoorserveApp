@@ -255,7 +255,7 @@
 <div class="row" id="IsSystem">
     <div class="col-sm-12 form-group">
 
-        <label class="control-label" for="form-control-9">Is System Email</label>
+        <label class="control-label" for="form-control-9">Is System</label>
         <div class="form-group">
             @Html.CheckBoxFor(x => x.IsSystemDefined)
         </div>
@@ -304,7 +304,7 @@
 
             editor.addCommand("mySimpleCommand", {
                 exec: function (edt) {
-                  $('.wild-cart-m').hide().fadeIn(400);
+                    $('.wild-cart-m').hide().fadeIn(400);
                 }
             });
 
@@ -333,7 +333,7 @@
                 $("#addWildCard").click(function (e) {
                     var value = $("#WildCards").val();
                     console.log(value);
-                    CKEDITOR.instances['editor1'].insertHtml('$[' + value + ']');
+                    CKEDITOR.instances['editor1'].insertHtml('[%' + value + '%]');
                     $('.wild-cart-m').modal('toggle');
 
                 });
@@ -391,7 +391,8 @@
         </div>
     </div>
 </div>
-
+@Scripts.Render("~/bundles/customBundle")
+@Scripts.Render("~/bundles/jqueryval")
 <script>
     $(document).on("change", "#TemplateTypeId", function () {
         debugger
@@ -432,7 +433,7 @@
             $('#uploadToEmail').addClass("hidden");
             $('#ToCCEmaildv').addClass("hidden");
             $('#bccEmail').addClass("hidden");
-            $('#toMobile').removeClass("hidden");
+            $('#toMobile').addClass("hidden");
             $('#uploadMobile').removeClass("hidden");
             $('#header').addClass("hidden");
             if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {

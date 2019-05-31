@@ -23742,3 +23742,6 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
     width: 60px !important;
     background-size: 100% !important;
 }
+.No-border {
+    border:0px solid #000;
+}

@@ -16,6 +16,7 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Action Type Id")]
         public int ActionTypeId { get; set; }
+        public string ActionTypeName { get; set; }
         public string ActionTypeIds { get; set; }
         [AllowHtml]
         [DisplayName("Header HTML")]
