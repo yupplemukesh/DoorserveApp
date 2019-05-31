@@ -266,7 +266,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 var session = Session["User"] as SessionModel;
-                var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req from MstSubCategory where SubCatId=@SubCatId", new { SubCatId },
+                var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req,IMEILength from MstSubCategory where SubCatId=@SubCatId", new { SubCatId },
                     commandType: CommandType.Text).FirstOrDefault();
                 result.CategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
              

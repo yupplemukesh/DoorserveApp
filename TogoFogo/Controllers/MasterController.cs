@@ -480,7 +480,7 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = SessionModel.UserId,
                             SessionModel.CompanyId,
                             Action = "add"
                         },
@@ -495,7 +495,7 @@ namespace TogoFogo.Controllers
                     else
                     {
                         response.IsSuccess = true;
-                        response.Response = "Not Added Successfully";
+                        response.Response = "Device Problem alreay Exit";
                         TempData["response"] = response;                        
                     }
                 }
@@ -560,7 +560,7 @@ namespace TogoFogo.Controllers
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = SessionModel.UserId,
                             SessionModel.CompanyId,
                             Action = "edit"
                         },
