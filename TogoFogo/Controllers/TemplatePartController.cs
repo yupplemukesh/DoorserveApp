@@ -35,6 +35,7 @@ namespace TogoFogo.Controllers
             var templatepartmodel = new TemplatePartModel();
             return View(templatepartmodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Template_Part)]
         [HttpPost]
         public async Task<ActionResult> Create(TemplatePartModel templatepart)
         {

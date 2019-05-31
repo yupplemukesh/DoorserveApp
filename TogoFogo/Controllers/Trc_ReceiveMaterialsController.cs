@@ -107,6 +107,7 @@ namespace TogoFogo.Controllers
             receivematerials.Engg_NameList = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
             return PartialView(receivematerials);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Receive_Materials)]
         [HttpPost]
         public ActionResult RM(ReceiveMaterials m)
         {

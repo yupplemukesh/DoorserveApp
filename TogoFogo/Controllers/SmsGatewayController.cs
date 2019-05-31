@@ -46,6 +46,7 @@ namespace TogoFogo.Controllers
             var smsgatewaymodel = new SMSGatewayModel();
             return View(smsgatewaymodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.SMS_Gateway_Settings)]
         [HttpPost]
         public async Task<ActionResult> Create(SMSGatewayModel smsgateway)
         {

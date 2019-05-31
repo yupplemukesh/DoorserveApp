@@ -34,6 +34,7 @@ namespace TogoFogo.Controllers
        
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Users)]
         [HttpPost]      
         public ActionResult AddUser(User objUser)
         {
@@ -137,6 +138,7 @@ namespace TogoFogo.Controllers
             }
             return View(objUser);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         [HttpPost]
         public ActionResult EditUser(User objUser)
         {
@@ -254,6 +256,7 @@ namespace TogoFogo.Controllers
            return View();
            
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         [HttpPost]
         public async Task<ActionResult> ChangePassword(ChangePasswordModel reset)
         {
@@ -291,7 +294,7 @@ namespace TogoFogo.Controllers
             }
             return View(reset);
         }
-
+       
         public ActionResult UserProfile()
         {
             var SessionModel = Session["User"] as SessionModel;

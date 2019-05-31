@@ -52,6 +52,7 @@ namespace TogoFogo.Controllers
             }
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Problem_Observed)]
         [HttpPost]
         public ActionResult AddProblemObserved(ManageProblemObserved model)
         {          
@@ -132,6 +133,7 @@ namespace TogoFogo.Controllers
             }
            
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Problem_Observed)]
         [HttpPost]
         public ActionResult EditProblemObserved(ManageProblemObserved model)
         {           

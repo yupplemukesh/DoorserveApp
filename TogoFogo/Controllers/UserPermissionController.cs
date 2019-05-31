@@ -61,6 +61,7 @@ namespace TogoFogo.Controllers
 
             return View(objUserPermission);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Permission)]
         [HttpPost]
         public ActionResult AddUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {
@@ -185,6 +186,7 @@ namespace TogoFogo.Controllers
                 return xmlDoc.InnerXml;
             }
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_User_Permission)]
         [HttpPost]
         public ActionResult EditUserPermission(UserPermission permission, List<MenuMasterModel> objMenuMasterModel)
         {

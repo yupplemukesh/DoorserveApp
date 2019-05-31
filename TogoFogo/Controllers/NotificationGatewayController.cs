@@ -48,6 +48,7 @@ namespace TogoFogo.Controllers
             var notificationgatewaymodel = new NotificationGatewayModel();
             return View(notificationgatewaymodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Notification_Gateway)]
         [HttpPost]
         public async Task<ActionResult> Create(NotificationGatewayModel notificationgateway)
         {

@@ -43,6 +43,7 @@ namespace TogoFogo.Controllers
             }
             return View(objUserRole);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Roles)]
         [HttpPost]
         public ActionResult AddUserRole(UserRole objUserRole)
         {
@@ -159,7 +160,7 @@ namespace TogoFogo.Controllers
                 return xmlDoc.InnerXml;
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_User_Roles)]
         [HttpPost]
         public ActionResult EditUserRole(UserRole objUserRole)
         {

@@ -33,6 +33,7 @@ namespace TogoFogo.Controllers
             var promocode = new PromoCodeModel();
             return PartialView(promocode);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Promocode)]
         [HttpPost]
         public ActionResult AddPromoCode(PromoCodeModel m)
         {

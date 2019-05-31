@@ -42,6 +42,7 @@ namespace TogoFogo.Controllers
             var smtpgatewaymodel = new SMTPGatewayModel();
             return View(smtpgatewaymodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Gateway_Settings)]
         [HttpPost]
         public async Task<ActionResult> Create(SMTPGatewayModel smtpgateway)
            {
@@ -86,6 +87,7 @@ namespace TogoFogo.Controllers
             var SmtpGatewayModel = Mapper.Map<SMTPGatewayModel>(GatewayModel);
             return View(SmtpGatewayModel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.EMail_Gateway_Settings)]
         [HttpPost]
         public async Task<ActionResult> Edit(SMTPGatewayModel smtpgateway)
         {

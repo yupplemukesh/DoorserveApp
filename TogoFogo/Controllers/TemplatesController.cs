@@ -17,6 +17,7 @@ using System.Web.UI.WebControls;
 using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Xml;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -32,6 +33,7 @@ namespace TogoFogo.Controllers
         {
             _templateRepo = new Template();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Index()
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -41,6 +43,7 @@ namespace TogoFogo.Controllers
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             return View(templates);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Create()
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -55,6 +58,7 @@ namespace TogoFogo.Controllers
             templatemodel.IsSystemDefined = true;
             return View(templatemodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
         public async Task<ActionResult> Create(TemplateModel templateModel)
         {
@@ -211,6 +215,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("Index");           
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Edit(int id,Guid? GUID)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -233,6 +238,7 @@ namespace TogoFogo.Controllers
 
             return View(templatemodel);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
         public async Task<ActionResult> Edit(TemplateModel templateModel)
         {

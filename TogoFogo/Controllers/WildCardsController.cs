@@ -35,7 +35,7 @@ namespace TogoFogo.Controllers
             wildcardmodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             return View(wildcardmodel);
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Wild_Cards)]
         [HttpPost]
         public async Task<ActionResult> Create(WildCardModel wildcardModel)
         {
@@ -64,6 +64,7 @@ namespace TogoFogo.Controllers
             wildcard.actionTypes = ActionTypes;
             return View(wildcard);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Wild_Cards)]
         [HttpPost]
         public async Task<ActionResult> Edit(WildCardModel wildcardModel)
         {

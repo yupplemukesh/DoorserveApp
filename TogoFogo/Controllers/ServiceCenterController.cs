@@ -333,6 +333,7 @@ namespace TogoFogo.Controllers
             return Json(techDetails, JsonRequestBehavior.AllowGet);
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> CallStatus(CallStatusModel callStatus)
         {
@@ -355,7 +356,7 @@ namespace TogoFogo.Controllers
 
         }
 
-      
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> AssignCalls(EmployeeModel assignCall)
         {
@@ -378,6 +379,7 @@ namespace TogoFogo.Controllers
 
         }
         //GetCallDetailByID
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> ManageServiceProvidersDetails(string CRN, string Param)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -415,6 +417,7 @@ namespace TogoFogo.Controllers
 
 
         //
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> ManageServiceProvidersDetails(CallStatusDetailsModel callStatusDetails)
         {
@@ -440,7 +443,7 @@ namespace TogoFogo.Controllers
         }
 
 
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> CallStatusDetails(CallStatusDetailsModel callStatusDetails)
         {
@@ -461,7 +464,7 @@ namespace TogoFogo.Controllers
             }
 
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> SavetechnicianDetails(CallStatusDetailsModel callStatusDetails)
         {
@@ -473,6 +476,7 @@ namespace TogoFogo.Controllers
             return RedirectToAction("AcceptCalls");            
 
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Open_Calls)]
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {

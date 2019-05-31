@@ -55,6 +55,7 @@ namespace TogoFogo.Controllers
             sparepartspricestock.SpareTypeNameList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
             return PartialView(sparepartspricestock);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         [HttpPost]
         public ActionResult AddSparePartsPriceandStock(SparePartsPriceStockModel model)
         {
@@ -159,6 +160,7 @@ namespace TogoFogo.Controllers
 
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Parts_Price_and_Stock)]
         [HttpPost]
         public ActionResult EditSparePartsPriceandStock(SparePartsPriceStockModel model)
         {

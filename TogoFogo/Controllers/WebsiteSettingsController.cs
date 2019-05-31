@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TogoFogo.Models;
+using TogoFogo.Permission;
 
 namespace TogoFogo.Controllers
 {
@@ -24,11 +25,12 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Website_Settings)]
         public ActionResult AddEmailGateway()
         {
             return PartialView();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Website_Settings)]
         [HttpPost]
         public ActionResult AddEmailGateway(EmailGateway model)
         {
@@ -75,7 +77,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("EmailGatewayIndex");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Website_Settings)]
         public ActionResult EditEmailGateway(int? id)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -85,7 +87,7 @@ namespace TogoFogo.Controllers
                 return PartialView(result);
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Website_Settings)]
         [HttpPost]
         public ActionResult EditEmailGateway(EmailGateway model)
         {
@@ -133,6 +135,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("EmailGatewayIndex");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View}, (int)MenuCode.Website_Settings)]
         public ActionResult EmailGatewayTable()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -143,6 +146,7 @@ namespace TogoFogo.Controllers
         }
 
         // ***********************SMSGate****************************************
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.SMS_Gateway_Settings)]
         public ActionResult SMSGatewayIndex()
         {
             if (TempData["Message"] != null)
@@ -151,10 +155,12 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.SMS_Gateway_Settings)]
         public ActionResult AddSMSGateway()
         {
             return PartialView();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.SMS_Gateway_Settings)]
         [HttpPost]
         public ActionResult AddSMSGateway(SMSGateway model)
         {
@@ -200,7 +206,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("SMSGatewayIndex");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.SMS_Gateway_Settings)]
         public ActionResult EditSMSGateway(int? id)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -210,7 +216,7 @@ namespace TogoFogo.Controllers
                 return PartialView(result);
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.SMS_Gateway_Settings)]
         [HttpPost]
         public ActionResult EditSMSGateway(SMSGateway model)
         {
@@ -257,6 +263,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("SMSGatewayIndex");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.SMS_Gateway_Settings)]
         public ActionResult SMSGatewayTable()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -266,6 +273,7 @@ namespace TogoFogo.Controllers
             }
         }
         // ***********************Header Footer Tempelate****************************************
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public ActionResult HFTemplateIndex()
         {
             if (TempData["Message"] != null)
@@ -274,10 +282,12 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public ActionResult AddHFTemplate()
         {
             return PartialView();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         [HttpPost]
         public ActionResult AddHFTemplate(HFTemplate model)
         {
@@ -320,7 +330,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("HFTemplateIndex");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public ActionResult EditHFTemplate(int? id)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -330,7 +340,7 @@ namespace TogoFogo.Controllers
                 return PartialView(result);
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         [HttpPost]
         public ActionResult EditHFTemplate(HFTemplate model)
         {
@@ -374,6 +384,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("HFTemplateIndex");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public ActionResult HFTemplateTable()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -385,7 +396,7 @@ namespace TogoFogo.Controllers
 
 
         // ***********************IVR Tempelate****************************************
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public ActionResult IVRTemplateIndex()
         {
             if (TempData["Message"] != null)
@@ -394,11 +405,13 @@ namespace TogoFogo.Controllers
             }
             return View();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public ActionResult AddIVRTemplate()
         {
             ViewBag.Gateway = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView();
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
         public ActionResult AddIVRTemplate(IVRTemplate model)
         {
@@ -451,7 +464,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("IVRTemplateIndex");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public ActionResult EditIVRTemplate(int? id)
         {
             ViewBag.Gateway = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -473,7 +486,7 @@ namespace TogoFogo.Controllers
                 return PartialView(result);
             }
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
         public ActionResult EditIVRTemplate(IVRTemplate model)
         {
@@ -527,6 +540,7 @@ namespace TogoFogo.Controllers
 
             return RedirectToAction("IVRTemplateIndex");
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public ActionResult IVRTemplateTable()
         {
             using (var con = new SqlConnection(_connectionString))
