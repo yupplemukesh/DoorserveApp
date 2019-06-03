@@ -43,7 +43,7 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Device_Cat, htmlAttributes: new { @class = "col-md-4  col-xs-12", })
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Device_SubCat', this)" })
+                    @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Device_SubCat', this)" })
                     @Html.ValidationMessageFor(model => model.Device_Cat, "", new { @class = "text-danger" })
                 </div>
             </div>

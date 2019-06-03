@@ -46,9 +46,9 @@ namespace TogoFogo.Controllers
             }
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Engineers)]
-        public async Task<ActionResult> Index()
+        public  async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
+            var session = Session["User"] as SessionModel;            
             var filter = new FilterModel();
             if (session.UserTypeName.ToLower().Contains("provider"))
                 filter.ProviderId = session.RefKey;
@@ -116,9 +116,9 @@ namespace TogoFogo.Controllers
             emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             emp.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            emp.Action = 'I';
             emp.UserId = session.UserId;
             emp.CompanyId = session.CompanyId;
+            emp.Action = 'I';           
             if(emp.IsUser)
                 emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
             if (session.UserTypeName.ToLower().Contains("provider"))
