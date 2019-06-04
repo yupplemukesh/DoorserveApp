@@ -1,5 +1,4 @@
 ﻿@model  TogoFogo.Models.User
-@using TogoFogo.Models
 
 @{
 
@@ -82,12 +81,10 @@
                     <div class="col-md-4">
                         <b>Parent Name:</b>
                     </div>
-                    <div class="col-md-2">@SessionModel.RefName</div>
+                    <div class="col-md-2">>@Html.DisplayFor(model => model.RefName)</div>
+
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </div>

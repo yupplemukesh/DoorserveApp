@@ -332,6 +332,11 @@ else
       columns.Add().Titled("Technician Name")
        .Filterable(true).Sanitized(false).Encoded(false).
         RenderValueAs(model => Html.ActionLink(model.TechnicianName, "Edit", "Employees", new { empId = model.EmpId }, null));
+                                    columns.Add().Titled("Action")
+      .Filterable(true).Sanitized(false).Encoded(false).
+      RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
+
+           
   }).WithPaging(10).Sortable(true)
                                 </div>
                             </div>

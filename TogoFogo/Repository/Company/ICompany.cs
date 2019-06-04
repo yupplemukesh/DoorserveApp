@@ -11,7 +11,7 @@ namespace TogoFogo.Repository
    public interface ICompany:IDisposable
     {
 
-        Task<List<CompanyModel>> GetCompanyDetails();
+        Task<List<CompanyModel>> GetCompanyDetails(Guid? CompanyId);
         Task<CompanyModel> GetCompanyDetailByCompanyId(Guid? CompanyId);
         Task<ResponseModel> AddUpdateDeleteCompany(CompanyModel company);
         Task<AgreementModel> GetAgreement(Guid? compId);

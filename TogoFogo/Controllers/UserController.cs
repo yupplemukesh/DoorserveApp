@@ -36,7 +36,7 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Users)]
         [HttpPost]      
-        public ActionResult AddUser(User objUser)
+        public async Task<ActionResult> AddUser(User objUser)
         {
 
             var session = Session["User"] as SessionModel;
@@ -44,13 +44,10 @@ namespace TogoFogo.Controllers
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
-            var Status = (int)type.InvokeMember("sendmail_update",
-                                    BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                    BindingFlags.NonPublic, null, mpc,
-                                    new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
-            if (Status == 1)
-            {
-                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+            var pwd = "CA5680";
+
+
+                objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("UspInsertUser",
@@ -86,8 +83,23 @@ namespace TogoFogo.Controllers
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";
+      
+                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                    session.Email = objUser._ContactPerson.ConEmailAddress;
+                    var WildCards = await CommonModel.GetWildCards();
+                    var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                    U.Val = objUser._ContactPerson.ConFirstName;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                    U.Val = pwd;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                    U.Val = objUser.UserName;
+                    session.Mobile = objUser._ContactPerson.ConMobileNumber;
+                    var c = WildCards.Where(x => x.Val != string.Empty).ToList();
 
-                    }
+                    if (Templates != null)
+                        await _emailSmsServices.Send(Templates, c, session);
+
+                }
                     else
                     {
                         //TempData["Message"] = "Successfully Updated";
@@ -99,8 +111,8 @@ namespace TogoFogo.Controllers
                     TempData["response"] = objResponseModel;
                     return RedirectToAction("UserList", "User");
                 }
-            }
-            return View();
+         
+            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         public ActionResult EditUser(Int64 id = 0)
@@ -277,7 +289,7 @@ namespace TogoFogo.Controllers
                         var Templates = await _templateRepo.GetTemplateByActionName("Change Password");
                         session.Email = User.Identity.Name;
                         var WildCards = await CommonModel.GetWildCards();
-                        var U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = session.UserName;
                          U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
                         U.Val = reset.NewPassword;
@@ -328,6 +340,7 @@ namespace TogoFogo.Controllers
                     objUser._OrganizationModel.OrgCode = result.OrgCode;
                     objUser._OrganizationModel.OrgName = result.OrgName;
                     objUser._ClientModel.ProcessName = result.ProcessName;
+                    objUser.RefName = SessionModel.RefName;
                 }
             }
 

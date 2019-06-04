@@ -285,7 +285,7 @@ namespace TogoFogo.Controllers
                         UserPassword.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(UserPassword.Password, true);
                         var Templates = await _templateRepo.GetTemplateByActionName("Forget Password");
                         var WildCards = await CommonModel.GetWildCards();
-                        var U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = UserPassword.UserName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
                         U.Val = UserPassword.Password;

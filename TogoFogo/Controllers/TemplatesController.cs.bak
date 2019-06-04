@@ -43,16 +43,6 @@ namespace TogoFogo.Controllers
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             return View(templates);
         }
-
-        public async Task<ActionResult> Index1()
-        {
-            var SessionModel = Session["User"] as SessionModel;
-
-            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel { CompId = SessionModel.CompanyId });
-            templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
-            templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
-            return View(templates);
-        }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Create()
         {
@@ -214,10 +204,6 @@ namespace TogoFogo.Controllers
                     templateModel.TotalCount += strPhoneNumber.Length;
                     Isvalid = true;
                 }
-                if (templateModel.TemplateTypeId == 69)
-                {
-                    Isvalid = true;
-                }
             }            
             if (Isvalid)
             {
@@ -342,7 +328,6 @@ namespace TogoFogo.Controllers
                     templateModel.TotalCount += strToEmailcc.Length;
                     Isvalid = true;
                 }
-               
                 if (!Isvalid)
                 {
                     response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
@@ -401,13 +386,8 @@ namespace TogoFogo.Controllers
                     templateModel.TotalCount += strPhoneNumber.Length;
                     Isvalid = true;
                 }
-
             }
 
-            if (templateModel.TemplateTypeId == 69)
-            {
-                Isvalid = true;
-            }
             if (Isvalid)
             {
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'U');

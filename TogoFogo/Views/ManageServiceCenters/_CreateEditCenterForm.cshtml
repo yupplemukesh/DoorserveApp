@@ -676,6 +676,7 @@
                         $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
                     }
                     $("#CountryId").val(data.CountryId);
+                    $("#CurrentIsUser").val(data.CurrentIsUser);
                     var obj = { value: data.CountryId, Other: data.StateId };
                     AjaxWithValue('BindStateJson', 'StateId', obj);
                     obj.value = data.StateId;

@@ -1579,6 +1579,7 @@ namespace TogoFogo.Controllers
             try
             {
                 var _contact = await _ContactRepo.GetContactPersonByContactId(Id);
+                _contact.CurrentIsUser = _contact.IsUser;
                 return Json(_contact, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

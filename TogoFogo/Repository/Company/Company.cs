@@ -18,9 +18,9 @@ namespace TogoFogo.Repository
         {
             _context = new ApplicationDbContext();
         }
-        public async Task<List<CompanyModel>> GetCompanyDetails()
+        public async Task<List<CompanyModel>> GetCompanyDetails(Guid ? CompId)
         {
-            var param = new SqlParameter("@CompId", DBNull.Value);
+            var param = new SqlParameter("@CompId", ToDBNull(CompId));
             return await _context.Database.SqlQuery<CompanyModel>("GetCompany @CompId", param).ToListAsync();
         }
         public async Task<CompanyModel> GetCompanyDetailByCompanyId(Guid? CompanyId)

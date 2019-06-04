@@ -10,7 +10,7 @@
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Action Type</label>
 
-        @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, htmlAttributes: new { @class = "form-control"  })
+        @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList,"--Select--", htmlAttributes: new { @class = "form-control"  })
         @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
 
     </div>

@@ -9,6 +9,7 @@ using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -16,12 +17,16 @@ namespace TogoFogo.Controllers
     {
         private readonly IEmployee _employee;
         private readonly DropdownBindController drop;
-        private string folderPath;     
+        private string folderPath;
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public EmployeesController()
         {
             _employee = new Employee();
             drop = new DropdownBindController();
             folderPath = "~/UploadedImages/employees/";
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
         }
         private string SaveImageFile(HttpPostedFileBase file, string folderName)
         {
@@ -119,8 +124,9 @@ namespace TogoFogo.Controllers
             emp.Action = 'I';
             emp.UserId = session.UserId;
             emp.CompanyId = session.CompanyId;
-            if(emp.IsUser)
-                emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+            var pwd = "CA5680";
+            if (emp.IsUser)
+                emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             if (session.UserTypeName.ToLower().Contains("provider"))
             {
                 if (!session.UserRole.Contains("Service Provider SC Admin"))
@@ -129,6 +135,28 @@ namespace TogoFogo.Controllers
             }          
          
             var response = await _employee.AddUpdateDeleteEmployee(emp);
+            if(response.IsSuccess)
+            {
+               
+                    if (contact.IsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                         session.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = emp.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = emp.ConEmailAddress;
+                           session.Mobile = emp.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, session);
+                    }
+                
+
+                }
             TempData["response"] = response;
             return RedirectToAction("Index");
 
@@ -151,6 +179,7 @@ namespace TogoFogo.Controllers
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             empModel.CurrentEmail = empModel.ConEmailAddress;
+            empModel.CurrentIsUser = empModel.IsUser;
             if (session.UserTypeName.ToLower().Contains("provider"))
             {
                 empModel.IsProvider = true;
@@ -206,8 +235,9 @@ namespace TogoFogo.Controllers
                 empModel.ConVoterIdFileName = SaveImageFile(empModel.ConVoterIdFilePath, "VoterIds");
             if (empModel.ConPanNumberFilePath != null)
                 empModel.ConPanFileName = SaveImageFile(empModel.ConPanNumberFilePath, "PANCards");
-            if(empModel.IsUser)
-                empModel.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+            var pwd = "CA5680";
+            if (empModel.IsUser)
+                empModel.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
 
 
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
@@ -231,6 +261,27 @@ namespace TogoFogo.Controllers
             else
                 empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
             var response = await _employee.AddUpdateDeleteEmployee(empModel);
+            if (response.IsSuccess)
+            {
+
+                if (empModel.IsUser && empModel.CurrentIsUser)
+                {
+                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                    SessionModel.Email = empModel.ConEmailAddress;
+                    var WildCards = await CommonModel.GetWildCards();
+                    var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                    U.Val = empModel.ConFirstName;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                    U.Val = pwd;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                    U.Val = empModel.ConEmailAddress;
+                    SessionModel.Mobile = empModel.ConMobileNumber;
+                    var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                    if (Templates != null)
+                        await _emailSmsServices.Send(Templates, c, SessionModel);
+                }
+
+            }
             TempData["response"] = response;
 
             return RedirectToAction("Index");

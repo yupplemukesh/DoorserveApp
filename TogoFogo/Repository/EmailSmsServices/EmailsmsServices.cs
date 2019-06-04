@@ -21,11 +21,13 @@ namespace TogoFogo.Repository
         public readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _template;
         public readonly TogoFogo.Repository.EmailHeaderFooters.IEmailHeaderFooters _headerFooters;
         public readonly TogoFogo.Repository.SMSGateway.IGateway _gateway;
+        private readonly ApplicationDbContext _context;
         public EmailsmsServices()
         {
          
             _headerFooters = new TogoFogo.Repository.EmailHeaderFooters.EmailHeaderFooters();
             _gateway = new TogoFogo.Repository.SMSGateway.Gateway();
+            _context = new ApplicationDbContext();
         }
         public async Task<string> Send( List<TemplateModel> templates, List<CheckBox> wildcards, SessionModel session)
         {
@@ -94,6 +96,9 @@ namespace TogoFogo.Repository
             {
                 smtp.Send(mail);
                 flag = true;
+
+
+
             }
             catch(Exception ex)
             {
@@ -101,6 +106,20 @@ namespace TogoFogo.Repository
             }
             return flag;
         }
+
+
+        //private async Task<string> AddEmailLog(MailMessage mail,bool status)
+        //{
+
+
+        //}
+
+
+        //private async Task<string> AddSmsLog(MailMessage mail, bool status)
+        //{
+
+
+        //}
 
 
         private string SendSms(TemplateModel template, GatewayModel gatway)
@@ -120,7 +139,7 @@ namespace TogoFogo.Repository
             //Prepare you post parameters
             StringBuilder sbPostData = new StringBuilder();
             sbPostData.AppendFormat("authkey={0}", authKey);
-            sbPostData.AppendFormat("&mobiles={0}", mobileNumber);
+            sbPostData.AppendFormat("&to={0}", mobileNumber);
             sbPostData.AppendFormat("&message={0}", message);
             sbPostData.AppendFormat("&route={0}", "default");
             try

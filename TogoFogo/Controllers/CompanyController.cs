@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using TogoFogo.Repository;
 using System.Reflection;
 using TogoFogo.Permission;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -20,9 +21,11 @@ namespace TogoFogo.Controllers
        private readonly IContactPerson _ContactPersonRepo;
        private readonly IOrganization _OrgRepo;
        private readonly IBank _BankRepo;
-        private readonly string _path = "/UploadedImages/Companies/"; 
-        // GET: Company
 
+        private readonly string _path = "/UploadedImages/Companies/";
+        // GET: Company
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public ManageCompanyController()
         {
             _dropdown = new DropdownBindController();
@@ -30,12 +33,17 @@ namespace TogoFogo.Controllers
             _ContactPersonRepo = new ContactPerson();
             _OrgRepo = new Organization();
             _BankRepo = new Bank();
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View,Actions.Create,Actions.Edit }, (int)MenuCode.Manage_company)]
         public async  Task<ActionResult> Index()
         {
-            var _com = await _compRepo.GetCompanyDetails();
+
+
+            var SessionModel = Session["User"] as SessionModel;
+            var _com = await _compRepo.GetCompanyDetails(SessionModel.CompanyId);
             return View(_com);
         }
         private string SaveImageFile(HttpPostedFileBase file, string folderName)
@@ -84,7 +92,6 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         public async Task<ActionResult> Edit(Guid CompId)
         {
-
             TempData["Comp"] = null;
             var comp = await GetCompany(CompId);
             comp.ActiveTab = "tab-1";
@@ -275,9 +282,9 @@ namespace TogoFogo.Controllers
             if (contact.ConAdhaarNumberFilePath != null)
                 contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRs/");
 
-
+            var pwd = "CA5680";
             if (contact.IsUser)
-                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             contact.UserTypeId = 1;
             contact.UserId = SessionModel.UserId;
             contact.CompanyId = contact.RefKey;
@@ -287,17 +294,49 @@ namespace TogoFogo.Controllers
             else
                 contact.Action = 'U';
             CompanyModel comp = new CompanyModel();
-
             var response = await _ContactPersonRepo.AddUpdateContactDetails(contact);
-
             if (response.IsSuccess)
             {
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-                var Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+                if (contact.Action == 'U')
+                {
+                    if (contact.IsUser && !contact.CurrentIsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+                }
+                else
+                {
+                    if (contact.IsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+
+                }
+               
             }
             if (TempData["Comp"] != null)
             {

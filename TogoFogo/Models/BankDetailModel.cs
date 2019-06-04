@@ -52,6 +52,7 @@ namespace TogoFogo.Models
        public DateTime LastUpdateDate { get; set; }
        public string LastUpdatedBy { get; set; }
        public int UserId { get; set; }
+        public bool CurrentIsUser { get; set; }
        public Guid? CompanyId { get; set; }
        public string Password { get; set; }
        public char EventAction { get; set; }
