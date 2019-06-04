@@ -54,8 +54,8 @@ namespace TogoFogo.Repository
                             .SingleOrDefault();
                      employee.EMPPhotoUrl = folder+"/DP/" + employee.EMPPhoto;
                    
-                    employee.ConAdhaarFileUrl   =     folder + "/adhr/" + employee.ConAdhaarFileName;
-                    employee.ConPanFileUrl      =     folder + "/PanCards/" + employee.ConPanFileName;
+                    employee.ConAdhaarFileUrl   =     folder + "/ADHRS/" + employee.ConAdhaarFileName;
+                    employee.ConPanFileUrl      =     folder + "/PANCards/" + employee.ConPanFileName;
                     employee.ConVoterIdFileUrl  =     folder + "/VoterIds/" + employee.ConVoterIdFileName;
 
                     reader.NextResult();

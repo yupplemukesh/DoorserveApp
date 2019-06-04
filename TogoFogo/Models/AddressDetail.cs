@@ -26,6 +26,7 @@ namespace TogoFogo.Models
         [DisplayName("Near By Location")]
         public string NearLocation { get; set; }
         [DisplayName("Pin Code")]
+        [RegularExpression(@"^([0-9]{6})$", ErrorMessage = "Invalid Pin Code")]
         public string PinNumber { get; set; }
         public SelectList AddressTypelist { get; set; }
         public SelectList CityList { get; set;}

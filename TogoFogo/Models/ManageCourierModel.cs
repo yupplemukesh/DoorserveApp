@@ -203,10 +203,13 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Service Charge Type")]
         public string ServiceChargeType { get; set; }
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         [DisplayName("Value")]
         public string ValueRange { get; set; }
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         [DisplayName("Weight (Kg)")]
         public string WeightRange { get; set; }
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         [DisplayName("Volume (QM)")]
         public string Volume { get; set; }
         [DisplayName("Service Charge (Selected Currency)")]

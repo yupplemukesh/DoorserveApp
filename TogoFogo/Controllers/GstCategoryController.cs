@@ -38,14 +38,15 @@ namespace TogoFogo.Controllers
                 { 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Add_Edit_Delete_GstCategory",
+                        var session = Session["User"] as SessionModel;
+                        var result = con.Query<int>("Add_Edit_Delete_GstCategory",
                         new
                         {
                             model.GstCategoryId,
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User=Convert.ToInt32(Session["User_ID"]),                            
+                            User=session.UserId,                            
                             ACTION = 'I'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();    
@@ -85,7 +86,7 @@ namespace TogoFogo.Controllers
           
             using (var con = new SqlConnection(_connectionString))
             {
-                var result = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new { }, commandType: CommandType.Text).ToList();
+                var result = con.Query<GstCategoryModel>("Select mst.Id,mst.GSTCATEGORYID,MST.GSTCATEGORY,MST.ISACTIVE,MST.COMMENTS,MST.CREATEDDATE,MST.MODIFYDATE,u.UserName CRBY, u1.Username MODBY from MstGstCategory mst join create_User_Master u on u.Id = mst.CreatedBy left outer join create_user_master u1 on mst.ModifyBy = u1.id", new {}, commandType: CommandType.Text).ToList();
                 return View(result);
             }        
             
@@ -111,16 +112,15 @@ namespace TogoFogo.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                 {
-                    var result = con.Query<int>("Add_Edit_Delete_GstCategory",
+                        var session = Session["User"] as SessionModel;
+                        var result = con.Query<int>("Add_Edit_Delete_GstCategory",
                         new
                         {
                             model.GstCategoryId,
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User = Convert.ToInt32(Session["User_ID"]),
-
-
+                            User = session.UserId,
                             ACTION = 'U'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 

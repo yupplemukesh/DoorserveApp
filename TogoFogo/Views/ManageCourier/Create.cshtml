@@ -22,7 +22,7 @@
                         Cancel
                     </span>
                 </a>
-                <button class="btn btn-primary" type="reset">Reset</button>
+                <button class="btn btn-primary" type="reset" id="ResetImage">Reset</button>
                 <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
             </div>
         </div>
@@ -60,4 +60,12 @@
             });
         }
     </script>
+    <script>
+        $(document).ready(function () {
+            $('#ResetImage').click(function () {
+                $("#blah1").prop('src', "");
+            })
+        });
+    </script>
+    
 }

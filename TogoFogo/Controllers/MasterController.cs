@@ -617,7 +617,7 @@ namespace TogoFogo.Controllers
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
-                               User = Convert.ToInt32(Session["User_Id"]),
+                               User = SessionModel.UserId,
                                SessionModel.CompanyId,
                                Action = "add"                               
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -667,7 +667,7 @@ namespace TogoFogo.Controllers
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
-                               User = Convert.ToInt32(Session["User_Id"]),
+                               User = SessionModel.UserId,
                                SessionModel.CompanyId,
                                Action = "edit",                            
 
@@ -859,7 +859,7 @@ namespace TogoFogo.Controllers
             var parts = new Prob_Vs_price_matrix();
             parts.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             parts.ProblemList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
-            parts.ModelList = new SelectList(Enumerable.Empty<SelectListItem>());
+            parts.ModelList = new SelectList(dropdown.BindModelName(),"value","text");
             return PartialView(parts);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]

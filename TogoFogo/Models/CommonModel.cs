@@ -311,6 +311,8 @@ namespace TogoFogo
                 return _serviceProvider;
             }
         }
+
+        //
         public static async Task<List<CheckBox>> GetServiceCenters(Guid? providerId)
         {
             using (var _context = new ApplicationDbContext())
