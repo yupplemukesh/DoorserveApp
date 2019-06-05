@@ -28,6 +28,7 @@ namespace TogoFogo.Models.ServiceCenter
 
         public DateTime? AppointmentDate { get; set; }
         public string Remark { get; set; }
+        public string Status { get; set; }
         public string Param {get;set;}
 
        

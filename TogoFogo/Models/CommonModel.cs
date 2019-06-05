@@ -458,6 +458,7 @@ namespace TogoFogo
     Manage_Menues=1009,
     Manage_company=119,
     Open_Calls=609,
-    Schedule_Appointment=13
+    Schedule_Appointment=13,
+    Manage_Process=120
     }
 }

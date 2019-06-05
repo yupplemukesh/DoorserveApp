@@ -24,20 +24,7 @@
     <script type="text/javascript" language="javascript">
 
 
-    @* var _servedFromUrl ="@Url.RouteUrl(this.ViewContext.RouteData.Values)";
-    @{
-        string action = ViewContext.RouteData.Values["action"].ToString();
-        string controller = ViewContext.RouteData.Values["controller"].ToString();
-}
-       var action = "@Edit";
-       var controller = "@CallAppointment";
-        var status = @(ViewContext.RouteData.Values["Action"].ToString());
-        var status1=@(ViewContext.RouteData.Values["controlle"].ToString());
-        if (status == "Edit" && status1 =="CallAppointment")
-       {
-            $('.CssDrpApplication').attr("diabled","disabled");
-        }
-        *@
+  
 
     $(document).ready(function () {
 
@@ -59,9 +46,10 @@
             $("#DeviceIMEISecond").attr('disabled', true);
             $("#PurchaseFrom").attr('disabled', true);
             $("#DOP").attr('disabled', true);
+            $("#BillNo").attr('disabled', true);
             $("#BillAmount").attr('disabled', true);
             $("#DeviceConditionId").attr('disabled', true);          
-             $("input:radio").prop('disabled', true);
+        $("input:radio").prop('disabled', true); 
 
     });
 

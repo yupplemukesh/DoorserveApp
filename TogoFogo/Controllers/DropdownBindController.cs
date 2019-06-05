@@ -606,6 +606,35 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
+
+
+        public List<ListItem> BindCallAppointmentStatus()
+        {
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                List<Status_MasterModel> company = con
+                    .Query<Status_MasterModel>("SELECT * from Status_Master WHERE StatusId IN(4,12,18)",
+                        null, commandType: CommandType.Text).ToList();
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "Select" //Text Field(Name)
+                });
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.StatusId, //Value Field(ID)
+                        Text = val.StatusName //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
+
         public List<ListItem> BindStatusMaster()
         {
             using (var con = new SqlConnection(_connectionString))

@@ -81,12 +81,13 @@
     {
         using (Html.BeginForm("EditAppointment", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            @Html.HiddenFor(x => x.DeviceId)     
+            @Html.HiddenFor(x => x.DeviceId)
 
 
             <div class="panel-body">
                 <div class="form-horizontl">
                     <h4 class="m-t-10 m-b-5 m-b-10 p-b-10">Appointment Detail</h4>
+
                     <div class="form-group row">
 
                         <label class="col-sm-2 control-label" for="form-control-1">Appointment Date</label>
@@ -96,129 +97,75 @@
                         </div>
 
 
+                        <label class="col-sm-2 control-label" for="form-control-1">Status</label>
+                        <div class="col-sm-4">
+                            @Html.DropDownListFor(m => m.StatusId, Model.StatusList, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-2 control-label" for="form-control-1">Remark</label>
                         <div class="col-sm-4">
                             @Html.TextAreaFor(x => x.Remark, new { @class = "form-control", @placeholder = "Remark" })
                             @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                         </div>
-
                     </div>
+
                 </div>
-                </div>
+            </div>
 
 
-                    }
+        }
 
 
-                    <div class="form-horizontal">
-                        <div class="panel-body p-b-0 p-t-0">
-                            <div class="panel-heading p-l-0 p-b-0">
+<hr/>
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
-                                    </div>
-                                </div>
+        using (Html.BeginForm("SavetechnicianDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
+        {
+            <div class="form-horizontal">
+                <div class="panel-body p-b-0 p-t-0">
+                    <div class="panel-heading p-l-0 p-b-0">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
                             </div>
                         </div>
                     </div>
-
-                    using (Html.BeginForm("SavetechnicianDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
-                    {
-
-                    @Html.HiddenFor(x => x.Employee.EmpId)
-                    @Html.HiddenFor(x => x.DeviceId)
-
-                    <div class="form-group p-l-10" id="DropDown2">
-                        <div class="col-sm-3"> <h4>Select Technician</h4></div>
-                        <div class="col-sm-5">
-                            @*@Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", "Text", "Value", new { @class = "form-control", id = "DropDown" })*@
-
-                            @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
-
-                            @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="panel-body">
-                        <div id="TechnicianDetailsForm2" style="display:none;">
-                            @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                            <div class="form-group m-t-5">
-                                <div class="col-md-4 col-md-offset-8">
-                                    <button type="button" id="btnemp" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    }
-                    }
-
-
-
                 </div>
+            </div>
+
+            @Html.HiddenFor(x => x.Employee.EmpId)
+            @Html.HiddenFor(x => x.DeviceId)
+
+            <div class="form-group p-l-10" id="DropDown2">
+                <div class="col-sm-3"> <h4>Select Technician</h4></div>
+                <div class="col-sm-5">
+                    @*@Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", "Text", "Value", new { @class = "form-control", id = "DropDown" })*@
+
+                    @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
+
+                    @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="panel-body">
+                @*<div id="TechnicianDetailsForm2" style="display:none;">*@
+                <div>
+                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                    <div class="form-group m-t-5">
+                        <div class="col-md-4 col-md-offset-8">
+                            <button type="button" id="btnemp" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-
-
-
-
-
-                @*
-                    <div role="tabpanel" class="tab-pane fade in" id="tab-12">
-                        <div class="panel panel-default panel-table">
-                            <div class="panel-body">
-                                <div class="panel-default m-b-10">
-                                    <div class="panel-heading p-l-0">
-
-                                        <div class="row">
-
-                                            <div class="col-md-12">
-                                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
-                                                @Html.Partial("_CustomerInfoForm", Model)
-                                                </div>
-
-                                                </div>
-                                                </div>
-                                                </div>
-                                                </div>
-                                                </div>
-
-
-                                                <div class="panel panel-default panel-table">
-                                                     @Html.Partial("~/view/Common/_CallLogDeviceInfoForm.cshtml", Model)
-                                                </div>
-
-                                                <div class="panel panel-default panel-table">
-                                                   @Html.Partial("_CallInformationForm", Model)
-                                                </div>
-
-
-
-                                                <div class="panel panel-default panel-table">
-                                                    <div class="panel panel-default panel-table">
-                                                        <div class="panel-body">
-                                                            <div class="form-horizontal">
-                                                                <div class="panel-default m-b-10">
-                                                                    <div class="panel-heading p-l-0">
-                                                                        <div class="row">
-                                                                            <div class="col-md-12">
-                                                                                <h4 class="m-t-0 m-b-5">Technician Installation</h4>
-                                                                                @Html.Partial("_TechnicianDetailsForm", Model)
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                *@
-
-
+        }
+    }
+</div>           
 
 
                 <div id="rejectpopup" class="modal fade" role="dialog">
@@ -317,22 +264,19 @@
                   alert("Something went wrong...");
               },
               complete: function () {
-                  $("#TechnicianDetailsForm2").show();
-                  $("#DropDown2").hide();
+                  //$("#TechnicianDetailsForm2").show();
+                 // $("#DropDown2").hide();
               }
           })
 
       });
 
 
-      });
+      });                    
 
 
 
-
-
-
-        $(document).ready(function () {
+       $(document).ready(function () {
 
             $("#IsExistingCustomer").attr('disabled', true);
             $("#CustomerContactNumber").attr('disabled', true);
@@ -351,7 +295,8 @@
             $("#DeviceIMEIOne").attr('disabled', true);
             $("#DeviceIMEISecond").attr('disabled', true);
             $("#PurchaseFrom").attr('disabled', true);
-            $("#DOP").attr('disabled', true);
+           $("#DOP").attr('disabled', true);
+           $("#BillNo").attr('disabled', true);
             $("#BillAmount").attr('disabled', true);
             $("#DeviceConditionId").attr('disabled', true);
             $("input:radio").prop('disabled', true);
