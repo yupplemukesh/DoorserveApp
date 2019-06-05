@@ -38,11 +38,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h4 class="m-t-0 m-b-5 m-l-20">View Calls</h4>
-
-
+                        @Html.Partial("_CallInformationForm", Model)
                         @Html.Partial("~/Views/Common/_CustomerInfoForm.cshtml", Model)
                         @Html.Partial("~/Views/Common/_CallLogDeviceInfoForm.cshtml", Model)
-                        @Html.Partial("_CallInformationForm", Model)
+                        @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
                         @if (Model.Param == "P")
                         {
                             using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
@@ -244,13 +243,6 @@
 
                     </div>
                 </div>
-
-
-
-
-
-
-
                 @section scripts{
                     @Scripts.Render("~/bundles/jqueryval")
                     @Scripts.Render("~/bundles/js/form-m")
@@ -279,7 +271,6 @@
           $("#btnemp").click(function () {
               $("#callform2").submit();
           });
-
       $("#DropDown").change(function () {
 
           var Id = $(this).val();
@@ -323,15 +314,7 @@
           })
 
       });
-
-
       });
-
-
-
-
-
-
         $(document).ready(function () {
 
             $("#IsExistingCustomer").attr('disabled', true);
@@ -346,8 +329,11 @@
             $("#StateId").attr('disabled', true);
             $("#CityId").attr('disabled', true);
             $("#DeviceCategoryId").attr('disabled', true);
+            $("#DeviceSubCategoryId").attr('disabled', true);
             $("#DeviceBrandId").attr('disabled', true);
+            $("#DeviceModelNo").attr('disabled', true);
             $("#DeviceModalId").attr('disabled', true);
+            $("#BillNo").attr('disabled', true);
             $("#DeviceIMEIOne").attr('disabled', true);
             $("#DeviceIMEISecond").attr('disabled', true);
             $("#PurchaseFrom").attr('disabled', true);
@@ -355,78 +341,8 @@
             $("#BillAmount").attr('disabled', true);
             $("#DeviceConditionId").attr('disabled', true);
             $("input:radio").prop('disabled', true);
-            $("#AppointmentDate").attr('disabled', true);
-            $("#Remark").attr('disabled', true);
-            $("#CustomerAltConNumber").attr('disabled', true);
 
         });
-
-
-
-
-              @*  if (statusId == 9) {
-                    debugger
-                    if (rejectionReasion.length == 0) {
-                        $('.toast-error').show();
-                        $('.toast-error > .toast-message').html("Rejection Reasion Required");
-                        $("#toast-container").fadeIn();
-                        $("#toast-container").fadeOut(2000);
-                        return false;
-                    }
-                    else {
-                        $('.toast-error').hide();
-
-                    }
-                    var data = {
-                        DeviceId: deviceId, StatusId: statusId, RejectionReason: rejectionReasion
-                          }
-                        $.ajax({
-                            type: 'POST',
-                            url: '@Url.Action("CallStatusDetails", "ServiceCenter")',
-                            data: data,
-                            dataType: "json",
-                            success: function (resultData) {
-                                console.log(resultData);
-                                if (resultData == "Ok")
-                                    window.location.reload();
-
-                            },
-                            error: (function () {
-                                alert("Something went wrong");
-                            })
-                        });
-
-                }
-            });
-
-            $("#btnAccept").click(function () {
-                debugger
-                 var deviceId = $(this).attr("deviceid");
-                        var statusId = 11;
-                 var data =
-                 {
-                     DeviceId: deviceId,  StatusId: statusId, RejectionReason: ""
-                        }
-                        $.ajax({
-                            type: 'POST',
-                            url: '@Url.Action("CallStatusDetails", "ServiceCenter")',
-                            data: data,
-                            dataType: "json",
-                            success: function (resultData) {
-                                console.log(resultData);
-                                if (resultData == "Ok")
-                                    window.location.reload();
-
-                            },
-                            error: (function () {
-                                alert("Something went wrong");
-                            })
-                        });
-            });
-*@
-
-
-
 
                     </script>
                 }

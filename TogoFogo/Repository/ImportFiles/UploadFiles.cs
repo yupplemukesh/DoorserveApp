@@ -117,11 +117,11 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@DeliveryTypeId", client.DeliveryTypeId);
             sp.Add(pararm);
-            pararm = new SqlParameter("@FileName", "Client Data");
+            pararm = new SqlParameter("@FileName", client.FileName);
             sp.Add(pararm);
             pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
             {
-                TypeName = "ClientDataType",
+                TypeName = "ClientDataTypes",
                 Value = table
             };
             sp.Add(pararm);

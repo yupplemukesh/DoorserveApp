@@ -16,9 +16,7 @@ namespace TogoFogo.Models.ServiceCenter
            
         }
         
-        public int? StatusId { get; set; }
-       
-        public SelectList StatusList { get; set; }
+        public int? StatusId { get; set; }      
         [Required]
         public string RejectionReason { get; set; }
         public Guid EmpId { get; set; }

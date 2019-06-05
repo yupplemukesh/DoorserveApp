@@ -27,7 +27,7 @@ namespace TogoFogo.Controllers
         private readonly ICenter _centerRepo;
         private readonly IContactPerson _contactPerson;
         private readonly DropdownBindController _dropdown;
-        
+        private string FilePath = "~/Files/";
         public ClientDataController()
         {
             _RepoUploadFile = new UploadFiles();
@@ -68,6 +68,7 @@ namespace TogoFogo.Controllers
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
                 BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text"),
                 CategoryList = new SelectList(_dropdown.BindCategory(session.CompanyId), "Value", "Text"),
+                SubCategoryList =new SelectList(Enumerable.Empty<SelectListItem>()),
                 ProductList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text"),
                 ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text"),
@@ -101,7 +102,7 @@ namespace TogoFogo.Controllers
         {
             try
             {
-                string path = Server.MapPath("~/Files/" + folderName);
+                string path = Server.MapPath(FilePath + folderName);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -111,7 +112,7 @@ namespace TogoFogo.Controllers
                 var fileName = Guid.NewGuid();
                 var savedFileName = fileName + fileExtention;
                 file.SaveAs(Path.Combine(path, savedFileName));
-                return path + "\\" + savedFileName;
+                return  savedFileName;
             }
             catch (Exception ex)
             {
@@ -133,15 +134,20 @@ namespace TogoFogo.Controllers
         [HttpPost]        
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {
+
+            
             var session = Session["User"] as SessionModel;
             clientDataModel.CompanyId = session.CompanyId;
             clientDataModel.UserId = session.UserId;
             if (clientDataModel.IsClient)
                 clientDataModel.ClientId = session.RefKey;
+            string excelPath = Server.MapPath(FilePath + "ClientData");
             if (clientDataModel.DataFile != null)
             {
-                string excelPath = SaveFile(clientDataModel.DataFile, "ClientData");
-                string conString = string.Empty;
+
+                string FileName = SaveFile(clientDataModel.DataFile, "ClientData");
+                clientDataModel.FileName = FileName;
+              string conString = string.Empty;
                 string extension = Path.GetExtension(clientDataModel.DataFile.FileName);
                 switch (extension)
                 {
@@ -154,14 +160,13 @@ namespace TogoFogo.Controllers
 
                 }
 
-                conString = string.Format(conString, excelPath);
+                conString = string.Format(conString, excelPath+"/"+FileName);
                 DataTable dtExcelData = new DataTable();
                 using (OleDbConnection excel_con = new OleDbConnection(conString))
                 {
                     excel_con.Open();
-
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[20] {
+                    dtExcelData.Columns.AddRange(new DataColumn[22] {
                 new DataColumn("CUSTOMER TYPE", typeof(string)),
                 new DataColumn("CUSTOMER NAME", typeof(string)),
                 new DataColumn("Customer Contact Number", typeof(string)),
@@ -173,9 +178,11 @@ namespace TogoFogo.Controllers
                 new DataColumn("CUSTOMER CITY", typeof(string)),
                 new DataColumn("CUSTOMER PINCODE", typeof(string)),
                 new DataColumn("DEVICE CATEGORY", typeof(string)),
+                new DataColumn("DEVICE SubCategory", typeof(string)),
                 new DataColumn("DEVICE BRAND", typeof(string)),
                 new DataColumn("DEVICE NAME", typeof(string)),
                 new DataColumn("DEVICE MODEL", typeof(string)),
+                new DataColumn("Model Number", typeof(string)),
                 new DataColumn("DEVICE IMEI FIRST", typeof(string)),
                 new DataColumn("DEVICE IMEI SECOND", typeof(string)),
                 new DataColumn("DEVICE SN", typeof(string)),
@@ -183,20 +190,17 @@ namespace TogoFogo.Controllers
                 new DataColumn("PURCHASE FROM", typeof(string)),
                 new DataColumn("DEVICE CONDITION", typeof(string))
                 });
-
                     using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [CUSTOMER TYPE], [CUSTOMER NAME],[CUSTOMER Contact Number],[CUSTOMER EMAIL]," +
                         "[CUSTOMER ADDRESS TYPE],[CUSTOMER ADDRESS],[CUSTOMER COUNTRY],[CUSTOMER STATE],[CUSTOMER CITY]," +
-                        "[CUSTOMER PINCODE],[DEVICE CATEGORY],[DEVICE BRAND],[DEVICE MODEL],[DEVICE IMEI FIRST]," +
+                        "[CUSTOMER PINCODE], [DEVICE CATEGORY],[Divice SubCategory], [DEVICE BRAND],[DEVICE MODEL],[MODEL NUMBER], [DEVICE IMEI FIRST]," +
                         "[DEVICE IMEI SECOND],[DEVICE SN],[DOP],[PURCHASE FROM],[DEVICE CONDITION]  FROM [" + sheet1 + "]", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }
                     excel_con.Close();
-
                 }
                 try
                 {
-
                     var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
                     if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
@@ -243,19 +247,19 @@ namespace TogoFogo.Controllers
             if (tabIndex == 'O')
             {
                 columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail","CustomerCity",
-                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceBrand","DeviceModel","DeviceSn"};
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceSubcategory", "DeviceBrand","DeviceModel", "ModelNumber","DeviceSn"};
                 filecontent = ExcelExportHelper.ExportExcel(response.Calls.OpenCalls, "", true, columns);
             }
             else if (tabIndex == 'C')
             {
                 columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail","CustomerCity",
-                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceBrand","DeviceModel","DeviceSn"};
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory", "DeviceSubcategory","DeviceBrand","DeviceModel", "ModelNumber", "DeviceSn"};
                 filecontent = ExcelExportHelper.ExportExcel(response.Calls.CloseCalls, "", true, columns);
             }
             else if (tabIndex == 'D')
             {
                 columns = new string[]{"CRN","CreatedOn","ClientName","CustomerName","CustomerContactNumber","CustomerEmail","CustomerCity",
-                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceBrand","DeviceModel","DeviceSn"};
+                "ServiceTypeName","DeliveryTypeName","DeviceCategory","DeviceSubcategory","DeviceBrand","DeviceModel", "DeviceModel","DeviceSn"};
                 filecontent = ExcelExportHelper.ExportExcel(response.UploadedData, "", true, columns);
             }
             else if(tabIndex=='F')
@@ -269,7 +273,7 @@ namespace TogoFogo.Controllers
 
             {
                 columns = new string[]{"CustomerType","CustomerName","CustomerContactNumber","CustomerEmail","CustomerAddressType",
-"CustomerAddress","CustomerCountry","CustomerState","CustomerCity","CustomerPincode","DeviceCategory","DeviceBrand", "DeviceModel","DeviceSn",
+"CustomerAddress","CustomerCountry","CustomerState","CustomerCity","CustomerPincode","DeviceCategory","DeviceSubcategory", "DeviceBrand", "DeviceModel","DeviceModelno", "DeviceSn",
                     "DOP","PurchaseFrom","DeviceIMEIOne","DeviceIMEISecond","DeviceCondition"};
                 var devices = new List<UploadedExcelModel> { new UploadedExcelModel
                 {
@@ -284,8 +288,10 @@ namespace TogoFogo.Controllers
                     CustomerCity = "New Delhi",
                     CustomerPincode = "110020",
                     DeviceCategory = "Mobiles",
+                    DeviceSubCategory = "Smart Phones",
                     DeviceBrand = "Samsung",
                     DeviceModel = "Samsung A5-16",
+                    DeviceModelNo="SMG000000",
                     DeviceIMEIOne = "2456675644433",
                     DeviceIMEISecond = "8756454444445",
                     DeviceSn = "#45444",

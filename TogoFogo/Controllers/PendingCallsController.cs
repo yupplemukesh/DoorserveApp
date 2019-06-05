@@ -15,10 +15,10 @@ using TogoFogo.Repository.Customer_Support;
 
 namespace TogoFogo.Controllers
 {
-    public class CallToASPController : Controller
+    public class PendingCallsController : Controller
     {
         private readonly ICustomerSupport _customerSupport;
-        public CallToASPController()
+        public PendingCallsController()
         {
 
             _customerSupport = new CustomerSupport();

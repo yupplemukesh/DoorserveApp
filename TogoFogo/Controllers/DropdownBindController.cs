@@ -881,7 +881,7 @@ namespace TogoFogo.Controllers
             {
                 var query = "select ProblemId,ProblemObserved from MstProblemObserved where isactive=1";
                 if (compId != null)
-                    query = query + " and companyId=@compnayId";
+                    query = query + " and companyId=@companyId";
                 query = query + " Order by ProblemObserved";
                 List<BindProblemObserved> company = con
                     .Query<BindProblemObserved>(query,
@@ -1013,7 +1013,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 var filters = value.Split(',');                
-                var products = con.Query<BindDeviceModel>("select productId,ProductName from MstProduct where BrandID=@brand and CategoryID=@category and IsActive =1", new {brand= filters[0],category=filters[1]}
+                var products = con.Query<BindDeviceModel>("select productId,ProductName from MstProduct where BrandID=@brand and subCatId =@category and IsActive =1", new {brand= filters[0],category=filters[1]}
                     );
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem

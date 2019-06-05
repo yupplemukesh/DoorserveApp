@@ -46,10 +46,12 @@ namespace TogoFogo.Models.ClientData
         public string CustomerPincode { get; set; }
         [DisplayName("Device Category")]
         public string DeviceCategory { get; set; }
+        public string DeviceSubCategory { get; set; }
         [DisplayName("Device Brand")]
         public string DeviceBrand { get; set; }
         [DisplayName("Device Modal")]
         public string DeviceModel { get; set; }
+        public string DeviceModelNo { get; set; }
         [DisplayName("DEVICE SLN")]
         public string DeviceSn { get; set; }
         [DisplayName("Date of Purchase")]
@@ -60,6 +62,8 @@ namespace TogoFogo.Models.ClientData
         public string DeviceIMEIOne { get; set; }
         [DisplayName("DEVICE IMEI SECOND")]
         public string DeviceIMEISecond { get; set; }
+
+        public string Status { get; set; }
 
         public string BillNo { get; set; }
         public decimal BillAmount { get; set; }
@@ -72,6 +76,7 @@ namespace TogoFogo.Models.ClientData
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
      
+         public int? AppointmentStatus { get; set; }
 
         //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
@@ -82,6 +87,10 @@ namespace TogoFogo.Models.ClientData
         [Required(ErrorMessage = "Device Category is Required")]
         [DisplayName("Device Category")]
         public int DeviceCategoryId { get; set; }
+
+        [Required(ErrorMessage = "Device Sub Category is Required")]
+        [DisplayName("Device Sub Category")]
+        public int? DeviceSubCategoryId { get; set; }
         [Required(ErrorMessage = "Device Modal Number is Required")]
         [DisplayName("Device Modal Number")]       
         public int DeviceModalId { get; set; }
@@ -93,10 +102,11 @@ namespace TogoFogo.Models.ClientData
    
         public SelectList ConditionList { get; set; }
         public SelectList CategoryList { get; set; }
+        public SelectList SubCategoryList { get; set; }
         public SelectList BrandList { get; set; }
         public SelectList ProductList { get; set; }
 
-       
+        public SelectList StatusList { get; set; }
 
 
     }

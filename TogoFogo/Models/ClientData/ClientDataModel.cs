@@ -31,6 +31,11 @@ namespace TogoFogo.Models
         public Guid? ClientId { get; set; }
         [Required]
         [DisplayName("Service Type")]
+
+        public string DataSource { get; set; }
+        public string ProcessName { get; set; }
+
+        public string FileName { get; set; }
         public int ServiceTypeId { get; set; }
         [Required]
         [DisplayName("Delivery Type")]

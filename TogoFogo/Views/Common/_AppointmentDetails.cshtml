@@ -1,0 +1,51 @@
+﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
+
+
+
+    <div class="panel-body">
+
+        <div class="form-horizontl">
+            <h4 class="m-t-0 m-b-25 p-t-10 p-b-10">Call Information :</h4>
+            <div class="row">
+                <div class="form-material">
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            @Html.TextBoxFor(x => x.AppointmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AppointmentDate, "", new { @class = "text-danger" })
+                            <label class="floating-label t-0">Appointment Date Time</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6" id="StatusDT">
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.AppointmentStatus, Model.StatusList  ,"Select"  ,new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AppointmentStatus, "", new { @class = "text-danger" })
+                            <label class="floating-label t-0">Appointment Status</label>
+                        </div>
+                    </div>
+                    
+
+
+                    
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-material">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            @Html.TextAreaFor(x => x.Remark, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Remark, "", new { @class = "text-danger" })
+                            <label class="floating-label">Remarks</label>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+       
+    </div>

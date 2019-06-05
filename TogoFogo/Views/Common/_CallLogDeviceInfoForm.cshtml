@@ -2,20 +2,26 @@
 
 
 
-<div class="panel panel-default panel-table">
+<div class="panel panel-default panel-table b-r-0">
     <div class=" panel-body">
         <h4 class="m-t-0 m-b-25 p-t-10 p-b-10">Device Information :</h4>
         <div class="row m-t-5">
             <div class="form-material">
                 <div class="col-sm-3">
                     <div class="form-group  has-value">
-                        @Html.DropDownListFor(x => x.DeviceCategoryId, Model.CategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindModelJson', 'DeviceModalId', this)" })
+                        @Html.DropDownListFor(x => x.DeviceCategoryId, Model.CategoryList,"--Select--", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'DeviceSubCategoryId', this)" })
                         @Html.ValidationMessageFor(x => x.DeviceCategoryId, "", new { @class = "text-danger" })
-                        <label class="floating-label">Category</label>
+                        <label class="floating-label t-0">Category</label>
                     </div>
                 </div>
 
-
+                <div class="col-sm-3">
+                    <div class="form-group  has-value">
+                        @Html.DropDownListFor(x => x.DeviceSubCategoryId, Model.SubCategoryList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindModelJson', 'DeviceModalId', this)" })
+                        @Html.ValidationMessageFor(x => x.DeviceCategoryId, "", new { @class = "text-danger" })
+                        <label class="floating-label t-0">Sub Category</label>
+                    </div>
+                </div>
                 <div class="col-sm-3">
                     <div class="form-group  has-value">
                         @Html.DropDownListFor(x => x.DeviceBrandId, Model.BrandList, new { @class = "form-control", onchange = "AjaxWithValue('BindModelJson', 'DeviceModalId', this)" })
@@ -32,13 +38,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-3">
-                    <div class="form-group">
-                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.DeviceIMEIOne, "", new { @class = "text-danger" })
-                        <label class="floating-label">IMEI/Serial Number</label>
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -46,6 +46,23 @@
 
         <div class="row">
             <div class="form-material">
+
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.DeviceModelNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.DeviceModelNo, "", new { @class = "text-danger" })
+                        <label class="floating-label">Model Number</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.DeviceIMEIOne, "", new { @class = "text-danger" })
+                        <label class="floating-label">IMEI/Serial Number</label>
+                    </div>
+                </div>
                 <div class="col-sm-3">
                     <div class="form-group">
 
@@ -65,45 +82,48 @@
                     </div>
                 </div>
 
-                <div class="col-sm-3">
-                    <div class="row">
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="form-material">
+
+                <div class="col-sm-3">  
                         @Html.TextBoxFor(x => x.DOP, "{0:yyyy-MM-dd}", new { @class = "form-control", @Type = "date" })
                         @Html.ValidationMessageFor(x => x.DOP, "", new { @class = "text-danger" })
-                        <label class="floating-label t-0" >Date Of Purchased</label>
-
-                    </div>
+                        <label class="floating-label t-0">Date Of Purchased</label>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="form-group">
-                        @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.BillAmount, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.BillNo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.BillNo, "", new { @class = "text-danger" })
 
                         <label class="floating-label">Invoice/Bill Number</label>
                     </div>
                 </div>
-</div>
-        </div>
-
-
-        <div class="row">
-            <div class="form-material">
-               
-                </div>
-            </div>
-      
-
-
-
-        <div class="row">
-            <div class="form-material">
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <div class="form-group">
                         @Html.TextBoxFor(x => x.BillAmount, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.BillAmount, "", new { @class = "text-danger" })
                         <label class="floating-label">Invoice/Bill Amount</label>
                     </div>
                 </div>
+
+
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-material">
 
                 <div class="col-sm-2"> <h5 class="m-t-0">Device Condition</h5></div>
                 <div class="col-sm-8">
@@ -120,14 +140,10 @@
                             @Html.ValidationMessageFor(x => x.DeviceConditionId, "", new { @class = "text-danger" })
 
                         </div>
-</div>
+                    </div>
                 </div>
-           
-
-
             </div>
-        </div>       
-
+        </div>
     </div>
 
 </div>

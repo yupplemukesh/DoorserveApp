@@ -144,8 +144,10 @@
 
             $('#myTable').DataTable({
                 "oLanguage": {
-                    "sEmptyTable": "No Record Found"
-                }
+                    "sEmptyTable": "No Record Found",
+                     processing: "<img src='/content/img/loading.gif'>"
+                },
+                 processing: true
             });
             $('#myTable1').DataTable({
                 "oLanguage": {
