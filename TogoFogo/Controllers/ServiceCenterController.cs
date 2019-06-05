@@ -396,6 +396,7 @@ namespace TogoFogo.Controllers
             CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CallDetailsModel.StateList = new SelectList(dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
             CallDetailsModel.CityList = new SelectList(dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");
+            CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus(), "Value", "Text");
             CallDetailsModel.Param = Param;
             CallDetailsModel.StatusId = 11;
             if (Param == "A")

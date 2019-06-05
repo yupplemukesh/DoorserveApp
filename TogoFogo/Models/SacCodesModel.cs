@@ -50,9 +50,11 @@ namespace TogoFogo.Models
         [DisplayName("Product Sale Range")]
         public string Product_Sale_Range { get; set; }
         [Required]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Please Enter Number")]
         [DisplayName("From")]
         public string Product_Sale_From { get; set; }
         [Required]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Please Enter Number")]
         [DisplayName("To")]
         public string Product_Sale_TO { get; set; }
         [Required]
