@@ -32,12 +32,12 @@ namespace TogoFogo.Models
         [DisplayName("Created By")]
         public string CBy {get;set;}
         [DisplayName("Created Date")]
-        public string CreatedDate { get; set; }
+        public string AddedOn { get; set; }
         public long ModifyBy { get; set; }
         [DisplayName("Modify By")]
         public string MBy {get;set;}
         [DisplayName("Modify Date")]
-        public string ModifyDate { get; set; }
+        public string ModifiedOn { get; set; }
         [DisplayName("Delete By")]
         public string DeleteBy { get; set; }
         [DisplayName("Delete Date")]

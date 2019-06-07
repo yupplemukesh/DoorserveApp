@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
+using TogoFogo.Models.ServiceCenter;
 
 namespace TogoFogo.Repository
 {
@@ -16,7 +17,7 @@ namespace TogoFogo.Repository
         {
             _context = new ApplicationDbContext();
         }
-        public async Task<ResponseModel> AddOrEditCallLog(UploadedExcelModel Call)
+        public async Task<ResponseModel> AddOrEditCallLog(CallDetailsModel Call)
         {
             var sp = new List<SqlParameter>();
             var pararm = new SqlParameter("@ID", ToDBNull(Call.Id));
@@ -85,10 +86,28 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@CUSTOMERID", ToDBNull(Call.CustomerId));
             sp.Add(pararm);
+            pararm = new SqlParameter("@SubCategoryId", ToDBNull(Call.DeviceSubCategoryId));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@ModelNumber", ToDBNull(Call.DeviceModelNo));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@Remarks", ToDBNull(Call.Remarks));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@StatusId", ToDBNull(Call.AppointmentStatus));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@AppointmentDateTime", ToDBNull(Call.AppointmentDate));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@ProblemDescription", ToDBNull(Call.ProblemDescription));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull(Call.IssueOcurringSinceDate));
+            sp.Add(pararm);
+
             var sql = "AddEditCallLog " +
-                "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address,"+
-                "@Landmark,@PinCode,@CountyId,@StateId,@CityId,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP,"+
-                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID";
+                "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address," +
+                "@Landmark,@PinCode,@CountyId,@StateId,@CityId,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
+                "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID,@SubCategoryId,@ModelNumber,@Remarks," +
+                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate";
+
+
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

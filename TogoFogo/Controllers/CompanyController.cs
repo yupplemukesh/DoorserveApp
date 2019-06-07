@@ -155,6 +155,7 @@ namespace TogoFogo.Controllers
                 comp.Organization.OrgGSTFileUrl = _path + "Gsts/" + comp.Organization.OrgGSTFileName;
             if (!string.IsNullOrEmpty(comp.Organization.OrgPanFileName))
                 comp.Organization.OrgPanFileUrl = _path + "PanCards/" + comp.Organization.OrgPanFileName;
+
             comp.Organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
             comp.Organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
             comp.Organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");

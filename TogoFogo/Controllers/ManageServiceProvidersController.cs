@@ -17,6 +17,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
 using TogoFogo.Repository.ImportFiles;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -29,7 +30,8 @@ namespace TogoFogo.Controllers
         private readonly string _path = "/UploadedImages/Providers/";
         private readonly DropdownBindController dropdown;
         private readonly IUploadFiles _RepoUploadFile;
-
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public ManageServiceProvidersController()
         {
             _provider = new Provider();
@@ -37,14 +39,18 @@ namespace TogoFogo.Controllers
             _bank = new Bank();
             _contactPerson = new ContactPerson();
             _RepoUploadFile = new UploadFiles();
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<ActionResult> Index()
         {
             var SessionModel = Session["User"] as SessionModel;
-
-            var filter = new FilterModel { CompId = SessionModel.CompanyId };
+            Guid? CenterId = null;
+            if (SessionModel.UserTypeName.ToLower().Contains("center"))
+                CenterId = SessionModel.RefKey;
+            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = CenterId};
             var Providers = await _provider.GetProviders(filter);
             return View(Providers);
         }
@@ -143,9 +149,9 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
-
+            var pwd = "CA5680";
             if (contact.IsUser)
-                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             contact.UserTypeId = 4;
             if (contact.ContactId != null)
                 contact.Action = 'U';
@@ -162,12 +168,45 @@ namespace TogoFogo.Controllers
 
             if (response.IsSuccess)
             {
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-                var Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+                if (contact.Action == 'U')
+                {
+                    if (contact.IsUser && !contact.CurrentIsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+                }
+                else
+                {
+                    if (contact.IsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+
+                }
             }
 
             TempData["response"] = response;
@@ -215,7 +254,7 @@ namespace TogoFogo.Controllers
             provider.Organization = new OrganizationModel();
             if (provider.ServiceList.Where(x => x.IsChecked == true).Count() < 1 || provider.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
             {
-                provider.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+
                 provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                 provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
@@ -284,7 +323,7 @@ namespace TogoFogo.Controllers
                 provider.ServiceDeliveryTypes = __deliveryType;
 
             }
-            provider.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+
             provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
@@ -299,7 +338,6 @@ namespace TogoFogo.Controllers
             {
                 provider.Activetab = "tab-1";
                 provider.CreatedBy = SessionModel.UserId;
-
                 var response = await _provider.AddUpdateDeleteProvider(provider);
                 _provider.Save();
                 provider.ProviderId = new Guid(response.result);
@@ -450,8 +488,8 @@ namespace TogoFogo.Controllers
 
             Provider.Path = _path;
             Provider.CompanyId = SessionModel.CompanyId;
-            var processes = await CommonModel.GetProcesses();
-            Provider.ProcessList = new SelectList(processes, "Value", "Text");
+
+
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
 

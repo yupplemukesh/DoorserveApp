@@ -66,7 +66,7 @@ namespace TogoFogo.Models.ClientData
         public string Status { get; set; }
 
         public string BillNo { get; set; }
-        public decimal BillAmount { get; set; }
+        public  double  BillAmount { get; set; }
         [DisplayName("Call ID")]
         public string CRN { get; set; }
         public Guid CustomerId { get; set; }
@@ -75,7 +75,7 @@ namespace TogoFogo.Models.ClientData
         [Required(ErrorMessage="Customer Type Required")]
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
-     
+        public string SubAppointmentStatus { get; set; }
          public int? AppointmentStatus { get; set; }
 
         //public AddressDetail address { get; set; }

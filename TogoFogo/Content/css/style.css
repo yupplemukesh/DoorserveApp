@@ -23748,3 +23748,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .form-material .has-value label {
     color: #333 !important;
 }
+
+.form-material input[type="date"].form-control {
+    line-height:unset !important;
+}

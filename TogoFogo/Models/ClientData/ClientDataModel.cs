@@ -34,7 +34,7 @@ namespace TogoFogo.Models
 
         public string DataSource { get; set; }
         public string ProcessName { get; set; }
-
+        public bool IsClientAddedBy { get; set; } 
         public string FileName { get; set; }
         public int ServiceTypeId { get; set; }
         [Required]

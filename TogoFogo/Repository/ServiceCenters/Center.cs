@@ -30,11 +30,13 @@ namespace TogoFogo.Repository.ServiceCenters
         public async Task<List<ServiceCenterModel>> GetCenters(FilterModel filterModel)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
-            var param = new SqlParameter("@ProviderId", ToDBNull(filterModel.ProviderId));
+            var param = new SqlParameter("@CenterId", ToDBNull(filterModel.RefKey));
+            sp.Add(param);
+             param = new SqlParameter("@ProviderId", ToDBNull(filterModel.ProviderId));
             sp.Add(param);
              param = new SqlParameter("@CompanyId", ToDBNull(filterModel.CompId));
             sp.Add(param);
-            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @ProviderId,@CompanyId",sp.ToArray()).ToListAsync();
+            return await _context.Database.SqlQuery<ServiceCenterModel>("USPGetAllCenters @CenterId, @ProviderId,@CompanyId", sp.ToArray()).ToListAsync();
         }
         public async Task<CallDetailsModel> GetCallsDetailsById(string CRN)
         {
@@ -452,7 +454,7 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@appointmentdate", ToDBNull(cam.AppointmentDate));
             sp.Add(param);
-            param = new SqlParameter("@remark", ToDBNull(cam.Remark));
+            param = new SqlParameter("@remark", ToDBNull(cam.Remarks));
             sp.Add(param);
             param = new SqlParameter("@StatusId", ToDBNull(cam.StatusId));
             sp.Add(param);

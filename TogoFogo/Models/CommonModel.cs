@@ -73,6 +73,15 @@ namespace TogoFogo
                 return _actionTypes;
             }
         }
+        public static async Task<List<CheckBox>> GetStatusTypes(string type)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _actionTypes = await _context.Database.SqlQuery<CheckBox>("select StatusId value,StatusName text from Status_Master where PageRef=@Page",new SqlParameter("@Page",type)).ToListAsync();
+                return _actionTypes;
+            }
+        }
+
         public static async Task<List<CheckBox>> GetActionTypes()
         {
             using (var _context = new ApplicationDbContext())
@@ -206,11 +215,21 @@ namespace TogoFogo
                 return _gstCategory;
             }
         }
-        public static async Task<List<CheckBox>> GetProcesses()
+        public static async Task<List<CheckBox>> GetProcesses(Guid? CompId)
         {
+            
             using (var _context = new ApplicationDbContext())
             {
-                var _processes = await _context.Database.SqlQuery<CheckBox>("SELECT ProcessId value,processName text FROM MSTProcesses where IsActive=1").ToListAsync();
+
+                var sql = "SELECT ProcessId value,processName text FROM MSTProcesses where IsActive=1";
+                var param = new SqlParameter("@compId", DBNull.Value);
+                if (CompId != null)
+                {
+                    sql += " And companyId=@compId";
+                    param.Value = CompId;
+                }
+                sql += " Order by  processName";
+                var _processes = await _context.Database.SqlQuery<CheckBox>(sql, param).ToListAsync();
                 return _processes;
             }
         }

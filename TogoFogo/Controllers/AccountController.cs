@@ -105,7 +105,8 @@ namespace TogoFogo.Controllers
                         UserRole = rs.RoleName,
                         UserName=rs.UserName,
                         Mobile= rs.Mobile,
-                       Menues= manues
+                        UserTypeId=rs.UserTypeId,
+                       Menues = manues
                     };
 
                     if (!session.UserTypeName.ToLower().Contains("super admin"))

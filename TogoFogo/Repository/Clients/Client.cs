@@ -24,8 +24,12 @@ namespace TogoFogo.Repository.Clients
 
         public async Task<List<ClientModel>> GetClients(FilterModel filterModel)
         {
+            List<SqlParameter> sp = new List<SqlParameter>();
             var param  = new SqlParameter("@CompanyId", ToDBNull(filterModel.CompId));
-            return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId",param).ToListAsync();
+            sp.Add(param);
+            param = new SqlParameter("@ClientId", ToDBNull(filterModel.ClientId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId,@ClientId", sp.ToArray()).ToListAsync();
         }
 
         public async Task<ClientModel> GetClientByClientId(Guid? clientId)
@@ -67,7 +71,11 @@ namespace TogoFogo.Repository.Clients
                     reader.NextResult();
 
                     ClientModel.BankDetails = ReadBanks(reader);
-
+                    reader.NextResult();
+                    ClientModel.Services = ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<ServiceModel>(reader)
+                            .ToList();
                 }
             }
 

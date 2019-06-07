@@ -23,10 +23,11 @@ namespace TogoFogo.Models.ServiceCenter
         public string TechnicianName { get; set; }
         public EmployeeModel Employee { get; set; }
         public UploadedExcelModel _UploadedExcelModel { get; set; }
-
+        public string ProblemDescription { get; set; }
+        public DateTime? IssueOcurringSinceDate { get; set; }
         public DateTime? AppointmentDate { get; set; }
-        public string Remark { get; set; }
-        public string Status { get; set; }
+        public string Remarks { get; set; }
+
         public string Param {get;set;}
 
        

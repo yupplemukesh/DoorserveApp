@@ -13,6 +13,7 @@ using TogoFogo.Repository;
 using System.Reflection;
 using TogoFogo.Repository.Clients;
 using TogoFogo.Filters;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -24,12 +25,16 @@ namespace TogoFogo.Controllers
         private readonly IContactPerson _contactPerson;
         private readonly string _path = "/UploadedImages/Clients/";
         private readonly DropdownBindController dropdown;
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public ManageClientsController()
         {
             _client = new Client() ;
            dropdown= new DropdownBindController();
             _bank = new Bank();
             _contactPerson = new ContactPerson();
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
         }
 
         // GET: ManageClient
@@ -37,7 +42,10 @@ namespace TogoFogo.Controllers
         public  async Task<ActionResult> Index()
         {
             var SessionModel = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId= SessionModel.CompanyId};
+            Guid? ClientId = null;
+            if (SessionModel.UserTypeName.ToLower().Contains("client"))
+                ClientId = SessionModel.RefKey;
+            var filter = new FilterModel { CompId= SessionModel.CompanyId, ClientId=ClientId };
             var clients=  await _client.GetClients(filter);  
             return View(clients);
         }
@@ -135,8 +143,9 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
+            var pwd = "CA5680";
             if (contact.IsUser)
-                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             if (contact.ContactId != null)
                 contact.Action = 'U';
             else
@@ -152,12 +161,45 @@ namespace TogoFogo.Controllers
             var response = await _contactPerson.AddUpdateContactDetails(contact);                       
             if (response.IsSuccess)
             {
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-                var Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+                if (contact.Action == 'U')
+                {
+                    if (contact.IsUser && !contact.CurrentIsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+                }
+                else
+                {
+                    if (contact.IsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+
+                }
             }
             TempData["response"] = response;
             if (TempData["client"] != null)
@@ -187,18 +229,19 @@ namespace TogoFogo.Controllers
             var SessionModel = Session["User"] as SessionModel;
             var Client = await _client.GetClientByClientId(clientId);
             Client.Path = _path;
-            var processes = await CommonModel.GetProcesses();           
-                Client.ProcessList = new SelectList(processes, "Value", "Text");
+                           
             if (Client.Organization == null)
                 Client.Organization = new OrganizationModel();
+            Client.ProcessList = new SelectList(await CommonModel.GetProcesses(SessionModel.CompanyId), "Value", "Text");
             Client.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            Client.SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
             Client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Client.ServiceList = await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId);
-            Client.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
+            Client.ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId),"Value","Text");
+            Client.DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId),"Value","Text");
             Client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -208,37 +251,8 @@ namespace TogoFogo.Controllers
                 Client.action = 'U';
             else
                 Client.action = 'I';
-            List<int> List = new List<int>();
-            if (!string.IsNullOrEmpty(Client._deviceCategories))
-            {
-                var _deviceCat = Client._deviceCategories.Split(',');
-                for (int i = 0; i < _deviceCat.Length; i++)
-                {
-                    List.Add(Convert.ToInt16(_deviceCat[i]));
-                }
-            }
-            if (!string.IsNullOrEmpty(Client.ServiceDeliveryTypes))
-            {
-                var _DeliveryService = Client.ServiceDeliveryTypes.Split(',');
-                for (int i = 0; i < _DeliveryService.Length; i++)
-                {
-                    var item = Client.DeliveryServiceList.Where(x => x.Value == Convert.ToInt32(_DeliveryService[i])).FirstOrDefault();
-                    if (item != null)
-                        item.IsChecked = true;
-
-                }
-            }
-            if (!string.IsNullOrEmpty(Client.ServiceTypes))
-            {
-                var _serviceType = Client.ServiceTypes.Split(',');
-                for (int i = 0; i < _serviceType.Length; i++)
-                {
-                    var item = Client.ServiceList.Where(x => x.Value == Convert.ToInt32(_serviceType[i])).FirstOrDefault();
-                    if (item != null)
-                        item.IsChecked = true;
-                }
-            }
-            Client.DeviceCategories = List;
+          
+                
             return Client;
         }
 
@@ -261,9 +275,12 @@ namespace TogoFogo.Controllers
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["client"] as ClientModel;
             client.Organization = new OrganizationModel();
-            if (client.ServiceList.Where(x => x.IsChecked == true).Count() < 1 || client.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
+
+            if (TempData["client"] != null)
+                client = cltns;
+            else
             {
-                client.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+                client.ProcessList = new SelectList(await CommonModel.GetProcesses(SessionModel.CompanyId), "Value", "Text");
                 client.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                 client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
@@ -273,103 +290,36 @@ namespace TogoFogo.Controllers
                 client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-
-                if (client.action == 'I')
-                    return View("Create", client);
-                else
-                    return View("Edit", client);
-            }
-            if (TempData["client"] != null )
-            {
-                    client = cltns;
-             
-                    string _servicetype = "";
-                    foreach (var item in client.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
-
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
-
-                    string __deliveryType = "";
-                    foreach (var item in client.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
-
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    client.ServiceTypes = _servicetype;
-                    client.ServiceDeliveryTypes = __deliveryType;
-               
-            }
-            else
-            {
-              
-                    string _servicetype = "";
-                    foreach (var item in client.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
-
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
-
-                    string __deliveryType = "";
-                    foreach (var item in client.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
-
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    client.ServiceTypes = _servicetype;
-                    client.ServiceDeliveryTypes = __deliveryType;
-                
-            }
-            client.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
-            client.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-            client.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-            client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
-            client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
-            client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-            client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-            try
-            {
+                try
+                {
                     client.Activetab = "tab-1";
                     client.CreatedBy = SessionModel.UserId;
                     client.CompanyId = SessionModel.CompanyId;
                     var response = await _client.AddUpdateDeleteClient(client);
                     _client.Save();
                     client.ClientId = new Guid(response.result);
-                TempData["response"] = response;
-                TempData.Keep("response");
-                if (client.action == 'I')
-                {
-                    client.Activetab = "tab-2";
-                    TempData["client"] = client;
-                    TempData.Keep("client");
-                    return View("Create",client);
+                    TempData["response"] = response;
+                    TempData.Keep("response");
+                    if (client.action == 'I')
+                    {
+                        client.Activetab = "tab-2";
+                        TempData["client"] = client;
+                        TempData.Keep("client");
+                        return View("Create", client);
+                    }
+                    else
+                        return RedirectToAction("Index");
+
                 }
-               else
-                    return RedirectToAction("Index");
-                                                                                         
+                catch (Exception ex)
+                {
+                    if (client.action == 'I')
+                        return View("Create", client);
+                    else
+                        return View("Edit", client);
+                }
             }
-            catch(Exception ex)
-            {
-                if(client.action=='I')
-                return View("Create", client);
-                else
-                    return View("Edit", client);
-            }
+            return View("Edit", client);
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]

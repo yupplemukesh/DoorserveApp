@@ -33,6 +33,10 @@ namespace TogoFogo.Models
         {
             get;set;
         }
+
+       
+        public int? DeviceCategoryId { get; set; }
+        public int? DeviceSubCategoryId { get; set; }
         public List<int> DeviceCategories { get; set; }
         public string _deviceCategories {
             get;
@@ -44,6 +48,7 @@ namespace TogoFogo.Models
         public List<OtherContactPersonModel> ContactPersons { get; set; }
         public OtherContactPersonModel Contact { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
+        public List<ServiceModel> Services { get; set; }
         public BankDetailModel Bank { get; set; }
         public Guid? ClientId { get; set; }
         [Required]
@@ -70,16 +75,14 @@ namespace TogoFogo.Models
         public int CreatedBy { get; set; }
         public string ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
-        
-        public SelectList SupportedCategoryList { get; set; }
 
-        [SkillValidation(ErrorMessage = "Select at least 1 Service Type")]
-        public List<TogoFogo.CheckBox> ServiceList { get; set; }
-        [SkillValidation(ErrorMessage = "Select at least 1 Service Delivery Type")]
-        public List<TogoFogo.CheckBox> DeliveryServiceList { get; set; }
+       
         public SelectList ProcessList { get; set; }
-     
 
+        public SelectList SupportedCategoryList { get; set; }
+        public SelectList SupportedSubCategoryList { get; set; }
+        public SelectList ServiceList { get; set; }
+        public SelectList DeliveryServiceList { get; set; }
     }
 
     public class SkillValidation : ValidationAttribute

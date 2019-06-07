@@ -61,14 +61,17 @@
     </div>
 </div>
 @section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
+
     @Scripts.Render("~/bundles/js/form-m")
+    @Scripts.Render("~/bundles/jqueryval")
+
     <script>
+        $("#ProblemInfo").hide();
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
-
-            if (ddl == "address_StateId")
-                $("#address_CityId").empty();
+            var refval = e.cvalue;
+            if (ddl == "StateId")
+                $("#CityId").empty();
             if (ddl == 'DeviceModalId') {
 
                 var brand = $("#DeviceBrandId").val();
@@ -93,58 +96,86 @@
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
                     }
+                    if (refval != null || refval != undefined) {
+                        $('#' + ddl).val(refval);
+                    }
+
 
                 }
             });
         }
+
         function getCustomer() {
-          var mobile=  $("#CustomerContactNumber").val();
-           var checked= $("#IsExistingCustomer").prop("checked");
-            if (checked) {
+            var mobile = $("#CustomerContactNumber").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("BindCustomerJson", "DropdownBind")',
+                data: { 'mobile': mobile },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
+                    $("#CustomerName").val(data[0].CustomerName);
+                    $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
+                    $("#CustomerEmail").val(data[0].Email);
+                    $("#CustomerId").val(data[0].customerId);
+                    $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
+                    $("#NearLocation").val(data[0].NearLocation);
+                    $("#Address").val(data[0].Address);
+                    $("#PinNumber").val(data[0].PinNumber);
+                    $("#CountryId").val(data[0].CountryId);
+                    $("#IsExistingCustomer").prop("checked", true);
+                    var obj = { value: data[0].CountryId, cvalue: data[0].StateId }; +
+                        AjaxWithValue('BindStateJson', 'StateId', obj);
+                    obj.value = data[0].StateId;
+                    obj.cvalue = data[0].CityId;
+                    AjaxWithValue('BindLocationJson', 'CityId', obj)
+
+
+                }
+            });
+        }
+
+
+
+          function getLocationByPin() {
+          var PinCode=  $("#PinNumber").val();
                 $.ajax({
                     type: "GET",
-                    url: '@Url.Action("BindCustomerJson", "DropdownBind")',
-                    data: {'mobile':  mobile},
+                    url: '@Url.Action("BindLocationByPinJson", "DropdownBind")',
+                    data: {'value':  PinCode},
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
-                        $("#CustomerName").val(data[0].CustomerName);
-                        $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
-                        $("#CustomerEmail").val(data[0].Email);
-                        $('input[name="address.AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
-                        $("#address_NearLocation").val(data[0].NearLocation);
-                        $("#address_Address").val(data[0].Address);
-                        $("#address_PinNumber").val(data[0].PinNumber);
-                        $("#address_CountryId").val(data[0].CountryId);
-
-                        var obj = { value: data[0].CountryId }; +
-                          AjaxWithValue('BindStateJson', 'address_StateId', obj);
+                        $("#CountryId").val(data[0].CountryId);
+                        var obj = { value: data[0].CountryId, cvalue:data[0].StateId }; +
+                          AjaxWithValue('BindStateJson', 'StateId', obj);
                         obj.value = data[0].StateId;
-                         AjaxWithValue('BindLocationJson', 'address_CityId', obj)
-                        $("#address_StateId").val(data[0].StateId);
-                        $("#address_CityId selected:option").val(data[0].CityId);
+                        obj.cvalue = data[0].CityId;
+                         AjaxWithValue('BindLocationJson', 'CityId', obj)
+
+
                     }
                 });
-            }
-            else
-                return false;
-
         }
 
-        //$("#btnSave").click(function () {
-        //    $("#submitthis").submit();
+      
+            $('input[type=radio][name="ServiceTypeId"]').change(function () {
+                console.log($(this).val());
+                debugger
+                if ($(this).val() == 7) {
 
-        //})
+                    $("#ProblemInfo").hide();
+                }
+                else {
 
-        //$('a[data-toggle="tab"]').click(function (e) {
-        //    debugger
-        //    if (this.hash == '#tab-3')
-        //        $("#tabIndex").val('C');
-        //    else
-        //        $("#tabIndex").val('O');
+                    $("#ProblemInfo").show();
+                }
+       
+        });
+      
 
-        //});
+
         $('a[data-toggle="tab"]').click(function (e) {
             if (this.hash == '#tab-3')
                 $("#tabIndex").val('C');

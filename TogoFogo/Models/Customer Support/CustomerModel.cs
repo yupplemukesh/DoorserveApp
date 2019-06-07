@@ -9,6 +9,8 @@ namespace TogoFogo.Models
 {
     public class CustomerModel
     {
+
+        public Guid CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string MobileNumber { get; set; }
         public string AltContactNumber { get; set; }

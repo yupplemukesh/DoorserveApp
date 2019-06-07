@@ -1010,7 +1010,15 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public JsonResult BindLocationByPinJson(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var addressDetails = con.Query<AddressDetail>("USPGetLocationByPincode", new { PinCode = value },
+                    commandType: CommandType.StoredProcedure);             
+                return Json(addressDetails, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult BindModelNameJson(string value)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -1268,6 +1276,33 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
+        public List<ListItem> BindProduct( string value )
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var filters = value.Split(',');
+                var products = con.Query<BindDeviceModel>("select productId,ProductName from MstProduct where BrandID=@brand and subCatId =@category and IsActive =1", new { brand = filters[0], category = filters[1] }
+                    );
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in products)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.ProductId.ToString(), //Value Field(ID)
+                        Text = val.ProductName //Text Field(Name)
+                    });
+                }
+
+
+             
+                return items;
+            }
+        }
         public List<ListItem> BindSubCategory(int CategoryId)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -1497,8 +1532,8 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.ID, //Value Field(ID)
-                        Text = val.dist_Name //Text Field(Name)
+                        Value = val.LocationId, //Value Field(ID)
+                        Text = val.LocationName //Text Field(Name)
                     });
                 }
                 return Json(items, JsonRequestBehavior.AllowGet);
@@ -1515,8 +1550,8 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.ID, //Value Field(ID)
-                        Text = val.state_Name //Text Field(Name)
+                        Value = val.St_ID, //Value Field(ID)
+                        Text = val.St_Name //Text Field(Name)
                     });
                 }
                 return Json(items, JsonRequestBehavior.AllowGet);

@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
+using TogoFogo.Models.ServiceCenter;
+
 namespace TogoFogo.Repository
 {
     public interface ICallLog:IDisposable
     {
-        Task<ResponseModel> AddOrEditCallLog(UploadedExcelModel newCall);
+        Task<ResponseModel> AddOrEditCallLog(CallDetailsModel newCall);
         void Save();
     }
 }

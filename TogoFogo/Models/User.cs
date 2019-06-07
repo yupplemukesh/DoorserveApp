@@ -28,6 +28,7 @@ namespace TogoFogo.Models
         public string LastUpdatedBy { get; set; }
         public int UserLoginId { get; set; }
         public string RoleName { get; set; }
+        public int UserTypeId { get; set;}
         public ContactPersonModel _ContactPerson { get;set;} 
         public AddressDetail _AddressDetail { get; set; }
         public UserRole _UserRole { get; set; }

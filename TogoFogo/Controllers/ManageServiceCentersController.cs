@@ -14,6 +14,7 @@ using TogoFogo.Repository;
 using TogoFogo.Repository.ServiceCenters;
 using System.Reflection;
 using TogoFogo.Repository.ServiceProviders;
+using TogoFogo.Repository.EmailSmsServices;
 
 namespace TogoFogo.Controllers
 {
@@ -26,6 +27,8 @@ namespace TogoFogo.Controllers
         private readonly IContactPerson _contactPerson;
         private readonly string _path = "/UploadedImages/Centers/";
         private readonly DropdownBindController dropdown;
+        private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
 
         public ManageServiceCentersController()
         {
@@ -34,6 +37,8 @@ namespace TogoFogo.Controllers
             _bank = new Bank();
             _contactPerson = new ContactPerson();
             _Provider = new Provider();
+            _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
+            _emailSmsServices = new Repository.EmailsmsServices();
         }
 
 
@@ -41,9 +46,13 @@ namespace TogoFogo.Controllers
         public  async Task<ActionResult> Index()
         {
             var SessionModel = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = SessionModel.CompanyId };
-            if (SessionModel.UserRole.ToLower().Contains("provider"))
-                filter.ProviderId = SessionModel.RefKey;
+            Guid? ProviderId = null;
+            Guid? CenterId = null;
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+                ProviderId = SessionModel.RefKey;
+            if (SessionModel.UserTypeName.ToLower().Contains("center"))
+                CenterId = SessionModel.RefKey;
+            var filter = new FilterModel { CompId = SessionModel.CompanyId,RefKey= CenterId, ProviderId= ProviderId };
             var Centers = await _Center.GetCenters(filter);           
             return View(Centers);
         }
@@ -142,8 +151,9 @@ namespace TogoFogo.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
+            var pwd = "CA5680";
             if (contact.IsUser)
-                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt("CA5680", true);
+                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             contact.UserTypeId = 3;
             if (contact.ContactId != null)
                 contact.Action = 'U';
@@ -163,12 +173,45 @@ namespace TogoFogo.Controllers
 
             if (response.IsSuccess)
             {
-                var mpc = new Email_send_code();
-                Type type = mpc.GetType();
-                var Status = (int)type.InvokeMember("sendmail_update",
-                                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                        BindingFlags.NonPublic, null, mpc,
-                                        new object[] { contact.ConEmailAddress, contact.Password, contact.ConEmailAddress });
+                if (contact.Action == 'U')
+                {
+                    if (contact.IsUser && !contact.CurrentIsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+                }
+                else
+                {
+                    if (contact.IsUser)
+                    {
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        SessionModel.Email = contact.ConEmailAddress;
+                        var WildCards = await CommonModel.GetWildCards();
+                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                        U.Val = contact.ConFirstName;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                        U.Val = pwd;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                        U.Val = contact.ConEmailAddress;
+                        SessionModel.Mobile = contact.ConMobileNumber;
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        if (Templates != null)
+                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                    }
+
+                }
             }
             TempData["response"] = response;
             if (TempData["center"] != null)
@@ -200,17 +243,15 @@ namespace TogoFogo.Controllers
             var SessionModel = Session["User"] as SessionModel;
             var Center = await _Center.GetCenterById(centerId);
             Center.Path = _path;
-            var processes = await CommonModel.GetProcesses();
+          
             if (SessionModel.UserRole.ToLower().Contains("provider"))
             {
                 var providerId = SessionModel.RefKey;
                 var provider = await _Provider.GetProviderById(providerId);
-                var seletedProcess = processes.Where(x => x.Value == provider.ProcessId);
-                Center.ProcessList = new SelectList(seletedProcess, "Value", "Text");
+
                 Center.IsProvider = true;
             }
-            else
-                Center.ProcessList = new SelectList(processes, "Value", "Text");
+   
             if (Center.Organization == null)
                 Center.Organization = new OrganizationModel();
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
@@ -283,7 +324,7 @@ namespace TogoFogo.Controllers
             Center.Organization = new OrganizationModel();
             if (Center.ServiceList.Where(x=>x.IsChecked==true).Count()<1 || Center.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
             {
-                Center.ProcessList = new SelectList(await CommonModel.GetProcesses(), "Value", "Text");
+         
                 Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
                 Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
                 Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
@@ -352,7 +393,7 @@ namespace TogoFogo.Controllers
                     Center.ServiceDeliveryTypes = __deliveryType;
                 
             }
-            Center.ProcessList = new SelectList(await  CommonModel.GetProcesses(), "Value", "Text");
+
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");

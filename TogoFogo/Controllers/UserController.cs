@@ -146,6 +146,7 @@ namespace TogoFogo.Controllers
                     objUser._ContactPerson.ConFirstName = result.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
                     objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
+                    objUser.UserTypeId = result.UserTypeId;
                 }
             }
             return View(objUser);
@@ -159,10 +160,11 @@ namespace TogoFogo.Controllers
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
-            var Status = (int)type.InvokeMember("sendmail_update",
-                                    BindingFlags.Instance | BindingFlags.InvokeMethod |
-                                    BindingFlags.NonPublic, null, mpc,
-                                    new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
+            var Status = 1;
+            //var Status = (int)type.InvokeMember("sendmail_update",
+            //                        BindingFlags.Instance | BindingFlags.InvokeMethod |
+            //                        BindingFlags.NonPublic, null, mpc,
+            //                        new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
             if (Status == 1)
             {
                 //objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
@@ -184,7 +186,7 @@ namespace TogoFogo.Controllers
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
                             objUser.UserLoginId,
-                            userTypeId = session.UserTypeId,
+                            userTypeId = objUser.UserTypeId,
                             RefId = session.RefKey,
                             companyId = session.CompanyId
 
