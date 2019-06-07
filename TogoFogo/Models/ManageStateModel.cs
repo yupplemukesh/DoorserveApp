@@ -26,6 +26,5 @@ namespace TogoFogo.Models
         public string Cnty_Name { get; set; }        
         public string Remarks { get; set; }
         public System.Web.Mvc.SelectList _CountryList { get; set; }
-
     }
 }
