@@ -14,6 +14,7 @@ namespace TogoFogo.Models
         public string St_Name { get; set; }
         [DisplayName("State Code")]
         public string St_Code { get; set; }
+        [Required]
         [DisplayName("Country Name")]
         public long St_CntyID { get; set; }
         public long AddedBy { get; set; }
