@@ -38,16 +38,18 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
         public ActionResult AddCityLocation()
         {
-            ViewBag.CountryName = new SelectList(Enumerable.Empty<SelectListItem>());
-
-            ViewBag.StateName = new SelectList(Enumerable.Empty<SelectListItem>());
+            ManageLocation ml = new ManageLocation();
+            ml._CountryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            ml._StateList = new SelectList(Enumerable.Empty<SelectListItem>());
+          
             using (var con = new SqlConnection(_connectionString))
             {
-                ViewBag.CountryName = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                ml._CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+               
                 //var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstDeviceProblem", null, commandType: CommandType.Text).FirstOrDefault();
 
                 //ViewBag.SortOrder = result + 1;
-                return View();
+                return View(ml);
 
             }
         }
@@ -59,16 +61,19 @@ namespace TogoFogo.Controllers
             {              
                 using (var con = new SqlConnection(_connectionString))
                 {
+                    var session = Session["User"] as SessionModel;
                     var result = con.Query<int>("Add_Edit_Delete_Location",
                         new
                         {
-                            LocationId="",
+                            LocationId = "",
                             model.LocationName,
-                            StateId=model.StateName,
-                            CountryId=model.CountryName,
+                            model.StateId,
+                            model.CountryId,
+                            model.DistrictName,
+                            model.PinCode,
                             model.IsActive,
                             model.Comments,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = session.UserId,
                             Action ="add"
                            
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -117,16 +122,18 @@ namespace TogoFogo.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
+               // ManageLocation ml = new ManageLocation();
                 var result = con.Query<ManageLocation>("Select * from MstLocation where LocationId=@LocationId", new { LocationId = LocationId },
                     commandType: CommandType.Text).FirstOrDefault();
-                ViewBag.CountryName = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                ViewBag.StateName = new SelectList(dropdown.BindState(), "Value", "Text");
-                if (result != null)
+                result._CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+                result._StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+               
+                /*if (result != null)
                 {
                     result.CountryName =Convert.ToString(result.CountryId);
                     result.StateName = result.StateId.ToString();
 
-                }
+                }*/
                 return PartialView("EditCityLocation", result);
             }
 
@@ -139,16 +146,19 @@ namespace TogoFogo.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
+                    var session = Session["User"] as SessionModel;
                     var result = con.Query<int>("Add_Edit_Delete_Location",
                         new
                         {
                             model.LocationId,
                             model.LocationName,
-                            StateId = model.StateName,
-                            CountryId = model.CountryName,
+                            model.StateId,
+                            model.CountryId,
+                            model.DistrictName,
+                            model.PinCode,
                             model.IsActive,
                             model.Comments,
-                            User = Convert.ToInt32(Session["User_Id"]),
+                            User = session.UserId,
                             Action = "edit"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();

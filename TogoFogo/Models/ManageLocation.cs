@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
@@ -11,37 +12,48 @@ namespace TogoFogo.Models
     {
         [DisplayName("Serial No")]
         public Int32 SerialNo { get; set; }
-        [Required]
-        [DisplayName("Country Name")]
+
         public string CountryName { get; set; }
-        [Required]
-        [DisplayName("State Name")]
+
         public string StateName { get; set; }
-        public string LocationId {get;set;}
+        public string LocationId { get; set; }
         [Required]
         [DisplayName("Location Name")]
-        public string LocationName {get;set;}
-        public string StateId {get;set;}
-        public string CountryId {get;set;}
+        public string LocationName { get; set; }
+        [Required]
+        [DisplayName("State Name")]
+        public int StateId { get; set; }
+        [Required]
+        [DisplayName("Country Name")]
+        public int CountryId { get; set; }
         //[Required]
         [DisplayName("Is Active")]
-        public Boolean IsActive {get;set;}
+        public Boolean IsActive { get; set; }
         [DisplayName("Comments")]
-        public string Comments {get;set;}
+        public string Comments { get; set; }
         public long CreatedBy { get; set; }
         [DisplayName("Created By")]
-        public string CBy {get;set;}
+        public string CBy { get; set; }
         [DisplayName("Created Date")]
-        public string AddedOn { get; set; }
+        public DateTime AddedOn { get; set; }
         public long ModifyBy { get; set; }
         [DisplayName("Modify By")]
-        public string MBy {get;set;}
+        public string MBy { get; set; }
         [DisplayName("Modify Date")]
-        public string ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
         [DisplayName("Delete By")]
         public string DeleteBy { get; set; }
         [DisplayName("Delete Date")]
-        public string DeleteDate {get;set;}      
+        public string DeleteDate { get; set; }
+        [DisplayName("District Name")]
+        public string DistrictName { get; set; }
+
+        public long PinCode { get; set; }
+
+        public SelectList _CountryList { get; set; }
+        public SelectList _StateList { get; set; }
+
+
 
     }
 }
