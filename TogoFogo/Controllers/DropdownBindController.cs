@@ -1010,6 +1010,16 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public async Task<ActionResult> GetLocationByPinCode(string pin)
+        {
+
+            var PinCodeDetails = await _ContactRepo.GetPinCode(pin);
+
+            return Json(PinCodeDetails, JsonRequestBehavior.AllowGet);
+
+        }
+
         public JsonResult BindLocationByPinJson(string value)
         {
             using (var con = new SqlConnection(_connectionString))

@@ -161,44 +161,56 @@
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
-
+                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code", id = "Pincode", @OnChange= "GetLocation()" })
                 </div>
-                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
             </div>
+
+
         </div>
     </div>
 </div>
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
-
-                </div>
-                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-            </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(model => model.CityId, Model.CityList, new { @class = "form-control" })
-
+                    @Html.TextBoxFor(model => model.City, new { @class = "form-control", id = "City" })
+                    @Html.HiddenFor(model => model.CityId, new { id = "CityId" })
                 </div>
                 @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
             </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.TextBoxFor(model => model.State, new { @class = "form-control", id = "State" })
+                    @Html.HiddenFor(model => model.StateId, new { id = "StateId" })
+
+                </div>
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+            </div>
+
         </div>
     </div>
 </div>
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.TextBoxFor(model => model.Country, new { @class = "form-control", id = "Country" })
+                    @Html.HiddenFor(model => model.CountryId, new { id = "CountryId" })
+                </div>
+                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+            </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
@@ -208,6 +220,13 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
+
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
@@ -217,12 +236,6 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
             </div>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.NearLocation, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
@@ -232,15 +245,7 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.NearLocation, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code" })
 
-                </div>
-                @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
-            </div>
         </div>
     </div>
 </div>
@@ -257,8 +262,41 @@
         </div>
     </div>
 </div>
+@Scripts.Render("~/bundles/jquery")
 
+<script>
+    $(document).ready(function () {
+
+        $("#City").attr('disabled', true);
+        $("#State").attr('disabled', true);
+        $("#Country").attr('disabled', true);
+    });
+
+    function GetLocation() {
+            console.log("First step");
+        var Id = $("#Pincode").val();
+            debugger
+            if (Id.length == 6) {
+                $.ajax({
+                    url: "/DropdownBind/GetLocationByPinCode",
+                    async: true,
+                    type: "GET",
+                    data: { pin: Id },
+                    success: function (result) {
+                        $("#City").val(result.City);
+                        $("#State").val(result.State);
+                        $("#Country").val(result.Country);
+                        $("#CityId").val(result.CityId);
+                        $("#StateId").val(result.StateId);
+                        $("#CountryId").val(result.CountryId);
+                    }
+                });
+            }
+        };
+
+</script>
 @Scripts.Render("~/bundles/jqueryval")
+
 
 
 

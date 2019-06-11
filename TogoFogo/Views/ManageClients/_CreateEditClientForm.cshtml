@@ -727,17 +727,15 @@ else
                     if (data.ConPanFileName != null || data.ConPanFileName != "") {
                         $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
                     }
-                    $("#CountryId").val(data.CountryId);
-                                        $("#CurrentIsUser").val(data.CurrentIsUser);
-                    var obj = { value: data.CountryId, Other: data.StateId };
-                    AjaxWithValue('BindStateJson', 'StateId', obj);
-                    obj.value = data.StateId;
-                    obj.Other = data.CityId;
-                    AjaxWithValue('BindLocationJson', 'CityId', obj);
+                   
+                    $("#CurrentIsUser").val(data.CurrentIsUser);
+                    $("#Pincode").val(data.PinNumber);
+                    $("#Country").val(data.Country);
+                    $("#State").val(data.State);
+                    $("#City").val(data.City);
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
-                    $("#NearLocation").val(data.NearLocation);
-                    $("#PinNumber").val(data.PinNumber);
+                    $("#NearLocation").val(data.NearLocation);                    
                     $("#IsUser").prop("checked", data.IsUser);
                     $("#ContactPerson").show();
                 }
