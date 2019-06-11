@@ -46,9 +46,12 @@ namespace TogoFogo.Models
         [DisplayName("Delete Date")]
         public string DeleteDate { get; set; }
         [DisplayName("District Name")]
+        [Required]
         public string DistrictName { get; set; }
 
-        public long PinCode { get; set; }
+        [Required]
+        [DisplayName("Pin Code")]
+        public long? PinCode { get; set; }
 
         public SelectList _CountryList { get; set; }
         public SelectList _StateList { get; set; }

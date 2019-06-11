@@ -8,7 +8,8 @@ namespace TogoFogo.Filters
     public class FilterModel
     {
         public Guid? ProviderId { get; set; }
-        public Guid? CompId { get; set; }  
+        public Guid? CompId { get; set; }
+        public Guid? ServiceId { get; set; }
         public Guid? RefKey { get; set; }
         public Guid? ClientId { get; set; }
         public int UserId { get; set; }

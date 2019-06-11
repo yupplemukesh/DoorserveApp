@@ -4,71 +4,72 @@
 }
 @using (Html.BeginForm("AddCityLocation", "ManageCityLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextBoxFor(model => model.LocationName, null, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.DropDownListFor(model => model.CountryId, Model._CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
-            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.DropDownListFor(model => model.StateId, Model._StateList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.DistrictName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextBoxFor(model => model.DistrictName, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.DistrictName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.PinCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextBoxFor(model => model.PinCode, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.PinCode, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
-            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
 
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
-            @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.CountryId, Model._CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
+                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.StateId, Model._StateList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.DistrictName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.DistrictName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DistrictName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.PinCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.PinCode, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PinCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.LocationName, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.CheckBoxFor(m => m.IsActive, new { @checked = "checked" })
+                @*@Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
                 {
                     new SelectListItem {Text = "Yes", Value = "Yes"},
                     new SelectListItem {Text = "No", Value = "No"}
                 }, "Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                @*<button class="btn btn-primary" type="button">Cancel</button>*@
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
         </div>
     </div>
-    <div class="ln_solid"></div>
-    <div class="form-group">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
-            @*<button class="btn btn-primary" type="button">Cancel</button>*@
-            <button class="btn btn-primary" type="reset">Reset</button>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </div>
-</div>
 
 }
 @if (ViewBag.SortOrder != null)

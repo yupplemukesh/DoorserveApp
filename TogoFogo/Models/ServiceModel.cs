@@ -8,8 +8,9 @@ using System.Web.Mvc;
 
 namespace TogoFogo.Models
 {
-    public class ServiceModel
+    public class ServiceModel:RegistrationModel
     {
+        public Guid? ServiceId { get; set; }
         [Required]
         [DisplayName("Category Name")]
         public int CategoryId { get; set; }
@@ -28,14 +29,14 @@ namespace TogoFogo.Models
         public string DeliveryType { get; set; }
         [Required]
         [DisplayName("Service Delivery Type")]
-        public decimal ServiceCharges { get; set; }
-        public bool IsActive { get; set; }
+        public decimal? ServiceCharges { get; set; }
+     
         public string Remarks{ get; set; }
         public Guid? RefKey { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList SupportedSubCategoryList { get; set; }      
         public SelectList ServiceList { get; set; }     
         public SelectList DeliveryServiceList { get; set; }
-        public long? Id { get; set; }
+       
     }
 }

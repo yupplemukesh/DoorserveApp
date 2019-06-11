@@ -32,6 +32,15 @@ namespace TogoFogo.Repository.Clients
             return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId,@ClientId", sp.ToArray()).ToListAsync();
         }
 
+        public async Task<ServiceModel> GetServiceByServiceId(Guid? serviceId)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            var param = new SqlParameter("@SERVICEID", ToDBNull(serviceId));
+            sp.Add(param);
+            param = new SqlParameter("@REFKEY", DBNull.Value);
+            sp.Add(param);
+            return await  _context.Database.SqlQuery<ServiceModel>("GETSERVICESBYREFKEY @SERVICEID,@REFKEY", sp.ToArray()).FirstOrDefaultAsync();
+        }
         public async Task<ClientModel> GetClientByClientId(Guid? clientId)
         {
             var ClientModel = new ClientModel();
@@ -153,19 +162,47 @@ namespace TogoFogo.Repository.Clients
             return banks;
 
         }
+
+
+        public async Task<ResponseModel> AddEditServices(ServiceModel services)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@SERVICEID", ToDBNull(services.ServiceId));
+            param.SqlDbType = SqlDbType.UniqueIdentifier;
+            sp.Add(param);
+            param = new SqlParameter("@REFKEY", ToDBNull(services.RefKey));
+            param.SqlDbType = SqlDbType.UniqueIdentifier;
+            sp.Add(param);
+            param = new SqlParameter("@CATEGORYID", ToDBNull(services.CategoryId));
+            sp.Add(param);
+            param = new SqlParameter("@SUBCATEGORYID", ToDBNull(services.SubCategoryId));
+            sp.Add(param);
+            param = new SqlParameter("@SERVICETYPEID", ToDBNull(services.ServiceTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@DELIVERYTYPEID", ToDBNull(services.DeliveryTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@SERVICECHARGES", ToDBNull(services.ServiceCharges));
+            sp.Add(param);
+            param = new SqlParameter("@ISACTIVE", ToDBNull(services.IsActive));
+            sp.Add(param);
+            param = new SqlParameter("@REMARKS", ToDBNull(services.Remarks));
+            sp.Add(param);
+            param = new SqlParameter("@ACTION", ToDBNull(services.EventAction));
+            sp.Add(param);
+            var sql = "USPAddOrEditServiceOpted @SERVICEID, @REFKEY,@CATEGORYID,@SUBCATEGORYID,@SERVICETYPEID,@DELIVERYTYPEID, @SERVICECHARGES ,@ISACTIVE ,@REMARKS,@ACTION";
+       
+                var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
+
+
+        }
         public async Task<ResponseModel> AddUpdateDeleteClient(ClientModel client)
         {            
-            string cat = "";
-            if (client.Activetab.ToLower() == "tab-1")
-            {
-                foreach (var item in client.DeviceCategories)
-                {
-                    cat = cat + "," + item;
-
-                }
-                cat = cat.TrimStart(',');
-                cat = cat.TrimEnd(',');
-            }
+        
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@CLIENTID",ToDBNull(client.ClientId));          
             sp.Add(param);
@@ -174,11 +211,7 @@ namespace TogoFogo.Repository.Clients
             param = new SqlParameter("@CLIENTCODE", ToDBNull(client.ClientCode));
             sp.Add(param);
             param = new SqlParameter("@CLIENTNAME", ToDBNull(client.ClientName));
-            sp.Add(param);
-       
-            param = new SqlParameter("@DEVICECATEGORIES", ToDBNull(cat));
-            sp.Add(param);         
-        
+            sp.Add(param);                
             param = new SqlParameter("@ORGNAME", ToDBNull(client.Organization.OrgName));
             sp.Add(param);
             param = new SqlParameter("@ORGCODE", ToDBNull(client.Organization.OrgCode));
@@ -207,17 +240,13 @@ namespace TogoFogo.Repository.Clients
             sp.Add(param);
             param = new SqlParameter("@USER", (object)client.CreatedBy);
             sp.Add(param);            
-            param = new SqlParameter("@SERVICETYPE", ToDBNull(client.ServiceTypes));
-            sp.Add(param);
-            param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(client.ServiceDeliveryTypes));
-            sp.Add(param);
             param = new SqlParameter("@tab", ToDBNull(client.Activetab));
             sp.Add(param);
             param = new SqlParameter("@CompId", ToDBNull(client.CompanyId));
             sp.Add(param);            
-            var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSID,@CLIENTCODE,@CLIENTNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@CompId";      
+            var sql = "USPInsertUpdateDeleteClient @CLIENTID,@PROCESSID,@CLIENTCODE,@CLIENTNAME,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER," +
+                        "@tab,@CompId";      
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

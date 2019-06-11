@@ -9,11 +9,31 @@
             </div>
             <div class="col-md-6 ">
                 <div class="pull-right">
-                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
+
+
+
                     @if (Permissions.Rights.ExcelExport)
                     {
+                        using (Html.BeginForm("ExportToExcel", "ManageCityLocation", FormMethod.Get, new { @class = "dis-inline" }))
+                        {
+
+
+                            <button type="submit" class="btn btn-primary"> Template</button>
+
+                        }
+
                         <button class="btn btn-primary excel">Export to Excel</button>
                     }
+                    @if (Permissions.Rights.Create)
+                    {
+                        <a href="#" data-target="#UploadModel" data-toggle="modal" class="btn btn-primary">
+                            Import
+
+                        </a>
+                    }
+
+                    @*<button class="btn btn-primary excel">Export to Excel</button>*@
+
                 </div>
             </div>
         </div>
@@ -22,7 +42,9 @@
 <div class="panel-body">
     @if (Permissions.Rights.Create)
     {
+      
         @Html.Action("AddCityLocation", "ManageCityLocation")
+
     }
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -65,7 +87,19 @@
 
     </div>
 </div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="UploadModel" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                @using (Html.BeginForm("ImportLocations", "ManageCityLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.Action("_GetUploadForm","ManageServiceProviders")
+                }
+            </div>
 
+        </div>
+    </div>
+</div>
 @if (Model.AddLocation != null)
 {
     <div id="snackbar">@Model.AddLocation</div>

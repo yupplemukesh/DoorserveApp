@@ -20,28 +20,12 @@ namespace TogoFogo.Models
             BankDetails = new List<BankDetailModel>();
             Bank = new BankDetailModel();
             Contact = new OtherContactPersonModel();
-
+            Services = new List<ServiceModel>();
+            Service = new ServiceModel();
         }
         public string Path { get; set; }
-        public string ServiceTypes
-        {
-            get;
-
-            set;
-        }
-        public string ServiceDeliveryTypes
-        {
-            get;set;
-        }
-
+      
        
-        public int? DeviceCategoryId { get; set; }
-        public int? DeviceSubCategoryId { get; set; }
-        public List<int> DeviceCategories { get; set; }
-        public string _deviceCategories {
-            get;
-            set;
-        }
         public string Activetab { get; set; }
         public char action { get; set; }
         public OrganizationModel Organization { get; set; }
@@ -49,6 +33,7 @@ namespace TogoFogo.Models
         public OtherContactPersonModel Contact { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
         public List<ServiceModel> Services { get; set; }
+        public ServiceModel Service { get; set; }
         public BankDetailModel Bank { get; set; }
         public Guid? ClientId { get; set; }
         [Required]
@@ -79,10 +64,7 @@ namespace TogoFogo.Models
        
         public SelectList ProcessList { get; set; }
 
-        public SelectList SupportedCategoryList { get; set; }
-        public SelectList SupportedSubCategoryList { get; set; }
-        public SelectList ServiceList { get; set; }
-        public SelectList DeliveryServiceList { get; set; }
+    
     }
 
     public class SkillValidation : ValidationAttribute

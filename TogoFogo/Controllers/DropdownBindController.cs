@@ -777,7 +777,7 @@ namespace TogoFogo.Controllers
             {
                 List<CountryModel> company = con
                     .Query<CountryModel>(
-                        "select Cnty_ID,Cnty_Name from MstCountry", null,
+                        "select Cnty_ID,Cnty_Name from MstCountry where IsActive=1 Order By Cnty_Name ", null,
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
@@ -1643,6 +1643,7 @@ namespace TogoFogo.Controllers
             try
             {
                 var _contact = await _ContactRepo.GetContactPersonByContactId(Id);
+                if(_contact!=null)
                 _contact.CurrentIsUser = _contact.IsUser;
                 return Json(_contact, JsonRequestBehavior.AllowGet);
             }
