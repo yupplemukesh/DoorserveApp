@@ -21,6 +21,7 @@ namespace TogoFogo.Models
         public virtual int? CityId { get; set; }      
         public string City { get; set; }
         public string State { get; set; }
+        public string Country { get; set; }
         public virtual string Address { get; set; } 
         public string Locality { get; set; }
         [DisplayName("Near By Location")]
