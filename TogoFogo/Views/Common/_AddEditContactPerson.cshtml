@@ -181,9 +181,8 @@
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.City, new { @class = "form-control", id = "City" })
-                    @Html.HiddenFor(model => model.CityId, new { id = "CityId" })
-                </div>
-                @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+               </div>
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
@@ -267,9 +266,9 @@
 <script>
     $(document).ready(function () {
 
-        $("#City").attr('disabled', true);
-        $("#State").attr('disabled', true);
-        $("#Country").attr('disabled', true);
+        $("#City").attr('readonly', true);
+        $("#State").attr('readonly', true);
+        $("#Country").attr('readonly', true);
     });
 
     function GetLocation() {
@@ -285,8 +284,7 @@
                     success: function (result) {
                         $("#City").val(result.City);
                         $("#State").val(result.State);
-                        $("#Country").val(result.Country);
-                        $("#CityId").val(result.CityId);
+                        $("#Country").val(result.Country);                        
                         $("#StateId").val(result.StateId);
                         $("#CountryId").val(result.CountryId);
                     }
