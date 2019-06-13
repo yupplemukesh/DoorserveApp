@@ -113,7 +113,6 @@ namespace TogoFogo.Repository.Clients
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),                   
                     IsActive = Convert.ToBoolean(reader["IsActive"].ToString()),                   
                     AddresssId = new Guid(reader["AddresssId"].ToString()),
-                     CityId = Convert.ToInt32(reader["CityId"].ToString()),
                      CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
                      StateId = Convert.ToInt32(reader["StateId"].ToString()),
                      AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
@@ -121,7 +120,9 @@ namespace TogoFogo.Repository.Clients
                      NearLocation = reader["NearLocation"].ToString(),
                      PinNumber = reader["PinNumber"].ToString(),
                      Address = reader["Address"].ToString(),
-                    City = reader["City"].ToString()
+                    City = reader["City"].ToString(),
+                    State = reader["State"].ToString(),
+                    Country = reader["Country"].ToString()
                 };
 
                 person.ConVoterIdFileUrl = "/UploadedImages/Clients/VoterIds/" + person.ConVoterIdFileName;

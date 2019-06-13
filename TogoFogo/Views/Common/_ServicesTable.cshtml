@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TogoFogo.Models.ServiceOfferedModel>
+﻿@model IEnumerable<TogoFogo.Models.ServiceModel>
 @using TogoFogo.Models
 @{ 
 
@@ -22,16 +22,13 @@
                         @Html.DisplayName("Service Type")
                     </th>
                     <th>
-                        @Html.DisplayName("Delivery Service Type")
+                        @Html.DisplayName("Service Delivery Type")
                     </th>
                     <th>
                         @Html.DisplayName("Service Charges")
                     </th>
                     <th>
                         @Html.DisplayName("Remarks")
-                    </th>
-                    <th>
-                        @Html.DisplayName("PinCodes")
                     </th>
                     <th>
                         @Html.DisplayName("IsActive")
@@ -43,42 +40,40 @@
 
             @foreach (var item in Model)
             {
-                 <tr>
-            <td>
-                @count
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubCategory)
-            </td>
-            <td>
-                @item.ServiceType
+                <tr>
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategory)
+                    </td>
+                    <td>
+                        @item.ServiceType
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeliveryType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceCharges)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                  
+                    <td style="display: inline-flex">
+                        @if (Permissions.Rights.Edit)
+                        {
+                            <a href="#" onclick="EditService('@item.ServiceId')"  class="btn btn-small btn-info btnSize">Edit</a>
+                        }
 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeliveryType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServiceCharges)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remarks)
-            </td>
-            <td>
-                <a href="@Url.Action("GetPinByService","ManagePins", new {@serviceId=item.ServiceId })">@item.CountPin</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td style="display: inline-flex">
-                @if (Permissions.Rights.Edit)
-                {
-                    <a href="#" onclick="EditService('@item.ServiceId')" class="btn btn-small btn-info btnSize">Edit</a>
-                }
-            </td>
-        </tr>
+                    </td>
+                </tr>
                 count++;
             }
 

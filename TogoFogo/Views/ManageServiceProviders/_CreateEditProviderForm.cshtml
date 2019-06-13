@@ -562,7 +562,7 @@ else
 
     </div>
     <div class="row">
-        @Html.Partial("~/Views/Common/_ServicesTable.cshtml", Model.Services)
+        @Html.Partial("~/Views/Common/_ServicesOptedTable.cshtml", Model.Services)
     </div>
 </div>
 
@@ -572,22 +572,22 @@ else
     </div>
 
 </div>
-
-
-
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 <script>
-    var DivName = $('.nav-tabs .active a').attr('href');
-    activaTab(DivName);
+      $(document).ready(function () {
+              $("#ServiceForm").find("input[type=text], textarea,select").val("");        
+              $("#ServiceForm").closest('form').find("input[type=checkbox]").prop('checked', false);
+              $('.selectpicker').selectpicker('refresh');
+              var DivName = $('.nav-tabs .active a').attr('href');
+              activaTab(DivName);
+          })
 
     function activaTab(tab) {
-
         $(tab).addClass("active in");
     };
     $("#AddContactPerson").click(function () {
         $('#ContactPerson').find(':input,select').each(function () {
-            debugger
             switch (this.type) {
                 case 'button':
                 case 'text':
@@ -680,7 +680,6 @@ else
         });
     }
     function getItems(Id, method) {
-        debugger
         var val = Id;
         $.ajax({
             type: "GET",
@@ -749,5 +748,32 @@ else
 
             }
         });
+    }
+
+     function EditService(Service) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetService","ManageClients")',
+            data: { "serviceId": Service },
+                   async: true,
+            contentType: "application/json",
+            success: function (data) {                       
+                    $("#ServiceId").val(data.ServiceId);
+                    $("#CategoryId").val(data.CategoryId);
+                    $("#ServiceTypeId").val(data.ServiceTypeId);
+                    $("#DeliveryTypeId").val(data.DeliveryTypeId);
+                    $("#ServiceCharges").val(data.ServiceCharges);
+                   $("#Remarks").val(data.Remarks);
+                 var obj = { value: data.CategoryId, Other: data.SubCategoryId };
+                AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', obj);
+                $("#IsActive").prop("checked", data.IsActive);
+                    $("#CountryId").val(data.CountryId);
+
+                
+                }
+
+            
+        });
+
     }
 </script>

@@ -203,9 +203,7 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             if (TempData["client"] != null)
             {
-                contact.ContactId = new Guid(response.result);
-                var cityName =  dropdown.BindLocation(contact.StateId).Where(x=> x.Value==contact.CityId.ToString()).FirstOrDefault();
-                contact.City = cityName.Text;
+                contact.ContactId = new Guid(response.result);      
                 Client.ContactPersons.Add(contact);
                 Client.action = 'I';
                 Client.Activetab = "tab-4";
