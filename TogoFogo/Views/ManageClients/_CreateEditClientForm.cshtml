@@ -179,8 +179,8 @@
                             <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
                         </a>
                     </li>
-                    <li>
-                        <a class="active" href="#tab-5"  id="tab5" role="tab" data-toggle="tab">
+                    <li class="active">
+                        <a  href="#tab-5"  id="tab5" role="tab" data-toggle="tab">
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Services Opted
                         </a>
                     </li>
@@ -218,8 +218,8 @@
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Services Opted
                         </a>
                     </li>
-                    <li>
-                        <a href="#tab-6" class="active" id="tab6" role="tab" data-toggle="tab" >
+                    <li class="active">
+                        <a href="#tab-6"  id="tab6" role="tab" data-toggle="tab" >
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
                         </a>
                     </li>
@@ -249,53 +249,63 @@ else
                     @Html.HiddenFor(x => x.ClientId)
                     @Html.HiddenFor(x => x.action)
                     @Html.HiddenFor(x => x.CurrentClientName)
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-
-                        <!-- Select Basic -->
-                        <div class=" row form-group">
-                            <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>
-                            <div class="col-md-9">
-                                @Html.DropDownListFor(model => model.ProcessId, Model.ProcessList, "Select", new { @class = "form-control" })
-                                @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
-                                @Html.ValidationMessageFor(model => model.ProcessId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <!-- Text input-->
-                        @if (Model.action == 'U')
-                        {
-                            <div class=" row form-group">
-                                <label class="col-md-3 " for="textinput">Client Code</label>
-                                <div class="col-md-9">
-                                    @Html.TextBoxFor(model => model.ClientCode, new { @class = "form-control input-md", @placeholder = "Client Code" })
-                                    @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        }
-
-
-                        <!-- Text input-->
-                        <div class=" row form-group">
-                            <label class="col-md-3 " for="textinput">Client Name</label>
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.ClientName, new { @class = "form-control input-md", @placeholder = "Client Name" })
-                                @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-
-
-                        <div class="row form-group pull-right">
-                            @if (Model.action == 'I')
-                            {
-                                <button type="button" class="btn btn-primary reset">RESET</button>
-                            }
-                            <button class="btn btn-primary">
-                                SAVE
-
-                            </button>
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                    @if(Model.IsSuperAdmin)
+                    { 
+                    <div class=" row form-group">
+                        <label class="col-md-3 control-label" for="selectbasic">Company	</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList, "Select", new { @class = "form-control" })
+                            @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
+                            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                        }
+                    <!-- Select Basic -->
+                    <div class=" row form-group">
+                        <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.ProcessId, Model.ProcessList, "Select", new { @class = "form-control" })
+                            @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
+                            @Html.ValidationMessageFor(model => model.ProcessId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    @if (Model.action == 'U')
+                    {
+                        <div class=" row form-group">
+                            <label class="col-md-3 " for="textinput">Client Code</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.ClientCode, new { @class = "form-control input-md", @placeholder = "Client Code" })
+                                @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    }
+
+
+                    <!-- Text input-->
+                    <div class=" row form-group">
+                        <label class="col-md-3 " for="textinput">Client Name</label>
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(model => model.ClientName, new { @class = "form-control input-md", @placeholder = "Client Name" })
+                            @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <div class="row form-group pull-right">
+                        @if (Model.action == 'I')
+                        {
+                            <button type="button" class="btn btn-primary reset">RESET</button>
+                        }
+                        <button class="btn btn-primary">
+                            SAVE
+
+                        </button>
+                    </div>
+                </div>
 
                 }
             </div>
@@ -465,11 +475,11 @@ else
 <div class="container-fluid tab-form-control">
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-            @using (Html.BeginForm("AddOrEditService", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+            @using (Html.BeginForm("AddOrEditService", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "ServiceForm" }))
             {
                 @Html.HiddenFor(x => x.ClientId)
                 @Html.HiddenFor(x => x.action)
-                @Html.HiddenFor(x => x.CurrentUserName)
+          
                 @Html.Partial("~/views/common/_ServicesAddEditForm.cshtml", Model.Service)
 
 
@@ -517,7 +527,7 @@ else
             {
                 @Html.HiddenFor(x => x.ClientId)
                 @Html.HiddenFor(x => x.action)
-                @Html.HiddenFor(x => x.CurrentUserName)
+   
                 <!-- Select Basic -->
                 <div class="row form-group">
                     <label class="col-md-3 control-label" for="selectbasic">
@@ -572,8 +582,17 @@ else
 
 
 @Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-<script>
+@Scripts.Render("~/bundles/jqueryval")    
+          <script>
+              $(document).ready(function () {
+                  $("#ServiceForm").find("input[type=text], textarea,select").val("");
+        
+              $("#ServiceForm").closest('form').find("input[type=checkbox]").prop('checked', false);
+              $('.selectpicker').selectpicker('refresh');
+
+          })
+
+
     var DivName = $('.nav-tabs .active a').attr('href');
     activaTab(DivName);
     function activaTab(tab) {
@@ -757,11 +776,11 @@ else
                     $("#CategoryId").val(data.CategoryId);
                     $("#ServiceTypeId").val(data.ServiceTypeId);
                     $("#DeliveryTypeId").val(data.DeliveryTypeId);
-                $("#ServiceCharges").val(data.ServiceCharges);
+                     $("#ServiceCharges").val(data.ServiceCharges);
                                      $("#Remarks").val(data.Remarks);
                  var obj = { value: data.CategoryId, Other: data.SubCategoryId };
                 AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', obj);
-                                                     $("#IsActive").prop("checked", data.isActtive);
+                                                     $("#IsActive").prop("checked", data.IsActive);
                 
                 }
 

@@ -368,6 +368,18 @@ namespace TogoFogo
                 return _serviceCeters;
             }
         }
+
+        public static async Task<List<CheckBox>> GetCompanies()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                string query = "SELECT Guid Name ,CompanyName Text FROM MSTCompany where IsActive=1 order by CompanyName";
+                SqlParameter param = new SqlParameter();
+              
+                var _companies= await _context.Database.SqlQuery<CheckBox>(query).ToListAsync();
+                return _companies;
+            }
+        }
         public static async Task<List<CheckBox>> GetDepartments()
         {
             using (var _context = new ApplicationDbContext())

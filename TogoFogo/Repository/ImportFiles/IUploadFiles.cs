@@ -16,6 +16,7 @@ namespace TogoFogo.Repository
         Task<CallsViewModel> GetAssingedCalls(FilterModel filterModel);
         Task<MainClientDataModel> GetExportAssingedCalls(FilterModel filterModel);
         Task<ResponseModel> UploadServiceProviders(ProviderFileModel provider, DataTable table);
+        Task<ResponseModel> UploadCityLocations(ProviderFileModel provider, DataTable table);
         void Save();
     }
 }

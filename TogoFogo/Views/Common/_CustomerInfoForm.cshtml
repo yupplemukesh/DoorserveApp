@@ -135,23 +135,9 @@
                         </div>
                     <div class="form-material m-t-5">
                         <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group has-value">
-                                    @Html.DropDownListFor(x => x.CityId, Model.CityList, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.CityId, "", new { @class = "text-danger" })
-                                    <label class="floating-label  t-0">City</label>
-                                </div>
-                            </div>
-                            
 
 
-                            <div class="col-sm-3">
-                                <div class="form-group has-value">
-                                    @Html.DropDownListFor(x => x.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
-                                    @Html.ValidationMessageFor(x => x.StateId, "", new { @class = "text-danger" })
-                                    <label class="floating-label  t-0">State</label>
-                                </div>
-                            </div>
+
                             <div class="col-sm-3">
                                 <div class="form-group has-value">
                                     @Html.DropDownListFor(x => x.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
@@ -159,7 +145,21 @@
                                     <label class="floating-label t-0">Country</label>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="form-group has-value">
+                                    @Html.DropDownListFor(x => x.StateId, Model.StateList, new { @class = "form-control", onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)" })
+                                    @Html.ValidationMessageFor(x => x.StateId, "", new { @class = "text-danger" })
+                                    <label class="floating-label  t-0">State</label>
+                                </div>
+                            </div>
 
+                            <div class="col-sm-3">
+                                <div class="form-group has-value">
+                                    @Html.DropDownListFor(x => x.CityId, Model.CityList, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.CityId, "", new { @class = "text-danger" })
+                                    <label class="floating-label  t-0">City</label>
+                                </div>
+                            </div>
 
 
                         </div>

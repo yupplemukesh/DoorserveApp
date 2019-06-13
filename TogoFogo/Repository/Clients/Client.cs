@@ -62,7 +62,7 @@ namespace TogoFogo.Repository.Clients
                     if (ClientModel == null)
                         ClientModel = new ClientModel();
                     ClientModel.CurrentClientName = ClientModel.ClientName;
-                    ClientModel.CurrentUserName = ClientModel.UserName;
+      
                     reader.NextResult();
 
                     ClientModel.Organization =

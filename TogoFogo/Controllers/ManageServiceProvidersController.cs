@@ -242,7 +242,7 @@ namespace TogoFogo.Controllers
         }
 
         // POST: ManageClient/Create  
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
@@ -252,79 +252,8 @@ namespace TogoFogo.Controllers
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["provider"] as ServiceProviderModel;
             provider.Organization = new OrganizationModel();
-            if (provider.ServiceList.Where(x => x.IsChecked == true).Count() < 1 || provider.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
-            {
 
-                provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-                provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-                provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-                provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
-                provider.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
-                provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                provider.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-                provider.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
 
-                if (provider.action == 'I')
-                    return View("Create", provider);
-                else
-                    return View("Edit", provider);
-            }
-            if (TempData["provider"] != null)
-            {
-                provider = cltns;
-
-                string _servicetype = "";
-                foreach (var item in provider.ServiceList)
-                {
-                    if (item.IsChecked)
-                        _servicetype = _servicetype + "," + item.Value;
-
-                }
-                _servicetype = _servicetype.TrimEnd(',');
-                _servicetype = _servicetype.TrimStart(',');
-
-                string __deliveryType = "";
-                foreach (var item in provider.DeliveryServiceList)
-                {
-                    if (item.IsChecked)
-                        __deliveryType = __deliveryType + "," + item.Value;
-
-                }
-                __deliveryType = __deliveryType.TrimStart(',');
-                __deliveryType = __deliveryType.TrimEnd(',');
-                provider.ServiceTypes = _servicetype;
-                provider.ServiceDeliveryTypes = __deliveryType;
-
-            }
-            else
-            {
-
-                string _servicetype = "";
-                foreach (var item in provider.ServiceList)
-                {
-                    if (item.IsChecked)
-                        _servicetype = _servicetype + "," + item.Value;
-
-                }
-                _servicetype = _servicetype.TrimEnd(',');
-                _servicetype = _servicetype.TrimStart(',');
-
-                string __deliveryType = "";
-                foreach (var item in provider.DeliveryServiceList)
-                {
-                    if (item.IsChecked)
-                        __deliveryType = __deliveryType + "," + item.Value;
-
-                }
-                __deliveryType = __deliveryType.TrimStart(',');
-                __deliveryType = __deliveryType.TrimEnd(',');
-                provider.ServiceTypes = _servicetype;
-                provider.ServiceDeliveryTypes = __deliveryType;
-
-            }
-
-            provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
@@ -333,35 +262,49 @@ namespace TogoFogo.Controllers
             provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             provider.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
             provider.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-
-            try
+            provider.Service = new ServiceOfferedModel
             {
-                provider.Activetab = "tab-1";
-                provider.CreatedBy = SessionModel.UserId;
-                var response = await _provider.AddUpdateDeleteProvider(provider);
-                _provider.Save();
-                provider.ProviderId = new Guid(response.result);
-                TempData["response"] = response;
-                if (provider.action == 'I')
-                {
-                    provider.Activetab = "tab-2";
-                    TempData["provider"] = provider;
-                    TempData.Keep("provider");
-                    return View("Create", provider);
-                }
-                else
-                    return RedirectToAction("Index");
-
-            }
-            catch (Exception ex)
+                SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text"),
+                DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text"),
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                CityList = new SelectList(Enumerable.Empty<SelectList>()),
+                PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
+            };
+            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
             {
-                if (provider.action == 'I')
-                    return View("Create", provider);
-                else
-                    return View("Edit", provider);
+                provider.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                provider.IsSuperAdmin = true;
             }
+
+            if (TempData["provider"] != null)
+                provider = cltns;            
+            else
+            {            
+                    provider.Activetab = "tab-1";
+                    provider.CreatedBy = SessionModel.UserId;
+                                                           
+            }
+            if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
+                provider.CompanyId = SessionModel.CompanyId;
+            var response = await _provider.AddUpdateDeleteProvider(provider);
+            _provider.Save();
+            provider.ProviderId = new Guid(response.result);
+            provider.Service.RefKey = provider.ProviderId;
+            TempData["response"] = response;
+            provider.Activetab = "tab-2";
+
+            if (provider.action == 'I')
+            {
+                TempData["provider"] = provider;
+                return View("Create", provider);
+             
+            }
+            else
+                return View("Edit", provider);
         }
-
         [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
@@ -444,8 +387,8 @@ namespace TogoFogo.Controllers
             {
                 cltns.Remarks = provider.Remarks;
                 cltns.IsActive = provider.IsActive;
-                cltns.IsUser = provider.IsUser;
-                cltns.UserName = provider.UserName;
+              
+            
                 cltns.Password = provider.Password;
                 provider = cltns;
             }
@@ -487,20 +430,30 @@ namespace TogoFogo.Controllers
             var Provider = await _provider.GetProviderById(ProviderId);
 
             Provider.Path = _path;
-            Provider.CompanyId = SessionModel.CompanyId;
+            
 
 
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
 
-            Provider.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+
             Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Provider.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Provider.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Provider.ServiceList = await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId);
-            Provider.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
+            Provider.Service = new ServiceOfferedModel
+            {
+                SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text"),
+                DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text"),
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                CityList = new SelectList(Enumerable.Empty<SelectList>()),
+                PinCodeList= new SelectList(Enumerable.Empty<SelectList>()),
+                RefKey=ProviderId
+            };
 
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
 
@@ -508,41 +461,18 @@ namespace TogoFogo.Controllers
             Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Provider.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             Provider.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
+            {
+                Provider.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                Provider.IsSuperAdmin = true;
+                
+            }
+            else
+                Provider.CompanyId = SessionModel.CompanyId;
             if (ProviderId != null)
                 Provider.action = 'U';
             else
                 Provider.action = 'I';
-            List<int> List = new List<int>();
-            if (!string.IsNullOrEmpty(Provider._deviceCategories))
-            {
-                var _deviceCat = Provider._deviceCategories.Split(',');
-                for (int i = 0; i < _deviceCat.Length; i++)
-                {
-                    List.Add(Convert.ToInt16(_deviceCat[i]));
-                }
-            }
-            if (!string.IsNullOrEmpty(Provider.ServiceDeliveryTypes))
-            {
-                var _DeliveryService = Provider.ServiceDeliveryTypes.Split(',');
-                for (int i = 0; i < _DeliveryService.Length; i++)
-                {
-                    var item = Provider.DeliveryServiceList.Where(x => x.Value == Convert.ToInt32(_DeliveryService[i])).FirstOrDefault();
-                    if (item != null)
-                        item.IsChecked = true;
-
-                }
-            }
-            if (!string.IsNullOrEmpty(Provider.ServiceTypes))
-            {
-                var _serviceType = Provider.ServiceTypes.Split(',');
-                for (int i = 0; i < _serviceType.Length; i++)
-                {
-                    var item = Provider.ServiceList.Where(x => x.Value == Convert.ToInt32(_serviceType[i])).FirstOrDefault();
-                    if (item != null)
-                        item.IsChecked = true;
-                }
-            }
-            Provider.DeviceCategories = List;
             return Provider;
         }
 
@@ -556,33 +486,8 @@ namespace TogoFogo.Controllers
             {
 
                 provider.Organization = new OrganizationModel();
-                if (provider.Activetab.ToLower() == "tab-1")
-                {
-
-                    string _servicetype = "";
-                    foreach (var item in provider.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
-
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
-
-
-                    string __deliveryType = "";
-                    foreach (var item in provider.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
-
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    provider.ServiceTypes = _servicetype;
-                    provider.ServiceDeliveryTypes = __deliveryType;
-                }
-                else if (provider.Activetab.ToLower() == "tab-2")
+         
+                 if (provider.Activetab.ToLower() == "tab-2")
                     provider.Organization = org;
 
                 provider.CreatedBy = SessionModel.UserId;

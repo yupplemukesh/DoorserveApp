@@ -91,7 +91,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body mb-0 p-0">
-                @using (Html.BeginForm("ImportLocations", "ManageCityLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Import", "ManageCityLocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.Action("_GetUploadForm","ManageServiceProviders")
                 }
@@ -122,6 +122,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         function EditCity(LocationId) {
+            debugger
             $.ajax({
                 type: 'GET',
                 url: "/ManageCitylocation/EditCityLocation?LocationId=" + LocationId,

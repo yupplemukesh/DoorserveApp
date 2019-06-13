@@ -290,11 +290,14 @@ namespace TogoFogo.Controllers
                 SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>()),
                 ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text"),
                 DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text"),
-                RefKey = clientId
-                   
-             
+                RefKey = clientId                    
             };
-
+            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
+            {
+                Client.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                Client.IsSuperAdmin = true;
+            }
+          
             if (clientId != null)
                 Client.action = 'U';
             else
@@ -342,7 +345,11 @@ namespace TogoFogo.Controllers
                 client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-
+                if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
+                {
+                    client.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                    client.IsSuperAdmin = true;
+                }
                 client.Service = new ServiceModel
                 {
                     SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
@@ -358,35 +365,26 @@ namespace TogoFogo.Controllers
                     IsActive = false
 
                 };
-                try
-                {
+              
                     client.Activetab = "tab-1";
                     client.CreatedBy = SessionModel.UserId;
+                    if(!SessionModel.UserTypeName.ToLower().Contains("super admin"))
                     client.CompanyId = SessionModel.CompanyId;
-                    var response = await _client.AddUpdateDeleteClient(client);
-                    _client.Save();
-                    client.ClientId = new Guid(response.result);
-                    client.Service.RefKey = client.ClientId;
-                   TempData["response"] = response;
-                    if (client.action == 'I')
-                    {
-                        client.Activetab = "tab-2";
-                        TempData["client"] = client;
-                        TempData.Keep("client");
-                        return View("Create", client);
-                    }
-                    else
-                        return RedirectToAction("Index");
-
-                }
-                catch (Exception ex)
-                {
-                    if (client.action == 'I')
-                        return View("Create", client);
-                    else
-                        return View("Edit", client);
-                }
+                              
             }
+            var response = await _client.AddUpdateDeleteClient(client);
+            _client.Save();
+            client.ClientId = new Guid(response.result);
+            client.Service.RefKey = client.ClientId;
+            TempData["response"] = response;
+            client.Activetab = "tab-2";
+            if (client.action == 'I')
+            {               
+                TempData["client"] = client;
+                TempData.Keep("client");
+                return View("Create", client);
+            }
+            else
             return View("Edit", client);
         }
 
@@ -424,38 +422,26 @@ namespace TogoFogo.Controllers
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-            try
+      
+
+            client.Activetab = "tab-2";
+            client.CreatedBy = SessionModel.UserId;
+            client.CompanyId = SessionModel.CompanyId;
+            var response = await _client.AddUpdateDeleteClient(client);
+            _client.Save();
+            client.ClientId = new Guid(response.result);
+            TempData["response"] = response;
+            TempData.Keep("response");
+            if (client.action == 'I')
             {
-
-                client.Activetab = "tab-2";
-                client.CreatedBy = SessionModel.UserId;
-                client.CompanyId = SessionModel.CompanyId;
-                var response = await _client.AddUpdateDeleteClient(client);
-                _client.Save();
-                client.ClientId = new Guid(response.result);
-                TempData["response"] = response;
-                TempData.Keep("response");
-                if (client.action == 'I')
-                {
-                    client.Activetab = "tab-3";
-                    TempData["client"] = client;
-                    TempData.Keep("client");
-                    return View("Create",client);
-
-                }
-                else
-                    return RedirectToAction("Index");
-
-
+                client.Activetab = "tab-3";
+                TempData["client"] = client;
+                TempData.Keep("client");
+                return View("Create", client);
 
             }
-            catch (Exception ex)
-            {
-                if (client.action == 'I')
-                    return View("Create",client);
-                 else
-                    return RedirectToAction("Index");
-            }
+            else
+                return View("Edit", client);
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
@@ -463,37 +449,26 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {
             var SessionModel = Session["User"] as SessionModel;
-            if (client.IsUser && !string.IsNullOrEmpty(client.Password))
-                client.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(client.Password, true);
+       
 
             var cltns = TempData["client"] as ClientModel;
             client.Organization = new OrganizationModel();
             if (TempData["client"] != null)
             {
                 cltns.Remarks = client.Remarks;
-                cltns.IsActive = client.IsActive;
-                cltns.IsUser = client.IsUser;
-                cltns.UserName = client.UserName;
-                cltns.Password = client.Password;
+                cltns.IsActive = client.IsActive;    
                 client = cltns;               
-            }                    
-            try
-            {
-                client.Activetab = "tab-5";
-                client.CreatedBy = SessionModel.UserId;
-                var response = await _client.AddUpdateDeleteClient(client);
-                _client.Save();
-                client.ClientId = new Guid(response.result);
-                TempData["response"] = response; 
-               return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (client.action == 'I')
-                    return View("Create", client);
-                else
-                    return RedirectToAction("Index");
-            }
+
+            client.CreatedBy = SessionModel.UserId;
+            client.CompanyId = SessionModel.CompanyId;
+            client.Activetab = "tab-5";
+
+            var response = await _client.AddUpdateDeleteClient(client);
+            _client.Save();
+            client.ClientId = new Guid(response.result);         
+            TempData["response"] = response;
+            return RedirectToAction("Index");
         }
 
         // GET: ManageClient/Edit/5

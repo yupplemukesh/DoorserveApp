@@ -47,7 +47,7 @@ namespace TogoFogo.Models
     public class RegistrationModel
     {
        public  bool IsActive { get; set; }
-       public string Comments { get; set; } 
+       public string Remarks { get; set; } 
        public bool IsUser { get; set; }
        public DateTime LastUpdateDate { get; set; }
        public string LastUpdatedBy { get; set; }

@@ -4,7 +4,7 @@
 <div class=" row form-group">
     <label class="col-md-2 control-label" for="selectbasic">Device Category	</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.CategoryId, Model.SupportedCategoryList, "-Select-", htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)"  })
+        @Html.DropDownListFor(model => model.CategoryId, Model.SupportedCategoryList, "-Select-", htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
         @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
     </div>
     <label class="col-md-2 control-label" for="selectbasic">Device Sub-Category	</label>
@@ -60,3 +60,7 @@
 
 
 </div>
+
+
+
+

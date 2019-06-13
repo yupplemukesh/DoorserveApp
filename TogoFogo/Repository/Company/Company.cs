@@ -65,7 +65,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@IsActive", ToDBNull(company.IsActive));
             sp.Add(param);         
-            param = new SqlParameter("@Comments", ToDBNull(company.Comments));
+            param = new SqlParameter("@Comments", ToDBNull(company.Remarks));
             sp.Add(param);
             param = new SqlParameter("@ActiveTab", ToDBNull(company.ActiveTab));
             sp.Add(param);      
@@ -98,7 +98,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ISACTIVE", ToDBNull(agreement.IsActive));
             sp.Add(param);
-            param = new SqlParameter("@COMMENTS", ToDBNull(agreement.Comments));
+            param = new SqlParameter("@COMMENTS", ToDBNull(agreement.Remarks));
             sp.Add(param);
             param = new SqlParameter("@SERVICETYPES", ToDBNull(agreement.ServiceTypes));
             sp.Add(param);

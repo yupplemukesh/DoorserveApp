@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
 using TogoFogo.Models;
 using TogoFogo.Permission;
+using TogoFogo.Repository;
+using TogoFogo.Repository.ImportFiles;
 
 namespace TogoFogo.Controllers
 {
@@ -16,8 +21,15 @@ namespace TogoFogo.Controllers
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        DropdownBindController dropdown = new DropdownBindController();
+        private readonly DropdownBindController dropdown;
+        private readonly IUploadFiles _RepoUploadFile;
 
+        public ManageCityLocationController()
+        {
+            _RepoUploadFile = new UploadFiles();
+            dropdown= new DropdownBindController();
+
+        }
         // GET: ManageCityLocation
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Cities_Locations)]
         public ActionResult ManageCityLocation()
@@ -180,6 +192,122 @@ namespace TogoFogo.Controllers
             }
 
             return RedirectToAction("ManageCityLocation");
+        }
+
+        [HttpPost]
+        private string SaveFile(HttpPostedFileBase file, string folderName)
+        {
+            try
+            {
+                string path = Server.MapPath("~/Files/" + folderName);
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                var fileFullName = file.FileName;
+                var fileExtention = Path.GetExtension(fileFullName);
+                var fileName = Guid.NewGuid();
+                var savedFileName = fileName + fileExtention;
+                file.SaveAs(Path.Combine(path, savedFileName));
+                return savedFileName;
+            }
+            catch (Exception ex)
+            {
+
+                return ViewBag.Message = ex.Message;
+            }
+        }
+
+        [HttpPost]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
+        public async Task<ActionResult> Import(ProviderFileModel provider)
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            provider.CompanyId = SessionModel.CompanyId;
+            provider.UserId = SessionModel.UserId;
+
+            if (provider.DataFile != null)
+            {
+                string FileName = SaveFile(provider.DataFile, "Locations");
+                var excelPath = Server.MapPath("~/Files/Locations/");
+                string conString = string.Empty;
+                string extension = Path.GetExtension(provider.DataFile.FileName);
+                switch (extension)
+                {
+                    case ".xls": //Excel 97-03
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx": //Excel 07 or higher
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+
+                }
+
+                conString = string.Format(conString, excelPath+FileName);
+                DataTable dtExcelData = new DataTable();
+                using (OleDbConnection excel_con = new OleDbConnection(conString))
+                {
+                    excel_con.Open();
+
+                    string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                    dtExcelData.Columns.AddRange(new DataColumn[6] {
+                new DataColumn("Country Name", typeof(string)),
+                new DataColumn("State Name", typeof(string)),
+                new DataColumn("District Name", typeof(string)),
+                new DataColumn("Pin Code", typeof(string)),
+                new DataColumn("Location Name", typeof(string)),
+                   new DataColumn("Is Active", typeof(string))
+                });
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Country Name],[State Name], [District Name],[Pin Code],[Location Name] ,[IS Active] FROM [" + sheet1 + "] where [Country Name] is not null", excel_con))
+                    {
+                        oda.Fill(dtExcelData);
+                    }
+                    excel_con.Close();
+
+                }
+                try
+                {
+                    provider.FileName=FileName;
+
+                    var response = await _RepoUploadFile.UploadCityLocations(provider, dtExcelData);
+                    if (!response.IsSuccess)
+                        System.IO.File.Delete(excelPath);
+                    TempData["response"] = response;
+                    return RedirectToAction("ManageCityLocation");
+                }
+                catch (Exception ex)
+
+                {
+                    if (System.IO.File.Exists(excelPath))
+                        System.IO.File.Delete(excelPath);
+                    return RedirectToAction("ManageCityLocation");
+
+                }
+            }
+            return RedirectToAction("index");
+
+        }
+
+      
+
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Cities_Locations)]
+        public async Task<FileContentResult> ExportToExcel()
+        {
+
+            string[] columns = new string[]{ "CountryName", "StateName", "DistrictName","PinCode","LocationName","IsActive"};
+            var providerData = new List<ManageLocation> { new ManageLocation
+                {
+                CountryName="India",
+                StateName="Uttar Pradesh",
+                DistrictName="Mathura",
+                PinCode=281204,
+                LocationName="Raya",
+                IsActive=true
+                }};
+            byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
+
         }
     }
 }

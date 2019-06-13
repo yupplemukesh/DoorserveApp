@@ -50,18 +50,13 @@ namespace TogoFogo.Models
         public string CurrentClientName { get; set; }
         [DisplayName("Organization Name")]
         public string ORGNAME { get; set; }
-        [Required]
-        [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", AdditionalFields= "CurrentUserName",  ErrorMessage = "UserName already exists!")]
-        public string UserName { get; set; }
-        [Required]
-        public string CurrentUserName { get; set;}
-        [DisplayName("Is Active ?")]
-        public string Remarks { get; set; }
+        public bool IsSuperAdmin { get; set; }
+ 
         public int CreatedBy { get; set; }
         public string ModifyBy { get; set; }
         public DateTime ModifyDate { get; set; }
+        public SelectList CompanyList { get; set; }
 
-       
         public SelectList ProcessList { get; set; }
 
     

@@ -494,7 +494,7 @@ namespace TogoFogo.Controllers
             if (TempData["Comp"] != null)
             {
                 comp = TempData["Comp"] as CompanyModel;
-                comp.Comments = CMP.Comments;
+                comp.Remarks = CMP.Remarks;
                 comp.IsActive = CMP.IsActive;           
                 comp.Action = 'I';
                 TempData["Comp"] = comp;

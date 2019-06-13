@@ -54,7 +54,7 @@ namespace TogoFogo.Repository.ServiceProviders
                     if (ProviderModel == null)
                         ProviderModel = new ServiceProviderModel();
                     ProviderModel.CurrentProviderName = ProviderModel.ProviderName;
-                    ProviderModel.CurrentUserName = ProviderModel.UserName;
+                  
                     reader.NextResult();
 
                     ProviderModel.Organization =
@@ -70,8 +70,13 @@ namespace TogoFogo.Repository.ServiceProviders
                    reader.NextResult();
                     ProviderModel.ContactPersons = ReadPersons(reader);
                     reader.NextResult();
-
                     ProviderModel.BankDetails = ReadBanks(reader);
+                    reader.NextResult();
+                    ProviderModel.Services = 
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<ServiceOfferedModel>(reader)
+                            .ToList();
 
                 }
             }
@@ -153,17 +158,7 @@ namespace TogoFogo.Repository.ServiceProviders
         }
         public async Task<ResponseModel> AddUpdateDeleteProvider(ServiceProviderModel provider)
         {            
-            string cat = "";
-            if (provider.Activetab.ToLower() == "tab-1")
-            {
-                foreach (var item in provider.DeviceCategories)
-                {
-                    cat = cat + "," + item;
-
-                }
-                cat = cat.TrimStart(',');
-                cat = cat.TrimEnd(',');
-            }
+          
             if (provider.Organization.IsSingleCenter == null)
                 provider.Organization.IsSingleCenter = false;
 
@@ -172,13 +167,12 @@ namespace TogoFogo.Repository.ServiceProviders
             sp.Add(param);
             param = new SqlParameter("@PROCESSID", ToDBNull(provider.ProcessId));
             sp.Add(param);
-            param = new SqlParameter("@PROVIDERCODE", ToDBNull(provider.ProviderCode));
+            param = new SqlParameter("@PROVIDERCODE", ToDBNull(provider.CurrentProviderName));
             sp.Add(param);
             param = new SqlParameter("@PROVIDERNAME", ToDBNull(provider.ProviderName));
             sp.Add(param);
        
-            param = new SqlParameter("@DEVICECATEGORIES", ToDBNull(cat));
-            sp.Add(param);         
+               
         
             param = new SqlParameter("@ORGNAME", ToDBNull(provider.Organization.OrgName));
             sp.Add(param);
@@ -208,25 +202,17 @@ namespace TogoFogo.Repository.ServiceProviders
             sp.Add(param);
             param = new SqlParameter("@USER", (object)provider.CreatedBy);
             sp.Add(param);            
-            param = new SqlParameter("@SERVICETYPE", ToDBNull(provider.ServiceTypes));
-            sp.Add(param);
-            param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(provider.ServiceDeliveryTypes));
-            sp.Add(param);
             param = new SqlParameter("@tab", ToDBNull(provider.Activetab));
             sp.Add(param);
-            param = new SqlParameter("@ISUSER", ToDBNull(provider.IsUser));
-            sp.Add(param);
-            param = new SqlParameter("@USERNAME", ToDBNull(provider.UserName));
-            sp.Add(param);
-            param = new SqlParameter("@Password", ToDBNull(provider.Password));
-            sp.Add(param);
+
+         
             param = new SqlParameter("@CompanyId", ToDBNull(provider.CompanyId));
             sp.Add(param);
             param = new SqlParameter("@IsSingleCenter", ToDBNull(provider.Organization.IsSingleCenter));
             sp.Add(param);
-            var sql = "USPInsertUpdateDeleteProvider @PROVIDERID,@PROCESSID,@PROVIDERCODE,@PROVIDERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password,@CompanyId,@IsSingleCenter";
+            var sql = "USPInsertUpdateDeleteProvider @PROVIDERID,@PROCESSID,@PROVIDERCODE,@PROVIDERNAME,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER" +
+                        ",@tab,@Password,@CompanyId,@IsSingleCenter";
        
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
