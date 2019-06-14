@@ -23,6 +23,7 @@ namespace TogoFogo.Controllers
         private readonly IClient _client;
         private readonly IBank _bank;
         private readonly IContactPerson _contactPerson;
+        private readonly IServices _service;
         private readonly string _path = "/UploadedImages/Clients/";
         private readonly DropdownBindController dropdown;
         private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
@@ -35,6 +36,7 @@ namespace TogoFogo.Controllers
             _contactPerson = new ContactPerson();
             _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
             _emailSmsServices = new Repository.EmailsmsServices();
+            _service = new Services();
         }
 
         // GET: ManageClient
@@ -233,7 +235,7 @@ namespace TogoFogo.Controllers
             var Client = TempData["client"] as ClientModel;
             if (TempData["client"] != null)
                 service.RefKey = Client.ClientId;          
-            var response = await _client.AddEditServices(service);
+            var response = await _service.AddEditServices(service);
             TempData["response"] = response;
             if (TempData["client"] != null)
             {
@@ -315,7 +317,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Clients)]
         public async Task<JsonResult> GetService(Guid? serviceId)
         {
-            var ServiceModel = await _client.GetServiceByServiceId  (serviceId);
+            var ServiceModel = await _service.GetService(new FilterModel { ServiceId=serviceId});
             return Json (ServiceModel,JsonRequestBehavior.AllowGet);
         }
         // POST: ManageClient/Create  

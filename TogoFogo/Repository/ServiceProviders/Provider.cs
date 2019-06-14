@@ -165,15 +165,10 @@ namespace TogoFogo.Repository.ServiceProviders
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@PROVIDERID",ToDBNull(provider.ProviderId));          
             sp.Add(param);
-            param = new SqlParameter("@PROCESSID", ToDBNull(provider.ProcessId));
-            sp.Add(param);
             param = new SqlParameter("@PROVIDERCODE", ToDBNull(provider.CurrentProviderName));
             sp.Add(param);
             param = new SqlParameter("@PROVIDERNAME", ToDBNull(provider.ProviderName));
-            sp.Add(param);
-       
-               
-        
+            sp.Add(param);         
             param = new SqlParameter("@ORGNAME", ToDBNull(provider.Organization.OrgName));
             sp.Add(param);
             param = new SqlParameter("@ORGCODE", ToDBNull(provider.Organization.OrgCode));
@@ -203,16 +198,14 @@ namespace TogoFogo.Repository.ServiceProviders
             param = new SqlParameter("@USER", (object)provider.CreatedBy);
             sp.Add(param);            
             param = new SqlParameter("@tab", ToDBNull(provider.Activetab));
-            sp.Add(param);
-
-         
+            sp.Add(param);         
             param = new SqlParameter("@CompanyId", ToDBNull(provider.CompanyId));
             sp.Add(param);
             param = new SqlParameter("@IsSingleCenter", ToDBNull(provider.Organization.IsSingleCenter));
             sp.Add(param);
-            var sql = "USPInsertUpdateDeleteProvider @PROVIDERID,@PROCESSID,@PROVIDERCODE,@PROVIDERNAME,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+            var sql = "USPInsertUpdateDeleteProvider @PROVIDERID,@PROVIDERCODE,@PROVIDERNAME,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER" +
-                        ",@tab,@Password,@CompanyId,@IsSingleCenter";
+                        ",@tab,@CompanyId,@IsSingleCenter";
        
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

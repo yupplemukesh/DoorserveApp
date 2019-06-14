@@ -15,5 +15,10 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Upload file")]
         public HttpPostedFileBase DataFile { get; set; }
+        public Guid? ServiceId { get; set; }
+        public int TotalRecords { get; set; }
+        public int UploadedRecords { get; set; }
+        public int FailedRecords { get; set; }  
+        public DateTime UploadedDate { get; set; }
     }
 }

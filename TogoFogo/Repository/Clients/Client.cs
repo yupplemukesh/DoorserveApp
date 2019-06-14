@@ -32,15 +32,7 @@ namespace TogoFogo.Repository.Clients
             return await _context.Database.SqlQuery<ClientModel>("USPGetAllClients @CompanyId,@ClientId", sp.ToArray()).ToListAsync();
         }
 
-        public async Task<ServiceModel> GetServiceByServiceId(Guid? serviceId)
-        {
-            List<SqlParameter> sp = new List<SqlParameter>();
-            var param = new SqlParameter("@SERVICEID", ToDBNull(serviceId));
-            sp.Add(param);
-            param = new SqlParameter("@REFKEY", DBNull.Value);
-            sp.Add(param);
-            return await  _context.Database.SqlQuery<ServiceModel>("GETSERVICESBYREFKEY @SERVICEID,@REFKEY", sp.ToArray()).FirstOrDefaultAsync();
-        }
+     
         public async Task<ClientModel> GetClientByClientId(Guid? clientId)
         {
             var ClientModel = new ClientModel();
@@ -165,42 +157,7 @@ namespace TogoFogo.Repository.Clients
         }
 
 
-        public async Task<ResponseModel> AddEditServices(ServiceModel services)
-        {
-            List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@SERVICEID", ToDBNull(services.ServiceId));
-            param.SqlDbType = SqlDbType.UniqueIdentifier;
-            sp.Add(param);
-            param = new SqlParameter("@REFKEY", ToDBNull(services.RefKey));
-            param.SqlDbType = SqlDbType.UniqueIdentifier;
-            sp.Add(param);
-            param = new SqlParameter("@CATEGORYID", ToDBNull(services.CategoryId));
-            sp.Add(param);
-            param = new SqlParameter("@SUBCATEGORYID", ToDBNull(services.SubCategoryId));
-            sp.Add(param);
-            param = new SqlParameter("@SERVICETYPEID", ToDBNull(services.ServiceTypeId));
-            sp.Add(param);
-            param = new SqlParameter("@DELIVERYTYPEID", ToDBNull(services.DeliveryTypeId));
-            sp.Add(param);
-            param = new SqlParameter("@SERVICECHARGES", ToDBNull(services.ServiceCharges));
-            sp.Add(param);
-            param = new SqlParameter("@ISACTIVE", ToDBNull(services.IsActive));
-            sp.Add(param);
-            param = new SqlParameter("@REMARKS", ToDBNull(services.Remarks));
-            sp.Add(param);
-            param = new SqlParameter("@ACTION", ToDBNull(services.EventAction));
-            sp.Add(param);
-            var sql = "USPAddOrEditServiceOpted @SERVICEID, @REFKEY,@CATEGORYID,@SUBCATEGORYID,@SERVICETYPEID,@DELIVERYTYPEID, @SERVICECHARGES ,@ISACTIVE ,@REMARKS,@ACTION";
-       
-                var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
-            if (res.ResponseCode == 0)
-                res.IsSuccess = true;
-            else
-                res.IsSuccess = false;
-            return res;
 
-
-        }
         public async Task<ResponseModel> AddUpdateDeleteClient(ClientModel client)
         {            
         

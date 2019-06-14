@@ -13,8 +13,7 @@ namespace TogoFogo.Repository.Clients
         Task<List<ClientModel>> GetClients(FilterModel filterModel);
         Task<ClientModel> GetClientByClientId(Guid? clientId);
         Task<ResponseModel> AddUpdateDeleteClient(ClientModel client);
-        Task<ResponseModel> AddEditServices(ServiceModel serviceModel);
-        Task<ServiceModel> GetServiceByServiceId(Guid? ServiceId);
+      
         void Save();
     }
 }

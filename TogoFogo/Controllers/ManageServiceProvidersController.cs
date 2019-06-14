@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,6 +27,7 @@ namespace TogoFogo.Controllers
         private readonly IProvider _provider;
         private readonly IBank _bank;
         private readonly IContactPerson _contactPerson;
+        private readonly IServices _services;
         private readonly string _path = "/UploadedImages/Providers/";
         private readonly DropdownBindController dropdown;
         private readonly IUploadFiles _RepoUploadFile;
@@ -41,6 +42,7 @@ namespace TogoFogo.Controllers
             _RepoUploadFile = new UploadFiles();
             _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
             _emailSmsServices = new Repository.EmailsmsServices();
+            _services = new Services();
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Provider)]
@@ -241,6 +243,105 @@ namespace TogoFogo.Controllers
             return View(ProviderModel);
         }
 
+        public async Task<ActionResult> ManageService(Guid RefKey,Guid? ServiceId)
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            var service =new ServiceModel();
+            if (ServiceId != null)
+            {
+                service = await _services.GetService(new FilterModel { ServiceId = ServiceId });
+                service.SupportedSubCategoryList = new SelectList(dropdown.BindSubCategory(service.CategoryId),"Value","Text");
+
+            }
+            else
+            {
+                service.SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
+                service.RefKey = RefKey;
+            }
+              
+            service.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            service.ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
+            service.DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+            return View(service);
+
+        }
+        [HttpPost]
+        public async Task<ActionResult> ManageService(ServiceModel service)
+        {
+            if (service.ServiceId != null)
+                service.EventAction = 'U';
+            else
+                service.EventAction = 'I';
+            var response = await _services.AddEditServices(service);
+            TempData["response"] = response;
+            if (response.IsSuccess)
+                return RedirectToAction("Edit", new { id = service.RefKey });
+            else
+                return View(service);
+        }
+
+        public async Task<ActionResult> ManageServiceableAreaPinCode(Guid ServiceId)
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            var service = new ManageServiceModel();
+            service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId });
+            service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
+            service.Service.IsActive = false;
+
+            service.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            service.Service.StateList = new SelectList(Enumerable.Empty<SelectList>());
+            service.Service.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            service.Service.PinCodeList = new SelectList(Enumerable.Empty<SelectList>());
+
+            service.Files = new List<ProviderFileModel>();
+            service.ImportModel = new ProviderFileModel();
+            return View(service);
+
+        }
+
+        public async Task<ActionResult> ServiceableAreaPinCode(Guid ServiceId)
+        {
+            var SessionModel = Session["User"] as SessionModel;        
+            var service = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId });          
+            return View(service);
+
+        }
+
+
+        public async Task<ActionResult> GetServiceAreaPinCode(Guid ServiceAreaId)
+        {
+            var SessionModel = Session["User"] as SessionModel;          
+            var  service = await _services.GetServiceAreaPin(new FilterModel { ServiceAreaId = ServiceAreaId});           
+            return Json(service,JsonRequestBehavior.AllowGet);
+
+        }
+        [HttpPost]
+        public async Task<ActionResult> ManageServiceableAreaPinCode(ServiceOfferedModel service)
+        {
+            var SessionModel = Session["User"] as SessionModel;
+            if (service.ServiceAreaId != null)
+                service.EventAction = 'U';
+            else
+                service.EventAction = 'I';
+            service.UserId = SessionModel.UserId;
+            var response = await _services.AddOrEditServiceableAreaPin(service);
+
+            TempData["response"] = response;
+
+            var services = new ManageServiceModel();
+            services.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = service.ServiceId });
+            services.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = service.ServiceId });
+            services.Service.IsActive = false;
+            services.Service.ServiceAreaId = null;
+            services.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
+            services.Service.StateList = new SelectList(Enumerable.Empty<SelectList>());
+            services.Service.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            services.Service.PinCodeList = new SelectList(Enumerable.Empty<SelectList>());
+
+            services.Files = new List<ProviderFileModel>();
+            services.ImportModel = new ProviderFileModel();
+            return View(services);
+        }
         // POST: ManageClient/Create  
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
@@ -523,7 +624,7 @@ namespace TogoFogo.Controllers
                 var fileName = Guid.NewGuid();
                 var savedFileName = fileName + fileExtention;
                 file.SaveAs(Path.Combine(path, savedFileName));
-                return path + "\\" + savedFileName;
+                return  savedFileName;
             }
             catch (Exception ex)
             {
@@ -627,12 +728,77 @@ namespace TogoFogo.Controllers
 
         }
 
-        public ActionResult _GetUploadForm()
+        public async Task<ActionResult> ImportServiceableAreaPinCodes(ProviderFileModel provider)
         {
-            return PartialView("_ImportForm", new ProviderFileModel());
+            var SessionModel = Session["User"] as SessionModel;
+            provider.CompanyId = SessionModel.CompanyId;
+            provider.UserId = SessionModel.UserId;
+
+            if (provider.DataFile != null)
+            {
+                string FileName = SaveFile(provider.DataFile, "ServiceProviders");
+                var excelPath = Server.MapPath("~/Files/ServiceProviders/");
+                string conString = string.Empty;
+                string extension = Path.GetExtension(provider.DataFile.FileName);
+                switch (extension)
+                {
+                    case ".xls": //Excel 97-03
+                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                        break;
+                    case ".xlsx": //Excel 07 or higher
+                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                        break;
+
+                }
+
+                conString = string.Format(conString, excelPath + FileName);
+                DataTable dtExcelData = new DataTable();
+                using (OleDbConnection excel_con = new OleDbConnection(conString))
+                {
+                    excel_con.Open();
+
+                    string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                    dtExcelData.Columns.AddRange(new DataColumn[5] {
+                new DataColumn("Country", typeof(string)),
+                new DataColumn("State", typeof(string)),
+                new DataColumn("District", typeof(string)),
+                new DataColumn("Pin Code", typeof(string)),
+                   new DataColumn("Is Active", typeof(string))
+                });
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Country],[State], [District],[Pin Code],[IS Active] FROM [" + sheet1 + "] where [Country] is not null", excel_con))
+                    {
+                        oda.Fill(dtExcelData);
+                    }
+                    excel_con.Close();
+
+                }
+                try
+                {
+                    provider.FileName = FileName;
+
+                    var response = await _RepoUploadFile.UploadServiceableAreaPins(provider, dtExcelData);
+                    if (!response.IsSuccess)
+                        System.IO.File.Delete(excelPath);
+                    TempData["response"] = response;
+                    return RedirectToAction("ManageCityLocation");
+                }
+                catch (Exception ex)
+
+                {
+                    if (System.IO.File.Exists(excelPath))
+                        System.IO.File.Delete(excelPath);
+                    return RedirectToAction("ManageCityLocation");
+
+                }
+            }
+            return RedirectToAction("index");
 
         }
 
+        public ActionResult _GetUploadForm()
+        {
+            return PartialView("~/Views/Common/_ImportForm.cshtml", new ProviderFileModel());
+        }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<FileContentResult> ExportToExcel()

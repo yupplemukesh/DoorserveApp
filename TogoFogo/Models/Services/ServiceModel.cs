@@ -31,7 +31,7 @@ namespace TogoFogo.Models
         [DisplayName("Service Delivery Type")]
         public decimal? ServiceCharges { get; set; }
      
-        public string Remarks{ get; set; }
+      
         public Guid? RefKey { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList SupportedSubCategoryList { get; set; }      

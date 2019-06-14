@@ -1,0 +1,153 @@
+﻿@model TogoFogo.Models.ManageServiceModel
+@using TogoFogo.Models
+@{
+    ViewBag.Title = "Manage Serviceable Area PinCode";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Manage Serviceable Area Pin Code </h3>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+            @using (Html.BeginForm("ManageServiceableAreaPinCode", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "ServiceForm" }))
+            {
+                @Html.Partial("~/views/common/_AddOrEditOffered.cshtml", Model.Service)
+                <div class="row form-group pull-right">
+                    <button type="button" class="btn btn-primary reset">RESET</button>
+                    <button class="btn btn-primary">
+                        SAVE
+                    </button>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Bulk Upload</h3>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+            @using (Html.BeginForm("ImportServiceableAreaPinCodes", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                Model.ImportModel.ServiceId = Model.Service.ServiceId;
+                @Html.Partial("~/Views/Common/_ImportForm.cshtml", Model.ImportModel)
+            }
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+
+            @Html.Partial("~/Views/Common/_UploadedFileList.cshtml", Model.Files)
+
+
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+            @Html.Partial("~/Views/Common/_ServiceableAreaPinTable.cshtml", Model.Services)
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+     $("#ServiceAreaId").val(null);
+     $(".reset").click(function () {
+        $(this).closest('form').find("input[type=text], input[type=hidden], textarea,select").val("");
+        $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
+        $('.selectpicker').selectpicker('refresh');
+    });
+     
+     function AjaxWithValue(method, ddl, e) {
+        var val = e.value;
+        var other = e.Other;   
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?value=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#" + ddl).empty();
+
+                //var sel = new Option('-Select-', '');
+                //$('#' + ddl).append(sel);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#' + ddl).append(opt);
+                }
+
+                if (other != undefined) {
+                    $('#' + ddl).val(other);
+
+                }
+
+            }
+        });
+    }
+
+
+            function EditAreaPin(Service) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetServiceAreaPinCode","ManageServiceProviders")',
+            data: { "ServiceAreaId": Service },
+                   async: true,
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                    $("#ServiceAreaId").val(data.ServiceAreaId);
+                    $("#ServiceId").val(data.ServiceId);
+                    $("#CountryId").val(data.CountryId);           
+                 var obj = { value: data.CountryId, Other: data.StateId };
+                AjaxWithValue('BindStateJson', 'StateId', obj);
+                obj.value = data.StateId;
+                obj.Other = data.City;
+                AjaxWithValue('BindCityJson', 'City', obj);
+                obj.value = data.City;
+                obj.Other = data.PinCode;
+                AjaxWithValue('BindPinCodeJson', 'PinCode', obj);
+               $("#IsActive").prop("checked", data.IsActive);
+                
+                }
+
+            
+        });
+
+    }
+    </script>
+
+
+
+
+}

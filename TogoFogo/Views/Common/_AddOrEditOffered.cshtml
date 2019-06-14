@@ -1,32 +1,28 @@
 ﻿@model TogoFogo.Models.ServiceOfferedModel
 @Html.HiddenFor(x => x.ServiceId)
-@Html.HiddenFor(x => x.RefKey)
+@Html.HiddenFor(x => x.ServiceAreaId)
 <div class=" row form-group">
     <label class="col-md-2 control-label" for="selectbasic">Device Category	</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.CategoryId, Model.SupportedCategoryList, "-Select-", htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
-        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+        @Html.DisplayFor(model => model.Category,  new { @class = "form-control"})
     </div>
     <label class="col-md-2 control-label" for="selectbasic">Device Sub-Category	</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.SubCategoryId, Model.SupportedSubCategoryList, "-Select-", htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
+        @Html.DisplayFor(model => model.SubCategory, new { @class = "form-control" })
     </div>
 </div>
 <div class="row form-group">
 
     <label class="col-md-2 control-label" for="radios">Service Type</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceList, "-Select-", htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.ServiceTypeId, "", new { @class = "text-danger" })
+        @Html.DisplayFor(model => model.ServiceType, new { @class = "form-control" })
     </div>
 
     <label class="col-md-2 control-label" for="radios">Service Delivery Type</label>
     <div class="col-md-4">
 
-        @Html.DropDownListFor(model => model.DeliveryTypeId, Model.DeliveryServiceList, "-Select-", htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.DeliveryTypeId, "", new { @class = "text-danger" })
-
+        @Html.DisplayFor(model => model.DeliveryType, new { @class = "form-control" })
+  
     </div>
 
 
@@ -35,22 +31,22 @@
 
     <label class="col-md-2 control-label" for="radios">Country</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.CountryId, Model.CountryList,  htmlAttributes: new { @class = "form-control",  onchange = "AjaxWithValue('BindStateJson', 'StateId', this)"  })
+        @Html.DropDownListFor(model => model.CountryId, Model.CountryList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
         @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
     </div>
     <label class="col-md-2 control-label" for="radios">State</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.StateId, Model.StateList,  htmlAttributes: new { @class = "form-control",onchange = "AjaxWithValue('BindLocationJson', 'CityId', this)"  })
+        @Html.DropDownListFor(model => model.StateId, Model.StateList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindCityJson', 'City', this)" })
         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
     </div>
 
 
 </div>
 <div class="row form-group">
-    <label class="col-md-2 control-label" for="radios">City</label>
+    <label class="col-md-2 control-label" for="radios">District</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.CityId, Model.CityList, htmlAttributes: new { @class = "form-control",onchange="AjaxWithValue('BindPinCodeJson', 'PinCode', this)" })
-        @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
+        @Html.DropDownListFor(model => model.City, Model.CityList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindPinCodeJson', 'PinCode', this)" })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
     </div>
     <label class="col-md-2 control-label" for="radios">Pincode</label>
     <div class="col-md-4">
@@ -64,8 +60,5 @@
     <div class="col-md-1">
         @Html.CheckBoxFor(model => model.IsActive, htmlAttributes: new { @class = "form-control" })
     </div>
-    <label class="col-lg-offset-3 col-md-2    control-label" for="radios">Remarks </label>
-    <div class="col-md-4">
-        @Html.TextAreaFor(model => model.Remarks, htmlAttributes: new { @class = "form-control" })
-    </div>
+   
 </div>

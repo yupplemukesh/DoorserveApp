@@ -986,6 +986,54 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult BindCityJson(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var state = con.Query<BindDropdown>("SELECT Distinct DistrictName St_Name   from MstLocation where isactive=1 and StateId=@StateId order by DistrictName", new { StateId = value }
+                    );
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in state)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.St_Name.ToString(), //Value Field(ID)
+                        Text = val.St_Name //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult BindPinCodeJson(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var state = con.Query<BindDropdown>("SELECT Distinct PinCode St_Name   from MstLocation where isactive=1 and DistrictName=@Distt order by PinCode", new { Distt = value });
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in state)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.St_Name.ToString(), //Value Field(ID)
+                        Text = val.St_Name //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult BindLocationJson(string value)
         {
             using (var con = new SqlConnection(_connectionString))

@@ -1,7 +1,8 @@
 ﻿@model TogoFogo.Models.ServiceProviderModel
+@using TogoFogo.Models
 @{
     var cs = "active in";
-   
+
     var HC = "";
     if (Model.action == 'I')
     {
@@ -214,7 +215,7 @@
                         <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
                     </a>
                 </li>
-                <li >
+                <li>
                     <a href="#tab-5" id="tab5" role="tab" data-toggle="tab" aria-expanded="true">
                         <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
                     </a>
@@ -226,7 +227,7 @@
                 </li>
             }
 
-       
+
 
 
         </ul>
@@ -237,184 +238,199 @@
 
             @if (Model.Activetab == "tab-1")
             {
-            @:<div class="tab-pane fade in @cs" id="tab-1">
-}
-else
-{
-    @:<div class="tab-pane fade in" id="tab-1">
-    }
-<div class="container-fluid tab-form-control">
-    <div class="row">
-        @using (Html.BeginForm("AddorEditServiceProvider", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
-        {
-            @Html.HiddenFor(x => x.ProviderId)
-            @Html.HiddenFor(x => x.action)
-            @Html.HiddenFor(x => x.CurrentProviderName)
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-
-         
-
-            @if (Model.IsSuperAdmin)
-            {
-                <div class=" row form-group">
-                    <label class="col-md-3 control-label" for="selectbasic">Companies	</label>
-                    <div class="col-md-9">
-                        @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList, "Select", new { @class = "form-control" })
-                        @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
-                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            }
-            <!-- Text input-->
-            <div class=" row form-group">
-                <label class="col-md-3 " for="textinput">Service Provider Code</label>
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.ProviderCode, new { @class = "form-control input-md", @placeholder = "Service Provider Code" })
-                    @Html.ValidationMessageFor(model => model.ProviderCode, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-            <!-- Text input-->
-            <div class=" row form-group">
-                <label class="col-md-3 " for="textinput">Service Provider Name</label>
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.ProviderName, new { @class = "form-control input-md", @placeholder = "Service Provider Name" })
-                    @Html.ValidationMessageFor(model => model.ProviderName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-            <div class="row form-group pull-right">
-                @if (Model.action == 'I')
-                {
-                    <button type="button" class="btn btn-primary reset">RESET</button>
+                @:<div class="tab-pane fade in @cs" id="tab-1">
                 }
-                <button class="btn btn-primary">
-                    SAVE
-
-                </button>
-            </div>
-        </div>
-        }
-    </div>
-</div>
-
-
-
-
-</div>
-
-@if (Model.Activetab == "tab-2")
-{
-    @:<div class="tab-pane fade in @cs" id="tab-2">
-}
-else
-{
-    @:<div class="tab-pane fade in" id="tab-2">
-
-
-
-
-    }
-
-
-<!-- <h2> Address and Contact Person</h2>-->
-
-<div class="container-fluid tab-form-control">
-    <div class="row">
-        @using (Html.BeginForm("AddorEditOrganization", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-
-            @Html.HiddenFor(x => x.ProviderId)
-            @Html.HiddenFor(x => x.action)
-            Model.Organization.Type = "Provider";
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-                @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
-                <div class="row form-group pull-right">
-                    @if (Model.action == 'I')
-                    {
-                        <button type="button" class="btn btn-primary reset">RESET</button>
+                else
+                {
+                    @:<div class="tab-pane fade in" id="tab-1">
                     }
-                    <button type="submit" class="btn btn-primary">
-                        SAVE
-                    </button>
-                </div>
-            </div>
-        }
-    </div>
-</div>
+            <div class="container-fluid tab-form-control">
+                <div class="row">
+                    @using (Html.BeginForm("AddorEditServiceProvider", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                    {
+                        @Html.HiddenFor(x => x.ProviderId)
+                        @Html.HiddenFor(x => x.action)
+                        @Html.HiddenFor(x => x.CurrentProviderName)
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 
 
 
-</div>
+                            @if (Model.IsSuperAdmin)
+                            {
+                                <div class=" row form-group">
+                                    <label class="col-md-3 control-label" for="selectbasic">Companies	</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList, "Select", new { @class = "form-control" })
+                                        @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
+                                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
 
-@if (Model.Activetab == "tab-3")
-{ 
-    @:<div class="tab-pane fade in @cs" id="tab-3">
-}
-else
-{
-    @:<div class="tab-pane fade in" id="tab-3">
-
-
-
-
-    }
-<div class="container-fluid tab-form-control">
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-        <div class="row margin-bottom-sm">
-            <div class="col-12 pull-right align-text-top  ">
-                <input type="button" class="btn btn-primary " id="AddContactPerson" value="add  Contact" />
-            </div>
-
-        </div>
-        <div class="row">
-
-
-            @if (Model.ContactPersons != null)
-            {
-                <div class="col-12">
-
-                    @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
-                    <div class="row" style="display:none" id="ContactPerson">
-                        @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
-                        {
-                            Model.Contact.IsSingleCenter = Model.Organization.IsSingleCenter;
-                            Model.Contact.RefKey = Model.ProviderId;
-                            <div class="col-12">
-                                @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
-                            </div>
-                            <div class="form-group row m-b-25">
-                                <div class="col-sm-offset-11  col-md-1">
-                                    <button type="submit" class="btn btn-success" style="">Save</button>
+                            @if (Model.action == 'U')
+                            {
+                            <!-- Text input-->
+                            <div class=" row form-group">
+                                <label class="col-md-3 " for="textinput">Service Provider Code</label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.ProviderCode, new { @class = "form-control input-md", @placeholder = "Service Provider Code" })
+                                    @Html.ValidationMessageFor(model => model.ProviderCode, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                        }
-                    </div>
 
+                            }
+                            <!-- Text input-->
+                            <div class=" row form-group">
+                                <label class="col-md-3 " for="textinput">Service Provider Name</label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.ProviderName, new { @class = "form-control input-md", @placeholder = "Service Provider Name" })
+                                    @Html.ValidationMessageFor(model => model.ProviderName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="row form-group pull-right">
+                                @if (Model.action == 'I')
+                                {
+                                    <button type="button" class="btn btn-primary reset">RESET</button>
+                                }
+                                <button class="btn btn-primary">
+                                    SAVE
+
+                                </button>
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
+            </div>
+
+
+
 
         </div>
+
+        @if (Model.Activetab == "tab-2")
+        {
+            @:<div class="tab-pane fade in @cs" id="tab-2">
+            }
+            else
+            {
+                @:<div class="tab-pane fade in" id="tab-2">
+
+
+
+
+
+
+
+
+                }
+
+
+        <!-- <h2> Address and Contact Person</h2>-->
+
+        <div class="container-fluid tab-form-control">
+            <div class="row">
+                @using (Html.BeginForm("AddorEditOrganization", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    @Html.HiddenFor(x => x.ProviderId)
+                    @Html.HiddenFor(x => x.action)
+                    Model.Organization.Type = "Provider";
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                        @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
+                        <div class="row form-group pull-right">
+                            @if (Model.action == 'I')
+                            {
+                                <button type="button" class="btn btn-primary reset">RESET</button>
+                            }
+                            <button type="submit" class="btn btn-primary">
+                                SAVE
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
     </div>
 
-</div>
+    @if (Model.Activetab == "tab-3")
+    {
+        @:<div class="tab-pane fade in @cs" id="tab-3">
+        }
+        else
+        {
+            @:<div class="tab-pane fade in" id="tab-3">
+
+
+
+
+
+
+
+
+            }
+    <div class="container-fluid tab-form-control">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+            <div class="row margin-bottom-sm">
+                <div class="col-12 pull-right align-text-top  ">
+                    <input type="button" class="btn btn-primary " id="AddContactPerson" value="add  Contact" />
+                </div>
+
+            </div>
+            <div class="row">
+
+
+                @if (Model.ContactPersons != null)
+                {
+                    <div class="col-12">
+
+                        @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
+                        <div class="row" style="display:none" id="ContactPerson">
+                            @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                            {
+                                Model.Contact.IsSingleCenter = Model.Organization.IsSingleCenter;
+                                Model.Contact.RefKey = Model.ProviderId;
+                                <div class="col-12">
+                                    @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
+                                </div>
+                                <div class="form-group row m-b-25">
+                                    <div class="col-sm-offset-11  col-md-1">
+                                        <button type="submit" class="btn btn-success" style="">Save</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    </div>
 </div>
 
 @if (Model.Activetab == "tab-4")
 {
     @:<div class="tab-pane fade in @cs" id="tab-4">
-}
-else
-{
-    @:<div class="tab-pane fade in" id="tab-4">
-
-
-
-
     }
+    else
+    {
+        @:<div class="tab-pane fade in" id="tab-4">
+
+
+
+
+
+
+
+
+        }
 <!--<h2>Bank Details</h2>-->
 <div class="container-fluid tab-form-control">
 
@@ -462,15 +478,19 @@ else
 @if (Model.Activetab == "tab-5")
 {
     @:<div class="tab-pane fade in @cs" id="tab-5">
-}
-else
-{
-    @:<div class="tab-pane fade in" id="tab-5">
-
-
-
-
     }
+    else
+    {
+        @:<div class="tab-pane fade in" id="tab-5">
+
+
+
+
+
+
+
+
+        }
 
 <!--<h2>Registration</h2>-->
 
@@ -481,7 +501,7 @@ else
             {
                 @Html.HiddenFor(x => x.ProviderId)
                 @Html.HiddenFor(x => x.action)
-              
+
                 <!-- Select Basic -->
                 <div class="row form-group">
                     <label class="col-md-3 control-label" for="selectbasic">
@@ -528,39 +548,43 @@ else
 @if (Model.Activetab == "tab-6")
 {
     @:<div class="tab-pane fade in @cs" id="tab-6">
-}
-else
-{
-    @:<div class="tab-pane fade in" id="tab-6">
-
-
     }
+    else
+    {
+        @:<div class="tab-pane fade in" id="tab-6">
+
+
+
+
+        }
 <!--<h2>Registration</h2>-->
 
 <div class="container-fluid tab-form-control">
-    <div class="row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-            @using (Html.BeginForm("AddorEditService", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
-            {
-                <!-- Select Basic -->
 
-                @Html.Partial("~/Views/Common/_AddOrEditOffered.cshtml", Model.Service)
-                <div class="row form-group pull-right">
-
-                    <button type="button" class="btn btn-primary reset">RESET</button>
-
-
-                    <button class="btn btn-primary">
-                        SAVE
-
-                    </button>
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">Service Offered:</h3>
                 </div>
-
-            }
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Permissions.Rights.Create||Permissions.Rights.Edit)
+                        {
+                            <a href="@Url.Action("ManageService","ManageServiceProviders", new {@RefKey=Model.ProviderId})" class="btn btn-primary"> Add </a>
+                        }
+                        @if (Permissions.Rights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
 
         </div>
 
     </div>
+
     <div class="row">
         @Html.Partial("~/Views/Common/_ServicesOptedTable.cshtml", Model.Services)
     </div>
@@ -569,14 +593,14 @@ else
 
 </div>
 </div>
-    </div>
+</div>
 
 </div>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 <script>
       $(document).ready(function () {
-              $("#ServiceForm").find("input[type=text], textarea,select").val("");        
+              $("#ServiceForm").find("input[type=text], textarea,select").val("");
               $("#ServiceForm").closest('form').find("input[type=checkbox]").prop('checked', false);
               $('.selectpicker').selectpicker('refresh');
               var DivName = $('.nav-tabs .active a').attr('href');
@@ -701,12 +725,12 @@ else
                     if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
                         $("#conBankImg").prop("src", $("#Path").val() + "/Banks/" + data.BankCancelledChequeFileName);
                     }
-                    
+
                     $("#IsDefault").prop("checked", data.IsDefault);
                     $("#BankAccount").show();
                 }
                 else {
-   
+
                     $("#ContactId").val(data.ContactId);
                     $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
                     $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
@@ -741,9 +765,9 @@ else
                     $("#City").val(data.City);
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
-                    $("#NearLocation").val(data.NearLocation);                    
+                    $("#NearLocation").val(data.NearLocation);
                     $("#IsUser").prop("checked", data.IsUser);
-                   
+
                 }
 
             }
@@ -757,7 +781,7 @@ else
             data: { "serviceId": Service },
                    async: true,
             contentType: "application/json",
-            success: function (data) {                       
+            success: function (data) {
                     $("#ServiceId").val(data.ServiceId);
                     $("#CategoryId").val(data.CategoryId);
                     $("#ServiceTypeId").val(data.ServiceTypeId);
@@ -769,10 +793,10 @@ else
                 $("#IsActive").prop("checked", data.IsActive);
                     $("#CountryId").val(data.CountryId);
 
-                
+
                 }
 
-            
+
         });
 
     }

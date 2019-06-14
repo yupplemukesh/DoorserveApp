@@ -10,6 +10,8 @@ namespace TogoFogo.Models
 {
     public class ServiceOfferedModel:ServiceModel
     {
+
+        public Guid? ServiceAreaId { get; set; }
         public int CountPin { get; set;}
         [Required]
         [DisplayName("Country")]

@@ -176,6 +176,29 @@ namespace TogoFogo.Repository.ImportFiles
                 res.IsSuccess = true;
             return res;
         }
+
+        public async Task<ResponseModel> UploadServiceableAreaPins(ProviderFileModel provider, DataTable table)
+        {
+            var sp = new List<SqlParameter>();
+            var pararm = new SqlParameter("@FileName", ToDBNull(provider.FileName));
+            sp.Add(pararm);
+             pararm = new SqlParameter("@RefKey", ToDBNull(provider.ServiceId));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
+            {
+                TypeName = "AreaPinCodes",
+                Value = table
+            };
+            sp.Add(pararm);
+            pararm = new SqlParameter("@User", provider.UserId);
+            sp.Add(pararm);
+
+            var sql = "UploadAreaPinCode @FileName,@RefKey,@DataTable, @User";
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            return res;
+        }
         public async Task<MainClientDataModel> GetExportAssingedCalls(FilterModel filterModel)
         {
             MainClientDataModel main = new MainClientDataModel();

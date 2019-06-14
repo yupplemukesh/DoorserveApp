@@ -22,7 +22,7 @@
                         @Html.DisplayName("Service Type")
                     </th>
                     <th>
-                        @Html.DisplayName("Service Delivery Type")
+                        @Html.DisplayName("Delivery Service Type")
                     </th>
                     <th>
                         @Html.DisplayName("Service Charges")
@@ -63,7 +63,15 @@
                         @Html.DisplayFor(modelItem => item.Remarks)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
+                        @if (item.IsActive)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+
+                        }
                     </td>
                   
                     <td style="display: inline-flex">
