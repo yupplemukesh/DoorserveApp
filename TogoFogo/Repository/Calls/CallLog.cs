@@ -102,12 +102,13 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull(Call.IssueOcurringSinceDate));
             sp.Add(pararm);
-
+            pararm = new SqlParameter("@IsRepeat", ToDBNull(Call.IsRepeat));
+            sp.Add(pararm);
             var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address," +
                 "@Landmark,@PinCode,@CountyId,@StateId,@LocationId,@City,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
                 "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID,@SubCategoryId,@ModelNumber,@Remarks," +
-                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate";
+                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate,@IsRepeat";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

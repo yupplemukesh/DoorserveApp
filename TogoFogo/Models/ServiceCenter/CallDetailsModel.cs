@@ -24,10 +24,10 @@ namespace TogoFogo.Models.ServiceCenter
         public EmployeeModel Employee { get; set; }
         public UploadedExcelModel _UploadedExcelModel { get; set; }
         public string ProblemDescription { get; set; }
-        public DateTime? IssueOcurringSinceDate { get; set; }
-        public DateTime? AppointmentDate { get; set; }
-        public string Remarks { get; set; }
-
+        public DateTime? IssueOcurringSinceDate { get; set; }        
+        public DateTime ? AppointmentDate { get; set; }
+        // public string Remarks { get; set; }
+        public bool IsRepeat { get; set; }
         public string Param {get;set;}
 
        
