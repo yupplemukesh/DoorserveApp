@@ -76,7 +76,7 @@ namespace TogoFogo.Controllers
                 // address=new AddressDetail
                 //{
                 AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
-                CityList = new SelectList(Enumerable.Empty<SelectListItem>()),
+                LocationList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
                 // }
@@ -321,7 +321,7 @@ namespace TogoFogo.Controllers
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CallDetailsModel.StateList = new SelectList(_dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
-            CallDetailsModel.CityList = new SelectList(_dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");
+            CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocation(), "Value", "Text");
             CallDetailsModel.IsClientAddedBy = true;
             return View("_EditForm", CallDetailsModel);
 

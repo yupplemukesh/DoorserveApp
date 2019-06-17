@@ -1075,6 +1075,32 @@ namespace TogoFogo.Controllers
             return Json(PinCodeDetails, JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult BindLocationByPinCodeJson(string value)
+        {
+
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var city = con.Query<ContactPersonModel>("GetLocationByPinCodeJson", new { @PinCode = value },
+                    commandType: CommandType.StoredProcedure);
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in city)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.LocationId.ToString(), //Value Field(ID)
+                        Text = val.LocationName //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         public JsonResult BindLocationByPinJson(string value)
         {

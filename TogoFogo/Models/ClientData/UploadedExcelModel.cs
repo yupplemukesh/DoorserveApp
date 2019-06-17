@@ -53,7 +53,7 @@ namespace TogoFogo.Models.ClientData
         public string DeviceModel { get; set; }
         public string DeviceModelNo { get; set; }
         [DisplayName("DEVICE SLN")]
-        public string DeviceSn { get; set; }
+        public string DeviceSn { get; set; }       
         [DisplayName("Date of Purchase")]
         public DateTime ? DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
@@ -66,7 +66,7 @@ namespace TogoFogo.Models.ClientData
         public string Status { get; set; }
 
         public string BillNo { get; set; }
-        public  double  BillAmount { get; set; }
+        public  double ? BillAmount { get; set; }
         [DisplayName("Call ID")]
         public string CRN { get; set; }
         public Guid CustomerId { get; set; }

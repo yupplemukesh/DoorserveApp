@@ -85,20 +85,26 @@
                     $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
                     $("#NearLocation").val(data[0].NearLocation);
                     $("#Address").val(data[0].Address);
-                    $("#PinNumber").val(data[0].PinNumber);
-                    $("#CountryId").val(data[0].CountryId);
                     $("#IsExistingCustomer").prop("checked", true);
-                    var obj = { value: data[0].CountryId, cvalue: data[0].StateId }; +
-                        AjaxWithValue('BindStateJson', 'StateId', obj);
-                    obj.value = data[0].StateId;
-                    obj.cvalue = data[0].CityId;
-                    AjaxWithValue('BindLocationJson', 'CityId', obj)
-
+                    $("#Pincode").val(data.PinNumber);
+                    $("#Country").val(data.Country);
+                    $("#State").val(data.State);
+                    $("#City").val(data.City);
 
                 }
             });
         }
 
+
+
+      @*
+          var obj = { value: data[0].CountryId, cvalue: data[0].StateId }; +
+                        AjaxWithValue('BindStateJson', 'StateId', obj);
+                    obj.value = data[0].StateId;
+                    obj.cvalue = data[0].CityId;
+                    AjaxWithValue('BindLocationJson', 'CityId', obj)
+          $("#PinNumber").val(data[0].PinNumber);
+                    $("#CountryId").val(data[0].CountryId);
 
 
           function getLocationByPin() {
@@ -121,10 +127,10 @@
                     }
                 });
         }
+*@
 
-      
             $('input[type=radio][name="ServiceTypeId"]').change(function () {
-            
+
                 if ($(this).val() == 7) {
 
                     $("#ProblemInfo").hide();
@@ -133,7 +139,7 @@
 
                     $("#ProblemInfo").show();
                 }
-       
+
         });
 
 </script>

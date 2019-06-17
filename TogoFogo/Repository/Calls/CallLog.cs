@@ -22,7 +22,7 @@ namespace TogoFogo.Repository
             var sp = new List<SqlParameter>();
             var pararm = new SqlParameter("@ID", ToDBNull(Call.Id));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CLIENTID", Call.ClientId);
+            pararm = new SqlParameter("@CLIENTID", ToDBNull(Call.ClientId));
             sp.Add(pararm);
             pararm = new SqlParameter("@isExistingCustomer", Call.IsExistingCustomer);
             sp.Add(pararm);
@@ -48,7 +48,9 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@StateId", ToDBNull(Call.StateId));
             sp.Add(pararm);
-            pararm = new SqlParameter("@CityId", ToDBNull(Call.CityId));
+            pararm = new SqlParameter("@LocationId", ToDBNull(Call.LocationId));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@City", ToDBNull(Call.District));
             sp.Add(pararm);
             pararm = new SqlParameter("@DEVICECATEGORYID", ToDBNull(Call.DeviceCategoryId));
             sp.Add(pararm);
@@ -103,7 +105,7 @@ namespace TogoFogo.Repository
 
             var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address," +
-                "@Landmark,@PinCode,@CountyId,@StateId,@CityId,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
+                "@Landmark,@PinCode,@CountyId,@StateId,@LocationId,@City,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
                 "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID,@SubCategoryId,@ModelNumber,@Remarks," +
                 "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate";
 

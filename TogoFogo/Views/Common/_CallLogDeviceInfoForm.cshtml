@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        @Html.TextBoxFor(x => x.DOP, "{0:yyyy-MM-dd}", new { @class = "form-control", @Type = "date" })
+                        @Html.TextBoxFor(x => x.DOP, "{0:dd-MM-yyyy}", new { @class = "form-control",id= "datepicker1" })
                         @Html.ValidationMessageFor(x => x.DOP, "", new { @class = "text-danger" })
                         <label class="floating-label t-0">Date Of Purchased</label>
                     </div>
@@ -157,8 +157,6 @@
 
 </div>
       
-
-
 
    
 
