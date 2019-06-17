@@ -82,15 +82,36 @@
     @Scripts.Render("~/bundles/jqueryval")
 <script>
      $("#ServiceAreaId").val(null);
-     $(".reset").click(function () {
-        $(this).closest('form').find("input[type=text], input[type=hidden], textarea,select").val("");
-        $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
-        $('.selectpicker').selectpicker('refresh');
-    });
-     
+       $("#PinCode").val(null);
+         function getLocationByPin() {
+          var PinCode=  $("#PinNumber").val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("BindLocationByPinJson", "DropdownBind")',
+                    data: {'value':  PinCode},
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        $("#CountryId").val(data[0].CountryId);
+                        var obj = { value: data[0].CountryId, Other:data[0].StateId }; +
+                          AjaxWithValue('BindStateJson', 'StateId', obj);
+                        obj.value = data[0].StateId;
+                        obj.Other = data[0].City;
+                        AjaxWithValue('BindCityJson', 'City', obj)
+                         obj.value =  data[0].City+','+data[0].StateId;
+                         obj.Other = data[0].PinNumber;
+                         AjaxWithValue('BindPinCodeJson', 'PinCode', obj)
+                    }
+                });
+        }
+
+  
      function AjaxWithValue(method, ddl, e) {
-        var val = e.value;
-        var other = e.Other;   
+         var val = e.value;
+         var other=e.Other;   
+         if (ddl == "PinCode")
+             val = val + ','+$("#StateId").val() ;
         $.ajax({
             type: "GET",
             url: "/DropdownBind/" + method + "?value=" + val,
@@ -98,15 +119,13 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
+                console.log(data);
                 $("#" + ddl).empty();
-
-                //var sel = new Option('-Select-', '');
-                //$('#' + ddl).append(sel);
-                for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++)
+                {
                     var opt = new Option(data[i].Text, data[i].Value);
                     $('#' + ddl).append(opt);
                 }
-
                 if (other != undefined) {
                     $('#' + ddl).val(other);
 
@@ -115,9 +134,7 @@
             }
         });
     }
-
-
-            function EditAreaPin(Service) {
+     function EditAreaPin(Service) {
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetServiceAreaPinCode","ManageServiceProviders")',
@@ -135,7 +152,7 @@
                 obj.Other = data.City;
                 AjaxWithValue('BindCityJson', 'City', obj);
                 obj.value = data.City;
-                obj.Other = data.PinCode;
+                obj.Other = data.PinNumber;
                 AjaxWithValue('BindPinCodeJson', 'PinCode', obj);
                $("#IsActive").prop("checked", data.IsActive);
                 

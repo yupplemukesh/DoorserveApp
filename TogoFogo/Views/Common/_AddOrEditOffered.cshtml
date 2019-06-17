@@ -24,8 +24,13 @@
         @Html.DisplayFor(model => model.DeliveryType, new { @class = "form-control" })
   
     </div>
+</div>
 
-
+<div class="row form-group">
+    <label class="col-md-2 control-label" for="radios">PinCode</label>
+    <div class="col-md-4">
+        @Html.TextBox("PinNumber","",  new { @class = "form-control", onchange = "getLocationByPin()" })   
+    </div>
 </div>
 <div class="row form-group">
 
@@ -36,7 +41,7 @@
     </div>
     <label class="col-md-2 control-label" for="radios">State</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.StateId, Model.StateList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindCityJson', 'City', this)" })
+        @Html.DropDownListFor(model => model.StateId, Model.StateList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BinCityJson', 'City', this)" })
         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
     </div>
 
@@ -50,7 +55,7 @@
     </div>
     <label class="col-md-2 control-label" for="radios">Pincode</label>
     <div class="col-md-4">
-        @Html.DropDownListFor(model => model.PinCode, Model.PinCodeList, "-Select-", htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.PinCode, Model.PinCodeList, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
     </div>
 </div>

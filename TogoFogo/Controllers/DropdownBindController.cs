@@ -987,7 +987,7 @@ namespace TogoFogo.Controllers
             }
         }
         public JsonResult BindCityJson(string value)
-        {
+                {
             using (var con = new SqlConnection(_connectionString))
             {
                 var state = con.Query<BindDropdown>("SELECT Distinct DistrictName St_Name   from MstLocation where isactive=1 and StateId=@StateId order by DistrictName", new { StateId = value }
@@ -1011,11 +1011,14 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public JsonResult BindPinCodeJson(string value)
+        public List<ListItem> BindPinCodeParam(string value)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var state = con.Query<BindDropdown>("SELECT Distinct PinCode St_Name   from MstLocation where isactive=1 and DistrictName=@Distt order by PinCode", new { Distt = value });
+                var values = value.Split(',');
+
+
+                var state = con.Query<BindDropdown>("SELECT Distinct PinCode St_Name   from MstLocation where isactive=1 and DistrictName=@Distt and StateId=@StateId order by PinCode", new { Distt = values[0], StateId=values[1] });
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
                 {
@@ -1031,8 +1034,13 @@ namespace TogoFogo.Controllers
                     });
                 }
 
-                return Json(items, JsonRequestBehavior.AllowGet);
+                return items;
             }
+        }
+        public JsonResult BindPinCodeJson(string value)
+        {
+            var pincodes = BindPinCodeParam(value);
+            return Json(pincodes, JsonRequestBehavior.AllowGet);
         }
         public JsonResult BindLocationJson(string value)
         {
@@ -1579,8 +1587,10 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
-        public JsonResult BindCityByPincode(string value)
+
+        public List<ListItem> BindDiscrictByPin(string value)
         {
+
             using (var con = new SqlConnection(_connectionString))
             {
                 var rmid = con.Query<BindDropdown1>("Get_State_City_pincode", new { pincode = value }, commandType: CommandType.StoredProcedure);
@@ -1590,12 +1600,20 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.LocationId, //Value Field(ID)
-                        Text = val.LocationName //Text Field(Name)
+                        Value = val.dist_Name, //Value Field(ID)
+                        Text = val.dist_Name //Text Field(Name)
                     });
                 }
-                return Json(items, JsonRequestBehavior.AllowGet);
+                return items;
             }
+
+        }
+        public JsonResult BindCityByPincode(string value)
+        {
+            var distt = BindDiscrictByPin(value);
+            return Json(distt, JsonRequestBehavior.DenyGet)
+;
+
         }
         public JsonResult BindSatetByPincode(string value)
         {
