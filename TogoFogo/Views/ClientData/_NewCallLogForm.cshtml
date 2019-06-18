@@ -144,14 +144,14 @@
 @if (Model.ServiceTypeId != 7)
 {
     <div id="ProblemInfo">
-        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, RefKey = Model.DeviceId })
+        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription,IsRepeat=Model.IsRepeat, RefKey = Model.DeviceId })
     </div>
 }
 else
 {
     <div id="ProblemInfo" style="display:none">
         @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel
-        { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, RefKey = Model.DeviceId })
+        { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription,IsRepeat=Model.IsRepeat, RefKey = Model.DeviceId })
     </div>
 
 }
