@@ -148,7 +148,7 @@ namespace TogoFogo.Models
         public string St_Name { get; set; }
         public string LocationId { get; set; }
         public string LocationName { get; set; }
-        public string dist_Name { get; set; }
+        public string district { get; set; }
         public string state_Name { get; set; }
         public string Problem { get; set; }
         public string ProblemID { get; set; }

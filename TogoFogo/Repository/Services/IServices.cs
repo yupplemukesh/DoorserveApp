@@ -17,6 +17,7 @@ namespace TogoFogo.Repository
         Task<ServiceOfferedModel> GetServiceAreaPin(FilterModel filterModel);
         Task<List<ServiceOfferedModel>> GetServiceAreaPins(FilterModel filterModel);
 
+
         void Save();
     }
 }

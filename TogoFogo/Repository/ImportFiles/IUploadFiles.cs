@@ -18,6 +18,7 @@ namespace TogoFogo.Repository
         Task<ResponseModel> UploadServiceProviders(ProviderFileModel provider, DataTable table);
         Task<ResponseModel> UploadCityLocations(ProviderFileModel provider, DataTable table);
         Task<ResponseModel> UploadServiceableAreaPins(ProviderFileModel provider, DataTable table);
+        Task<List<ProviderFileModel>> GetFiles(Guid? RefKey);
         void Save();
     }
 }

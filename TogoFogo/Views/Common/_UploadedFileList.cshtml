@@ -16,11 +16,14 @@
                             @Html.DisplayName("File Name")
                         </th>
                         <th>
+                            @Html.DisplayName("Uploaded Date")
+                        </th>
+                        <th>
                             @Html.DisplayName("Updated")
                         </th>
                         <th>
                             @Html.DisplayName("Not Updated")
-                        </th>                       
+                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -39,7 +42,7 @@
                             @Html.DisplayFor(modelItem => item.UploadedDate)
                         </td>
                         <td>
-                            @item.UploadedRecords
+                            @item.TotalRecords
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.FailedRecords)
@@ -49,12 +52,12 @@
                         <td style="display: inline-flex">
                             @if (Permissions.Rights.ExcelExport)
                             {
-                                <a href="#" class="btn btn-small btn-info btnSize">Download</a>
+                                <a href="~/files/ServiceProviders/@item.SysFileName" class="btn btn-small btn-info btnSize">Download</a>
                             }
 
                             @if (Permissions.Rights.Edit)
                             {
-                                <a href="#" class="btn btn-small btn-info btnSize">View</a>
+                                <a href="@Url.Action("ServiceableAreaPinCode","ManageServiceProviders",new {@fileId=item.FileId} )" class="btn btn-small btn-info btnSize">View</a>
                             }
                         </td>
                     </tr>

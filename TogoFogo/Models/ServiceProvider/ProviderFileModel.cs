@@ -11,6 +11,8 @@ namespace TogoFogo.Models
     {
         public Guid? CompanyId { get; set; }
         public int UserId { get; set; }
+        public Guid? FileId { get; set; }
+        public string SysFileName { get; set; }
         public string FileName { get; set; }
         [Required]
         [DisplayName("Upload file")]

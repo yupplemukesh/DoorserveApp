@@ -55,7 +55,9 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@REFKEY", ToDBNull(filterModel.ServiceId));
             sp.Add(param);
-            return await _context.Database.SqlQuery<ServiceOfferedModel>("GETSERVICEAREAPINS @SERVICEAREAID,@REFKEY", sp.ToArray()).ToListAsync();
+            param = new SqlParameter("@FileId", ToDBNull(filterModel.FileId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<ServiceOfferedModel>("GETSERVICEAREAPINS @SERVICEAREAID,@REFKEY,@FileId", sp.ToArray()).ToListAsync();
         }
         public async Task<ResponseModel> AddEditServices(ServiceModel service)
         {

@@ -177,6 +177,11 @@ namespace TogoFogo.Repository.ImportFiles
             return res;
         }
 
+        public async Task<List<ProviderFileModel>> GetFiles(Guid? RefKey)
+        {            
+            var param = new SqlParameter("@RefKey", ToDBNull(RefKey));            
+            return await _context.Database.SqlQuery<ProviderFileModel>("GetFileDetails @REFKEY", param).ToListAsync();
+        }
         public async Task<ResponseModel> UploadServiceableAreaPins(ProviderFileModel provider, DataTable table)
         {
             var sp = new List<SqlParameter>();
@@ -192,8 +197,9 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@User", provider.UserId);
             sp.Add(pararm);
-
-            var sql = "UploadAreaPinCode @FileName,@RefKey,@DataTable, @User";
+            pararm = new SqlParameter("@SysFileName", ToDBNull(provider.SysFileName));
+            sp.Add(pararm);
+            var sql = "UploadAreaPinCode @FileName,@RefKey,@DataTable, @User,@SysFileName";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

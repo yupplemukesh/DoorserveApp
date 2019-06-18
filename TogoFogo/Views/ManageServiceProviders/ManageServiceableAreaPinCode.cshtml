@@ -99,7 +99,7 @@
                         obj.value = data[0].StateId;
                         obj.Other = data[0].City;
                         AjaxWithValue('BindCityJson', 'City', obj)
-                         obj.value =  data[0].City+','+data[0].StateId;
+                         obj.value =  data[0].City+","+data[0].StateId;
                          obj.Other = data[0].PinNumber;
                          AjaxWithValue('BindPinCodeJson', 'PinCode', obj)
                     }
@@ -151,10 +151,10 @@
                 obj.value = data.StateId;
                 obj.Other = data.City;
                 AjaxWithValue('BindCityJson', 'City', obj);
-                obj.value = data.City;
-                obj.Other = data.PinNumber;
+                obj.value = data.City+','+data.StateId;
+                obj.Other = data.PinCode;
                 AjaxWithValue('BindPinCodeJson', 'PinCode', obj);
-               $("#IsActive").prop("checked", data.IsActive);
+                $("#IsActive").prop("checked", data.IsActive);
                 
                 }
 
@@ -163,8 +163,4 @@
 
     }
     </script>
-
-
-
-
 }

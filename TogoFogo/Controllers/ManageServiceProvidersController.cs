@@ -289,7 +289,7 @@ namespace TogoFogo.Controllers
         {
             var SessionModel = Session["User"] as SessionModel;
             var service = new ManageServiceModel();
-            service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId });
+            service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId,FileId=null });
             service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
             service.Service.IsActive = false;
 
@@ -297,20 +297,18 @@ namespace TogoFogo.Controllers
             service.Service.StateList = new SelectList(Enumerable.Empty<SelectList>());
             service.Service.CityList = new SelectList(Enumerable.Empty<SelectList>());
             service.Service.PinCodeList = new SelectList(Enumerable.Empty<SelectList>());
-
-            service.Files = new List<ProviderFileModel>();
+            service.Files = await _RepoUploadFile.GetFiles(ServiceId);
             service.ImportModel = new ProviderFileModel();
             return View(service);
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
 
-        public async Task<ActionResult> ServiceableAreaPinCode(Guid ServiceId)
+        public async Task<ActionResult> ServiceableAreaPinCode(Guid? ServiceId,Guid?FileId)
         {
             var SessionModel = Session["User"] as SessionModel;        
-            var service = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId });          
+            var service = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId=FileId });          
             return View(service);
-
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
@@ -752,10 +750,11 @@ namespace TogoFogo.Controllers
 
             if (provider.DataFile != null)
             {
-                string FileName = SaveFile(provider.DataFile, "ServiceProviders");
+                provider.SysFileName = SaveFile(provider.DataFile, "ServiceProviders");
                 var excelPath = Server.MapPath("~/Files/ServiceProviders/");
                 string conString = string.Empty;
                 string extension = Path.GetExtension(provider.DataFile.FileName);
+                provider.FileName = Path.GetFileName(provider.DataFile.FileName);
                 switch (extension)
                 {
                     case ".xls": //Excel 97-03
@@ -767,7 +766,7 @@ namespace TogoFogo.Controllers
 
                 }
 
-                conString = string.Format(conString, excelPath + FileName);
+                conString = string.Format(conString, excelPath + provider.SysFileName);
                 DataTable dtExcelData = new DataTable();
                 using (OleDbConnection excel_con = new OleDbConnection(conString))
                 {
@@ -790,19 +789,19 @@ namespace TogoFogo.Controllers
                 }
                 try
                 {
-                    provider.FileName = FileName;
                     var response = await _RepoUploadFile.UploadServiceableAreaPins(provider, dtExcelData);
                     if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
-                    return RedirectToAction("ManageCityLocation");
+                    return RedirectToAction("ManageServiceableAreaPinCode", new {ServiceId = provider .ServiceId});
                 }
                 catch (Exception ex)
 
                 {
                     if (System.IO.File.Exists(excelPath))
                         System.IO.File.Delete(excelPath);
-                    return RedirectToAction("ManageCityLocation");
+                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.ServiceId });
+
 
                 }
             }

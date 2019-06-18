@@ -17,5 +17,6 @@ namespace TogoFogo.Filters
         public bool IsExport { get; set; }
         public int? GatewayTypeId { get; set; }
         public Guid? ServiceAreaId { get; set;  }
+        public Guid? FileId { get; set; }
     }
 }

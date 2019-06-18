@@ -1626,8 +1626,8 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.dist_Name, //Value Field(ID)
-                        Text = val.dist_Name //Text Field(Name)
+                        Value = val.district, //Value Field(ID)
+                        Text = val.district //Text Field(Name)
                     });
                 }
                 return items;
