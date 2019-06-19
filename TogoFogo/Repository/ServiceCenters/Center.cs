@@ -87,6 +87,12 @@ namespace TogoFogo.Repository.ServiceCenters
                     reader.NextResult();
 
                     CenterModel.BankDetails = ReadBanks(reader);
+                    reader.NextResult();
+                    CenterModel.Services=
+                         ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<ServiceOfferedModel>(reader)
+                            .ToList();
 
                 }
             }
@@ -116,7 +122,7 @@ namespace TogoFogo.Repository.ServiceCenters
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),        
                     AddresssId = new Guid(reader["AddresssId"].ToString()),
-                    CityId = Convert.ToInt32(reader["CityId"].ToString()),
+                    LocationId = Convert.ToInt32(reader["LocationId"].ToString()),
                     CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
                     StateId = Convert.ToInt32(reader["StateId"].ToString()),
                     AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
@@ -124,7 +130,7 @@ namespace TogoFogo.Repository.ServiceCenters
                     NearLocation = reader["NearLocation"].ToString(),
                     PinNumber = reader["PinNumber"].ToString(),
                     Address = reader["Address"].ToString(),
-                    City = reader["City"].ToString()
+                    LocationName = reader["LocationName"].ToString()
                 };
                 person.CurrentEmail = person.ConEmailAddress;
                 person.ConVoterIdFileUrl = "/UploadedImages/Centers/VoterIds/" + person.ConVoterIdFileName;

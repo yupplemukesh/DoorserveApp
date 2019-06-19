@@ -31,7 +31,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@CONSTATEID", ToDBNull(contact.StateId));
             sp.Add(param);
-            param = new SqlParameter("@CONCITY", ToDBNull(contact.City));
+            param = new SqlParameter("@CONLOCATIONID", ToDBNull(contact.LocationId));
             sp.Add(param);
             param = new SqlParameter("@CONADDRESS", ToDBNull(contact.Address));
             sp.Add(param);
@@ -75,7 +75,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@IsSingleCenter", ToDBNull(contact.IsSingleCenter));
             sp.Add(param);
-            var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONCITY,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
+            var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONLOCATIONID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
                 "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD,@CompId,@IsSingleCenter";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode==0)
@@ -106,7 +106,7 @@ namespace TogoFogo.Repository
             return await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
         }
         public async Task<ContactPersonModel> GetPinCode(string pin)
-        {
+            {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@Pincode", ToDBNull(pin));
             sp.Add(param);            

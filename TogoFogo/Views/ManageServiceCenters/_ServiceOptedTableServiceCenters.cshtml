@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TogoFogo.Models.ServiceOfferedModel>
+@using TogoFogo.Models
+@{
+    var count = 1;
+}
+<div class="panel-body">
+    <div class="x_content" style="overflow-x: scroll;">
+        <table class="table table-striped table-bordered table-condensed" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Serial No")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Category")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Sub-Category")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Service Type")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Service Delivery Type")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Service Charges")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Remarks")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Pin Codes")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Is Active")
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SubCategory)
+                    </td>
+                    <td>
+                        @item.ServiceType
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeliveryType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ServiceCharges)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ServiceableAreaPinCode", "ManageServiceCenters", new { @serviceId = item.ServiceId })">@item.CountPin</a>
+                    </td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            <span>Yes</span>
+                        }
+                        else
+                        {
+                            <span>No</span>
+
+                        }
+
+                    </td>
+                    <td style="display: inline-flex">
+                        @if (Permissions.Rights.Edit)
+                        {
+                            <span>
+                                <a href="@Url.Action("ManageService","ManageServiceCenters", new {@RefKey=item.RefKey, @ServiceId=item.ServiceId})" class="btn btn-small btn-info btnSize">Edit Service Offered</a>
+                            </span>
+                            <span>
+                                <a href="@Url.Action("ManageServiceableAreaPinCode","ManageServiceCenters",new {@ServiceId=item.ServiceId})" class="btn btn-small btn-info btnSize">Upload Serviceable Area Pin Code</a>
+                            </span>
+                        }
+                    </td>
+                </tr>
+                count++;
+            }
+
+        </table>
+    </div>
+</div>

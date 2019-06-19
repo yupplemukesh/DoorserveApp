@@ -1,11 +1,12 @@
 ﻿@model TogoFogo.Models.ServiceCenterModel
+@using TogoFogo.Models
 @{
     var cs = "";
     if (Model.Activetab == "tab-1")
     {
         cs = "active in";
     }
-   
+
 
 }
 @Html.HiddenFor(x => x.Path)
@@ -42,6 +43,11 @@
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
                         </a>
                     </li>
+                    <li>
+                        <a href="#tab-6" class="disabled" id="tab6" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                        </a>
+                    </li>
                 }
 
                 else if (Model.Activetab == "tab-2")
@@ -69,6 +75,11 @@
                     <li>
                         <a href="#tab-5" class="disabled" id="tab5" role="tab" data-toggle="tab">
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-6" class="disabled" id="tab6" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
                         </a>
                     </li>
                 }
@@ -102,6 +113,11 @@
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
                         </a>
                     </li>
+                    <li>
+                        <a href="#tab-6" class="disabled" id="tab6" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                        </a>
+                    </li>
 
                 }
 
@@ -131,6 +147,11 @@
                     <li>
                         <a href="#tab-5" class="disabled" id="tab5" role="tab" data-toggle="tab">
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-6" class="disabled" id="tab6" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
                         </a>
                     </li>
                 }
@@ -164,6 +185,45 @@
                             <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
                         </a>
                     </li>
+                    <li>
+                        <a href="#tab-6" class="disabled" id="tab6" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                        </a>
+                    </li>
+                }
+                else if (Model.Activetab == "tab-6")
+                {
+                    <li>
+                        <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-3" id="tab3" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-4" id="tab4" role="tab" data-toggle="tab">
+                            <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab-5" id="tab5" role="tab" data-toggle="tab" aria-expanded="true">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#tab-6" id="tab6"  role="tab" data-toggle="tab" aria-expanded="true">
+                            <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Services Offered
+                        </a>
+                    </li>
+
                 }
 
             }
@@ -197,7 +257,11 @@
                         <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
                     </a>
                 </li>
-
+                <li>
+                    <a href="#tab-6" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Services Offered
+                    </a>
+                </li>
             }
 
         </ul>
@@ -221,7 +285,7 @@
                                     <div class=" row form-group">
                                         <label class="col-md-3 control-label" for="selectbasic">Authorized Service Provider	</label>
                                         <div class="col-md-9">
-                                            @Html.DropDownListFor(model => model.ProviderId, Model.ProviderList, "Select", new { @class = "form-control" })                                         
+                                            @Html.DropDownListFor(model => model.ProviderId, Model.ProviderList, "Select", new { @class = "form-control" })
                                             @Html.ValidationMessageFor(model => model.ProviderId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
@@ -233,12 +297,12 @@
                                 }
                                 <!-- Select Basic -->
                                 @*<div class=" row form-group">
-                                    <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>
-                                    <div class="col-md-9">
-                                        @Html.DropDownListFor(model => model.ProcessId, Model.ProcessList, "Select", new { @class = "form-control" })                                 
-                                        @Html.ValidationMessageFor(model => model.ProcessId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>*@
+                                        <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.ProcessId, Model.ProcessList, "Select", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ProcessId, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
 
                                 <!-- Text input-->
                                 <div class=" row form-group">
@@ -259,71 +323,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row form-group" id="serviceDelType">
-                                    @*@Html.HiddenFor(x=>x.ServiceDeliveryType)*@
-                                    <!-- Multiple Radios (inline) -->
-                                    <label class="col-md-3 control-label" for="radios">Service Delivery Type</label>
-                                    <div class="col-md-9">
-                                        <div class="row">
-
-                                            @for (int x = 0; x < Model.DeliveryServiceList.Count(); x++)
-                                            {
-                                                <div class="col-md-3">
-                                                    <label class="" for="radios-0">
-                                                        @Html.CheckBoxFor(p => p.DeliveryServiceList[x].IsChecked)
-                                                        @Html.HiddenFor(p => p.DeliveryServiceList[x].Text)
-                                                        @Model.DeliveryServiceList[x].Text
-                                                        @Html.HiddenFor(p => p.DeliveryServiceList[x].Value)
-
-
-                                                    </label>
-
-                                                </div>
-                                            }
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    @Html.ValidationMessageFor(x => x.DeliveryServiceList, "", new { @class = "text-danger" })
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class=" row form-group">
-                                    <label class="col-md-3 control-label" for="selectbasic">Supported Device Category	</label>
-                                    <div class="col-md-9">
-                                        @Html.ListBoxFor(model => model.DeviceCategories, Model.SupportedCategoryList, htmlAttributes: new { @class = "selectpicker form-control", multiple = "multiple", data_actions_box = "true", data_width = "100%", @data_val = "true", @data_val_required = "choose is device category" })
-                                        @Html.ValidationMessageFor(model => model.DeviceCategories, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    <!-- Multiple Radios (inline) -->
-                                    @*@Html.HiddenFor(x => x.ServiceType)*@
-                                    <label class="col-md-3 control-label" for="radios">Service Type</label>
-                                    <div class="col-md-9">
-                                        <div class="row">
-                                            @for (int x = 0; x < Model.ServiceList.Count(); x++)
-                                            {
-                                                <div class="col-md-3">
-                                                    <label class="" for="radios-0">
-                                                        @Html.CheckBoxFor(p => p.ServiceList[x].IsChecked)
-                                                        @Html.HiddenFor(p => p.ServiceList[x].Text)
-                                                        @Model.ServiceList[x].Text
-                                                        @Html.HiddenFor(p => p.ServiceList[x].Value)
-
-
-                                                    </label>
-
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="row col-md-12">
-                                        @Html.ValidationMessageFor(x => x.ServiceList, "", new { @class = "text-danger" })
-
-                                    </div>
-                                </div>
+                               
                                 <div class="row form-group pull-right">
                                     @if (Model.action == 'I')
                                     {
@@ -396,7 +396,7 @@
                                         @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceCenters", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
                                         {
                                             Model.Contact.RefKey = Model.CenterId;
-                                            
+
                                             <div class="col-12">
                                                 @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
                                             </div>
@@ -485,7 +485,7 @@
                                         @Html.CheckBoxFor(x => x.IsActive)
                                     </div>
                                 </div>
-                           
+
                                 <!-- Text input-->
                                 <div class=" row form-group ">
                                     <label class="col-md-3 " for="textinput">Comments</label>
@@ -515,6 +515,47 @@
 
 
             </div>
+
+            <div class="tab-pane fade" id="tab-6">
+
+                <!--<h2>Service Offered</h2>-->
+
+                <div class="container-fluid tab-form-control">
+
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-md-6">
+                                    <h3 class="m-y-0">Service Offered:</h3>
+                                </div>
+                                <div class="col-md-6 ">
+                                    <div class="pull-right">
+                                        @if (Permissions.Rights.Create || Permissions.Rights.Edit)
+                                        {
+                                            <a href="@Url.Action("ManageService", "ManageServiceCenters", new { @RefKey = Model.CenterId })" class="btn btn-primary"> Add </a>
+
+                                        }
+                                        @if (Permissions.Rights.ExcelExport)
+                                        {
+                                            <button class="btn btn-primary excel">Export to Excel</button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        @Html.Partial("~/Views/ManageServiceCenters/_ServiceOptedTableServiceCenters.cshtml", Model.Services)
+                    </div>
+                </div>
+
+
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -533,7 +574,7 @@
             debugger
             switch (this.type) {
                 case 'button':
-                case 'text':              
+                case 'text':
                 case 'submit':
                 case 'password':
                 case 'file':
@@ -549,7 +590,7 @@
                 case 'radio':
                     this.checked = false;
                     break;
-                
+
             }
             $("#ContactId").val('');
 
@@ -571,7 +612,7 @@
             debugger
             switch (this.type) {
                 case 'button':
-                case 'text':               
+                case 'text':
                 case 'submit':
                 case 'password':
                 case 'file':
@@ -592,9 +633,9 @@
 
         })
 
-       
+
         $("#BankAccount").show();
-       
+
     });
     function AjaxWithValue(method, ddl, e) {
         var val = e.value;
@@ -624,7 +665,7 @@
             }
         });
     }
-    function getItems(Id, method) {       
+    function getItems(Id, method) {
         var val = Id;
         $.ajax({
             type: "GET",
@@ -673,15 +714,15 @@
                     if (data.ConPanFileName != null || data.ConPanFileName != "") {
                         $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
                     }
-                    
+
                     $("#CurrentIsUser").val(data.CurrentIsUser);
                     $("#Pincode").val(data.PinNumber);
                     $("#Country").val(data.Country);
                     $("#State").val(data.State);
-                    $("#City").val(data.City);
+                    $("#LocationId").val(data.LocationId);
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
-                    $("#NearLocation").val(data.NearLocation);                    
+                    $("#NearLocation").val(data.NearLocation);
                     $("#IsUser").prop("checked", data.isUser);
                     $("#ContactPerson").show();
                 }
@@ -689,4 +730,7 @@
             }
         });
     }
+
+
+    
 </script>
