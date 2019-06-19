@@ -21,6 +21,8 @@ namespace TogoFogo.Models
             BankDetails = new List<BankDetailModel>();
             Bank = new BankDetailModel();
             Contact = new OtherContactPersonModel();
+            Services = new List<ServiceOfferedModel>();
+            Service = new ServiceOfferedModel();
         }
         public string Path { get; set; }
         public string ServiceTypes
@@ -45,7 +47,8 @@ namespace TogoFogo.Models
         public List<BankDetailModel> BankDetails { get; set; }
         public OtherContactPersonModel Contact { get; set; }
         public BankDetailModel Bank { get; set; }
-
+        public List<ServiceOfferedModel> Services { get; set; }
+        public ServiceOfferedModel Service { get; set; }
         public Guid CenterId { get; set; }
         [Required]
         [DisplayName("Service Provider")]
@@ -80,7 +83,8 @@ namespace TogoFogo.Models
         public string Remarks { get; set; }
         public int CreatedBy { get; set; }
         public string ModifyBy { get; set; }
-        public DateTime ModifyDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ? ModifyDate { get; set; }
         public bool IsProvider { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList ProviderList { get; set; }
