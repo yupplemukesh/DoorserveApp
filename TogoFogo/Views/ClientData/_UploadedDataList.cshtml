@@ -68,6 +68,7 @@
                      });
                columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
                columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+                 columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
                columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
                columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
                columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);

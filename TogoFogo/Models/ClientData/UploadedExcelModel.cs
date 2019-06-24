@@ -55,7 +55,8 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("DEVICE SLN")]
         public string DeviceSn { get; set; }       
         [DisplayName("Date of Purchase")]
-        public DateTime ? DOP { get; set; }
+        [DataType(DataType.Date)]
+        public  string  DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
         public string PurchaseFrom { get; set; }
         [DisplayName("DEVICE IMEI FIRST")]
@@ -69,6 +70,7 @@ namespace TogoFogo.Models.ClientData
         public  double ? BillAmount { get; set; }
         [DisplayName("Call ID")]
         public string CRN { get; set; }
+        public bool? IsRepeat { get; set; }
         public Guid CustomerId { get; set; }
         public bool IsExistingCustomer { get; set; }
         [DisplayName("Customer Type")]
@@ -105,8 +107,8 @@ namespace TogoFogo.Models.ClientData
         public SelectList SubCategoryList { get; set; }
         public SelectList BrandList { get; set; }
         public SelectList ProductList { get; set; }
-
         public SelectList StatusList { get; set; }
+        public SelectList ProviderList { get; set; }
 
 
     }

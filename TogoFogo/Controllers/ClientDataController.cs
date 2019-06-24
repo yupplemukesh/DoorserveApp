@@ -62,7 +62,8 @@ namespace TogoFogo.Controllers
             // new call Log
             clientData.NewCallLog = new CallDetailsModel
             {
-                ClientList = clientData.Client.ClientList,
+             IsAssingedCall = true,
+            ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
                 BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text"),
@@ -77,8 +78,7 @@ namespace TogoFogo.Controllers
                 //{
                 AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
                 LocationList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
-                CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
+              
                 // }
 
             };
@@ -291,7 +291,7 @@ namespace TogoFogo.Controllers
                     DeviceIMEIOne = "2456675644433",
                     DeviceIMEISecond = "8756454444445",
                     DeviceSn = "#45444",
-                    DOP = Convert.ToDateTime("10/12/2019"),
+                    DOP = "10/12/2019",
                     PurchaseFrom = "Delhi",
                     DeviceCondition = "Brand New",
                     
@@ -308,9 +308,10 @@ namespace TogoFogo.Controllers
         {
             var SessionModel = Session["User"] as SessionModel;
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
+            CallDetailsModel.IsAssingedCall = true;
             CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
-            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString()+","+ CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
             CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
@@ -319,12 +320,9 @@ namespace TogoFogo.Controllers
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
-            CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
-            CallDetailsModel.StateList = new SelectList(_dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
-            CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocation(), "Value", "Text");
+            CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.IsClientAddedBy = true;
             return View("_EditForm", CallDetailsModel);
-
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
@@ -353,9 +351,6 @@ namespace TogoFogo.Controllers
         }
 
         
-    
-
-
     }
 
 }

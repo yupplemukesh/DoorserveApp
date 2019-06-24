@@ -52,7 +52,7 @@ namespace TogoFogo.Controllers
             Guid? CenterId = null;
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
                 CenterId = SessionModel.RefKey;
-            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = CenterId};
+            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = CenterId };
             var Providers = await _provider.GetProviders(filter);
             return View(Providers);
         }
@@ -78,7 +78,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -124,7 +124,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Provider);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
@@ -244,14 +244,14 @@ namespace TogoFogo.Controllers
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
-        public async Task<ActionResult> ManageService(Guid RefKey,Guid? ServiceId)
+        public async Task<ActionResult> ManageService(Guid RefKey, Guid? ServiceId)
         {
             var SessionModel = Session["User"] as SessionModel;
-            var service =new ServiceModel();
+            var service = new ServiceModel();
             if (ServiceId != null)
             {
                 service = await _services.GetService(new FilterModel { ServiceId = ServiceId });
-                service.SupportedSubCategoryList = new SelectList(dropdown.BindSubCategory(service.CategoryId),"Value","Text");
+                service.SupportedSubCategoryList = new SelectList(dropdown.BindSubCategory(service.CategoryId), "Value", "Text");
 
             }
             else
@@ -259,7 +259,7 @@ namespace TogoFogo.Controllers
                 service.SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
                 service.RefKey = RefKey;
             }
-              
+
             service.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             service.ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
             service.DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
@@ -278,7 +278,7 @@ namespace TogoFogo.Controllers
             var response = await _services.AddEditServices(service);
             TempData["response"] = response;
             if (response.IsSuccess)
-                return RedirectToAction("Edit", new { id = service.RefKey,@tab="tab-6" });
+                return RedirectToAction("Edit", new { id = service.RefKey, @tab = "tab-6" });
             else
                 return View(service);
         }
@@ -289,7 +289,7 @@ namespace TogoFogo.Controllers
         {
             var SessionModel = Session["User"] as SessionModel;
             var service = new ManageServiceModel();
-            service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId,FileId=null });
+            service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId = null });
             service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
             service.Service.IsActive = false;
 
@@ -304,10 +304,10 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
 
-        public async Task<ActionResult> ServiceableAreaPinCode(Guid? ServiceId,Guid?FileId)
+        public async Task<ActionResult> ServiceableAreaPinCode(Guid? ServiceId, Guid? FileId)
         {
-            var SessionModel = Session["User"] as SessionModel;        
-            var service = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId=FileId });          
+            var SessionModel = Session["User"] as SessionModel;
+            var service = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId = FileId });
             return View(service);
         }
 
@@ -315,9 +315,9 @@ namespace TogoFogo.Controllers
 
         public async Task<ActionResult> GetServiceAreaPinCode(Guid ServiceAreaId)
         {
-            var SessionModel = Session["User"] as SessionModel;          
-            var  service = await _services.GetServiceAreaPin(new FilterModel { ServiceAreaId = ServiceAreaId});           
-            return Json(service,JsonRequestBehavior.AllowGet);
+            var SessionModel = Session["User"] as SessionModel;
+            var service = await _services.GetServiceAreaPin(new FilterModel { ServiceAreaId = ServiceAreaId });
+            return Json(service, JsonRequestBehavior.AllowGet);
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
@@ -341,9 +341,9 @@ namespace TogoFogo.Controllers
             services.Service.IsActive = false;
             services.Service.ServiceAreaId = null;
             services.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            services.Service.StateList = new SelectList(dropdown.BindState(service.CountryId),"Value","Text");
+            services.Service.StateList = new SelectList(dropdown.BindState(service.CountryId), "Value", "Text");
             services.Service.CityList = new SelectList(dropdown.BindDiscrictByPin(service.PinCode), "Text", "Text");
-            services.Service.PinCodeList = new SelectList(dropdown.BindPinCodeParam(service.City+","+service.StateId), "Text", "Text");
+            services.Service.PinCodeList = new SelectList(dropdown.BindPinCodeParam(service.City + "," + service.StateId), "Text", "Text");
             services.Service.CountryId = service.CountryId;
             services.Service.StateId = service.StateId;
             services.Service.City = service.City;
@@ -390,12 +390,12 @@ namespace TogoFogo.Controllers
             }
 
             if (TempData["provider"] != null)
-                provider = cltns;            
+                provider = cltns;
             else
-            {            
-                    provider.Activetab = "tab-1";
-                    provider.CreatedBy = SessionModel.UserId;
-                                                           
+            {
+                provider.Activetab = "tab-1";
+                provider.CreatedBy = SessionModel.UserId;
+
             }
             if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
                 provider.CompanyId = SessionModel.CompanyId;
@@ -410,12 +410,12 @@ namespace TogoFogo.Controllers
             {
                 TempData["provider"] = provider;
                 return View("Create", provider);
-             
+
             }
             else
                 return View("Edit", provider);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
         {
@@ -482,14 +482,13 @@ namespace TogoFogo.Controllers
             }
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
-        public async Task<ActionResult> AddOrEditClientReg(ServiceProviderModel provider)
+        public async Task<ActionResult> AddOrEditASPReg(ServiceProviderModel provider)
         {
             var SessionModel = Session["User"] as SessionModel;
 
-            if (provider.IsUser && !string.IsNullOrEmpty(provider.Password))
-                provider.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(provider.Password, true);
+
 
             var cltns = TempData["provider"] as ServiceProviderModel;
             provider.Organization = new OrganizationModel();
@@ -497,9 +496,7 @@ namespace TogoFogo.Controllers
             {
                 cltns.Remarks = provider.Remarks;
                 cltns.IsActive = provider.IsActive;
-              
-            
-                cltns.Password = provider.Password;
+
                 provider = cltns;
             }
             try
@@ -509,18 +506,20 @@ namespace TogoFogo.Controllers
                 provider.CreatedBy = SessionModel.UserId;
                 var response = await _provider.AddUpdateDeleteProvider(provider);
                 _provider.Save();
-                provider.ProviderId = new Guid(response.result);
+                var _ASPModel = await GetProvider(provider.ProviderId);
                 TempData["response"] = response;
-                TempData.Keep("response");
-                return RedirectToAction("Index");
-
+                _ASPModel.Activetab = "tab-6";
+                if (_ASPModel.action == 'I')
+                    return View("Create", _ASPModel);
+                else
+                    return View("edit", _ASPModel);
             }
             catch (Exception ex)
             {
                 if (provider.action == 'I')
                     return View("Create", provider);
                 else
-                    return RedirectToAction("Index");
+                    return View("edit", provider);
             }
         }
 
@@ -542,7 +541,7 @@ namespace TogoFogo.Controllers
             var Provider = await _provider.GetProviderById(ProviderId);
 
             Provider.Path = _path;
-            
+
 
 
             if (Provider.Organization == null)
@@ -563,8 +562,8 @@ namespace TogoFogo.Controllers
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
                 CityList = new SelectList(Enumerable.Empty<SelectList>()),
-                PinCodeList= new SelectList(Enumerable.Empty<SelectList>()),
-                RefKey=ProviderId
+                PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
+                RefKey = ProviderId
             };
 
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
@@ -577,7 +576,7 @@ namespace TogoFogo.Controllers
             {
                 Provider.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
                 Provider.IsSuperAdmin = true;
-                
+
             }
             else
                 Provider.CompanyId = SessionModel.CompanyId;
@@ -589,7 +588,7 @@ namespace TogoFogo.Controllers
         }
 
         // POST: ManageClient/Edit/5
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> Edit(ServiceProviderModel provider, OrganizationModel org)
         {
@@ -598,8 +597,8 @@ namespace TogoFogo.Controllers
             {
 
                 provider.Organization = new OrganizationModel();
-         
-                 if (provider.Activetab.ToLower() == "tab-2")
+
+                if (provider.Activetab.ToLower() == "tab-2")
                     provider.Organization = org;
 
                 provider.CreatedBy = SessionModel.UserId;
@@ -635,7 +634,7 @@ namespace TogoFogo.Controllers
                 var fileName = Guid.NewGuid();
                 var savedFileName = fileName + fileExtention;
                 file.SaveAs(Path.Combine(path, savedFileName));
-                return  savedFileName;
+                return savedFileName;
             }
             catch (Exception ex)
             {
@@ -773,14 +772,11 @@ namespace TogoFogo.Controllers
                     excel_con.Open();
 
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[5] {
-                new DataColumn("Country", typeof(string)),
-                new DataColumn("State", typeof(string)),
-                new DataColumn("District", typeof(string)),
+                    dtExcelData.Columns.AddRange(new DataColumn[2] {
                 new DataColumn("Pin Code", typeof(string)),
                    new DataColumn("Is Active", typeof(string))
                 });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Country],[State], [District],[Pin Code],[IS Active] FROM [" + sheet1 + "] where [Country] is not null", excel_con))
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Pin Code],[IS Active] FROM [" + sheet1 + "] where [Pin Code] is not null", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }
@@ -793,7 +789,7 @@ namespace TogoFogo.Controllers
                     if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
-                    return RedirectToAction("ManageServiceableAreaPinCode", new {ServiceId = provider .ServiceId});
+                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.ServiceId });
                 }
                 catch (Exception ex)
 
@@ -862,6 +858,19 @@ namespace TogoFogo.Controllers
             byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
+        }
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Provider)]
+        public async Task<FileContentResult> AreaPincodeTemplate()
+        {
+            string[] columns = new string[] {"PinCode", "IsActive" };
+            var providerData = new List<ServiceOfferedModel> { new ServiceOfferedModel
+                {
+                PinCode="281204",
+                IsActive=true
+                }};
+            byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "AreaPinCodeTemplate.xlsx");
         }
     }
 }

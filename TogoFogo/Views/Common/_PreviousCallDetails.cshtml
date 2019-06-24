@@ -1,0 +1,57 @@
+﻿@model TogoFogo.Models.PreviousCallModel
+
+<div class="panel panel-default panel-table">
+    <div class="panel-body">
+        <div class="form-horizontl">
+            <div class="panel-default m-b-10">
+                <div class="panel-heading p-l-0 p-t-0 ">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="m-t-0 m-b-5">Previous Call Details</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="form-material">
+
+                    <div class="col-sm-3">
+                        <div class="form-group has-value">
+                            @Html.DisplayFor(x => x.CallId, new { @class = "form-control" })
+                            <label class="floating-label t-0">Call Id</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group has-value">
+                            @Html.DisplayFor(x => x.CallDate, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                            <label class="floating-label t-0">Call Date</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group has-value">
+                            @Html.DisplayFor(x => x.ProblemDescription, new { @class = "form-control" })
+                            <label class="floating-label t-0">Problem Description</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group has-value">
+                            @Html.DisplayFor(x => x.ProblemCloseDate, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                            <label class="floating-label t-0">Problem Close Date</label>
+                        </div>
+                    </div>
+               
+
+                </div>
+            </div>
+            
+
+
+
+
+
+        </div>
+    </div>
+</div>

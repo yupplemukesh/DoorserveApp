@@ -88,7 +88,5 @@ namespace TogoFogo.Controllers
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
         }
-
-
     }
 }

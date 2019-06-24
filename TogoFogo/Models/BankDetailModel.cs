@@ -56,6 +56,7 @@ namespace TogoFogo.Models
        public Guid? CompanyId { get; set; }
        public string Password { get; set; }
        public char EventAction { get; set; }
+
     }
 
 

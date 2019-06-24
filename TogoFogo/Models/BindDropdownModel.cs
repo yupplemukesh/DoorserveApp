@@ -91,7 +91,7 @@ namespace TogoFogo.Models
     }
     public class BindServiceProviderModel
     {
-        public string ProviderId { get; set; }
+        public Guid? ProviderId { get; set; }
         public string ProviderName { get; set; }
 
     }

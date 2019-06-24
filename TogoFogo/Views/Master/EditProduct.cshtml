@@ -36,7 +36,7 @@
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })            
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label" })
+            @Html.Label("Model", htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
@@ -48,7 +48,7 @@
 
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.ProductColor, htmlAttributes: new { @class = "control-label" })
+            @Html.Label("Model Color", htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.ListBoxFor(model => model.ProductColor, Model._ProductColor, new { @class = "selectpicker1", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
@@ -56,7 +56,7 @@
                 @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })           
         </div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.AlternateProductName, htmlAttributes: new { @class = "control-label" })
+            @Html.Label("Alternate Model Name", htmlAttributes: new { @class = "control-label" })
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.AlternateProductName, htmlAttributes: new { @class = "form-control" })
@@ -126,7 +126,7 @@
 
     <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
+            @Html.Label("Model Image", htmlAttributes: new { @class = "control-label" })
             <div class="input-group ">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })

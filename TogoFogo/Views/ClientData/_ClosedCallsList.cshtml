@@ -44,7 +44,10 @@
                       rowNumber++;
                       return @<text> @rowNumber </text>;
                  });
-           columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+                                                         columns.Add(model => model.CRN).Titled("Call Id")
+                                                          .Filterable(true).Sanitized(false).Encoded(false).
+  RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN },null));
+              columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
            columns.Add(c => c.CreatedOn).Titled("Date Time").Filterable(true);
            columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
            columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);

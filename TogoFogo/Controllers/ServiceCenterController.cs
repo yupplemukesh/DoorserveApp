@@ -310,7 +310,6 @@ namespace TogoFogo.Controllers
                 filter.ProviderId = SessionModel.RefKey;
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
                 filter.RefKey = SessionModel.RefKey;
-
             var calls = await _centerRepo.GetCallDetails(filter);
             calls.Employee = new EmployeeModel();        
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
@@ -395,10 +394,10 @@ namespace TogoFogo.Controllers
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CallDetailsModel.StateList = new SelectList(dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
-            CallDetailsModel.CityList = new SelectList(dropdown.BindLocation(CallDetailsModel.StateId), "Value", "Text");
-            CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus(), "Value", "Text");
+            CallDetailsModel.CityList = new SelectList(dropdown.BindDiscrictByPin(CallDetailsModel.PinNumber), "Value", "Text"); ;
+            CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
+            CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.Param = Param;
-            CallDetailsModel.StatusId = 11;
             if (Param == "A")
             {
                 CallDetailsModel.Employee = new EmployeeModel();
@@ -409,10 +408,21 @@ namespace TogoFogo.Controllers
                 else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
                 else
-                CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
-                
+                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
+
 
             }
+            else if (Param == "P")
+                CallDetailsModel.CStatus = 11;
+
+
+
+
+            if (!string.IsNullOrEmpty(Param))
+                CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("ASP"), "Value", "Text");
+            else
+                CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("Customer support"), "Value", "Text");
+
 
             return View(CallDetailsModel);
         }
@@ -426,19 +436,15 @@ namespace TogoFogo.Controllers
             try
             {
                 var SessionModel = Session["User"] as SessionModel;
-
                 callStatusDetails.UserId = SessionModel.UserId;
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
-                //return Json("Ok", JsonRequestBehavior.AllowGet);
                 return RedirectToAction("AcceptCalls");
             }
             catch (Exception ex)
             {
                 var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
                 TempData["response"] = response;
-                TempData.Keep("response");
-                //return Json("ex", JsonRequestBehavior.AllowGet);
                 return RedirectToAction("AcceptCalls");
             }
 

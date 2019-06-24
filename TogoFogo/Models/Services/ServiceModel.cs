@@ -30,8 +30,8 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Service Delivery Type")]
         public decimal? ServiceCharges { get; set; }
-     
-      
+
+        public int WarranyPeriod { get; set; }
         public Guid? RefKey { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList SupportedSubCategoryList { get; set; }      

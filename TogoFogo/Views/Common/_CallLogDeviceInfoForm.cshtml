@@ -1,5 +1,5 @@
 ﻿@model TogoFogo.Models.ClientData.UploadedExcelModel
-
+@using System.Globalization;
 
 
 <div class="panel panel-default panel-table b-r-0">
@@ -77,35 +77,21 @@
                         @Html.ValidationMessageFor(x => x.DeviceIMEISecond, "", new { @class = "text-danger" })
                         <label class="floating-label">IMEI Two</label>
                     </div>
-                </div>
-
-
-                
-
-
+                </div>           
             </div>
         </div>
-
-
-
-
-
-
-
         <div class="row">
             <div class="form-material">
-
                 <div class="col-sm-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.PurchaseFrom, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.PurchaseFrom, "", new { @class = "text-danger" })
                         <label class="floating-label">Device Purchased From</label>
-
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        @Html.TextBoxFor(x => x.DOP, "{0:dd-MM-yyyy}", new { @class = "form-control",id= "datepicker1" })
+                        @Html.TextBoxFor(x => x.DOP ,   new { @class = "form-control datepicker" })
                         @Html.ValidationMessageFor(x => x.DOP, "", new { @class = "text-danger" })
                         <label class="floating-label t-0">Date Of Purchased</label>
                     </div>

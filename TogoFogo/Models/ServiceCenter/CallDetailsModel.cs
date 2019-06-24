@@ -15,7 +15,7 @@ namespace TogoFogo.Models.ServiceCenter
             _UploadedExcelModel = new UploadedExcelModel();
            
         }
-        
+        public bool IsAssingedCall { get; set; }
         public int? StatusId { get; set; }      
         [Required]
         public string RejectionReason { get; set; }
@@ -24,12 +24,14 @@ namespace TogoFogo.Models.ServiceCenter
         public EmployeeModel Employee { get; set; }
         public UploadedExcelModel _UploadedExcelModel { get; set; }
         public string ProblemDescription { get; set; }
-        public DateTime? IssueOcurringSinceDate { get; set; }        
+        public string IssueOcurringSinceDate { get; set; }        
         public DateTime ? AppointmentDate { get; set; }
         // public string Remarks { get; set; }
-        public bool IsRepeat { get; set; }
-        public string Param {get;set;}
+        public Guid? PreviousCallId { get; set; } 
 
+        public  int CStatus { get; set; } 
+        public string Param {get;set;}
        
+               
     }
 }

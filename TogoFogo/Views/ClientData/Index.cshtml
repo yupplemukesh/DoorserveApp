@@ -50,7 +50,7 @@
                     </div>
                 </div><!--tab-pane-6-->
                 <div role="tabpanel" class="tab-pane fade in" id="tab-7">
-                    @using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { id = "submitthis" }))
+                    @using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { @id = "submitthis" }))
                     {
 
                         @Html.Partial("_NewCallLogForm", Model.NewCallLog)
@@ -61,11 +61,8 @@
     </div>
 </div>
 @section scripts{
-
-    @Scripts.Render("~/bundles/js/form-m")
     @Scripts.Render("~/bundles/jqueryval")
-
-<script>
+    <script>     
         $("#ProblemInfo").hide();
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
@@ -104,7 +101,6 @@
                 }
             });
         }
-
         function getCustomer() {
             var mobile = $("#CustomerContactNumber").val();
             $.ajax({
@@ -114,6 +110,8 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
+
+                    console.log(data);
                     $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
                     $("#CustomerName").val(data[0].CustomerName);
                     $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
@@ -123,49 +121,17 @@
                     $("#NearLocation").val(data[0].NearLocation);
                     $("#Address").val(data[0].Address);
                     $("#PinCode").val(data[0].PinNumber);
-                    $("#CountryId").val(data[0].CountryId);                   
+                    $("#CountryId").val(data[0].CountryId);
                     $("#IsExistingCustomer").prop("checked", true);
-                    
-                   // var obj = { value: data[0].CountryId, cvalue: data[0].StateId }; +
-                      //  AjaxWithValue('BindStateJson', 'StateId', obj);
-                   // obj.value = data[0].StateId;
-                   // obj.cvalue = data[0].CityId;
-                   // AjaxWithValue('BindLocationJson', 'CityId', obj)
                     $("#StateId").val(data[0].StateId);
-                    var obj = { value: Id, Other: result.LocationId };
+                    var obj = { value:data[0].PinNumber , Other: data[0].LocationId };
                     AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                 }
             });
         }
-
-
-
-         @* function getLocationByPin() {
-          var PinCode=  $("#PinNumber").val();
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("BindLocationByPinJson", "DropdownBind")',
-                    data: {'value':  PinCode},
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        $("#CountryId").val(data[0].CountryId);
-                        var obj = { value: data[0].CountryId, cvalue:data[0].StateId }; +
-                          AjaxWithValue('BindStateJson', 'StateId', obj);
-                        obj.value = data[0].StateId;
-                        obj.cvalue = data[0].CityId;
-                         AjaxWithValue('BindLocationJson', 'CityId', obj)
-
-
-                    }
-                });, onchange = "AjaxWithValue('BindStateJson', 'StateId', this)"
-             , onchange = "AjaxWithValue('BindLocationJson', 'City', this)"
-        }*@
-
-
             $('input[type=radio][name="ServiceTypeId"]').change(function () {
                 console.log($(this).val());
-                debugger
+
                 if ($(this).val() == 7) {
 
                     $("#ProblemInfo").hide();
@@ -176,9 +142,6 @@
                 }
 
         });
-
-
-
         $('a[data-toggle="tab"]').click(function (e) {
             if (this.hash == '#tab-3')
                 $("#tabIndex").val('C');
@@ -190,8 +153,5 @@
                  $("#tabIndex").val('D');
 
         });
-
-
-
-</script>
+    </script>
 }

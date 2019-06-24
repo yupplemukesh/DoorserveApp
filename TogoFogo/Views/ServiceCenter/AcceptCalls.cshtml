@@ -108,7 +108,10 @@ else
                                   count++;
                                   return @<text> @count </text>;
                                   });
-                                   columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                   columns.Add(model => model.CRN).Titled("Call Id")
+                                                          .Filterable(true).Sanitized(false).Encoded(false).
+                                                            RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN,Param = "P"  },null));
+                                   columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
                                    columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
                                    columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
                                    columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
@@ -127,9 +130,6 @@ else
                                                            .Filterable(true).Sanitized(false).Encoded(false).
                                                             RenderValueAs(o => CustomRenderingOfColumn(o));
 
-                                   columns.Add().Titled("Action")
-                                                                        .Filterable(true).Sanitized(false).Encoded(false).
-                                                                         RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "P" }));
                                }).WithPaging(10).Sortable(true)
                                 </div>
 
@@ -188,32 +188,7 @@ else
                             </div>
                         </div>
 
-                        <div class="form-horizontal">
-                            <div class="form-group row m-b-0" id="DropDown">
-                                <div class="col-sm-3"> <h4>Select Technician</h4></div>
-                                <div class="col-sm-5">
-                                    @Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-horizontal">
-                            <div id="TechnicianDetailsForm" style="display:none;">
-                                @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                                <div class="col-md-3 col-md-offset-9 text-right">
-                                    <button class="btn btn-warning  btn-sm ladda-button" data-style="expand-right" type="button" id="btnback">
-                                        <span class="ladda-label">
-                                            Back
-                                        </span>
-                                        <span class="ladda-spinner"></span>
-                                    </button>
-                                    <button class="btn btn-success btn-sm  ladda-button" data-style="expand-right" id="btnAssign" type="button">
-                                        <span class="ladda-label">Assign to technician</span>
-                                        <span class="ladda-spinner"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                
 
                         <div class="panel-heading">
                             <div class="row">
@@ -236,9 +211,6 @@ else
                             <div class="table-responsive">
                                 <div class="code-cut">
                                     @Html.Grid(Model.AcceptedCalls).Columns(columns => {
-                                   columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"acceptedCalls\")'  />")
-                                   .Encoded(false).Sanitized(false).SetWidth(30)
-                                   .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
                                    columns.Add()
                                   .Titled("#SLN")
                                   .SetWidth(10)
@@ -247,7 +219,10 @@ else
                                   count1++;
                                   return @<text> @count1 </text>;
                                   });
-                                   columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                                columns.Add(model => model.CRN).Titled("Call Id")
+                                                          .Filterable(true).Sanitized(false).Encoded(false).
+                                                            RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN,Param = "A"  },null));
+                                   columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
                                    columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
                                    columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
                                    columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
@@ -268,9 +243,6 @@ else
                                    columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
                                    .Filterable(true).Sanitized(false).Encoded(false).
                                RenderValueAs(o => CustomRenderingOfColumn(o));
-                                   columns.Add().Titled("Action")
-      .Filterable(true).Sanitized(false).Encoded(false).
-      RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
                                }).WithPaging(10).Sortable(true)
                                 </div>
                             </div>
@@ -308,7 +280,11 @@ else
                                   count2++;
                                   return @<text> @count2 </text>;
      });
-      columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+                                                columns.Add(model => model.CRN).Titled("Call Id")
+                                                          .Filterable(true).Sanitized(false).Encoded(false).
+                                                            RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN,Param = "A"  },null));
+                                   columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
+
       columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
       columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
       columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
@@ -332,10 +308,7 @@ else
       columns.Add().Titled("Technician Name")
        .Filterable(true).Sanitized(false).Encoded(false).
         RenderValueAs(model => Html.ActionLink(model.TechnicianName, "Edit", "Employees", new { empId = model.EmpId }, null));
-                                    columns.Add().Titled("Action")
-      .Filterable(true).Sanitized(false).Encoded(false).
-      RenderValueAs(model => Html.ActionLink("View", "ManageServiceProvidersDetails", new { CRN = model.CRN, Param = "A" }));
-
+ 
            
   }).WithPaging(10).Sortable(true)
                                 </div>

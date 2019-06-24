@@ -497,7 +497,7 @@
 <div class="container-fluid tab-form-control">
     <div class="row">
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-            @using (Html.BeginForm("AddOrEditClientReg", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+            @using (Html.BeginForm("AddOrEditASPReg", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
             {
                 @Html.HiddenFor(x => x.ProviderId)
                 @Html.HiddenFor(x => x.action)

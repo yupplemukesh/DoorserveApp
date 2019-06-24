@@ -396,7 +396,6 @@ namespace TogoFogo.Controllers
                 List<UserRoleModel> color = con
                     .Query<UserRoleModel>("select RoleId,UserRole from User_Role_Master", null, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
-
                 foreach (var val in color)
                 {
                     items.Add(new ListItem
@@ -484,9 +483,8 @@ namespace TogoFogo.Controllers
                 query = query + " Order by QCProblem";
                 List<BindQCModel> company = con
                     .Query<BindQCModel>(query,
-                        new { companyId =compId}, commandType: CommandType.Text).ToList();
-                List<ListItem> items = new List<ListItem>();
-      
+                    new { companyId =compId}, commandType: CommandType.Text).ToList();
+                List<ListItem> items = new List<ListItem>();      
                 foreach (var val in company)
                 {
                     items.Add(new ListItem
@@ -495,7 +493,6 @@ namespace TogoFogo.Controllers
                         Text = val.QCProblem //Text Field(Name)
                     });
                 }
-
                 return items;
             }
         }
@@ -504,7 +501,7 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
 
-                var query = "SELECT ProviderId,ProviderName from MstServiceProvider";
+                var query = "SELECT ProviderId,ProviderName from MstServiceProviders";
                 if (compId != null)
                     query = query + " and companyId=@companyId";
                 query = "Order by ProviderName ";
@@ -521,7 +518,35 @@ namespace TogoFogo.Controllers
                 {
                     items.Add(new ListItem
                     {
-                        Value = val.ProviderId, //Value Field(ID)
+                        Value = val.ProviderId.ToString(), //Value Field(ID)
+                        Text = val.ProviderName //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
+        public List<ListItem> BindServiceProvider(string Pincode)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+
+                var query = "USPGetPRoviderByPinCode";
+              
+                List<BindServiceProviderModel> company = con
+                    .Query<BindServiceProviderModel>(query,
+                        new { Pincode }, commandType: CommandType.StoredProcedure).ToList();
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "Select" //Text Field(Name)
+                });
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.ProviderId.ToString(), //Value Field(ID)
                         Text = val.ProviderName //Text Field(Name)
                     });
                 }
@@ -608,14 +633,14 @@ namespace TogoFogo.Controllers
         }
 
 
-        public List<ListItem> BindCallAppointmentStatus()
+        public List<ListItem> BindCallAppointmentStatus(string PageRef)
         {
 
             using (var con = new SqlConnection(_connectionString))
             {
                 List<Status_MasterModel> company = con
-                    .Query<Status_MasterModel>("SELECT * from Status_Master WHERE StatusId IN(4,12,18)",
-                        null, commandType: CommandType.Text).ToList();
+                    .Query<Status_MasterModel>("SELECT * from Status_Master WHERE PageRef=@PageRef",
+                        new{ PageRef }, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
                 {
@@ -1069,15 +1094,18 @@ namespace TogoFogo.Controllers
 
         public async Task<ActionResult> GetLocationByPinCode(string pin)
         {
-
             var PinCodeDetails = await _ContactRepo.GetPinCode(pin);
-
             return Json(PinCodeDetails, JsonRequestBehavior.AllowGet);
-
         }
         public JsonResult BindLocationByPinCodeJson(string value)
         {
+            var locations = BindLocationByPinCode(value);
+            return Json(locations, JsonRequestBehavior.AllowGet);
+        }
 
+
+         public List<ListItem>  BindLocationByPinCode(string value)
+        {
             using (var con = new SqlConnection(_connectionString))
             {
                 var city = con.Query<ContactPersonModel>("GetLocationByPinCodeJson", new { @PinCode = value },
@@ -1097,10 +1125,9 @@ namespace TogoFogo.Controllers
                     });
                 }
 
-                return Json(items, JsonRequestBehavior.AllowGet);
+                return items;
             }
         }
-
 
         public JsonResult BindLocationByPinJson(string value)
         {

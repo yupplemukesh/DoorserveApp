@@ -46,7 +46,7 @@
 
                     <label class="col-sm-1 control-label" for="form-control-1">Call Date</label>
                     <div class="col-sm-3">
-                        @Html.TextBoxFor(model => model.CreatedOn, "{0:dd-MM-yyyy}", new { @class = "form-control input-md", @placeholder = "Call Date", @disabled = "disabled" })
+                        @Html.TextBoxFor(model => model.CreatedOn, "{0:dd/MM/yyyy}", new { @class = "form-control input-md", @placeholder = "Call Date", @disabled = "disabled" })
                         @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
                     </div>
 
@@ -144,16 +144,22 @@
 @if (Model.ServiceTypeId != 7)
 {
     <div id="ProblemInfo">
-        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription,IsRepeat=Model.IsRepeat, RefKey = Model.DeviceId })
+        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })
     </div>
 }
 else
 {
     <div id="ProblemInfo" style="display:none">
         @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel
-        { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription,IsRepeat=Model.IsRepeat, RefKey = Model.DeviceId })
+        { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })
     </div>
 
+}
+
+@if (Convert.ToBoolean(Model.IsRepeat))
+{
+    @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml", new TogoFogo.Models.PreviousCallModel())
+    @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml", new TogoFogo.Models.WarrantyInformationModel())
 }
 <div class="panel panel-default panel-table ">
     @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)

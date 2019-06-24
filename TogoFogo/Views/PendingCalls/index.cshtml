@@ -77,7 +77,7 @@
                                                  columns.Add(model => model.CRN).Titled("Call Id")
                                                           .Filterable(true).Sanitized(false).Encoded(false).
   RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN },null));
-
+                                                columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
                                                                    columns.Add(c => c.Status).Titled("Status").Filterable(true);
                     columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
                     columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);                 

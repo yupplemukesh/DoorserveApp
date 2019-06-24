@@ -9,15 +9,14 @@
     <title>Repairgreen</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
     @Scripts.Render("~/bundles/ckEditorJS")
-    <link href="~/Content/css/bootstrap-select.min.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css/bootstap")
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/css/Gridmvc")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", required: false)
- @{
-         var SessionModel = Session["User"] as SessionModel;
- }
-
+    @{
+        var SessionModel = Session["User"] as SessionModel;
+    }
 </head>
 <body class="layout layout-header-fixed layout-left-sidebar-fixed">
     <div class="site-overlay"></div>
@@ -25,18 +24,18 @@
         <nav class="navbar navbar-default">
             <div class="navbar-header">
                 <a class="navbar-brand" href="@Url.Action("Index","Home")">
-                   @if (SessionModel != null)
-                   {
-                    if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
+                    @if (SessionModel != null)
                     {
-                        <img src="@SessionModel.LogoUrl" />
-                    }
-                    else
-                    {
-                        <img src="/content/img/logo.png" />
+                        if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
+                        {
+                            <img src="@SessionModel.LogoUrl" />
+                        }
+                        else
+                        {
+                            <img src="/content/img/logo.png" />
 
+                        }
                     }
-                   }
 
                 </a>
                 <button class="navbar-toggler left-sidebar-toggle pull-left visible-xs" type="button">
@@ -67,10 +66,10 @@
                                 </button>*@
                         </div>
                     </form>
-                   
-                            @Html.Partial("_LoginPartial")
-                 
-                
+
+                    @Html.Partial("_LoginPartial")
+
+
                 </div>
             </div>
         </nav>
@@ -125,29 +124,24 @@
         </div>
     }
     @Scripts.Render("~/bundles/customBundle")
+    @Scripts.Render("~/bundles/js/form-m")
     @Scripts.Render("~/bundles/js/Gridmvc")
+
     @Scripts.Render("~/bundles/bootstrap")
-<script>
 
-//         $(window).on("navigate", function (event, data)
-//        {
-//            debugger
-//	var direction = data.state.direction;
-//	if (direction == 'back') {
-//        alert('back button was pressed');
-//	}
-//});
 
-    $(document).ready(function (e) {
+    <script>
 
-       
 
+
+
+        $(document).ready(function (e) {
             $('#myTable').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found",
-                     processing: "<img src='/content/img/loading.gif'>"
+                    processing: "<img src='/content/img/loading.gif'>"
                 },
-                 processing: true
+                processing: true
             });
             $('#myTable1').DataTable({
                 "oLanguage": {
@@ -212,99 +206,20 @@
                     $('#hideLink').hide()
                 }
             });
-            $("#datepicker,#JOB_DATE,#Previous_Shipping_Date,#Advance_Payment_Date,#Schedule_Courier_Pickup_Date,#Bill_Invoice_Date")
-                .datepicker({
-                    dateFormat: 'dd-MM-yy',
-                }).datepicker("setDate", new Date());
+            $(".datepicker").datepicker({
+                format: 'dd/mm/yyyy'
 
-            $('#date_begin,#date_end').datetimepicker();
-            $("#form_datetime,#form_datetime1,#form_datetime2").datetimepicker({ format: 'yyyy-mm-dd hh:ii' });
-            $('#ReportFromDate,#ReportToDate').datepicker({
-                dateFormat: 'dd-M-yy',
-            }).datepicker("setDate", new Date());
-
-            $('#LandingToDate,#LandingFromDate').datepicker({
-                dateFormat: 'dd-M-yy',
-                maxDate: new Date(),
-            }).datepicker("setDate", new Date());
-            $("#datepicker1").datepicker({
-                dateFormat: 'dd-M-yy',
-            }).datepicker("setDate", new Date());
-
-            $(".template").click(function () {
-                var obj = $("#myTable").DataTable().$('tr:first').clone();
-                var obj1 = $('<tr>').append($("#myTable thead tr").html());
-
-
-                $(obj1).find("th:eq(0)").remove();
-                $(obj1).find("th:eq(0)").remove();
-                $(obj1).find("th:eq(0)").remove();
-                $(obj1).find("th:eq(0)").remove();
-
-                $(obj).find("td:eq(0)").remove();
-                $(obj).find("td:eq(0)").remove();
-                $(obj).find("td:eq(0)").remove();
-                $(obj).find("td:eq(0)").remove();
-
-
-
-                $('<table>')
-                    .append(
-                        obj1
-                    )
-                    .append(
-                        obj
-                    )
-                    .table2excel({
-                        exclude: ".excludeThisClass",
-                        name: "Worksheet Name",
-                        filename: "Excel.xls" //do not include extension
-                    });
-            });
-            $(".excel").click(function () {
-                var obj = $("#myTable").DataTable().$('tr').clone();
-                var obj1 = $('<tr>').append($("#myTable thead tr").html());
-                var lstchl = $(obj1).find("th:last-child").html();
-                if (lstchl.indexOf("Action") != -1) {
-                    $(obj1).find("th:last-child").remove();
-                    $(obj).find("td:last-child").remove();
-                }
-
-                if ($("#tab-6").hasClass("active")) {
-                    obj = $("#myTable1").DataTable().$('tr').clone();
-                    obj1 = $('<tr>').append($("#myTable1 thead tr").html());
-                    lstchl = $(obj1).find("th:last-child").html();
-                    if (lstchl.indexOf("Action") != -1) {
-                        $(obj1).find("th:last-child").remove();
-                        $(obj).find("td:last-child").remove();
-                    }
-
-                }
-                if ($("#tab-7").hasClass("active")) {
-                    obj = $("#myTable2").DataTable().$('tr').clone();
-                    obj1 = $('<tr>').append($("#myTable2 thead tr").html());
-                    lstchl = $(obj1).find("th:last-child").html();
-                    if (lstchl.indexOf("Action") != -1) {
-                        $(obj1).find("th:last-child").remove();
-                        $(obj).find("td:last-child").remove();
-                    }
-
-                }
-
-                $('<table>')
-                    .append(
-                        obj1
-                    )
-                    .append(
-                        obj
-                    )
-                    .table2excel({
-                        exclude: ".excludeThisClass",
-                        name: "Worksheet Name",
-                        filename: "Excel.xls" //do not include extension
-                    });
             });
 
+            $(".dateTimePicker").datetimepicker({
+                timeFormat: 'hh:mm:ss',
+                dateFormat: 'dd/mm/yy',
+                showSecond: true,
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true
+
+            })
         });
         function readURL(input) {
             var _this = input;

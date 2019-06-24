@@ -12,7 +12,7 @@
 
                 <label class="col-sm-1 control-label" for="form-control-1">Call Date</label>
                 <div class="col-sm-3">
-                    @Html.TextBoxFor(model => model.CreatedOn, "{0:yyyy-MM-dd}", new { @class = "form-control input-md", @placeholder = "Call Date", @disabled = "disabled" })
+                    @Html.TextBoxFor(model => model.CreatedOn, "{0:dd/MM/yyyy}", new { @class = "form-control input-md", @placeholder = "Call Date", @disabled = "disabled" })
                     @Html.ValidationMessageFor(model => model.CreatedOn, "", new { @class = "text-danger" })
                 </div>
 
