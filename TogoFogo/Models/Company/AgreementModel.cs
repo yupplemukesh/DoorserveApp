@@ -13,7 +13,7 @@ namespace TogoFogo.Models.Company
         [DisplayName("Company Type")]
         public string CompanyType { get; set; }
         public int PayableTypeId { get; set; }        
-        public DateTime AgreementStartDate { get; set; }
+        public string AgreementStartDate { get; set; }
         public string AgreementPeriod { get; set; }
         public string AgreementNumber { get; set; }
         public string AgreementFile { get; set; }
@@ -26,9 +26,11 @@ namespace TogoFogo.Models.Company
         public string ServiceTypes { get; set; }
         public string  DeliveryTypes{ get; set; }
         public int CreatedBy { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreatedDate { get; set; }
         public int ModifyBy { get; set; }
-        public DateTime ModifyDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ? ModifyDate { get; set; }
         public string CompanyTypeName { get; set; }
         public Guid? RefKey { get; set; }
         public Guid? AGRId { get; set; }

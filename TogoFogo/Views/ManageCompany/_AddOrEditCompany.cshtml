@@ -5,7 +5,7 @@
     <label class="col-sm-4 control-label" for="form-control-1">Company Type</label>
     <div class="col-sm-8">
         @Html.DropDownListFor(x => x.CompanyTypeId, Model.CompanyTypeList, "Select", new { @class = "form-control input-md", })
-        @Html.ValidationMessageFor(model => model.DomainExpiryDate, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.CompanyTypeId, "", new { @class = "text-danger" })
     </div>
     </div>
 
@@ -14,7 +14,7 @@
         <label class="col-sm-4 control-label" for="form-control-1">Company Code</label>
         <div class="col-sm-3">
             @Html.TextBoxFor(x => x.CompanyCode, new { @class = "form-control input-md", })
-            @Html.ValidationMessageFor(model => model.DomainExpiryDate, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
         </div>
         <label class="col-sm-2 control-label" for="form-control-1">Company Name</label>
         <div class="col-sm-3">
@@ -32,7 +32,7 @@
 
         <label class="col-sm-2 control-label" for="form-control-1">Domain Expiry Date</label>
         <div class="col-sm-3">
-            @Html.TextBoxFor(x => x.DomainExpiryDate, "{0:yyyy-MM-dd}",  new { @class = "form-control input-md", @type = "date"  })
+            @Html.TextBoxFor(x => x.DomainExpiryDate, "{0:dd/MM/yyyy}",  new { @class = "form-control input-md datepicker" })
             @Html.ValidationMessageFor(model => model.DomainExpiryDate, "", new { @class = "text-danger" })
         </div>
     </div>

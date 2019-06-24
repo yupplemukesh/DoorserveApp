@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using TogoFogo.Models;
 using TogoFogo.Models.Company;
+using System.Globalization;
 
 namespace TogoFogo.Repository
 {
@@ -49,7 +50,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@CompDomain", ToDBNull(company.CompanyWebsiteDomainName));
             sp.Add(param);
-            param = new SqlParameter("@ExpiryDate", ToDBNull(company.DomainExpiryDate));
+            param = new SqlParameter("@ExpiryDate", ToDBNull(DateTime.ParseExact(company.DomainExpiryDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
             sp.Add(param);
             param = new SqlParameter("@LogoFileName", ToDBNull(company.CompanyLogo));
             sp.Add(param);
@@ -88,7 +89,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@REFKEY", ToDBNull(agreement.RefKey));
             sp.Add(param);       
-            param = new SqlParameter("@AGRSTARTDATE", ToDBNull(agreement.AgreementStartDate));
+            param = new SqlParameter("@AGRSTARTDATE", ToDBNull(DateTime.ParseExact(agreement.AgreementStartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
             sp.Add(param);
             param = new SqlParameter("@AGRPERIOD", ToDBNull(agreement.AgreementPeriod));
             sp.Add(param);

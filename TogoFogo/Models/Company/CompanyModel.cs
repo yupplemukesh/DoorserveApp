@@ -23,8 +23,8 @@ namespace TogoFogo.Models.Company
         }
 
         public string CompanyWebsiteDomainName { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? DomainExpiryDate { get; set; }
+        [DataType(DataType.Date)]
+        public string DomainExpiryDate { get; set; }
         public string CompanyLogo { get; set; }
         public HttpPostedFileBase CompanyPath { get; set; }
         public string CompanyFile { get; set; }
@@ -50,9 +50,11 @@ namespace TogoFogo.Models.Company
         public int CompanyTypeId { get; set; }
         public string CurrentCompanyName { get; set; }
         public int CreatedBy { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreatedDate { get; set; }
         public int ModifyBy { get; set; }
-        public DateTime ModifyDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime ? ModifyDate { get; set; }
         public SelectList CompanyTypeList { get; set; }
         public char Action { get; set; }
         public string ActiveTab{ get; set; }

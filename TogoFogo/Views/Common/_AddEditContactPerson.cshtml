@@ -176,13 +176,15 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
+
+          
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.CityId, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(model => model.City, new { @class = "form-control", id = "City" })
-               </div>
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
@@ -266,7 +268,7 @@
 <script>
     $(document).ready(function () {
 
-        $("#City").attr('readonly', true);
+       // $("#District").attr('readonly', true);
         $("#State").attr('readonly', true);
         $("#Country").attr('readonly', true);
     });
@@ -282,11 +284,13 @@
                     type: "GET",
                     data: { pin: Id },
                     success: function (result) {
-                        $("#City").val(result.City);
+                       // $("#District").val(result.District);
                         $("#State").val(result.State);
                         $("#Country").val(result.Country);                        
                         $("#StateId").val(result.StateId);
                         $("#CountryId").val(result.CountryId);
+                        var obj = { value: Id, Other: result.LocationId };
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                     }
                 });
             }

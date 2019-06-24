@@ -84,6 +84,7 @@ namespace TogoFogo.Controllers
             CompanyData.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             CompanyData.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             CompanyData.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            CompanyData.Contact.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
             CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType(null);
             CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
             return View(CompanyData);
@@ -97,7 +98,7 @@ namespace TogoFogo.Controllers
             comp.ActiveTab = "tab-1";
             return View(comp);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
@@ -123,6 +124,7 @@ namespace TogoFogo.Controllers
             comp.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             comp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             comp.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            comp.Contact.LocationList = new SelectList(_dropdown.BindLocation(), "Value", "Text");
             comp.Agreement.ServiceList = await CommonModel.GetServiceType(null);
             comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
             if (comp.Action == 'I')
@@ -164,6 +166,7 @@ namespace TogoFogo.Controllers
             comp.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
             comp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             comp.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            comp.Contact.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
             comp.BankDetails = await _BankRepo.GetBanksByRefKey(CompanyId);
             comp.BankDetail.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             comp.Agreement = await _compRepo.GetAgreement(CompanyId);
@@ -200,7 +203,7 @@ namespace TogoFogo.Controllers
 
             return comp;
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
@@ -255,7 +258,7 @@ namespace TogoFogo.Controllers
             }      
 
         }
-        [PermissionBasedAuthorize(new Actions[] {Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(OtherContactPersonModel contact)
         {
@@ -352,8 +355,9 @@ namespace TogoFogo.Controllers
                     RefKey = comp.CompanyId,
                     CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
                     StateList = new SelectList(Enumerable.Empty<SelectList>()),
-                    CityList = new SelectList(Enumerable.Empty<SelectList>())
-                };            
+                    // CityList = new SelectList(Enumerable.Empty<SelectList>())
+                   LocationList = new SelectList(Enumerable.Empty<SelectListItem>())
+            };            
             }
             else
                 comp.Action = 'U';
@@ -369,7 +373,7 @@ namespace TogoFogo.Controllers
             }  
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -413,7 +417,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", comp);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
@@ -484,7 +488,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", comp);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
         public async Task<ActionResult> Registration(CompanyModel comp)
         {
