@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -66,7 +67,7 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@DEVICEPURCHASEFROM", ToDBNull(Call.PurchaseFrom));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DOP", ToDBNull(Call.DOP));
+            pararm = new SqlParameter("@DOP", ToDBNull(DateTime.ParseExact(Call.DOP, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
             sp.Add(pararm);
             pararm = new SqlParameter("@BILLNUBMER", ToDBNull(Call.BillNo));
             sp.Add(pararm);
@@ -100,15 +101,15 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@ProblemDescription", ToDBNull(Call.ProblemDescription));
             sp.Add(pararm);
-            pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull(Call.IssueOcurringSinceDate));
+            pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull(DateTime.ParseExact(Call.IssueOcurringSinceDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
             sp.Add(pararm);
-            pararm = new SqlParameter("@IsRepeat", ToDBNull(Call.IsRepeat));
+            pararm = new SqlParameter("@PreviousCallId", ToDBNull(Call.PreviousCallId));
             sp.Add(pararm);
             var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address," +
                 "@Landmark,@PinCode,@CountyId,@StateId,@LocationId,@City,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
                 "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID,@SubCategoryId,@ModelNumber,@Remarks," +
-                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate,@IsRepeat";
+                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate,@PreviousCallId";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
