@@ -1,11 +1,11 @@
-﻿@model  IEnumerable<TogoFogo.Models.CustomerServiceRecord.PartsDetailsModel>
+﻿@model  IEnumerable<TogoFogo.Models.PartsDetailsModel>
 @using TogoFogo.Models
 @{
 
 
     Layout = null;
 }
-<table class="table table-striped table-bordered table-condensed" id="myTable">
+<table class="table table-striped table-bordered table-condensed" >
     <thead>
         <tr>
             <th>Serial No</th>
@@ -24,20 +24,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.Total)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Defect)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Verifiedby)
-            </th>
-
-
+           
+           
             <th>Actions</th>
         </tr>
     </thead>
     @foreach (var item in Model)
     {
-    <tr>
+      <tr>
         <td>
             @Html.DisplayFor(modelItem => item.PartNo)
         </td>
@@ -53,12 +47,8 @@
         <td>
             @Html.DisplayFor(modelItem => item.Total)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Defect)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Verifiedby)
-        </td>
+       
+       
         <td style="display: inline-flex">
             <a href='#' onclick="getItems('@item.PartNo','JsonGetPerson')" class="btn btn-small btn-info btnSize ">Edit</a>
         </td>
@@ -66,3 +56,5 @@
     }
 
 </table>
+
+

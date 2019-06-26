@@ -33,7 +33,7 @@ namespace TogoFogo.Repository
             return await _context.Database.SqlQuery<EmployeeModel>("USPGetAllEmployees @CenterId,@providerId,@CompanyId", sp.ToArray()                  
                 ).ToListAsync();
         }
-        public async Task<EmployeeModel> GetEmployeeById(Guid employeeId)
+        public async Task<EmployeeModel> GetEmployeeById(Guid? employeeId)
         {
             var employee = new EmployeeModel();
             SqlParameter param= new SqlParameter("@EmployeeId", employeeId);

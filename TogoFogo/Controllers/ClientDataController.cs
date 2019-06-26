@@ -350,7 +350,12 @@ namespace TogoFogo.Controllers
 
         }
 
-        
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
+        public async Task<ActionResult> GetRepeatCall(FilterModel filter )
+        {
+            var previousCall = await _RepoCallLog.GetPreviousCall(filter);       
+            return Json(previousCall, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }

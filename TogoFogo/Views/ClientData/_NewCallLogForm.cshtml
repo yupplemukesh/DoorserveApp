@@ -158,9 +158,26 @@ else
 
 @if (Convert.ToBoolean(Model.IsRepeat))
 {
+    @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
+    new TogoFogo.Models.PreviousCallModel {
+        CallDate =Model.PrvCallDate,
+        CallId =Model.PrvCallId,
+        ProblemDescription =Model.PrvProblemDescription,
+        ProblemCloseDate=Model.ProblemCloseDate       
+    })
+    @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
+    new TogoFogo.Models.WarrantyInformationModel {
+        ExpiryDate =Model.ExpiryDate,
+        Status =Model.WarranyStatus })
+}
+else
+{
+<div id="PrvCall" style="display:none">
     @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml", new TogoFogo.Models.PreviousCallModel())
     @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml", new TogoFogo.Models.WarrantyInformationModel())
+</div>
 }
+
 <div class="panel panel-default panel-table ">
     @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
 </div>

@@ -93,10 +93,8 @@ namespace TogoFogo.Repository.ServiceCenters
                             .ObjectContext
                             .Translate<ServiceOfferedModel>(reader)
                             .ToList();
-
                 }
             }
-
             return CenterModel;
 
         }
@@ -400,7 +398,7 @@ namespace TogoFogo.Repository.ServiceCenters
         public async Task<ResponseModel> UpdateCallsStatusDetails(CallStatusDetailsModel callStatusDetails)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@StatusId", ToDBNull(callStatusDetails.StatusId));
+            SqlParameter param = new SqlParameter("@StatusId", ToDBNull(callStatusDetails.CStatus));
             sp.Add(param);
             param = new SqlParameter("@RejectReasion", ToDBNull(callStatusDetails.RejectionReason));
             sp.Add(param);
@@ -464,14 +462,15 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@StatusId", ToDBNull(cam.StatusId));
             sp.Add(param);
-            var sql = "UpdateAppointmentDetail @DeviceId,@altcontactnumber,@appointmentdate,@remark,@StatusId";
+            param = new SqlParameter("@UserId", ToDBNull(cam.UserId));
+            sp.Add(param);
+            var sql = "UpdateAppointmentDetail @DeviceId,@altcontactnumber,@appointmentdate,@remark,@StatusId,@UserId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;
             return res;
-
         }
 
         private object ToDBNull(object value)

@@ -398,8 +398,14 @@ namespace TogoFogo.Controllers
             CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.Param = Param;
+
+            CallDetailsModel.Parts = new List<PartsDetailsModel>();
+            CallDetailsModel.Files = new List<ProviderFileModel>();
             if (Param == "A")
             {
+                if (CallDetailsModel.EmpId != null)
+                    CallDetailsModel.Employee=await _empRepo.GetEmployeeById(CallDetailsModel.EmpId);
+                else
                 CallDetailsModel.Employee = new EmployeeModel();
 
                 if (SessionModel.UserTypeName.ToLower().Contains("center"))
@@ -409,8 +415,10 @@ namespace TogoFogo.Controllers
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
                 else
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
+               
 
-
+             
+                  
             }
             else if (Param == "P")
                 CallDetailsModel.CStatus = 11;
@@ -474,15 +482,13 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
-        public async Task<ActionResult> SavetechnicianDetails(CallStatusDetailsModel callStatusDetails)
+        public async Task<ActionResult> UpdateCall(CallStatusDetailsModel callStatusDetails)
         {
             var SessionModel = Session["User"] as SessionModel;
-
             callStatusDetails.UserId = SessionModel.UserId;
                 var response = await _centerRepo.SaveTechnicianDetails(callStatusDetails);
                 TempData["response"] = response;
             return RedirectToAction("AcceptCalls");            
-
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Open_Calls)]
         [HttpGet]
@@ -490,7 +496,6 @@ namespace TogoFogo.Controllers
         {
             var SessionModel = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId = SessionModel.CompanyId, tabIndex = tabIndex, IsExport = true };
-
             var response = await _centerRepo.GetCallDetails(filter);
             byte[] filecontent;
             string[] columns;
@@ -516,9 +521,7 @@ namespace TogoFogo.Controllers
                     "DeviceModel","DOP","PurchaseFrom","ProviderName","ServiceCenterName"};
                 filecontent = ExcelExportHelper.ExportExcel(response.AssignedCalls, "", true, columns);
             }
-
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
-
         }
 
        

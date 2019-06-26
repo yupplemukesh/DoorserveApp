@@ -1,7 +1,4 @@
 ﻿@model TogoFogo.Models.ClientData.UploadedExcelModel
-@using System.Globalization;
-
-
 <div class="panel panel-default panel-table b-r-0">
     <div class="panel-body">
         <h4 class="m-t-0 m-b-25 p-t-10 p-b-10">Device Information :</h4>
@@ -58,14 +55,14 @@
 
                 <div class="col-sm-3">
                     <div class="form-group has-value">
-                        @Html.TextBoxFor(x => x.DeviceSn, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.DeviceSn, new { @class = "form-control",onchange="GetDeviceDetails()" })
                         @Html.ValidationMessageFor(x => x.DeviceSn, "", new { @class = "text-danger" })
                         <label class="floating-label">Serial Number</label>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group has-value">
-                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control" })
+                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control",onchange="GetDeviceDetails()" })
                         @Html.ValidationMessageFor(x => x.DeviceIMEIOne, "", new { @class = "text-danger" })
                         <label class="floating-label">IMEI One</label>
                     </div>
@@ -142,7 +139,5 @@
     </div>
 
 </div>
-      
-
-   
+         
 

@@ -11,7 +11,7 @@ namespace TogoFogo.Repository
     public interface IEmployee : IDisposable
     {
         Task<List<EmployeeModel>> GetAllEmployees(FilterModel filter);
-        Task<EmployeeModel> GetEmployeeById(Guid employeeId);
+        Task<EmployeeModel> GetEmployeeById(Guid? employeeId);
         Task<ResponseModel> AddUpdateDeleteEmployee(EmployeeModel employee);    
         void Save();
     }

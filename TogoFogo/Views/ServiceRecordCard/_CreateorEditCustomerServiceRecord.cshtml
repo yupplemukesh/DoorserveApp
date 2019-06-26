@@ -1,6 +1,6 @@
-﻿@model TogoFogo.Models.CustomerServiceRecord.CustomerServiceRecordModel
+﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
 @{
-    //var cs = "active in";
+//var cs = "active in";
 
 
 
@@ -24,54 +24,18 @@
                 <div class="col-sm-2 col-md-2  col-xs-12"> <h4 class="m-t-0 ">Service Type:</h4></div>
                 <div class="col-sm-10 col-md-10  col-xs-12">
                     <div class="row">
+                        @foreach (var item in Model.ServiceTypeList)
+                        {
                         <div class="col-sm-2 col-md-2  col-xs-2">
                             <label class="custom-control custom-control-primary custom-checkbox ">
-                                @Html.CheckBoxFor(x => x._ServiceType.CI, new { @class = "custom-control-input" })
+                                @Html.CheckBoxFor(x => item.Selected, new { @class = "custom-control-input" })
                                 <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">CI</span>
+                                <span class="custom-control-label">@item.Text</span>
                             </label>
                         </div>
 
+                        }
 
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._ServiceType.IH, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">IH</span>
-                            </label>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._ServiceType.INS, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">INS</span>
-                            </label>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._ServiceType.UINS, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">UINS</span>
-                            </label>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._ServiceType.PMS, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">PMS</span>
-                            </label>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._ServiceType.REP, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">REP.</span>
-                            </label>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -79,57 +43,23 @@
 
 
             <div class="row">
-                <div class="col-sm-2 col-md-2  col-xs-12"> <h4 class="m-t-0">Call Type:</h4></div>
+                <div class="col-sm-2 col-md-2  col-xs-12"> <h4 class="m-t-0">Delivery Type:</h4></div>
                 <div class="col-sm-10 col-md-10  col-xs-12">
                     <div class="form-group row">
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._CallType.IW, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">IW</span>
-                            </label>
-                        </div>
+                        @foreach (var item in Model.DeliveryTypeList)
+                        {
+                            <div class="col-sm-2 col-md-2  col-xs-2">
+                                <label class="custom-control custom-control-primary custom-checkbox  active">
+                                    @Html.CheckBoxFor(x =>item.Selected, new { @class = "custom-control-input" })
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-label">@item.Text</span>
+                                </label>
+                            </div>
+                        }
 
 
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._CallType.OW, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">OW</span>
-                            </label>
+          
                         </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._CallType.AMC, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">AMC</span>
-                            </label>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._CallType.INSU, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">INSU.</span>
-                            </label>
-                        </div>
-
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x => x._CallType.REF, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">REF.</span>
-                            </label>
-                        </div>
-                        <div class="col-sm-2 col-md-2  col-xs-2">
-                            <label class="custom-control custom-control-primary custom-checkbox  active">
-                                @Html.CheckBoxFor(x =>x._CallType.VIP, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">VIP</span>
-                            </label>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -137,17 +67,14 @@
                 <label class="col-sm-1 " for="form-control-1">Symptom1</label>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.Symptom1, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Symptom1, "", new { @class = "text-danger" })
                 </div>
                 <label class="col-sm-1 control-label" for="form-control-1">Symptom2</label>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.Symptom2, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Symptom2, "", new { @class = "text-danger" })
                 </div>
                 <label class="col-sm-1 control-label" for="form-control-1">Symptom3</label>
                 <div class="col-sm-3">
                     @Html.TextBoxFor(x => x.Symptom3, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Symptom3, "", new { @class = "text-danger" })
                 </div>
 
             </div>
@@ -165,18 +92,17 @@
 
                     <label class="col-sm-1 col-md-1  col-xs-3 control-label" for="form-control-1">Job No.</label>
                     <div class="col-sm-2 col-md-2  col-xs-3">
-                        @Html.TextBoxFor(x => x.JobNo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.JobNo, "", new { @class = "text-danger" })
+                        @Html.DisplayFor(x => x.CRN, new { @class = "form-control" })
+                     
                     </div>
                     <label class="col-sm-1 col-md-1  col-xs-3 control-label" for="form-control-1">Date</label>
                     <div class="col-sm-2 col-md-2  col-xs-3">
-                        @Html.TextBoxFor(x => x.JobDate, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.JobDate, "", new { @class = "text-danger" })
+                        @Html.DisplayFor(x => x.CreatedOn,"dd/MM/yyyy", new { @class = "form-control" })                       
                     </div>
                     <label class="col-sm-1 col-md-1  col-xs-4 control-label" for="form-control-1">Time</label>
                     <div class="col-sm-2 col-md-2  col-xs-8">
-                        @Html.TextBoxFor(x => x.JobTime, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.JobTime, "", new { @class = "text-danger" })
+                        @Html.DisplayFor(x => x.JobTime, new { @class = "form-control" })
+       
                     </div>
                 </div>
 
@@ -186,8 +112,8 @@
                         <div class="row">
                             <label class="col-sm-3 control-label" for="form-control-1">Address</label>
                             <div class="col-sm-9">
-                                @Html.TextAreaFor(x => x._Address.Address, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x._Address.Address, "", new { @class = "text-danger" })
+                                @Html.DisplayFor(x => x.CustomerAddress, new { @class = "form-control" })
+                        
                             </div>
 
                         </div>
@@ -200,14 +126,12 @@
                         <div class="row">
                             <label class="col-sm-2 control-label" for="form-control-1">D.O.P.</label>
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(x => x.DateOfPurchase, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.DateOfPurchase, "", new { @class = "text-danger" })
+                                @Html.DisplayFor(x => x.DOP, new { @class = "form-control" })
                             </div>
 
                             <label class="col-sm-2 control-label" for="form-control-1">Product</label>
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(x => x._Product.ProductName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x._Product.ProductName, "", new { @class = "text-danger" })
+                                @Html.DisplayFor(x => x.DeviceModel, new { @class = "form-control" })
                             </div>
                         </div>
 
@@ -215,14 +139,12 @@
 
                             <label class="col-sm-2 control-label" for="form-control-1">Modal No.</label>
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(x => x.ModelNo, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x.ModelNo, "", new { @class = "text-danger" })
+                                @Html.DisplayFor(x => x.DeviceModelNo, new { @class = "form-control" })                             
                             </div>
 
                             <label class="col-sm-2 control-label" for="form-control-1">Set Sr. No</label>
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(x => x._Product.SerialNo, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x._Product.SerialNo, "", new { @class = "text-danger" })
+                                @Html.DisplayFor(x => x.DeviceSn, new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -231,21 +153,18 @@
 
                 <div class="row">
 
-                    <label class="col-sm-1 control-label" for="form-control-1">City</label>
+                    <label class="col-sm-1 control-label" for="form-control-1">District</label>
                     <div class="col-sm-3">
-                        @Html.TextBoxFor(x => x._Contact.CityId, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x._Contact.CityId, "", new { @class = "text-danger" })
+                        @Html.DisplayFor(x => x.District, new { @class = "form-control" })
                     </div>
                     <label class="col-sm-1 control-label" for="form-control-1">Pincode</label>
                     <div class="col-sm-3">
-                        @Html.TextBoxFor(x => x._Contact.PinNumber, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x._Contact.PinNumber, "", new { @class = "text-danger" })
+                        @Html.DisplayFor(x => x.PinNumber, new { @class = "form-control" })
                     </div>
 
                     <label class="col-sm-2 control-label" for="form-control-1">Contact No.</label>
                     <div class="col-sm-2">
-                        @Html.TextBoxFor(x => x._Contact.ConMobileNumber, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x._Contact.ConMobileNumber, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "form-control" })
                     </div>
                 </div>
 
@@ -255,21 +174,19 @@
 
                     <label class="col-sm-2 control-label" for="form-control-1">Comp./panel/IMEI No.</label>
                     <div class="col-sm-2">
-                        @Html.TextBoxFor(x => x.CompNo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.CompNo, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control" })
+                      
                     </div>
 
 
                     <label class="col-sm-2 control-label" for="form-control-1">Appointment Date/Time</label>
                     <div class="col-sm-2">
                         @Html.TextBoxFor(x => x.AppointmentDate, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.AppointmentDate, "", new { @class = "text-danger" })
                     </div>
 
                     <label class="col-sm-2 control-label" for="form-control-1">DLR Name/Location</label>
                     <div class="col-sm-2">
-                        @Html.TextBoxFor(x => x.DLRName, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.DLRName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(x => x.LocationName, new { @class = "form-control" })
                     </div>
 
                 </div>
@@ -280,8 +197,7 @@
                         <div class="row">
                             <label class="col-sm-1 control-label" for="form-control-1">Email</label>
                             <div class="col-sm-4">
-                                @Html.TextBoxFor(x => x._Contact.ConEmailAddress, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(x => x._Contact.ConEmailAddress, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
                             </div>
 
 
@@ -331,44 +247,20 @@
                 <div class="col-sm-2"> <h4 class="m-t-0">Set Condition:</h4></div>
                 <div class="col-sm-10">
                     <div class="row">
-                        <div class="col-sm-2">
+                 @foreach(var item in Model.ConditionList)
+    {
+             <div class="col-sm-2">
                             <label class="custom-control custom-control-primary custom-checkbox">
-                                @Html.CheckBoxFor(x => x._SetCondition.Tempered, new { @class = "custom-control-input" })
+                                @Html.CheckBoxFor(x => item.Selected, new { @class = "custom-control-input" })
                                 <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">Tempered</span>
+                                <span class="custom-control-label">@item.Text</span>
                             </label>
                         </div>
+    }
 
 
-                        <div class="col-sm-2">
-                            <label class="custom-control custom-control-primary custom-checkbox">
-                                @Html.CheckBoxFor(x => x._SetCondition.PhysicalDamage, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">Phy. Damage</span>
-                            </label>
-                        </div>
 
-                        <div class="col-sm-2">
-                            <label class="custom-control custom-control-primary custom-checkbox">
-                                @Html.CheckBoxFor(x => x._SetCondition.WaterLog, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">Water Log</span>
-                            </label>
-                        </div>
 
-                        <div class="col-sm-2">
-                            <label class="custom-control custom-control-primary custom-checkbox">
-                                @Html.CheckBoxFor(x => x._SetCondition.Scratches, new { @class = "custom-control-input" })
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-label">Scratches</span>
-                            </label>
-                        </div>
-
-                        <label class="col-sm-1" for="form-control-1">Missing</label>
-                        <div class="col-sm-3">
-                            @Html.TextBoxFor(x => x._SetCondition.Missing, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(x => x._SetCondition.Missing, "", new { @class = "text-danger" })
-                        </div>
 
 
                     </div>

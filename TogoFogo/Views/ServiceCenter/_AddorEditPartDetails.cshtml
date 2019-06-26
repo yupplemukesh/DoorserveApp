@@ -1,0 +1,32 @@
+﻿@model TogoFogo.Models.PartsDetailsModel
+
+
+@Html.HiddenFor(x=>x.PartId)
+    <div class="form-group row">
+
+        <label class="col-sm-1 control-label" for="form-control-1">Part Number</label>
+        <div class="col-sm-2">
+            @Html.TextBoxFor(model => model.PartNo, new { @class = "form-control input-md", @placeholder = "Part Number" })
+        </div>
+
+        <label class="col-sm-1 control-label" for="form-control-1">Part Description</label>
+        <div class="col-sm-2">
+            @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-md", @placeholder = "Part Description" })
+        </div>
+        <label class="col-sm-1 control-label" for="form-control-1">Quantity</label>
+        <div class="col-sm-1">
+            @Html.TextBoxFor(model => model.Qty, new { @class = "form-control input-md", @placeholder = "Quantity"})
+        </div>
+
+        <label class="col-sm-1 control-label" for="form-control-1">Unit Price</label>
+        <div class="col-sm-1">
+            @Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control input-md", @placeholder = "Price" })
+        </div>
+        <div class="col-sm-1">
+            @Html.DisplayFor(x => x.Total, new { @class = "form-control" })
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-primary"  >Add/Edit </button>
+        </div>
+
+        </div>

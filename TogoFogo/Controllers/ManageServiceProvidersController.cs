@@ -357,7 +357,6 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
             var SessionModel = Session["User"] as SessionModel;
-            provider.CompanyId = SessionModel.CompanyId;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["provider"] as ServiceProviderModel;
@@ -385,22 +384,28 @@ namespace TogoFogo.Controllers
                 LocationList = new SelectList(Enumerable.Empty<SelectList>()),
             PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
             };
-            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
-            {
-                provider.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
-                provider.IsSuperAdmin = true;
-            }
 
             if (TempData["provider"] != null)
+            {
+                cltns.CompanyId = provider.CompanyId;
                 provider = cltns;
+            }
             else
             {
                 provider.Activetab = "tab-1";
                 provider.CreatedBy = SessionModel.UserId;
 
             }
-            if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
+
+            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
+            {
+                provider.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                provider.IsSuperAdmin = true;
+            }
+            else
                 provider.CompanyId = SessionModel.CompanyId;
+            provider.UserId = SessionModel.UserId;
+            provider.Activetab = "tab-1";
             var response = await _provider.AddUpdateDeleteProvider(provider);
             _provider.Save();
             provider.ProviderId = new Guid(response.result);

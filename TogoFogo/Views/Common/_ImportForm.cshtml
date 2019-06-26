@@ -7,11 +7,11 @@
 
         <label class="col-md-3">
 
-            Select File(.xls):
+            Select File:
         </label>
 
 
-        <div class="col-md-9">
+        <div class="col-md-6">
             @Html.TextBoxFor(model => model.DataFile, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
             @Html.ValidationMessageFor(model => model.DataFile, "", new { @class = "text-danger" })
         </div>

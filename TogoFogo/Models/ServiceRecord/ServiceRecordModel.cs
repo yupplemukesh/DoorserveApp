@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TogoFogo.Models.CustomerServiceRecord
+namespace TogoFogo.Models
 {
-    public class CustomerServiceRecordModel
+    public class ServiceRecordModel
     {
-        public CustomerServiceRecordModel()
+        public ServiceRecordModel()
         {
             _Contact = new ContactPersonModel();
             _Address = new AddressDetail();

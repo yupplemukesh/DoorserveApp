@@ -18,27 +18,27 @@
 
                     <div class="col-sm-3">
                         <div class="form-group has-value">
-                            @Html.DisplayFor(x => x.CallId, new { @class = "form-control" })
+                            @Html.LabelFor(x => x.CallId, new { @class = "form-control",@id="prvCallId" })
                             <label class="floating-label t-0">Call Id</label>
                         </div>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group has-value">
-                            @Html.DisplayFor(x => x.CallDate, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                            @Html.LabelFor(x => x.CallDate, "{0:dd/MM/yyyy}", new { @class = "form-control",@Id="prvCallDate" })
                             <label class="floating-label t-0">Call Date</label>
                         </div>
                     </div>
 
                     <div class="col-sm-3">
                         <div class="form-group has-value">
-                            @Html.DisplayFor(x => x.ProblemDescription, new { @class = "form-control" })
+                            @Html.LabelFor(x => x.ProblemDescription, new { @class = "form-control",@Id="PrvProblemDescription" })
                             <label class="floating-label t-0">Problem Description</label>
                         </div>
                     </div>
 
                     <div class="col-sm-3">
                         <div class="form-group has-value">
-                            @Html.DisplayFor(x => x.ProblemCloseDate, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                            @Html.LabelFor(x => x.ProblemCloseDate, "{0:dd/MM/yyyy}", new { @class = "form-control",@Id="ProblemCloseDate" })
                             <label class="floating-label t-0">Problem Close Date</label>
                         </div>
                     </div>

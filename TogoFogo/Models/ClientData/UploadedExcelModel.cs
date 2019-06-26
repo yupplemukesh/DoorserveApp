@@ -101,7 +101,14 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("Device Condition")]
         public int DeviceConditionId { get; set; }
         public string DeviceCondition { get; set; }
-   
+
+        // Previous Call Details 
+        public DateTime? PrvCallDate { get; set; }
+        public string PrvCallId { get; set; }
+        public string PrvProblemDescription { get; set; }
+        public DateTime? ProblemCloseDate { get; set; }
+        public string WarranyStatus { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         public SelectList ConditionList { get; set; }
         public SelectList CategoryList { get; set; }
         public SelectList SubCategoryList { get; set; }

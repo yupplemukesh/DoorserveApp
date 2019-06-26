@@ -23,7 +23,7 @@ namespace TogoFogo.Models
         public string District { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
         public string LocationName { get; set; }
         public virtual string Address { get; set; } 
         public string Locality { get; set; }

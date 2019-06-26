@@ -15,6 +15,9 @@ namespace TogoFogo.Filters
         public int UserId { get; set; }
         public char tabIndex { get; set; }
         public bool IsExport { get; set; }
+        public string DeviceSN { get; set; }
+        public int? CategoryId { get; set; }
+        public string IMEI { get; set; }          
         public int? GatewayTypeId { get; set; }
         public Guid? ServiceAreaId { get; set;  }
         public Guid? FileId { get; set; }

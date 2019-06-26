@@ -101,6 +101,45 @@
                 }
             });
         }
+
+        function GetDeviceDetails() {
+            
+            var sn = $("#DeviceSn").val();
+            var IMEI = $("#DeviceIMEIOne").val();
+            var CatId = $("#DeviceCategoryId").val();
+            if (CatId != 0 && (sn.length != 0 || IMEI.length != 0)) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetRepeatCall", "ClientData")',
+                    data: { 'DeviceSN': sn, 'IMEI': IMEI, 'CategoryId': CatId },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                      
+                        if (data != null) {
+                            console.log(data);      
+                            $("#PrvCall").show();
+                            var CallDate = new Date(parseInt(data.CallDate.substr(6)));
+                            var month = CallDate.getMonth() + 1;
+                            var ProblemDate = new Date(parseInt(data.ProblemCloseDate.substr(6)));
+                            var ExpiryDate = new Date(parseInt(data.ProblemCloseDate.substr(6)));
+                            $("#prvCallId").text(data.CallId);
+                            $("#prvCallDate").text(CallDate.getDate() + '/' + month + '/' + CallDate.getFullYear());
+                            $("#PrvProblemDescription").text(data.ProblemDescription);
+                             month = ProblemDate.getMonth() + 1;
+                            $("#ProblemCloseDate").text(ProblemDate.getDate() + '/' + month+ '/' + ProblemDate.getFullYear());
+                            month = ExpiryDate.getMonth() + 1;
+                            $("#ExpiryDate").text(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
+                            $("#WStatus").text(data.Status);
+                            $("#IsRepeat").text("Yes");   
+                        }
+
+                    }
+                });
+            }
+
+        }
         function getCustomer() {
             var mobile = $("#CustomerContactNumber").val();
             $.ajax({
@@ -109,6 +148,7 @@
                 data: { 'mobile': mobile },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                async:true,
                 success: function (data) {
 
                     console.log(data);
@@ -137,8 +177,11 @@
                     $("#ProblemInfo").hide();
                 }
                 else {
-
                     $("#ProblemInfo").show();
+                    if ($("#prvCallId").text().length != 0)
+                        $("#IsRepeat").text("Yes");
+                    else
+                        $("#IsRepeat").text("No");
                 }
 
         });

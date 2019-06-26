@@ -166,7 +166,7 @@ namespace TogoFogo.Repository.ServiceProviders
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@PROVIDERID",ToDBNull(provider.ProviderId));          
             sp.Add(param);
-            param = new SqlParameter("@PROVIDERCODE", ToDBNull(provider.CurrentProviderName));
+            param = new SqlParameter("@PROVIDERCODE", ToDBNull(provider.ProviderCode));
             sp.Add(param);
             param = new SqlParameter("@PROVIDERNAME", ToDBNull(provider.ProviderName));
             sp.Add(param);         

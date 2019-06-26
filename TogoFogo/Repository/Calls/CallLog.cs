@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Models.ClientData;
 using TogoFogo.Models.ServiceCenter;
@@ -17,6 +18,17 @@ namespace TogoFogo.Repository
         public CallLog()
         {
             _context = new ApplicationDbContext();
+        }
+        public async Task<PreviousCallModel> GetPreviousCall(FilterModel filterModel)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            var param = new SqlParameter("@SN", ToDBNull(filterModel.DeviceSN));
+            sp.Add(param);
+             param = new SqlParameter("@CategoryId", ToDBNull(filterModel.CategoryId));
+            sp.Add(param);
+            param = new SqlParameter("@IMEI", ToDBNull(filterModel.IMEI));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<PreviousCallModel>("GetRepeatCallDetails @SN,@CategoryId,@IMEI", sp.ToArray()).FirstOrDefaultAsync();
         }
         public async Task<ResponseModel> AddOrEditCallLog(CallDetailsModel Call)
         {

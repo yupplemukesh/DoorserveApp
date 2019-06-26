@@ -105,13 +105,13 @@ namespace TogoFogo.Repository
             var sql = "USPGETCONTACTPERSONS @ContactId,@REFKEY";
             return await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
         }
-        public async Task<ContactPersonModel> GetPinCode(string pin)
+        public async Task<AddressDetail> GetPinCode(string pin)
             {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@Pincode", ToDBNull(pin));
             sp.Add(param);            
             var sql = "Get_State_City_pincode @Pincode";
-            return await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            return await _context.Database.SqlQuery<AddressDetail>(sql, sp.ToArray()).SingleOrDefaultAsync();
         }
         private object ToDBNull(object value)
         {
