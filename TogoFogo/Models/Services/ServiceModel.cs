@@ -19,6 +19,7 @@ namespace TogoFogo.Models
         [DisplayName("Sub-Category Name")]
         public int SubCategoryId { get; set; }
         public string SubCategory { get; set; }
+        public int CountPin { get; set; }
         [Required]
         [DisplayName("Service Type")]
         public int ServiceTypeId { get; set; }
@@ -30,8 +31,12 @@ namespace TogoFogo.Models
         [Required]
         [DisplayName("Service Delivery Type")]
         public decimal? ServiceCharges { get; set; }
-
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
+        public decimal? MApprovalCost { get; set; }
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public int WarranyPeriod { get; set; }
+        [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
+        public int TargetApprovalTime { get; set; }
         public Guid? RefKey { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList SupportedSubCategoryList { get; set; }      

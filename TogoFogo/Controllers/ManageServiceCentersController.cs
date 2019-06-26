@@ -745,14 +745,15 @@ namespace TogoFogo.Controllers
                     excel_con.Open();
 
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[5] {
-                new DataColumn("Country", typeof(string)),
-                new DataColumn("State", typeof(string)),
-                new DataColumn("District", typeof(string)),
+                    dtExcelData.Columns.AddRange(new DataColumn[2] {
+               // new DataColumn("Country", typeof(string)),
+               // new DataColumn("State", typeof(string)),
+               // new DataColumn("District", typeof(string)),
                 new DataColumn("Pin Code", typeof(string)),
                    new DataColumn("Is Active", typeof(string))
                 });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Country],[State], [District],[Pin Code],[IS Active] FROM [" + sheet1 + "] where [Country] is not null", excel_con))
+                    //using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Country],[State], [District],[Pin Code],[IS Active] FROM [" + sheet1 + "] where [Country] is not null", excel_con))
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Pin Code],[IS Active] FROM [" + sheet1 + "] where [Pin Code] is not null", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }

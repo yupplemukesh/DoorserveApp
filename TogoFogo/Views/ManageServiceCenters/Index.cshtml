@@ -133,6 +133,22 @@
         </div><!--/.col-->
     </div>
 </div>
+
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="UploadModel" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                @using (Html.BeginForm("ImportProviders", "ManageServiceCenters", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.Action("_GetUploadForm")
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script>
     $('#assets-data-table').on("click", ".editAsset", function (event) {
 

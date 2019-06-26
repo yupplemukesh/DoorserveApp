@@ -84,7 +84,13 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@ACTION", ToDBNull(service.EventAction));
             sp.Add(param);
-            var sql = "USPAddOrEditServiceOpted @SERVICEID, @REFKEY,@CATEGORYID,@SUBCATEGORYID,@SERVICETYPEID,@DELIVERYTYPEID, @SERVICECHARGES ,@ISACTIVE ,@REMARKS,@ACTION";
+            param = new SqlParameter("@WPeriod", ToDBNull(service.WarranyPeriod));
+            sp.Add(param);
+            param = new SqlParameter("@MApprovalCost", ToDBNull(service.MApprovalCost));
+            sp.Add(param);
+            param = new SqlParameter("@TargetApprovalTime", ToDBNull(service.TargetApprovalTime));
+            sp.Add(param);
+            var sql = "USPAddOrEditServiceOpted @SERVICEID, @REFKEY,@CATEGORYID,@SUBCATEGORYID,@SERVICETYPEID,@DELIVERYTYPEID, @SERVICECHARGES ,@ISACTIVE ,@REMARKS,@ACTION,@WPeriod,@MApprovalCost,@TargetApprovalTime";
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)

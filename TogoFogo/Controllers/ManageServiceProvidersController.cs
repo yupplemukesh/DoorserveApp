@@ -372,6 +372,7 @@ namespace TogoFogo.Controllers
             provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             provider.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
             provider.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
+            provider.Contact.LocationList = new SelectList(dropdown.BindLocation(), "Value", "Text");
             provider.Service = new ServiceOfferedModel
             {
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
@@ -381,7 +382,8 @@ namespace TogoFogo.Controllers
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
                 CityList = new SelectList(Enumerable.Empty<SelectList>()),
-                PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
+                LocationList = new SelectList(Enumerable.Empty<SelectList>()),
+            PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
             };
             if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
             {
@@ -562,7 +564,8 @@ namespace TogoFogo.Controllers
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
                 CityList = new SelectList(Enumerable.Empty<SelectList>()),
-                PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
+               LocationList = new SelectList(Enumerable.Empty<SelectListItem>()),
+            PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
                 RefKey = ProviderId
             };
 
@@ -572,6 +575,7 @@ namespace TogoFogo.Controllers
             Provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Provider.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             Provider.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            Provider.Contact.LocationList = new SelectList(Enumerable.Empty<SelectList>());
             if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
             {
                 Provider.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");

@@ -12,7 +12,6 @@ namespace TogoFogo.Models
     {
 
         public Guid? ServiceAreaId { get; set; }
-        public int CountPin { get; set;}
         [Required]
         [DisplayName("Country")]
         public int CountryId { get; set;}
@@ -31,6 +30,8 @@ namespace TogoFogo.Models
         public SelectList StateList { get; set; }
         public SelectList CityList { get; set; }
         public SelectList PinCodeList { get; set; }
+        public SelectList LocationList { get; set; }
+
 
     }
 }
