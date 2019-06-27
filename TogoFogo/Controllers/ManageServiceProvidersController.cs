@@ -798,14 +798,21 @@ namespace TogoFogo.Controllers
                     if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
-                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.ServiceId });
+
+                    if(provider.type=="All")
+                        return RedirectToAction("Edit", new { id = provider.RefKey, @tab = "tab-6" });
+                    else
+                        return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.RefKey});
                 }
                 catch (Exception ex)
 
                 {
                     if (System.IO.File.Exists(excelPath))
                         System.IO.File.Delete(excelPath);
-                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.ServiceId });
+                    if (provider.type == "All")
+                        return RedirectToAction("Edit", new { id = provider.RefKey, @tab = "tab-6" });
+                    else
+                        return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.RefKey });
 
 
                 }
@@ -814,9 +821,9 @@ namespace TogoFogo.Controllers
 
         }
 
-        public ActionResult _GetUploadForm()
+        public ActionResult _GetUploadForm(Guid? RefKey)
         {
-            return PartialView("~/Views/Common/_ImportForm.cshtml", new ProviderFileModel());
+            return PartialView("~/Views/Common/_ImportForm.cshtml", new ProviderFileModel {type="All",RefKey=RefKey });
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Provider)]

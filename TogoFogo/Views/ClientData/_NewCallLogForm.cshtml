@@ -177,6 +177,7 @@ else
     @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml", new TogoFogo.Models.WarrantyInformationModel())
 </div>
 }
+@Html.HiddenFor(x=>x.PrvCallId)
 
 <div class="panel panel-default panel-table ">
     @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)

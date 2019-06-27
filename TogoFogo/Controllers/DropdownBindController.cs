@@ -555,6 +555,7 @@ namespace TogoFogo.Controllers
             }
         }
 
+       
         public List<ListItem> BindCallStatusPOOWRR()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -1780,6 +1781,14 @@ namespace TogoFogo.Controllers
             {
                 throw ex ;
             }
+        }
+
+        public  ActionResult PoridersJSON(Guid compId)
+        {
+           
+                var providers =  BindServiceProvider(compId);             
+                return Json(providers, JsonRequestBehavior.AllowGet);
+           
         }
     }
 }

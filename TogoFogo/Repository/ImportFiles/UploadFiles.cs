@@ -187,7 +187,7 @@ namespace TogoFogo.Repository.ImportFiles
             var sp = new List<SqlParameter>();
             var pararm = new SqlParameter("@FileName", ToDBNull(provider.FileName));
             sp.Add(pararm);
-             pararm = new SqlParameter("@RefKey", ToDBNull(provider.ServiceId));
+             pararm = new SqlParameter("@RefKey", ToDBNull(provider.RefKey));
             sp.Add(pararm);
             pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
             {
@@ -199,7 +199,9 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@SysFileName", ToDBNull(provider.SysFileName));
             sp.Add(pararm);
-            var sql = "UploadAreaPinCode @FileName,@RefKey,@DataTable, @User,@SysFileName";
+            pararm = new SqlParameter("@Type", ToDBNull(provider.type));
+            sp.Add(pararm);
+            var sql = "UploadAreaPinCode @FileName,@RefKey,@DataTable, @User,@SysFileName,@Type";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

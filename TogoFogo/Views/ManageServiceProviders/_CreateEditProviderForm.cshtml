@@ -361,10 +361,10 @@
     @if (Model.Activetab == "tab-3")
     {
         @:<div class="tab-pane fade in @cs" id="tab-3">
-        }
-        else
-        {
-            @:<div class="tab-pane fade in" id="tab-3">
+}
+else
+{
+    @:<div class="tab-pane fade in" id="tab-3">
 
 
 
@@ -373,46 +373,54 @@
 
 
 
-            }
-    <div class="container-fluid tab-form-control">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-            <div class="row margin-bottom-sm">
-                <div class="col-12 pull-right align-text-top  ">
-                    <input type="button" class="btn btn-primary " id="AddContactPerson" value="add  Contact" />
-                </div>
 
+
+
+
+
+
+
+
+    }
+<div class="container-fluid tab-form-control">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+        <div class="row margin-bottom-sm">
+            <div class="col-12 pull-right align-text-top  ">
+                <input type="button" class="btn btn-primary " id="AddContactPerson" value="add  Contact" />
             </div>
-            <div class="row">
 
-
-                @if (Model.ContactPersons != null)
-                {
-                    <div class="col-12">
-
-                        @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
-                        <div class="row" style="display:none" id="ContactPerson">
-                            @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
-                            {
-                                Model.Contact.IsSingleCenter = Model.Organization.IsSingleCenter;
-                                Model.Contact.RefKey = Model.ProviderId;
-                                <div class="col-12">
-                                    @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
-                                </div>
-                                <div class="form-group row m-b-25">
-                                    <div class="col-sm-offset-11  col-md-1">
-                                        <button type="submit" class="btn btn-success" style="">Save</button>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-
-                    </div>
-                }
-
-            </div>
         </div>
+        <div class="row">
 
+
+            @if (Model.ContactPersons != null)
+            {
+                <div class="col-12">
+
+                    @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
+                    <div class="row" style="display:none" id="ContactPerson">
+                        @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                        {
+                            Model.Contact.IsSingleCenter = Model.Organization.IsSingleCenter;
+                            Model.Contact.RefKey = Model.ProviderId;
+                            <div class="col-12">
+                                @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
+                            </div>
+                            <div class="form-group row m-b-25">
+                                <div class="col-sm-offset-11  col-md-1">
+                                    <button type="submit" class="btn btn-success" style="">Save</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            }
+
+        </div>
     </div>
+
+</div>
 </div>
 
 @if (Model.Activetab == "tab-4")
@@ -422,6 +430,14 @@
     else
     {
         @:<div class="tab-pane fade in" id="tab-4">
+
+
+
+
+
+
+
+
 
 
 
@@ -482,6 +498,14 @@
     else
     {
         @:<div class="tab-pane fade in" id="tab-5">
+
+
+
+
+
+
+
+
 
 
 
@@ -556,6 +580,10 @@
 
 
 
+
+
+
+
         }
 <!--<h2>Registration</h2>-->
 
@@ -569,9 +597,15 @@
                 </div>
                 <div class="col-md-6 ">
                     <div class="pull-right">
-                        @if (Permissions.Rights.Create||Permissions.Rights.Edit)
+                        @if (Permissions.Rights.Create || Permissions.Rights.Edit)
                         {
+
+
                             <a href="@Url.Action("ManageService","ManageServiceProviders", new {@RefKey=Model.ProviderId})" class="btn btn-primary"> Add </a>
+                            <a href="#" data-target="#UploadModel" data-toggle="modal" class="btn btn-primary">
+                                Import Pin code List
+
+                            </a>
                         }
                         @if (Permissions.Rights.ExcelExport)
                         {
@@ -595,6 +629,20 @@
 </div>
 </div>
 
+</div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="UploadModel" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                @using (Html.BeginForm("ImportServiceableAreaPinCodes", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                 
+                    @Html.Action("_GetUploadForm",new {@refKey=Model.ProviderId })
+                }
+            </div>
+
+        </div>
+    </div>
 </div>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")

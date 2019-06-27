@@ -58,7 +58,7 @@ namespace TogoFogo.Controllers
             Guid? CenterId = null;
             if (SessionModel.UserTypeName.ToLower().Contains("provider"))
                 ProviderId = SessionModel.RefKey;
-            if (SessionModel.UserTypeName.ToLower().Contains("center"))
+           if (SessionModel.UserTypeName.ToLower().Contains("center"))
                 CenterId = SessionModel.RefKey;
             var filter = new FilterModel { CompId = SessionModel.CompanyId,RefKey= CenterId, ProviderId= ProviderId };
             var Centers = await _Center.GetCenters(filter);           
@@ -251,15 +251,31 @@ namespace TogoFogo.Controllers
             var SessionModel = Session["User"] as SessionModel;
             var Center = await _Center.GetCenterById(centerId);
             Center.Path = _path;
-          
+
             if (SessionModel.UserRole.ToLower().Contains("provider"))
             {
                 var providerId = SessionModel.RefKey;
                 var provider = await _Provider.GetProviderById(providerId);
-
                 Center.IsProvider = true;
             }
-   
+
+            else if (SessionModel.UserRole.ToLower().Contains("company"))
+            {
+                Center.IsCompany = true;
+                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+
+            }
+            else
+            {
+                Center.IsProvider = false;
+                Center.IsCompany = false;
+                Center.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                if(Center.CompanyId !=null)
+                    Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(Center.CompanyId), "Name", "Text");
+                else
+                Center.ProviderList= new SelectList(Enumerable.Empty<SelectList>());
+            }
+
             if (Center.Organization == null)
                 Center.Organization = new OrganizationModel();
             Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
@@ -270,7 +286,6 @@ namespace TogoFogo.Controllers
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Center.ServiceList = await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId);
             Center.DeliveryServiceList = await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
-            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
             Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Center.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -766,14 +781,14 @@ namespace TogoFogo.Controllers
                     if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
-                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.ServiceId });
+                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.RefKey });
                 }
                 catch (Exception ex)
 
                 {
                     if (System.IO.File.Exists(excelPath))
                         System.IO.File.Delete(excelPath);
-                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.ServiceId });
+                    return RedirectToAction("ManageServiceableAreaPinCode", new { ServiceId = provider.RefKey });
 
 
                 }

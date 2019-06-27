@@ -28,8 +28,7 @@ namespace TogoFogo.Models
         [DisplayName("Service Delivery Type")]
         public int DeliveryTypeId{ get; set; }
         public string DeliveryType { get; set; }
-        [Required]
-        [DisplayName("Service Delivery Type")]
+    
         public decimal? ServiceCharges { get; set; }
         [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
         public decimal? MApprovalCost { get; set; }

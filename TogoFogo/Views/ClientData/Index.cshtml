@@ -123,8 +123,9 @@
                             var CallDate = new Date(parseInt(data.CallDate.substr(6)));
                             var month = CallDate.getMonth() + 1;
                             var ProblemDate = new Date(parseInt(data.ProblemCloseDate.substr(6)));
-                            var ExpiryDate = new Date(parseInt(data.ProblemCloseDate.substr(6)));
+                            var ExpiryDate = new Date(parseInt(data.ExpiryDate.substr(6)));
                             $("#prvCallId").text(data.CallId);
+                            $("#prvCallId").val(data.CallId);
                             $("#prvCallDate").text(CallDate.getDate() + '/' + month + '/' + CallDate.getFullYear());
                             $("#PrvProblemDescription").text(data.ProblemDescription);
                              month = ProblemDate.getMonth() + 1;
@@ -134,7 +135,6 @@
                             $("#WStatus").text(data.Status);
                             $("#IsRepeat").text("Yes");   
                         }
-
                     }
                 });
             }

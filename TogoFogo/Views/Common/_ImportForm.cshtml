@@ -1,27 +1,27 @@
 ﻿@model TogoFogo.Models.ProviderFileModel
 
-@Html.HiddenFor(x=>x.ServiceId)
+@Html.HiddenFor(x => x.RefKey)
+@Html.HiddenFor(x => x.type)
+
+<div class="row form-group">
+
+    <label class="col-md-3">
+
+        Select File:
+    </label>
 
 
-    <div class="row form-group">
+    <div class="col-md-6">
+        @Html.TextBoxFor(model => model.DataFile, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
+        @Html.ValidationMessageFor(model => model.DataFile, "", new { @class = "text-danger" })
+    </div>
 
-        <label class="col-md-3">
+</div>
 
-            Select File:
-        </label>
-
-
-        <div class="col-md-6">
-            @Html.TextBoxFor(model => model.DataFile, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.DataFile, "", new { @class = "text-danger" })
-        </div>
+<div class="row form-group">
+    <div class="col-md-offset-3">
+        <button type="submit" class="btn btn-primary"> Upload </button>
 
     </div>
 
-    <div class="row form-group">
-        <div class="col-md-offset-3">
-            <button type="submit" class="btn btn-primary"> Upload </button>
-
-        </div>
-
-    </div>
+</div>
