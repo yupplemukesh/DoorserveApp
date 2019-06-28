@@ -86,7 +86,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -131,7 +131,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Center);
             }       
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
@@ -270,7 +270,7 @@ namespace TogoFogo.Controllers
                 Center.IsProvider = false;
                 Center.IsCompany = false;
                 Center.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
-                if(Center.CompanyId !=null)
+                if(Center.CenterId !=null)
                     Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(Center.CompanyId), "Name", "Text");
                 else
                 Center.ProviderList= new SelectList(Enumerable.Empty<SelectList>());
@@ -337,7 +337,7 @@ namespace TogoFogo.Controllers
             var CenterModel = await GetCenter(null);
             return View(CenterModel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
@@ -345,133 +345,76 @@ namespace TogoFogo.Controllers
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["center"] as ServiceCenterModel;     
-            Center.Organization = new OrganizationModel();
-            if (Center.ServiceList.Where(x=>x.IsChecked==true).Count()<1 || Center.DeliveryServiceList.Where(x => x.IsChecked == true).Count() < 1)
-            {
-         
-                Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-                Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
-                Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-                Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
-                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-                Center.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
-                Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                Center.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-                Center.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-                Center.Contact.LocationList = new SelectList(dropdown.BindLocation(), "Value", "Text");
-
-                if (Center.action == 'I')
-                    return View("Create", Center);
-                else
-                    return View("Edit", Center);
-            }
-            if (TempData["center"] != null )
-            {
-                    Center = cltns;
-             
-                    string _servicetype = "";
-                    foreach (var item in Center.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
-
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
-
-                    string __deliveryType = "";
-                    foreach (var item in Center.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
-
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    Center.ServiceTypes = _servicetype;
-                    Center.ServiceDeliveryTypes = __deliveryType;
-               
-            }
-            else
-            {
-              
-                    string _servicetype = "";
-                    foreach (var item in Center.ServiceList)
-                    {
-                        if (item.IsChecked)
-                            _servicetype = _servicetype + "," + item.Value;
-
-                    }
-                    _servicetype = _servicetype.TrimEnd(',');
-                    _servicetype = _servicetype.TrimStart(',');
-
-                    string __deliveryType = "";
-                    foreach (var item in Center.DeliveryServiceList)
-                    {
-                        if (item.IsChecked)
-                            __deliveryType = __deliveryType + "," + item.Value;
-
-                    }
-                    __deliveryType = __deliveryType.TrimStart(',');
-                    __deliveryType = __deliveryType.TrimEnd(',');
-                    Center.ServiceTypes = _servicetype;
-                    Center.ServiceDeliveryTypes = __deliveryType;
-                
-            }
-
-            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            Center.Organization = new OrganizationModel();           
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
             Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
-            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
             Center.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Center.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
             Center.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-            try
+            Center.Contact.LocationList = new SelectList(dropdown.BindLocation(), "Value", "Text");
+            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+            Center.Service = new ServiceOfferedModel
             {
-                    Center.Activetab = "tab-1";
-                    Center.CreatedBy = SessionModel.UserId;
-                Center.CompanyId = SessionModel.CompanyId;
-                if (SessionModel.UserRole.ToLower().Contains("provider"))
-                {
-                    Guid? ProviderId = SessionModel.RefKey;
-                    if (ProviderId != null)
-                    {
-                        Center.ProviderId = ProviderId;
-                        Center.IsProvider = true; 
-                    }
-                     
-                }
-                    var response = await _Center.AddUpdateDeleteCenter(Center);
-                    _Center.Save();
-                    Center.CenterId = new Guid(response.result);
-                TempData["response"] = response;
-                TempData.Keep("response");
-                if (Center.action == 'I')
-                {
-                    Center.Activetab = "tab-2";
-                    TempData["center"] = Center;
-                    TempData.Keep("Center");
-                    return View("Create", Center);
-                }
-                else                    
-                    return View("Create", Center);
+                SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                ServiceList = new SelectList(await TogoFogo.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text"),
+                DeliveryServiceList = new SelectList(await TogoFogo.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text"),
+                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
+                StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                CityList = new SelectList(Enumerable.Empty<SelectList>()),
+                LocationList = new SelectList(Enumerable.Empty<SelectList>()),
+                PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
+            };
+
+
+            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
+            {
+                Center.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
                 
+            }
+            else if (SessionModel.UserTypeName.ToLower().Contains("company"))
+            {
+                Center.IsCompany = true;
+                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+                Center.CompanyId = SessionModel.CompanyId;
+            }
+            
+
+            
+            if (TempData["center"] != null)
+            {
+                Center = cltns;
+            }
+
+
+            // if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
+            //Center.CompanyId = SessionModel.CompanyId;
+            Center.Activetab = "tab-1";
+            Center.CreatedBy = SessionModel.UserId;            
+            var response = await _Center.AddUpdateDeleteCenter(Center);
+            _Center.Save();
+            Center.CenterId = new Guid(response.result);
+            Center.Service.RefKey = Center.CenterId;
+
+            TempData["response"] = response;
+            TempData.Keep("response");
+
+            if (Center.action == 'I')
+            {
+                Center.Activetab = "tab-2";
+                TempData["center"] = Center;
+                TempData.Keep("center");
+                return View("Create", Center);
 
             }
-            catch(Exception ex)
-            {
-                if(Center.action=='I')
-                return View("Create", Center);
-                else
-                    return View("Edit", Center);
-            }
+            else
+                return View("Edit", Center);
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
         {
@@ -521,7 +464,7 @@ namespace TogoFogo.Controllers
                 {
                     Center.Activetab = "tab-3";
                     TempData["center"] = Center;
-                    TempData.Keep("Center");
+                    TempData.Keep("center");
                     return View("Create",Center);
 
                 }
@@ -540,7 +483,7 @@ namespace TogoFogo.Controllers
             }
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ServiceCenterModel Center)
         {
@@ -587,6 +530,11 @@ namespace TogoFogo.Controllers
         {
             TempData["center"] = null;
             var Center = await GetCenter(id);
+
+
+
+
+
             return View(Center);
 
         }

@@ -50,9 +50,11 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@CompDomain", ToDBNull(company.CompanyWebsiteDomainName));
             sp.Add(param);
-            param = new SqlParameter("@ExpiryDate", ToDBNull(DateTime.ParseExact(company.DomainExpiryDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            param = new SqlParameter("@ExpiryDate", ToDBNull((company.DomainExpiryDate!=null)?DateTime.ParseExact(company.DomainExpiryDate, "dd/MM/yyyy", CultureInfo.InvariantCulture):company.ModifyDate));
             sp.Add(param);
             param = new SqlParameter("@LogoFileName", ToDBNull(company.CompanyLogo));
+            sp.Add(param);
+            param = new SqlParameter("@CustomerCareNumber", ToDBNull(company.CustomerCareNo));
             sp.Add(param);
             param = new SqlParameter("@AndroidAppName", ToDBNull(company.AndroidAppName));
             sp.Add(param);
@@ -72,8 +74,8 @@ namespace TogoFogo.Repository
             sp.Add(param);      
             param = new SqlParameter("@UserId", (object)company.CreatedBy);
             sp.Add(param);            
-           var sql = "USPAddorEditCompany @CompId,@CompCode,@CompTypeId,@CompName,@CurrentCompName,@CompDomain , @ExpiryDate,@LogoFileName" +
-                        ",@AndroidAppName,@AndroidAppSettings,@IOSAppName,@IOSAppSettings,@ACTION,@IsActive, @Comments,@ActiveTab,@UserId";
+           var sql = "USPAddorEditCompany @CompId,@CompCode,@CompTypeId,@CompName,@CurrentCompName,@CompDomain,@ExpiryDate,@LogoFileName,@CustomerCareNumber" +
+                        ",@AndroidAppName,@AndroidAppSettings,@IOSAppName,@IOSAppSettings,@ACTION,@IsActive,@Comments,@ActiveTab,@UserId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;

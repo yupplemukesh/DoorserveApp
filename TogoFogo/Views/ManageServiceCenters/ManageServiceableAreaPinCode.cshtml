@@ -52,7 +52,7 @@
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
             @using (Html.BeginForm("ImportServiceableAreaPinCodes", "ManageServiceCenters", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                Model.ImportModel.ServiceId = Model.Service.ServiceId;
+                Model.ImportModel.RefKey = Model.Service.ServiceId;
                 @Html.Partial("~/Views/Common/_ImportForm.cshtml", Model.ImportModel)
             }
         </div>

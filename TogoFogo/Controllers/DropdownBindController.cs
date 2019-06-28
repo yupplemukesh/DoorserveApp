@@ -501,10 +501,10 @@ namespace TogoFogo.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
 
-                var query = "SELECT ProviderId,ProviderName from MstServiceProviders";
+                var query = "SELECT ProviderId,ProviderName from MstServiceProviders p join tblOrganizations o on o.refkey=p.providerId where p.isactive=1 and o.IsSingleCenter =0";
                 if (compId != null)
-                    query = query + " and companyId=@companyId";
-                query = "Order by ProviderName ";
+                    query = query + " and p.companyId=@companyId";
+                query = query+" Order by ProviderName ";
                 List<BindServiceProviderModel> company = con
                     .Query<BindServiceProviderModel>(query,
                         new{companyId= compId }, commandType: CommandType.Text).ToList();
@@ -1783,10 +1783,10 @@ namespace TogoFogo.Controllers
             }
         }
 
-        public  ActionResult PoridersJSON(Guid compId)
+        public  ActionResult PoridersJSON(Guid value)
         {
            
-                var providers =  BindServiceProvider(compId);             
+                var providers =  BindServiceProvider(value);             
                 return Json(providers, JsonRequestBehavior.AllowGet);
            
         }

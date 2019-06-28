@@ -169,29 +169,14 @@ namespace TogoFogo.Repository.ServiceCenters
         }
         public async Task<ResponseModel> AddUpdateDeleteCenter(ServiceCenterModel center)
         {
-            string cat = "";
-            if (center.Activetab.ToLower() == "tab-1")
-            {
-                foreach (var item in center.DeviceCategories)
-                {
-                    cat = cat + "," + item;
-
-                }
-                cat = cat.TrimStart(',');
-                cat = cat.TrimEnd(',');
-            }
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@CENTERID", ToDBNull(center.CenterId));
             sp.Add(param);
             param = new SqlParameter("@PROVIDERID", ToDBNull(center.ProviderId));
             sp.Add(param);
-            param = new SqlParameter("@PROCESSID", ToDBNull(center.ProcessId));
-            sp.Add(param);
             param = new SqlParameter("@CENTERCODE", ToDBNull(center.CenterCode));
             sp.Add(param);
             param = new SqlParameter("@CENTERNAME", ToDBNull(center.CenterName));
-            sp.Add(param);
-            param = new SqlParameter("@DEVICECATEGORIES", ToDBNull(cat));
             sp.Add(param);
             param = new SqlParameter("@ORGNAME", ToDBNull(center.Organization.OrgName));
             sp.Add(param);
@@ -221,10 +206,6 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@USER", (object)center.CreatedBy);
             sp.Add(param);
-            param = new SqlParameter("@SERVICETYPE", ToDBNull(center.ServiceTypes));
-            sp.Add(param);
-            param = new SqlParameter("@SERVICEDELIVERYTYPE", ToDBNull(center.ServiceDeliveryTypes));
-            sp.Add(param);
             param = new SqlParameter("@tab", ToDBNull(center.Activetab));
             sp.Add(param);
             param = new SqlParameter("@ISUSER", ToDBNull(center.IsUser));
@@ -235,9 +216,10 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@CompId", ToDBNull(center.CompanyId));
             sp.Add(param);
-            var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROVIDERID, @PROCESSID,@CENTERCODE,@CENTERNAME,@DEVICECATEGORIES,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
-                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER,@SERVICETYPE" +
-                        ",@SERVICEDELIVERYTYPE,@tab,@ISUSER,@USERNAME,@Password,@CompId";
+
+            var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROVIDERID,@CENTERCODE,@CENTERNAME,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
+                        "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER" +
+                        ",@tab,@ISUSER,@USERNAME,@Password,@CompId";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
