@@ -30,9 +30,10 @@ namespace TogoFogo.Models.ServiceCenter
         public string IssueOcurringSinceDate { get; set; }        
         public DateTime ? AppointmentDate { get; set; }
         // public string Remarks { get; set; }
-        public Guid? PreviousCallId { get; set; } 
-
-        public  int ? CStatus { get; set; } 
+        public Guid? PreviousCallId { get; set; }
+        public string ProblemObserved { get; set; }
+        public  int ? CStatus { get; set; }
+        public int? ASPStatus { get; set; }
         public string Param {get;set;}
         public string Symptom1 { get; set; }
         public string Symptom2 { get; set; }

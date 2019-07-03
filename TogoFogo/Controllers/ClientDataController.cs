@@ -189,13 +189,8 @@ namespace TogoFogo.Controllers
                 new DataColumn("Device Condition", typeof(string))
                 
                 });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Customer Type], [Customer Name],[Customer Contact Number],[Customer Alt Con Number],[Customer Email]," +
-                        "[Customer Address Type],[Customer Address],[Customer Country],[Customer State],[Customer City]," +
-                        "[Customer Pincode], [Device Category],[Divice Sub Category], [Device Brand],[Device Model],[Device Model No]," +
-                        "[Device Sn],[DOP],[Purchase From],[Device IMEI First],[Device IMEI Second],[Device Condition]  FROM [" + sheet1 + "]", excel_con))
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT * FROM [" + sheet1 + "] where  [Customer Name] is not null", excel_con))
                     {
-                            //var dt =new DataTable();
-                            //var data = oda.Fill(dt);
                             oda.Fill(dtExcelData);
                     }
                 }
@@ -229,10 +224,7 @@ namespace TogoFogo.Controllers
                 new DataColumn("PROBLEM DESCRIPTION", typeof(string)),
                 new DataColumn("ISSUE OCURRING SINCE DATE", typeof(string)),
                 });
-                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [CUSTOMER TYPE], [CUSTOMER NAME],[CUSTOMER CONTACT NUMBER],[CUSTOMER ALT CON NUMBER],[CUSTOMER EMAIL]," +
-                            "[CUSTOMER ADDRESS TYPE],[CUSTOMER ADDRESS],[CUSTOMER COUNTRY],[CUSTOMER STATE],[CUSTOMER CITY]," +
-                            "[CUSTOMER PINCODE], [DEVICE CATEGORY],[DIVICE SUBCATEGORY], [DEVICE BRAND],[DEVICE MODEL],[MODEL NUMBER], [DEVICE IMEI ONE]," +
-                            "[DEVICE IMEI SECOND],[DEVICE SN],[DOP],[PURCHASE FROM],[DEVICE CONDITION],[PROBLEM DESCRIPTION],[ISSUE OCURRING SINCE DATE]  FROM [" + sheet1 + "]", excel_con))
+                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT *  FROM [" + sheet1 + "]", excel_con))
                         {
                             oda.Fill(dtExcelData);
                         }

@@ -15,6 +15,7 @@ using TogoFogo.Models.ServiceCenter;
 using AutoMapper;
 using TogoFogo.Repository;
 using TogoFogo.Filters;
+using System.IO;
 
 namespace TogoFogo.Controllers
 {
@@ -392,50 +393,60 @@ namespace TogoFogo.Controllers
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
-            CallDetailsModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
-            CallDetailsModel.StateList = new SelectList(dropdown.BindState(CallDetailsModel.CountryId), "Value", "Text");
-            CallDetailsModel.CityList = new SelectList(dropdown.BindDiscrictByPin(CallDetailsModel.PinNumber), "Value", "Text"); ;
             CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
+            var providerList = dropdown.BindServiceProvider(CallDetailsModel.PinNumber);
+            if (Convert.ToBoolean(CallDetailsModel.IsRepeat))
+            {
+                var prvList = providerList.Where(x => x.Value == CallDetailsModel.PrvProviderId.ToString()).ToList();
+                if (prvList !=null)
+                    CallDetailsModel.ProviderList = new SelectList(prvList, "Value", "Text");
+                else
+                    CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
+
+            }
+            else
             CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.Param = Param;
-
             CallDetailsModel.Parts = new List<PartsDetailsModel>();
             CallDetailsModel.Files = new List<ProviderFileModel>();
             if (Param == "A")
             {
                 if (CallDetailsModel.EmpId != null)
-                    CallDetailsModel.Employee=await _empRepo.GetEmployeeById(CallDetailsModel.EmpId);
+                    CallDetailsModel.Employee = await _empRepo.GetEmployeeById(CallDetailsModel.EmpId);
                 else
-                CallDetailsModel.Employee = new EmployeeModel();
+                    CallDetailsModel.Employee = new EmployeeModel();
 
                 if (SessionModel.UserTypeName.ToLower().Contains("center"))
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
-                //var list = await CommonModel.GetEmployeeList(user.CompanyId);
                 else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
                 else
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
-               
+  
 
-             
-                  
             }
             else if (Param == "P")
+            {
                 CallDetailsModel.CStatus = 11;
+         
+        
+            }
 
 
-
-
-            if (!string.IsNullOrEmpty(Param))
-                CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("ASP"), "Value", "Text");
-            else
+            if (string.IsNullOrEmpty(Param))
+            {
                 CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("Customer support"), "Value", "Text");
-
-
+                CallDetailsModel.Remarks = CallDetailsModel.Remarks ;
+                CallDetailsModel.AppointmentStatus = CallDetailsModel.CStatus;
+            }
+            else
+            {
+                CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("ASP"), "Value", "Text");
+                CallDetailsModel.Remarks = CallDetailsModel.Remarks;
+                CallDetailsModel.AppointmentStatus = CallDetailsModel.ASPStatus;
+            }
             return View(CallDetailsModel);
         }
-
-
         //
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
@@ -445,6 +456,7 @@ namespace TogoFogo.Controllers
             {
                 var SessionModel = Session["User"] as SessionModel;
                 callStatusDetails.UserId = SessionModel.UserId;
+               
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
                 return RedirectToAction("AcceptCalls");
@@ -457,8 +469,6 @@ namespace TogoFogo.Controllers
             }
 
         }
-
-
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> CallStatusDetails(CallStatusDetailsModel callStatusDetails)
@@ -486,7 +496,7 @@ namespace TogoFogo.Controllers
         {
             var SessionModel = Session["User"] as SessionModel;
             callStatusDetails.UserId = SessionModel.UserId;
-                var response = await _centerRepo.SaveTechnicianDetails(callStatusDetails);
+                var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
                 TempData["response"] = response;
             return RedirectToAction("AcceptCalls");            
         }
@@ -522,9 +532,7 @@ namespace TogoFogo.Controllers
                 filecontent = ExcelExportHelper.ExportExcel(response.AssignedCalls, "", true, columns);
             }
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
-        }
-
-       
+        }       
         [HttpPost]
         public async Task<ActionResult> EditAppointment(CallDetailsModel Appointment)
         {
@@ -544,6 +552,40 @@ namespace TogoFogo.Controllers
             }
 
 
+        }
+
+
+        public ActionResult AddOrEditPartDetail(PartsDetailsModel Part,List<PartsDetailsModel> PartList)
+        {
+            if (Part.PartId != null)
+            {
+                var l = PartList.Find(e => e == Part);
+                l.Description = Part.Description;
+                l.UnitPrice = Part.UnitPrice;
+                l.PartNo = Part.PartNo;
+                l.Qty = Part.Qty;
+
+            }
+            else
+                PartList.Add(Part);
+
+            return PartialView("_PartsDetails", PartList);
+        }
+
+        [HttpPost]
+        public JsonResult UploadFile()
+        {
+
+            string directory = @"C:\Windows\Temp\";
+            HttpPostedFileBase file = Request.Files["file"];
+            var  DeviceId= Request.Params["DeviceId"];
+            var PartNo = Request.Params["PartNo"];
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                file.SaveAs(Path.Combine(directory, DeviceId+"_"+PartNo+ Path.GetExtension(Path.Combine(directory, file.FileName))));
+            }
+            return Json(Path.Combine(directory, DeviceId + "_" + PartNo + Path.GetExtension(Path.Combine(directory, file.FileName))), JsonRequestBehavior.AllowGet);
         }
     }
     

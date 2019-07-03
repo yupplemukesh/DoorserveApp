@@ -36,7 +36,7 @@
 
                         <div class="col-sm-3">
                             <div class="form-group has-value">
-                                @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control"})
+                                @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control",@rows="1" })
                                 @Html.ValidationMessageFor(x => x.Remarks, "", new { @class = "text-danger" })
                                 <label class="floating-label">Remarks</label>
                             </div>

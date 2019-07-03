@@ -5,311 +5,486 @@
 }
 
 
-<div class="panel-default m-b-10">
-    <div class="panel-heading p-l-0">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="m-t-0 m-b-5 m-l-20">View Calls</h4>
-                @Html.Partial("_CallInformationForm", Model)
-                @Html.Partial("~/Views/Common/_CustomerInfoForm.cshtml", Model)
-                @Html.Partial("~/Views/Common/_CallLogDeviceInfoForm.cshtml", Model)
-                @if (Model.ServiceTypeId == 8)
+    <div Id="divPrint">
+        <div class="panel-default m-b-10">
+            <div class="panel-heading p-l-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="m-t-0 m-b-5 m-l-20">View Calls</h4>
+                        @Html.Partial("_CallInformationForm", Model)
+                        @Html.Partial("~/Views/Common/_CustomerInfoForm.cshtml", Model)
+                        @Html.Partial("~/Views/Common/_CallLogDeviceInfoForm.cshtml", Model)
+                        @if (Model.ServiceTypeId == 8)
+                        {
+                            <div id="ProblemInfo">
+                                @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="ProblemInfo" style="display:none">
+                                @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel
+                                { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })
+                            </div>
+                        }
+                        @if (Convert.ToBoolean(Model.IsRepeat))
+                        {
+                            @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
+           new TogoFogo.Models.PreviousCallModel
                 {
-                    <div id="ProblemInfo">
-                        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })
+               CallDate = Model.PrvCallDate,
+               CallId = Model.PrvCallId,
+               ProblemDescription = Model.PrvProblemDescription,
+               ProblemCloseDate = Model.ProblemCloseDate
+           })
+                            @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
+                            new TogoFogo.Models.WarrantyInformationModel
+                                {
+                                    ExpiryDate = Model.ExpiryDate,
+                                Status = Model.WarranyStatus
+                                })
+                        }
+                        @using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
+                        {
+                            Model.Type = "C";
+                            @Html.HiddenFor(x => x.Type)
+                            @Html.HiddenFor(x => x.DeviceId)
+                            @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
+                                        <div class="input-group">
+                                            <span class="input-group-addon"></span>
+                                            @Html.DropDownListFor(model => model.providerId, Model.ProviderList, "--Select--", new { @class = "form-control" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            if (string.IsNullOrEmpty(Model.Param))
+                            {
+                                <div class="row- form-group">
+                                    <div class="col-md-offset-10">
+                                        <a href="#">
+                                            <button type="submit" class="btn btn-primary m-w-60">Submit</button>
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            }
+                        }
                     </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Param == "P")
+        {
+            using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
+            {
+                @Html.HiddenFor(x => x.CStatus)
+                @Html.HiddenFor(x => x.RejectionReason, new { id = "Rejection_Reason" })
+                @Html.HiddenFor(x => x.DeviceId)
+                <div class="row- form-group">
+                    <div class="col-md-3 col-md-offset-9">
+                        <span>
+                            <a href="@Url.Action("AcceptCalls", "ServiceCenter")">
+                                <button type="button" class="btn btn-info m-w-60" id="btnback">Back</button>
+                            </a>
+                            <a href="#">
+                                <button type="button" class="btn btn-danger m-w-60" data-target="#rejectpopup" id="btnReject">Reject</button>
+                            </a>
+                            <a href="#">
+                                <button type="submit" class="btn btn-primary m-w-60" id="btnAccept">Accept</button>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+
+            }
+
+        }
+
+        @if (Model.Param == "A")
+        {
+            <div class="form-horizontal">
+                <div class="panel-body p-b-0 p-t-0">
+                    <div class="panel-heading p-l-0 p-b-0">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
+            {
+                Model.Type = "A";
+                @Html.HiddenFor(x => x.Employee.EmpId)
+                @Html.HiddenFor(x => x.Type)
+                @Html.HiddenFor(x => x.DeviceId)
+                @Html.HiddenFor(x => x.Remarks)
+                @Html.HiddenFor(x => x.AppointmentDate)
+                @Html.HiddenFor(x => x.StateId)
+                <div class="form-group p-l-10" id="DropDown2">
+                    <div class="col-sm-3"> <h4>Select Technician</h4></div>
+                    <div class="col-sm-5">
+                        @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
+                        @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                if (Model.EmpId != null)
+                {
+                    <div class="panel-body">
+                        <div id="TechnicianDetailsForm2">
+                            @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                        </div>
+                    </div>
+                    if (Model.ServiceTypeId == 8)
+                    {
+                        <div class="panel panel-default panel-table b-r-0">
+                            <div class="panel-body">
+                                <div class="form-horizontl" id="AddorEditParts">
+                                    <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Spare Parts Detail</h4>
+                                                                   
+                                    @Html.Partial("_AddorEditPartDetails", new TogoFogo.Models.PartsDetailsModel())
+                                   
+                                </div>
+                                <div id="PartListHTML">
+                                    @Html.Partial("_PartsDetails", Model.Parts)
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                 }
                 else
                 {
-                    <div id="ProblemInfo" style="display:none">
-                        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel
-                        { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })
-                    </div>
-
-                }
-                @if (Convert.ToBoolean(Model.IsRepeat))
-                {
-                    @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
-   new TogoFogo.Models.PreviousCallModel
-        {
-       CallDate = Model.PrvCallDate,
-       CallId = Model.PrvCallId,
-       ProblemDescription = Model.PrvProblemDescription,
-       ProblemCloseDate = Model.ProblemCloseDate
-   })
-                    @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
-                    new TogoFogo.Models.WarrantyInformationModel
-                        {
-                            ExpiryDate = Model.ExpiryDate,
-                        Status = Model.WarranyStatus
-                        })
-
-                }
-                @using (Html.BeginForm("UpdateCalls", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
-                {
-                    @Html.HiddenFor(x => x.DeviceId)
-                    @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
-                                <div class="input-group">
-                                    <span class="input-group-addon"></span>
-                                    @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
-                                </div>
-                                @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    if (string.IsNullOrEmpty(Model.Param))
-                    {
-                        <div class="row- form-group">
-                            <div class="col-md-offset-10">
-                                <a href="#">
-                                    <button type="submit" class="btn btn-primary m-w-60">Submit</button>
-                                </a>
-                            </div>
-
-
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-</div>
-
-@if (Model.Param == "P")
-{
-    using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
-    {
-        @Html.HiddenFor(x => x.CStatus)
-        @Html.HiddenFor(x => x.RejectionReason, new { id = "Rejection_Reason" })
-        @Html.HiddenFor(x => x.DeviceId)
-        <div class="row- form-group">
-            <div class="col-md-3 col-md-offset-9">
-                <span>
-                    <a href="@Url.Action("AcceptCalls", "ServiceCenter")">
-                        <button type="button" class="btn btn-info m-w-60" id="btnback">Back</button>
-                    </a>
-                    <a href="#">
-                        <button type="button" class="btn btn-danger m-w-60" data-target="#rejectpopup" id="btnReject">Reject</button>
-                    </a>
-                    <a href="#">
-                        <button type="submit" class="btn btn-primary m-w-60" id="btnAccept">Accept</button>
-                    </a>
-                </span>
-            </div>
-        </div>
-
-    }
-}
-
-@if (Model.Param == "A")
-{
-    <div class="form-horizontal">
-        <div class="panel-body p-b-0 p-t-0">
-            <div class="panel-heading p-l-0 p-b-0">
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
-    {
-        @Html.HiddenFor(x => x.Employee.EmpId)
-        @Html.HiddenFor(x => x.DeviceId)
-        @Html.HiddenFor(x => x.Remarks)
-        @Html.HiddenFor(x => x.AppointmentDate)
-        @Html.HiddenFor(x => x.StateId)
-        <div class="form-group p-l-10" id="DropDown2">
-            <div class="col-sm-3"> <h4>Select Technician</h4></div>
-            <div class="col-sm-5">
-                @*@Html.DropDownListFor(x => x.Employee.EmpId, Model.Employee.EmployeeList, "--Select--", "Text", "Value", new { @class = "form-control", id = "DropDown" })*@
-
-                @Html.DropDownListFor(m => m.Employee.EmpId, new SelectList(Model.Employee.EmployeeList, "Value", "Text"), "Select", new { @class = "form-control", id = "DropDown" })
-
-                @Html.ValidationMessageFor(x => x.Employee.EmpId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        if (Model.EmpId != null)
-        {
-            <div class="panel-body">
-                <div id="TechnicianDetailsForm2">
-                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                </div>
-            </div>
-            if (Model.ServiceTypeId == 8)
-            {
-                <div class="panel panel-default panel-table b-r-0">
                     <div class="panel-body">
-                        <div class="form-horizontl">
-                            <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Spare Parts Detail</h4>
-                            @Html.Partial("_AddorEditPartDetails", new TogoFogo.Models.PartsDetailsModel())
+                        <div id="TechnicianDetailsForm2" style="display:none;">
+                            @Html.Partial("_TechnicianDetailsForm", Model.Employee)
                         </div>
-                        @Html.Partial("_PartsDetails", Model.Parts)
                     </div>
-                </div>                   
-            }
-        }
-        else
-        {
-            <div class="panel-body">
-                <div id="TechnicianDetailsForm2" style="display:none;">
-                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                </div>
+                }
+                if (Model.EmpId != null)
+                {
+                <div class="panel-body" id="EstimatedCost">
+                   <div class="form-horizontl">
+                <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Estimate Cost</h4> 
+               
+                            <div class="form-group row">
+                                <div class="form-material">
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Service Charges</h5></div>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(x => x.ServiceCharges, new { @class = "Form-Control" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>                        
+                            <div class="form-group row">
+                                <div class="form-material">
+                                
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Spare Charges</h5></div>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(x => x.PartCharges, new { @class = "Form-Control" })
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                            <div class="form-group row">
+                                <div class="form-material">
+
+                                    <div class="col-sm-2"> <h5 class="m-t-0">Total Cost</h5></div>
+                                    <div class="col-sm-4">
+                                        @Html.LabelFor(x => x.TotalCharges, new { @class = "Form-Control" })
+                                    </div>
+                                </div>
+
+
+                            </div>
             </div>
-        }
-        <div class="row form-group m-t-5">
+        </div>
+
+                }
+        <div class="row form-group m-t-5" id="divActions">
             <div class=" col-md-offset-10 col-md-1">
                 <button type="submit" id="btnemp" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Submit</button>
             </div>
             <div class="col-md-1">
-                <button type="button" id="btnPrint" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Print</button>
+                <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Print</button>
             </div>
         </div>
+        }
+        }
+    </div>
+
+               <div id="rejectpopup" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="form-group col-md-12" id="rejectResonDiv">
+                                            <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Rejected Reason</label>
+                                            <div class="col-sm-8 col-md-8">
+
+                                                @Html.TextAreaFor(model => model.RejectionReason, new { @class = "form-control", id = "Reasontxt" })
+                                                @Html.ValidationMessageFor(model => model.RejectionReason, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" id="btnrejectreasion" class="btn btn-primary" deviceID="@Model.DeviceId">Submit</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+@section scripts
+{
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/js/form-m")
+<script>
+              var PartList = @Html.Raw(Json.Encode(Model.Parts));
+              console.log(PartList);
+              $(document).ready(function () {           
+                                    $("#btnReject").click(function () {
+                                        $("#rejectpopup").modal("show");
+                                    });
+                                    $("#btnrejectreasion").click(function () {
+                                        var rejectionreason = $("#Reasontxt").val();
+                                        $("#Rejection_Reason").val(rejectionreason);
+                                        $("#CStatus").val(9);
+                                        $("#callform").submit();
+                                    });
+                                    $("#btnemp").click(function () {
+                                        $("#callform2").submit();
+                                    });
+                                    $("#DropDown").change(function () {
+                                        var Id = $(this).val();
+                                        // var Id = $dd.val();
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/ServiceCenter/TechnicianDetails",
+                                            data: {
+                                                EmpId: Id
+                                            },
+                                            success: function (response) {
+                                                console.log(response);
+                                                console.log(response.EMPPhotoUrl);
+                                                $("#EmpId").val(response.EmpId);
+                                                $("#TechnicianTypeName").val(response.TechnicianTypeName);
+                                                $("#TechnicianName").val(response.TechnicianName);
+                                                $("#ContactNumber").val(response.ConMobileNumber);
+                                                if (response.EMPPhoto != null || response.EMPPhoto != "") {
+                                                    $("#EmpImg").prop("src", response.EMPPhotoUrl);
+                                                }
+                                                $("#TotalOpenCalls").val(response.TotalOpenCalls);
+                                                $("#TotalCloseCalls").val(response.TotalCloseCalls);
+                                                $("#Vehicle_VehicleTypeName").val(response.Vehicle.VehicleTypeName);
+                                                $("#Vehicle_VehicleBrand").val(response.Vehicle.VehicleBrand);
+                                                $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
+                                                $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
+                                                $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
+
+                                                if (response.Vehicle.InsuranceExpairyDate != null)
+                                                    $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
+                                                console.log(response);
+                                            },
+                                            error: function (e) {
+                                                console.log(e);
+                                                alert("Something went wrong...");
+                                            },
+                                            complete: function () {
+                                                $("#TechnicianDetailsForm2").show();
+                                                $("#DropDown2").hide();
+                                            }
+                                        })
+
+                                    });
+        $("#btnEditSparePart").click(function () {
+            var PartId = $("#PartId").val();
+            var PartNo = $("#PartNo").val();
+            var Description = $("#PartDescription").val();
+            var Qty = $("#Qty").val();
+            var UnitPrice = $("#UnitPrice").val();
+            var part = {
+                PartId: PartId,
+                PartNo: PartNo,
+                Description: Description,
+                Qty: Qty,
+                UnitPrice: UnitPrice,
+                ImageUrl: null
+            };
+            var files = $('#PartFile').get(0).files;
+            if (files.length > 0) {
+                debugger
+                     UploadFile();
+                    part.ImageUrl = $("#ImageUrl").val();   
+
+               
+            }
+            if ($("#Action").val() == "U") {               
+                var result = PartList.filter(obj => {
+                    return obj.PartNo === PartNo
+                });
+                result[0].PartId = part.PartId;
+                result[0].PartNo = part.PartNo;
+                result[0].Description = part.Description;
+                result[0].Qty = part.Qty;
+                result[0].UnitPrice = part.UnitPrice;
+                result[0].ImageUrl = part.ImageUrl;
+            }
+            else {
+                PartList.push(part);
+            }
+            BindTable();
+            $("#PartId").val(null);
+            $("#PartNo").val('');
+            $("#PartDescription").val('');
+            $("#Qty").val('');
+            $("#UnitPrice").val('');
+            $("#Total").val('');
+            $("#Action").val('');
+        });
+        $("#Qty").change(function () {
+            Calculate();
+        });
+        $("#UnitPrice").change(function () {
+            Calculate();
+        });
+    });
+    $(document).ready(function () {
+     
+                                    $("#IsExistingCustomer").attr('disabled', true);
+                                    $("#CustomerContactNumber").attr('disabled', true);
+                                    $("#CustomerTypeId").attr('disabled', true);
+                                    $("#CustomerName").attr('disabled', true);
+                                    $("#CustomerEmail").attr('disabled', true);
+                                    $("#Address").attr('disabled', true);
+                                    $("#NearLocation").attr('disabled', true);
+                                    $("#Country").attr('disabled', true);
+                                    $("#State").attr('disabled', true);
+                                    $("#District").attr('disabled', true);
+                                    $("#LocationId").attr('disabled', true);
+                                    $("#PinCode").attr('disabled', true);
+                                    $("#DeviceSubCategoryId").attr('disabled', true);
+                                    $("#DeviceBrandId").attr('disabled', true);
+                                    $("#DeviceModelNo").attr('disabled', true);
+                                    $("#DeviceModalId").attr('disabled', true);
+                                    $("#BillNo").attr('disabled', true);
+                                    $("#DeviceIMEIOne").attr('disabled', true);
+                                    $("#DeviceIMEISecond").attr('disabled', true);
+                                    $("#PurchaseFrom").attr('disabled', true);
+                                    $("#DOP").attr('disabled', true);
+                                    $("#BillAmount").attr('disabled', true);
+                                    $("#DeviceConditionId").attr('disabled', true);
+                                    $("input:radio").prop('disabled', true);
 
 
-
+                                
+                                });
+    function PrintPage() {
+                                    $("#DropDown2").hide();
+                                    $("#divActions").hide();
+                                    $("#AddorEditParts").hide();
+                                    var sOption = "toolbar=yes,location=no,directories=yes,menubar=No,scrollbars=yes,width=900,height=300,left=5,top=5";
+                                    var sWinHTML = document.getElementById('divPrint').innerHTML;
+                                    var winprint = window.open("", "", sOption);
+                                    winprint.document.open();
+                                    winprint.document.write('<link href="/Content/css/vendor.css" rel="stylesheet">');
+                                    winprint.document.write('<link href="/Content/css/style.css" rel="stylesheet">');
+                                    winprint.document.write('<style>.p-t-10{padding-top:0px}.p-b-10{padding-bottom:1px;}.form-material .form-control{padding:0px 0px}.form-group{margin-bottom:2px;}.form-material .form-group{padding:17px 0px;} .form-control{height:26px}.panel-body{padding:0px 20px;font-size:10px;}.panel-heading{padding:0;}.panel{margin-bottom:0px;font-size:10px;}h4{font-size:14px;font-weight:bold} </style></head><body onload="window.print();">');
+                                    winprint.document.write(sWinHTML);
+                                    winprint.document.write('</body></html>');
+                                    winprint.document.close();
+                                    winprint.focus();
+                                    window.close();
+                                    }
+    function EditItem(partnumber) {
+                            debugger
+        var result = PartList.filter(obj => {
+            return obj.PartNo === partnumber
+        });                         
+                                    $("#PartId").val(result[0].PartId);
+                                    $("#PartNo").val(result[0].PartNo);
+                                    $("#PartDescription").val(result[0].Description);
+                                    $("#Qty").val(result[0].Qty);
+                                    $("#UnitPrice").val(result[0].UnitPrice);
+        $("#Total").text(parseFloat(result[0].UnitPrice) * parseFloat(result[0].Qty));
+        $("#Action").val("U");
+    }
+    function BindTable() {
+    var count = 1;
+                                    $("#tblPartList >tbody").empty();
+                                    $.each(PartList, function (key, value) {                                       
+                                        var element = "<tr>";
+                                        element=element+"<td>" + count + "</td>";
+                                        element=element+"<td><label name= 'PartNo' >"+value.PartNo+"</label> </td>";
+                                        element=element+"<td><label name= 'Description'>"+value.Description+"</label> </td>";
+                                        element = element + "<td><label name= 'Qty'>" + value.Qty + "</label> </td>";
+                                        element=element+"<td><label name= 'UnitPrice'>"+value.UnitPrice+"</label> </td>";
+                                        element=element+"<td><label name= 'Total'>"+ parseFloat( value.UnitPrice) * parseFloat(value.Qty) +"</label> </td>";
+                                        element=element+"<td><img src='"+value.ImageUrl+"' height='30' /> </td>";
+                                        element = element + "<td style='display: inline-flex'><a href='#' onclick='EditItem(\"" + value.PartNo + "\")' class='btn btn-small btn-info btnSize'>Edit</a></td>";
+                                        element=element+"<td style='display: inline-flex'><a href='#' onclick='DeleteItem(\""+value.PartNo+"\")' class='btn btn-small btn-info btnSize'>Delete</a></td>";                                 
+                                        element = element + "</tr>";          
+                                        alert(value.PartNo);
+                                        $("#tblPartList >tbody").append(element);
+                                        count = count + 1;
+                                    });
 
 
     }
+    function DeleteItem(partNumber) {
+                            debugger
+       var result = PartList.filter(obj => {
+            return obj.PartNo === partNumber
+        }); 
+   PartList.splice($.inArray(result[0], PartList),1);
 
-}
+                            BindTable();
 
+    }
+    function Calculate(){
+        debugger
+        var qty = $("#Qty").val();
+        var unitPrice = $("#UnitPrice").val();
+        if (qty != '' && unitPrice != '')
+            $("#Total").val(parseFloat(unitPrice) * parseFloat(qty));
+        else
+            $("#Total").val("");
+        }
 
-
-
-
-
-<div id="rejectpopup" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-group col-md-12" id="rejectResonDiv">
-                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Rejected Reason</label>
-                    <div class="col-sm-8 col-md-8">
-
-                        @Html.TextAreaFor(model => model.RejectionReason, new { @class = "form-control", id = "Reasontxt" })
-                        @Html.ValidationMessageFor(model => model.RejectionReason, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnrejectreasion" class="btn btn-primary" deviceID="@Model.DeviceId">Submit</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-    </div>
-</div>
-@section scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/js/form-m")
-    <script>
-
-        $(document).ready(function () {
-
-            $("#btnReject").click(function () {
-
-                $("#rejectpopup").modal("show");
-
+    function UploadFile() {
+         var data = new FormData();
+    var files = $('#PartFile').get(0).files;
+    // Add the uploaded image content to the form data collection
+        if (files.length > 0) {
+            data.append("file", files[0]);
+            data.append("DeviceId", $("#DeviceId").val());
+            data.append("PartNo", $("#PartNo").val());
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UploadFile", "ServiceCenter")',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $("#ImageUrl").val(result);
+                }
             });
-            $("#btnrejectreasion").click(function () {
-                //var statusId = $("#CallDetails_StatusId").val();
-
-                //var status_Id = $(this).attr(st);
-                //document.getElementById().val = status_Id;
-
-                var rejectionreason = $("#Reasontxt").val();
-                $("#Rejection_Reason").val(rejectionreason);
-                $("#CStatus").val(9);
-                $("#callform").submit();
-
-            });
-
-            $("#btnemp").click(function () {
-                $("#callform2").submit();
-            });
-            $("#DropDown").change(function () {
-
-                var Id = $(this).val();
-                // var Id = $dd.val();
-                $.ajax({
-                    type: "POST",
-                    url: "/ServiceCenter/TechnicianDetails",
-                    data: {
-                        EmpId: Id
-                    },
-                    success: function (response) {
-                        console.log(response);
-                        console.log(response.EMPPhotoUrl);
-                        $("#EmpId").val(response.EmpId);
-                        $("#TechnicianTypeName").val(response.TechnicianTypeName);
-                        $("#TechnicianName").val(response.TechnicianName);
-                        $("#ContactNumber").val(response.ConMobileNumber);
-                        if (response.EMPPhoto != null || response.EMPPhoto != "") {
-                            $("#EmpImg").prop("src", response.EMPPhotoUrl);
-                        }
-                        $("#TotalOpenCalls").val(response.TotalOpenCalls);
-                        $("#TotalCloseCalls").val(response.TotalCloseCalls);
-                        $("#Vehicle_VehicleTypeName").val(response.Vehicle.VehicleTypeName);
-                        $("#Vehicle_VehicleBrand").val(response.Vehicle.VehicleBrand);
-                        $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
-                        $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
-                        $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
-
-                        if (response.Vehicle.InsuranceExpairyDate != null)
-                            $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
-                        console.log(response);
-                    },
-                    error: function (e) {
-                        console.log(e);
-                        alert("Something went wrong...");
-                    },
-                    complete: function () {
-                        $("#TechnicianDetailsForm2").show();
-                        $("#DropDown2").hide();
-                    }
-                })
-
-            });
-        });
-        $(document).ready(function () {
-
-            $("#IsExistingCustomer").attr('disabled', true);
-            $("#CustomerContactNumber").attr('disabled', true);
-            $("#CustomerTypeId").attr('disabled', true);
-            $("#CustomerName").attr('disabled', true);
-            $("#CustomerEmail").attr('disabled', true);
-            $("#Address").attr('disabled', true);
-            $("#NearLocation").attr('disabled', true);
-            $("#PinNumber").attr('disabled', true);
-            $("#CountryId").attr('disabled', true);
-            $("#StateId").attr('disabled', true);
-            $("#CityId").attr('disabled', true);
-            $("#DeviceCategoryId").attr('disabled', true);
-            $("#DeviceSubCategoryId").attr('disabled', true);
-            $("#DeviceBrandId").attr('disabled', true);
-            $("#DeviceModelNo").attr('disabled', true);
-            $("#DeviceModalId").attr('disabled', true);
-            $("#BillNo").attr('disabled', true);
-            $("#DeviceIMEIOne").attr('disabled', true);
-            $("#DeviceIMEISecond").attr('disabled', true);
-            $("#PurchaseFrom").attr('disabled', true);
-            $("#DOP").attr('disabled', true);
-            $("#BillAmount").attr('disabled', true);
-            $("#DeviceConditionId").attr('disabled', true);
-            $("input:radio").prop('disabled', true);
-
-        });
-
-    </script>
+        }
+        
+    }
+</script>
 }

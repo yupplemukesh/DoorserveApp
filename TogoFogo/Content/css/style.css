@@ -17611,9 +17611,8 @@ button.close {
     .form-material .form-control.disabled, .form-material .form-control[disabled], fieldset[disabled] .form-material .form-control {
         border-color: #eee;
     }
-
         .form-material .form-control fieldset[disabled] ~ .floating-label, .form-material .form-control.disabled ~ .floating-label, .form-material .form-control[disabled] ~ .floating-label {
-            color: #eee;
+            color: #777;
         }
 
     .form-material .form-control:focus ~ .floating-label, .form-material .has-value .floating-label {

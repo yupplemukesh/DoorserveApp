@@ -9,7 +9,9 @@ namespace TogoFogo.Models
     {
        public DateTime? CallDate { get; set; }
        public string CallId { get; set; }
-       public string ProblemDescription { get; set; }
+        public Guid? RefKey{ get; set; }
+
+        public string ProblemDescription { get; set; }
        public DateTime? ProblemCloseDate{ get; set; }
 
     }

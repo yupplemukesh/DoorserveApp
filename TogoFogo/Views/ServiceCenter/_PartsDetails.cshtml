@@ -4,8 +4,9 @@
 
 
     Layout = null;
+ 
 }
-<table class="table table-striped table-bordered table-condensed" >
+<table class="table table-striped table-bordered table-condensed" id="tblPartList" >
     <thead>
         <tr>
             <th>Serial No</th>
@@ -24,37 +25,47 @@
             <th>
                 @Html.DisplayNameFor(model => model.Total)
             </th>
-           
+            <th>
+               Uploaded File
+            </th>
            
             <th>Actions</th>
         </tr>
     </thead>
-    @foreach (var item in Model)
-    {
-      <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PartNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Qty)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UnitPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-       
-       
-        <td style="display: inline-flex">
-            <a href='#' onclick="getItems('@item.PartNo','JsonGetPerson')" class="btn btn-small btn-info btnSize ">Edit</a>
-        </td>
-    </tr>
-    }
-
+    <tbody>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+        <tr>
+            <td>
+                @i+1
+            </td>
+            <td>
+                @Html.DisplayFor(x => Model.ToArray()[i].PartNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToArray()[i].Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToArray()[i].Qty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToArray()[i].UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ToArray()[i].Total)
+            </td>
+            <td>
+                <img src="@Model.ToArray()[i].ImageUrl" height="30" />
+            </td>
+            <td style="display: inline-flex">
+                <a href='#' onclick="getItems('@Model.ToArray()[i].PartNo','JsonGetPerson')" class="btn btn-small btn-info btnSize">Edit</a>
+            </td>
+            <td style="display: inline-flex">
+                <a href='#' onclick="getItems('@Model.ToArray()[i].PartNo','JsonGetPerson')" class="btn btn-small btn-info btnSize">Delete</a>
+            </td>
+        </tr>          
+        }
+    </tbody>
 </table>
 
 

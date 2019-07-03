@@ -1,32 +1,59 @@
 ﻿@model TogoFogo.Models.PartsDetailsModel
+@Html.HiddenFor(x => x.Action)
+@Html.HiddenFor(x => x.PartId)
+@Html.HiddenFor(x => x.ImageUrl)
+<div class="row">
 
-
-@Html.HiddenFor(x=>x.PartId)
-    <div class="form-group row">
-
-        <label class="col-sm-1 control-label" for="form-control-1">Part Number</label>
+    <div class="form-material">
         <div class="col-sm-2">
-            @Html.TextBoxFor(model => model.PartNo, new { @class = "form-control input-md", @placeholder = "Part Number" })
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.PartNo, new { @class = "form-control input-md", @placeholder = "Part Number" })
+                <label class="floating-label">Part Number</label>
+            </div>
         </div>
-
-        <label class="col-sm-1 control-label" for="form-control-1">Part Description</label>
         <div class="col-sm-2">
-            @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-md", @placeholder = "Part Description" })
-        </div>
-        <label class="col-sm-1 control-label" for="form-control-1">Quantity</label>
-        <div class="col-sm-1">
-            @Html.TextBoxFor(model => model.Qty, new { @class = "form-control input-md", @placeholder = "Quantity"})
-        </div>
-
-        <label class="col-sm-1 control-label" for="form-control-1">Unit Price</label>
-        <div class="col-sm-1">
-            @Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control input-md", @placeholder = "Price" })
-        </div>
-        <div class="col-sm-1">
-            @Html.DisplayFor(x => x.Total, new { @class = "form-control" })
-        </div>
-        <div class="col-sm-1">
-            <button class="btn btn-primary"  >Add/Edit </button>
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control input-md", @placeholder = "Part Description", @Id = "PartDescription" })
+                <label class="floating-label">Part Description</label>
+            </div>
         </div>
 
+        <div class="col-sm-1">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.Qty, new { @class = "form-control input-md", @placeholder = "Quantity" })
+                <label class="floating-label">Quantity</label>
+            </div>
         </div>
+        <div class="col-sm-1">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control input-md", @placeholder = "Unit Price", @Onchage = "Calculate()" })
+                <label class="floating-label">Unit Price</label>
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.Total, new { @class = "form-control input-md", @disabled = "disabled", @placeholder = "Total" })
+                <label class="floating-label t-0">Total</label>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.PartFile, new { @class = "form-control input-md", @type = "File" })
+
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-group has-value">
+                <img src="/img" />
+                <label class="floating-label">Image</label>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-primary" id="btnEditSparePart" type="button">Add/Edit </button>
+        </div>
+    </div>
+</div>
+

@@ -173,7 +173,7 @@ namespace TogoFogo.Repository.ServiceCenters
             SqlParameter param = new SqlParameter("@CENTERID", ToDBNull(center.CenterId));
             sp.Add(param);
             param = new SqlParameter("@PROVIDERID", ToDBNull(center.ProviderId));
-            sp.Add(param);
+            sp.Add(param);												  
             param = new SqlParameter("@CENTERCODE", ToDBNull(center.CenterCode));
             sp.Add(param);
             param = new SqlParameter("@CENTERNAME", ToDBNull(center.CenterName));
@@ -206,6 +206,8 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@USER", (object)center.CreatedBy);
             sp.Add(param);
+																					
+																									
             param = new SqlParameter("@tab", ToDBNull(center.Activetab));
             sp.Add(param);
             param = new SqlParameter("@ISUSER", ToDBNull(center.IsUser));
@@ -408,16 +410,28 @@ namespace TogoFogo.Repository.ServiceCenters
             return await _context.Database.SqlQuery<EmployeeModel>("USPTechnicianDetails @EmpId", techDetails).SingleOrDefaultAsync();
         }
 
-        public async Task<ResponseModel> SaveTechnicianDetails(CallStatusDetailsModel callStatusDetails)
+		public async Task<ResponseModel> UpdateCallCenterCall(CallStatusDetailsModel callStatusDetails)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@DeviceId", ToDBNull(callStatusDetails.DeviceId));
             sp.Add(param);            
             param = new SqlParameter("@EMPId", ToDBNull(callStatusDetails.EmpId));
             sp.Add(param);
+            param = new SqlParameter("@ProviderId", ToDBNull(callStatusDetails.ProviderId));
+            sp.Add(param);
+            param = new SqlParameter("@CenterId", ToDBNull(callStatusDetails.CenterId));
+            sp.Add(param);
             param = new SqlParameter("@USER", ToDBNull(callStatusDetails.UserId));
             sp.Add(param);
-            var sql = "USPAssignTechinical @DEVICEID,@EMPId,@USER";
+            param = new SqlParameter("@StatusId", ToDBNull(callStatusDetails.AppointmentStatus));
+            sp.Add(param);
+            param = new SqlParameter("@AppointmentDate", ToDBNull(callStatusDetails.AppointmentDate));
+            sp.Add(param);
+            param = new SqlParameter("@Remarks", ToDBNull(callStatusDetails.Remarks));
+            sp.Add(param);
+            param = new SqlParameter("@Type", ToDBNull(callStatusDetails.Type));
+            sp.Add(param);
+            var sql = "UPDATECenterAndUnAssingedCall @DEVICEID,@EMPId,@ProviderId,@CenterId,@USER,@StatusId, @AppointmentDate,@Remarks,@Type";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
@@ -430,6 +444,7 @@ namespace TogoFogo.Repository.ServiceCenters
 
 
         }
+
 
         public async Task<ResponseModel> EditCallAppointment(CallDetailsModel cam)
         {

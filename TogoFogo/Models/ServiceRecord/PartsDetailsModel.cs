@@ -16,8 +16,14 @@ namespace TogoFogo.Models
         public string PartNo { get; set; }
         public string Description { get; set; }
         public string Qty { get; set; }
-        public Decimal UnitPrice{get;set;}
-        public int Total { get; set; }
+        public Decimal? UnitPrice{get;set;}
+        public decimal? Total { get; set; }
+        public string ImageUrl { get; set; }
+        public HttpPostedFileBase PartFile
+        {
+            get; set;
+        }
+        public char Action { get; set; }
         public string Defect { get; set; }
     }
 }

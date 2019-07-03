@@ -96,16 +96,22 @@ namespace TogoFogo.Models.ClientData
         [Required(ErrorMessage = "Device Modal Number is Required")]
         [DisplayName("Device Modal Number")]       
         public int DeviceModalId { get; set; }
+        public decimal? ServiceCharges { get; set;   }
 
+        public decimal? TotalCharges { get; set; }
+        public decimal? PartCharges { get; set; }
         [Required(ErrorMessage = "Please select Device Condition")]
         [DisplayName("Device Condition")]
         public int DeviceConditionId { get; set; }
         public string DeviceCondition { get; set; }
-
+       public string Type { get; set; }
         // Previous Call Details 
         public DateTime? PrvCallDate { get; set; }
         public string PrvCallId { get; set; }
         public string PrvProblemDescription { get; set; }
+        public Guid? PrvProviderId { get; set; }
+        public Guid? PrvCenterId { get; set; }
+        public Guid? PrvEmpId { get; set; }
         public DateTime? ProblemCloseDate { get; set; }
         public string WarranyStatus { get; set; }
         public DateTime? ExpiryDate { get; set; }

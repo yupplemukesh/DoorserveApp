@@ -49,7 +49,7 @@ namespace TogoFogo.Models
        public  bool IsActive { get; set; }
        public string Remarks { get; set; } 
        public bool IsUser { get; set; }
-       public DateTime LastUpdateDate { get; set; }
+       public DateTime? LastUpdateDate { get; set; }
        public string LastUpdatedBy { get; set; }
        public int UserId { get; set; }
         public bool CurrentIsUser { get; set; }
