@@ -45,6 +45,7 @@ namespace TogoFogo.Models
         public string GETAssignedCalls { get; set; }
         public bool IsClient { get; set; }
         //public Guid? CompanyId { get; set; }
+        public int DataSourceId { get; set; }
         
     }
 }

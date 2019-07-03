@@ -3,6 +3,7 @@
 
 @Html.HiddenFor(x => x.CustomerId)
 @Html.HiddenFor(x => x.ClientId)
+@Html.HiddenFor(x => x.DataSourceId)
 
 <div class="panel  panel-table">
     <div class="panel-body">
@@ -166,7 +167,7 @@
 
                 <div class="col-sm-3">
                     <div class="form-group has-value">
-                        @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })                        
+                        @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                         <label class="floating-label  t-0">City</label>
                     </div>
@@ -187,7 +188,7 @@
 @Scripts.Render("~/bundles/jquery")
 
 <script>
-    
+
     function getLocationByPin() {
         //console.log("First step");
         var Id = $("#PinCode").val();
@@ -201,7 +202,7 @@
                 contentType: "application/json",
                 success: function (result) {
 
-                    
+
                         $("#District").val(result.District);
                         $("#State").val(result.State);
                         $("#Country").val(result.Country);
@@ -210,15 +211,14 @@
                         $("#CountryId").val(result.CountryId);
                         var obj = { value: Id, Other: result.LocationId };
                         AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
-                    
-                    
+
+
 
                 }
             });
         }
-        
-    };
 
+    };
    
 
 </script>

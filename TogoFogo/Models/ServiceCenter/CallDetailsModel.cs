@@ -32,7 +32,7 @@ namespace TogoFogo.Models.ServiceCenter
         // public string Remarks { get; set; }
         public Guid? PreviousCallId { get; set; } 
 
-        public  int CStatus { get; set; } 
+        public  int ? CStatus { get; set; } 
         public string Param {get;set;}
         public string Symptom1 { get; set; }
         public string Symptom2 { get; set; }

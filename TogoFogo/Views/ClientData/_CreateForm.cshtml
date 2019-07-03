@@ -14,16 +14,11 @@
             </div>
         </div>
     }
-    else {
-        @Html.HiddenFor(x=>x.ClientId)
+    else
+    {
+        @Html.HiddenFor(x => x.ClientId)
     }
-    <div class="row" style="padding-bottom: 5px">
-        @Html.LabelFor(model => model.DeliveryTypeId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            @Html.DropDownListFor(model => model.DeliveryTypeId, Model.DeliveryTypeList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(x => x.DeliveryTypeId, "", new { @class = "text-danger" })
-        </div>
-    </div>
+
     <div class="row" style="padding-bottom: 5px">
         @Html.LabelFor(model => model.ServiceTypeId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,6 +27,14 @@
             @Html.ValidationMessageFor(x => x.ServiceTypeId, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="row" style="padding-bottom: 5px">
+        @Html.LabelFor(model => model.DeliveryTypeId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.DeliveryTypeId, Model.DeliveryTypeList, "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.DeliveryTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
     <div class="row" style="padding-bottom: 5px;">
         @Html.Label("Browse File", htmlAttributes: new { @class = "col-md-4  col-xs-12" })
         <div class="col-md-6 col-sm-6 col-xs-12">

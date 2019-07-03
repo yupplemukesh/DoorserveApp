@@ -1,5 +1,6 @@
 ﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
-@if (!Model.IsClient && Model.ClientId == null)
+
+@if (!Model.IsClient && Model.ClientId == null && Model.DataSourceId==101)
 {
     <div class="panel panel-default panel-table b-t-0">
 
@@ -40,7 +41,7 @@
                 </div>
             </div>
 
-            @if (Model.ClientId != null)
+            @if (Model.ClientId != null && Model.DataSourceId == 101)
             {
                 <div class="form-group row">
 
@@ -89,16 +90,19 @@
 
                 </div>
             }
+
+
+
             <div class="form-group row">
                 <div class="col-sm-3"> <h5 class="m-t-0">Service Type</h5></div>
                 <div class="col-sm-9">
 
                     @foreach (var item in Model.ServiceTypeList)
                     {
-                        <label class="custom-control custom-control-primary custom-checkbox p-l-0">
-                            @Html.RadioButtonFor(x => x.ServiceTypeId, item.Value)
-                            <span>@item.Text</span>
-                        </label>
+                    <label class="custom-control custom-control-primary custom-checkbox p-l-0">
+                        @Html.RadioButtonFor(x => x.ServiceTypeId, item.Value)                       
+                        <span>@item.Text</span>
+                    </label>
                     }
 
                     <div class="row">
@@ -163,7 +167,7 @@ else
         CallDate =Model.PrvCallDate,
         CallId =Model.PrvCallId,
         ProblemDescription =Model.PrvProblemDescription,
-        ProblemCloseDate=Model.ProblemCloseDate       
+        ProblemCloseDate=Model.ProblemCloseDate
     })
     @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
     new TogoFogo.Models.WarrantyInformationModel {
@@ -172,12 +176,12 @@ else
 }
 else
 {
-<div id="PrvCall" style="display:none">
-    @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml", new TogoFogo.Models.PreviousCallModel())
-    @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml", new TogoFogo.Models.WarrantyInformationModel())
-</div>
+    <div id="PrvCall" style="display:none">
+        @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml", new TogoFogo.Models.PreviousCallModel())
+        @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml", new TogoFogo.Models.WarrantyInformationModel())
+    </div>
 }
-@Html.HiddenFor(x=>x.PrvCallId)
+@Html.HiddenFor(x => x.PrvCallId)
 
 <div class="panel panel-default panel-table ">
     @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)

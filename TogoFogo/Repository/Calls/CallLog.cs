@@ -79,7 +79,8 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@DEVICEPURCHASEFROM", ToDBNull(Call.PurchaseFrom));
             sp.Add(pararm);
-            pararm = new SqlParameter("@DOP", ToDBNull(DateTime.ParseExact(Call.DOP, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            //pararm = new SqlParameter("@DOP", ToDBNull(DateTime.ParseExact(Call.DOP, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            pararm = new SqlParameter("@DOP", ToDBNull((Call.DOP != null) ? DateTime.ParseExact(Call.DOP, "dd/MM/yyyy", CultureInfo.InvariantCulture) : Call.AppointmentDate));
             sp.Add(pararm);
             pararm = new SqlParameter("@BILLNUBMER", ToDBNull(Call.BillNo));
             sp.Add(pararm);
@@ -113,15 +114,18 @@ namespace TogoFogo.Repository
             sp.Add(pararm);
             pararm = new SqlParameter("@ProblemDescription", ToDBNull(Call.ProblemDescription));
             sp.Add(pararm);
-            pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull(DateTime.ParseExact(Call.IssueOcurringSinceDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            //pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull(DateTime.ParseExact(Call.IssueOcurringSinceDate, "dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            pararm = new SqlParameter("@IssueOcurringSinceDate", ToDBNull((Call.IssueOcurringSinceDate != null) ? DateTime.ParseExact(Call.IssueOcurringSinceDate, "dd/MM/yyyy", CultureInfo.InvariantCulture) : Call.AppointmentDate));
             sp.Add(pararm);
             pararm = new SqlParameter("@PreviousCallId", ToDBNull(Call.PreviousCallId));
+            sp.Add(pararm);
+            pararm = new SqlParameter("@DataSourceId", ToDBNull(Call.DataSourceId));
             sp.Add(pararm);
             var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address," +
                 "@Landmark,@PinCode,@CountyId,@StateId,@LocationId,@City,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
                 "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID,@SubCategoryId,@ModelNumber,@Remarks," +
-                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate,@PreviousCallId";
+                "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate,@PreviousCallId,@DataSourceId";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

@@ -6,7 +6,7 @@ using TogoFogo.Models.ServiceCenter;
 
 namespace TogoFogo.Models.ClientData
 {
-    public class MainClientDataModel
+    public class MainClientDataModel:ReportedProblemModel
     {
       public ClientDataModel Client { get; set; }
       public List<UploadedExcelModel> UploadedData { get; set; }

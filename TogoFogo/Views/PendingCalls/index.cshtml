@@ -12,6 +12,21 @@
         <div class="col-md-6"><h3 class="m-y-0">Pending Calls</h3></div>
 
         <div class="col-md-6  add-tem-btn-mar-top">
+
+
+
+            <div role="tabpanel" class="tab-pane fade in">
+
+
+                <a class="btn btn-primary pull-right m-l-10" href="@Url.Action("Create", "PendingCalls")">
+
+                    <span>
+                        Add New Call
+
+                    </span>
+                </a>
+            </div>
+
             <div class="panel-tools">
                 @if (Permissions.Rights.ExcelExport)
                 {
@@ -29,143 +44,144 @@
 
 </div>
 @*<div class="panel-body">
-    <div class="text-center">
-        <div class="form-group ">
-            <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Authorized Service Provider</label>
-            <div class="col-sm-8 col-md-8">
-                @Html.DropDownListFor(x => x.CallAllocate.AllocateId, Model.CallAllocate.ToAllocateList, "Select", new { @class = "custom-select", @id = "AllocateId" })
-            </div>
+        <div class="text-center">
+            <div class="form-group ">
+                <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Authorized Service Provider</label>
+                <div class="col-sm-8 col-md-8">
+                    @Html.DropDownListFor(x => x.CallAllocate.AllocateId, Model.CallAllocate.ToAllocateList, "Select", new { @class = "custom-select", @id = "AllocateId" })
+                </div>
 
+            </div>
+            @if (Permissions.Rights.Create)
+            {
+                <button type="button" id="allocateASP" class="btn btn-primary">Allocate To ASP</button>
+            }
         </div>
-        @if (Permissions.Rights.Create)
-        {
-            <button type="button" id="allocateASP" class="btn btn-primary">Allocate To ASP</button>
-        }
-    </div>
-</div>*@
+    </div>*@
 <div class="row">
     <div class="col-md-12">
-        
-       
-
-            @if (Permissions.Rights.View)
-            {
 
 
-                    <div class="panel-body">
 
-                        <div class="row">
-                            <div class="col-md-12">
+        @if (Permissions.Rights.View)
+        {
 
-                                <div class="panel panel-default panel-table">
-                                   
-                                    <div class="panel-body">
-                                        <div class="table-responsive for-popup-height">
-                                            <div class="code-cut">
-                                                @Html.Grid(Model.PendingCalls).Columns(columns =>
-                                           {
 
-                                           columns.Add()
-                                               .Titled("#SLN")
-                                               .SetWidth(10)
-                                               .RenderValueAs(o =>
-                                               {
-                                               count++;
-                                               return @<text> @count </text>;
-                        });
-                                                  columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
-                                                 columns.Add(model => model.CRN).Titled("Call Id")
-                                                          .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN },null));
-                                                columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
-                                                                   columns.Add(c => c.Status).Titled("Status").Filterable(true);
-                    columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-                    columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);                 
-                    columns.Add(c => c.DataSource).Titled("DataSource").Filterable(true);
-                    columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-                    columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Type").Filterable(true);
-                    columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-                    columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-                    columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-                    columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-                    columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-                    columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-                    columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-                    columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-                    columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-                    columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-                    columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
-                }).WithPaging(10).Sortable(true)
-                                            </div>
+            <div class="panel-body">
 
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-default panel-table">
+
+                            <div class="panel-body">
+                                <div class="table-responsive for-popup-height">
+                                    <div class="code-cut">
+                                        @Html.Grid(Model.PendingCalls).Columns(columns =>
+                                   {
+
+                                   columns.Add()
+                                       .Titled("#SLN")
+                                       .SetWidth(10)
+                                       .RenderValueAs(o =>
+                                       {
+                                       count++;
+                                       return @<text> @count </text>;
+                                       });
+                                       columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
+                                       columns.Add(model => model.CRN).Titled("Call Id")
+                                                                                              .Filterable(true).Sanitized(false).Encoded(false).
+                                                         RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails", "ServiceCenter", new { CRN = model.CRN, Param = "P" }, null));
+                                       columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
+                                       columns.Add(c => c.Status).Titled("Status").Filterable(true);
+                                       columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+                                       columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);
+                                       columns.Add(c => c.DataSource).Titled("Data Source").Filterable(true);
+                                       columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                                       columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Type").Filterable(true);
+                                       columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                       columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                       columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                       columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                       columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                       columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                       columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                       columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                       columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                       columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+                                       columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+                                   }).WithPaging(10).Sortable(true)
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @*<div role="tabpanel" class="tab-pane fade in" id="tab-6">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default panel-table">
+
+                                <div class="panel-body">
+                                    <div class="table-responsive for-popup-height">
+                                        <div class="code-cut">
+                                            @Html.Grid(Model.AllocatedCalls).Columns(columns =>
+                                        {
+                                             columns.Add()
+                                                .Titled("#SLN")
+                                                .SetWidth(10)
+                                                .RenderValueAs(o =>
+                                                  {
+                                                      count1++;
+                                                      return @<text> @count1 </text>;
+                                                   });
+                                                       columns.Add(c => c.CRN).Titled("CC NO").Filterable(true);
+                                                       columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+                                                                                  columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);
+                                                       columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true).Format("{0:dd-MM-yyyy}");
+                                                                                          columns.Add(c => c.DataSouce).Titled("Process Name").Filterable(true);
+                                                       columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                                                       columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                                       columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                                       columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                                       columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                                       columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                                       columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                                       columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                                       columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                                       columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                                       columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+                                                       columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+                                                       columns.Add(model => model.ProviderName).Titled("ASP Name")
+                                                      .Filterable(true).Sanitized(false).Encoded(false).
+                                                       RenderValueAs(model => Html.ActionLink(model.ProviderName, "Edit", "ManageServiceProviders", new { @id = model.providerId }, null));
+                                                      }).WithPaging(10).Sortable(true)
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-            }
-                @*<div role="tabpanel" class="tab-pane fade in" id="tab-6">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="panel panel-default panel-table">
-         
-                                    <div class="panel-body">
-                                        <div class="table-responsive for-popup-height">
-                                            <div class="code-cut">
-                                                @Html.Grid(Model.AllocatedCalls).Columns(columns =>
-                                            {
-                                                 columns.Add()
-                                                    .Titled("#SLN")
-                                                    .SetWidth(10)
-                                                    .RenderValueAs(o =>
-                                                      {
-                                                          count1++;
-                                                          return @<text> @count1 </text>;
-                                                       });
-                                                           columns.Add(c => c.CRN).Titled("CC NO").Filterable(true);
-                                                           columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-                                                                                      columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);
-                                                           columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true).Format("{0:dd-MM-yyyy}");
-                                                                                              columns.Add(c => c.DataSouce).Titled("Process Name").Filterable(true);
-                                                           columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-                                                           columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-                                                           columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-                                                           columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-                                                           columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-                                                           columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-                                                           columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-                                                           columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-                                                           columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-                                                           columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-                                                           columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-                                                           columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
-                                                           columns.Add(model => model.ProviderName).Titled("ASP Name")
-                                                          .Filterable(true).Sanitized(false).Encoded(false).
-                                                           RenderValueAs(model => Html.ActionLink(model.ProviderName, "Edit", "ManageServiceProviders", new { @id = model.providerId }, null));
-                                                          }).WithPaging(10).Sortable(true)
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
-            
-        </div>
+                </div>
+            </div>*@
+
     </div>
+</div>
 
 @section scripts{
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-    
+
         $("#chkAll").on("change", function (e) {
             $(".chk-item").prop('checked', $(this).prop("checked"));
         });
 
-       
+
 
             $(document).on("click", "#allocateASP", function (e) {
                 if (($('#AllocateId').val() == '')) {
@@ -188,7 +204,7 @@
                 var check = $(this).find('[type=checkbox]');
                 if ($(check).prop("checked")) {
                     var deviceId = $(check).attr("dataval");
-                   
+
                     var item = { DeviceId: deviceId};
                     obj.push(item);
                 }
@@ -220,12 +236,12 @@
                     alert("please select a checkbox")
                     return false;
                 }
-                
-            
+
+
         })
         function selectedItem(elm, str) {
 
-            
+
             if (str == 'pendingCalls')
                 $(".chk-item").prop('checked', $(elm).prop("checked"));
         }
@@ -237,5 +253,11 @@
                 $("#tabIndex").val('P');
 
         });
+
+
+       
+           
+
+
     </script>
 }

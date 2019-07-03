@@ -12,16 +12,23 @@ using TogoFogo.Models;
 using TogoFogo.Models.Customer_Support;
 using TogoFogo.Permission;
 using TogoFogo.Repository.Customer_Support;
+using TogoFogo.Repository;
+using TogoFogo.Models.ServiceCenter;
+
 
 namespace TogoFogo.Controllers
 {
     public class PendingCallsController : Controller
     {
         private readonly ICustomerSupport _customerSupport;
+        private readonly ICallLog _RepoCallLog;
+        private readonly DropdownBindController _dropdown;
         public PendingCallsController()
         {
 
             _customerSupport = new CustomerSupport();
+            _RepoCallLog = new CallLog();
+            _dropdown = new DropdownBindController();
         }
         // GET: CallToASP
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
@@ -35,6 +42,8 @@ namespace TogoFogo.Controllers
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(session.CompanyId),"Name","Text") };
             return View(calls);
         }
+
+
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
         [HttpPost]
         public async Task<ActionResult> Allocate(AllocateCallModel allocate)
@@ -88,5 +97,60 @@ namespace TogoFogo.Controllers
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
         }
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
+        public async Task<ActionResult> Create()
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, IsExport = false };
+            // var Newcalls = await _customerSupport.GetASPCalls(filter);
+            var Newcalls = new CallDetailsModel();
+            Newcalls.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
+            Newcalls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
+            //Newcalls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text") };
+            //New Call
+            /*bool IsClient = false;
+            if (session.UserTypeName.ToLower().Contains("client"))
+            {
+                filter.ClientId = session.RefKey;
+                IsClient = true;
+            }*/
+
+            // IsAssingedCall = true,
+            Newcalls.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(session.CompanyId), "Value", "Text");
+            Newcalls.BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text");
+            Newcalls.CategoryList = new SelectList(_dropdown.BindCategory(session.CompanyId), "Value", "Text");
+            Newcalls.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
+            Newcalls.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
+            Newcalls.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+            Newcalls.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+            // calls.IsClient = IsClient,
+            Newcalls.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+            Newcalls.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
+            Newcalls.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
+            //Newcalls.ClientId = 101;
+            Newcalls.DataSourceId = 102;
+
+
+
+            return View(Newcalls);
+           
+        }
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
+        [HttpPost]
+        public async Task<ActionResult> Create(CallDetailsModel uploads)
+        {
+            var session = Session["User"] as SessionModel;
+
+            uploads.UserId = session.UserId;
+            uploads.CompanyId = session.CompanyId;
+            //if (session.UserRole.ToLower().Contains("client"))
+               // uploads.ClientId = session.RefKey;
+            uploads.EventAction = 'I';
+            var response = await _RepoCallLog.AddOrEditCallLog(uploads);
+            TempData["response"] = response;
+            return RedirectToAction("Index");
+        }
+
     }
 }

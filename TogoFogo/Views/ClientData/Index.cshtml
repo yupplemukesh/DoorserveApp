@@ -61,9 +61,14 @@
     </div>
 </div>
 @section scripts{
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
-    <script>     
+    <script>
+
         $("#ProblemInfo").hide();
+
+
+
         function AjaxWithValue(method, ddl, e) {
             var val = e.value;
             var refval = e.cvalue;
@@ -103,7 +108,7 @@
         }
 
         function GetDeviceDetails() {
-            
+
             var sn = $("#DeviceSn").val();
             var IMEI = $("#DeviceIMEIOne").val();
             var CatId = $("#DeviceCategoryId").val();
@@ -116,9 +121,9 @@
                     dataType: "json",
                     async: true,
                     success: function (data) {
-                      
+
                         if (data != null) {
-                            console.log(data);      
+                            console.log(data);
                             $("#PrvCall").show();
                             var CallDate = new Date(parseInt(data.CallDate.substr(6)));
                             var month = CallDate.getMonth() + 1;
@@ -133,7 +138,7 @@
                             month = ExpiryDate.getMonth() + 1;
                             $("#ExpiryDate").text(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
                             $("#WStatus").text(data.Status);
-                            $("#IsRepeat").text("Yes");   
+                            $("#IsRepeat").text("Yes");
                         }
                     }
                 });
@@ -170,7 +175,7 @@
             });
         }
             $('input[type=radio][name="ServiceTypeId"]').change(function () {
-                console.log($(this).val());
+                //console.log($(this).val());
 
                 if ($(this).val() == 7) {
 
@@ -195,6 +200,22 @@
             else
                  $("#tabIndex").val('D');
 
+        });
+
+
+        $("#ServiceTypeId").change(function () {
+            if ($(this).val() == 7) {
+                $("#Repair1").hide();               
+                $("#Installtion1").show();              
+               
+            }
+            else if ($(this).val() == 8)
+            {
+                $("#Installtion1").hide();               
+                $("#Repair1").show();              
+               
+            }
+           
         });
     </script>
 }
