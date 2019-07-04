@@ -321,38 +321,14 @@
                 Description: Description,
                 Qty: Qty,
                 UnitPrice: UnitPrice,
-                ImageUrl: null
+                ImageUrl: ''
             };
             var files = $('#PartFile').get(0).files;
-            if (files.length > 0) {
-                debugger
-                     UploadFile();
-                    part.ImageUrl = $("#ImageUrl").val();   
-
-               
+            if (files.length > 0) {                
+            UploadFile(part);
+                                       
             }
-            if ($("#Action").val() == "U") {               
-                var result = PartList.filter(obj => {
-                    return obj.PartNo === PartNo
-                });
-                result[0].PartId = part.PartId;
-                result[0].PartNo = part.PartNo;
-                result[0].Description = part.Description;
-                result[0].Qty = part.Qty;
-                result[0].UnitPrice = part.UnitPrice;
-                result[0].ImageUrl = part.ImageUrl;
-            }
-            else {
-                PartList.push(part);
-            }
-            BindTable();
-            $("#PartId").val(null);
-            $("#PartNo").val('');
-            $("#PartDescription").val('');
-            $("#Qty").val('');
-            $("#UnitPrice").val('');
-            $("#Total").val('');
-            $("#Action").val('');
+          
         });
         $("#Qty").change(function () {
             Calculate();
@@ -419,12 +395,14 @@
                                     $("#Qty").val(result[0].Qty);
                                     $("#UnitPrice").val(result[0].UnitPrice);
         $("#Total").text(parseFloat(result[0].UnitPrice) * parseFloat(result[0].Qty));
+        $("#ImgURI").prop("src",result[0].ImageUrl);
         $("#Action").val("U");
     }
     function BindTable() {
-    var count = 1;
+        var count = 1;
                                     $("#tblPartList >tbody").empty();
-                                    $.each(PartList, function (key, value) {                                       
+        $.each(PartList, function (key, value) {
+            console.log(value);
                                         var element = "<tr>";
                                         element=element+"<td>" + count + "</td>";
                                         element=element+"<td><label name= 'PartNo' >"+value.PartNo+"</label> </td>";
@@ -435,8 +413,7 @@
                                         element=element+"<td><img src='"+value.ImageUrl+"' height='30' /> </td>";
                                         element = element + "<td style='display: inline-flex'><a href='#' onclick='EditItem(\"" + value.PartNo + "\")' class='btn btn-small btn-info btnSize'>Edit</a></td>";
                                         element=element+"<td style='display: inline-flex'><a href='#' onclick='DeleteItem(\""+value.PartNo+"\")' class='btn btn-small btn-info btnSize'>Delete</a></td>";                                 
-                                        element = element + "</tr>";          
-                                        alert(value.PartNo);
+                                        element = element + "</tr>";                                     
                                         $("#tblPartList >tbody").append(element);
                                         count = count + 1;
                                     });
@@ -445,13 +422,11 @@
     }
     function DeleteItem(partNumber) {
                             debugger
-       var result = PartList.filter(obj => {
+         var result = PartList.filter(obj => {
             return obj.PartNo === partNumber
         }); 
-   PartList.splice($.inArray(result[0], PartList),1);
-
-                            BindTable();
-
+    PartList.splice($.inArray(result[0], PartList),1);
+    BindTable();
     }
     function Calculate(){
         debugger
@@ -462,15 +437,14 @@
         else
             $("#Total").val("");
         }
-
-    function UploadFile() {
+    function UploadFile(part ) {
          var data = new FormData();
     var files = $('#PartFile').get(0).files;
-    // Add the uploaded image content to the form data collection
+     // Add the uploaded image content to the form data collection
         if (files.length > 0) {
             data.append("file", files[0]);
             data.append("DeviceId", $("#DeviceId").val());
-            data.append("PartNo", $("#PartNo").val());
+            data.append("PartNo", part.PartNo);
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("UploadFile", "ServiceCenter")',
@@ -480,8 +454,37 @@
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    $("#ImageUrl").val(result);
+                    part.ImageUrl=result;
+                },
+                complete: function (result) {
+                    debugger         
+             if ($("#Action").val() == "U") {               
+                var result = PartList.filter(obj => {
+                    return obj.PartNo === PartNo
+                });
+                result[0].PartId = part.PartId;
+                result[0].PartNo = part.PartNo;
+                result[0].Description = part.Description;
+                result[0].Qty = part.Qty;
+                result[0].UnitPrice = part.UnitPrice;
+                result[0].ImageUrl = part.ImageUrl;
+            }
+            else {
+                debugger
+                PartList.push(part);
+            }
+
+            BindTable();
+            $("#PartId").val(null);
+            $("#PartNo").val('');
+            $("#PartDescription").val('');
+            $("#Qty").val('');
+            $("#UnitPrice").val('');
+            $("#Total").val('');
+            $("#Action").val('');
+
                 }
+
             });
         }
         

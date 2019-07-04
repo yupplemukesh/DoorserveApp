@@ -129,9 +129,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         [HttpPost]        
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
-        {
-
-            
+        {            
             var session = Session["User"] as SessionModel;
             clientDataModel.CompanyId = session.CompanyId;
             clientDataModel.UserId = session.UserId;
@@ -140,10 +138,9 @@ namespace TogoFogo.Controllers
             string excelPath = Server.MapPath(FilePath + "ClientData");
             if (clientDataModel.DataFile != null)
             {
-
                 string FileName = SaveFile(clientDataModel.DataFile, "ClientData");
                 clientDataModel.FileName = FileName;
-              string conString = string.Empty;
+                string conString = string.Empty;
                 string extension = Path.GetExtension(clientDataModel.DataFile.FileName);
                 switch (extension)
                 {
@@ -153,18 +150,10 @@ namespace TogoFogo.Controllers
                     case ".xlsx": //Excel 07 or higher
                         conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
                         break;
-
                 }
-
                 conString = string.Format(conString, excelPath+"/"+FileName);
                 DataTable dtExcelData = new DataTable();
-                using (OleDbConnection excel_con = new OleDbConnection(conString))
-                {
-                    excel_con.Open();
-                    if (clientDataModel.ServiceTypeId == 7)
-                    { 
-                        string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[22] {
+                var cols = new List<DataColumn> {
                 new DataColumn("Customer Type", typeof(string)),
                 new DataColumn("Customer Name", typeof(string)),
                 new DataColumn("Customer Contact Number", typeof(string)),
@@ -178,62 +167,30 @@ namespace TogoFogo.Controllers
                 new DataColumn("Customer Pincode", typeof(string)),
                 new DataColumn("Device Category", typeof(string)),
                 new DataColumn("Device Sub Category", typeof(string)),
-                new DataColumn("Device Brand", typeof(string)),                
+                new DataColumn("Device Brand", typeof(string)),
                 new DataColumn("Device Model", typeof(string)),
-                new DataColumn("Device Model No", typeof(string)),                
+                new DataColumn("Device Model No", typeof(string)),
                 new DataColumn("Device Sn", typeof(string)),
                 new DataColumn("DOP", typeof(DateTime)),
                 new DataColumn("Purchase From", typeof(string)),
                 new DataColumn("Device IMEI First", typeof(string)),
                 new DataColumn("Device IMEI Second", typeof(string)),
-                new DataColumn("Device Condition", typeof(string))
-                
-                });
+                new DataColumn("Device Condition", typeof(string)),
+                new DataColumn("PROBLEM DESCRIPTION", typeof(string)),
+                new DataColumn("ISSUE OCURRING SINCE DATE", typeof(DateTime))
+                };
+               
+                using (OleDbConnection excel_con = new OleDbConnection(conString))
+                {
+                    excel_con.Open();
+                    string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                    dtExcelData.Columns.AddRange(cols.ToArray());
                     using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT * FROM [" + sheet1 + "] where  [Customer Name] is not null", excel_con))
                     {
                             oda.Fill(dtExcelData);
                     }
-                }
-
-                    if (clientDataModel.ServiceTypeId == 8)
-                    {
-                        string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                        dtExcelData.Columns.AddRange(new DataColumn[24] {
-                new DataColumn("CUSTOMER TYPE", typeof(string)),
-                new DataColumn("CUSTOMER NAME", typeof(string)),
-                new DataColumn("CUSTOMER CONTACT NUMBER", typeof(string)),
-                new DataColumn("CUSTOMER ALT CON NUMBER", typeof(string)),
-                new DataColumn("Customer Email", typeof(string)),
-                new DataColumn("CUSTOMER ADDRESS TYPE", typeof(string)),
-                new DataColumn("CUSTOMER ADDRESS", typeof(string)),
-                new DataColumn("CUSTOMER COUNTRY", typeof(string)),
-                new DataColumn("CUSTOMER STATE", typeof(string)),
-                new DataColumn("CUSTOMER CITY", typeof(string)),
-                new DataColumn("CUSTOMER PINCODE", typeof(string)),
-                new DataColumn("DEVICE CATEGORY", typeof(string)),
-                new DataColumn("DEVICE SubCategory", typeof(string)),
-                new DataColumn("DEVICE BRAND", typeof(string)),                
-                new DataColumn("DEVICE MODEL", typeof(string)),
-                new DataColumn("Model Number", typeof(string)),
-                new DataColumn("DEVICE IMEI ONE", typeof(string)),
-                new DataColumn("DEVICE IMEI SECOND", typeof(string)),
-                new DataColumn("DEVICE SN", typeof(string)),
-                new DataColumn("DOP", typeof(DateTime)),
-                new DataColumn("PURCHASE FROM", typeof(string)),
-                new DataColumn("DEVICE CONDITION", typeof(string)),
-                new DataColumn("PROBLEM DESCRIPTION", typeof(string)),
-                new DataColumn("ISSUE OCURRING SINCE DATE", typeof(string)),
-                });
-                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT *  FROM [" + sheet1 + "]", excel_con))
-                        {
-                            oda.Fill(dtExcelData);
-                        }
-                    }
-
-
-
                     excel_con.Close();
-                }
+                }                                                   
                 try
                 {
                     var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
