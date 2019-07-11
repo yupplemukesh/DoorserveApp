@@ -1,0 +1,78 @@
+﻿@model IList<TogoFogo.Models.ManagePageContentsModel>
+@using TogoFogo.Models
+@{
+    @*ViewBag.Title = "Page Content";
+        Layout = "~/Views/Shared/_LayoutPage1.cshtml";*@
+   int RowNo = 1;
+    var rights = ViewData["rights"] as TogoFogo.Models.UserActionRights;
+}
+<div class="table-responsive">
+    <table class="table table-striped table-bordered dataTable" id="">
+        <thead>
+            <tr>
+                <th>Serial No</th>
+                <th>
+                    @Html.DisplayName("Page Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Section Name")
+                </th>               
+                <th>
+                    @Html.DisplayName("IsActive")
+                </th>
+                <th>
+                    @Html.DisplayName("Added By")
+                </th>
+                <th>
+                    @Html.DisplayName("Added Date")
+                </th>
+                <th>
+                    @Html.DisplayName("Modified By")
+                </th>
+                <th>
+                    @Html.DisplayName("Modified Date")
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@RowNo</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SectionName)
+                </td>              
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedOn)
+                </td>
+
+                <td class="text-center">
+
+                    @if (Permissions.Rights.Edit)
+                    { 
+                    <input type="button" class="btn btn-success btn-circle btn-sm" onclick="GetContentDetails('@item.ContentId')" value="Edit" />
+                    }
+
+                </td>
+            </tr>
+            RowNo++;
+        }
+
+    </table>
+
+</div>

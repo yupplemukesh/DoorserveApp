@@ -123,6 +123,15 @@ namespace TogoFogo
             }
         }
 
+        public static async Task<List<CheckBox>> GetSection()
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _Section = await _context.Database.SqlQuery<CheckBox>("select SectionId Name,SectionName text from MSTSECTION where isActive=1").ToListAsync();
+                return _Section;
+            }
+        }
+
         public static async Task<List<CheckBox>> GetWildCards()
         {
             using (var _context = new ApplicationDbContext())
@@ -490,6 +499,7 @@ namespace TogoFogo
     Manage_company=119,
     Open_Calls=609,
     Schedule_Appointment=13,
-    Manage_Process=120
+    Manage_Process=120,
+    Manage_Page_Contents=1011
     }
 }

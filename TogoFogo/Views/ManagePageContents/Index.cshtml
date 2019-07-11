@@ -1,0 +1,125 @@
+﻿@model TogoFogo.Models.ManagePageContentsModel
+@using TogoFogo.Models
+@{
+    ViewBag.Title = "Page Content";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
+}
+
+<div class="panel-heading">
+    <h3 class="m-y-0">Manage Content Page</h3>
+</div>
+<div class="panel-body">
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="panel-tools">
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-refresh"></i>
+                        </a>
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-close"></i>
+                        </a>
+                    </div>
+                    <h3 class="panel-title">Manage Content Page</h3>
+                    <div class="panel-subtitle"></div>
+
+                </div>
+                <div class="panel-body" style="border:0px solid red">
+                    <div>
+                        @if (Permissions.Rights.View)
+                        {
+
+                            @Html.Partial("_PageContentTable", Model.MainContent)
+                        }
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="panel-tools">
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-refresh"></i>
+                        </a>
+                        <a href="#" class="tools-icon">
+                            <i class="zmdi zmdi-close"></i>
+                        </a>
+                    </div>
+                    <h3 class="panel-title">Create / Update</h3>
+                    <div class="panel-subtitle"></div>
+
+                </div>
+                <div class="panel-body" style="border:0px solid red">
+                    <div class="row ">
+                        <div class="col-md-12 ">
+
+                            @if (Permissions.Rights.Create)
+                            {
+                                using (Html.BeginForm("Create", "ManagePageContents", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.HiddenFor(x => x.ContentId)
+                                    @Html.Partial("_CreateEditPageContent", Model.DynamicContent)
+
+                                    <button type="submit" class="btn btn-success">Submit</button>
+
+                                }
+
+                            }
+
+                            </div>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function GetContentDetails(ContentId) {
+            debugger;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Edit", "ManagePageContents")',
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                data: { Id: ContentId},
+                success: function (response) {
+                    console.log(response);
+                    $("#ContentId").val(response.ContentId);
+                    $("#PageId").val(response.PageId);
+                    $("#SectionId").val(response.SectionId);
+                    $("#MetaTitle").val(response.MetaTitle);
+                    $("#MetaNameDescription").val(response.MetaNameDescription);
+                    $("#IsActive").prop("checked", response.IsActive);
+                    CKEDITOR.instances['editor1'].setData(response.Description);                    
+                    $('.selectpicker').selectpicker('refresh')
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    </script>
+}
+
+

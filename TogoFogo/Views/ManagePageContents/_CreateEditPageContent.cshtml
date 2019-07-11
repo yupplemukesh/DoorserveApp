@@ -1,0 +1,55 @@
+﻿@model TogoFogo.Models.ManagePageContentsModel
+@{
+    Layout = null;
+}
+
+
+<div class=" row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Page Name</label>
+        @Html.DropDownListFor(model => model.PageId, Model.PageNameList, "-Select-", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PageId, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class=" row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Section Name</label>
+        @Html.DropDownListFor(model => model.SectionId, Model.SectionNameList, "-Select-", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class=" row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Description</p></label>
+        @Html.TextAreaFor(x => x.Description, new { @id = "editor1", @class = "No-border" })
+        <script>
+            CKEDITOR.replace('editor1', {
+                height: 350,
+                extraPlugins: 'colorbutton,colordialog'
+            });
+        </script>
+    </div>
+</div>
+
+<div class=" row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Meta Title</label>
+        @Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class=" row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Meta Description</label>
+        @Html.TextBoxFor(model => model.MetaNameDescription, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.MetaNameDescription, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class=" row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">IsActive</label>
+        @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+    </div>
+</div>
