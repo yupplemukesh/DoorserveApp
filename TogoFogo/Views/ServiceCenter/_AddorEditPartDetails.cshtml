@@ -1,7 +1,7 @@
 ﻿@model TogoFogo.Models.PartsDetailsModel
 @Html.HiddenFor(x => x.Action)
 @Html.HiddenFor(x => x.PartId)
-@Html.HiddenFor(x => x.ImageUrl)
+@Html.HiddenFor(x => x.FileName)
 <div class="row">
 
     <div class="form-material">
@@ -47,7 +47,7 @@
 
         <div class="col-sm-2">
             <div class="form-group has-value">
-                <img src="/img"  id="ImgURI" />
+                <img src="/img"  id="ImgURI" height="30"  />
                 <label class="floating-label">Image</label>
             </div>
         </div>

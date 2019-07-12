@@ -10,7 +10,6 @@ namespace TogoFogo.Models.ClientData
 {
     public class UploadedExcelModel : ClientDataModel
     {
-       
         public string ServiceTypeName { get; set; }
         public string DeliveryTypeName { get; set; }
         [Required]
@@ -21,16 +20,16 @@ namespace TogoFogo.Models.ClientData
         public string CustomerType { get; set; }
         [Required(ErrorMessage = "Name is Required")]
         [DisplayName("Customer Name")]
-        public string CustomerName { get; set; }        
-        [Required (ErrorMessage = "Mobile No Required")]
+        public string CustomerName { get; set; }
+        [Required(ErrorMessage = "Mobile No Required")]
         [DisplayName("Contact Number")]
         public string CustomerContactNumber { get; set; }
         [DisplayName("Alternate Contact Number")]
-        public string CustomerAltConNumber { get; set; } 
+        public string CustomerAltConNumber { get; set; }
         [DisplayName("Customer Email")]
         [Required(ErrorMessage = "Email is Required")]
-        [RegularExpression (@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$", ErrorMessage = "Invalid email format.")]
-        public string CustomerEmail { get; set; }        
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$", ErrorMessage = "Invalid email format.")]
+        public string CustomerEmail { get; set; }
         [DisplayName("Customer Address Type")]
         [Required(ErrorMessage = "Address Type Required")]
         public string CustomerAddressType { get; set; }
@@ -53,16 +52,19 @@ namespace TogoFogo.Models.ClientData
         public string DeviceModel { get; set; }
         public string DeviceModelNo { get; set; }
         [DisplayName("DEVICE SLN")]
-        public string DeviceSn { get; set; }       
+        public string DeviceSn { get; set; }
         [DisplayName("Date of Purchase")]
         [DataType(DataType.Date)]
-        public  string  DOP { get; set; }
+        public string DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
         public string PurchaseFrom { get; set; }
         [DisplayName("DEVICE IMEI FIRST")]
         public string DeviceIMEIOne { get; set; }
         [DisplayName("DEVICE IMEI SECOND")]
         public string DeviceIMEISecond { get; set; }
+
+        public string CRemark { get; set; }
+        public string AspRemark { get; set; }
 
         public string Status { get; set; }
 
@@ -78,7 +80,7 @@ namespace TogoFogo.Models.ClientData
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
         public string SubAppointmentStatus { get; set; }
-         public int? AppointmentStatus { get; set; }
+        public int? AppointmentStatus { get; set; }
 
         //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
@@ -96,19 +98,22 @@ namespace TogoFogo.Models.ClientData
         [Required(ErrorMessage = "Device Modal Number is Required")]
         [DisplayName("Device Modal Number")]       
         public int DeviceModalId { get; set; }
-        public decimal? ServiceCharges { get; set;   }
+        public decimal ServiceCharges { get; set;   }
 
-        public decimal? TotalCharges { get; set; }
-        public decimal? PartCharges { get; set; }
+        public decimal TotalCharges { get { return ServiceCharges + PartCharges; } }
+        public decimal PartCharges { get; set; }
         [Required(ErrorMessage = "Please select Device Condition")]
         [DisplayName("Device Condition")]
         public int DeviceConditionId { get; set; }
         public string DeviceCondition { get; set; }
-       public string Type { get; set; }
+        public string Type { get; set; }
         // Previous Call Details 
         public DateTime? PrvCallDate { get; set; }
         public string PrvCallId { get; set; }
         public string PrvProblemDescription { get; set; }
+
+        public string InvoiceFile { get; set; }
+        public string JobSheetFile { get; set; }
         public Guid? PrvProviderId { get; set; }
         public Guid? PrvCenterId { get; set; }
         public Guid? PrvEmpId { get; set; }

@@ -15,15 +15,16 @@ namespace TogoFogo.Models
         [DisplayName("Part Number")]
         public string PartNo { get; set; }
         public string Description { get; set; }
-        public string Qty { get; set; }
-        public Decimal? UnitPrice{get;set;}
-        public decimal? Total { get; set; }
-        public string ImageUrl { get; set; }
+        public int Qty { get; set; }
+        public Guid? RefKey { get; set; }
+        public Decimal UnitPrice{get;set;}
+        public decimal? Total { get { return UnitPrice * Qty; } }
+        public string FileName { get; set; }
         public HttpPostedFileBase PartFile
         {
             get; set;
         }
-        public char Action { get; set; }
+        public char? Action { get; set; }
         public string Defect { get; set; }
     }
 }

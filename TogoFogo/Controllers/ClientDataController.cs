@@ -195,16 +195,17 @@ namespace TogoFogo.Controllers
                 {
                     var response = await _RepoUploadFile.UploadClientData(clientDataModel, dtExcelData);
                     if (!response.IsSuccess)
-                        System.IO.File.Delete(excelPath);
+                        System.IO.File.Delete(excelPath+'/' + clientDataModel.FileName);
                     TempData["response"] = response;
                     return RedirectToAction("index");
                 }
                 catch (Exception ex)
                 {
-                    if (System.IO.File.Exists(Server.MapPath(excelPath)))
-                        System.IO.File.Delete(Server.MapPath(excelPath));
-                    return RedirectToAction("index");
 
+                        
+                    if (System.IO.File.Exists(excelPath+'/'+ clientDataModel.FileName))
+                        System.IO.File.Delete(excelPath+'/'+ clientDataModel.FileName);
+                    return RedirectToAction("index");
                 }
             }
             return RedirectToAction("index");

@@ -34,11 +34,13 @@ namespace TogoFogo.Models.ServiceCenter
         public string ProblemObserved { get; set; }
         public  int ? CStatus { get; set; }
         public int? ASPStatus { get; set; }
+        public bool IsServiceApproved { get; set; }
         public string Param {get;set;}
         public string Symptom1 { get; set; }
         public string Symptom2 { get; set; }
         public string Symptom3 { get; set; }
-
+        public string InvoiceFileName { get; set; }
+        public string JobSheetFileName { get; set; }
 
     }
 }

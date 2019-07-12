@@ -16,6 +16,7 @@ using AutoMapper;
 using TogoFogo.Repository;
 using TogoFogo.Filters;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace TogoFogo.Controllers
 {
@@ -305,19 +306,28 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> AcceptCalls()
         {
+         
             var SessionModel = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId = SessionModel.CompanyId,IsExport=false};
             if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
                 filter.ProviderId = SessionModel.RefKey;
+                      
+               
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
                 filter.RefKey = SessionModel.RefKey;
             var calls = await _centerRepo.GetCallDetails(filter);
-            calls.Employee = new EmployeeModel();        
+            calls.Employee = new EmployeeModel();
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
-            calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
-          else  if(SessionModel.UserRole.Contains("Service Provider SC Admin"))
+            {
+                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
+                calls.IsAscOrAsp = true;
+            }
+            else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
+            {
                 calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
-            else
+                calls.IsAscOrAsp = true;
+            }
+            else            
                 calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
 
 
@@ -326,7 +336,7 @@ namespace TogoFogo.Controllers
       
 
         public async Task<ActionResult> TechnicianDetails(Guid EmpId)
-        {
+            {
 
             var techDetails = await _empRepo.GetEmployeeById(EmpId);
             
@@ -381,9 +391,11 @@ namespace TogoFogo.Controllers
         //GetCallDetailByID
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> ManageServiceProvidersDetails(string CRN, string Param)
+
         {
             var SessionModel = Session["User"] as SessionModel;
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(CRN);
+
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
@@ -407,7 +419,6 @@ namespace TogoFogo.Controllers
             else
             CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.Param = Param;
-            CallDetailsModel.Parts = new List<PartsDetailsModel>();
             CallDetailsModel.Files = new List<ProviderFileModel>();
             if (Param == "A")
             {
@@ -421,9 +432,8 @@ namespace TogoFogo.Controllers
                 else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
                     CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
                 else
-                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
-  
-
+                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(CallDetailsModel.providerId), "Name", "Text");
+ 
             }
             else if (Param == "P")
             {
@@ -431,18 +441,16 @@ namespace TogoFogo.Controllers
          
         
             }
-
-
             if (string.IsNullOrEmpty(Param))
             {
                 CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("Customer support"), "Value", "Text");
-                CallDetailsModel.Remarks = CallDetailsModel.Remarks ;
+                CallDetailsModel.Remarks = CallDetailsModel.CRemark ;
                 CallDetailsModel.AppointmentStatus = CallDetailsModel.CStatus;
             }
             else
             {
                 CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("ASP"), "Value", "Text");
-                CallDetailsModel.Remarks = CallDetailsModel.Remarks;
+                CallDetailsModel.Remarks = CallDetailsModel.AspRemark;
                 CallDetailsModel.AppointmentStatus = CallDetailsModel.ASPStatus;
             }
             return View(CallDetailsModel);
@@ -493,10 +501,55 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> UpdateCall(CallStatusDetailsModel callStatusDetails)
-        {
+        {          
+            if(callStatusDetails.AppointmentDate == null)
+            {
+                
+                var call = Request.Params["CallDetail"];
+                callStatusDetails = JsonConvert.DeserializeObject<CallStatusDetailsModel>(call);
+                callStatusDetails.InvoiceFile = Request.Files["InvoiceFile"];
+                callStatusDetails.JobSheetFile = Request.Files["JobSheetFile"];
+                callStatusDetails.Type = "A";
+                string directory = "~/TempFiles/";
+                if (callStatusDetails.InvoiceFile != null)
+                {
+                    callStatusDetails.InvoiceFileName = "DevicePic" + Path.GetExtension(Path.Combine(directory, callStatusDetails.InvoiceFile.FileName));
+                    if (System.IO.File.Exists(directory + callStatusDetails.DeviceId + "/"+ callStatusDetails.InvoiceFileName))
+                        System.IO.File.Delete(directory + callStatusDetails.DeviceId + "/"+callStatusDetails.InvoiceFileName);
+                    if (callStatusDetails.InvoiceFile != null && callStatusDetails.InvoiceFile.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(callStatusDetails.InvoiceFile.FileName);
+                        string path = Server.MapPath(directory + callStatusDetails.DeviceId);
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
+                        callStatusDetails.InvoiceFile.SaveAs(path + "/" + callStatusDetails.InvoiceFileName);
+                    }
+            
+                }
+                if(callStatusDetails.JobSheetFile!=null)
+                {
+                    callStatusDetails.JobSheetFileName = "JobSheet" + Path.GetExtension(Path.Combine(directory, callStatusDetails.JobSheetFile.FileName));
+
+                    if (System.IO.File.Exists(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.JobSheetFileName))
+                        System.IO.File.Delete(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.JobSheetFileName);
+                    if (callStatusDetails.JobSheetFile != null && callStatusDetails.JobSheetFile.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(callStatusDetails.JobSheetFile.FileName);
+                        string path = Server.MapPath(directory + callStatusDetails.DeviceId);
+                        if (!Directory.Exists(path))
+                            Directory.CreateDirectory(path);
+                        callStatusDetails.InvoiceFile.SaveAs(path + "/"+callStatusDetails.JobSheetFileName);
+                    }
+                }
+          
+            }
+            else if(callStatusDetails.EmpId !=null)            
+                callStatusDetails.Type = "A";
+            else
+                callStatusDetails.Type = "C";
             var SessionModel = Session["User"] as SessionModel;
             callStatusDetails.UserId = SessionModel.UserId;
-                var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
+            var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
                 TempData["response"] = response;
             return RedirectToAction("AcceptCalls");            
         }
@@ -575,17 +628,23 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public JsonResult UploadFile()
         {
-
-            string directory = @"C:\Windows\Temp\";
+            string directory = "~/TempFiles/";
             HttpPostedFileBase file = Request.Files["file"];
             var  DeviceId= Request.Params["DeviceId"];
             var PartNo = Request.Params["PartNo"];
+
+            if (System.IO.File.Exists(directory + DeviceId + "/" + PartNo+ Path.GetExtension(Path.Combine(directory, file.FileName))))
+                System.IO.File.Delete(directory + DeviceId + "/" + PartNo + Path.GetExtension(Path.Combine(directory, file.FileName)));
             if (file != null && file.ContentLength > 0)
             {
                 var fileName = Path.GetFileName(file.FileName);
-                file.SaveAs(Path.Combine(directory, DeviceId+"_"+PartNo+ Path.GetExtension(Path.Combine(directory, file.FileName))));
+                string path = Server.MapPath(directory + DeviceId);
+                if (!Directory.Exists(path))     
+                    Directory.CreateDirectory(path);           
+
+                file.SaveAs(path + "/"+PartNo+ Path.GetExtension(Path.Combine(directory, file.FileName)));
             }
-            return Json(Path.Combine(directory, DeviceId + "_" + PartNo + Path.GetExtension(Path.Combine(directory, file.FileName))), JsonRequestBehavior.AllowGet);
+            return Json( PartNo + Path.GetExtension(Path.Combine(directory, file.FileName)), JsonRequestBehavior.AllowGet);
         }
     }
     

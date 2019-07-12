@@ -14,7 +14,7 @@ namespace TogoFogo.Models.ServiceCenter
         public List<CallDetailsModel> AssignedCalls { get; set; }
         public CallDetailsModel CallDetails { get; set; }
         public EmployeeModel Employee { get; set; }
-      
+        public bool IsAscOrAsp { get; set; }  
         public string Param { get; set; }
 
     }

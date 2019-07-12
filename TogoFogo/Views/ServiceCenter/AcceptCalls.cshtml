@@ -49,6 +49,8 @@ else
     <div role="tabpanel" class="tab-pane fade in active" id="tab-10">
         <div class="panel panel-default panel-table">
             <div class="panel-body">
+                @if (Model.IsAscOrAsp)
+                {
                 <div class="panel-default m-b-10">
                     <div class="panel-heading p-l-0">
                         <div class="row">
@@ -70,6 +72,7 @@ else
                         </div>
                     </div>
                 </div>
+                }
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-lg-12">
@@ -427,7 +430,6 @@ else
                         console.log(resultData);
                         if (resultData == "Ok")
                             window.location.reload();
-
                     },
                     error: (function () {
                         alert("Something went wrong");

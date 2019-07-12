@@ -145,7 +145,7 @@
     </div>
 </div>
 @Html.Partial("~/views/common/_CallLogDeviceInfoForm.cshtml", Model)
-@if (Model.ServiceTypeId != 7)
+@if (Model.ServiceTypeId == 8)
 {
     <div id="ProblemInfo">
         @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new TogoFogo.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId })

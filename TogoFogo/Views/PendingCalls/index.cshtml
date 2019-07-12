@@ -91,7 +91,7 @@
                                        columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
                                        columns.Add(model => model.CRN).Titled("Call Id")
                                                                                               .Filterable(true).Sanitized(false).Encoded(false).
-                                                         RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails", "ServiceCenter", new { CRN = model.CRN, Param = "P" }, null));
+                                                         RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails", "ServiceCenter", new { CRN = model.CRN }, null));
                                        columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
                                        columns.Add(c => c.Status).Titled("Status").Filterable(true);
                                        columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
@@ -176,13 +176,9 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-
         $("#chkAll").on("change", function (e) {
             $(".chk-item").prop('checked', $(this).prop("checked"));
         });
-
-
-
             $(document).on("click", "#allocateASP", function (e) {
                 if (($('#AllocateId').val() == '')) {
                     alert('please select authorized service provider');
@@ -239,9 +235,7 @@
 
 
         })
-        function selectedItem(elm, str) {
-
-
+         function selectedItem(elm, str) {
             if (str == 'pendingCalls')
                 $(".chk-item").prop('checked', $(elm).prop("checked"));
         }
@@ -253,11 +247,19 @@
                 $("#tabIndex").val('P');
 
         });
-
-
-       
+        $("#ServiceTypeId").change(function () {
+            if ($(this).val() == 7) {
+                $("#Repair1").hide();               
+                $("#Installtion1").show();              
+               
+            }
+            else if ($(this).val() == 8)
+            {
+                $("#Installtion1").hide();               
+                $("#Repair1").show();              
+               
+            }
            
-
-
+        });
     </script>
 }

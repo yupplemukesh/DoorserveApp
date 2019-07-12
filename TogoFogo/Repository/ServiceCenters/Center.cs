@@ -41,8 +41,37 @@ namespace TogoFogo.Repository.ServiceCenters
         public async Task<CallDetailsModel> GetCallsDetailsById(string CRN)
         {
 
-            SqlParameter callDetails = new SqlParameter("@CallId", CRN);
-            return await _context.Database.SqlQuery<CallDetailsModel>("GetCallDetailsByCallId @CallId", callDetails).SingleOrDefaultAsync();
+            var call = new CallDetailsModel();
+            using (var connection = _context.Database.Connection)
+            {
+                SqlParameter param = new SqlParameter("@CallId", ToDBNull(CRN));
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "GetCallDetailsByCallId";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(param);
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                     call =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<CallDetailsModel>(reader)
+                            .SingleOrDefault();
+                    //Add This
+                    reader.NextResult();
+
+                    call.Parts =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<PartsDetailsModel>(reader)
+                            .ToList();                  
+                }
+            }
+
+            return call;
+
+            //SqlParameter callDetails = new SqlParameter("@CallId", CRN);
+            //return await _context.Database.SqlQuery<CallDetailsModel>("GetCallDetailsByCallId @CallId", callDetails).SingleOrDefaultAsync();
         }
 
 
@@ -327,17 +356,12 @@ namespace TogoFogo.Repository.ServiceCenters
             param = new SqlParameter("@USER", ToDBNull(callStatus.UserId));
             sp.Add(param);
             var sql = "UpdateCallStatus @Status,@AllocateXML,@Reasion,@USER";
-
-
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;
-
             return res;
-
-
         }
         public async Task<ResponseModel> AssignCallsDetails(EmployeeModel assignCalls)
         {
@@ -390,9 +414,9 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@USER", ToDBNull(callStatusDetails.UserId));
             sp.Add(param);
-            var sql = "UpdateCallStatusDetails @StatusId,@RejectReasion,@DeviceId,@USER";
-
-
+            param = new SqlParameter("@Type", ToDBNull(callStatusDetails.Type));
+            sp.Add(param);
+            var sql = "UpdateCallStatusDetails @StatusId,@RejectReasion,@DeviceId,@USER,@Type";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
@@ -412,6 +436,17 @@ namespace TogoFogo.Repository.ServiceCenters
 
 		public async Task<ResponseModel> UpdateCallCenterCall(CallStatusDetailsModel callStatusDetails)
         {
+            XmlSerializer parts = new XmlSerializer(callStatusDetails.Parts.GetType());
+            string xml = "";
+            using (var sww = new StringWriter())
+            {
+                using (XmlWriter writer = XmlWriter.Create(sww))
+                {
+                    parts.Serialize(writer, callStatusDetails.Parts);
+                    xml = sww.ToString(); 
+                }
+            }
+            xml = xml.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@DeviceId", ToDBNull(callStatusDetails.DeviceId));
             sp.Add(param);            
@@ -431,21 +466,27 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@Type", ToDBNull(callStatusDetails.Type));
             sp.Add(param);
-            var sql = "UPDATECenterAndUnAssingedCall @DEVICEID,@EMPId,@ProviderId,@CenterId,@USER,@StatusId, @AppointmentDate,@Remarks,@Type";
-
-
+            param = new SqlParameter("@parts", ToDBNull(xml));
+            param.SqlDbType = SqlDbType.Xml;
+            sp.Add(param);
+            param = new SqlParameter("@InvoiceFile", ToDBNull(callStatusDetails.InvoiceFileName));
+            sp.Add(param);
+            param = new SqlParameter("@JobsheetFileName", ToDBNull(callStatusDetails.JobSheetFileName));
+            sp.Add(param);
+            param = new SqlParameter("@ProblemObserved", ToDBNull(callStatusDetails.ProblemObserved));
+            sp.Add(param);
+            param = new SqlParameter("@ServiceCharges", ToDBNull(callStatusDetails.ServiceCharges));
+            sp.Add(param);
+            param = new SqlParameter("@PartCharges", ToDBNull(callStatusDetails.PartCharges));
+            sp.Add(param);
+            var sql = "UPDATECenterAndUnAssingedCall @DEVICEID,@EMPId,@ProviderId,@CenterId,@USER,@StatusId, @AppointmentDate,@Remarks,@Type,@parts,@InvoiceFile,@JobsheetFileName,@ProblemObserved,@ServiceCharges,@PartCharges";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;
-
             return res;
-
-
         }
-
-
         public async Task<ResponseModel> EditCallAppointment(CallDetailsModel cam)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
