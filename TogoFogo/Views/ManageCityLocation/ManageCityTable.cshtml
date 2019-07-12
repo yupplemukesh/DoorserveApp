@@ -1,8 +1,18 @@
 ﻿@model IEnumerable<TogoFogo.Models.ManageLocation>
 @using TogoFogo.Models
+@using GridMvc.Html
+
 @{
-    Layout = null;
-    int Count=1;
+    /**/
+
+    Layout = null;   
+    int rowNumber = 0;
+    int pageSize = 10;
+    int pageNumber = Convert.ToInt32(ViewBag.PageNumber);
+    if ((pageNumber) > 1)
+    {
+        rowNumber = (pageSize) * (pageNumber - 1) + rowNumber;
+    }
 }
 <div class="panel panel-default panel-table">
     <div class="panel-heading">
@@ -24,113 +34,180 @@
         </div>
     </div>
 
-    <table class="table table-striped table-bordered table-condensed" id="myTable">
-        <thead>
-            <tr>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.SerialNo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CountryName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StateName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DistrictName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PinCode)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LocationName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comments)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CBy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddedOn)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MBy)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ModifiedOn)
-                </th>
+    <div class="code-cut">
+        @Html.Grid(Model).Columns(columns =>
+   {
+   columns.Add()
+ .Titled("#SLN")
+ .SetWidth(10)
+ .RenderValueAs(o =>
+ {
+ rowNumber++;
+ return @<text> @rowNumber </text>;
+     });
+           columns.Add(c => c.CountryName).Titled("Country Name").Filterable(true);
+           columns.Add(c => c.StateName).Titled("State Name").Filterable(true);
+           columns.Add(c => c.DistrictName).Titled("District Name").Filterable(true);
+           columns.Add(c => c.PinCode).Titled("PinCode").Filterable(true);
+           columns.Add(c => c.LocationName).Titled("Location Name").Filterable(true);
+           columns.Add(c => c.IsActive).Titled("IsActive").Filterable(true);
+           columns.Add(c => c.Comments).Titled("Comments").Filterable(true);
+           columns.Add(c => c.CBy).Titled("AddedBy").Filterable(true);
+           columns.Add(c => c.AddedOn).Titled("AddedOn").Filterable(true);
+           columns.Add(c => c.MBy).Titled("ModifiedBy").Filterable(true);
+           columns.Add(c => c.ModifiedOn).Titled("ModifiedOn").Filterable(true);
+           columns.Add()
+               .Titled("Action")
+              .Sanitized(false)
+               .Encoded(false)
+               .RenderValueAs(data => new HtmlString
+                           (
+                              "<a href='#Editmodel' data-toggle='modal' class='btn btn-small btn-info btnSize'  onclick='EditCity(" + data.LocationId + ")'>Edit</a>"
+                           )
+                   );
 
-                <th>Action</th>
-            </tr>
-        </thead>
-        @foreach (var item in Model)
-        {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SerialNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CountryName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StateName)
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DistrictName)
+       }).Filterable(true).WithPaging(10);
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PinCode)
+    </div>
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LocationName)
-        </td>
-        <td>
-            @(item.IsActive == true ? "Active" : "InActive")
 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddedOn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModifiedOn)
-        </td>
-
-        <td style="display: inline-flex">
-
-            @* @Url.Action("#Editmodel", new { id = item.BrandId })*@
-            @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize ">History</a>*@
-            @if (Permissions.Rights.Edit)
-            {
-                <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCity(@item.LocationId)">Edit</a>
-            }
-            @* @if (Model._UserActionRights.Delete)
-            {
-                <input type="button" value="Delete" class="btn btn-small btn-danger btnSize" />
-            }*@
-        </td>
-    </tr>
-            Count++;
-        }
-
-    </table>
 
 </div>
+
+
+
+
+
+
+
+@*
+    ==========================================
+    columns.Add()
+           .Titled("Action")
+          .Sanitized(false)
+           .Encoded(false)
+           .RenderValueAs(data => new HtmlString
+                       (
+                          "<button type='button'>Edit</button>"
+                       )
+               );
+
+    ===========================================
+        columns.Add()
+            .Encoded(false)
+            .Sanitized(false)
+            .SetWidth(30)
+            .RenderValueAs(c => Html.ActionLink("Edit", "EditCityLocation", "ManageCityLocation", new { Id = c.LocationId }));
+         <table class="table table-striped table-bordered table-condensed" id="myTable">
+             <thead>
+                 <tr>
+
+    columns.Add()
+                  .Encoded(false)
+                  .Sanitized(false)
+                  .SetWidth(30)
+                  .RenderValueAs(c => @Html.ActionLink("Edit",,,null, new { onclick = "return EditCity(" + c.LocationId + ")" }));
+
+
+                     <th>
+                         @Html.DisplayNameFor(model => model.SerialNo)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.CountryName)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.StateName)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.DistrictName)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.PinCode)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.LocationName)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.IsActive)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.Comments)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.CBy)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.AddedOn)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.MBy)
+                     </th>
+                     <th>
+                         @Html.DisplayNameFor(model => model.ModifiedOn)
+                     </th>
+
+                     <th>Action</th>
+                 </tr>
+             </thead>
+             @foreach (var item in Model)
+             {
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.SerialNo)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.CountryName)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.StateName)
+
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.DistrictName)
+
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.PinCode)
+
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.LocationName)
+                     </td>
+                     <td>
+                         @(item.IsActive == true ? "Active" : "InActive")
+
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Comments)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.CBy)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.AddedOn)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.MBy)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.ModifiedOn)
+                     </td>
+
+                     <td style="display: inline-flex">
+
+
+         @if (Permissions.Rights.Edit)
+         {
+             <a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditCity(@item.LocationId)">Edit</a>
+         }
+
+                     </td>
+                 </tr>
+                 Count++;
+             }
+
+         </table>*@
 
 

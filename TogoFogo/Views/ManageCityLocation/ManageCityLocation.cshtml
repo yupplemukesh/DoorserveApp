@@ -17,12 +17,24 @@
                         using (Html.BeginForm("ExportToExcel", "ManageCityLocation", FormMethod.Get, new { @class = "dis-inline" }))
                         {
 
-
+                            @Html.Hidden("tabIndex", 'T')
                             <button type="submit" class="btn btn-primary"> Template</button>
-
+                            
                         }
 
-                        <button class="btn btn-primary excel">Export to Excel</button>
+
+                    }
+
+                    @if (Permissions.Rights.ExcelExport)
+                    {
+                        using (Html.BeginForm("ExportToExcel", "ManageCityLocation", FormMethod.Get, new { @class = "dis-inline" }))
+                        {
+
+                            @Html.Hidden("tabIndex", 'E')                           
+                            <button type="submit" class="btn btn-primary excel">Export to Excel</button>
+                        }
+
+
                     }
                     @if (Permissions.Rights.Create)
                     {
@@ -62,6 +74,7 @@
                 <div class="x_content" style="overflow-x: scroll;">
                     @if (Permissions.Rights.View)
                     {
+                       
                         @Html.Action("ManageCityTable", "ManageCityLocation")
 
                     }
@@ -129,6 +142,7 @@
                 contentType: 'application/json; charset=utf-8',
                 cache: false,
                 success: function (response) {
+                  
                     $("#Info").html(response);
                 },
                 error: function (e) {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using TogoFogo.Filters;
 using TogoFogo.Models;
 using TogoFogo.Permission;
 using TogoFogo.Repository;
@@ -119,6 +120,7 @@ namespace TogoFogo.Controllers
         public ActionResult ManageCityTable()
         {
             ManageLocation objManageLocation = new ManageLocation();
+            ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
 
             using (var con = new SqlConnection(_connectionString))
             {
@@ -130,7 +132,7 @@ namespace TogoFogo.Controllers
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Cities_Locations)]
-        public ActionResult EditCityLocation(int LocationId)
+        public ActionResult EditCityLocation(int ? LocationId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
@@ -288,15 +290,19 @@ namespace TogoFogo.Controllers
 
         }
 
-      
+
 
 
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Cities_Locations)]
-        public async Task<FileContentResult> ExportToExcel()
+        public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-
-            string[] columns = new string[]{ "CountryName", "StateName", "DistrictName","PinCode","LocationName","IsActive"};
-            var providerData = new List<ManageLocation> { new ManageLocation
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, tabIndex = tabIndex };
+            byte[] filecontent;
+            if (tabIndex == 'T')
+            {
+                string[] columns = new string[] { "CountryName", "StateName", "DistrictName", "PinCode", "LocationName", "IsActive" };
+                var providerData = new List<ManageLocation> { new ManageLocation
                 {
                 CountryName="India",
                 StateName="Uttar Pradesh",
@@ -305,9 +311,31 @@ namespace TogoFogo.Controllers
                 LocationName="Raya",
                 IsActive=true
                 }};
-            byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
-            return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
+                //byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+                // return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
+                filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
 
+
+                return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+            }
+            else
+            {
+                string[] columns = new string[] { "CountryName", "StateName", "DistrictName", "PinCode", "LocationName", "IsActive" };
+
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var result = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
+                    // objManageLocation.ManageLocationList
+                    filecontent = ExcelExportHelper.ExportExcel(result, "", false, columns);
+                    return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+                }
+
+                //byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+                // return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
+               
+
+
+            }
         }
     }
 }
