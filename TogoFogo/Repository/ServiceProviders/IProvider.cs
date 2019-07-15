@@ -12,7 +12,8 @@ namespace TogoFogo.Repository.ServiceProviders
     {
         Task<List<ServiceProviderModel>> GetProviders(FilterModel filterModel);
         Task<ServiceProviderModel> GetProviderById(Guid? serviceProviderId);
-        Task<ResponseModel> AddUpdateDeleteProvider(ServiceProviderModel provider);    
+        Task<ResponseModel> AddUpdateDeleteProvider(ServiceProviderModel provider);
+        Task<List<serviceProviderData>> GetProvidersExcel(FilterModel filterModel);
         void Save();
     }
 }

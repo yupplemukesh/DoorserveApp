@@ -49,6 +49,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             var SessionModel = Session["User"] as SessionModel;
+            ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             Guid? CenterId = null;
             if (SessionModel.UserTypeName.ToLower().Contains("center"))
                 CenterId = SessionModel.RefKey;
@@ -827,15 +828,20 @@ namespace TogoFogo.Controllers
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Provider)]
-        public async Task<FileContentResult> ExportToExcel()
+        public async Task<FileContentResult> ExportToExcel(Char tabIndex)
         {
-
-            string[] columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName","ServiceDeliveryType","SupportedDeviceCategory",
-                                "ServiceType","OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, tabIndex = tabIndex };            
+            byte[] filecontent;
+            string[] columns;
+            if (tabIndex == 'T')
+            {
+                columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName"
+                                ,"OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
                     "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
                     "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser"
             };
-            var providerData = new List<serviceProviderData> { new serviceProviderData
+                var providerData = new List<serviceProviderData> { new serviceProviderData
                 {
                     ProcessName = "OEM Installation",
                     ServiceProviderCode = "SP000005",
@@ -871,8 +877,21 @@ namespace TogoFogo.Controllers
 
 
                 }};
-            byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
-            return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+                filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+                return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+            }
+            else
+            {
+                var response = await _provider.GetProvidersExcel(filter);
+                columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName"
+                                ,"OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
+                    "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
+                    "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser" };               
+                filecontent = ExcelExportHelper.ExportExcel(response, "", false, columns);
+                return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+
+            }
+
 
         }
 
