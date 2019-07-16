@@ -467,9 +467,9 @@
                    FileName: PartList[i].FileName
                };
                   parts.push(part);
-               if (PartList.PartFile != null) {
+               if (PartList[i].PartFile != null) {
                     debugger
-                    data.append(PartList[i].PartNo,PartList[i].PartFile[0]);
+                    data.append(PartList[i].PartNo,PartList[i].PartFile);
                 }
            }
                CallDetail.Parts = parts;

@@ -502,26 +502,33 @@ namespace TogoFogo.Controllers
                 callStatusDetails = JsonConvert.DeserializeObject<CallStatusDetailsModel>(call);
                 callStatusDetails.InvoiceFile = Request.Files["InvoiceFile"];
                 callStatusDetails.JobSheetFile = Request.Files["JobSheetFile"];
-                foreach (var parts in callStatusDetails.Parts)
-                {
-                    parts.PartFile = Request.Files[parts.PartNo];
-                }
                 callStatusDetails.Type = "A";
                 string directory = "~/TempFiles/";
+                string path = Server.MapPath(directory + callStatusDetails.DeviceId);
+                if (callStatusDetails.InvoiceFile != null || callStatusDetails.JobSheetFile != null || callStatusDetails.InvoiceFile !=null)
+                {
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                }
+                foreach (var part in callStatusDetails.Parts)
+                {
+                    part.PartFile = Request.Files[part.PartNo];
+                    if (part.PartFile != null)
+                    {
+                        part.FileName = part.PartNo + Path.GetExtension(Path.Combine(directory, part.PartFile.FileName));
+                        if (System.IO.File.Exists(path+ "/" + part.FileName))
+                            System.IO.File.Delete(path + "/" + part.FileName);
+                           part.PartFile.SaveAs(path + "/" + part.FileName);
+                    }
+                }
+                
                 if (callStatusDetails.InvoiceFile != null)
                 {
                     callStatusDetails.InvoiceFileName = "DevicePic" + Path.GetExtension(Path.Combine(directory, callStatusDetails.InvoiceFile.FileName));
                     if (System.IO.File.Exists(directory + callStatusDetails.DeviceId + "/"+ callStatusDetails.InvoiceFileName))
                         System.IO.File.Delete(directory + callStatusDetails.DeviceId + "/"+callStatusDetails.InvoiceFileName);
-                    if (callStatusDetails.InvoiceFile != null && callStatusDetails.InvoiceFile.ContentLength > 0)
-                    {
-                        var fileName = Path.GetFileName(callStatusDetails.InvoiceFile.FileName);
-                        string path = Server.MapPath(directory + callStatusDetails.DeviceId);
-                        if (!Directory.Exists(path))
-                            Directory.CreateDirectory(path);
-                        callStatusDetails.InvoiceFile.SaveAs(path + "/" + callStatusDetails.InvoiceFileName);
-                    }
-            
+                    if (callStatusDetails.InvoiceFile != null && callStatusDetails.InvoiceFile.ContentLength > 0)                       
+                        callStatusDetails.InvoiceFile.SaveAs(path + "/" + callStatusDetails.InvoiceFileName);            
                 }
                 if(callStatusDetails.JobSheetFile!=null)
                 {
@@ -529,14 +536,8 @@ namespace TogoFogo.Controllers
 
                     if (System.IO.File.Exists(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.JobSheetFileName))
                         System.IO.File.Delete(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.JobSheetFileName);
-                    if (callStatusDetails.JobSheetFile != null && callStatusDetails.JobSheetFile.ContentLength > 0)
-                    {
-                        var fileName = Path.GetFileName(callStatusDetails.JobSheetFile.FileName);
-                        string path = Server.MapPath(directory + callStatusDetails.DeviceId);
-                        if (!Directory.Exists(path))
-                            Directory.CreateDirectory(path);
+                    if (callStatusDetails.JobSheetFile != null && callStatusDetails.JobSheetFile.ContentLength > 0)                     
                         callStatusDetails.InvoiceFile.SaveAs(path + "/"+callStatusDetails.JobSheetFileName);
-                    }
                 }
           
             }

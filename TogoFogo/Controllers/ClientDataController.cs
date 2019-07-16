@@ -62,6 +62,7 @@ namespace TogoFogo.Controllers
             // new call Log
             clientData.NewCallLog = new CallDetailsModel
             {
+DataSourceId=101,
              IsAssingedCall = true,
             ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
