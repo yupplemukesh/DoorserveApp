@@ -515,10 +515,13 @@ namespace TogoFogo.Controllers
                     part.PartFile = Request.Files[part.PartNo];
                     if (part.PartFile != null)
                     {
+                        if (part.PartId != null)
+                            part.Action = 'I';
                         part.FileName = part.PartNo + Path.GetExtension(Path.Combine(directory, part.PartFile.FileName));
                         if (System.IO.File.Exists(path+ "/" + part.FileName))
                             System.IO.File.Delete(path + "/" + part.FileName);
                            part.PartFile.SaveAs(path + "/" + part.FileName);
+                        part.PartFile = null;
                     }
                 }
                 

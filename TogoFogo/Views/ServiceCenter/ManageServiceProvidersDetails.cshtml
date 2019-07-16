@@ -388,7 +388,8 @@
                 UnitPrice: UnitPrice,
                 FileName: $("#FileName").val(),
                 PartFile: null,
-                url: ''
+                url: '',
+                RefKey: $("#DeviceId").val()
 
             };
             var files = $('#PartFile').get(0).files;
@@ -396,10 +397,10 @@
               if (files.length > 0) 
                     part.PartFile = files[0];
                 if (part.FileName != "")
-                    part.url = "/TempFiles/" + $("#DeviceId").val() + value.FileName;
+                    part.url = "/TempFiles/" + $("#DeviceId").val()+'/' + part.FileName;
                 else
                     part.url = $("#ImgURI").prop("src");
-                  NextStep(part);
+                    NextStep(part);
                  
             }
 
@@ -601,6 +602,7 @@
                                         winprint.focus();
                                         window.close();
                                         }
+
         function EditItem(partnumber) {
             var result = PartList.filter(obj => {
                 return obj.PartNo === partnumber
@@ -621,11 +623,12 @@ function BindTable() {
     
             var count = 1;
     var sum = 0;
+    
  
             $("#tblPartList >tbody").empty();
             $.each(PartList, function (key, value) {
-               
-                                            var element = "<tr>";
+                if (value.PartId != null)
+                 value.url = "/TempFiles/" + value.RefKey+'/' + value.FileName;                                            var element = "<tr>";
                                             element=element+"<td>" + count + "</td>";
                                             element=element+"<td><label name= 'PartNo' >"+value.PartNo+"</label> </td>";
                                             element=element+"<td><label name= 'Description'>"+value.Description+"</label> </td>";
@@ -674,6 +677,7 @@ function BindTable() {
                             result[0].UnitPrice = part.UnitPrice;
                            result[0].FileName = part.FileName;
                          result[0].PartFile = part.PartFile;
+                         result[0].url = part.url;
                         }
                         else {
                             PartList.push(part);
