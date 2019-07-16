@@ -25,7 +25,7 @@
                 using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
                 {
 
-                    <div class="col-md-offset-10 col-md-1 text-right" id="Installtion1" style="display:none">
+                    <div class=" col-md-1 col-md-offset-9 text-right" id="Installtion1" style="display:none">
                         @Html.Hidden("tabIndex", 'B')
                         <button type="submit" class="tools-icon btn btn-primary btn-sm excel" id="t1"> Template</button>
                     </div>
@@ -36,7 +36,7 @@
                
                     using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
                     {                        
-                        <div class="col-md-offset-10 col-md-1 text-right" id="Repair1" style="display:none">
+                        <div class=" col-md-1 col-md-offset-9 text-right" id="Repair1" style="display:none">
                             @Html.Hidden("tabIndex", 'T')
                             <button type="submit" class="tools-icon btn btn-primary btn-sm excel" id="t2"> Template</button>
                         </div>
@@ -48,9 +48,9 @@
 
                     using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
                     {
-                        <div class="col-md-1 text-right">
+                        <div class="col-md-1 pull-right m-r-60 text-right">
                             @Html.Hidden("tabIndex", 'D')
-                            <button type="submit" class="tools-icon btn btn-primary btn-sm excel"> Export to Excel</button>
+                            <button type="submit" class="tools-icon btn btn-primary btn-sm excel "> Export to Excel</button>
                         </div>
                     }
 
