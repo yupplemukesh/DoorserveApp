@@ -14,17 +14,17 @@
 </div>
 @using (Html.BeginForm("Create", "PendingCalls", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<div class="panel-body">
-    <!--/.col-->
-    @* @Html.Partial("_AddEditNewCall", Model)*@
-    @Html.Partial("~/Views/ClientData/_NewCallLogForm.cshtml")
+    <div class="panel-body">
+        <!--/.col-->
+        @* @Html.Partial("_AddEditNewCall", Model)*@
+        @Html.Partial("~/Views/ClientData/_NewCallLogForm.cshtml")
 
-</div>
+    </div>
 }
 
-    @section scripts{
-    
-<script>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
          $('input[type=radio][name="ServiceTypeId"]').change(function () {
                 //console.log($(this).val());
 
@@ -82,7 +82,7 @@
     }
 
         function GetDeviceDetails() {
-            
+
             var sn = $("#DeviceSn").val();
             var IMEI = $("#DeviceIMEIOne").val();
             var CatId = $("#DeviceCategoryId").val();
@@ -117,12 +117,12 @@
                             month = ExpiryDate.getMonth() + 1;
                             $("#ExpiryDate").val(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
                             $("#WStatus").val(data.Status);
-                            $("#IsRepeat").text("Yes");   
+                            $("#IsRepeat").text("Yes");
                         }
                     },
                     fail: function (index) {
-                        
-                          
+
+
                     }
                 });
             }
@@ -157,7 +157,7 @@
                 }
             });
         }
-    
-</script>
+
+    </script>
 }
 
