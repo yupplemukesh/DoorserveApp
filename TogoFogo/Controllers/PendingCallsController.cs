@@ -105,17 +105,8 @@ namespace TogoFogo.Controllers
             var filter = new FilterModel { CompId = session.CompanyId, IsExport = false };
             // var Newcalls = await _customerSupport.GetASPCalls(filter);
             var Newcalls = new CallDetailsModel();
-            Newcalls.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
             Newcalls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
-            //Newcalls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text") };
-            //New Call
-            /*bool IsClient = false;
-            if (session.UserTypeName.ToLower().Contains("client"))
-            {
-                filter.ClientId = session.RefKey;
-                IsClient = true;
-            }*/
-
+            
             // IsAssingedCall = true,
             Newcalls.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(session.CompanyId), "Value", "Text");
             Newcalls.BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text");
@@ -125,7 +116,7 @@ namespace TogoFogo.Controllers
             Newcalls.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             Newcalls.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             // calls.IsClient = IsClient,
-            Newcalls.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+            Newcalls.StatusList = new SelectList(await CommonModel.GetStatusTypes("Customer support"), "Value", "Text");
             Newcalls.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             Newcalls.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
             //Newcalls.ClientId = 101;

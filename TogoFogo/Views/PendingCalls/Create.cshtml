@@ -22,15 +22,25 @@
 </div>
 }
 
-
-
-
-
-
     @section scripts{
-    }
+    
 <script>
+         $('input[type=radio][name="ServiceTypeId"]').change(function () {
+                //console.log($(this).val());
 
+                if ($(this).val() == 7) {
+
+                    $("#ProblemInfo").hide();
+                }
+                else {
+                    $("#ProblemInfo").show();
+                    if ($("#prvCallId").text().length != 0)
+                        $("#IsRepeat").text("Yes");
+                    else
+                        $("#IsRepeat").text("No");
+                }
+
+        });
 
      function AjaxWithValue(method, ddl, e) {
         var val = e.value;
@@ -85,9 +95,14 @@
                     dataType: "json",
                     async: true,
                     success: function (data) {
-                      
-                        if (data != null) {
-                            console.log(data);      
+                        debugger
+                        if (data == 'Not Found') {
+
+                            $("#prvCallId").val(null);
+                            $("#PrvCall").hide();
+                            $("#IsRepeat").text("No");
+                        }
+                        else {
                             $("#PrvCall").show();
                             var CallDate = new Date(parseInt(data.CallDate.substr(6)));
                             var month = CallDate.getMonth() + 1;
@@ -95,15 +110,19 @@
                             var ExpiryDate = new Date(parseInt(data.ExpiryDate.substr(6)));
                             $("#prvCallId").text(data.CallId);
                             $("#prvCallId").val(data.CallId);
-                            $("#prvCallDate").text(CallDate.getDate() + '/' + month + '/' + CallDate.getFullYear());
-                            $("#PrvProblemDescription").text(data.ProblemDescription);
+                            $("#prvCallDate").val(CallDate.getDate() + '/' + month + '/' + CallDate.getFullYear());
+                            $("#PrvProblemDescription").val(data.ProblemDescription);
                              month = ProblemDate.getMonth() + 1;
-                            $("#ProblemCloseDate").text(ProblemDate.getDate() + '/' + month+ '/' + ProblemDate.getFullYear());
+                            $("#ProblemCloseDate").val(ProblemDate.getDate() + '/' + month+ '/' + ProblemDate.getFullYear());
                             month = ExpiryDate.getMonth() + 1;
-                            $("#ExpiryDate").text(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
-                            $("#WStatus").text(data.Status);
+                            $("#ExpiryDate").val(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
+                            $("#WStatus").val(data.Status);
                             $("#IsRepeat").text("Yes");   
                         }
+                    },
+                    fail: function (index) {
+                        
+                          
                     }
                 });
             }
@@ -140,4 +159,5 @@
         }
     
 </script>
+}
 

@@ -40,16 +40,13 @@
 
         <div class="col-sm-2">
             <div class="form-group has-value">
-                @Html.TextBoxFor(model => model.PartFile, new { @class = "form-control input-md", @type = "File" })
+                @Html.TextBoxFor(model => model.PartFile, new { @class = "form-control input-md", @type = "File",@onchange = "readURL1(this);" })
 
             </div>
         </div>
 
         <div class="col-sm-2">
-            <div class="form-group has-value">
-                <img src="/img"  id="ImgURI" height="30"  />
-                <label class="floating-label">Image</label>
-            </div>
+                <img src="/img"  id="ImgURI"  height="30"  />
         </div>
         <div class="col-sm-1">
             <button class="btn btn-primary" id="btnEditSparePart" type="button">Add/Edit </button>

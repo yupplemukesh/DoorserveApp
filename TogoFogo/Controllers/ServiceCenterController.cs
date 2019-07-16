@@ -305,6 +305,7 @@ namespace TogoFogo.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> AcceptCalls()
+
         {
          
             var SessionModel = Session["User"] as SessionModel;
@@ -337,17 +338,13 @@ namespace TogoFogo.Controllers
 
         public async Task<ActionResult> TechnicianDetails(Guid EmpId)
             {
-
-            var techDetails = await _empRepo.GetEmployeeById(EmpId);
-            
+            var techDetails = await _empRepo.GetEmployeeById(EmpId);            
             return Json(techDetails, JsonRequestBehavior.AllowGet);
-
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> CallStatus(CallStatusModel callStatus)
         {
-
             try
             {
                 var SessionModel = Session["User"] as SessionModel;
@@ -363,9 +360,7 @@ namespace TogoFogo.Controllers
                 TempData.Keep("response");
                 return Json("ex", JsonRequestBehavior.AllowGet);
             }
-
         }
-
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
         [HttpPost]
         public async Task<ActionResult> AssignCalls(EmployeeModel assignCall)
@@ -391,11 +386,9 @@ namespace TogoFogo.Controllers
         //GetCallDetailByID
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> ManageServiceProvidersDetails(string CRN, string Param)
-
         {
             var SessionModel = Session["User"] as SessionModel;
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(CRN);
-
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
@@ -509,6 +502,10 @@ namespace TogoFogo.Controllers
                 callStatusDetails = JsonConvert.DeserializeObject<CallStatusDetailsModel>(call);
                 callStatusDetails.InvoiceFile = Request.Files["InvoiceFile"];
                 callStatusDetails.JobSheetFile = Request.Files["JobSheetFile"];
+                foreach (var parts in callStatusDetails.Parts)
+                {
+                    parts.PartFile = Request.Files[parts.PartNo];
+                }
                 callStatusDetails.Type = "A";
                 string directory = "~/TempFiles/";
                 if (callStatusDetails.InvoiceFile != null)
@@ -543,7 +540,7 @@ namespace TogoFogo.Controllers
                 }
           
             }
-            else if(callStatusDetails.EmpId !=null)            
+            else if(!string.IsNullOrEmpty( callStatusDetails.TechnicianName))            
                 callStatusDetails.Type = "A";
             else
                 callStatusDetails.Type = "C";
@@ -608,22 +605,6 @@ namespace TogoFogo.Controllers
         }
 
 
-        public ActionResult AddOrEditPartDetail(PartsDetailsModel Part,List<PartsDetailsModel> PartList)
-        {
-            if (Part.PartId != null)
-            {
-                var l = PartList.Find(e => e == Part);
-                l.Description = Part.Description;
-                l.UnitPrice = Part.UnitPrice;
-                l.PartNo = Part.PartNo;
-                l.Qty = Part.Qty;
-
-            }
-            else
-                PartList.Add(Part);
-
-            return PartialView("_PartsDetails", PartList);
-        }
 
         [HttpPost]
         public JsonResult UploadFile()

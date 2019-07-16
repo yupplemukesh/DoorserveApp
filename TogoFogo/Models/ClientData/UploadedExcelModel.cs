@@ -69,7 +69,7 @@ namespace TogoFogo.Models.ClientData
         public string Status { get; set; }
 
         public string BillNo { get; set; }
-        public  double ? BillAmount { get; set; }
+        public  decimal ? BillAmount { get; set; }
         [DisplayName("Call ID")]
         public string CRN { get; set; }
         public bool? IsRepeat { get; set; }

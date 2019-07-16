@@ -23751,3 +23751,6 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .form-material input[type="date"].form-control {
     line-height:unset !important;
 }
+.l-0 {
+    line-height:0 !important;
+}

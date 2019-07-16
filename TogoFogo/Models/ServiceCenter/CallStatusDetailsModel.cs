@@ -22,6 +22,8 @@ namespace TogoFogo.Models.ServiceCenter
         public List<PartsDetailsModel> Parts { get; set; }
         public decimal ServiceCharges { get; set; }
         public decimal PartCharges { get; set; }
+        public string TechnicianName { get; set; }
+        public string TechnicianContactNumber { get; set; }
         public Guid? CenterId { get; set; }
         public Guid? EmpId { get; set; }
         public string Type { get; set; }

@@ -126,17 +126,9 @@
     @Scripts.Render("~/bundles/customBundle")
     @Scripts.Render("~/bundles/js/form-m")
     @Scripts.Render("~/bundles/js/Gridmvc")
-
     @Scripts.Render("~/bundles/bootstrap")
-
-
     <script>
-
-
-
-
         $(document).ready(function (e) {
-        
             $('#myTable1').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found"
@@ -147,8 +139,6 @@
                     "sEmptyTable": "No Record Found"
                 }
             });
-
-
             $('.selectpicker').selectpicker();
             $(".bootstrap-select").click(function () {
                 $(this).addClass("open");
@@ -294,16 +284,31 @@
         });
 
         function readURL(input) {
+            debugger
             var _this = input;
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
+                    debugger
                     //$('#blah')
                     //    .attr('src', e.target.result);
                     $(_this).parent('div').next('div').find('img').attr('src', e.target.result);
                 };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
+          function readURL1(input) {
+            debugger
+            var _this = input;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    debugger
+                    //$('#blah')
+                    //    .attr('src', e.target.result);
+                    $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
+                };
                 reader.readAsDataURL(input.files[0]);
             }
         }
@@ -317,7 +322,5 @@
         };
     </script>
     @RenderSection("scripts", required: false)
-
-
 </body>
 </html>
