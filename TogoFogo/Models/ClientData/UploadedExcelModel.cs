@@ -22,8 +22,10 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("Customer Name")]
         public string CustomerName { get; set; }
         [Required(ErrorMessage = "Mobile No Required")]
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number")]
         [DisplayName("Contact Number")]
         public string CustomerContactNumber { get; set; }
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number")]
         [DisplayName("Alternate Contact Number")]
         public string CustomerAltConNumber { get; set; }
         [DisplayName("Customer Email")]
