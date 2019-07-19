@@ -10,6 +10,7 @@ namespace TogoFogo.Models.ServiceCenter
         public int? UserId { get; set; }
         public Guid? DeviceId { get; set; }
         public string RejectionReason { get; set; }
+        public string CancelReason { get; set; }
         public int? AppointmentStatus { get; set; }
         public DateTime? AppointmentDate { get; set;  }
         public string Remarks { get; set; }
@@ -28,5 +29,7 @@ namespace TogoFogo.Models.ServiceCenter
         public Guid? EmpId { get; set; }
         public string Type { get; set; }
         public int? CStatus { get; set; }
+        public string Param { get; set; }
+        public bool IsServiceApproved { get; set; }
     }
 }

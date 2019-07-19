@@ -81,7 +81,7 @@ namespace TogoFogo.Models.ClientData
         public SelectList CustomerTypeList { get; set; }
         public string SubAppointmentStatus { get; set; }
         public int? AppointmentStatus { get; set; }
-
+        public bool IsCancelCall { get; set; } 
         //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
         [Required]

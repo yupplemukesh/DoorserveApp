@@ -486,7 +486,11 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@EngContactNumber", ToDBNull(callStatusDetails.TechnicianContactNumber));
             sp.Add(param);
-            var sql = "UPDATECenterAndUnAssingedCall @DEVICEID,@EMPId,@ProviderId,@CenterId,@USER,@StatusId, @AppointmentDate,@Remarks,@Type,@parts,@InvoiceFile,@JobsheetFileName,@ProblemObserved,@ServiceCharges,@PartCharges,@EngName,@EngContactNumber";
+            param = new SqlParameter("@CancelReason", ToDBNull(callStatusDetails.CancelReason));
+            sp.Add(param);
+            param = new SqlParameter("@IsServiceApproval", ToDBNull(callStatusDetails.IsServiceApproved));
+            sp.Add(param);
+            var sql = "UPDATECenterAndUnAssingedCall @DEVICEID,@EMPId,@ProviderId,@CenterId,@USER,@StatusId, @AppointmentDate,@Remarks,@Type,@parts,@InvoiceFile,@JobsheetFileName,@ProblemObserved,@ServiceCharges,@PartCharges,@EngName,@EngContactNumber,@CancelReason,@IsServiceApproval";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;

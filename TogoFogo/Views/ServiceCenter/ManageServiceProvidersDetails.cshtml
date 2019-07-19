@@ -43,11 +43,13 @@
                         Status = Model.WarranyStatus
                         })
                 }
-                @using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
+                @using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", @id = "updateCall" }))
                 {
                     Model.Type = "C";
                     @Html.HiddenFor(x => x.Type)
                     @Html.HiddenFor(x => x.DeviceId)
+                    @Html.HiddenFor(x => x.CancelReason)
+                    @Html.HiddenFor(x => x.CStatus)
                     @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
 
                     <div id="DivServiceProvider">
@@ -70,12 +72,9 @@
                     {
                         <div class="row- form-group">
                             <div class="col-md-offset-10">
-                                <a href="#">
-                                    <button type="submit" class="btn btn-primary m-w-60">Submit</button>
-                                </a>
+                                <button type="submit" class="btn btn-primary m-w-60">Submit</button>
+                                @*<button type="button" class="btn btn-primary m-w-60" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>*@
                             </div>
-
-
                         </div>
                     }
                 }
@@ -106,7 +105,7 @@
 
                 }
 
-                @if (Model.Param == "A")
+                @if (Model.Param == "A" || Model.Param == "AP" || Model.Param == "CL" )
                 {
                     <div class="form-horizontal" id="TechId">
                         <div class="panel-body p-b-0 p-t-0">
@@ -148,18 +147,18 @@
                                     @Html.ValidationMessageFor(x => x.TechnicianContactNumber, "", new { @class = "text-danger" })
                                 </div>
                                 @*<div class="col-sm-5" id="DivTechName" style="display:none">
-                                      @Html.DisplayFor(x => x.TechnicianName)
-                                    </div>*@
+                          @Html.DisplayFor(x => x.TechnicianName)
+                        </div>*@
 
                             </div>
                         </div>
                         //if (Model.EmpId != null)
                         //{
                         @*<div class="panel-body">
-                                <div id="TechnicianDetailsForm2">
-                                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                                </div>
-                            </div>*@
+                    <div id="TechnicianDetailsForm2">
+                        @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                    </div>
+                </div>*@
                         if (Model.TechnicianName != null)
                         {
                             if (Model.ServiceTypeId == 8)
@@ -217,7 +216,7 @@
                                         <div class="form-material">
                                             <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Invoice</h5></div>
                                             <div class="col-sm-3">
-                                                @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File",@onchange = "readURL1(this);" })
+                                                @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File", @onchange = "readURL(this);" })
                                             </div>
                                             <div class="col-sm-1">
                                                 <img src="/TempFiles/@Model.DeviceId/@Model.InvoiceFileName" width="50" />
@@ -225,7 +224,7 @@
 
                                             <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Job Sheet</h5></div>
                                             <div class="col-sm-3">
-                                                @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File",@onchange = "readURL1(this);" })
+                                                @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File", @onchange = "readURL(this);" })
                                             </div>
                                             <div class="col-sm-1">
                                                 <img src="/TempFiles/@Model.DeviceId/@Model.JobSheetFileName" width="50" />
@@ -234,7 +233,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             if (Model.StatusId != 18)
                             {
                                 <div class="row form-group m-t-5" id="divActions">
@@ -259,7 +257,7 @@
 
                             }
                         }
-                        else
+                        else if (Model.Param != "AP" || Model.Param != "CL")
                         {
                             <div class="row form-group m-t-5" id="divActions">
                                 <div class=" col-md-offset-9 col-md-1">
@@ -284,6 +282,38 @@
 
                             </div>
 
+                        </div>
+                    }
+                }
+
+                @if (Model.Param == "CL")
+                {
+                    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "cancelCallForm" }))
+                    {
+                        Model.IsCancelCall = true;
+                        @Html.HiddenFor(x => x.DeviceId)
+                        @Html.HiddenFor(x => x.IsCancelCall)
+                        @Html.HiddenFor(x => x.Param)
+                        <div class="row form-group m-t-5" id="divActions">
+                            <div class=" col-md-offset-9 col-md-2">
+                                <button type="submit" class="btn btn-primary">Cancel Call</button>
+                            </div>
+                        </div>
+                    }
+                }
+                @if (Model.Param == "AP")
+                {
+                    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "approvalForm" }))
+                    {
+                        Model.IsServiceApproved = true;
+                        @Html.HiddenFor(x => x.DeviceId)
+                        @Html.HiddenFor(x => x.Param)
+                        @Html.HiddenFor(x => x.IsServiceApproved)
+                        <div class="row form-group m-t-5" id="divActions">
+                            <div class=" col-md-offset-9 col-md-2">
+                                <button type="button" class="btn btn-primary">Approved</button>
+                                <button type="button" class="btn btn-primary">Dis-Approved</button>
+                            </div>
                         </div>
                     }
                 }
@@ -313,22 +343,54 @@
 
     </div>
 </div>
+
+
+<div id="cancelpopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group col-md-12" id="cancelReasonDiv">
+                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Cancelled Call Reason</label>
+                    <div class="col-sm-8 col-md-8">
+                        @Html.TextAreaFor(model => model.CancelReason, new { @class = "form-control", @id = "CancelText" })
+                        @Html.ValidationMessageFor(model => model.CancelReason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCancelledReason" class="btn btn-primary" deviceID="@Model.DeviceId">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 @section scripts
                {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/js/form-m")
     <script>
-        var PartList = @Html.Raw(Json.Encode(Model.Parts));
+      var PartList = @Html.Raw(Json.Encode(Model.Parts));
         console.log(PartList);
-       $(document).ready(function () {
+        $(document).ready(function () {
         $("#btnReject").click(function () {
             $("#rejectpopup").modal("show");
+        });
+        $("#btnCancel").click(function () {
+            $("#cancelpopup").modal("show");
         });
         $("#btnrejectreasion").click(function () {
             var rejectionreason = $("#Reasontxt").val();
             $("#Rejection_Reason").val(rejectionreason);
             $("#CStatus").val(9);
             $("#callform").submit();
+        });
+        $("#btnCancelledReason").click(function () {               
+               $("#CancelReason").val($("#CancelText").val());
+            $("#CStatus").val(12);
+            $("#updateCall").submit();
         });
         $("#DropDown").change(function () {
             var Id = $(this).val();
@@ -372,8 +434,8 @@
             })
 
         });
-           $("#btnEditSparePart").click(function () {
-           debugger 
+        $("#btnEditSparePart").click(function () {
+            
             var PartId = $("#PartId").val();
             var PartNo = $("#PartNo").val();
             var Description = $("#PartDescription").val();
@@ -393,7 +455,8 @@
 
             };
             var files = $('#PartFile').get(0).files;
-            if (files.length > 0 || $("#ImgURI").prop("src") != "") {                
+               if (files.length > 0 || $("#ImgURI").prop("src") != "") {   
+                debugger
               if (files.length > 0) 
                     part.PartFile = files[0];
                 if (part.FileName != "")
@@ -414,7 +477,7 @@
         $("#ServiceCharges").change(function () {
             CalculateTotal();
         });
-           $("#btnemp").click(function () {
+        $("#btnemp").click(function () {
                 
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
@@ -457,8 +520,7 @@
                };
             var parts = [];
            for (var i= 0; i < PartList.length; i++ )
-           {
-               debugger
+           {               
                var part = {
                    PartId: PartList[i].PartId,
                    PartNo: PartList[i].PartNo,
@@ -474,7 +536,7 @@
                     data.append(PartList[i].PartNo,PartList[i].PartFile);
                 }
            }
-               CallDetail.Parts = parts;
+            CallDetail.Parts = parts;
             data.append("CallDetail", JSON.stringify(CallDetail));
             $.ajax({
                 type: "POST",
@@ -491,11 +553,9 @@
                 }
             })
            });
-           $("#btnclose").click(function () {
+        $("#btnclose").click(function () {
                var isApproved = $("#IsServiceApproved").val();
                var misapprovalCost = $("#MinimumApprovalCost").val();
-
-
                if (isApproved !="True") {
                    $(".toast-message").html("Service cost is not approved");
                    $(".toast-error").show();
@@ -533,11 +593,14 @@
 
            });
     });
-       $(document).ready(function () {
+        $(document).ready(function () {
         var param = $("#Param").val();
-        if (param == 'A' || param == 'P') {
+        if (param == 'A' || param == 'P' || param=='AP' || param=='CL' ) {
             $("#providerId").attr('disabled', true);
         }
+            if (param == 'AP' || param == 'CL') {
+                $("#divActions").hide();
+            }
             $("#DeviceCategoryId").attr('disabled', true);
             $("#ProblemDescription").attr('disabled', true);
                              $("#DeviceSn").attr('disabled', true);
@@ -602,33 +665,30 @@
                                         winprint.focus();
                                         window.close();
                                         }
-
         function EditItem(partnumber) {
+            debugger
             var result = PartList.filter(obj => {
                 return obj.PartNo === partnumber
-            });
+            });          
+            result[0].url="/TempFiles/" + result[0].RefKey + '/' + result[0].FileName;
                                         $("#PartId").val(result[0].PartId);
                                         $("#PartNo").val(result[0].PartNo);
                                         $("#PartDescription").val(result[0].Description);
                                         $("#Qty").val(result[0].Qty);
-        $("#UnitPrice").val(result[0].UnitPrice);
-        $("#FileName").val(result[0].FileName);
-            $("#Total").val(parseFloat(result[0].UnitPrice) * parseFloat(result[0].Qty));
-            var image = "/TempFiles/"+$("#DeviceId").val()+"/"  + result[0].FileName;
-            $("#ImgURI").prop("src",image);
-            $("#Action").val("U");
+                                        $("#UnitPrice").val(result[0].UnitPrice);
+                                        $("#FileName").val(result[0].FileName);
+                                        $("#Total").val(parseFloat(result[0].UnitPrice) * parseFloat(result[0].Qty));
+                                        $("#ImgURI").prop("src", result[0].url);
         }
-function BindTable() {
-    debugger
-    
+        function BindTable()
+        {    
             var count = 1;
-    var sum = 0;
-    
- 
+            var sum = 0;
             $("#tblPartList >tbody").empty();
-            $.each(PartList, function (key, value) {
-                if (value.PartId != null)
-                 value.url = "/TempFiles/" + value.RefKey+'/' + value.FileName;                                            var element = "<tr>";
+            $.each(PartList, function (key, value) { 
+                if ( value.PartId != "" )
+                    value.url = "/TempFiles/" + value.RefKey + '/' + value.FileName;
+                    var element = "<tr>";
                                             element=element+"<td>" + count + "</td>";
                                             element=element+"<td><label name= 'PartNo' >"+value.PartNo+"</label> </td>";
                                             element=element+"<td><label name= 'Description'>"+value.Description+"</label> </td>";
@@ -640,11 +700,10 @@ function BindTable() {
                                             element=element+"<td style='display: inline-flex'><a href='#' onclick='DeleteItem(\""+value.PartNo+"\")' class='btn btn-small btn-info btnSize'>Delete</a></td>";
                                             element = element + "</tr>";
                                             $("#tblPartList >tbody").append(element);
-                count = count + 1;
+               count = count + 1;
                sum = sum + parseFloat(value.UnitPrice) * parseFloat(value.Qty);
             });
             $("#PartCharges").val(sum);
-
             CalculateTotal();
         }
         function DeleteItem(partNumber) {
@@ -666,18 +725,19 @@ function BindTable() {
                 $("#Total").val("");
     }
         function NextStep(part) {
-                     if ($("#Action").val() == "U") {
+
                             var result = PartList.filter(obj => {
                                 return obj.PartNo === part.PartNo
                             });
+                         if (result.length > 0) {
                             result[0].PartId = part.PartId;
                             result[0].PartNo = part.PartNo;
                             result[0].Description = part.Description;
                             result[0].Qty = part.Qty;
                             result[0].UnitPrice = part.UnitPrice;
-                           result[0].FileName = part.FileName;
-                         result[0].PartFile = part.PartFile;
-                         result[0].url = part.url;
+                            result[0].FileName = part.FileName;
+                            result[0].PartFile = part.PartFile;
+                            result[0].url = part.url;
                         }
                         else {
                             PartList.push(part);
@@ -690,7 +750,8 @@ function BindTable() {
                         $("#Qty").val('');
                         $("#UnitPrice").val('');
                         $("#Total").val('');
-                        $("#Action").val('');
+            $("#Action").val('');
+            $("#PartFile").val('');
                         $("#ImgURI").prop('src', null);
     }
         function CalculateTotal() {

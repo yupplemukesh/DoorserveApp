@@ -4,13 +4,13 @@
 @{
     @*Layout = null;
         var i = 0;*@
-    int rowNumber = 0;
-    int pageSize = 10;
-    int pageNumber = Convert.ToInt32(ViewBag.PageNumber);
-    if ((pageNumber) > 1)
-    {
-        rowNumber = (pageSize) * (pageNumber - 1) + rowNumber;
-    }
+int rowNumber = 0;
+//int pageSize = 10;
+//int pageNumber = Convert.ToInt32(ViewBag.PageNumber);
+//if ((pageNumber) > 1)
+//{
+//    rowNumber = (pageSize) * (pageNumber - 1) + rowNumber;
+//}
 }
 
 <div class="panel-heading">
@@ -46,7 +46,7 @@
                   });
                                                                   columns.Add(model => model.CRN).Titled("Call Id")
                                                           .Filterable(true).Sanitized(false).Encoded(false).
-  RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN },null));
+  RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN,Param='A' },null));
              columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
             columns.Add(c => c.CreatedOn).Titled("Date Time").Filterable(true);
             columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
@@ -56,7 +56,7 @@
             columns.Add(c => c.ServiceTypeName).Titled("Service Types").Filterable(true);
             columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Types").Filterable(true);
            
-        }).WithPaging(10).Sortable(true)
+        }).WithPaging(10).Sortable(true).Named("OpenCalls")
         </div>
     </div>
 </div>

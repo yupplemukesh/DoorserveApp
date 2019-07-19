@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <div class="panel panel-default panel-table b-t-0" id="clientDataPanel">
-                                @Html.Partial("_UploadData", Model)
+                                @Html.Partial("_UploadData")
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <div class="panel panel-default panel-table b-t-0" id="callsPanel">
-                                @Html.Partial("_TotalCallsList", Model.Calls)
+                                @Html.Partial("_TotalCallsList")
                             </div>
                         </div>
                     </div>
@@ -64,8 +64,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
 
+        $("#DivprbObserved").hide();
         $("#ProblemInfo").hide();
-
 
 
         function AjaxWithValue(method, ddl, e) {
@@ -121,7 +121,7 @@
                     async: true,
                     success: function (data) {
 
-                        if (data != null) {
+                        if (data!='Not Found') {
                             console.log(data);
                             $("#PrvCall").show();
                             var CallDate = new Date(parseInt(data.CallDate.substr(6)));

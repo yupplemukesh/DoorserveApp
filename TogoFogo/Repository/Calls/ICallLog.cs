@@ -14,6 +14,13 @@ namespace TogoFogo.Repository
     {
         Task<ResponseModel> AddOrEditCallLog(CallDetailsModel newCall);
         Task<PreviousCallModel> GetPreviousCall(FilterModel filter);
+        List<UploadedExcelModel> GetClientCalls(FilterModel filter);
+
+        Task<List<UploadedExcelModel>> GetApprovalCalls(FilterModel filter);
+        Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter);
+  
+        List<FileDetailModel> GetFileList(FilterModel filter);
+
         void Save();
     }
 }

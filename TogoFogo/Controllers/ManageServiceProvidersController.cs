@@ -786,7 +786,7 @@ namespace TogoFogo.Controllers
                 new DataColumn("Pin Code", typeof(string)),
                    new DataColumn("Is Active", typeof(string))
                 });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Pin Code],[IS Active] FROM [" + sheet1 + "] where [Pin Code] is not null", excel_con))
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Pin Code],[IS Active]   FROM [" + sheet1 + "] where [Pin Code] is not null", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }

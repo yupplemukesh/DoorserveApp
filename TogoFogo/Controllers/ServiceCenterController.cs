@@ -495,9 +495,8 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> UpdateCall(CallStatusDetailsModel callStatusDetails)
         {          
-            if(callStatusDetails.AppointmentDate == null)
-            {
-                
+            if(callStatusDetails.AppointmentDate == null && callStatusDetails.Param ==null)
+            {        
                 var call = Request.Params["CallDetail"];
                 callStatusDetails = JsonConvert.DeserializeObject<CallStatusDetailsModel>(call);
                 callStatusDetails.InvoiceFile = Request.Files["InvoiceFile"];
@@ -543,15 +542,29 @@ namespace TogoFogo.Controllers
                         callStatusDetails.InvoiceFile.SaveAs(path + "/"+callStatusDetails.JobSheetFileName);
                 }
           
-            }
-            else if(!string.IsNullOrEmpty( callStatusDetails.TechnicianName))            
+            }          
+          
+             if (!string.IsNullOrEmpty(callStatusDetails.TechnicianName))
                 callStatusDetails.Type = "A";
-            else
+            else 
                 callStatusDetails.Type = "C";
+
+            if (callStatusDetails.Param == "AP")
+            {
+                callStatusDetails.Type = "AP";
+            }
+            if (callStatusDetails.Param == "CL")
+            {
+                callStatusDetails.Type = "CL";
+                callStatusDetails.AppointmentStatus = 12;
+            }
             var SessionModel = Session["User"] as SessionModel;
             callStatusDetails.UserId = SessionModel.UserId;
             var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
                 TempData["response"] = response;
+            if(callStatusDetails.Type == "C")
+                return RedirectToAction("index", "PendingCalls");
+            else
             return RedirectToAction("AcceptCalls");            
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Open_Calls)]
@@ -607,8 +620,6 @@ namespace TogoFogo.Controllers
 
 
         }
-
-
 
         [HttpPost]
         public JsonResult UploadFile()

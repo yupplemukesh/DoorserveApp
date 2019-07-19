@@ -20,6 +20,7 @@ namespace TogoFogo.Filters
         public string IMEI { get; set; }          
         public int? GatewayTypeId { get; set; }
         public Guid? ServiceAreaId { get; set;  }
+        public char Type { get; set; } 
         public Guid? FileId { get; set; }
     }
 }

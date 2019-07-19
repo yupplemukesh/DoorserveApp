@@ -160,5 +160,43 @@ namespace TogoFogo.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+        public List<UploadedExcelModel> GetClientCalls(FilterModel filter)
+        {
+            var sp = new List<SqlParameter>();
+            var param = new SqlParameter("@ClientId", ToDBNull(filter.ClientId));
+            sp.Add(param);
+            param = new SqlParameter("@IsExport", ToDBNull(false));
+            sp.Add(param);
+            param = new SqlParameter("@Type", ToDBNull(filter.Type));
+            sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(filter.CompId));
+            sp.Add(param);
+            return _context.Database.SqlQuery<UploadedExcelModel>("GETDATAUPLOADEDBYCLIENT @ClientId,@IsExport,@Type,@CompId", sp.ToArray()).ToList();
+        }
+
+        public List<FileDetailModel> GetFileList(FilterModel filter)
+        {
+            var sp = new List<SqlParameter>();
+            var param = new SqlParameter("@ClientId", ToDBNull(filter.ClientId));
+            sp.Add(param);
+            param = new SqlParameter("@IsExport", ToDBNull(false));
+            sp.Add(param);
+            param = new SqlParameter("@Type", ToDBNull(filter.Type));
+            sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(filter.CompId));
+            sp.Add(param);
+            return _context.Database.SqlQuery<FileDetailModel>("GETDATAUPLOADEDBYCLIENT @ClientId,@IsExport,@Type,@CompId", sp.ToArray()).ToList();
+        }
+        public async Task<List<UploadedExcelModel>> GetApprovalCalls(FilterModel filter)
+        {
+            var param = new SqlParameter("@CompID", ToDBNull(filter.ClientId));         
+            return await _context.Database.SqlQuery<UploadedExcelModel>("GETCallsApprovalRequired @CompId", param).ToListAsync();
+        }     
+        public async Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter)
+        {
+            var param = new SqlParameter("@CompID", ToDBNull(filter.ClientId));
+            return await _context.Database.SqlQuery<UploadedExcelModel>("GetCallsForCancelledRequest @CompId", param).ToListAsync();
+        }
+
     }
 }

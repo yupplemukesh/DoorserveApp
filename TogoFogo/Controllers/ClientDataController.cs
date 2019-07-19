@@ -41,7 +41,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             var session = Session["User"] as SessionModel;
-            ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
+            //ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
             var filter = new FilterModel { CompId = session.CompanyId };
             if (session.UserTypeName.ToLower().Contains("client"))
@@ -49,8 +49,7 @@ namespace TogoFogo.Controllers
                 filter.ClientId = session.RefKey;
                 IsClient = true;
             }
-            var clientData = _RepoUploadFile.GetUploadedList(filter);
-
+            var clientData = new MainClientDataModel();
             var serviceType = await CommonModel.GetServiceType(session.CompanyId);
             var deliveryType = await CommonModel.GetDeliveryServiceType(session.CompanyId);
             clientData.Client = new ClientDataModel();
@@ -372,7 +371,7 @@ DataSourceId=101,
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
-        [HttpPost]
+        [HttpPost]       
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
             try
@@ -405,6 +404,51 @@ DataSourceId=101,
             else
             return Json(previousCall, JsonRequestBehavior.AllowGet);
         }
+
+        public  ActionResult OpenedCallsList()
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId,Type='O' };
+            if (session.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = session.RefKey;
+            var calls = _RepoCallLog.GetClientCalls(filter);
+            return PartialView ("_OpenedCallsList", calls);
+
+        }
+        public ActionResult ClosedCallsList()
+        {
+
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, Type = 'C' };
+            if (session.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = session.RefKey;
+            var calls = _RepoCallLog.GetClientCalls(filter);
+            return PartialView("_ClosedCallsList", calls);
+        }
+        public ActionResult UploadedDataList()
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, Type = 'D' };
+            if (session.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = session.RefKey;
+            var calls = _RepoCallLog.GetClientCalls(filter);
+            return PartialView("_UploadedDataList", calls);
+
+        }
+
+        public ActionResult FileDataList()
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, Type = 'F' };
+            if (session.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = session.RefKey;
+            var calls = _RepoCallLog.GetFileList(filter);
+            return PartialView("_FileDataList", calls);
+
+        }
+
+
+
     }
 
 }

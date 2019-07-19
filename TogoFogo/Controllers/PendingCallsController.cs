@@ -42,8 +42,6 @@ namespace TogoFogo.Controllers
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(session.CompanyId),"Name","Text") };
             return View(calls);
         }
-
-
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
         [HttpPost]
         public async Task<ActionResult> Allocate(AllocateCallModel allocate)
@@ -142,6 +140,21 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             return RedirectToAction("Index");
         }
-
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
+        public async Task<ActionResult> Approval()
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId };
+            var _calls = await _RepoCallLog.GetApprovalCalls(filter);
+            return View(_calls);
+        }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
+        public async Task<ActionResult> Cancel()
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId };
+            var _calls = await _RepoCallLog.GetCancelRequestedData(filter);
+            return View(_calls);
+        }
     }
 }

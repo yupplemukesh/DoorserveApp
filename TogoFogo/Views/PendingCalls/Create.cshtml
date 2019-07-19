@@ -41,8 +41,9 @@
                 }
 
         });
-
-     function AjaxWithValue(method, ddl, e) {
+        $("#DivprbObserved").hide();
+        $("#ProblemInfo").hide();
+        function AjaxWithValue(method, ddl, e) {
         var val = e.value;
         var refval = e.cvalue;
         if (ddl == "StateId")

@@ -4,8 +4,10 @@
 
         @if (Model != null)
         {
-            foreach (var item in Model.ParentMenuList)
+            if (Model.ParentMenuList!=null)
             {
+                foreach (var item in Model.ParentMenuList)
+                {
 
         <li class="with-sub active">
             @if (!string.IsNullOrEmpty(item.PagePath))
@@ -39,6 +41,7 @@
             </ul>
             }
         </li>
+                }
             }
         }
     </ul>
