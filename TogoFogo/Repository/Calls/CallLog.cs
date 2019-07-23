@@ -173,7 +173,6 @@ namespace TogoFogo.Repository
             sp.Add(param);
             return _context.Database.SqlQuery<UploadedExcelModel>("GETDATAUPLOADEDBYCLIENT @ClientId,@IsExport,@Type,@CompId", sp.ToArray()).ToList();
         }
-
         public List<FileDetailModel> GetFileList(FilterModel filter)
         {
             var sp = new List<SqlParameter>();
@@ -187,16 +186,24 @@ namespace TogoFogo.Repository
             sp.Add(param);
             return _context.Database.SqlQuery<FileDetailModel>("GETDATAUPLOADEDBYCLIENT @ClientId,@IsExport,@Type,@CompId", sp.ToArray()).ToList();
         }
-        public async Task<List<UploadedExcelModel>> GetApprovalCalls(FilterModel filter)
+        public async Task<List<UploadedExcelModel>> GetExclatedCalls(FilterModel filter)
         {
-            var param = new SqlParameter("@CompID", ToDBNull(filter.ClientId));         
-            return await _context.Database.SqlQuery<UploadedExcelModel>("GETCallsApprovalRequired @CompId", param).ToListAsync();
+            var param = new SqlParameter("@CompID", ToDBNull(filter.CompId));
+            var sp = new List<SqlParameter>();
+            sp.Add(param);
+            param = new SqlParameter("@Type", ToDBNull(filter.Type));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<UploadedExcelModel>("GETPendingExCalls @CompId, @Type", sp.ToArray()).ToListAsync();
         }     
         public async Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter)
         {
             var param = new SqlParameter("@CompID", ToDBNull(filter.ClientId));
             return await _context.Database.SqlQuery<UploadedExcelModel>("GetCallsForCancelledRequest @CompId", param).ToListAsync();
         }
-
+        public async Task<List<CallHistory>> GetCallHistory(FilterModel filter)
+        {
+            var param = new SqlParameter("@DeviceId", ToDBNull(filter.RefKey));
+            return await _context.Database.SqlQuery<CallHistory>("GetOrderHisotry @DeviceId", param).ToListAsync();
+        }       
     }
 }

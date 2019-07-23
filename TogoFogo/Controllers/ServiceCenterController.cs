@@ -419,33 +419,19 @@ namespace TogoFogo.Controllers
                     CallDetailsModel.Employee = await _empRepo.GetEmployeeById(CallDetailsModel.EmpId);
                 else
                     CallDetailsModel.Employee = new EmployeeModel();
-
-                if (SessionModel.UserTypeName.ToLower().Contains("center"))
-                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
-                else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
-                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
-                else
-                    CallDetailsModel.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(CallDetailsModel.providerId), "Name", "Text");
- 
-            }
-            else if (Param == "P")
-            {
-                CallDetailsModel.CStatus = 11;
-         
-        
-            }
-            if (string.IsNullOrEmpty(Param))
-            {
-                CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("Customer support"), "Value", "Text");
-                CallDetailsModel.Remarks = CallDetailsModel.CRemark ;
-                CallDetailsModel.AppointmentStatus = CallDetailsModel.CStatus;
-            }
-            else
-            {
                 CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("ASP"), "Value", "Text");
-                CallDetailsModel.Remarks = CallDetailsModel.AspRemark;
                 CallDetailsModel.AppointmentStatus = CallDetailsModel.ASPStatus;
+                 CallDetailsModel.Remarks = CallDetailsModel.AspRemark;          
+            }       
+           else
+            {
+                if (Param == "P")
+                    CallDetailsModel.CStatus = 11;
+                CallDetailsModel.AppointmentStatus = CallDetailsModel.CStatus;
+                CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("Customer support"), "Value", "Text");
+                CallDetailsModel.Remarks = CallDetailsModel.CRemark;
             }
+
             return View(CallDetailsModel);
         }
         //
@@ -542,11 +528,14 @@ namespace TogoFogo.Controllers
                         callStatusDetails.InvoiceFile.SaveAs(path + "/"+callStatusDetails.JobSheetFileName);
                 }
           
-            }          
-          
-             if (!string.IsNullOrEmpty(callStatusDetails.TechnicianName))
+            }
+
+            if (callStatusDetails.Param == "A")
+            {
                 callStatusDetails.Type = "A";
-            else 
+                callStatusDetails.IsServiceApproved = null;
+            }
+            else
                 callStatusDetails.Type = "C";
 
             if (callStatusDetails.Param == "AP")
@@ -564,8 +553,10 @@ namespace TogoFogo.Controllers
                 TempData["response"] = response;
             if(callStatusDetails.Type == "C")
                 return RedirectToAction("index", "PendingCalls");
+            else if(callStatusDetails.Type == "A")
+            return RedirectToAction("AcceptCalls");  
             else
-            return RedirectToAction("AcceptCalls");            
+                return RedirectToAction("EscalateCalls","PendingCalls");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Open_Calls)]
         [HttpGet]

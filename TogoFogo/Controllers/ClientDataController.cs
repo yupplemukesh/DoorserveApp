@@ -84,7 +84,6 @@ DataSourceId=101,
             };
             return View(clientData);
         }
-
         public async Task<ActionResult> GetAssignedCalls()
         {
             var session = Session["User"] as SessionModel;
@@ -447,8 +446,12 @@ DataSourceId=101,
 
         }
 
-
-
+        public async Task<ActionResult> GetCallHistory (Guid DeviceId)
+        {
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId, RefKey=DeviceId };
+            var his = await _RepoCallLog.GetCallHistory(filter);
+            return View("_OrderHistory", his);
+        }
     }
-
 }

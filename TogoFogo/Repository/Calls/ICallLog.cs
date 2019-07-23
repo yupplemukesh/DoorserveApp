@@ -16,9 +16,9 @@ namespace TogoFogo.Repository
         Task<PreviousCallModel> GetPreviousCall(FilterModel filter);
         List<UploadedExcelModel> GetClientCalls(FilterModel filter);
 
-        Task<List<UploadedExcelModel>> GetApprovalCalls(FilterModel filter);
+        Task<List<UploadedExcelModel>> GetExclatedCalls(FilterModel filter);
         Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter);
-  
+        Task<List<CallHistory>> GetCallHistory(FilterModel filter);
         List<FileDetailModel> GetFileList(FilterModel filter);
 
         void Save();

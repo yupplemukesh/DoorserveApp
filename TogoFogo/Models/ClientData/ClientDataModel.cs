@@ -47,5 +47,6 @@ namespace TogoFogo.Models
         //public Guid? CompanyId { get; set; }
         public int DataSourceId { get; set; }
         
+       
     }
 }

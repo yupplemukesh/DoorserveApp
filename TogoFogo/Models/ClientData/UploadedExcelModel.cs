@@ -101,7 +101,7 @@ namespace TogoFogo.Models.ClientData
         [DisplayName("Device Modal Number")]       
         public int DeviceModalId { get; set; }
         public decimal ServiceCharges { get; set;   }
-
+        public bool IsCTAT { get; set; }
         public decimal TotalCharges { get { return ServiceCharges + PartCharges; } }
         public decimal PartCharges { get; set; }
         [Required(ErrorMessage = "Please select Device Condition")]

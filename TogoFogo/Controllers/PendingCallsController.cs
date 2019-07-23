@@ -141,12 +141,17 @@ namespace TogoFogo.Controllers
             return RedirectToAction("Index");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
-        public async Task<ActionResult> Approval()
+        public async Task<ActionResult> EscalateCalls(char? Type)
         {
             var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId };
-            var _calls = await _RepoCallLog.GetApprovalCalls(filter);
-            return View(_calls);
+            if (Type ==null)
+                Type = 'A';
+            var filter = new FilterModel { CompId = session.CompanyId ,Type= Convert.ToChar(Type) };
+
+            var calls = new EsclatedCallsViewModel();
+            calls.Calls= await _RepoCallLog.GetExclatedCalls(filter);
+            calls.Type = Convert.ToChar(Type);
+            return View(calls);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
         public async Task<ActionResult> Cancel()

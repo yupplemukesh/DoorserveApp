@@ -30,6 +30,6 @@ namespace TogoFogo.Models.ServiceCenter
         public string Type { get; set; }
         public int? CStatus { get; set; }
         public string Param { get; set; }
-        public bool IsServiceApproved { get; set; }
+        public bool? IsServiceApproved { get; set; }
     }
 }
