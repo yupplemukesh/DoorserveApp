@@ -14,7 +14,8 @@ using TogoFogo.Permission;
 using TogoFogo.Repository.Customer_Support;
 using TogoFogo.Repository;
 using TogoFogo.Models.ServiceCenter;
-
+using AutoMapper;
+using TogoFogo.Models.ClientData;
 
 namespace TogoFogo.Controllers
 {
@@ -76,6 +77,11 @@ namespace TogoFogo.Controllers
                 tabIndex = tabIndex
             };
             var response = await _customerSupport.GetASPCalls(filter);
+            var OtherRes =   new List<UploadedExcelModel>() ;
+            filter.Type = tabIndex;
+            if (tabIndex != 'P')
+                OtherRes = await _RepoCallLog.GetExclatedCalls(filter);
+   
             byte[] filecontent;
             string[] columns;
             if (tabIndex == 'P')
@@ -83,7 +89,28 @@ namespace TogoFogo.Controllers
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
                                  "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
-               filecontent = ExcelExportHelper.ExportExcel(response.PendingCalls, "", true, columns);                
+                filecontent = ExcelExportHelper.ExportExcel(response.PendingCalls, "", true, columns);
+            }
+            else if (tabIndex == 'A')
+            {
+                columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
+                filecontent = ExcelExportHelper.ExportExcel(OtherRes, "", true, columns);
+            }
+            else if (tabIndex == 'E')
+            {
+                columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
+                filecontent = ExcelExportHelper.ExportExcel(OtherRes, "", true, columns);
+            }
+            else if (tabIndex == 'C')
+            {
+                columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
+                                "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
+                                 "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
+                filecontent = ExcelExportHelper.ExportExcel(OtherRes, "", true, columns);
             }
             else
             {

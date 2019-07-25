@@ -60,6 +60,24 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Call History</h4>
+            </div>
+
+            <div class="modal-body" id="Info">
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>
@@ -189,7 +207,7 @@
                 }
 
         });
-        $('a[data-toggle="tab"]').click(function (e) {
+           $('a[data-toggle="tab"]').click(function (e) {
             if (this.hash == '#tab-3')
                 $("#tabIndex").val('C');
             else if (this.hash == '#tab-2')
@@ -216,5 +234,29 @@
             }
            
         });
+          function GetHistory(DeviceId) {
+            debugger
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetCallHistory","ClientData")',
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                data: {"DeviceId": DeviceId},
+                success: function (response) {
+                  
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
     </script>
 }

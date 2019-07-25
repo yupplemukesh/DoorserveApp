@@ -284,6 +284,7 @@ namespace TogoFogo.Controllers
             Client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             Client.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             Client.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            Client.Contact.LocationList= new SelectList(Enumerable.Empty<SelectList>());
             Client.Service = new ServiceModel
             {
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
@@ -345,6 +346,7 @@ namespace TogoFogo.Controllers
                 client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
+                client.Contact.LocationList = new SelectList(Enumerable.Empty<SelectList>());
                 if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
                 {
                     client.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
@@ -441,7 +443,11 @@ namespace TogoFogo.Controllers
 
             }
             else
-                return View("Edit", client);
+            {
+                var clt = await GetClient(client.ClientId);
+                     return View("Edit", clt);
+            }
+               
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]

@@ -27,22 +27,22 @@
     <div class="for-popup-height">
         <div class="code-cut">
             @Html.Grid(Model).Columns(columns =>
-        {
-            columns.Add(c => c.UploadedDate).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
-            columns.Add(c => c.ServiceType).Titled("Service Type").Filterable(true);
-            columns.Add(c => c.ServiceDeliveryType).Titled("Service Delivery Type").Filterable(true);
-            columns.Add(c => c.UploadedFileName).Titled("Uploaded File Name").Filterable(true);
-            columns.Add(c => c.TotalRecords).Titled("Total Records").Filterable(true);
-            columns.Add(c => c.UploadedRecords).Titled("Uploaded Records").Filterable(true);
-            columns.Add(c => c.FailedRecords).Titled("Failed Records").Filterable(true);
-            columns.Add(c => c.UploadedBy).Titled("Uploaded By").Filterable(true);
-            columns.Add()
-                  .Encoded(false)
-                  .Sanitized(false)
-                  .SetWidth(30)
-                  .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Id }));
+       {
+           columns.Add(c => c.UploadedDate).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
+           columns.Add(c => c.ServiceType).Titled("Service Type").Filterable(true);
+           columns.Add(c => c.ServiceDeliveryType).Titled("Service Delivery Type").Filterable(true);
+           columns.Add(c => c.UploadedFileName).Titled("Uploaded File Name").Filterable(true);
+           columns.Add(c => c.TotalRecords).Titled("Total Records").Filterable(true);
+           columns.Add(c => c.UploadedRecords).Titled("Uploaded Records").Filterable(true);
+           columns.Add(c => c.FailedRecords).Titled("Failed Records").Filterable(true);
+           columns.Add(c => c.UploadedBy).Titled("Uploaded By").Filterable(true);
+           //columns.Add()
+           //      .Encoded(false)
+           //      .Sanitized(false)
+           //      .SetWidth(30)
+           //      .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { id = o.Id }));
 
-        }).WithPaging(10).Sortable(true).Named("FileList")
+       }).WithPaging(10).Sortable(true).Named("FileList")
         </div>
     </div>
 </div>

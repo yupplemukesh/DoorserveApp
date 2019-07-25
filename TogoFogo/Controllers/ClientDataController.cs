@@ -41,7 +41,7 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             var session = Session["User"] as SessionModel;
-            //ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
+            ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
             var filter = new FilterModel { CompId = session.CompanyId };
             if (session.UserTypeName.ToLower().Contains("client"))
@@ -451,7 +451,7 @@ DataSourceId=101,
             var session = Session["User"] as SessionModel;
             var filter = new FilterModel { CompId = session.CompanyId, RefKey=DeviceId };
             var his = await _RepoCallLog.GetCallHistory(filter);
-            return View("_OrderHistory", his);
+            return PartialView("_OrderHistory", his);
         }
     }
 }

@@ -1,27 +1,53 @@
-﻿@model IEnumerable<TogoFogo.Models.ClientData.UploadedExcelModel>
+﻿@model TogoFogo.Models.EsclatedCallsViewModel
 @using TogoFogo.Models
 @using GridMvc.Html
 @{
-    ViewBag.Title = "Approval";
+    ViewBag.Title = "Escalate Calls";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
     var count = 0;
+    string par = "A";
+    if (Model.Type == 'A')
+    {
+        par = "AP";
+    }
+    else if (Model.Type == 'C')
+    {
+        par = "CL";
+    }
+
 }
 <div class="panel-heading">
     <div class="row">
-        <div class="col-md-6"><h3 class="m-y-0">For Approval Requested Calls</h3></div>
+        <div class="col-md-6"><h3 class="m-y-0">Escalate Calls</h3></div>
         <div class="col-md-6  add-tem-btn-mar-top">
             <div class="panel-tools">
                 @if (Permissions.Rights.ExcelExport)
                 {
                     using (Html.BeginForm("ExportToExcel", "PendingCalls", FormMethod.Get))
                     {
-                        @Html.Hidden("tabIndex", "AP")
+                        @Html.Hidden("tabIndex", Model.Type)
                         <button type="submit" class="tools-icon btn btn-primary btn-sm excel"> Export to Excel</button>
                     }
                 }
             </div>
         </div>
     </div>
+    @using (Html.BeginForm("EscalateCalls", "PendingCalls", FormMethod.Get))
+    {
+        <div class="row form-group">
+            <div class="col-md-2">
+                Search By:
+            </div>
+            <div class="col-md-4">
+                @Html.RadioButtonFor(x => x.Type, "A") Approval
+                @Html.RadioButtonFor(x => x.Type, "C") Cancelled
+                @Html.RadioButtonFor(x => x.Type, "E") Escalated
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="tools-icon btn btn-primary btn-sm"> Search</button>
+            </div>
+        </div>
+    }
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -36,7 +62,7 @@
                             <div class="panel-body">
                                 <div class="table-responsive for-popup-height">
                                     <div class="code-cut">
-                                        @Html.Grid(Model).Columns(columns =>
+                                        @Html.Grid(Model.Calls).Columns(columns =>
                                    {
 
                                    columns.Add()
@@ -49,8 +75,8 @@
 });
 columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
 columns.Add(model => model.CRN).Titled("Call Id")
-       .Filterable(true).Sanitized(false).Encoded(false).
-RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails", "ServiceCenter", new { CRN = model.CRN,Param="AP"}, null));
+.Filterable(true).Sanitized(false).Encoded(false).
+RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails", "ServiceCenter", new { CRN = model.CRN, Param = par }, null));
 columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
 columns.Add(c => c.Status).Titled("Status").Filterable(true);
 columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
@@ -83,3 +109,11 @@ columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true)
 </div>
 
 
+@section scripts{
+    <script>
+        $('input[type=radio][name="Type"]').change(function () {
+           $("#tabIndex").val($(this).val())
+        });
+
+    </script>
+}

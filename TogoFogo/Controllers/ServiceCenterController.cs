@@ -400,6 +400,8 @@ namespace TogoFogo.Controllers
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
             var providerList = dropdown.BindServiceProvider(CallDetailsModel.PinNumber);
+            CallDetailsModel.CompLogo = SessionModel.LogoUrl;
+
             if (Convert.ToBoolean(CallDetailsModel.IsRepeat))
             {
                 var prvList = providerList.Where(x => x.Value == CallDetailsModel.PrvProviderId.ToString()).ToList();

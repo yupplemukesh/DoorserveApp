@@ -22,7 +22,7 @@ namespace TogoFogo.Models.ServiceCenter
         [Required]
         public string RejectionReason { get; set; }
         public string CancelReason { get; set; }
-
+        public string CompLogo { get; set; }
         public Guid? EmpId { get; set; }
         public string TechnicianName { get; set; }
        [MinLength(10)]

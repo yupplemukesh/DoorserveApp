@@ -663,7 +663,8 @@ namespace TogoFogo.Controllers
 
             if (provider.DataFile != null)
             {
-                string excelPath = SaveFile(provider.DataFile, "Providers");
+                string FileName = SaveFile(provider.DataFile, "Providers");
+                string excelPath = Server.MapPath("~/Files/Providers/" + FileName);
                 string conString = string.Empty;
                 string extension = Path.GetExtension(provider.DataFile.FileName);
                 switch (extension)
@@ -710,7 +711,7 @@ namespace TogoFogo.Controllers
                 new DataColumn("Country", typeof(string)),
                 new DataColumn("State", typeof(string)),
                   new DataColumn("City", typeof(string)),
-                                    new DataColumn("Address", typeof(string)),
+                  new DataColumn("Address", typeof(string)),
                      new DataColumn("Locality", typeof(string)),
                   new DataColumn("Near By Location", typeof(string)),
                    new DataColumn("Pin Code", typeof(string)),

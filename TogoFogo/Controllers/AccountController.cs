@@ -97,6 +97,7 @@ namespace TogoFogo.Controllers
                     var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
                     PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
                     var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
+                    SubMenues = SubMenues.OrderBy(x => x.ParentMenuId).OrderBy(x=>x.shortOrder).ToList();
                     var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
 
                     SessionModel session = new SessionModel {UserId=rs.UserId,

@@ -55,7 +55,23 @@ int rowNumber = 0;
            columns.Add(c => c.CustomerEmail).Titled("Email Address").Filterable(true);
            columns.Add(c => c.ServiceTypeName).Titled("Service Types").Filterable(true);
            columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Types").Filterable(true);
+               columns.Add()
+               .Titled("History")
+              .Sanitized(false)
+               .Encoded(false)
+               .RenderValueAs(data => new HtmlString
+                           (
+                              "<a href='#Editmodel' data-toggle='modal' class='btn btn-small btn-info btnSize'  onclick='GetHistory(\"" + data.DeviceId + "\")'>History</a>"
+                           )
+                   );
        }).WithPaging(10).Sortable(true).Named("ClosedCalls")
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
