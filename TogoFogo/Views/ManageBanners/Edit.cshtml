@@ -1,0 +1,31 @@
+﻿@model TogoFogo.Models.ManageBannersModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<div class="panel-heading">
+
+    <h3 class="m-y-0">Edit Banner</h3>
+
+</div>
+@using (Html.BeginForm("Edit", "ManageBanners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="panel-body">
+
+    @Html.Partial("_CreateEditBanner", Model)
+    @Html.Partial("_CreateEditBannerUpload", Model)
+    @Html.Partial("_BannerUploadList", Model.ImgDetails)
+</div>
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <button class="btn btn-primary pull-right">SAVE</button>
+        </div>
+    </div>
+}
+@section scripts{
+
+
+}
+

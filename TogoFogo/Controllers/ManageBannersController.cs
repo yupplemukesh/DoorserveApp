@@ -1,64 +1,62 @@
-﻿using Dapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using TogoFogo.Filters;
 using TogoFogo.Models;
+using TogoFogo.Permission;
+using TogoFogo.Repository;
+using TogoFogo.Repository.ManageBanners;
+using Newtonsoft.Json;
 
 namespace TogoFogo.Controllers
 {
     public class ManageBannersController : Controller
     {
-        private readonly string _connectionString =
-         ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        private readonly IBanner _Banner;
+       // private string FilePath = "~/Files/";
+        public ManageBannersController()
+        {
+            _Banner = new Banner();
+        }
         // GET: ManageBanners
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            if (TempData["Message"] != null)
-            {
-                ViewBag.Message = TempData["Message"].ToString();
+            var session = Session["User"] as SessionModel;
 
-            }
-            return View();
+            Guid? BannerId = null;
+            var filter = new FilterModel { CompId = session.CompanyId, RefKey = BannerId };             
+            var Banner = await _Banner.GetBanner(filter);
+            //Banner = new ManageBannersModel();
+            //Banner.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
+           // Banner.SectionNameList = new SelectList(await CommonModel.GetLookup("SectionType"), "Value", "Text");
+            return View(Banner);
         }
-        private string SaveImageFile(HttpPostedFileBase file)
+        
+      
+
+
+        private string SaveImageFile(HttpPostedFileBase file, string folderName)
         {
             try
             {
-                System.IO.Stream stream = file.InputStream;
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
-
-                int height = image.Height;
-                int width = image.Width;
-                if (height == 620 && width == 1904)
+                string path = Server.MapPath("~/Files/" + folderName);
+                if (!Directory.Exists(path))
                 {
-                    string path = Server.MapPath("~/Repairs_Crousel_Images");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    //var fileFullName = file.FileName;
-                    //var fileExtention = Path.GetExtension(fileFullName);
-                    //var fileName = Path.GetFileNameWithoutExtension(fileFullName);
-                    //var savedFileName = fileName + fileExtention;
-                    //file.SaveAs(Path.Combine(path, savedFileName));
-                    var renamedImage = "Webview1.jpg";
-                    var fileExtention = Path.GetExtension(renamedImage);
-                    var fileName = Path.GetFileNameWithoutExtension(renamedImage);
-                    var savedFileName = renamedImage;
-                    file.SaveAs(Path.Combine(path, savedFileName));
-                    return savedFileName;
+                    Directory.CreateDirectory(path);
                 }
-                else {
-                    return ViewBag.Message = "File size is not appropriate";
-                }
-
-             
+                var fileFullName = file.FileName;
+                var fileExtention = Path.GetExtension(fileFullName);
+                var fileName = Guid.NewGuid();
+                var savedFileName = fileName + fileExtention;
+                file.SaveAs(Path.Combine(path, savedFileName));
+                
+                return path + "\\" + savedFileName;
+              
+               
             }
             catch (Exception ex)
             {
@@ -66,300 +64,111 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        private string SaveImageFile2(HttpPostedFileBase file)
+
+        public async Task<ActionResult> Create()
         {
-            try
-            {
-                System.IO.Stream stream = file.InputStream;
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
+            var session = Session["User"] as SessionModel;
+            var filter = new FilterModel { CompId = session.CompanyId };
+            var Banner = new ManageBannersModel();
+            Banner.ImgDetails = new List<ManageBannerUploadModel>();
+            Banner.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
+            Banner.SectionNameList = new SelectList(await CommonModel.GetSection(), "Name", "Text");
+            return View(Banner);
 
-                int height = image.Height;
-                int width = image.Width;
-                if (height == 620 && width == 1904)
-                {
-                    string path = Server.MapPath("~/Repairs_Crousel_Images");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    //var fileFullName = file.FileName;
-                    //var fileExtention = Path.GetExtension(fileFullName);
-                    //var fileName = Path.GetFileNameWithoutExtension(fileFullName);
-                    //var savedFileName = fileName + fileExtention;
-                    //file.SaveAs(Path.Combine(path, savedFileName));
-                    var renamedImage = "Webview2.jpg";
-                    var fileExtention = Path.GetExtension(renamedImage);
-                    var fileName = Path.GetFileNameWithoutExtension(renamedImage);
-                    var savedFileName = renamedImage;
-                    file.SaveAs(Path.Combine(path, savedFileName));
-                    return savedFileName;
-                }
-                else
-                {
-                    return ViewBag.Message = "File size is not appropriate";
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                return ViewBag.Message = ex.Message;
-            }
         }
-        private string SaveImageFile3(HttpPostedFileBase file)
-        {
-            try
-            {
-                System.IO.Stream stream = file.InputStream;
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
 
-                int height = image.Height;
-                int width = image.Width;
-                if (height == 620 && width == 1904)
-                {
-                    string path = Server.MapPath("~/Repairs_Crousel_Images");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    //var fileFullName = file.FileName;
-                    //var fileExtention = Path.GetExtension(fileFullName);
-                    //var fileName = Path.GetFileNameWithoutExtension(fileFullName);
-                    //var savedFileName = fileName + fileExtention;
-                    //file.SaveAs(Path.Combine(path, savedFileName));
-                    var renamedImage = "Webview3.jpg";
-                    var fileExtention = Path.GetExtension(renamedImage);
-                    var fileName = Path.GetFileNameWithoutExtension(renamedImage);
-                    var savedFileName = renamedImage;
-                    file.SaveAs(Path.Combine(path, savedFileName));
-                    return savedFileName;
-                }
-                else
-                {
-                    return ViewBag.Message = "File size is not appropriate";
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                return ViewBag.Message = ex.Message;
-            }
-        }
-        private string SaveImageFile4(HttpPostedFileBase file)
-        {
-            try
-            {
-                System.IO.Stream stream = file.InputStream;
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
-
-                int height = image.Height;
-                int width = image.Width;
-                if (height == 300 && width == 411)
-                {
-                    string path = Server.MapPath("~/Repairs_Crousel_Images");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    //var fileFullName = file.FileName;
-                    //var fileExtention = Path.GetExtension(fileFullName);
-                    //var fileName = Path.GetFileNameWithoutExtension(fileFullName);
-                    //var savedFileName = fileName + fileExtention;
-                    //file.SaveAs(Path.Combine(path, savedFileName));
-                    var renamedImage = "Mobileview1.jpg";
-                    var fileExtention = Path.GetExtension(renamedImage);
-                    var fileName = Path.GetFileNameWithoutExtension(renamedImage);
-                    var savedFileName = renamedImage;
-                    file.SaveAs(Path.Combine(path, savedFileName));
-                    return savedFileName;
-                }
-                else
-                {
-                    return ViewBag.Message = "File size is not appropriate";
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                return ViewBag.Message = ex.Message;
-            }
-        }
-        private string SaveImageFile5(HttpPostedFileBase file)
-        {
-            try
-            {
-                System.IO.Stream stream = file.InputStream;
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
-
-                int height = image.Height;
-                int width = image.Width;
-                if (height == 300 && width == 411)
-                {
-                    string path = Server.MapPath("~/Repairs_Crousel_Images");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    //var fileFullName = file.FileName;
-                    //var fileExtention = Path.GetExtension(fileFullName);
-                    //var fileName = Path.GetFileNameWithoutExtension(fileFullName);
-                    //var savedFileName = fileName + fileExtention;
-                    //file.SaveAs(Path.Combine(path, savedFileName));
-                    var renamedImage = "Mobileview2.jpg";
-                    var fileExtention = Path.GetExtension(renamedImage);
-                    var fileName = Path.GetFileNameWithoutExtension(renamedImage);
-                    var savedFileName = renamedImage;
-                    file.SaveAs(Path.Combine(path, savedFileName));
-                    return savedFileName;
-                }
-                else
-                {
-                    return ViewBag.Message = "File size is not appropriate";
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                return ViewBag.Message = ex.Message;
-            }
-        }
-        private string SaveImageFile6(HttpPostedFileBase file)
-        {
-            try
-            {
-                System.IO.Stream stream = file.InputStream;
-                System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
-
-                int height = image.Height;
-                int width = image.Width;
-                if (height == 300 && width == 411)
-                {
-                    string path = Server.MapPath("~/Repairs_Crousel_Images");
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    //var fileFullName = file.FileName;
-                    //var fileExtention = Path.GetExtension(fileFullName);
-                    //var fileName = Path.GetFileNameWithoutExtension(fileFullName);
-                    //var savedFileName = fileName + fileExtention;
-                    //file.SaveAs(Path.Combine(path, savedFileName));
-                    var renamedImage = "Mobileview3.jpg";
-                    var fileExtention = Path.GetExtension(renamedImage);
-                    var fileName = Path.GetFileNameWithoutExtension(renamedImage);
-                    var savedFileName = renamedImage;
-                    file.SaveAs(Path.Combine(path, savedFileName));
-                    return savedFileName;
-                }
-                else
-                {
-                    return ViewBag.Message = "File size is not appropriate";
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-
-                return ViewBag.Message = ex.Message;
-            }
-        }
-        public ActionResult DynamicCrousel()
+       
+        [HttpPost]
+        [ValidateInput(false)]
+        [ValidateModel]
+        public async Task<ActionResult> Create(ManageBannersModel Banner)
         {
            
-                return View();
-         
-        }
-        [HttpPost]
-        public ActionResult DynamicCrousel(DynamicCrouselModel m)
-        {
-            if (ModelState.IsValid)
-            {                
+            var SessionModel = Session["User"] as SessionModel;
+            var ImageDetail = Request.Params["ImgDetail"];
+            Banner = JsonConvert.DeserializeObject<ManageBannersModel>(ImageDetail);
+            string directory = "~/TempFiles/";
+            string path = Server.MapPath(directory);
+            //if (Banner.BannerFileName != null)
+            //{
                
-                if (m.Image1 != null || m.Image2 != null || m.Image3 != null)
+            //}
+            foreach (var ban in Banner.ImgDetails)
+            {
+                ban.BannerFileName = Request.Files[ban.HeaderTitle];
+                if (ban.BannerFileName != null)
                 {
-                    if (m.Image1 != null)
-                    {
-                        
-                        m.FirstImg = SaveImageFile(m.Image1);
-                    }
-                   
-                    if (m.Image2 != null)
-                    {
-                        m.SecondImg = SaveImageFile2(m.Image2);
-                    }
-                   
-                    if (m.Image3 != null)
-                    {
-                        m.ThirdImg = SaveImageFile3(m.Image3);
-                    }
-                   
-                    if (m.FirstImg == "File size is not appropriate" || m.SecondImg == "File size is not appropriate"
-                        || m.ThirdImg == "File size is not appropriate")
-                    {
-                        TempData["Message"] = "File size is not appropriate";
-                    }
-                    else
-                    {
-                            int result = 1;
-                            if (result == 1)
-                            {
-                                TempData["Message"] = "Banners Updated Successfully";
-                            }
-                            else
-                            {
-                                TempData["Message"] = "Banners Not Updated";
-                            }
-                      
-                    }
-                }
-                if (m.MobileImageUpload1 != null || m.MobileImageUpload2 != null || m.MobileImageUpload3 != null)
-                {
-                    if (m.MobileImageUpload1 != null)
-                    {
-                        m.MobileImage1 = SaveImageFile4(m.MobileImageUpload1);
-                    }
-                   
-                    if (m.MobileImageUpload2 != null)
-                    {
-                        m.MobileImage2 = SaveImageFile5(m.MobileImageUpload2);
-                    }
-                    
-                    if (m.MobileImageUpload3 != null)
-                    {
-                        m.MobileImage3 = SaveImageFile6(m.MobileImageUpload3);
-                    }
-                   
-                    if (m.MobileImage1 == "File size is not appropriate" || m.MobileImage2 == "File size is not appropriate" || m.MobileImage3 == "File size is not appropriate")
-                    {
-                        TempData["Message"] = "File size is not appropriate";
-                    }
-                    else
-                    {
-                        int result = 1;
-                            if (result == 1)
-                            {
-                                TempData["Message"] = "Banners Updated Successfully";
-                            }
-                            else
-                            {
-                                TempData["Message"] = "Banners Not Updated";
-                            }
-                       
-                    }
-                }
-                
-            }
-                
-            return RedirectToAction("Index","ManageBanners");
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
 
+                    if (ban.BannerFileName != null)
+                        
+                    ban.FileName = ban.BannerFileName + Path.GetExtension(Path.Combine(directory, ban.BannerFileName.FileName));
+                    if (System.IO.File.Exists(path + "/" + ban.FileName))
+                        System.IO.File.Delete(path + "/" + ban.FileName);
+                    ban.BannerFileName.SaveAs(path + "/" + ban.FileName);
+                    ban.BannerFileName = null;
+                }
+            }
+
+            Banner.UserId = SessionModel.UserId;
+            Banner.CompanyId = SessionModel.CompanyId;
+            ResponseModel response = new ResponseModel();
+            if (Banner.BannerId == Guid.Empty)
+            {
+                Banner.EventAction = 'I';
+                response = await _Banner.AddUpdateBanner(Banner);
+            }
+            else
+            {
+                Banner.EventAction = 'U';
+                response = await _Banner.AddUpdateBanner(Banner);
+            }
+            TempData["response"] = response;
+            return RedirectToAction("Index");
+
+            
+            }
+
+
+
+        public async Task<ActionResult> Edit(Guid Id)
+        {
+          
+            var Banner = await _Banner.GetBannerById(Id);
+ 
+            Banner.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
+            Banner.SectionNameList = new SelectList(await CommonModel.GetSection(), "Name", "Text");
+        
+            
+            return View(Banner);
         }
+
+
+        [HttpPost]
+        public JsonResult UploadFile()
+        {
+            string directory = "~/TempFiles/";
+            HttpPostedFileBase file = Request.Files["file"];
+           // var BannerId = Request.Params["BannerId"];
+            var HeaderTitle = Request.Params["HeaderTitle"];
+
+            if (System.IO.File.Exists(directory +  "/" + HeaderTitle + Path.GetExtension(Path.Combine(directory, file.FileName))))
+                System.IO.File.Delete(directory +  "/" + HeaderTitle + Path.GetExtension(Path.Combine(directory, file.FileName)));
+            if (file != null && file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                string path = Server.MapPath(directory);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                file.SaveAs(path + "/" + HeaderTitle + Path.GetExtension(Path.Combine(directory, file.FileName)));
+            }
+            return Json(HeaderTitle + Path.GetExtension(Path.Combine(directory, file.FileName)), JsonRequestBehavior.AllowGet);
+        }
+
     }
+
+
 }
+
