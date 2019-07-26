@@ -372,7 +372,8 @@ namespace TogoFogo.Controllers
             provider.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             provider.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
             provider.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-            provider.Contact.LocationList = new SelectList(dropdown.BindLocation(), "Value", "Text");
+            //provider.Contact.LocationList = new SelectList(dropdown.BindLocation(), "Value", "Text");
+            provider.Contact.LocationList = new SelectList(dropdown.BindLocationByPinCode(provider.Contact.PinNumber), "Value", "Text"); 
             provider.Service = new ServiceOfferedModel
             {
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),

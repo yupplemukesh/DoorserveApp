@@ -751,6 +751,10 @@ else
             }
         });
     }
+
+
+  
+
     function getItems(Id, method) {
         var val = Id;
         $.ajax({
@@ -778,7 +782,7 @@ else
                     $("#BankAccount").show();
                 }
                 else {
-
+                    debugger
                     $("#ContactId").val(data.ContactId);
                     $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
                     $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
@@ -808,9 +812,11 @@ else
                     $("#CurrentIsUser").val(data.CurrentIsUser);
                     $("#ContactPerson").show();
                     $("#Pincode").val(data.PinNumber);
+                    var obj = { value: data.PinNumber, Other: data.LocationId };
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                     $("#Country").val(data.Country);
                     $("#State").val(data.State);
-                    $("#LocationId").val(data.LocationId);
+                    $("#LocationId").val(data.LocationId);                   
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
                     $("#NearLocation").val(data.NearLocation);

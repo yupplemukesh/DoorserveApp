@@ -141,7 +141,7 @@
                     @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "control-label" })
                     <div class="input-group ">
                         <span class="input-group-addon"></span>
-                        @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+                        @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", @class = "form-control",accept = "image/*", @onchange = "readURL1(this);" })
                     </div>
                 </div>
 

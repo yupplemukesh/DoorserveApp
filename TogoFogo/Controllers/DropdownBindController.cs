@@ -1317,7 +1317,7 @@ namespace TogoFogo.Controllers
             {
                 List<BindLocation> company = con
                     .Query<BindLocation>(
-                        "select distinct LocationId, LocationName as LocationName  from MstLocation", null,
+                        "select distinct LocationId, LocationName  from MstLocation", null,
                         commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem

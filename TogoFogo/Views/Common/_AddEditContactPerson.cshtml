@@ -70,17 +70,15 @@
                 @Html.LabelFor(model => model.ConPanNumberFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConPanNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(x => x.ConPanNumberFilePath, new { @type = "file", accept = "image/*", @class = "form-control", placeholder = "" ,@onchange = "readURL1(this);"})
 
                 </div>
                 @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-1 col-sm-1">
+            <div class="col-md-1 col-sm-1">           
+                <img src="~/Content/img/icon-img/doc-icon.png" id="conPanImg"  class="a thumb-Img" style="pointer-events: none;">
 
-
-                <img src="~/Content/img/icon-img/doc-icon.png" id="conPanImg" class="a thumb-Img" style="pointer-events: none;">
-
-            </div>
+            </div>           
         </div>
     </div>
 </div>
@@ -101,14 +99,12 @@
                 @Html.LabelFor(model => model.ConVoterIdFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConVoterIdFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(x => x.ConVoterIdFilePath, new { @type = "file", @class = "form-control", placeholder = "", accept = "image/*", @onchange = "readURL1(this);" })
 
                 </div>
                 @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-1 col-sm-1">
-
-
                 <img src="~/Content/img/icon-img/doc-icon.png" class="a thumb-Img" id="conVoterImg" style="pointer-events: none;">
 
             </div>
@@ -131,17 +127,14 @@
                 @Html.LabelFor(model => model.ConAdhaarNumberFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConAdhaarNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(x => x.ConAdhaarNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "", accept = "image/*", @onchange = "readURL1(this);" })
 
                 </div>
                 @Html.ValidationMessageFor(model => model.ConAdhaarNumberFilePath, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-md-1 col-sm-1">
-
-
                 <img src="~/Content/img/icon-img/doc-icon.png" id="conAdhrImg" class="a thumb-Img" style="pointer-events: none;">
-
             </div>
 
         </div>
@@ -289,7 +282,7 @@
                         $("#Country").val(result.Country);                        
                         $("#StateId").val(result.StateId);
                         $("#CountryId").val(result.CountryId);
-                        var obj = { value: Id, Other: result.LocationId };
+                        var obj = { value: Id, Other: result.LocationId};
                         AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                     }
                 });

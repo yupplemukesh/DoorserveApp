@@ -39,7 +39,7 @@
     <label class="col-md-2 control-label" for="radios">Service Charges</label>
     <div class="col-md-4">
         @Html.TextBoxFor(model => model.ServiceCharges, htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.ServiceTypeId, "", new { @class = "text-danger" })
+        @Html.ValidationMessageFor(model => model.ServiceCharges, "", new { @class = "text-danger" })
     </div>
 
     <label class="col-md-2 control-label" for="radios">Minimum Approval Cost</label>

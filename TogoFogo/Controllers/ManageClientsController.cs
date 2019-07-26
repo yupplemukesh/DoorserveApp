@@ -345,8 +345,8 @@ namespace TogoFogo.Controllers
                 client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
                 client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
-                client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
-                client.Contact.LocationList = new SelectList(Enumerable.Empty<SelectList>());
+                //client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
+                client.Contact.LocationList = client.Contact.LocationList = new SelectList(dropdown.BindLocationByPinCode(client.Contact.PinNumber), "Value", "Text");
                 if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
                 {
                     client.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");

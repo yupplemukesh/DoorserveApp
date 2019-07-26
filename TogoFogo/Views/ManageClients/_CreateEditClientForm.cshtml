@@ -748,9 +748,11 @@ else
                    
                     $("#CurrentIsUser").val(data.CurrentIsUser);
                     $("#Pincode").val(data.PinNumber);
+                    var obj = { value: data.PinNumber, Other: data.LocationId };
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                     $("#Country").val(data.Country);
                     $("#State").val(data.State);
-                    $("#City").val(data.City);
+                    $("#LocationId").val(data.LocationId);
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
                     $("#NearLocation").val(data.NearLocation);                    
