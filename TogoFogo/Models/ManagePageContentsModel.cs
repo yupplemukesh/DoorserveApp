@@ -11,7 +11,7 @@ namespace TogoFogo.Models
     public class ManagePageContentsModel : RegistrationModel
     {
         [Required(ErrorMessage ="Please Select Page Name")]        
-        public long PageId { get; set; }
+        public int PageId { get; set; }
         public string PageName { get; set; }
         [Required(ErrorMessage = "Please Select Section Name")]
         public Guid SectionId { get; set; }

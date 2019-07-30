@@ -740,9 +740,9 @@ namespace TogoFogo.Controllers
             // return RemoteValidationforUserName(ConEmailAddress, CurrentEmail, 0);
             try
             {
-                if (ConEmailAddress == CurrentEmail)
+                var cmail = CurrentEmail.Trim();
+                if (ConEmailAddress == cmail)
                     return Json(true, JsonRequestBehavior.AllowGet);
-
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var ifEmailExist = con.Query<bool>("Select 1 from tblContactPersons WHERE  Email=@ConEmailAddress",
