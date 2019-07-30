@@ -28,9 +28,13 @@ namespace TogoFogo.Models
         public SelectList PageNameList { get; set; }
         public SelectList SectionNameList { get; set; }
         public SelectList ImageList { get; set; }
+        public char Type { get; set; }
        
         public List<ManageBannerUploadModel> ImgDetails { get; set; }
+      
        
+        
+
 
     }
 }

@@ -17,9 +17,11 @@ namespace TogoFogo.Controllers
     public class ManagePageContentsController : Controller
     {
         private readonly IPageContent _PageContent;
+        private readonly DropdownBindController dropdown;
         public ManagePageContentsController()
         {
             _PageContent = new PageContent();
+            dropdown = new DropdownBindController();
         }
         // GET: ManagePageContent
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Page_Contents)]
@@ -30,8 +32,8 @@ namespace TogoFogo.Controllers
            ManagePageContentsModel PageContentModel = new ManagePageContentsModel();            
             PageContentModel.MainContent = await _PageContent.GetAllPageContent(filter);
             PageContentModel.DynamicContent = new ManagePageContentsModel();
-            PageContentModel.DynamicContent.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
-            PageContentModel.DynamicContent.SectionNameList = new SelectList(await CommonModel.GetSection(), "Name", "Text");
+            PageContentModel.DynamicContent.PageNameList = new SelectList(await CommonModel.GetLookup("Page"), "Value", "Text");    
+            PageContentModel.DynamicContent.SectionNameList= new SelectList(Enumerable.Empty<SelectList>());
             return View(PageContentModel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Page_Contents)]
@@ -39,8 +41,8 @@ namespace TogoFogo.Controllers
         {
            
             var PageContentModel = new ManagePageContentsModel();
-            PageContentModel.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
-            PageContentModel.SectionNameList = new SelectList(await CommonModel.GetSection(), "Name", "Text");
+            PageContentModel.PageNameList = new SelectList(await CommonModel.GetLookup("Page"), "Value", "Text");
+            PageContentModel.SectionNameList = new SelectList(Enumerable.Empty<SelectList>());
             return View(PageContentModel);
 
         }
@@ -70,7 +72,7 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Manage_Page_Contents)]
         public async Task<ActionResult> Edit(Guid Id)
         {          
-            var PageContent = await _PageContent.GetPageContentById(Id);
+            var PageContent = await _PageContent.GetPageContentById(Id);           
             return Json(PageContent,JsonRequestBehavior.AllowGet);
         }
 

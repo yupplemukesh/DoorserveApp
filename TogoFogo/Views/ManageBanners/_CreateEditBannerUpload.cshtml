@@ -5,6 +5,7 @@
 @Html.AntiForgeryToken()
 @Html.HiddenFor(x => x.FileName)
 @Html.HiddenFor(x => x.BannerUploadId)
+@Html.HiddenFor(x => x.RefKey)
 <div class="row">
     <div class="form-material">
         <div class="col-sm-12">
@@ -19,7 +20,7 @@
 
                 <label class="floating-label">Image Description</label>
             </div>
-        </div>         
+        </div>
     </div>
 </div>
 
@@ -59,7 +60,7 @@
                 <label class="floating-label">Alternate Text</label>
             </div>
         </div>
-        
+
     </div>
 </div>
 <div class="row">

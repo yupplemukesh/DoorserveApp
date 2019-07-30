@@ -16,8 +16,8 @@ namespace TogoFogo.Models
         public string HeaderTitle { get; set; }
         [AllowHtml]
         public string Description { get; set; }
-        public HttpPostedFileBase BannerFileName { get; set; }
-        
+        public string BannerFileName { get; set; }
+        public HttpPostedFileBase BannerFile { get; set; }
         public string BannerLinkURL { get; set; }
         public string BannerFilePath { get; set; }
         public string AltText { get; set; }      

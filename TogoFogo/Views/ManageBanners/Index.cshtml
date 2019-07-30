@@ -105,12 +105,14 @@
 
             <td style="display: inline-flex;">
 
-                @*@if (Permissions.Rights.Edit)
+                @* @if (Permissions.Rights.Edit)
             { }
 
-        //<input type="button" class="btn btn-success btn-circle btn-sm" onclick="EditBanner('@item.BannerId')" value="Edit" />
-                *@
-                @Html.ActionLink("Edit","Edit", "ManageBanners", new { Id = @item.BannerId }, null)
+        //<input type="button" class="btn btn-success btn-circle btn-sm" onclick="EditBanner('@item.BannerId')" value="Edit" />*@
+
+                @Html.ActionLink("Edit", "Edit", "ManageBanners", new { Id = @item.BannerId }, null)
+
+
             </td>
         </tr>
         RowNo++;
@@ -134,6 +136,5 @@
 }
 
 @section Scripts{
-
-    
+ 
 }

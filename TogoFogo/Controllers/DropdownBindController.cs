@@ -1012,6 +1012,58 @@ namespace TogoFogo.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
+
+        
+        public JsonResult BindSectionJson(int value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var section = con.Query<ManagePageContentsModel>("select Distinct SectionId ,SectionName  from MSTSECTION where isActive=1 and PageId=@PageId and type='C'", new { PageId = value },
+                    commandType: CommandType.Text);
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in section)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.SectionId.ToString(), //Value Field(ID)
+                        Text = val.SectionName //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult BindSectionJsonForBanner(int value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var section = con.Query<ManagePageContentsModel>("select Distinct SectionId ,SectionName  from MSTSECTION where isActive=1 and PageId=@PageId and type='B'", new { PageId = value },
+                    commandType: CommandType.Text);
+                List<ListItem> items = new List<ListItem>();
+                items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "--Select--" //Text Field(Name)
+                });
+                foreach (var val in section)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.SectionId.ToString(), //Value Field(ID)
+                        Text = val.SectionName //Text Field(Name)
+                    });
+                }
+
+                return Json(items, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult BindCityJson(string value)
                 {
             using (var con = new SqlConnection(_connectionString))

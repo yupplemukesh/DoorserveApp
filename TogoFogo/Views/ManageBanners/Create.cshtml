@@ -20,7 +20,7 @@
 
 <div class="panel-heading">
 
-    <h3 class="m-y-0">Create Banner</h3>
+    <h3 class="m-y-0">Create/Edit Banner</h3>
 
 </div>
 @using (Html.BeginForm("Create", "ManageBanners", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -172,18 +172,20 @@
 
 
         function EditItem(EditBannerUpload) {
+            debugger
             var result = ImgList.filter(obj => {
                 return obj.HeaderTitle === EditBannerUpload
             });
             $("#BannerUploadId").val(result[0].BannerUploadId);
             $("#HeaderTitle").val(result[0].HeaderTitle);
             $("#Description").val(result[0].Description);
-            $("#SortOrder").val(result[0].SortOrder);
-            $("#AltText").val(result[0].AltText);
-            $("#BannerLinkURL").val(result[0].BannerLinkURL);
+            $("#SortOrder").val(result[0].SortOrder);         
+           
             $("#FileName").val(result[0].FileName);
             var image = "/TempFiles/" + $("#BannerId").val() + "/" + result[0].FileName;
             $("#ImgURI").prop("src", image);
+            $("#AltText").val(result[0].AltText);
+            $("#BannerLinkURL").val(result[0].BannerLinkURL);
             $("#Action").val("U");
         }
 
@@ -198,8 +200,8 @@
                 if (value.BannerUploadId != null)
                     value.url = "/TempFiles/" + value.RefKey + '/' + value.FileName; var element = "<tr>";
                 element = element + "<td>" + count + "</td>";
-                element = element + "<td><label name= 'HeaderTitle' >" + value.Description + "</label> </td>";
-                element = element + "<td><label name= 'Description'>" + value.HeaderTitle + "</label> </td>";
+                element = element + "<td><label name= 'Description' >" + value.Description + "</label> </td>";
+                element = element + "<td><label name= 'HeaderTitle'>" + value.HeaderTitle + "</label> </td>";
                 element = element + "<td><label name= 'SortOrder'>" + value.SortOrder + "</label> </td>";
                 element = element + "<td><img src='" + value.url + "' height='30' /> </td>";
                 element = element + "<td><label name= 'BannerLinkURL'>" + value.BannerLinkURL + "</label> </td>";
@@ -258,7 +260,34 @@
         }
 
 
+   
 
- 
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            var other = e.Other;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+                    console.log(data);
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+
+                    if (other != undefined) {
+                        $('#' + ddl).val(other);
+
+                    }
+                }
+            });
+        }
+  
     </script>
 }

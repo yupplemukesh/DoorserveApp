@@ -28,6 +28,7 @@ namespace TogoFogo.Models
         public string ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public int SerialNo { get; set; }
+        public char Type { get; set; }
     }
 
    

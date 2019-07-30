@@ -101,13 +101,15 @@
                 success: function (response) {
                     console.log(response);
                     $("#ContentId").val(response.ContentId);
-                    $("#PageId").val(response.PageId);
-                    $("#SectionId").val(response.SectionId);
+                   $("#PageId").val(response.PageId);                   
+                   //$("#SectionId").val(response.SectionId);
                     $("#MetaTitle").val(response.MetaTitle);
                     $("#MetaNameDescription").val(response.MetaNameDescription);
                     $("#IsActive").prop("checked", response.IsActive);
                     CKEDITOR.instances['editor1'].setData(response.Description);                    
-                    $('.selectpicker').selectpicker('refresh')
+                   // $('.selectpicker').selectpicker('refresh')
+                    var obj = { value: response.PageId, Other: response.SectionId };
+                    AjaxWithValue('BindSectionJson', 'SectionBind', obj);
                 },
                 error: function (e) {
                     console.log(e);
@@ -116,6 +118,34 @@
                 },
                 complete: function () {
 
+                }
+            });
+        }
+
+
+         function AjaxWithValue(method, ddl, e) {
+             var val = e.value;
+             var other = e.Other;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+                    console.log(data);
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+
+                    if (other != undefined) {
+                        $('#' + ddl).val(other);
+
+                    }
                 }
             });
         }

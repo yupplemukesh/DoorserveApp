@@ -12,12 +12,12 @@
 </div>
 @using (Html.BeginForm("Edit", "ManageBanners", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-<div class="panel-body">
+    <div class="panel-body">
 
-    @Html.Partial("_CreateEditBanner", Model)
-    @Html.Partial("_CreateEditBannerUpload", Model)
-    @Html.Partial("_BannerUploadList", Model.ImgDetails)
-</div>
+        @Html.Partial("_CreateEditBanner", Model)
+        @Html.Partial("_CreateEditBannerUpload", Model)
+        @Html.Partial("_BannerUploadList", Model.ImgDetails)
+    </div>
     <div class="row">
         <div class="col-sm-5 col-md-5 ">
             <button class="btn btn-primary pull-right">SAVE</button>
@@ -26,6 +26,7 @@
 }
 @section scripts{
 
+   
 
 }
 

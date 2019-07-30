@@ -16,8 +16,7 @@ namespace TogoFogo.Controllers
 {
     public class ManageBannersController : Controller
     {
-        private readonly IBanner _Banner;
-       // private string FilePath = "~/Files/";
+        private readonly IBanner _Banner;     
         public ManageBannersController()
         {
             _Banner = new Banner();
@@ -28,11 +27,8 @@ namespace TogoFogo.Controllers
             var session = Session["User"] as SessionModel;
 
             Guid? BannerId = null;
-            var filter = new FilterModel { CompId = session.CompanyId, RefKey = BannerId };             
-            var Banner = await _Banner.GetBanner(filter);
-            //Banner = new ManageBannersModel();
-            //Banner.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
-           // Banner.SectionNameList = new SelectList(await CommonModel.GetLookup("SectionType"), "Value", "Text");
+            var filter = new FilterModel { CompId = session.CompanyId, RefKey = BannerId };         
+            var Banner = await _Banner.GetBanner(filter);          
             return View(Banner);
         }
         
@@ -71,8 +67,8 @@ namespace TogoFogo.Controllers
             var filter = new FilterModel { CompId = session.CompanyId };
             var Banner = new ManageBannersModel();
             Banner.ImgDetails = new List<ManageBannerUploadModel>();
-            Banner.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
-            Banner.SectionNameList = new SelectList(await CommonModel.GetSection(), "Name", "Text");
+            Banner.PageNameList = new SelectList(await CommonModel.GetLookup("Page"), "Value", "Text");          
+            Banner.SectionNameList = new SelectList(Enumerable.Empty<SelectList>());       
             return View(Banner);
 
         }
@@ -88,26 +84,21 @@ namespace TogoFogo.Controllers
             var ImageDetail = Request.Params["ImgDetail"];
             Banner = JsonConvert.DeserializeObject<ManageBannersModel>(ImageDetail);
             string directory = "~/TempFiles/";
-            string path = Server.MapPath(directory);
-            //if (Banner.BannerFileName != null)
-            //{
-               
-            //}
+            string path = Server.MapPath(directory);           
             foreach (var ban in Banner.ImgDetails)
             {
-                ban.BannerFileName = Request.Files[ban.HeaderTitle];
-                if (ban.BannerFileName != null)
+                ban.BannerFile = Request.Files[ban.HeaderTitle];
+                if (ban.BannerFile != null)
                 {
                     if (!Directory.Exists(path))
                         Directory.CreateDirectory(path);
 
-                    if (ban.BannerFileName != null)
-                        
-                    ban.FileName = ban.BannerFileName + Path.GetExtension(Path.Combine(directory, ban.BannerFileName.FileName));
-                    if (System.IO.File.Exists(path + "/" + ban.FileName))
-                        System.IO.File.Delete(path + "/" + ban.FileName);
-                    ban.BannerFileName.SaveAs(path + "/" + ban.FileName);
-                    ban.BannerFileName = null;
+                    if (ban.BannerFile != null)                        
+                    ban.BannerFileName = ban.HeaderTitle + Path.GetExtension(Path.Combine(directory, ban.BannerFile.FileName));
+                    if (System.IO.File.Exists(path + "/" + ban.BannerFileName))
+                        System.IO.File.Delete(path + "/" + ban.BannerFileName);
+                    ban.BannerFile.SaveAs(path + "/" + ban.BannerFileName);
+                    ban.BannerFile = null;
                 }
             }
 
@@ -124,7 +115,7 @@ namespace TogoFogo.Controllers
                 Banner.EventAction = 'U';
                 response = await _Banner.AddUpdateBanner(Banner);
             }
-            TempData["response"] = response;
+           
             return RedirectToAction("Index");
 
             
@@ -135,22 +126,19 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Edit(Guid Id)
         {
           
-            var Banner = await _Banner.GetBannerById(Id);
- 
-            Banner.PageNameList = new SelectList(await CommonModel.GetLookup("PageType"), "Value", "Text");
-            Banner.SectionNameList = new SelectList(await CommonModel.GetSection(), "Name", "Text");
-        
-            
-            return View(Banner);
+         var Banner = await _Banner.GetBannerById(Id);
+          Banner.PageNameList = new SelectList(await CommonModel.GetLookup("Page"), "Value", "Text");
+         Banner.SectionNameList = new SelectList(await CommonModel.GetSection(Banner.PageId), "Name", "Text");
+         return View("Create",Banner);
         }
 
 
+      
         [HttpPost]
         public JsonResult UploadFile()
         {
             string directory = "~/TempFiles/";
-            HttpPostedFileBase file = Request.Files["file"];
-           // var BannerId = Request.Params["BannerId"];
+            HttpPostedFileBase file = Request.Files["file"];          
             var HeaderTitle = Request.Params["HeaderTitle"];
 
             if (System.IO.File.Exists(directory +  "/" + HeaderTitle + Path.GetExtension(Path.Combine(directory, file.FileName))))

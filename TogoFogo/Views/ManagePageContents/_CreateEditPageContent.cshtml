@@ -7,14 +7,14 @@
 <div class=" row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Page Name</label>
-        @Html.DropDownListFor(model => model.PageId, Model.PageNameList, "-Select-", htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.PageId, Model.PageNameList, "-Select-", htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindSectionJson', 'SectionBind', this)" })
         @Html.ValidationMessageFor(model => model.PageId, "", new { @class = "text-danger" })
     </div>
 </div>
 <div class=" row form-group">
     <div class="col-md-12">
         <label class="control-label" for="form-control-9">Section Name</label>
-        @Html.DropDownListFor(model => model.SectionId, Model.SectionNameList, "-Select-", htmlAttributes: new { @class = "form-control" })
+        @Html.DropDownListFor(model => model.SectionId, Model.SectionNameList, "-Select-", htmlAttributes: new { @class = "form-control", id = "SectionBind" })
         @Html.ValidationMessageFor(model => model.SectionId, "", new { @class = "text-danger" })
     </div>
 </div>

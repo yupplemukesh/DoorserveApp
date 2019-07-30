@@ -123,12 +123,21 @@ namespace TogoFogo
             }
         }
 
-        public static async Task<List<CheckBox>> GetSection()
+
+        public static async Task<List<CheckBox>> GetSection(int PageId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _Section = await _context.Database.SqlQuery<CheckBox>("select SectionId Name,SectionName text from MSTSECTION where isActive=1").ToListAsync();
-                return _Section;
+
+               var param = new SqlParameter("@PageId", DBNull.Value);              
+                var query = "select  SectionId Name ,SectionName Text from MSTSECTION where isActive=1 and type='B'";
+               if (PageId != null)
+                {
+                    param.Value = PageId;                    
+                    query = query + " and PageId=@PageId";
+                }
+                var Section = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                return Section;
             }
         }
 
