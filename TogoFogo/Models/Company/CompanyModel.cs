@@ -59,7 +59,9 @@ namespace TogoFogo.Models.Company
         public char Action { get; set; }
         public string ActiveTab{ get; set; }
         public string Path { get; set; }
-        [RegularExpression(@"(?:\s+|)((0|(?:(\+|)91))(?:\s|-)*(?:(?:\d(?:\s|-)*\d{9})|(?:\d{2}(?:\s|-)*\d{8})|(?:\d{3}(?:\s|-)*\d{7}))|\d{10})(?:\s+|)", ErrorMessage = "Enter Contact Number")]
+        [RegularExpression(@"(?:\s+|)((0|(?:(\+|)91))(?:\s|-)*(?:(?:\d(?:\s|-)*\d{9})|(?:\d{2}(?:\s|-)*\d{8})|(?:\d{3}(?:\s|-)*\d{7}))|\d{10})(?:\s+|)", ErrorMessage = "Invalid Contact Number")]
         public string CustomerCareNo { get; set; }
+        [AllowHtml]
+        public string CompanyAddress { get; set; }
     }
 }

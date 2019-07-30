@@ -64,6 +64,8 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@IOSAppSettings", ToDBNull(company.IOSAppSetting));
             sp.Add(param);
+            param = new SqlParameter("@CompanyAddress", ToDBNull(company.CompanyAddress));
+            sp.Add(param);
             param = new SqlParameter("@ACTION", ToDBNull(company.Action));
             sp.Add(param);
             param = new SqlParameter("@IsActive", ToDBNull(company.IsActive));
@@ -75,7 +77,7 @@ namespace TogoFogo.Repository
             param = new SqlParameter("@UserId", (object)company.CreatedBy);
             sp.Add(param);            
            var sql = "USPAddorEditCompany @CompId,@CompCode,@CompTypeId,@CompName,@CurrentCompName,@CompDomain,@ExpiryDate,@LogoFileName,@CustomerCareNumber" +
-                        ",@AndroidAppName,@AndroidAppSettings,@IOSAppName,@IOSAppSettings,@ACTION,@IsActive,@Comments,@ActiveTab,@UserId";
+                        ",@AndroidAppName,@AndroidAppSettings,@IOSAppName,@IOSAppSettings,@CompanyAddress,@ACTION,@IsActive,@Comments,@ActiveTab,@UserId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode == 1)
                 res.IsSuccess = true;
