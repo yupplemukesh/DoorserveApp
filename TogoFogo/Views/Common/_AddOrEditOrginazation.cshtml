@@ -61,27 +61,18 @@
 <!-- file input-->
 <div class=" row form-group">
     <label class="col-md-3 " for="textinput">Upload GST Number</label>
-    @if (!string.IsNullOrEmpty(Model.OrgGSTFileName))
-    {
-        <div class="col-md-5">
-            @Html.TextBoxFor(model => model.OrgGSTNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.OrgGSTNumberFilePath, "", new { @class = "text-danger" })
-        </div>
-        <div class="col-md-4">
-            <a data-target="#modalIMGOrgGST" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-                <div class="ba-0 tp-s img-thumbnail">
-                    <img alt="Organization GST File" class="card-img-top thumb-Img" src="@Model.OrgGSTFileUrl">
-                </div>
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.OrgGSTNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.OrgGSTNumberFilePath, "", new { @class = "text-danger" })
-        </div>
-    }
+
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.OrgGSTNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "", accept = "image/*", @onchange = "readURL(this);" })
+        @Html.ValidationMessageFor(model => model.OrgGSTNumberFilePath, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4">
+        <a data-target="#modalIMGOrgGST" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
+            <div class="ba-0 tp-s img-thumbnail">
+                <img alt="Organization GST File" class="card-img-top thumb-Img" src="@Model.OrgGSTFileUrl">
+            </div>
+        </a>
+    </div>
 
 </div>
 <!-- Text input-->
@@ -94,28 +85,20 @@
 </div>
 <!-- Text input-->
 <div class=" row form-group">
-    <label class="col-md-3 " for="textinput">PAN Card Number</label>
-    @if (!string.IsNullOrEmpty(Model.OrgPanFileName))
-    {
-        <div class="col-md-5">
-            @Html.TextBoxFor(model => model.OrgPanNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.OrgPanNumberFilePath, "", new { @class = "text-danger" })
-        </div>
-        <div class="col-md-4">
-            <a data-target="#modalIMGOrgPan" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-                <div class="ba-0 tp-s img-thumbnail">
-                    <img alt="Organization Pan File" class="card-img-top thumb-Img" src="@Model.OrgPanFileUrl">
-                </div>
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-9">
-            @Html.TextBoxFor(model => model.OrgPanNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "" })
-            @Html.ValidationMessageFor(model => model.OrgPanNumberFilePath, "", new { @class = "text-danger" })
-        </div>
-    }
+    <label class="col-md-3 " for="textinput">Upload PAN Card Number</label>
+
+    <div class="col-md-5">
+        @Html.TextBoxFor(model => model.OrgPanNumberFilePath, htmlAttributes: new { @type = "file", @class = "form-control", placeholder = "", accept = "image/*", @onchange = "readURL(this);" })
+        @Html.ValidationMessageFor(model => model.OrgPanNumberFilePath, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4">
+        <a data-target="#modalIMGOrgPan" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
+            <div class="ba-0 tp-s img-thumbnail">
+                <img alt="Organization Pan File" class="card-img-top thumb-Img" src="@Model.OrgPanFileUrl">
+            </div>
+        </a>
+    </div>
+
 </div>
 @if (Model.Type == "Provider")
 {
@@ -126,25 +109,25 @@
         </div>
     </div>
 }
+@*
+    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgPan" role="dialog" tabindex="-1" target="_blank">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body mb-0 p-0">
+                    <img src="@Model.OrgPanFileUrl" alt="" style="width:100%">
+                </div>
 
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgPan" role="dialog" tabindex="-1" target="_blank">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body mb-0 p-0">
-                <img src="@Model.OrgPanFileUrl" alt="" style="width:100%">
             </div>
-
         </div>
     </div>
-</div>
-<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgGST" role="dialog" tabindex="-1" target="_blank">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body mb-0 p-0">
-                <img src="@Model.OrgGSTFileUrl" alt="" style="width:100%">
-            </div>
+    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMGOrgGST" role="dialog" tabindex="-1" target="_blank">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body mb-0 p-0">
+                    <img src="@Model.OrgGSTFileUrl" alt="" style="width:100%">
+                </div>
 
+            </div>
         </div>
     </div>
-</div>
-
+*@

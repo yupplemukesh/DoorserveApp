@@ -777,7 +777,10 @@ else
                     $("#CategoryId").val(data.CategoryId);
                     $("#ServiceTypeId").val(data.ServiceTypeId);
                     $("#DeliveryTypeId").val(data.DeliveryTypeId);
-                     $("#ServiceCharges").val(data.ServiceCharges);
+                $("#ServiceCharges").val(data.ServiceCharges);
+                $("#MApprovalCost").val(data.MApprovalCost);
+                $("#WarranyPeriod").val(data.WarranyPeriod);
+                $("#TargetApprovalTime").val(data.TargetApprovalTime);
                                      $("#Remarks").val(data.Remarks);
                  var obj = { value: data.CategoryId, Other: data.SubCategoryId };
                 AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', obj);

@@ -23,6 +23,7 @@ namespace TogoFogo.Models
         public string District { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
+        [Required]
         public int? LocationId { get; set; }
         public string LocationName { get; set; }
         public virtual string Address { get; set; } 
@@ -32,6 +33,7 @@ namespace TogoFogo.Models
         [DisplayName("Pin Code")]
         [RegularExpression(@"^([0-9]{6})$", ErrorMessage = "Invalid Pin Code")]
         public string PinNumber { get; set; }
+       
         public SelectList AddressTypelist { get; set; }
         public SelectList CityList { get; set;}
         public SelectList StateList { get; set;}
