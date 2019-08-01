@@ -48,6 +48,7 @@
             ImgList = [];
         $("#btnEditImg").click(function () {
             debugger
+               CKEDITOR.config.allowedContent = true;
             var Description = CKEDITOR.instances.editor1.getData();
            // var send = JSON.stringify({ editor1: Description });
             var ItemCode = $("#ItemCode").val();
@@ -163,15 +164,14 @@
                 success: function (response) {
                   //location.reload();
                     console.log(response);
-                    window.location.href = "Index";
+                    window.location.href = "/ManageBanners/Index";
                 },
                 complete: function (response) {
 
                 }
             })
            });
-        function EditItem(EditBannerUpload) {
-            debugger
+        function EditItem(EditBannerUpload) {            
             console.log(EditBannerUpload);
             var result = ImgList.filter(obj => {
                 return obj.ItemCode === EditBannerUpload
@@ -207,7 +207,7 @@
                         + value.BannerFileName;
                 var element = "<tr>";
                 element = element + "<td>" + count + "</td>";
-                element = element + "<td><label name= 'Description' >" + value.Description + "</label> </td>";
+                element = element + "<td class='text-nowrap'>"+ value.Description + "</td>";
                 element = element + "<td><label name= 'HeaderTitle'>" + value.HeaderTitle + "</label> </td>";
                 element = element + "<td><label name= 'SortOrder'>" + value.SortOrder + "</label> </td>";
                 element = element + "<td><img src='" + value.url + "' height='30' /> </td>";

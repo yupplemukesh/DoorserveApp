@@ -265,6 +265,7 @@ namespace TogoFogo.Controllers
             }         
             return View(UserList);
         }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Users)]
         public ActionResult ChangePassword()
         {
            return View();

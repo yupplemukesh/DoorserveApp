@@ -13,6 +13,7 @@
             <div class="form-group has-value">
                 @Html.TextAreaFor(model => model.Description, new { @id = "editor1", @class = "No-border" })
                 <script>
+                      CKEDITOR.config.allowedContent = true;
                     CKEDITOR.replace('editor1', {
                         height: 350,
                         extraPlugins: 'colorbutton,colordialog'

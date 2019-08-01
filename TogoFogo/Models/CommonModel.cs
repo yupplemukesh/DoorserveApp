@@ -12,8 +12,7 @@ using TogoFogo.Models.Template;
 namespace TogoFogo
 {
     public static class CommonModel
-    {
-     
+    {     
         public static async Task<List<CheckBox>> GetEmployeeList(Guid? RefKey)
         {
             using (var _context = new ApplicationDbContext())
@@ -81,7 +80,6 @@ namespace TogoFogo
                 return _actionTypes;
             }
         }
-
         public static async Task<List<CheckBox>> GetActionTypes()
         {
             using (var _context = new ApplicationDbContext())
@@ -122,8 +120,6 @@ namespace TogoFogo
                 return _type;
             }
         }
-
-
         public static async Task<List<CheckBox>> GetSection(int PageId)
         {
             using (var _context = new ApplicationDbContext())
@@ -140,7 +136,6 @@ namespace TogoFogo
                 return Section;
             }
         }
-
         public static async Task<List<CheckBox>> GetWildCards()
         {
             using (var _context = new ApplicationDbContext())
@@ -299,6 +294,16 @@ namespace TogoFogo
                 return _reverseAWBStatus;
             }
         }
+
+        public static async Task<CheckBox> GetServiceProviderIdByUserId(int UserId)
+        {
+            using (var _context = new ApplicationDbContext())
+            {
+                var _reverseAWBStatus = await _context.Database.SqlQuery<CheckBox>("select refkey Name,FirstName text from tblcontactpersons where UserId=@UserId", new SqlParameter("@UserId",UserId)).SingleOrDefaultAsync();
+                return _reverseAWBStatus;
+            }
+
+        }
         public static async Task<List<CheckBox>> GetServiceEngineerAction()
         {
             using (var _context = new ApplicationDbContext())
@@ -348,7 +353,6 @@ namespace TogoFogo
                 return _serviceProvider;
             }
         }
-
         //
         public static async Task<List<CheckBox>> GetServiceCenters(Guid? providerId)
         {
@@ -386,7 +390,6 @@ namespace TogoFogo
                 return _serviceCeters;
             }
         }
-
         public static async Task<List<CheckBox>> GetCompanies()
         {
             using (var _context = new ApplicationDbContext())
@@ -415,7 +418,6 @@ namespace TogoFogo
                 return _desgnations;
             }
         }
-
     }
     public class CheckBox
     {

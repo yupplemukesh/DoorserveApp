@@ -49,11 +49,15 @@ namespace TogoFogo.Controllers
         public async Task<ActionResult> Index()
         {
             var SessionModel = Session["User"] as SessionModel;
-            ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
-            Guid? CenterId = null;
-            if (SessionModel.UserTypeName.ToLower().Contains("center"))
-                CenterId = SessionModel.RefKey;
-            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = CenterId };
+            ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];         
+            Guid? providerId = null;         
+            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+            {
+               var prv= await CommonModel.GetServiceProviderIdByUserId(SessionModel.UserId);
+                providerId = prv.Name;
+            }
+
+            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = providerId};
             var Providers = await _provider.GetProviders(filter);
             return View(Providers);
         }
@@ -79,7 +83,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -125,7 +129,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Provider);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
