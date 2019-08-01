@@ -106,6 +106,7 @@
                     $("#MetaTitle").val(response.MetaTitle);
                     $("#MetaNameDescription").val(response.MetaNameDescription);
                     $("#IsActive").prop("checked", response.IsActive);
+                    CKEDITOR.config.allowedContent = true;
                     CKEDITOR.instances['editor1'].setData(response.Description);                    
                    // $('.selectpicker').selectpicker('refresh')
                     var obj = { value: response.PageId, Other: response.SectionId };

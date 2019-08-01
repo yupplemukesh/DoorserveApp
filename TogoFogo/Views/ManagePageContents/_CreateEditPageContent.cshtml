@@ -24,6 +24,7 @@
         <label class="control-label" for="form-control-9">Description</p></label>
         @Html.TextAreaFor(x => x.Description, new { @id = "editor1", @class = "No-border" })
         <script>
+            CKEDITOR.config.allowedContent = true;
             CKEDITOR.replace('editor1', {
                 height: 350,
                 extraPlugins: 'colorbutton,colordialog'

@@ -10,7 +10,7 @@ namespace TogoFogo.Models
 {
     public class AddressDetail:RegistrationModel
     {
-        public Guid AddresssId { get; set; }
+        public Guid? AddresssId { get; set; }
         [DisplayName("Address Type")]
         public virtual  int? AddressTypeId { get; set; }
         [DisplayName("Country")]

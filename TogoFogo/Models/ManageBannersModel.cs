@@ -11,7 +11,7 @@ namespace TogoFogo.Models
     public class ManageBannersModel: ManageBannerUploadModel
     {
        
-        public Guid BannerId { get; set; }              
+        public Guid? BannerId { get; set; }              
        // public string BannerLinkURL { get; set; }         
         public string ModifiedBy { get; set; }
         public DateTime ? ModifiedOn { get; set; }

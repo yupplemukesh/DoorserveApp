@@ -33,9 +33,9 @@ namespace TogoFogo.Models
         [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
         public decimal? MApprovalCost { get; set; }
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
-        public int WarranyPeriod { get; set; }
+        public int? WarranyPeriod { get; set; }
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
-        public int TargetApprovalTime { get; set; }
+        public int? TargetApprovalTime { get; set; }
         public Guid? RefKey { get; set; }
         public SelectList SupportedCategoryList { get; set; }
         public SelectList SupportedSubCategoryList { get; set; }      

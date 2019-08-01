@@ -83,29 +83,31 @@ namespace TogoFogo.Controllers
             var SessionModel = Session["User"] as SessionModel;
             var ImageDetail = Request.Params["ImgDetail"];
             Banner = JsonConvert.DeserializeObject<ManageBannersModel>(ImageDetail);
-            string directory = "~/TempFiles/";
+
+            int i = 0;
+            string directory = "~/TempFiles/Banners/"+Banner.Name;
             string path = Server.MapPath(directory);           
             foreach (var ban in Banner.ImgDetails)
             {
-                ban.BannerFile = Request.Files[ban.HeaderTitle];
+                ban.BannerFile = Request.Files["SlideImg"+i];
                 if (ban.BannerFile != null)
                 {
                     if (!Directory.Exists(path))
                         Directory.CreateDirectory(path);
-
                     if (ban.BannerFile != null)                        
-                    ban.BannerFileName = ban.HeaderTitle + Path.GetExtension(Path.Combine(directory, ban.BannerFile.FileName));
+                    ban.BannerFileName = "SlideImg"+i + Path.GetExtension(Path.Combine(directory, ban.BannerFile.FileName));
                     if (System.IO.File.Exists(path + "/" + ban.BannerFileName))
                         System.IO.File.Delete(path + "/" + ban.BannerFileName);
                     ban.BannerFile.SaveAs(path + "/" + ban.BannerFileName);
                     ban.BannerFile = null;
                 }
+                i++;
             }
 
             Banner.UserId = SessionModel.UserId;
             Banner.CompanyId = SessionModel.CompanyId;
             ResponseModel response = new ResponseModel();
-            if (Banner.BannerId == Guid.Empty)
+            if (Banner.BannerId == null)
             {
                 Banner.EventAction = 'I';
                 response = await _Banner.AddUpdateBanner(Banner);
@@ -116,7 +118,7 @@ namespace TogoFogo.Controllers
                 response = await _Banner.AddUpdateBanner(Banner);
             }
            
-            return RedirectToAction("Index");
+            return Json("Ok", JsonRequestBehavior.AllowGet);
 
             
             }
