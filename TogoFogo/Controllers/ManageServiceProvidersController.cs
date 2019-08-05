@@ -29,6 +29,7 @@ namespace TogoFogo.Controllers
         private readonly IContactPerson _contactPerson;
         private readonly IServices _services;
         private readonly string _path = "/UploadedImages/Providers/";
+        private readonly string _fpath = "/Files/ServiceProviders/";
         private readonly DropdownBindController dropdown;
         private readonly IUploadFiles _RepoUploadFile;
         private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
@@ -299,7 +300,7 @@ namespace TogoFogo.Controllers
             service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId = null });
             service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
             service.Service.IsActive = false;
-
+            service.BaseUrl = _fpath;
             service.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             service.Service.StateList = new SelectList(Enumerable.Empty<SelectList>());
             service.Service.CityList = new SelectList(Enumerable.Empty<SelectList>());
@@ -561,7 +562,7 @@ namespace TogoFogo.Controllers
 
             if (Provider.Organization == null)
                 Provider.Organization = new OrganizationModel();
-
+            
 
             Provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
@@ -581,6 +582,7 @@ namespace TogoFogo.Controllers
             PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
                 RefKey = ProviderId
             };
+
 
             Provider.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
 
@@ -909,5 +911,6 @@ namespace TogoFogo.Controllers
         }
 
       
+
     }
 }

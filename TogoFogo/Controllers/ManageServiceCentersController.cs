@@ -30,6 +30,7 @@ namespace TogoFogo.Controllers
         private readonly IBank _bank;
         private readonly IContactPerson _contactPerson;
         private readonly string _path = "/UploadedImages/Centers/";
+        private readonly string _fpath = "/Files/ServiceCenters/";
         private readonly DropdownBindController dropdown;
         private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
         private readonly IEmailSmsServices _emailSmsServices;
@@ -589,7 +590,7 @@ namespace TogoFogo.Controllers
             service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId = null });
             service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
             service.Service.IsActive = false;
-
+            service.BaseUrl = _fpath;
             service.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             service.Service.StateList = new SelectList(Enumerable.Empty<SelectList>());
             service.Service.CityList = new SelectList(Enumerable.Empty<SelectList>());

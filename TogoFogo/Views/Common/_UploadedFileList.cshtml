@@ -52,7 +52,7 @@
                         <td>
                             @if (Permissions.Rights.ExcelExport)
                             {
-                                <a href="~/files/ServiceProviders/@item.SysFileName" class="btn btn-small btn-info btnSize">Download</a>
+                                <a href="@ViewData["BaseUrl"].ToString()/@item.SysFileName" class="btn btn-small btn-info btnSize">Download</a>
                             }
 
                             @if (Permissions.Rights.Edit)
