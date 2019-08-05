@@ -668,8 +668,8 @@ namespace TogoFogo.Controllers
 
             if (provider.DataFile != null)
             {
-                string FileName = SaveFile(provider.DataFile, "Providers");
-                string excelPath = Server.MapPath("~/Files/Providers/" + FileName);
+                provider.FileName = SaveFile(provider.DataFile, "Providers");
+                string excelPath = Server.MapPath("~/Files/Providers/" + provider.FileName);
                 string conString = string.Empty;
                 string extension = Path.GetExtension(provider.DataFile.FileName);
                 switch (extension)
@@ -690,13 +690,8 @@ namespace TogoFogo.Controllers
                     excel_con.Open();
 
                     string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                    dtExcelData.Columns.AddRange(new DataColumn[30] {
-                new DataColumn("Process Name", typeof(string)),
-                new DataColumn("Service Provider Code", typeof(string)),
+                    dtExcelData.Columns.AddRange(new DataColumn[25] {              
                 new DataColumn("Service Provider Name", typeof(string)),
-                new DataColumn("Service Delivery Type", typeof(string)),
-                new DataColumn("Supported Device Category", typeof(string)),
-                new DataColumn("Service Type", typeof(string)),
                 new DataColumn("Organization Name", typeof(string)),
                 new DataColumn("Organization Code", typeof(string)),
                 new DataColumn("Organization IEC Number", typeof(string)),
@@ -722,35 +717,35 @@ namespace TogoFogo.Controllers
                    new DataColumn("Pin Code", typeof(string)),
                      new DataColumn("IsUser", typeof(string))
                 });
-                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [Process Name],[Service Provider Code], [Service Provider Name],[Service Delivery Type],[Supported Device Category]," +
-                        "[Service Type],[Organization Name],[Organization Code],[Organization IEC Number],[Statutory Type]," +
+                    using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT  [Service Provider Name]," +
+                     "[Organization Name],[Organization Code],[Organization IEC Number],[Statutory Type]," +
                         "[Applicable Tax Type],[GST Category],[GST Number],[PAN Card Number],[IsServiceCenter] ," +
                         "[Contact Name],[Contact Mobile],[Contact Email],[Contact PAN],[Contact Voter Id],[Contact Adhaar], " +
                         " [Address Type],[Country],[State],[City],[Address],[Locality],[Near By Location], " +
-                        " [Pin Code], [IsUser] FROM [" + sheet1 + "] where  [Process Name] is not null", excel_con))
+                        " [Pin Code], [IsUser] FROM [" + sheet1 + "] where  [Service Provider Name] is not null", excel_con))
                     {
                         oda.Fill(dtExcelData);
                     }
                     excel_con.Close();
 
                 }
-                try
-                {
+                //try
+                //{
 
                     var response = await _RepoUploadFile.UploadServiceProviders(provider, dtExcelData);
                     if (!response.IsSuccess)
                         System.IO.File.Delete(excelPath);
                     TempData["response"] = response;
                     return RedirectToAction("index");
-                }
-                catch (Exception ex)
+                //}
+                //catch (Exception ex)
 
-                {
-                    if (System.IO.File.Exists(excelPath))
-                        System.IO.File.Delete(excelPath);
-                    return RedirectToAction("index");
+                //{
+                //    if (System.IO.File.Exists(excelPath))
+                //        System.IO.File.Delete(excelPath);
+                //    return RedirectToAction("index");
 
-                }
+                //}
             }
             return RedirectToAction("index");
 
@@ -842,19 +837,16 @@ namespace TogoFogo.Controllers
             string[] columns;
             if (tabIndex == 'T')
             {
-                columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName"
+                columns = new string[]{"ServiceProviderCode","ServiceProviderName"
                                 ,"OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
                     "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
                     "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser"
             };
                 var providerData = new List<serviceProviderData> { new serviceProviderData
                 {
-                    ProcessName = "OEM Installation",
+                
                     ServiceProviderCode = "SP000005",
-                    ServiceProviderName="Ambica services",
-                    ServiceDeliveryType="OnSite",
-                    SupportedDeviceCategory="Air Conditioner",
-                    ServiceType="Installation",
+                    ServiceProviderName="Ambica services",                   
                     OrganizationName="Ambica Service PVT LTD",
                     OrganizationCode="ORG000015",
                     OrganizationIECNumber="IEC55588455",
