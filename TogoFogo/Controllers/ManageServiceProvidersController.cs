@@ -222,8 +222,10 @@ namespace TogoFogo.Controllers
             {
                 var Provider = TempData["Provider"] as ServiceProviderModel;
                 contact.ContactId = new Guid(response.result);
-                var cityName = dropdown.BindLocation(contact.StateId).Where(x => x.Value == contact.CityId.ToString()).FirstOrDefault();
-                contact.City = cityName.Text;
+                //var cityName = dropdown.BindLocation(contact.StateId).Where(x => x.Value == contact.CityId.ToString()).FirstOrDefault();
+                //contact.City = cityName.Text;
+                var Location = dropdown.BindLocationNew(contact.LocationId).FirstOrDefault();
+                contact.LocationName = Location.Text;              
                 Provider.ContactPersons.Add(contact);
                 Provider.action = 'I';
                 Provider.Activetab = "tab-4";
@@ -905,5 +907,7 @@ namespace TogoFogo.Controllers
             byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
             return File(filecontent, ExcelExportHelper.ExcelContentType, "AreaPinCodeTemplate.xlsx");
         }
+
+      
     }
 }

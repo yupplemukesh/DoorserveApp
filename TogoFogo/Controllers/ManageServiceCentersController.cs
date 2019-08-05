@@ -226,8 +226,8 @@ namespace TogoFogo.Controllers
             {
                 var Center = TempData["center"] as ServiceCenterModel;
                 contact.ContactId = new Guid(response.result);
-                //var cityName = dropdown.BindLocation(contact.StateId).Where(x => x.Value == contact.CityId.ToString()).FirstOrDefault();
-                //contact.City = cityName.Text;
+                var Location = dropdown.BindLocationNew(contact.LocationId).FirstOrDefault();
+                contact.LocationName = Location.Text;
                 Center.ContactPersons.Add(contact);
                 Center.action = 'I';
                 Center.Activetab = "tab-4";
@@ -685,8 +685,8 @@ namespace TogoFogo.Controllers
 
             if (provider.DataFile != null)
             {
-                provider.SysFileName = SaveFile(provider.DataFile, "ServiceCenters");
-                var excelPath = Server.MapPath("~/Files/ServiceCenters/");
+                provider.SysFileName = SaveFile(provider.DataFile, "ServiceProviders");
+                var excelPath = Server.MapPath("~/Files/ServiceProviders/");
                 string conString = string.Empty;
                 string extension = Path.GetExtension(provider.DataFile.FileName);
                 provider.FileName = Path.GetFileName(provider.DataFile.FileName);
@@ -748,6 +748,19 @@ namespace TogoFogo.Controllers
         public ActionResult _GetUploadForm()
         {
             return PartialView("~/Views/Common/_ImportForm.cshtml", new ProviderFileModel());
+        }
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Center_TRC)]
+        public async Task<FileContentResult> AreaPincodeTemplate()
+        {
+            string[] columns = new string[] { "PinCode", "IsActive" };
+            var providerData = new List<ServiceOfferedModel> { new ServiceOfferedModel
+                {
+                PinCode="281204",
+                IsActive=true
+                }};
+            byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "AreaPinCodeTemplate.xlsx");
         }
 
     }

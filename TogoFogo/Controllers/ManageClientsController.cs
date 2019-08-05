@@ -73,7 +73,7 @@ namespace TogoFogo.Controllers
                 return ViewBag.Message = ex.Message;
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
@@ -118,7 +118,7 @@ namespace TogoFogo.Controllers
                 return View("Edit", Client);
             }
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
@@ -205,7 +205,9 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             if (TempData["client"] != null)
             {
-                contact.ContactId = new Guid(response.result);      
+                contact.ContactId = new Guid(response.result);                
+                var Location = dropdown.BindLocationNew(contact.LocationId).FirstOrDefault();
+                contact.LocationName = Location.Text;
                 Client.ContactPersons.Add(contact);
                 Client.action = 'I';
                 Client.Activetab = "tab-4";
@@ -322,7 +324,7 @@ namespace TogoFogo.Controllers
             return Json (ServiceModel,JsonRequestBehavior.AllowGet);
         }
         // POST: ManageClient/Create  
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddorEditClient(ClientModel client)
         {
@@ -390,7 +392,7 @@ namespace TogoFogo.Controllers
             return View("Edit", client);
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddorEditOrganization(ClientModel client,OrganizationModel org)
         {
@@ -450,7 +452,7 @@ namespace TogoFogo.Controllers
                
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create,Actions.Edit }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {

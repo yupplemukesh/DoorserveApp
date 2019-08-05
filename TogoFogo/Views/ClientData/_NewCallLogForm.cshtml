@@ -1,6 +1,6 @@
 ﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
 
-@if (!Model.IsClient && Model.ClientId == null && Model.DataSourceId==101)
+@if (!Model.IsClient && Model.ClientId == null && Model.DataSourceId == 101)
 {
     <div class="panel panel-default panel-table b-t-0">
 
@@ -99,10 +99,10 @@
 
                     @foreach (var item in Model.ServiceTypeList)
                     {
-                    <label class="custom-control custom-control-primary custom-checkbox p-l-0">
-                        @Html.RadioButtonFor(x => x.ServiceTypeId, item.Value)                       
-                        <span>@item.Text</span>
-                    </label>
+                        <label class="custom-control custom-control-primary custom-checkbox p-l-0">
+                            @Html.RadioButtonFor(x => x.ServiceTypeId, item.Value)
+                            <span>@item.Text</span>
+                        </label>
                     }
 
                     <div class="row">
@@ -202,4 +202,106 @@ else
         </button>
     </div>
 </div>
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+
+
+  /*
+    $("#DOP").change(function () {
+        debugger;
+        var dateString = $("#IssueOcurringSinceDate").val();
+        if (dateString == '') {
+            $('.datepicker-d').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+        }
+        else if ([dateString != ''][$("#IssueOcurringSinceDate").val() > $("#DOP").val()]) {
+            var dateParts = dateString.split("/");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] - 1);
+
+            $('.datepicker-d').datepicker({
+                format: 'dd/mm/yyyy',
+                endDate: dateObject
+            });
+        }    
+  });
+
+    $('#IssueOcurringSinceDate').change(function () {
+        debugger;        
+        var dateString = $("#DOP").val();
+        if ([dateString != '']) {
+            var dateParts = dateString.split("/");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] + 1);
+
+            $('.datepicker-c').datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: dateObject
+
+            });
+        }
+    });
+    */
+
+
+    $("#DOP").change(function () {
+        debugger;
+        var dateString = $("#IssueOcurringSinceDate").val();
+        if (dateString == '') {
+            $('.datepicker-d').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+        }
+        else if ([dateString != ''][$("#IssueOcurringSinceDate").val() > $("#DOP").val()]) {
+            var dateParts = dateString.split("/");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] - 1);
+
+            $('.datepicker-d').datepicker({
+                format: 'dd/mm/yyyy',
+                endDate: dateObject
+            });
+        }
+    });
+
+    $('#IssueOcurringSinceDate').change(function () {
+        debugger;
+        var dateString = $("#DOP").val();
+        if ([dateString != '']) {
+            var dateParts = dateString.split("/");
+            // month is 0-based, that's why we need dataParts[1] - 1
+            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] + 1);
+
+            $('.datepicker-c').datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: dateObject
+
+            });
+        }
+    });
+
+
+
+
+    $("#DeviceIMEISecond").change(function () {        
+        var id1 = $("#DeviceIMEIOne").val(); //if #id1 is input element change from .text() to .val() 
+        var id2 = $("#DeviceIMEISecond").val(); //if #id2 is input element change from .text() to .val()
+        if (id1 == id2) {
+            $("#SameIMEI").text("IMEI One and IMEI Two can't be Same.");
+
+            return false;
+        }
+        else {
+            return true;
+        }
+    });
+  
+   
+</script>
 

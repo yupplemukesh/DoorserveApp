@@ -1580,6 +1580,29 @@ namespace TogoFogo.Controllers
                 return items;
             }
         }
+
+
+        public List<ListItem> BindLocationNew(int? LocationId)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                List<ContactPersonModel> company = con
+                    .Query<ContactPersonModel>(
+                        "select  LocationName  from MstLocation where LocationId=@LocationId", new { @LocationId = LocationId },
+                        commandType: CommandType.Text).ToList();
+                List<ListItem> items = new List<ListItem>();              
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.LocationId.ToString(), //Value Field(ID)
+                        Text = val.LocationName //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
         public List<ListItem> BindTrcAjax()
         {
             using (var con = new SqlConnection(_connectionString))

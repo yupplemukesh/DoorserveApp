@@ -148,8 +148,7 @@ namespace TogoFogo.Repository.ServiceCenters
                     ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),        
-                    AddresssId = new Guid(reader["AddresssId"].ToString()),
-                    LocationId = Convert.ToInt32(reader["LocationId"].ToString()),
+                    AddresssId = new Guid(reader["AddresssId"].ToString()),                   
                     CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
                     StateId = Convert.ToInt32(reader["StateId"].ToString()),
                     AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
@@ -159,6 +158,8 @@ namespace TogoFogo.Repository.ServiceCenters
                     Address = reader["Address"].ToString(),
                     LocationName = reader["LocationName"].ToString()
                 };
+                if (!string.IsNullOrEmpty(reader["LocationId"].ToString()))
+                    person.LocationId = Convert.ToInt32(reader["LocationId"].ToString());
                 person.CurrentEmail = person.ConEmailAddress;
                 person.ConVoterIdFileUrl = "/UploadedImages/Centers/VoterIds/" + person.ConVoterIdFileName;
                 person.ConAdhaarFileUrl = "/UploadedImages/Centers/ADHRS/" + person.ConAdhaarFileName;

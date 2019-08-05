@@ -62,9 +62,9 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group has-value">
-                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control",onchange="GetDeviceDetails()" })
+                        @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control", onchange = "GetDeviceDetails()" })
                         @Html.ValidationMessageFor(x => x.DeviceIMEIOne, "", new { @class = "text-danger" })
-                        <label class="floating-label">IMEI One</label>
+                        <label class="floating-label">IMEI One</label>                        
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -73,6 +73,7 @@
                         @Html.TextBoxFor(x => x.DeviceIMEISecond, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.DeviceIMEISecond, "", new { @class = "text-danger" })
                         <label class="floating-label">IMEI Two</label>
+                        <div id="SameIMEI" style="color:red"></div>
                     </div>
                 </div>           
             </div>
@@ -88,7 +89,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        @Html.TextBoxFor(x => x.DOP ,   new { @class = "form-control datepicker" })
+                        @Html.TextBoxFor(x => x.DOP ,   new { @class = "form-control  datepicker-d" })
                         @Html.ValidationMessageFor(x => x.DOP, "", new { @class = "text-danger" })
                         <label class="floating-label t-0">Date Of Purchased</label>
                     </div>

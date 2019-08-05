@@ -37,7 +37,7 @@ namespace TogoFogo.Controllers
             _emailSmsServices = new Repository.EmailsmsServices();
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View,Actions.Create,Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_company)]
         public async  Task<ActionResult> Index()
         {
 
@@ -345,6 +345,8 @@ namespace TogoFogo.Controllers
             if (TempData["Comp"] != null)
             {
                 comp = TempData["Comp"] as CompanyModel;
+                var Location = _dropdown.BindLocationNew(contact.LocationId).FirstOrDefault();
+                contact.LocationName = Location.Text;
                 comp.Contacts.Add(contact);
                 comp.ActiveTab = "tab-4";
                 comp.Action = 'I';

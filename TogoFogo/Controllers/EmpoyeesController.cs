@@ -172,9 +172,9 @@ namespace TogoFogo.Controllers
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-            empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
-            empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
+           // empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+           // empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
+           // empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
@@ -244,9 +244,9 @@ namespace TogoFogo.Controllers
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-            empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
-            empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
+            //empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+            //empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
+            //empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
@@ -285,6 +285,16 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
 
             return RedirectToAction("Index");
+
+        }
+
+        public async Task<ActionResult> GetEmployeeLocationByPinCode(string pin)
+
+        {
+
+            var PinCodeDetails = await _employee.GetPinCode(pin);
+
+            return Json(PinCodeDetails, JsonRequestBehavior.AllowGet);
 
         }
     }

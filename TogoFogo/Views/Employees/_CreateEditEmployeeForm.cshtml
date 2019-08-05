@@ -1,6 +1,6 @@
 ﻿@model TogoFogo.Models.EmployeeModel
 @using TogoFogo.Models
-@{ 
+@{
     var SessionModel = Session["User"] as SessionModel;
 }
 <div class="form-group row">
@@ -9,20 +9,20 @@
         {
             if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
             {
-                @Html.HiddenFor(x=>x.ProviderId)
+                @Html.HiddenFor(x => x.ProviderId)
             }
             else
             {
-            <div class="col-md-6 col-sm-6">
+                <div class="col-md-6 col-sm-6">
 
-                <label class=" control-label" for="form-control-9">Service Center</label>
+                    <label class=" control-label" for="form-control-9">Service Center</label>
 
-                <div class="input-group">
-                    <span class="input-group-addon"></span>
-                    @Html.DropDownListFor(x => x.RefKey, Model.CenterList, "Select", new { @class = "form-control" })
+                    <div class="input-group">
+                        <span class="input-group-addon"></span>
+                        @Html.DropDownListFor(x => x.RefKey, Model.CenterList, "Select", new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(x => x.RefKey, "", new { @class = "text-danger" })
                 </div>
-                @Html.ValidationMessageFor(x => x.RefKey, "", new { @class = "text-danger" })
-            </div>
             }
 
         }
@@ -83,7 +83,7 @@
             <label class=" control-label" for="form-control-9">Engineer Photo</label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.EMPPhoto1, new { @class = "form-control", @type = "File" })
+                @Html.TextBoxFor(x => x.EMPPhoto1, new { @class = "form-control", @type = "File", accept = "image/*", @onchange = "readURL1(this);" })
             </div>
             @Html.ValidationMessageFor(x => x.EMPPhoto1, "", new { @class = "text-danger" })
         </div>
@@ -125,7 +125,7 @@
             <label class=" control-label" for="form-control-9"> Date of Joining</label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.EMPDOJ, "{0:yyyy-MM-dd}", new { @class = "form-control", @placeholder = "", @type = "date" })
+                @Html.TextBoxFor(x => x.EMPDOJ, "{0:dd-MM-yyyy}", new { @class = "form-control", @placeholder = "", @type = "date" })
             </div>
             @Html.ValidationMessageFor(x => x.EMPDOJ, "", new { @class = "text-danger" })
         </div>
@@ -133,7 +133,7 @@
             <label class=" control-label" for="form-control-9">Date Of Birth</label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.EMPDOB, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                @Html.TextBoxFor(x => x.EMPDOB, "{0:dd-MM-yyyy}", new { @class = "form-control", @type = "date" })
             </div>
             @Html.ValidationMessageFor(x => x.EMPDOB, "", new { @class = "text-danger" })
         </div>
@@ -221,15 +221,55 @@
             <label class=" control-label" for="form-control-9">Insurance Expairy Date</label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.TextBoxFor(x => x.Vehicle.InsuranceExpairyDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                @Html.TextBoxFor(x => x.Vehicle.InsuranceExpairyDate, "{0:dd-MM-yyyy}", new { @class = "form-control", @type = "date" })
             </div>
             @Html.ValidationMessageFor(x => x.Vehicle.InsuranceExpairyDate, "", new { @class = "text-danger" })
         </div>
 
     </div>
 </div>
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jquery")
 <script>
-    function AjaxWithValue(method, ddl, e) {
+    $(document).ready(function () {
+
+        $("#City").attr('readonly', true);
+        $("#State").attr('readonly', true);
+        $("#Country").attr('readonly', true);
+    });
+
+    function GetLocation() {
+        console.log("First step");
+        var Id = $("#PinCode").val();
+        debugger
+        if (Id.length == 6) {
+            $.ajax({
+                url: "/Employees/GetEmployeeLocationByPinCode",
+                async: true,
+                type: "GET",
+                data: { pin: Id },
+                success: function (result) {
+                    if (Id.length == 6) {
+                        $("#City").val(result.City);
+                        $("#State").val(result.State);
+                        $("#Country").val(result.Country);
+                        $("#StateId").val(result.StateId);
+                        $("#CountryId").val(result.CountryId);
+                    }
+                    else {
+                        $("#Pincode").val(result.PinNumber);
+                        $("#Country").val(result.Country);
+                        $("#State").val(result.State);
+                        $("#City").val(result.City);
+                    }
+                }
+            });
+        }
+
+    };
+
+</script>
+@* function AjaxWithValue(method, ddl, e) {
         var val = e.value;
         if (ddl == "StateId")
             $("#CityId").empty();
@@ -249,6 +289,6 @@
                 }
             }
         });
-    }
+    }*@
 
-</script>
+

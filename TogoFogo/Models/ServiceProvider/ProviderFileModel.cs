@@ -23,5 +23,6 @@ namespace TogoFogo.Models
         public int FailedRecords { get; set; }  
         public DateTime UploadedDate { get; set; }
         public string type { get; set;   }
+        public Guid? FileUrl { get; set; }
     }
 }

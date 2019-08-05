@@ -168,7 +168,14 @@ namespace TogoFogo.Repository
                 res.IsSuccess = false;
             return res;
         }
-      
+        public async Task<EmployeeModel> GetPinCode(string pin)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@Pincode", ToDBNull(pin));
+            sp.Add(param);
+            var sql = "Get_State_City_pincode @Pincode";
+            return await _context.Database.SqlQuery<EmployeeModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+        }
         private  object ToDBNull(object value)
         {
             if (null != value)

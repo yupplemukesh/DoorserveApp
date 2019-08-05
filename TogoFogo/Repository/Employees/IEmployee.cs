@@ -12,7 +12,8 @@ namespace TogoFogo.Repository
     {
         Task<List<EmployeeModel>> GetAllEmployees(FilterModel filter);
         Task<EmployeeModel> GetEmployeeById(Guid? employeeId);
-        Task<ResponseModel> AddUpdateDeleteEmployee(EmployeeModel employee);    
+        Task<ResponseModel> AddUpdateDeleteEmployee(EmployeeModel employee);
+        Task<EmployeeModel> GetPinCode(string pin);
         void Save();
     }
 }
