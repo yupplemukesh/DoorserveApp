@@ -15,7 +15,9 @@ namespace TogoFogo.Models
         public EmployeeModel()
         {
             Vehicle = new VehicleModel();
-            
+           
+
+
         }
         public List<DeviceModel> SelectedDevices { get; set; }
 
@@ -28,10 +30,10 @@ namespace TogoFogo.Models
         public Boolean IsPickUp { get; set; }
         [Required]
         [DisplayName("Date of Joining")]
-        public DateTime? EMPDOJ { get; set; }
+        public string EMPDOJ { get; set; }
         [Required]
         [DisplayName("Date of Birth")]
-        public DateTime? EMPDOB { get; set; }
+        public string EMPDOB { get; set; }
         public string LastUpdateBy { get; set; }
         public DateTime UpdatedOn { get; set; }
         [DisplayName("Engineer Name")]
@@ -58,7 +60,7 @@ namespace TogoFogo.Models
         public string ProviderName { get; set; }
         public bool IsProvider { get; set; }
         public bool IsCenter { get; set; }
-        public VehicleModel Vehicle { get; set; }
+        public VehicleModel Vehicle { get; set; }       
         public SelectList DepartmentList  { get; set; }
         public SelectList DeginationList { get; set; }
         public SelectList CenterList { get; set; }

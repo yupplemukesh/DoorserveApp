@@ -1,5 +1,5 @@
 ﻿
-@model TogoFogo.Models.ContactPersonModel
+@model TogoFogo.Models.EmployeeModel
 @Html.HiddenFor(x => x.ContactId)
 @Html.HiddenFor(x => x.RefKey)
 @Html.HiddenFor(x => x.Action)
@@ -8,6 +8,7 @@
 @Html.HiddenFor(x => x.ConPanFileName)
 @Html.HiddenFor(x => x.CurrentEmail)
 
+@Html.ValidationSummary(false)
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
@@ -69,15 +70,21 @@
                 @Html.LabelFor(model => model.ConPanNumberFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConPanNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(x => x.ConPanNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "", @onchange = "readURL1(this);", accept = "image/*" })
 
                 </div>
                 @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-1 col-sm-1">
+                @if (Model != null)
+                {
 
+                <img id="blah" src="~/UploadedImages/employees/PANCards/@Model.ConPanFileName" width="50" height="50" style="margin-top:15px" />
+                }
+                else
+                {
                 <img src="~/Content/img/icon-img/doc-icon.png" id="conPanImg" class="a thumb-Img" style="pointer-events: none;">
-
+                }
             </div>
         </div>
     </div>
@@ -99,15 +106,22 @@
                 @Html.LabelFor(model => model.ConVoterIdFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConVoterIdFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(x => x.ConVoterIdFilePath, new { @type = "file", @class = "form-control", placeholder = "", @onchange = "readURL1(this);", accept = "image/*" })
 
                 </div>
                 @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-1 col-sm-1">
 
+                @if (Model != null)
+                {
 
+                <img id="blah" src="~/UploadedImages/employees/VoterIds/@Model.ConVoterIdFileName" width="50" height="50" style="margin-top:15px" />
+                }
+                else
+                {
                 <img src="~/Content/img/icon-img/doc-icon.png" class="a thumb-Img" id="conVoterImg" style="pointer-events: none;">
+                }
             </div>
         </div>
     </div>
@@ -128,16 +142,22 @@
                 @Html.LabelFor(model => model.ConAdhaarNumberFilePath, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.ConAdhaarNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "" })
+                    @Html.TextBoxFor(x => x.ConAdhaarNumberFilePath, new { @type = "file", @class = "form-control", placeholder = "", @onchange = "readURL1(this);", accept = "image/*" })
 
                 </div>
                 @Html.ValidationMessageFor(model => model.ConAdhaarNumberFilePath, "", new { @class = "text-danger" })
             </div>
 
             <div class="col-md-1 col-sm-1">
+                @if (Model != null)
+                {
 
+                <img id="blah" src="~/UploadedImages/employees/ADHRS/@Model.ConAdhaarFileName" width="50" height="50" style="margin-top:15px" />
+                }
+                else
+                {
                 <img src="~/Content/img/icon-img/doc-icon.png" id="conAdhrImg" class="a thumb-Img" style="pointer-events: none;">
-
+                }
             </div>
 
         </div>
@@ -161,7 +181,7 @@
                 @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code", id = "PinCode", @OnChange = "GetLocation()" })
+                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code" , @OnChange = "GetLocation()" })
                 </div>
                 @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
             </div>
@@ -173,12 +193,12 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(model => model.City, new { @class = "form-control", id = "City" })
-                                    </div>
-                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
+                </div>
+                @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
@@ -257,7 +277,67 @@
         </div>
     </div>
 </div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(document).ready(function () {
 
+        // $("#District").attr('readonly', true);
+        $("#State").attr('readonly', true);
+        $("#Country").attr('readonly', true);
+    });
 
+    function GetLocation() {
+        console.log("First step");
+        var Id = $("#PinNumber").val();
+        debugger
+        if (Id.length == 6) {
+            $.ajax({
+                url: "/DropdownBind/GetLocationByPinCode",
+                async: true,
+                type: "GET",
+                data: { pin: Id },
+                success: function (result) {
+                    // $("#District").val(result.District);
+                    $("#State").val(result.State);
+                    $("#Country").val(result.Country);
+                    $("#StateId").val(result.StateId);
+                    $("#CountryId").val(result.CountryId);
+                    var obj = { value: Id, Other: result.LocationId };
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                }
+            });
+        }
+    };
 
+    function AjaxWithValue(method, ddl, e) {
+        var val = e.value;
+        var other = e.Other;
+        console.log(other);
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?value=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#" + ddl).empty();
 
+                //var sel = new Option('-Select-', '');
+                //$('#' + ddl).append(sel);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#' + ddl).append(opt);
+                }
+
+                if (other != undefined) {
+                    $('#' + ddl).val(other);
+
+                }
+
+            }
+        });
+    }
+
+</script>
+
+@Scripts.Render("~/bundles/jqueryval")

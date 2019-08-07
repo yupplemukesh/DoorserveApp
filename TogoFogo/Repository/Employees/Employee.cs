@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TogoFogo.Filters;
 using TogoFogo.Models;
+using System.Globalization;
 
 namespace TogoFogo.Repository
 {
@@ -103,9 +104,11 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@DepartmentId", ToDBNull(employee.DepartmentId));
             sp.Add(param);
-            param = new SqlParameter("@EMPDOJ", ToDBNull(employee.EMPDOJ));
+            //param = new SqlParameter("@EMPDOJ", ToDBNull(employee.EMPDOJ));
+            param = new SqlParameter("@EMPDOJ", ToDBNull((employee.EMPDOJ != null) ? DateTime.ParseExact(employee.EMPDOJ, "dd/MM/yyyy", CultureInfo.InvariantCulture) : employee.UpdatedOn));
             sp.Add(param);
-            param = new SqlParameter("@EMPDOB", ToDBNull(employee.EMPDOB));
+            //param = new SqlParameter("@EMPDOB", ToDBNull(employee.EMPDOB));
+            param = new SqlParameter("@EMPDOB", ToDBNull((employee.EMPDOB != null) ? DateTime.ParseExact(employee.EMPDOB, "dd/MM/yyyy", CultureInfo.InvariantCulture) : employee.UpdatedOn));
             sp.Add(param);
             param = new SqlParameter("@USER", ToDBNull(employee.UserId));
             sp.Add(param);
@@ -115,7 +118,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@AddressTypeId", ToDBNull(employee.AddressTypeId));
             sp.Add(param);
-            param = new SqlParameter("@CityId", ToDBNull(employee.CityId));
+            param = new SqlParameter("@LocationId", ToDBNull(employee.LocationId));
             sp.Add(param);           
             param = new SqlParameter("@StateId", ToDBNull(employee.StateId));
             sp.Add(param);
@@ -145,7 +148,8 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@DrivingLicense", ToDBNull(employee.Vehicle.DrivingLicense));
             sp.Add(param);
-            param = new SqlParameter("@InsuranceExpairyDate", ToDBNull(employee.Vehicle.InsuranceExpairyDate));
+            // param = new SqlParameter("@InsuranceExpairyDate", ToDBNull(employee.Vehicle.InsuranceExpairyDate));
+            param = new SqlParameter("@InsuranceExpairyDate", ToDBNull((employee.Vehicle.InsuranceExpairyDate != null) ? DateTime.ParseExact(employee.Vehicle.InsuranceExpairyDate, "dd/MM/yyyy", CultureInfo.InvariantCulture) : employee.UpdatedOn));
             sp.Add(param);
             param = new SqlParameter("@EmployeeTypeId", ToDBNull(employee.EngineerTypeId));
             sp.Add(param);
@@ -159,7 +163,7 @@ namespace TogoFogo.Repository
             sp.Add(param);
             var sql = "USPInsertUpdateEMPDetails @EMPID,@EMPCode,@EMPFNAME,@EMPLName,@EMPPhoto,@EMPMobileNo ,@EMPEmail ,@EMPPAN ,@EMPPANFILENAME,@EMPVOTERID," +
                         "@EMPVOTERIDFILENAME,@EMPADHAAR,@EMPADHAARFILENAME,@contactId,@DesignationId, @DepartmentId ,@EMPDOJ , @EMPDOB , @USER,@IsActive" +
-                        ",@IsPickUp,@AddressTypeId,@CityId,@StateId,@CountryId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel,@VehicleBrand,@DrivingLicense,@InsuranceExpairyDate,@EmployeeTypeId," +
+                        ",@IsPickUp,@AddressTypeId,@LocationId,@StateId,@CountryId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel,@VehicleBrand,@DrivingLicense,@InsuranceExpairyDate,@EmployeeTypeId," +
                         "@ISUSER,@DefautPwd,@CompanyId,@ProviderId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)

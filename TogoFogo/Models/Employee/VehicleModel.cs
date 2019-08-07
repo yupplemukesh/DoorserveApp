@@ -21,6 +21,6 @@ namespace TogoFogo.Models
         public string VehicleBrand { get; set; }
         public string RcNumber { get; set; }
         public string DrivingLicense { get; set; }
-        public DateTime? InsuranceExpairyDate { get; set; }
+        public string InsuranceExpairyDate { get; set; }
     }
 }

@@ -100,6 +100,13 @@
 </div>
 
 <div class="form-group row">
+    <label class="col-sm-4 control-label" for="form-control-1">Contact Email</label>
+    <div class="col-sm-8">
+        @Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control input-md" })
+        @Html.ValidationMessageFor(model => model.ContactEmail, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group row">
     <label class="col-sm-4 control-label" for="form-control-1">Company Address</label>
     <div class="col-sm-8">
         @Html.TextAreaFor(model => model.CompanyAddress, new { @id = "editor1", @class = "No-border" })
@@ -108,6 +115,18 @@
                         height: 350,
                         extraPlugins: 'colorbutton,colordialog'
                     });
+        </script>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-4 control-label" for="form-control-1">Social Link</label>
+    <div class="col-sm-8">
+        @Html.TextAreaFor(model => model.SocialLink, new { @id = "editor2", @class = "No-border" })
+        <script>
+            CKEDITOR.replace('editor2', {
+                height: 350,
+                extraPlugins: 'colorbutton,colordialog'
+            });
         </script>
     </div>
 </div>

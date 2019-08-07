@@ -17,14 +17,14 @@ namespace TogoFogo.Controllers
     {
         private readonly IEmployee _employee;
         private readonly DropdownBindController drop;
-        private string folderPath;
+        private readonly string folderPath;
         private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
         private readonly IEmailSmsServices _emailSmsServices;
         public EmployeesController()
         {
             _employee = new Employee();
             drop = new DropdownBindController();
-            folderPath = "~/UploadedImages/employees/";
+            folderPath = "/UploadedImages/employees/";
             _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
             _emailSmsServices = new Repository.EmailsmsServices();
         }
@@ -69,11 +69,11 @@ namespace TogoFogo.Controllers
             var session = Session["User"] as SessionModel;
             var empModel = new EmployeeModel();
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
-            empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-         
+            empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");         
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             empModel.CityList = new SelectList(Enumerable.Empty<SelectList>());
+            empModel.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
             empModel.StateList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
@@ -100,17 +100,17 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Engineers)]
         [HttpPost]
         [ValidateModel]
-        public async Task<ActionResult> Create(EmployeeModel emp,ContactPersonModel contact)
+        public async Task<ActionResult> Create(EmployeeModel emp)
         {
             var session = Session["User"] as SessionModel;
             if (emp.EMPPhoto1 != null)
                 emp.EMPPhoto = SaveImageFile(emp.EMPPhoto1, "DP");
-            if (contact.ConAdhaarNumberFilePath != null)
-                contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRS");
-            if (contact.ConVoterIdFilePath != null)
-                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
-            if (contact.ConPanNumberFilePath != null)
-                contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
+            if (emp.ConAdhaarNumberFilePath != null)
+                emp.ConAdhaarFileName = SaveImageFile(emp.ConAdhaarNumberFilePath, "ADHRS");
+            if (emp.ConVoterIdFilePath != null)
+                emp.ConVoterIdFileName = SaveImageFile(emp.ConVoterIdFilePath, "VoterIds");
+            if (emp.ConPanNumberFilePath != null)
+                emp._ContactPerson.ConPanFileName = SaveImageFile(emp.ConPanNumberFilePath, "PANCards");
             emp.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             emp.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
@@ -138,10 +138,10 @@ namespace TogoFogo.Controllers
             if(response.IsSuccess)
             {
                
-                    if (contact.IsUser)
+                    if (emp.IsUser)
                     {
                         var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
-                         session.Email = contact.ConEmailAddress;
+                         session.Email = emp._ContactPerson.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = emp.ConFirstName;
@@ -172,12 +172,12 @@ namespace TogoFogo.Controllers
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
-           // empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-           // empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
-           // empModel.CityList = new SelectList(drop.BindLocation(empModel.StateId), "Value", "Text");
+           empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
+           empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
+           empModel.LocationList = new SelectList(drop.BindLocationforEmp(empModel.LocationId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
-            empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
+            empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");          
             empModel.CurrentEmail = empModel.ConEmailAddress;
             empModel.CurrentIsUser = empModel.IsUser;
             if (session.UserTypeName.ToLower().Contains("provider"))

@@ -58,10 +58,15 @@ namespace TogoFogo.Models.Company
         public SelectList CompanyTypeList { get; set; }
         public char Action { get; set; }
         public string ActiveTab{ get; set; }
-        public string Path { get; set; }
-        [RegularExpression(@"(?:\s+|)((0|(?:(\+|)91))(?:\s|-)*(?:(?:\d(?:\s|-)*\d{9})|(?:\d{2}(?:\s|-)*\d{8})|(?:\d{3}(?:\s|-)*\d{7}))|\d{10})(?:\s+|)", ErrorMessage = "Invalid Contact Number")]
+        public string Path { get; set; }        
         public string CustomerCareNo { get; set; }
         [AllowHtml]
-        public string CompanyAddress { get; set; }
+        public string CompanyAddress { get; set; }        
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+       ErrorMessage = "Please Enter Correct Email Address")]
+        public string ContactEmail { get; set; }
+        [AllowHtml]
+        public string SocialLink { get; set; }
+        
     }
 }
