@@ -20,8 +20,6 @@ namespace TogoFogo.Models
 
         public SelectList ActionTypeList{ get; set; }
 
-        public UserActionRights _UserActionRights { get; set; }
-
     }
 
 }

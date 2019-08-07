@@ -841,15 +841,13 @@ namespace TogoFogo.Controllers
             string[] columns;
             if (tabIndex == 'T')
             {
-                columns = new string[]{"ServiceProviderCode","ServiceProviderName"
+                columns = new string[]{"ServiceProviderName"
                                 ,"OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
                     "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
                     "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser"
             };
                 var providerData = new List<serviceProviderData> { new serviceProviderData
                 {
-                
-                    ServiceProviderCode = "SP000005",
                     ServiceProviderName="Ambica services",                   
                     OrganizationName="Ambica Service PVT LTD",
                     OrganizationCode="ORG000015",
@@ -872,12 +870,7 @@ namespace TogoFogo.Controllers
                Locality="Noida",
                NearByLocation="Kailash Hospital",
                PinCode="201301",
-               IsUser="No",
-
-
-
-
-
+               IsUser="No"
                 }};
                 filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
                 return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
@@ -885,16 +878,13 @@ namespace TogoFogo.Controllers
             else
             {
                 var response = await _provider.GetProvidersExcel(filter);
-                columns = new string[]{"ProcessName","ServiceProviderCode","ServiceProviderName"
+                columns = new string[]{"ServiceProviderCode","ServiceProviderName"
                                 ,"OrganizationName","OrganizationCode","OrganizationIECNumber","StatutoryType","ApplicableTaxType","GSTCategory", "GSTNumber","PANCardNumber",
                     "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
-                    "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser" };               
+                    "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser","ServiceableAreaPinCode" };               
                 filecontent = ExcelExportHelper.ExportExcel(response, "", false, columns);
                 return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
-
             }
-
-
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Service_Provider)]

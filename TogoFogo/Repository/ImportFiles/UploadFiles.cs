@@ -142,7 +142,7 @@ namespace TogoFogo.Repository.ImportFiles
             sp.Add(pararm);
             pararm = new SqlParameter("@DataTable", SqlDbType.Structured)
             {
-                TypeName = "ServiceProvider",
+                TypeName = "ServiceProviders",
                 Value = table
             };
             sp.Add(pararm);

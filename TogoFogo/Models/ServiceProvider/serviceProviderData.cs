@@ -37,5 +37,6 @@ namespace TogoFogo.Models
         public string NearByLocation        { get; set; }
         public string PinCode { get; set; }
         public string IsUser { get; set; }
+        public string ServiceableAreaPinCode { get; set; }
     }
 }
