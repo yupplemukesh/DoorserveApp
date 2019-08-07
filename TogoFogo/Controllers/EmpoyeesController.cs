@@ -110,7 +110,7 @@ namespace TogoFogo.Controllers
             if (emp.ConVoterIdFilePath != null)
                 emp.ConVoterIdFileName = SaveImageFile(emp.ConVoterIdFilePath, "VoterIds");
             if (emp.ConPanNumberFilePath != null)
-                emp._ContactPerson.ConPanFileName = SaveImageFile(emp.ConPanNumberFilePath, "PANCards");
+                emp.ConPanFileName = SaveImageFile(emp.ConPanNumberFilePath, "PANCards");
             emp.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             emp.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
             emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
@@ -141,7 +141,7 @@ namespace TogoFogo.Controllers
                     if (emp.IsUser)
                     {
                         var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
-                         session.Email = emp._ContactPerson.ConEmailAddress;
+                         session.Email = emp.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = emp.ConFirstName;
