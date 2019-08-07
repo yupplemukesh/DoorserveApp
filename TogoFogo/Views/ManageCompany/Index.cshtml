@@ -4,80 +4,105 @@
 @{
     ViewBag.Title = "Manage Company";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
-    var i = 0;
+    //var i = 0;
+    int Count = 1;
 }
 @section Styles{
 
 }
-<div class="panel-heading">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="col-md-6">
-                <h3 class="m-y-0">Manage Company</h3>
-            </div>
-            <div class="col-md-6 ">
-                <div class="pull-right">
-                    @if (Permissions.Rights.ExcelExport)
-                        {
-                    <button class="btn btn-primary excel">
-                        Export Excel
-                    </button>
-                    }
-
-                    @if (Permissions.Rights.Create)
-                        {
-                    <a class="btn btn-primary" href="@Url.Action("Create", "ManageCompany")">
-
-                        <span>
-                            Add Company
-
-                        </span>
-                    </a>
-                    }
+<div class="panel panel-default panel-table">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">Manage Company</h3>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/.row-->
-<div class="panel-body">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-12 code-cut x_content" style="overflow-x: scroll;">
-                <div class="code-cut">
-                    @Html.Grid(Model).Columns(columns =>
-                    {
-                       columns.Add()
-                            .Titled("#SLN")
-                            .SetWidth(10)
-                            .RenderValueAs(o =>
-                              {
-                                  i++;
-                                  return @<text> @i </text>;
-                              });
-                        columns.Add(c => c.CompanyName).Titled("Company Name").Filterable(true);
-                        columns.Add(c => c.CompanyCode).Titled("Company Code").Filterable(true);
-                        columns.Add(c => c.AndroidAppName).Titled("Android AppName").Filterable(true);
-                        columns.Add(c => c.IOSAppName).Titled("IOS AppName").Filterable(true);
-                        columns.Add(c => c.CompanyWebsiteDomainName).Titled("Domain Name").Filterable(true);
-                        columns.Add(c => c.DomainExpiryDate).Titled("Domain Expiry Date").Filterable(true).Format("{0:dd-MM-yyyy}");
-                        columns.Add(c => c.IsActive).Titled("IsActive");
-                        if (Permissions.Rights.Edit)
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Permissions.Rights.ExcelExport)
                         {
-                            columns.Add()
-                       .Encoded(false)
-                       .Sanitized(false)
-                       .SetWidth(30)
-                       .RenderValueAs(o => Html.ActionLink("Edit", "Edit", new { @compId = o.CompanyId }));
+                            <button class="btn btn-primary excel">
+                                Export Excel
+                            </button>
                         }
 
-                    }).WithPaging(10).Sortable(true)
-                </div>
+                        @if (Permissions.Rights.Create)
+                        {
+                            <a class="btn btn-primary" href="@Url.Action("Create", "ManageCompany")">
 
+                                <span>
+                                    Add Company
+
+                                </span>
+                            </a>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@section scripts{
+    <table class="table table-striped table-bordered table-condensed" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("#SN")
+                </th>
+                <th>
+                    @Html.DisplayName("Company Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Company Code")
+                </th>
+                <th>
+                    @Html.DisplayName("Android AppName")
+                </th>
+                <th>
+                    @Html.DisplayName("IOS AppName")
+                </th>
+                <th>
+                    @Html.DisplayName("Domain Name")
+                </th>
+                <th>@Html.DisplayName("Domain Expiry Date")</th>
+                <th>@Html.DisplayName("IsActive")</th>               
+                <th>Action</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
 
-}
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AndroidAppName)
+
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.IOSAppName)</td>
+            <td>@Html.DisplayFor(modelItem => item.CompanyWebsiteDomainName)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DomainExpiryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td style="display: inline-flex">
+                @if (Permissions.Rights.Edit)
+                {
+                    <a class="btn btn-small btn-info btnSize " href='@Url.Action("Edit", "ManageCompany", new { @compId = item.CompanyId })'>Edit</a>
+                }
+            </td>
+        </tr>
+            Count++;
+        }
+    </table>
+</div>    
+    @section scripts{
+
+    }
