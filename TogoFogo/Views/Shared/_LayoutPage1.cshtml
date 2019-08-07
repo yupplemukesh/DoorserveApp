@@ -129,6 +129,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script>
         $(document).ready(function (e) {
+                $('#myTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
             $('#myTable1').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found"
