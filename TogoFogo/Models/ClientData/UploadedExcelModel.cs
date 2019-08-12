@@ -55,11 +55,13 @@ namespace TogoFogo.Models.ClientData
         public string DeviceModelNo { get; set; }
         [DisplayName("DEVICE SLN")]
         public string DeviceSn { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}",ApplyFormatInEditMode = true)]
         [DisplayName("Date of Purchase")]
         [DataType(DataType.Date)]
         public string DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
         public string PurchaseFrom { get; set; }
+       // [RequiredIf("Mobile == null",ErrorMessage = "At least email or phone should be provided.")]
         [DisplayName("DEVICE IMEI FIRST")]
         public string DeviceIMEIOne { get; set; }
         [DisplayName("DEVICE IMEI SECOND")]

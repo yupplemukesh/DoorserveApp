@@ -753,11 +753,11 @@ else
     }
 
 
-  
+
 
     function getItems(Id, method) {
         debugger
-        var val = Id;
+        var val = Id;       
         $.ajax({
             type: "GET",
             url: "/DropdownBind/" + method + "?Id=" + val,
@@ -814,10 +814,13 @@ else
                     $("#ContactPerson").show();
                     $("#Pincode").val(data.PinNumber);
                     var obj = { value: data.PinNumber, Other: data.LocationId };
-                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);             
+                   
                     $("#Country").val(data.Country);
                     $("#State").val(data.State);
-                    $("#LocationId").val(data.LocationId);                   
+                    $("#StateId").val(data.StateId);
+                    $("#CountryId").val(data.CountryId);
+                    $("#LocationId").val(data.LocationId);
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
                     $("#NearLocation").val(data.NearLocation);

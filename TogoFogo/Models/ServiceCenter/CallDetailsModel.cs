@@ -34,6 +34,7 @@ namespace TogoFogo.Models.ServiceCenter
         public List<ProviderFileModel> Files { get; set; }
         public UploadedExcelModel _UploadedExcelModel { get; set; }
         public string ProblemDescription { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public string IssueOcurringSinceDate { get; set; }        
         public DateTime ? AppointmentDate { get; set; }
         // public string Remarks { get; set; }

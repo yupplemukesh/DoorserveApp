@@ -170,13 +170,13 @@ DataSourceId=101,
                 new DataColumn("Device Model", typeof(string)),
                 new DataColumn("Device Model No", typeof(string)),
                 new DataColumn("Device Sn", typeof(string)),
-                new DataColumn("DOP", typeof(DateTime)),
+                new DataColumn("DOP", typeof(string)),
                 new DataColumn("Purchase From", typeof(string)),
                 new DataColumn("Device IMEI First", typeof(string)),
                 new DataColumn("Device IMEI Second", typeof(string)),
                 new DataColumn("Device Condition", typeof(string)),
                 new DataColumn("PROBLEM DESCRIPTION", typeof(string)),
-                new DataColumn("ISSUE OCURRING SINCE DATE", typeof(DateTime))
+                new DataColumn("ISSUE OCURRING SINCE DATE", typeof(string))
                 };
                
                 using (OleDbConnection excel_con = new OleDbConnection(conString))

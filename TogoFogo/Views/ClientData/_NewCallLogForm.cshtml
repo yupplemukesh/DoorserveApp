@@ -209,48 +209,34 @@ else
 <script>
 
 
-  /*
+
     $("#DOP").change(function () {
-        debugger;
-        var dateString = $("#IssueOcurringSinceDate").val();
-        if (dateString == '') {
-            $('.datepicker-d').datepicker({
-                format: 'dd/mm/yyyy'
+        debugger;     
+        $('.datepicker-d').datepicker({
+            format: 'dd/mm/yyyy',
+            message: 'The format is dd/mm/yyyy'
             });
 
-        }
-        else if ([dateString != ''][$("#IssueOcurringSinceDate").val() > $("#DOP").val()]) {
-            var dateParts = dateString.split("/");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] - 1);
-
-            $('.datepicker-d').datepicker({
-                format: 'dd/mm/yyyy',
-                endDate: dateObject
-            });
-        }    
+        
+          
   });
 
     $('#IssueOcurringSinceDate').change(function () {
-        debugger;        
-        var dateString = $("#DOP").val();
-        if ([dateString != '']) {
-            var dateParts = dateString.split("/");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] + 1);
-
-            $('.datepicker-c').datepicker({
+        debugger       
+      $('.datepicker-c').datepicker({
                 format: 'dd/mm/yyyy',
-                startDate: dateObject
+                //startDate: dateObject
+                message: 'The format is dd/mm/yyyy'
 
             });
-        }
+        
     });
-    */
-
-
+    
+ /*
     $("#DOP").change(function () {
+
         debugger;
+       
         var dateString = $("#IssueOcurringSinceDate").val();
         if (dateString == '') {
             $('.datepicker-d').datepicker({
@@ -258,7 +244,7 @@ else
             });
 
         }
-        else if ([dateString != ''][$("#IssueOcurringSinceDate").val() > $("#DOP").val()]) {
+        else if ([dateString != '']) {
             var dateParts = dateString.split("/");
             // month is 0-based, that's why we need dataParts[1] - 1
             var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] - 1);
@@ -272,11 +258,12 @@ else
 
     $('#IssueOcurringSinceDate').change(function () {
         debugger;
+    
         var dateString = $("#DOP").val();
         if ([dateString != '']) {
             var dateParts = dateString.split("/");
             // month is 0-based, that's why we need dataParts[1] - 1
-            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] + 1);
+            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
 
             $('.datepicker-c').datepicker({
                 format: 'dd/mm/yyyy',
@@ -286,8 +273,7 @@ else
         }
     });
 
-
-
+*/
 
     $("#DeviceIMEISecond").change(function () {        
         var id1 = $("#DeviceIMEIOne").val(); //if #id1 is input element change from .text() to .val() 
@@ -301,7 +287,13 @@ else
             return true;
         }
     });
-  
+
+
+
+
+
+
+
    
 </script>
 

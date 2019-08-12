@@ -240,8 +240,7 @@
                         </div>*@
                                 if (Model.TechnicianName != null)
                                 {
-                                    if (Model.ServiceTypeId == 8)
-                                    {
+                                   
                                         <div class="panel panel-default panel-table b-r-0 b-l-0" id="spareParts">
 
                                             <div class="panel-body">
@@ -256,7 +255,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    }
                                     <div class="panel-body" id="EstimatedCost">
                                         <div class="form-horizontl">
                                             <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Estimate Cost</h4>
@@ -315,7 +313,7 @@
                                     if (Model.StatusId != 18)
                                     {
                                         <div class="row form-group m-t-5" id="divActions">
-                                            <div class=" col-md-offset-10 col-md-1">
+                                            <div class=" col-md-offset-9 col-md-1">
                                                 <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
                                             </div>
                                             @if (Model.TotalCharges > 0 && Model.AppointmentStatus != 27)
@@ -329,7 +327,7 @@
                                             @if (Model.TotalCharges == 0)
                                             {
                                                 <div class="col-md-1">
-                                                    <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary pull-right" EmpId="@Model.Employee.EmpId">Print Record Card</button>
+                                                    <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary" EmpId="@Model.Employee.EmpId">Print Record Card</button>
                                                 </div>
                                             }
                                         </div>
@@ -644,7 +642,8 @@
                 }
             })
            });
-        $("#btnclose").click(function () {
+            $("#btnclose").click(function () {
+                debugger
                var isApproved = $("#IsServiceApproved").val();
                var misapprovalCost = $("#MinimumApprovalCost").val();
                if (isApproved !="True") {
