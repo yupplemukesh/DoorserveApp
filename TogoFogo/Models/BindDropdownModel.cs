@@ -156,6 +156,8 @@ namespace TogoFogo.Models
         public string ProductId { get; set; }
         public string BrandId { get; set; }
         public string BrandName { get; set; }
+        public string State { get; set; }
+        public int StateId { get; set; }
     }
     public class BindLocation
     {

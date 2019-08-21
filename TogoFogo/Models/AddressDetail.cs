@@ -17,9 +17,10 @@ namespace TogoFogo.Models
         public virtual int? CountryId { get; set; }
         [DisplayName("State")]
         public virtual int? StateId { get; set; }
-        [DisplayName("City")]
+        
         public virtual int ? CityId { get; set; }      
         public string City { get; set; }
+        [DisplayName("City")]
         public string District { get; set; }
         public string State { get; set; }
         public string Country { get; set; }

@@ -1,5 +1,5 @@
 ﻿@model TogoFogo.Models.User
-
+@Html.HiddenFor(x => x.CurrentEmail)
 <div class="x_content">
     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
         <div class="row" style="padding-bottom: 5px;">
@@ -18,10 +18,10 @@
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model._ContactPerson.ConEmailAddress, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            @Html.LabelFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model._ContactPerson.ConEmailAddress, htmlAttributes: new { @class = "form-control", tabindex = "3" })
-                @Html.ValidationMessageFor(model => model._ContactPerson.ConEmailAddress, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "form-control", tabindex = "3" })
+                @Html.ValidationMessageFor(model => model.ConEmailAddress, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
@@ -53,11 +53,10 @@
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model._AddressDetail.City, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            @Html.LabelFor(model => model._AddressDetail.District, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model._AddressDetail.City, htmlAttributes: new { @class = "form-control", id = "City", @readonly = "readonly", tabindex = "8" })
-                @Html.HiddenFor(model => model._AddressDetail.CityId, new { id = "CityId" })
-                @Html.ValidationMessageFor(model => model._AddressDetail.City, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model._AddressDetail.District, htmlAttributes: new { @class = "form-control", id = "District", @readonly = "readonly", tabindex = "8" })
+                @Html.ValidationMessageFor(model => model._AddressDetail.District, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
@@ -68,6 +67,7 @@
                 @Html.ValidationMessageFor(model => model._AddressDetail.State, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -106,12 +106,12 @@
     function BindCityAndSate() {
         
         $('#State').val('');
-        $('#City').val('');
+        $('#District').val('');
         var value = document.getElementById("Pincode").value;
         if (value.length == 6) {
             AjaxWithValueDEE('BindSatetByPincode', 'State', value)
 
-            AjaxWithValueDEE('BindCityByPincode', 'City', value)
+            AjaxWithValueDEE('BindCityByPincode', 'District', value)
         }
 
     }
@@ -133,9 +133,9 @@
                         $('#StateId').next('span').children('span').html('');
 
                     }
-                    if (ddl == "City") {
-                        $('#CityId').val(data[0].Value);
-                        $('#CityId').next('span').children('span').html('');
+                    if (ddl == "District") {
+                        $('#District').val(data[0].Value);
+                        $('#District').next('span').children('span').html('');
                     }
 
                 }

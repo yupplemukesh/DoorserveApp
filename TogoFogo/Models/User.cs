@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
+using System.ComponentModel;
 
 namespace TogoFogo.Models
 {
@@ -35,8 +36,14 @@ namespace TogoFogo.Models
         public string RefName { get; set; }
         public ClientModel _ClientModel { get; set; }
         public OrganizationModel _OrganizationModel { get; set; }
+        [DisplayName("Email Address")]
+        [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
+       ErrorMessage = "Please Enter Correct Email Address")]
+        [Required(ErrorMessage = "Enter Email")]
+        [System.Web.Mvc.Remote("RemoteValidationConEmailAddress", "Master", AdditionalFields = "CurrentEmail", ErrorMessage = "Email already exists!")]
+        public string ConEmailAddress { get; set; }
+        public string CurrentEmail { get; set; }
 
 
-      
     }
  }

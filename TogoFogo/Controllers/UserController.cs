@@ -58,10 +58,10 @@ namespace TogoFogo.Controllers
                             objUser.Password,
                             objUser._ContactPerson.ConFirstName,
                             objUser._ContactPerson.ConMobileNumber,
-                            objUser._ContactPerson.ConEmailAddress,
+                            objUser.ConEmailAddress,
                             objUser._AddressDetail.AddressTypeId,
                             objUser._AddressDetail.Address,
-                            objUser._AddressDetail.CityId,
+                            objUser._AddressDetail.District,
                             objUser._AddressDetail.StateId,
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
@@ -85,7 +85,7 @@ namespace TogoFogo.Controllers
                         objResponseModel.Response = "Successfully Added";
       
                     var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
-                    session.Email = objUser._ContactPerson.ConEmailAddress;
+                    session.Email = objUser.ConEmailAddress;
                     var WildCards = await CommonModel.GetWildCards();
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                     U.Val = objUser._ContactPerson.ConFirstName;
@@ -139,13 +139,16 @@ namespace TogoFogo.Controllers
                     objUser._AddressDetail.PinNumber = result.PinNumber;
                     objUser._AddressDetail.Address = result.Address;
                     objUser._AddressDetail.AddressTypeId = result.AddressTypeId;
-                    objUser._AddressDetail.CityId = result.CityId;
+                    //objUser._AddressDetail.CityId = result.CityId;
                     objUser._AddressDetail.StateId = result.StateId;
-                    objUser._AddressDetail.City = result.City;
+                    objUser._AddressDetail.District = result.District;
                     objUser._AddressDetail.State = result.State;
                     objUser._ContactPerson.ConFirstName = result.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
-                    objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
+                    //objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
+                    objUser.ConEmailAddress = result.ConEmailAddress;
+                    objUser.CurrentEmail = result.ConEmailAddress;
+                    //objUser._ContactPerson.CurrentEmail = result.ConEmailAddress;
                     objUser.UserTypeId = result.UserTypeId;
                 }
             }
@@ -167,55 +170,57 @@ namespace TogoFogo.Controllers
             //                        new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
             if (Status == 1)
             {
-                //objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var result = con.Query<int>("UspInsertUser",
-                        new
-                        {
-                            objUser.UserId,
-                            objUser.UserName,
-                            objUser.Password,
-                            objUser._ContactPerson.ConFirstName,
-                            objUser._ContactPerson.ConMobileNumber,
-                            objUser._ContactPerson.ConEmailAddress,
-                            objUser._AddressDetail.StateId,
-                            objUser._AddressDetail.CityId,
-                            objUser._AddressDetail.Address,
-                            objUser._AddressDetail.AddressTypeId,
-                            objUser._AddressDetail.PinNumber,
-                            objUser.IsActive,
-                            objUser.UserLoginId,
-                            userTypeId = objUser.UserTypeId,
-                            RefId = session.RefKey,
-                            companyId = session.CompanyId
+               
+                    //objUser.Password = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
+                    using (var con = new SqlConnection(_connectionString))
+                    {
+                        var result = con.Query<int>("UspInsertUser",
+                            new
+                            {
+                                objUser.UserId,
+                                objUser.UserName,
+                                objUser.Password,
+                                objUser._ContactPerson.ConFirstName,
+                                objUser._ContactPerson.ConMobileNumber,
+                                objUser.ConEmailAddress,
+                                objUser._AddressDetail.StateId,
+                                objUser._AddressDetail.District,
+                                objUser._AddressDetail.Address,
+                                objUser._AddressDetail.AddressTypeId,
+                                objUser._AddressDetail.PinNumber,
+                                objUser.IsActive,
+                                objUser.UserLoginId,
+                                userTypeId = objUser.UserTypeId,
+                                RefId = session.RefKey,
+                                companyId = session.CompanyId
 
-                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    if (result == 0)
-                    {
-                        objResponseModel.IsSuccess = false;
-                        objResponseModel.ResponseCode = 0;
-                        objResponseModel.Response = "Something went wrong";
+                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                        if (result == 0)
+                        {
+                            objResponseModel.IsSuccess = false;
+                            objResponseModel.ResponseCode = 0;
+                            objResponseModel.Response = "Something went wrong";
+                            TempData["response"] = objResponseModel;
+                        }
+                        else if (result == 1)
+                        {
+                            //TempData["Message"] = "Successfully Added";
+                            objResponseModel.IsSuccess = true;
+                            objResponseModel.ResponseCode = 1;
+                            objResponseModel.Response = "Successfully Added";
+
+                        }
+                        else
+                        {
+                            //TempData["Message"] = "Successfully Updated";
+                            objResponseModel.IsSuccess = true;
+                            objResponseModel.ResponseCode = 2;
+                            objResponseModel.Response = "Successfully Updated";
+                        }
                         TempData["response"] = objResponseModel;
+                        return RedirectToAction("UserList", "User");
                     }
-                    else if (result == 1)
-                    {
-                        //TempData["Message"] = "Successfully Added";
-                        objResponseModel.IsSuccess = true;
-                        objResponseModel.ResponseCode = 1;
-                        objResponseModel.Response = "Successfully Added";
-   
-                    }
-                    else
-                    {
-                        //TempData["Message"] = "Successfully Updated";
-                        objResponseModel.IsSuccess = true;
-                        objResponseModel.ResponseCode = 2;
-                        objResponseModel.Response = "Successfully Updated";                   
-                    }
-                    TempData["response"] = objResponseModel;
-                    return RedirectToAction("UserList", "User");
-                }
+                
             }
             return View();
         }
@@ -251,7 +256,7 @@ namespace TogoFogo.Controllers
                     objUser.ModifyDate = item.ModifyDate;
                     objUser._AddressDetail.PinNumber = item.PinNumber;
                     objUser.LastUpdatedBy = item.LastUpdatedBy;
-                    objUser._AddressDetail.City = item.City;
+                    objUser._AddressDetail.District = item.District;
                     objUser._AddressDetail.State = item.State;
                     objUser.RoleName = item.RoleName;
                     objUser._ContactPerson.ConFirstName = item.ConFirstName;
