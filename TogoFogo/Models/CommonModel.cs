@@ -511,6 +511,7 @@ namespace TogoFogo
     Open_Calls=609,
     Schedule_Appointment=13,
     Manage_Process=120,
-    Manage_Page_Contents=1011
+    Manage_Page_Contents=1011,
+    Manage_Regions=121
     }
 }

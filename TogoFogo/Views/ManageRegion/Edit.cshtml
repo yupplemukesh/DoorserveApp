@@ -1,0 +1,31 @@
+﻿@model TogoFogo.Models.ManageRegionModel
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Edit Region";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="panel-heading">
+
+    <h3 class="m-y-0">Edit Region</h3>
+
+</div>
+@using (Html.BeginForm("Edit", "ManageRegion", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="panel-body">
+        @Html.HiddenFor(x => x.RegionId)
+        @Html.Partial("_CreateEditRegion", Model)
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <button class="btn btn-primary pull-right">SAVE</button>
+        </div>
+    </div>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
