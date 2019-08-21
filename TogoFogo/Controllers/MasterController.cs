@@ -736,7 +736,7 @@ namespace TogoFogo.Controllers
         }
 
         public ActionResult RemoteValidationConEmailAddress(string ConEmailAddress, string CurrentEmail)
-        {
+       {
             // return RemoteValidationforUserName(ConEmailAddress, CurrentEmail, 0);
             try
             {
@@ -745,11 +745,13 @@ namespace TogoFogo.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var ifEmailExist = con.Query<bool>("Select 1 from tblContactPersons WHERE  Email=@ConEmailAddress",
-                  new { ConEmailAddress }, commandType: CommandType.Text).FirstOrDefault();
+                   bool response = true;
+                    var ifEmailExist = con.Query<int>("Select count(1) from tblContactPersons WHERE  Email=@ConEmailAddress",
+                    new { ConEmailAddress }, commandType: CommandType.Text).FirstOrDefault();
                     //ifEmailExist = result==0 ? false : true;UspCheckEmailExist
-
-                    return Json(!ifEmailExist, JsonRequestBehavior.AllowGet);
+                   if (ifEmailExist > 0)
+                        response = false;
+                    return Json(response, JsonRequestBehavior.AllowGet);
                 }
             }
 
@@ -760,6 +762,9 @@ namespace TogoFogo.Controllers
 
             }
         }
+
+
+
 
         public ActionResult RemoteValidationClientName(string ClientName, string CurrentClientName)
         {
@@ -835,6 +840,33 @@ namespace TogoFogo.Controllers
 
             }
         }
+
+
+
+        public ActionResult RemoteValidationForProblem(string Problem, string CurrentProblem)
+        {
+
+            // bool ifEmailExist = false;
+            try
+            {
+                if (Problem == CurrentProblem)
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                using (var con = new SqlConnection(_connectionString))
+                {
+                    var ifProblemExist = con.Query<bool>("Select 1 from MstDeviceProblem WHERE   Problem = @Problem",
+                    new { Problem }).FirstOrDefault();
+                    return Json(!ifProblemExist, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            catch (Exception ex)
+            {
+
+                return Json(false, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
         #endregion
 
         #region WebsiteProblemList
