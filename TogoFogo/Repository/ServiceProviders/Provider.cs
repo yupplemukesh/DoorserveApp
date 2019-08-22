@@ -30,7 +30,9 @@ namespace TogoFogo.Repository.ServiceProviders
             sp.Add(param);
             param = new SqlParameter("@ProviderId", ToDBNull(filterModel.RefKey));
             sp.Add(param);
-            return await _context.Database.SqlQuery<ServiceProviderModel>("USPGetAllProviders @CompanyId,@ProviderId", sp.ToArray() ).ToListAsync();
+            param = new SqlParameter("@UserId", ToDBNull(filterModel.UserId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<ServiceProviderModel>("USPGetAllProviders @CompanyId,@ProviderId,@UserId", sp.ToArray() ).ToListAsync();
         }
         public async Task<List<serviceProviderData>> GetProvidersExcel(FilterModel filterModel)
         {

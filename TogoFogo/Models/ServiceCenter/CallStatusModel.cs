@@ -12,5 +12,7 @@ namespace TogoFogo.Models.ServiceCenter
         public List<DeviceModel> SelectedDevices { get; set; }
         public string RejectionReason { get; set; }
         public int StatusId { get; set; }
+        public Guid? CompId { get; set; }
+        public Guid? RefKey { get; set; }
     }
 }

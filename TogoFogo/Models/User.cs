@@ -11,6 +11,13 @@ namespace TogoFogo.Models
 {
     public class User
     {
+        public User()
+        {
+            _ContactPerson = new ContactPersonModel();
+            _AddressDetail = new AddressDetail();
+            _ClientModel = new ClientModel();
+            _UserRole = new UserRole();
+        }
         public Int64 SerialNo { get; set; }
         public Int64 UserId { get; set; }
         [Required(ErrorMessage = "Enter User Name")]
@@ -30,15 +37,18 @@ namespace TogoFogo.Models
         public int UserLoginId { get; set; }
         public string RoleName { get; set; }
         public int UserTypeId { get; set;}
+        public Guid? RegionId { get; set; }
         public ContactPersonModel _ContactPerson { get;set;} 
         public AddressDetail _AddressDetail { get; set; }
         public UserRole _UserRole { get; set; }
         public string RefName { get; set; }
         public ClientModel _ClientModel { get; set; }
+
+        public SelectList RegionList { get; set; }
         public OrganizationModel _OrganizationModel { get; set; }
         [DisplayName("Email Address")]
         [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$",
-       ErrorMessage = "Please Enter Correct Email Address")]
+         ErrorMessage = "Please Enter Correct Email Address")]
         [Required(ErrorMessage = "Enter Email")]
         [System.Web.Mvc.Remote("RemoteValidationConEmailAddress", "Master", AdditionalFields = "CurrentEmail", ErrorMessage = "Email already exists!")]
         public string ConEmailAddress { get; set; }

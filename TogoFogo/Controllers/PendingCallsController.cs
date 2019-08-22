@@ -74,7 +74,9 @@ namespace TogoFogo.Controllers
             {
                 CompId = session.CompanyId
                 ,
-                tabIndex = tabIndex
+                tabIndex = tabIndex,
+                UserId = session.UserId,
+                Type = tabIndex               
             };
             var response = await _customerSupport.GetASPCalls(filter);
             var OtherRes =   new List<UploadedExcelModel>() ;
@@ -93,6 +95,7 @@ namespace TogoFogo.Controllers
             }
             else if (tabIndex == 'A')
             {
+       
                 columns = new string[]{ "CRN","ClientName", "CreatedOn", "ServiceTypeName", "CustomerName","CustomerContactNuber","CustomerEmail",
                                 "CustomerAddress","CustomerCity","CustomerPinCode","DeviceCategory",
                                  "DeviceBrand","DeviceModel","DOP","DevicePurchaseFrom"};
@@ -167,20 +170,20 @@ namespace TogoFogo.Controllers
             TempData["response"] = response;
             return RedirectToAction("Index");
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Esclated_Calls)]
         public async Task<ActionResult> EscalateCalls(char? Type)
         {
             var session = Session["User"] as SessionModel;
             if (Type ==null)
                 Type = 'A';
-            var filter = new FilterModel { CompId = session.CompanyId ,Type= Convert.ToChar(Type) };
+            var filter = new FilterModel { CompId = session.CompanyId ,Type= Convert.ToChar(Type),UserId=session.UserId };
 
             var calls = new EsclatedCallsViewModel();
             calls.Calls= await _RepoCallLog.GetExclatedCalls(filter);
             calls.Type = Convert.ToChar(Type);
             return View(calls);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Esclated_Calls)]
         public async Task<ActionResult> Cancel()
         {
             var session = Session["User"] as SessionModel;

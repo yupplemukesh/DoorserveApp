@@ -10,6 +10,7 @@ namespace TogoFogo.Models
     {
         public Guid RegionId { get; set; }
         public string RegionName { get; set; }
+        public string StateXml { get; set; }
         public SelectList StateList { get; set; }
         public  List<int> SelectedStates { get; set; }
 

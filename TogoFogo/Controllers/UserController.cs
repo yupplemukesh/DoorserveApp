@@ -22,17 +22,22 @@ namespace TogoFogo.Controllers
 
         private readonly TogoFogo.Repository.EmailSmsTemplate.ITemplate _templateRepo;
         private readonly IEmailSmsServices _emailSmsServices;
-   public UserController()
+         public UserController()
         {
 
             _templateRepo = new TogoFogo.Repository.EmailSmsTemplate.Template();
             _emailSmsServices = new Repository.EmailsmsServices();
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Create}, (int)MenuCode.Users)]
-        public ActionResult AddUser()
+        public async Task<ActionResult> AddUser()
         {
-       
-            return View();
+            var session = Session["User"] as SessionModel;
+            var user = new User {RegionList=new SelectList( 
+                await CommonModel.GetRegionListByComp(session.CompanyId),"Name","Text")
+              
+            };
+
+            return View(user);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Users)]
         [HttpPost]      
@@ -68,7 +73,8 @@ namespace TogoFogo.Controllers
                             objUser.UserLoginId,
                             userTypeId= session.UserTypeId,
                             RefId= session.RefKey,
-                            companyId= session.CompanyId
+                            companyId= session.CompanyId,
+                            objUser.RegionId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -82,9 +88,8 @@ namespace TogoFogo.Controllers
                         
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
-                        objResponseModel.Response = "Successfully Added";
-      
-                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        objResponseModel.Response = "Successfully Added";      
+                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration", session.CompanyId);
                     session.Email = objUser.ConEmailAddress;
                     var WildCards = await CommonModel.GetWildCards();
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
@@ -115,8 +120,9 @@ namespace TogoFogo.Controllers
             
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
-        public ActionResult EditUser(Int64 id = 0)
+        public async Task<ActionResult> EditUser(Int64 id = 0)
         {
+            var session = Session["User"] as SessionModel;
             User objUser = new User();
             Int64 UserId = id;
             using (var con = new SqlConnection(_connectionString))
@@ -145,8 +151,14 @@ namespace TogoFogo.Controllers
                     objUser._AddressDetail.State = result.State;
                     objUser._ContactPerson.ConFirstName = result.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
+                    objUser.RegionId = result.RegionId;
+
+
+
+                    objUser.RegionList = new SelectList(await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text");
+                   
                     //objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
-                    objUser.ConEmailAddress = result.ConEmailAddress;
+                        objUser.ConEmailAddress = result.ConEmailAddress;
                     objUser.CurrentEmail = result.ConEmailAddress;
                     //objUser._ContactPerson.CurrentEmail = result.ConEmailAddress;
                     objUser.UserTypeId = result.UserTypeId;
@@ -192,7 +204,9 @@ namespace TogoFogo.Controllers
                                 objUser.UserLoginId,
                                 userTypeId = objUser.UserTypeId,
                                 RefId = session.RefKey,
-                                companyId = session.CompanyId
+                                companyId = session.CompanyId,
+                                objUser.RegionId
+
 
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 0)
@@ -280,12 +294,10 @@ namespace TogoFogo.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangePassword(ChangePasswordModel reset)
         {
-
             if (ModelState.IsValid)
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-
                     var session = Session["User"] as SessionModel;
                     var encrpt_OldPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.CurrentPassword, true);
                     var encrpt_NewPass = TogoFogo.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
@@ -294,7 +306,7 @@ namespace TogoFogo.Controllers
                     if (response.ResponseCode == 0)
                     {
                         response.IsSuccess = true;
-                        var Templates = await _templateRepo.GetTemplateByActionName("Change Password");
+                        var Templates = await _templateRepo.GetTemplateByActionName("Change Password",session.CompanyId);
                         session.Email = User.Identity.Name;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
@@ -307,8 +319,7 @@ namespace TogoFogo.Controllers
                             await _emailSmsServices.Send(Templates, c, session);
                     }
                     else
-                        response.IsSuccess = false;
-                  
+                       response.IsSuccess = false;                  
                         TempData["response"] = response;
                 }
             }

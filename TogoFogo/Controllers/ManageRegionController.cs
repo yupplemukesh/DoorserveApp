@@ -33,6 +33,15 @@ namespace TogoFogo.Controllers
             return View(Region);
 
         }
+        private T Deserialize<T>(string input) where T : class
+        {
+            System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(T));
+
+            using (StringReader sr = new StringReader(input))
+            {
+                return (T)ser.Deserialize(sr);
+            }
+        }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Regions)]
         public async Task<ActionResult> Create()
         {
@@ -55,9 +64,15 @@ namespace TogoFogo.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Regions)]
         public async Task<ActionResult> Edit(Guid RegionId)
         {
-            var session = Session["User"] as SessionModel;
             var Region = await _Region.GetRegionById(RegionId);
+            var states = Deserialize<List<StateModel>>(Region.StateXml);
+            var selectedItems = new List<int>();
+            foreach (var item in states)
+            {
+                selectedItems.Add(Convert.ToInt32(item.St_ID));
+            }
             Region.StateList = new SelectList(_Dropdown.BindState(), "Value", "Text");
+            Region.SelectedStates = selectedItems;
             return View(Region);
         }
         [HttpPost]

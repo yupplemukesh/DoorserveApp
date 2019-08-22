@@ -1,7 +1,6 @@
 ﻿@model TogoFogo.Models.Company.CompanyModel
 
 <div class="form-group row">
-
     <label class="col-sm-4 control-label" for="form-control-1">Company Type</label>
     <div class="col-sm-8">
         @Html.DropDownListFor(x => x.CompanyTypeId, Model.CompanyTypeList, "Select", new { @class = "form-control input-md", })
@@ -111,6 +110,7 @@
     <div class="col-sm-8">
         @Html.TextAreaFor(model => model.CompanyAddress, new { @id = "editor1", @class = "No-border" })
         <script>
+             CKEDITOR.config.allowedContent = true;
                     CKEDITOR.replace('editor1', {
                         height: 350,
                         extraPlugins: 'colorbutton,colordialog'
@@ -123,6 +123,8 @@
     <div class="col-sm-8">
         @Html.TextAreaFor(model => model.SocialLink, new { @id = "editor2", @class = "No-border" })
         <script>
+
+            CKEDITOR.config.allowedContent = true;
             CKEDITOR.replace('editor2', {
                 height: 350,
                 extraPlugins: 'colorbutton,colordialog'

@@ -129,7 +129,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script>
         $(document).ready(function (e) {
-                $('#myTable').DataTable({
+            $('#myTable').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found"
                 }
@@ -314,7 +314,7 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-        var loadFile = function (event) {
+          var loadFile = function (event) {
             var reader = new FileReader();
             reader.onload = function () {
                 var output = document.getElementById('editblah');

@@ -42,9 +42,9 @@ namespace TogoFogo.Repository.ManageRegion
         public async Task<ResponseModel> AddUpdateRegion(ManageRegionModel Region)
         {
             var statesList = new List<StateModel>();
-            foreach (int stateId in Region.SelectedStates)
+            for (int i = 0; i < Region.SelectedStates.Count; i++)
             {
-                var state = new StateModel { St_ID = stateId.ToString() };
+                var state = new StateModel { St_ID = Region.SelectedStates[i].ToString() };
                 statesList.Add(state);
 
             }

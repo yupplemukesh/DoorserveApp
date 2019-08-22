@@ -30,24 +30,43 @@ namespace TogoFogo
                 return _employee;
             }
         }
-        public static async Task<List<CheckBox>> GetEmployeeListByCompany(Guid? CompId)
+        public static async Task<List<CheckBox>> GetRegionListByComp(Guid? CompId)
         {
             using (var _context = new ApplicationDbContext())
             {
                 var param = new SqlParameter("@CompId", DBNull.Value);
 
-                var query = "select EMPId Name ,p.FirstName+' '+p.LastName Text from MSTEMPLOYEES emp join tblContactPersons p on p.RefKey = emp.EMPId where emp.IsActive = 1";
+                var query = "Select REGIONID NAME, REGIONNAME Text FROM MSTREGIONS where ISACTIVE=1";
                 if (CompId != null)
                 {
-                    query = query + " and emp.companyId= @CompId";
+                    query = query + " and CompanyId=@CompId";
                     param.Value = CompId;
 
                 }
+
                 var _employee = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
                 return _employee;
             }
         }
-        public static async Task<List<CheckBox>> GetEmployeeByProvider(Guid? CompId)
+
+            public static async Task<List<CheckBox>> GetEmployeeListByCompany(Guid? CompId)
+            {
+                using (var _context = new ApplicationDbContext())
+                {
+                    var param = new SqlParameter("@CompId", DBNull.Value);
+
+                    var query = "select EMPId Name ,p.FirstName+' '+p.LastName Text from MSTEMPLOYEES emp join tblContactPersons p on p.RefKey = emp.EMPId where emp.IsActive = 1";
+                    if (CompId != null)
+                    {
+                        query = query + " and emp.companyId= @CompId";
+                        param.Value = CompId;
+
+                    }
+                    var _employee = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                    return _employee;
+                }
+            }
+            public static async Task<List<CheckBox>> GetEmployeeByProvider(Guid? CompId)
         {
             using (var _context = new ApplicationDbContext())
             {
@@ -512,6 +531,8 @@ namespace TogoFogo
     Schedule_Appointment=13,
     Manage_Process=120,
     Manage_Page_Contents=1011,
-    Manage_Regions=121
+    Manage_Regions=121,
+    Esclated_Calls = 14
+
     }
 }

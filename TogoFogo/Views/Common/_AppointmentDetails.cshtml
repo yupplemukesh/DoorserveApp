@@ -6,7 +6,7 @@
                 <div class="form-material" >
                     <div class="col-sm-3">
                         <div class="form-group has-value">
-                            @Html.TextBoxFor(x => x.AppointmentDate,"{0:yyyy/MM/dd hh:mm}",  new { @class = "form-control dateTimePicker" })
+                            @Html.TextBoxFor(x => x.AppointmentDate,"{0:yyyy/MM/dd hh:mm}",  new { @class = "form-control dateTimePicker", @readOnly="True" })
                             @Html.ValidationMessageFor(x => x.AppointmentDate, "", new { @class = "text-danger" })
                             <label class="floating-label t-0">Appointment Date Time</label>
                         </div>

@@ -20,6 +20,7 @@ using TogoFogo.Repository.ImportFiles;
 
 namespace TogoFogo.Controllers
 {
+    [ValidateModel]
     public class ClientDataController : Controller
     {
         private readonly IUploadFiles _RepoUploadFile;
@@ -61,7 +62,7 @@ namespace TogoFogo.Controllers
             // new call Log
             clientData.NewCallLog = new CallDetailsModel
             {
-DataSourceId=101,
+                DataSourceId=101,
              IsAssingedCall = true,
             ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
@@ -126,7 +127,8 @@ DataSourceId=101,
             return View(clientDate);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
-        [HttpPost]        
+        [HttpPost]
+
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {            
             var session = Session["User"] as SessionModel;
@@ -369,8 +371,10 @@ DataSourceId=101,
             return View("_EditForm", CallDetailsModel);
         }
 
+
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
-        [HttpPost]       
+        [HttpPost]
+    
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
             try

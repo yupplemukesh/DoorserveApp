@@ -35,14 +35,13 @@
     </div>
 
 </div>
-
-
-
 <div class="row form-group">
     <div class="col-sm-12 ">
         <label class="control-label" for="form-control-9">Header</p></label>
         @Html.TextAreaFor(x=>x.HeaderHTML, new {@id= "editor1",@class="No-border" })
+        
         <script>
+             CKEDITOR.config.allowedContent = true;
             CKEDITOR.replace('editor1', {
                 height: 350,
                 extraPlugins: 'colorbutton,colordialog'

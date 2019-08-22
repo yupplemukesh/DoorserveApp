@@ -186,7 +186,7 @@ namespace TogoFogo.Controllers
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
                         SessionModel.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
@@ -205,7 +205,7 @@ namespace TogoFogo.Controllers
                 {
                     if (contact.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
                         SessionModel.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();

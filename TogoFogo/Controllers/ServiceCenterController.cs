@@ -348,7 +348,9 @@ namespace TogoFogo.Controllers
             try
             {
                 var SessionModel = Session["User"] as SessionModel;
-                callStatus.UserId = SessionModel.UserId;
+                callStatus.UserId = SessionModel.UserId;                
+                callStatus.RefKey = SessionModel.RefKey;
+                callStatus.CompId = SessionModel.CompanyId;
                 var response = await _centerRepo.UpdateCallsStatus(callStatus);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -444,8 +446,7 @@ namespace TogoFogo.Controllers
             try
             {
                 var SessionModel = Session["User"] as SessionModel;
-                callStatusDetails.UserId = SessionModel.UserId;
-               
+                callStatusDetails.UserId = SessionModel.UserId;               
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
                 return RedirectToAction("AcceptCalls");

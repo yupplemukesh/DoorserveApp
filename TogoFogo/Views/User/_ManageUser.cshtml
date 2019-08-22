@@ -1,7 +1,15 @@
 ﻿@model TogoFogo.Models.User
 @Html.HiddenFor(x => x.CurrentEmail)
+@Html.HiddenFor(model => model.UserId)
 <div class="x_content">
     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.Label("Region", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.RegionId, Model.RegionList, "Select",  htmlAttributes: new { @class = "form-control", tabindex = "1" })
+                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="row" style="padding-bottom: 5px;">
             @Html.Label("Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -32,19 +40,19 @@
             </div>
         </div>
         @*<div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model.Password, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "5" })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.TextBoxFor(model => model.Password, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "5" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
-        <div class="row" style="padding-bottom: 5px;">
-            @Html.Label("Confirm Password", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model.ConfirmPassword, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "6" })
-                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+            <div class="row" style="padding-bottom: 5px;">
+                @Html.Label("Confirm Password", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.TextBoxFor(model => model.ConfirmPassword, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "6" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -104,7 +112,7 @@
 
 <script>
     function BindCityAndSate() {
-        
+
         $('#State').val('');
         $('#District').val('');
         var value = document.getElementById("Pincode").value;

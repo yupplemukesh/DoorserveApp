@@ -100,16 +100,16 @@ else
                                     @Html.Grid(Model.PendingCalls).Columns(columns =>
                                {
 
-                               //columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"pendingCalls\")'  />")
-                               //.Encoded(false).Sanitized(false).SetWidth(30)
-                               //.RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
-                               columns.Add()
-                              .Titled("#SLN")
-                              .SetWidth(10)
-                              .RenderValueAs(o =>
-                              {
-                              count++;
-                              return @<text> @count </text>;
+                                   columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"pendingCalls\")'  />")
+                                   .Encoded(false).Sanitized(false).SetWidth(30)
+                                   .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
+                                   columns.Add()
+                                  .Titled("#SLN")
+                                  .SetWidth(10)
+                                  .RenderValueAs(o =>
+                                  {
+                                  count++;
+                                  return @<text> @count </text>;
                                   });
                                    columns.Add(model => model.CRN).Titled("Call Id")
                                                           .Filterable(true).Sanitized(false).Encoded(false).
@@ -451,13 +451,9 @@ else
             });
 
             if (checkboxcount > 0) {
-
-
                 var statusId = 11;
-
                 var obj = [];
-                $('.grid-wrap >.grid-table > tbody  > tr').each(function () {
-                    debugger
+                $('.grid-wrap >.grid-table > tbody  > tr').each(function () {                    
                     var check = $(this).find('[type=checkbox]');
                     if ($(check).prop("checked")) {
                         var deviceId = $(check).attr("dataval");

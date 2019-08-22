@@ -66,12 +66,14 @@ namespace TogoFogo.Repository.EmailSmsTemplate
             return await _context.Database.SqlQuery<TemplateModel>("UspGetActionNonActionListByGUID  @TemplateId,@GUID", sp.ToArray()).SingleOrDefaultAsync();
         }
 
-        public async Task<List<TemplateModel>> GetTemplateByActionName(string TemplateName)
+        public async Task<List<TemplateModel>> GetTemplateByActionName(string TemplateName,Guid? CompId)
         {
-
-            SqlParameter param = new SqlParameter("@ActionName", TemplateName);
-        
-            return await _context.Database.SqlQuery<TemplateModel>("UspGetTemplateByActionName  @ActionName", param).ToListAsync();
+            var sp = new List<SqlParameter>();
+            var param = new SqlParameter("@ActionName", TemplateName);
+            sp.Add(param);
+            param = new SqlParameter("@CompId", CompId);
+            sp.Add(param);
+            return await _context.Database.SqlQuery<TemplateModel>("UspGetTemplateByActionName  @ActionName,@CompId", sp.ToArray()).ToListAsync();
         }
         public async Task<List<TemplateModel>> GetUploadedExcelListByGUID(Guid GUID,string MessageTypeName)
         {

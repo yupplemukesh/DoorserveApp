@@ -89,7 +89,6 @@ namespace TogoFogo.Repository
             smtp.Port =Convert.ToInt32( gateway.PortNumber);
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new System.Net.NetworkCredential(gateway.SmtpUserName, gateway.SmtpPassword);
-            smtp.EnableSsl = gateway.SSLEnabled;
             mail.From = new MailAddress(gateway.Email) ;
             bool flag = false;
             try

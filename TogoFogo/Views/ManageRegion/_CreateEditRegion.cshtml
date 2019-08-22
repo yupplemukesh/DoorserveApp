@@ -27,7 +27,7 @@
 <div class="row" style="padding-bottom: 5px;">
     @Html.Label("State Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
     <div class="col-md-6 col-sm-6 col-xs-12">
-        @Html.DropDownListFor(model => model.SelectedStates, Model.StateList, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+         @Html.ListBoxFor(model => model.SelectedStates, Model.StateList, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
         @Html.ValidationMessageFor(model => model.SelectedStates, "", new { @class = "text-danger" })
     </div>
 </div>

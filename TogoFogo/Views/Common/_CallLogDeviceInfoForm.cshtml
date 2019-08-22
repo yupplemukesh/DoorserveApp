@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        @Html.TextBoxFor(x => x.DOP ,   new { @class = "form-control  datepicker-d" })
+                        @Html.TextBoxFor(x => x.DOP ,"{0:dd/MM/yyyy}",   new { @class = "form-control  datepicker-d",@readOnly="True"  })
                         @Html.ValidationMessageFor(x => x.DOP, "", new { @class = "text-danger" })
                         <label class="floating-label t-0">Date Of Purchased</label>
                     </div>

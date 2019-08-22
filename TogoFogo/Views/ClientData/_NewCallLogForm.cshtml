@@ -161,17 +161,21 @@ else
 }
 @if (Convert.ToBoolean(Model.IsRepeat))
 {
+
     @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
-    new TogoFogo.Models.PreviousCallModel {
-        CallDate =Model.PrvCallDate,
-        CallId =Model.PrvCallId,
-        ProblemDescription =Model.PrvProblemDescription,
-        ProblemCloseDate=Model.ProblemCloseDate
+    new TogoFogo.Models.PreviousCallModel
+        {
+            CallDate = Model.PrvCallDate,
+        CallId = Model.PrvCallId,
+        ProblemDescription = Model.PrvProblemDescription,
+        ProblemCloseDate = Model.ProblemCloseDate
     })
     @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
-    new TogoFogo.Models.WarrantyInformationModel {
-        ExpiryDate =Model.ExpiryDate,
-        Status =Model.WarranyStatus })
+    new TogoFogo.Models.WarrantyInformationModel
+        {
+            ExpiryDate = Model.ExpiryDate,
+        Status = Model.WarranyStatus
+        })
 }
 else
 {
@@ -206,94 +210,20 @@ else
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
 <script>
-
-
-
-    $("#DOP").change(function () {
-        debugger;     
-        $('.datepicker-d').datepicker({
-            format: 'dd/mm/yyyy',
-            message: 'The format is dd/mm/yyyy'
-            });
-
-        
-          
-  });
-
-    $('#IssueOcurringSinceDate').change(function () {
-        debugger       
-      $('.datepicker-c').datepicker({
-                format: 'dd/mm/yyyy',
-                //startDate: dateObject
-                message: 'The format is dd/mm/yyyy'
-
-            });
-        
-    });
-    
- /*
-    $("#DOP").change(function () {
-
-        debugger;
-       
-        var dateString = $("#IssueOcurringSinceDate").val();
-        if (dateString == '') {
-            $('.datepicker-d').datepicker({
-                format: 'dd/mm/yyyy'
-            });
-
-        }
-        else if ([dateString != '']) {
-            var dateParts = dateString.split("/");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0] - 1);
-
-            $('.datepicker-d').datepicker({
-                format: 'dd/mm/yyyy',
-                endDate: dateObject
-            });
-        }
+    $('.datepicker-d').datepicker({     
+       autoclose: true,
+       todayHighlight: true,
+       format: 'mm/dd/yyyy',
+       endDate: new Date()
     });
 
-    $('#IssueOcurringSinceDate').change(function () {
-        debugger;
-    
-        var dateString = $("#DOP").val();
-        if ([dateString != '']) {
-            var dateParts = dateString.split("/");
-            // month is 0-based, that's why we need dataParts[1] - 1
-            var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-
-            $('.datepicker-c').datepicker({
-                format: 'dd/mm/yyyy',
-                startDate: dateObject
-
-            });
-        }
-    });
-
-*/
-
-    $("#DeviceIMEISecond").change(function () {        
-        var id1 = $("#DeviceIMEIOne").val(); //if #id1 is input element change from .text() to .val() 
-        var id2 = $("#DeviceIMEISecond").val(); //if #id2 is input element change from .text() to .val()
-        if (id1 == id2) {
-            $("#SameIMEI").text("IMEI One and IMEI Two can't be Same.");
-
-            return false;
-        }
-        else {
-            return true;
-        }
-    });
-
-
-
-
-
-
-
-   
+       $('.datepicker-c').datepicker({
+            autoclose: true,
+       format: 'mm/dd/yyyy',
+       endDate: new Date()
+        });    
+  
 </script>
 

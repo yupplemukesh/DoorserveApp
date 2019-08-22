@@ -193,7 +193,9 @@ namespace TogoFogo.Repository
             sp.Add(param);
             param = new SqlParameter("@Type", ToDBNull(filter.Type));
             sp.Add(param);
-            return await _context.Database.SqlQuery<UploadedExcelModel>("GETPendingExCalls @CompId, @Type", sp.ToArray()).ToListAsync();
+            param = new SqlParameter("@USERId", ToDBNull(filter.UserId));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<UploadedExcelModel>("GETPendingExCalls @CompId, @Type,@USERId", sp.ToArray()).ToListAsync();
         }     
         public async Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter)
         {

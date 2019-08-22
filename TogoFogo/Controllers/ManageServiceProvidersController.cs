@@ -58,7 +58,7 @@ namespace TogoFogo.Controllers
                 providerId = prv.Name;
             }
 
-            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = providerId};
+            var filter = new FilterModel { CompId = SessionModel.CompanyId, RefKey = providerId,UserId=SessionModel.UserId};
             var Providers = await _provider.GetProviders(filter);
             return View(Providers);
         }
@@ -180,7 +180,7 @@ namespace TogoFogo.Controllers
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
                         SessionModel.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
@@ -199,7 +199,7 @@ namespace TogoFogo.Controllers
                 {
                     if (contact.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration");
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
                         SessionModel.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();

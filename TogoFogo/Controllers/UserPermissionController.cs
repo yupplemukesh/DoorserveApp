@@ -36,7 +36,11 @@ namespace TogoFogo.Controllers
                 if (SessionModel.UserRole.ToLower().Contains("super admin"))
                     UserId = 0;
                 else if (SessionModel.UserRole.ToLower().Contains("company admin"))
+                {
                     CompanyId = SessionModel.CompanyId;
+                    RefKey = SessionModel.RefKey;
+                }
+
                 else
                     RefKey = SessionModel.RefKey;
 
@@ -273,7 +277,7 @@ namespace TogoFogo.Controllers
                 {
                     
                         item.RightActionList = getActions("");
-                        item.SubMenuList = result.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, RightActionList = getActions(x.ActionIds) }).ToList();
+                        item.SubMenuList = result.Where(x => x.ParentMenuId == item.MenuCapId).Select(x => new MenuMasterModel { Menu_Name = x.Menu_Name, PagePath = x.PagePath, MenuCapId = x.MenuCapId, ParentMenuId = x.ParentMenuId, CapName=x.CapName, RightActionList = getActions(x.ActionIds) }).ToList();
                
 
                 }

@@ -20,7 +20,7 @@
                     </div>
                     <div class="col-sm-4 col-md-4"> <h5 class="m-t-0">Issue Occurring Since Date</h5></div>
                     <div class="col-sm-2 col-md-2">
-                        @Html.TextBoxFor(x => x.IssueOcurringSinceDate, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker-c" })
+                        @Html.TextBoxFor(x => x.IssueOcurringSinceDate, "{0:dd/MM/yyyy}", new { @class = "form-control datepicker-c",@readOnly="True"  })
                     </div>
                 </div>
             </div>

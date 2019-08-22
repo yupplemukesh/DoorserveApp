@@ -356,7 +356,11 @@ namespace TogoFogo.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@USER", ToDBNull(callStatus.UserId));
             sp.Add(param);
-            var sql = "UpdateCallStatus @Status,@AllocateXML,@Reasion,@USER";
+            param = new SqlParameter("@CompId", ToDBNull(callStatus.CompId));
+            sp.Add(param);
+            param = new SqlParameter("@REFKEY", ToDBNull(callStatus.RefKey));
+            sp.Add(param);
+            var sql = "UpdateCallStatus @Status,@AllocateXML,@Reasion,@USER,@CompId,@REFKEY";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;
