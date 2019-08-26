@@ -15,7 +15,7 @@
 </div>
 <div class="panel-body">
 
-    @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { id = "form" }))
+    @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { id = "form",autocomplete = "off"  }))
     {
 
         @Html.Partial("_ManageUser", Model)

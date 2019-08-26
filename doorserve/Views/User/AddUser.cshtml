@@ -1,4 +1,4 @@
-﻿@model doorserve.Models.User
+﻿@model doorserve.Models.UserModel
 @{
     ViewBag.Title = "Add User";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
@@ -15,10 +15,120 @@
 </div>
 <div class="panel-body">
 
-    @using (Html.BeginForm("AddUser", "User", FormMethod.Post, new { id = "form" }))
+    @using (Html.BeginForm("AddUser", "User", FormMethod.Post, new { id = "form", autocomplete = "off" }))
     {
 
-        @Html.Partial("_ManageUser",Model)
+        <div class="x_content">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.Label("Region", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList, "Select", htmlAttributes: new { @class = "form-control", tabindex = "1" })
+                        @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.Label("Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model._ContactPerson.ConFirstName, htmlAttributes: new { @class = "form-control", tabindex = "1" })
+                        @Html.ValidationMessageFor(model => model._ContactPerson.ConFirstName, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.UserId)
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model._ContactPerson.ConMobileNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model._ContactPerson.ConMobileNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10", tabindex = "2" })
+                        @Html.ValidationMessageFor(model => model._ContactPerson.ConMobileNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "form-control", tabindex = "3" })
+                        @Html.ValidationMessageFor(model => model.ConEmailAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", tabindex = "4" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12", autocomplete = "off" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model.Password, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "5", autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.Label("Confirm Password", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model.ConfirmPassword, htmlAttributes: new { @type = "password", @class = "form-control", tabindex = "6" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "BindCityAndSate()", tabindex = "7", id = "Pincode" })
+                        @Html.ValidationMessageFor(model => model._AddressDetail.PinNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model._AddressDetail.District, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model._AddressDetail.District, htmlAttributes: new { @class = "form-control", id = "District", @readonly = "readonly", tabindex = "8" })
+                        @Html.ValidationMessageFor(model => model._AddressDetail.District, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "form-control", id = "State", @readonly = "readonly", tabindex = "9" })
+                        @Html.HiddenFor(model => model._AddressDetail.StateId, new { id = "StateId" })
+                        @Html.ValidationMessageFor(model => model._AddressDetail.State, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.TextBoxFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "form-control", tabindex = "10" })
+                        @Html.ValidationMessageFor(model => model._AddressDetail.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.Label("Address Type", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        Home
+                        @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 1, new { @checked = "checked" })
+                        Work
+                        @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 2)
+                        Other
+                        @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 3)
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
+                        <button class="btn btn-primary" type="reset">Reset</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     }
 </div>
-
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

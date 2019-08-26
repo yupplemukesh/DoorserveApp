@@ -416,6 +416,7 @@
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\UserRoleModel.cs" />
     <Compile Include="Models\UserTypeModel.cs" />
+    <Compile Include="Models\User\UserModel.cs" />
     <Compile Include="Models\WarrantyInformationModel.cs" />
     <Compile Include="Models\WebsiteUserModel.cs" />
     <Compile Include="Models\WildCards\WildCardList.cs" />

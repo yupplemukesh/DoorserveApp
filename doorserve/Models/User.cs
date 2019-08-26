@@ -23,9 +23,9 @@ namespace doorserve.Models
         [Required(ErrorMessage = "Enter User Name")]
         [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", AdditionalFields = "UserId", ErrorMessage = "User Name already exists!")]
         public string UserName { get; set; }
-        [Required(ErrorMessage = "Enter Password")]
         //[Range(5, 20, ErrorMessage = "Enter password between 5 to 20")]
-        public string Password { get; set; }
+        [DataType(DataType.Password)]
+        public virtual string Password { get; set; }
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Password is not matched")]
         public string ConfirmPassword { get; set; }
         public Boolean IsActive { get; set; }
@@ -53,6 +53,7 @@ namespace doorserve.Models
         [System.Web.Mvc.Remote("RemoteValidationConEmailAddress", "Master", AdditionalFields = "CurrentEmail", ErrorMessage = "Email already exists!")]
         public string ConEmailAddress { get; set; }
         public string CurrentEmail { get; set; }
+        public string CurrentPassword { get; set; }
 
 
     }

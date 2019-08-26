@@ -32,7 +32,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> AddUser()
         {
             var session = Session["User"] as SessionModel;
-            var user = new User {RegionList=new SelectList( 
+            var user = new UserModel {RegionList=new SelectList( 
                 await CommonModel.GetRegionListByComp(session.CompanyId),"Name","Text")
               
             };
@@ -41,7 +41,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Users)]
         [HttpPost]      
-        public async Task<ActionResult> AddUser(User objUser)
+        public async Task<ActionResult> AddUser(UserModel objUser)
         {
 
             var session = Session["User"] as SessionModel;
@@ -49,10 +49,7 @@ namespace doorserve.Controllers
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
-            var pwd = "CA5680";
-
-
-                objUser.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
+                var Passwod = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<int>("UspInsertUser",
@@ -60,7 +57,7 @@ namespace doorserve.Controllers
                         {
                             objUser.UserId,
                             objUser.UserName,
-                            objUser.Password,
+                            Passwod,
                             objUser._ContactPerson.ConFirstName,
                             objUser._ContactPerson.ConMobileNumber,
                             objUser.ConEmailAddress,
@@ -80,8 +77,7 @@ namespace doorserve.Controllers
                     {
                         objResponseModel.IsSuccess = false;
                         objResponseModel.ResponseCode = 0;
-                        objResponseModel.Response= "Something went wrong";
-      
+                        objResponseModel.Response= "Something went wrong";      
                     }
                     else if (result == 1)
                     {
@@ -95,7 +91,7 @@ namespace doorserve.Controllers
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                     U.Val = objUser._ContactPerson.ConFirstName;
                     U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
-                    U.Val = pwd;
+                    U.Val =objUser.Password ;
                     U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                     U.Val = objUser.UserName;
                     session.Mobile = objUser._ContactPerson.ConMobileNumber;
@@ -141,7 +137,6 @@ namespace doorserve.Controllers
                     objUser.UserId = result.UserId;
                     objUser.UserName = result.UserName;
                     objUser.IsActive = result.IsActive;                    
-                    objUser.Password = result.Password;
                     objUser._AddressDetail.PinNumber = result.PinNumber;
                     objUser._AddressDetail.Address = result.Address;
                     objUser._AddressDetail.AddressTypeId = result.AddressTypeId;
@@ -151,10 +146,11 @@ namespace doorserve.Controllers
                     objUser._AddressDetail.State = result.State;
                     objUser._ContactPerson.ConFirstName = result.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
+                    objUser.CurrentPassword= doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(result.Password, true);
                     objUser.RegionId = result.RegionId;
 
 
-
+                   
                     objUser.RegionList = new SelectList(await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text");
                    
                     //objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
@@ -183,8 +179,13 @@ namespace doorserve.Controllers
             if (Status == 1)
             {
                
-                    //objUser.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
-                    using (var con = new SqlConnection(_connectionString))
+                if(!string.IsNullOrEmpty( objUser.Password))
+                    objUser.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
+                else
+                    objUser.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.CurrentPassword, true);
+
+
+                using (var con = new SqlConnection(_connectionString))
                     {
                         var result = con.Query<int>("UspInsertUser",
                             new
