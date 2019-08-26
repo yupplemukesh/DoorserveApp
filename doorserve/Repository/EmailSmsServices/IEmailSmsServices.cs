@@ -11,6 +11,6 @@ namespace doorserve.Repository.EmailSmsServices
    public  interface IEmailSmsServices
     {
 
-      Task<string> Send(List<TemplateModel> templates, List<CheckBox> WildCards, SessionModel session);
+      Task<ResponseModel> Send(List<TemplateModel> templates, List<CheckBox> WildCards, SessionModel session);
     }
 }

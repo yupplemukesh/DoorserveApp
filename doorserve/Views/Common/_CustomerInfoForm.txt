@@ -1,4 +1,4 @@
-﻿@model TogoFogo.Models.ClientData.UploadedExcelModel
+﻿@model doorserve.Models.ClientData.UploadedExcelModel
 
 
 @Html.HiddenFor(x => x.CustomerId)

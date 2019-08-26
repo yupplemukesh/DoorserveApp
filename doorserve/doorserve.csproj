@@ -1193,6 +1193,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Common\_CustomerInfoForm.txt" />
     <Content Include="Views\ManageCourierApi\CourierAPITable.cshtml" />
     <Content Include="Views\ManageCourierApi\ManageCourierApi.cshtml" />
     <Content Include="Views\ManageCourier\CourierTable.cshtml" />
@@ -1626,6 +1627,32 @@
     <Content Include="Views\ServiceRecordCard\_CreateorEditCustomerServiceRecord.cshtml" />
     <Content Include="Views\ServiceRecordCard\_VisitorsDetails.cshtml" />
     <Content Include="Views\ManagePinZIPCode\_AddEditPinZipCode.cshtml" />
+    <Content Include="Views\Common\_DeviceProblemDetails.cshtml" />
+    <Content Include="Views\Common\_ImportForm.cshtml" />
+    <Content Include="Views\Common\_PreviousCallDetails.cshtml" />
+    <Content Include="Views\Common\_ServiceableAreaPinTable.cshtml" />
+    <Content Include="Views\Common\_ServicesAddEditForm.cshtml" />
+    <Content Include="Views\Common\_ServicesOptedTable.cshtml" />
+    <Content Include="Views\Common\_ServicesTable.cshtml" />
+    <Content Include="Views\Common\_UploadedFileList.cshtml" />
+    <Content Include="Views\Common\_WarranyInformationModel.cshtml" />
+    <Content Include="Views\Common\_AddOrEditOffered.cshtml" />
+    <Content Include="Views\Common\_AppointmentDetails.cshtml" />
+    <Content Include="Views\ClientData\_CallDetails.cshtml" />
+    <Content Include="Views\ClientData\_EditForm.cshtml" />
+    <Content Include="Views\ClientData\_OrderHistory.cshtml" />
+    <Content Include="Views\Employees\_EmployeeContactPerson.cshtml" />
+    <Content Include="Views\ManageBanners\Create.cshtml" />
+    <Content Include="Views\ManageBanners\_BannerUploadList.cshtml" />
+    <Content Include="Views\ManageBanners\_CreateEditBanner.cshtml" />
+    <Content Include="Views\ManageBanners\_CreateEditBannerUpload.cshtml" />
+    <Content Include="Views\ManageBanners\Edit.cshtml" />
+    <Content Include="Views\ManageServiceProviders\ManageService.cshtml" />
+    <Content Include="Views\ManageServiceProviders\ManageServiceableAreaPinCode.cshtml" />
+    <Content Include="Views\ManageServiceProviders\ServiceableAreaPinCode.cshtml" />
+    <Content Include="Views\ServiceCenter\_AddorEditPartDetails.cshtml" />
+    <Content Include="Views\ServiceCenter\_PartsDetails.cshtml" />
+    <Content Include="Views\Templates\Index1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -294,11 +294,15 @@ namespace doorserve.Controllers
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates.Count > 0)
                         {
-                            await _emailSmsServices.Send(Templates, c, UserPassword);
-                            TempData["response"] = new ResponseModel { IsSuccess = true, Response = "Password sent successfully" };
+                            var res = await _emailSmsServices.Send(Templates, c, UserPassword);
+                            if (res.IsSuccess)
+                                res.Response = "Password sent successfully";
+                            else
+                                res.Response = "Email is not valid";
+                            TempData["response"] = res;
                         }
                         else
-                            TempData["response"] = new ResponseModel { IsSuccess = true, Response = "Template does not exist!" };                    
+                            TempData["response"] = new ResponseModel { IsSuccess = true, Response = "Template does not exist!" };
                         return RedirectToAction("Login");
                     }
                     else

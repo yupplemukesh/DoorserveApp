@@ -29,9 +29,9 @@ namespace doorserve.Repository
             _gateway = new doorserve.Repository.SMSGateway.Gateway();
             _context = new ApplicationDbContext();
         }
-        public async Task<string> Send( List<TemplateModel> templates, List<CheckBox> wildcards, SessionModel session)
+        public async Task<ResponseModel> Send( List<TemplateModel> templates, List<CheckBox> wildcards, SessionModel session)
         {
-
+            var res= new ResponseModel();
             foreach (var template in templates)
             {
 
@@ -63,6 +63,7 @@ namespace doorserve.Repository
                         else
                             mail.Priority = MailPriority.Low;
                         flag = SendEmail(mail, getwaymodel);
+                        res.IsSuccess = flag;
                     }
                     else if (template.MessageTypeName == "SMS Gateway")
                     {
@@ -73,12 +74,12 @@ namespace doorserve.Repository
                         }
                  
                         template.PhoneNumber = session.Mobile;
-                        var res = SendSms(template, getwaymodel);
+                        res.IsSuccess = SendSms(template, getwaymodel);
                     }
 
                 }
             }
-            return "hello";
+            return res;
         }
 
         public bool  SendEmail(MailMessage mail,GatewayModel gateway)
@@ -121,9 +122,9 @@ namespace doorserve.Repository
         //}
 
 
-        private string SendSms(TemplateModel template, GatewayModel gatway)
+        private bool SendSms(TemplateModel template, GatewayModel gatway)
         {
-            string responseString = "";
+         
 
             string authKey = gatway.OTPApikey;
             //Multiple mobiles numbers separated by comma
@@ -161,16 +162,21 @@ namespace doorserve.Repository
                 //Get the response
                 HttpWebResponse response = (HttpWebResponse)httpWReq.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream());
-                 responseString = reader.ReadToEnd();
+              var   responseString = reader.ReadToEnd();
                 //Close the response
                 reader.Close();
                 response.Close();
+                if (!string.IsNullOrEmpty(responseString))
+                    return true;
+                else
+                    return false;
+
             }
             catch (SystemException ex)
             {
-
+                return false;
             }
-            return responseString;
+
 
         }
         public  async Task<GatewayModel> Getgateway( int gatewayId)
