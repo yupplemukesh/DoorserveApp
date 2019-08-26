@@ -1,0 +1,139 @@
+﻿@model doorserve.Models.CreateUserModel
+
+@{
+    /**/
+
+    ViewBag.Title = "CreateUser";
+    Layout = null;
+}
+
+@using (Html.BeginForm("CreateUser", "Master", FormMethod.Post, new { onSubmit = "return checkSubmit()", id = "form11" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="col-md-7 col-sm-7 col-lg-7 col-xs-12">
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.UserType, null, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubRoleJson', 'UserRole', this)" })
+                @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.UserRole, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model.UserRole, null, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model.ServiceProvider, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                        @Html.DropDownListFor(model => model.ServiceProvider, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ServiceProvider, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 5px;">
+                    @Html.LabelFor(model => model.ServiceProviderType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @Html.DropDownListFor(model => model.ServiceProviderType, new List<SelectListItem>
+                    {
+                        new SelectListItem {Text = "HO", Value = "HO"},
+                        new SelectListItem {Text = "TRC", Value = "TRC"}
+
+                    },  new { @class="form-control", onchange = "showDiv1(this)" })
+
+                        @Html.ValidationMessageFor(model => model.ServiceProviderType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.TRC, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    @Html.DropDownListFor(model => model.TRC, null, new { @class = "form-control" })
+
+                    @Html.ValidationMessageFor(model => model.TRC, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Mobile, htmlAttributes: new { @class = "form-control", @maxlength = "10" })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Email_Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.Email_Address, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email_Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", @onchange = "remoteValidation()" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+                   {
+                       new SelectListItem {Text = "Yes", Value = "Yes"},
+                       new SelectListItem {Text = "No", Value = "No"}
+
+                   },  new { @class="form-control", onchange = "showDiv1(this)" })
+                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                <button class="btn btn-primary" type="button">Cancel</button>
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 col-sm-5 col-lg-5 col-xs-12">
+        <div class="row">
+            <table class="table table-bordered table-condensed" style="width: 100%" id="test1">
+                <thead>
+                    <tr>
+                        <th>Parent Menu</th>
+                        <th>Submenu</th>
+
+                        <th>View Status</th>
+                    </tr>
+                </thead>
+
+
+
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+}
+
+

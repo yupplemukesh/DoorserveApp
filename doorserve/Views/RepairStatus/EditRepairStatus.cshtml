@@ -1,0 +1,229 @@
+﻿
+@{
+	ViewBag.Title = "EditRepairStatus";
+}
+
+<div class="row">
+	@Html.Partial("FindByCcNo")
+</div>
+
+@Html.Action("EditRepairStatus1")
+
+
+@section Scripts{
+
+
+	<script>
+
+
+		function CCno(ccNo) {
+			$.ajax({
+				type: 'POST',
+				url: "/RepairStatus/FindByCcNo?CcNO=" + ccNo,
+				contentType: 'application/json; charset=utf-8',
+				cache: false,
+				success: function (response) {
+					document.getElementById('CcNo').value = response.CcNo;
+					 $('#Mobile_No').val(response.Mobile_No);
+					 $('#Brand').val(response.Brand);
+					 $('#Cust_Add').val(response.Cust_Add);
+					 $('#Cust_City').val(response.Cust_City);
+					 $('#Cust_State').val(response.Cust_State);
+					 $('#CustomerId').val(response.CustomerId);
+					 $('#Customer_Name').val(response.Customer_Name);
+					 $('#Email_Id').val(response.Email_Id);
+					 $('#Model').val(response.Model);
+					 $('#Pickup_Date').val(response.Pickup_Date);
+					 $('#Pincode').val(response.Pincode);
+					 $('#Problem').val(response.Problem);
+					 $('#StatusName').val(response.StatusName);
+					 $('#Serial_No').val(response.Serial_No);
+				},
+				error: function (e) {
+					console.log(e);
+					$(".submitbutton").attr("disabled", false);
+					alert("Something went wrong...");
+
+				},
+				complete: function () {
+
+					$(".submitbutton").attr("disabled", false);
+				}
+			});
+		}
+	</script>
+	<script>
+		function showfield(name) {
+			if (name === 'SE Visit') {
+				$("#revisit").hide();
+			} else {
+				$("#revisit").show();
+			}
+
+
+		}
+        $(".radiobtn input[name='PaymentMode1']").click(function () {
+
+            if ($('input:radio[name=PaymentMode1]:checked').val() == "Cash") {
+                $('.CashRecvd').show()
+                $('.TransAmt').hide()
+                $('.TransDateTime').hide()
+
+                $('.TransNumber').hide()
+            }
+            else {
+                $('.CashRecvd').hide()
+                $('.TransAmt').show()
+                $('.TransDateTime').show()
+
+                $('.TransNumber').show()
+            }
+        });
+		function showCourier(data) {
+			$.ajax({
+				type: 'GET',
+				url: "/RepairStatus/CourierResult?val=" + data,
+				contentType: 'application/json; charset=utf-8',
+				cache: false,
+				success: function(response) {
+					$('#courierimg').attr('src',
+						'http://crm.doorserve.com/UploadedImages/' + response.UploadedCourierFile);
+					document.getElementById('MobileNumber').value = response.MobileNumber;
+					document.getElementById('BikeNumber').value = response.BikeNumber;
+				},
+				error: function(e) {
+					console.log(e);
+					$(".submitbutton").attr("disabled", false);
+					alert("Something went wrong...");
+
+				},
+				complete: function() {
+
+					$(".submitbutton").attr("disabled", false);
+				}
+			});
+		}
+
+		function AjaxWithValue(method, ddl, e) {
+			var val = e.value;
+			$.ajax({
+				type: "GET",
+				url: "/DropdownBind/" + method + "?value=" + val,
+				data: '{}',
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(data) {
+					$("#" + ddl).empty();
+
+					for (var i = 0; i < data.length; i++) {
+						var opt = new Option(data[i].Text, data[i].Value);
+						$('#' + ddl).append(opt);
+					}
+				}
+			});
+		}
+
+		function getSpareData() {
+			var spareType = $("#SpareType").val();
+			var spareName = $("#SpareName").val();
+
+			$.ajax({
+				type: 'GET',
+				url: "/RepairStatus/SpareName?spareType=" + spareType + "&spareName=" + spareName,
+				contentType: 'application/json; charset=utf-8',
+				cache: false,
+				success: function(response) {
+					var Quan = 1;
+					var trHTML = '';
+					trHTML +=
+						'<tr style="padding-top:5px"><td>' +
+						response.SpareTypeName +
+						'</td><td id="PartName">' +
+						response.PartName +
+						'</td><td id="Price">' +
+						response.MarketPrice +
+						'</td id="Quantity"><td>' +
+						'<input type="text" id="foo" name="foo">' +
+						'</td></tr>';
+					$('#test').append(trHTML);
+				},
+				error: function(e) {
+					console.log(e);
+					$(".submitbutton").attr("disabled", false);
+					alert("Something went wrong...");
+
+				},
+				complete: function() {
+
+					$(".submitbutton").attr("disabled", false);
+				}
+
+			});
+
+		}
+
+		function calculateBill() {
+			var cost = 0;
+			var totalCost = 0;
+			var table = document.getElementById('test');
+			var rows = $('#test tbody tr').length;
+			for (var i = 1; i < rows; i+= 1) {
+				var row = table.rows[i];
+				var cost = row.cells[2].innerHTML * $(row).find('#foo').val();
+				totalCost =totalCost+ cost;
+			}
+			var service = document.getElementById('BillServiceCharge').value = 100;
+			var estiCost = service + totalCost;
+			$('#BillSpareCost').val(totalCost);
+			$('#BillEstimatedCost').val(estiCost);
+		}
+
+	function submittest() {
+
+			var form = $("#myInfoForm");
+
+			//$.validator.unobtrusive.parse(form);
+
+					//if ($(form).valid()) {
+						var data = form.serialize();
+						//$(".btnSubmitTest").attr("disabled", true);
+						//$('.ajax-loader').css("visibility", "visible");
+						$.ajax({
+
+							type: "POST",
+							url: "@Url.Action("EditRepairStatus1", "RepairStatus")",
+							data: data,
+							cache: false,
+							success: function (response) {
+
+								if (response == 1) {
+									$("#FOLLOWUP_DATE").datepicker({ dateFormat: 'dd-M-yy' });
+									document.getElementById("myInfoForm").reset();
+									alert("Data submitted successfully");
+
+								}
+
+
+							},
+							error: function () {
+								$('.ajax-loader').css("visibility", "hidden");
+								$(".btnSubmitTest").attr("disabled", false);
+								alert("Something went wrong...");
+
+							},
+							complete: function () {
+								$('.ajax-loader').css("visibility", "hidden");
+								$(".btnSubmitTest").attr("disabled", false);
+							}
+						});
+					//}
+
+
+		};
+	</script>
+
+
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

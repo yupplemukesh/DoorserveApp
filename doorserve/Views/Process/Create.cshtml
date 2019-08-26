@@ -1,0 +1,28 @@
+﻿@model doorserve.Models.ProcessModel
+@{
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Create Process";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="panel-heading">
+
+    <h3 class="m-y-0">Create Process</h3>
+
+</div>
+@using (Html.BeginForm("Create", "Process", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="panel-body">
+        @Html.Partial("_CreateEditProcess", Model)
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <button class="btn btn-primary pull-right">SAVE</button>
+            </div>
+        </div>
+            }
+            @section scripts{
+            }

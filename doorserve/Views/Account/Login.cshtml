@@ -1,0 +1,54 @@
+﻿@using doorserve.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+        <SCRIPT type='text/javascript'>
+            window.history.forward();
+                function noBack() {window.history.forward(); }
+            window.onload = noBack;
+                window.onpageshow = function (evt) { if (evt.persisted) noBack() }
+                window.onunload = function () {void (0)}
+
+       </script>
+
+
+        <div class="row">
+
+            <div class="col-sm-4 col-sm-offset-4">
+              
+                <div class="authentication-content m-b-30">
+                    <div class="text-center">
+                        <img src="~/content/img/WbLogo.png" width="30%"  />
+                    </div>
+                    <h3 class="m-t-0 m-b-30 text-center">You look great today!</h3>
+                    <div class="text-danger">@(ViewBag.Message)</div>
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login100-form validate-form" }))
+                    {@Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="form-control-1">User Name</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Enter username" })
+                    </div>
+                    <div class="form-group">
+                        <label for="form-control-2">Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Enter password" })
+
+                    </div>
+                    <div class="form-group">
+                        <label class="custom-control custom-control-info custom-checkbox active">
+                            <input class="custom-control-input" type="checkbox" name="mode" checked="checked">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-label">Keep me signed in</span>
+                        </label>
+                        <a href="@Url.Action("ForgotPassword","Account")" class="text-info pull-right">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-info btn-block">Submit</button>
+                }
+                </div>
+            </div>
+        </div>
+      
+
+

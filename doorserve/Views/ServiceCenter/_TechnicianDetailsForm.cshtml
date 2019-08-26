@@ -1,0 +1,105 @@
+﻿@model doorserve.Models.EmployeeModel
+<div class="panel-body">
+    <div class="form-horizontal">
+
+        <div class="form-group form-group-sm">
+            @Html.HiddenFor(model => model.EmpId)
+            <label class="col-sm-2 " for="form-control-1">Technician Type</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.TechnicianTypeName, new { @class = "form-control input-md", @placeholder = "Technician Type", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TechnicianTypeName, "", new { @class = "text-danger" })
+
+            </div>
+            <label class="col-sm-2" for="form-control-1">Technician Name</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.TechnicianName, new { @class = "form-control input-md", @placeholder = "Technician Name", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TechnicianName, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Technician Mobile</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.ContactNumber, new { @class = "form-control input-md", @placeholder = "Technician Mobile", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+
+        <div class="form-group form-group-sm">
+
+            <label class="col-sm-2 " for="form-control-1">Technician Image</label>
+            <div class="col-sm-2">
+                <img src="" id="EmpImg" style="pointer-events: none;" width="27"/>
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Panding Calls</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.TotalOpenCalls, new { @class = "form-control input-md", @placeholder = "Panding Calls", @disabled = "disabled" })
+           
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Total Complete Calls</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.TotalCloseCalls, new { @class = "form-control input-md", @placeholder = "Total Complete Calls", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TotalCloseCalls, "", new { @class = "text-danger" })
+            </div>
+
+
+        </div>
+
+
+
+        <div class="form-group form-group-sm">
+
+            <label class="col-sm-2 " for="form-control-1">Vechile Type</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.Vehicle.VehicleTypeName, new { @class = "form-control input-md", @placeholder = "Vechile Type", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Vehicle.VehicleTypeName, "", new { @class = "text-danger" })
+            </div>
+
+
+            <label class="col-sm-2" for="form-control-1">Vechile Brand</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.Vehicle.VehicleBrand, new { @class = "form-control input-md", @placeholder = "Vechile Brand", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Vehicle.VehicleBrand, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Vechile Modal</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.Vehicle.VHModel, new { @class = "form-control input-md", @placeholder = "Vechile Modal", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Vehicle.VHModel, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group form-group-sm">
+
+            <label class="col-sm-2 " for="form-control-1">RC Number</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.Vehicle.VHNumber, new { @class = "form-control input-md", @placeholder = "RC Number", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Vehicle.VHNumber, "", new { @class = "text-danger" })
+            </div>
+
+
+            <label class="col-sm-2" for="form-control-1">Driving Licence Number</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.Vehicle.DrivingLicense, new { @class = "form-control input-md", @placeholder = "Driving Licence Number", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Vehicle.DrivingLicense, "", new { @class = "text-danger" })
+            </div>
+
+            <label class="col-sm-2" for="form-control-1">Insurance Expiry date</label>
+            <div class="col-sm-2">
+                @Html.TextBoxFor(model => model.Vehicle.InsuranceExpairyDate, new { @class = "form-control input-md", @placeholder = "Insurance Expiry date", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.Vehicle.InsuranceExpairyDate, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+
+    </div>
+    </div>
+
+
+

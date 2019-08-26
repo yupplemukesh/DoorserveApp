@@ -1,0 +1,52 @@
+﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
+    <div class="panel-body">
+        <div class="form-horizontl">
+            <h4 class="m-t-0 m-b-25 p-t-10" id="DivAppointInfo" >Appointment Information</h4>
+            <div class="row">
+                <div class="form-material" >
+                    <div class="col-sm-3">
+                        <div class="form-group has-value">
+                            @Html.TextBoxFor(x => x.AppointmentDate,"{0:yyyy/MM/dd hh:mm}",  new { @class = "form-control dateTimePicker", @readOnly="True" })
+                            @Html.ValidationMessageFor(x => x.AppointmentDate, "", new { @class = "text-danger" })
+                            <label class="floating-label t-0">Appointment Date Time</label>
+                        </div>
+                    </div>
+                    @*@if (!string.IsNullOrEmpty(Model.SubAppointmentStatus) && !Model.IsClientAddedBy)
+                    {
+                        <div class="col-sm-3" id="divAppointmentStatus">
+                            <div class="form-group has-value">
+                                @Html.TextBoxFor(x => x.SubAppointmentStatus, new { @class = "form-control", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(x => x.SubAppointmentStatus, "", new { @class = "text-danger" })
+                                <label class="floating-label t-0">Appointment Taken By Client</label>
+                            </div>
+
+                        </div>
+                    }*@
+
+            @if(!Model.IsAssingedCall)
+            { 
+                    <div class="col-sm-3" id="StatusDT">
+                        <div class="form-group has-value">
+                            @Html.DropDownListFor(x => x.AppointmentStatus, Model.StatusList,"Select", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.AppointmentStatus, "", new { @class = "text-danger" })
+                            <label class="floating-label t-0">Appointment Status</label>
+                        </div>
+                    </div>
+               }
+
+                        <div class="col-sm-3">
+                            <div class="form-group has-value" id="DivRemarks">
+                                @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control",@rows="1" })
+                                @Html.ValidationMessageFor(x => x.Remarks, "", new { @class = "text-danger" })
+                                <label class="floating-label">Remarks</label>
+                            </div>
+                        </div>
+          
+                </div>
+            </div>
+
+          
+        </div>
+       
+    </div>
+   

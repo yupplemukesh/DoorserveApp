@@ -1,0 +1,77 @@
+﻿@model doorserve.Models.EmailHeaderFooterModel
+
+
+@Html.HiddenFor(x => x.EmailHeaderFooterId)
+
+
+
+<div class="row form-group">
+
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Action Type</label>
+
+        @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList,"--Select--", htmlAttributes: new { @class = "form-control"  })
+        @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
+
+    </div>
+
+</div>
+
+
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Template Name</label>
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-md", @placeholder = "Email Header And Footer template" })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+
+</div>
+<div class="row form-group">
+    <div class="col-md-12"><label class=" control-label" for="form-control-9">Is Active</label></div>
+    <div class="col-md-12">
+        @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control custom-control-primary custom-checkbox active" })
+
+
+    </div>
+
+</div>
+<div class="row form-group">
+    <div class="col-sm-12 ">
+        <label class="control-label" for="form-control-9">Header</p></label>
+        @Html.TextAreaFor(x=>x.HeaderHTML, new {@id= "editor1",@class="No-border" })
+        
+        <script>
+             CKEDITOR.config.allowedContent = true;
+            CKEDITOR.replace('editor1', {
+                height: 350,
+                extraPlugins: 'colorbutton,colordialog'
+            });
+        </script>
+    </div>
+</div>
+
+
+<div class="row form-group">
+    <div class="col-sm-12 ">
+        <label class="control-label" for="form-control-9">Footer</p></label>
+        @Html.TextAreaFor(x => x.FooterHTML, new { @id = "editor2" })
+
+        <script>
+            CKEDITOR.replace('editor2', {
+                height: 350,
+                extraPlugins: 'colorbutton,colordialog'
+            });
+        </script>
+
+    </div>
+</div>
+
+
+
+
+<div class="row form-group">
+    <div class="col-md-12 ">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</div>

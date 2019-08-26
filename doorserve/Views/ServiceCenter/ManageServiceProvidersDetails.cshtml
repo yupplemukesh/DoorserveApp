@@ -1,0 +1,884 @@
+﻿@model doorserve.Models.ServiceCenter.CallDetailsModel
+@{
+    ViewBag.Title = "ManageServiceProvidersDetails";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@Html.HiddenFor(x => x.Param)
+@Html.HiddenFor(x => x.MinimumApprovalCost)
+<div Id="divPrint">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="m-t-0 m-b-5 m-l-20">
+                    <img src="@Model.CompLogo" />   
+                    <span class="pull-right">                        
+                        Customer Record Card
+                    </span>
+                </h4>
+              
+                @Html.Partial("_CallInformationForm", Model)
+                <div Id="CustomerInfo" style="display:none">
+                <div class="panel-body b-b-1">
+                    <h4 class="m-t-10 m-b-5 m-b-10">Customer Imformation</h4>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+                            <strong>   Name</strong>
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+
+                            @Model.CustomerName
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+                            <strong>
+                                Contact
+                                </strong>
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+
+                            @Model.CustomerContactNumber
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+                            <strong>
+                                Email
+                                </strong>
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+
+                            @Model.CustomerEmail
+                        </div>
+
+                    </div>
+                    <div class="row p-t-5">
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+                            <strong>
+                                Address
+                                </strong>
+                        </div>
+                        <div class="col-md-10 col-sm-10  col-xs-10">
+                            @Html.TextAreaFor(x=>x.Address, new {@rows="2",@class="Form-Control" })
+
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+                            <strong>
+                                City
+                            </strong>
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+
+                            @Model.District
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+                            <strong>
+                                Pin Code
+                            </strong>
+                        </div>
+                        <div class="col-md-2 col-sm-2  col-xs-2">
+
+                            @Model.PinNumber
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                        @Html.Partial("~/Views/Common/_CustomerInfoForm.cshtml", Model)
+                        @Html.Partial("~/Views/Common/_CallLogDeviceInfoForm.cshtml", Model)
+                        @if (Model.ServiceTypeId == 8)
+                        {
+                            <div id="ProblemInfo">
+                                @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new doorserve.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId, ProblemObserved = Model.ProblemObserved })
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="ProblemInfo" style="display:none">
+                                @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new doorserve.Models.ReportedProblemModel
+                                { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId, ProblemObserved = Model.ProblemObserved })
+                            </div>
+                        }
+                        @if (Convert.ToBoolean(Model.IsRepeat))
+                        {
+                            @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
+                                new doorserve.Models.PreviousCallModel
+                {
+               CallDate = Model.PrvCallDate,
+               CallId = Model.PrvCallId,
+               ProblemDescription = Model.PrvProblemDescription,
+               ProblemCloseDate = Model.ProblemCloseDate
+            })
+                            @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
+                            new doorserve.Models.WarrantyInformationModel
+                                {
+                                    ExpiryDate = Model.ExpiryDate,
+                                Status = Model.WarranyStatus
+                                })
+                        }
+                        @if (string.IsNullOrEmpty(Model.Param) || Model.Param == "P")
+                        {
+                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", @id = "updateCall" }))
+                            {
+                                Model.Type = "C";
+                                @Html.HiddenFor(x => x.Type)
+                                @Html.HiddenFor(x => x.DeviceId)
+                                @Html.HiddenFor(x => x.CancelReason)
+                                @Html.HiddenFor(x => x.CStatus)
+                                @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
+                                <div id="DivServiceProvider">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                if (string.IsNullOrEmpty(Model.Param) && Model.AppointmentStatus != 23)
+                                {
+                                    <div class="row- form-group">
+                                        <div class="col-md-offset-10">
+                                            <button type="submit" class="btn btn-primary m-w-60">Submit</button>
+                                            @*<button type="button" class="btn btn-primary m-w-60" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>*@
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                        @if (Model.Param == "P")
+                        {
+                            using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
+                            {
+                                @Html.HiddenFor(x => x.CStatus)
+                                @Html.HiddenFor(x => x.RejectionReason, new { id = "Rejection_Reason" })
+                                @Html.HiddenFor(x => x.DeviceId)
+                                <div class="row- form-group">
+                                    <div class="col-md-3 col-md-offset-9">
+                                        <span>
+                                            <a href="@Url.Action("AcceptCalls", "ServiceCenter")">
+                                                <button type="button" class="btn btn-info m-w-60" id="btnback">Back</button>
+                                            </a>
+                                            <a href="#">
+                                                <button type="button" class="btn btn-danger m-w-60" data-target="#rejectpopup" id="btnReject">Reject</button>
+                                            </a>
+                                            <a href="#">
+                                                <button type="submit" class="btn btn-primary m-w-60" id="btnAccept">Accept</button>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        @if (Model.Param == "A" || Model.Param == "AP" || Model.Param == "CL")
+                        {
+                            <div class="form-horizontal" id="TechId">
+                                <div class="panel-body p-b-0 p-t-0">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
+                            {
+                                Model.Type = "A";
+                                @Html.HiddenFor(x => x.Type)
+                                @Html.HiddenFor(x => x.DeviceId)
+                                @Html.HiddenFor(x => x.Param)
+                                @Html.HiddenFor(x => x.ProblemObserved)
+                                @Html.HiddenFor(x => x.IsServiceApproved)
+                                @Html.HiddenFor(x => x.InvoiceFileName)
+                                @Html.HiddenFor(x => x.JobSheetFileName)
+                                @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
+                                <div id="DivServiceProvider">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                                    @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"></span>
+                                                        @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
+                                                    </div>
+                                                    @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row" id="DropDown2">
+                                        <div class="col-sm-2"> <strong>Technician Name</strong></div>
+                                        <div class="col-sm-4">
+                                            @Html.TextBoxFor(m => m.TechnicianName, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.TechnicianName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="col-sm-2"> <strong>Technician Contact Number </strong></div>
+                                        <div class="col-sm-4">
+                                            @Html.TextBoxFor(m => m.TechnicianContactNumber, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.TechnicianContactNumber, "", new { @class = "text-danger" })
+                                        </div>
+                                        @*<div class="col-sm-5" id="DivTechName" style="display:none">
+                                  @Html.DisplayFor(x => x.TechnicianName)
+                                </div>*@
+
+                                    </div>
+                                </div>
+                                //if (Model.EmpId != null)
+                                //{
+                                @*<div class="panel-body">
+                            <div id="TechnicianDetailsForm2">
+                                @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                            </div>
+                        </div>*@
+                                if (Model.TechnicianName != null)
+                                {
+                                   
+                                        <div class="panel panel-default panel-table b-r-0 b-l-0" id="spareParts">
+
+                                            <div class="panel-body">
+                                                <div class="form-horizontl" id="AddorEditParts">
+                                                    <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Spare Parts Detail</h4>
+
+                                                    @Html.Partial("_AddorEditPartDetails", new doorserve.Models.PartsDetailsModel())
+
+                                                </div>
+                                                <div id="PartListHTML">
+                                                    @Html.Partial("_PartsDetails", Model.Parts)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="panel-body" id="EstimatedCost">
+                                        <div class="form-horizontl">
+                                            <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Estimate Cost</h4>
+
+                                            <div class="form-group row">
+                                                <div class="form-material">
+                                                    <div class="col-sm-2"> <h5 class="m-t-0">Service Charges</h5></div>
+                                                    <div class="col-sm-4">
+                                                        @Html.TextBoxFor(x => x.ServiceCharges, new { @class = "Form-Control" })
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="form-material">
+
+                                                    <div class="col-sm-2"> <h5 class="m-t-0">Spare Charges</h5></div>
+                                                    <div class="col-sm-4">
+                                                        @Html.TextBoxFor(x => x.PartCharges, new { @class = "Form-Control", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <div class="form-material">
+                                                    <div class="col-sm-2"> <h5 class="m-t-0">Total Cost</h5></div>
+                                                    <div class="col-sm-4">
+                                                        @Html.TextBoxFor(x => x.TotalCharges, new { @class = "Form-Control", @disabled = "disabled" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="form-material">
+                                                    <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Invoice</h5></div>
+                                                    <div class="col-sm-3">
+                                                        @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File", @onchange = "readURL(this);" })
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <img src="/TempFiles/@Model.DeviceId/@Model.InvoiceFileName" width="50" />
+                                                    </div>
+
+                                                    <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Job Sheet</h5></div>
+                                                    <div class="col-sm-3">
+                                                        @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File", @onchange = "readURL(this);" })
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <img src="/TempFiles/@Model.DeviceId/@Model.JobSheetFileName" width="50" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    if (Model.StatusId != 18)
+                                    {
+                                        <div class="row form-group m-t-5" id="divActions">
+                                            <div class=" col-md-offset-9 col-md-1">
+                                                <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
+                                            </div>
+                                            @if (Model.TotalCharges > 0 && Model.AppointmentStatus != 27)
+                                            {
+                                                Model.Type = "CC";
+                                                <div class="col-md-1">
+                                                    <button type="button" id="btnclose" class="btn btn-primary">Close Call</button>
+                                                </div>
+
+                                            }
+                                            @if (Model.TotalCharges == 0)
+                                            {
+                                                <div class="col-md-1">
+                                                    <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary" EmpId="@Model.Employee.EmpId">Print Record Card</button>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    }
+                                }
+                                else if (Model.Param != "AP" || Model.Param != "CL")
+                                {
+                                    <div class="row form-group m-t-5" id="divActions">
+                                        <div class=" col-md-offset-9 col-md-1">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="form-group p-l-5" id="TechEmpRemarks" style="display:none">
+                                    <div class="col-sm-3"> <strong>Action Taken By Technician</strong></div>
+                                    <div class="col-sm-9">
+                                        @Html.TextArea("txtEngActions", new { @class = "form-control", @rows = "4" })
+                                    </div>
+
+                                </div>
+
+                                <div class="p-t-10" id="termConditions" style="display:none">
+                                    <div class="panel-body  p-t-5 p-b-0">
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p style="font-size:10px"><b>* Term and Condition: </b> I am fully satishfied with the Repairs carried out of my Product  Time is working satisfactorily. (2) In case Payment made by you Please demand receipt from the service person .(3) This is a record of service rendered and is for uses by Doorserve Authorized service center only. (4)No guarantee on repairs of imported/tampered/ customer mishandled products.(5)company  assumed no responsibility what so ever if the product is not collected back with in 30 days from the date of intimation .(6) All disputes are subject to Delhi jurisdiction only.(7) Our responsibility is limited to the service of this service call only,we are not responsible for any conseqential damages arising from the delay in the non repairing of the product.</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="DivSign" style="display:none">
+                                    <div class="col-sm-6 text-left">
+                                        <h5>Date</h5>
+                                    </div>
+                                    <div class="col-sm-6 text-right">
+                                        <h5>Customer Signature</h5>
+
+                                    </div>
+
+                                </div>
+                            }
+                        }
+                        @if (Model.Param == "CL")
+                        {
+                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "cancelCallForm" }))
+                            {
+                                Model.IsCancelCall = true;
+                                @Html.HiddenFor(x => x.DeviceId)
+                                @Html.HiddenFor(x => x.IsCancelCall)
+                                @Html.HiddenFor(x => x.CancelReason)
+                                @Html.HiddenFor(x => x.Param)
+                                <div class="row form-group m-t-5" id="divActions">
+                                    <div class=" col-md-offset-9 col-md-2">
+                                        <button type="button" class="btn btn-primary" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        @if (Model.Param == "AP")
+                        {
+                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "approvalForm" }))
+                            {
+                                Model.IsServiceApproved = true;
+                                @Html.HiddenFor(x => x.DeviceId)
+                                @Html.HiddenFor(x => x.Param)
+                                @Html.HiddenFor(x => x.IsServiceApproved)
+                                @Html.HiddenFor(x => x.RejectionReason)
+                                <div class="row form-group m-t-5" id="divActions">
+                                    <div class=" col-md-offset-9 col-md-2">
+                                        <button type="submit" class="btn btn-primary">Approved</button>
+                                        <button type="button" class="btn btn-primary" id="#btnReject">Dis-Approved</button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+</div>
+<div id="rejectpopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group col-md-12" id="rejectResonDiv">
+                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Rejected Reason</label>
+                    <div class="col-sm-8 col-md-8">
+                        @Html.TextAreaFor(model => model.RejectionReason, new { @class = "form-control", id = "Reasontxt" })
+                        @Html.ValidationMessageFor(model => model.RejectionReason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnrejectreasion" class="btn btn-primary" deviceID="@Model.DeviceId">Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="cancelpopup" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group col-md-12" id="cancelReasonDiv">
+                    <label for="form-control-3" class="col-sm-3 col-md-3 control-label">Cancelled Call Reason</label>
+                    <div class="col-sm-8 col-md-8">
+                        @Html.TextAreaFor(model => model.CancelReason, new { @class = "form-control", @id = "CancelText" })
+                        @Html.ValidationMessageFor(model => model.CancelReason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCancelledReason" class="btn btn-primary" >Submit</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section scripts
+               {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/js/form-m")
+    <script>
+      var PartList = @Html.Raw(Json.Encode(Model.Parts));
+        console.log(PartList);
+        $(document).ready(function () {
+        $("#btnReject").click(function () {
+            $("#rejectpopup").modal("show");
+        });
+        $("#btnCancel").click(function () {
+            $("#cancelpopup").modal("show");
+        });
+        $("#btnrejectreasion").click(function () {
+            var rejectionreason = $("#Reasontxt").val();
+            $("#Rejection_Reason").val(rejectionreason);
+            $("#CStatus").val(9);
+            $("#cancelCallForm").submit();
+        });
+        $("#btnCancelledReason").click(function () {               
+               $("#CancelReason").val($("#CancelText").val());
+            $("#CStatus").val(12);
+            $("#cancelCallForm").submit();
+        });
+        $("#DropDown").change(function () {
+            var Id = $(this).val();
+            // var Id = $dd.val();
+            $.ajax({
+                type: "POST",
+                url: "/ServiceCenter/TechnicianDetails",
+                data: {
+                    EmpId: Id
+                },
+                success: function (response) {
+                    console.log(response);
+                    console.log(response.EMPPhotoUrl);
+                    $("#EmpId").val(response.EmpId);
+                    $("#TechnicianTypeName").val(response.TechnicianTypeName);
+                    $("#TechnicianName").val(response.TechnicianName);
+                    $("#ContactNumber").val(response.ConMobileNumber);
+                    if (response.EMPPhoto != null || response.EMPPhoto != "") {
+                        $("#EmpImg").prop("src", response.EMPPhotoUrl);
+                    }
+                    $("#TotalOpenCalls").val(response.TotalOpenCalls);
+                    $("#TotalCloseCalls").val(response.TotalCloseCalls);
+                    $("#Vehicle_VehicleTypeName").val(response.Vehicle.VehicleTypeName);
+                    $("#Vehicle_VehicleBrand").val(response.Vehicle.VehicleBrand);
+                    $("#Vehicle_VHModel").val(response.Vehicle.VHModel);
+                    $("#Vehicle_VHNumber").val(response.Vehicle.VHNumber);
+                    $("#Vehicle_DrivingLicense").val(response.Vehicle.DrivingLicense);
+
+                    if (response.Vehicle.InsuranceExpairyDate != null)
+                        $("#Vehicle_InsuranceExpairyDate").val(new Date(parseInt(response.Vehicle.InsuranceExpairyDate.substr(6))));
+                    console.log(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    alert("Something went wrong...");
+                },
+                complete: function () {
+                    $("#TechnicianDetailsForm2").show();
+                    $("#DropDown2").hide();
+                }
+            })
+
+        });
+        $("#btnEditSparePart").click(function () {
+            
+            var PartId = $("#PartId").val();
+            var PartNo = $("#PartNo").val();
+            var Description = $("#PartDescription").val();
+            var Qty = $("#Qty").val();
+            var UnitPrice = $("#UnitPrice").val();
+
+            var part = {
+                PartId: PartId,
+                PartNo: PartNo,
+                Description: Description,
+                Qty: Qty,
+                UnitPrice: UnitPrice,
+                FileName: $("#FileName").val(),
+                PartFile: null,
+                url: '',
+                RefKey: $("#DeviceId").val()
+
+            };
+            var files = $('#PartFile').get(0).files;
+               if (files.length > 0 || $("#ImgURI").prop("src") != "") {   
+                debugger
+              if (files.length > 0) 
+                    part.PartFile = files[0];
+                if (part.FileName != "")
+                    part.url = "/TempFiles/" + $("#DeviceId").val()+'/' + part.FileName;
+                else
+                    part.url = $("#ImgURI").prop("src");
+                    NextStep(part);
+                 
+            }
+
+        });
+        $("#Qty").change(function () {
+            Calculate();
+        });
+        $("#UnitPrice").change(function () {
+            Calculate();
+        });
+        $("#ServiceCharges").change(function () {
+            CalculateTotal();
+        });
+        $("#btnemp").click(function () {
+                
+            var data = new FormData();
+            var InvoiceFile = $('#InvoiceFile').get(0).files;
+               var JobSheet = $('#JobSheetFile').get(0).files;
+               var InvoiceFileName = $("#InvoiceFileName").val();
+               var JobSheetFileName = $("#JobSheetFileName").val();
+               if (InvoiceFile.length > 0 || InvoiceFileName.length > 0) {
+                   if (InvoiceFile.length > 0)
+                       data.append("InvoiceFile", InvoiceFile[0]);
+               }
+               else {
+                   $(".toast-message").html("Please attached Invoice");
+                   $(".toast-error").show();
+                   $("#toast-container").fadeIn();
+                   $("#toast-container").fadeOut(2000);
+                   return false;
+               }
+               if (JobSheet.length > 0 || JobSheetFileName.length > 0) {
+                   if(JobSheet.length > 0 )
+                   data.append("JobSheetFile", JobSheet[0]);
+               }
+               else {
+                   $(".toast-message").html("Please attached Jobsheet");
+                   $(".toast-error").show();
+                   $("#toast-container").fadeIn();
+                   $("#toast-container").fadeOut(2000);
+                   return false;
+               }
+            var CallDetail = {
+                DeviceId: $("#DeviceId").val(),
+                Remarks: $("#Remarks").val(),
+                Param: $("#Param").val(),
+                TechnicianName: $("#TechnicianName").val(),
+                TechnicianContactNumber: $("#TechnicianContactNumber").val(),
+                ProblemObserved: $("#ProblemObserved").val(),
+                AppointmentStatus: $("#AppointmentStatus").val(),
+                AppointmentDate: $("#AppointmentDate").val(),
+                PartCharges: $("#PartCharges").val(),
+                ServiceCharges: $("#ServiceCharges").val(),
+                Parts: PartList
+               };
+            var parts = [];
+           for (var i= 0; i < PartList.length; i++ )
+           {               
+               var part = {
+                   PartId: PartList[i].PartId,
+                   PartNo: PartList[i].PartNo,
+                   Description: PartList[i].Description,
+                   Qty: PartList[i].Qty,
+                   UnitPrice: PartList[i].UnitPrice,
+                   FileName: PartList[i].FileName,
+                   RefKey: PartList[i].RefKey
+               };
+                  parts.push(part);
+               if (PartList[i].PartFile != null) {
+                    debugger
+                    data.append(PartList[i].PartNo,PartList[i].PartFile);
+                }
+           }
+            CallDetail.Parts = parts;
+            data.append("CallDetail", JSON.stringify(CallDetail));
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("UpdateCall", "ServiceCenter")',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                  location.reload();
+                },
+                complete: function (result) {
+
+                }
+            })
+           });
+            $("#btnclose").click(function () {
+                debugger
+               var isApproved = $("#IsServiceApproved").val();
+               var misapprovalCost = $("#MinimumApprovalCost").val();
+               if (isApproved !="True") {
+                   $(".toast-message").html("Service cost is not approved");
+                   $(".toast-error").show();
+                   $("#toast-container").fadeIn();
+                   $("#toast-container").fadeOut(2000);
+                   return false;
+               }
+               if ($("#AppointmentStatus").val() == 27) {
+                   $(".toast-message").html("sorry ! You can not close Call it is cancelled intiated");
+                   $(".toast-error").show();
+                   $("#toast-container").fadeIn();
+                   $("#toast-container").fadeOut(2000);
+                   return false;
+               }
+               else {
+                 var data = JSON.stringify({ DeviceId : $("#DeviceId").val(), Type: "CC" });
+                $.ajax({
+                type: "POST",
+                url: '@Url.Action("CallStatusDetails", "ServiceCenter")',
+                data: data,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                processData: false,
+                success: function (result) {
+                  location.reload();
+                },
+                complete: function (result) {
+
+                }
+
+                    })
+
+
+               }
+
+           });
+    });
+        $(document).ready(function () {
+        var param = $("#Param").val();
+        if (param == 'A' || param == 'P' || param=='AP' || param=='CL' ) {
+            $("#providerId").attr('disabled', true);
+        }
+            if (param == 'AP' || param == 'CL') {
+                $("#divActions").hide();
+            }
+            $("#DeviceCategoryId").attr('disabled', true);
+            $("#ProblemDescription").attr('disabled', true);
+                             $("#DeviceSn").attr('disabled', true);
+                            $("#IssueOcurringSinceDate").attr('disabled', true);
+                                        $("#IsExistingCustomer").attr('disabled', true);
+                                        $("#CustomerContactNumber").attr('disabled', true);
+                                        $("#CustomerTypeId").attr('disabled', true);
+                                        $("#CustomerName").attr('disabled', true);
+                                        $("#CustomerEmail").attr('disabled', true);
+                                        $("#Address").attr('disabled', true);
+                                        $("#NearLocation").attr('disabled', true);
+                                        $("#Country").attr('disabled', true);
+                                        $("#State").attr('disabled', true);
+                                        $("#District").attr('disabled', true);
+                                        $("#LocationId").attr('disabled', true);
+                                        $("#PinCode").attr('disabled', true);
+                                        $("#DeviceSubCategoryId").attr('disabled', true);
+                                        $("#DeviceBrandId").attr('disabled', true);
+                                        $("#DeviceModelNo").attr('disabled', true);
+                                        $("#DeviceModalId").attr('disabled', true);
+                                        $("#BillNo").attr('disabled', true);
+                                        $("#DeviceIMEIOne").attr('disabled', true);
+                                        $("#DeviceIMEISecond").attr('disabled', true);
+                                        $("#PurchaseFrom").attr('disabled', true);
+                                        $("#DOP").attr('disabled', true);
+                                        $("#BillAmount").attr('disabled', true);
+                                        $("#DeviceConditionId").attr('disabled', true);
+                                        $("input:radio").prop('disabled', true);
+
+
+                                    });
+        function PrintPage() {
+            $("#divActions").hide();
+            $("#DivAppointInfo").hide();
+            $("#TechId").hide();
+            $("#SeriveDelivery").hide();
+            $("#DivprbObserved").hide();
+            $("#TechnicianDetailsForm2").hide();
+            $("#EstimatedCost").hide();
+            $("#AddorEditParts").hide();
+            $("#DivSign").show();
+            $("#TechEmpRemarks").show();
+            $("#termConditions").show();
+            $("#divAppointmentStatus").hide();
+            $("#StatusDT").hide();
+            $("#CustomerDT").hide();
+                        $("#CustomerInfo").show();
+            $("#DivRemarks").hide()
+            $("#DivTechDrop").hide()
+            $("#DivTechName").show()
+            $("#DivServiceProvider").hide();
+            $("#spareParts").hide();
+
+
+                                        var sOption = "toolbar=yes,location=no,directories=yes,menubar=No,scrollbars=yes,width=900,height=300,left=5,top=5";
+                                        var sWinHTML = document.getElementById('divPrint').innerHTML;
+                                        var winprint = window.open("", "", sOption);
+                                        winprint.document.open();
+                                        winprint.document.write('<link href="/Content/css/vendor.css" rel="stylesheet">');
+                                        winprint.document.write('<link href="/Content/css/style.css" rel="stylesheet">');
+                                        winprint.document.write('<style>.p-t-10{padding-top:0px}.p-b-10{padding-bottom:1px;}.form-material .form-control{padding:0px 0px}.form-group{margin-bottom:2px;}.form-material .form-group{padding:17px 0px;} .form-control{height:26px}.panel-body{padding:0px 20px;font-size:10px;}.panel-heading{padding:0;}.panel{margin-bottom:0px;font-size:10px;}h4{font-size:14px;font-weight:bold;} </style></head><body onload="window.print();">');
+                                        winprint.document.write(sWinHTML);
+                                        winprint.document.write('</body></html>');
+                                        winprint.document.close();
+                                        winprint.focus();
+                                        window.close();
+                                        }
+        function EditItem(partnumber) {
+            debugger
+            var result = PartList.filter(obj => {
+                return obj.PartNo === partnumber
+            });  
+            if(result[0].FileName!='')
+            result[0].url="/TempFiles/" + result[0].RefKey + '/' + result[0].FileName;
+                                        $("#PartId").val(result[0].PartId);
+                                        $("#PartNo").val(result[0].PartNo);
+                                        $("#PartDescription").val(result[0].Description);
+                                        $("#Qty").val(result[0].Qty);
+                                        $("#UnitPrice").val(result[0].UnitPrice);
+                                        $("#FileName").val(result[0].FileName);
+                                        $("#Total").val(parseFloat(result[0].UnitPrice) * parseFloat(result[0].Qty));
+                                        $("#ImgURI").prop("src", result[0].url);
+        }
+        function BindTable()
+        {    
+            var count = 1;
+            var sum = 0;
+            $("#tblPartList >tbody").empty();
+            $.each(PartList, function (key, value) { 
+                if ( value.PartId != "" )
+                    value.url = "/TempFiles/" + value.RefKey + '/' + value.FileName;
+                    var element = "<tr>";
+                                            element=element+"<td>" + count + "</td>";
+                                            element=element+"<td><label name= 'PartNo' >"+value.PartNo+"</label> </td>";
+                                            element=element+"<td><label name= 'Description'>"+value.Description+"</label> </td>";
+                                            element = element + "<td><label name= 'Qty'>" + value.Qty + "</label> </td>";
+                                            element=element+"<td><label name= 'UnitPrice'>"+value.UnitPrice+"</label> </td>";
+                                            element=element+"<td><label name= 'Total'>"+ parseFloat( value.UnitPrice) * parseFloat(value.Qty) +"</label> </td>";
+                                            element=element+"<td><img src='"+value.url+"' height='30' /> </td>";
+                                            element = element + "<td style='display: inline-flex'><a href='#' onclick='EditItem(\"" + value.PartNo + "\")' class='btn btn-small btn-info btnSize'>Edit</a></td>";
+                                            element=element+"<td style='display: inline-flex'><a href='#' onclick='DeleteItem(\""+value.PartNo+"\")' class='btn btn-small btn-info btnSize'>Delete</a></td>";
+                                            element = element + "</tr>";
+                                            $("#tblPartList >tbody").append(element);
+               count = count + 1;
+               sum = sum + parseFloat(value.UnitPrice) * parseFloat(value.Qty);
+            });
+            $("#PartCharges").val(sum);
+            CalculateTotal();
+        }
+        function DeleteItem(partNumber) {
+
+             var result = PartList.filter(obj => {
+                return obj.PartNo === partNumber
+            });
+            PartList.splice($.inArray(result[0], PartList), 1);
+          
+        BindTable();
+
+        }
+        function Calculate(){
+            var qty = $("#Qty").val();
+            var unitPrice = $("#UnitPrice").val();
+            if (qty != '' && unitPrice != '')
+                $("#Total").val(parseFloat(unitPrice) * parseFloat(qty));
+            else
+                $("#Total").val("");
+    }
+        function NextStep(part) {
+
+                            var result = PartList.filter(obj => {
+                                return obj.PartNo === part.PartNo
+                            });
+                         if (result.length > 0) {
+                            result[0].PartId = part.PartId;
+                            result[0].PartNo = part.PartNo;
+                            result[0].Description = part.Description;
+                            result[0].Qty = part.Qty;
+                            result[0].UnitPrice = part.UnitPrice;
+                            result[0].FileName = part.FileName;
+                            result[0].PartFile = part.PartFile;
+                            result[0].url = part.url;
+                        }
+                        else {
+                            PartList.push(part);
+                        }
+
+                        BindTable();
+                        $("#PartId").val(null);
+                        $("#PartNo").val('');
+                        $("#PartDescription").val('');
+                        $("#Qty").val('');
+                        $("#UnitPrice").val('');
+                        $("#Total").val('');
+            $("#Action").val('');
+            $("#PartFile").val('');
+                        $("#ImgURI").prop('src', null);
+    }
+        function CalculateTotal() {
+          $("#TotalCharges").val(parseFloat($("#PartCharges").val())+parseFloat($("#ServiceCharges").val()));
+       }
+        function UploadFile(part ) {
+             var data = new FormData();
+             var files = $('#PartFile').get(0).files;
+            if (files.length > 0) {
+                data.append("file", files[0]);
+
+                data.append("DeviceId", $("#DeviceId").val());
+                data.append("PartNo", part.PartNo);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadFile", "ServiceCenter")',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        part.FileName = result;
+                    },
+                    complete: function (result) {
+                        NextStep(part);
+
+
+                    }
+
+                });
+            }
+            else
+                NextStep(part);
+        }
+    </script>
+}

@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "SMSGatewayIndex";
+}
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3 class="m-y-0">Add Gateway Setting</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
+            <div class="x_content">
+                <br />
+                @Html.Action("AddSMSGateway", "WebsiteSettings")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3 class="m-y-0">List Of All Gateway Setting</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
+            <div class="x_content" style="overflow-x: scroll;">
+                @Html.Action("SMSGatewayTable", "WebsiteSettings")
+                 
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit SMS Gateway</h4>
+            </div>
+
+            <div class="modal-body" id="Info">@Html.Partial("EditSMSGateway")</div>
+        </div>
+
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+
+@if (ViewBag.Message != null )
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+    </script>
+}
+@section Scripts{
+    <script>
+        function Edit(Id) {
+            $.ajax({
+                type: 'GET',
+                url: "/WebsiteSettings/EditSMSGateway?id=" + Id,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+        
+    </script>
+}
+

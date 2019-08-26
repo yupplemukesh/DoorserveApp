@@ -1,0 +1,52 @@
+﻿@model doorserve.Models.ReportsModel
+@{
+    Layout = null;
+}
+<form id="myForm">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.Fromdate, htmlAttributes: new { @class = "col-md-1 col-xs-12" })
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                @Html.TextBoxFor(model => model.Fromdate, htmlAttributes: new { @class = "form-control", id = "ReportFromDate" })
+                @Html.ValidationMessageFor(model => model.Fromdate, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "col-md-1 col-xs-12" })
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                @Html.TextBoxFor(model => model.ToDate, htmlAttributes: new { @class = "form-control", id = "ReportToDate" })
+                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.ProcessName, htmlAttributes: new { @class = "col-md-1 col-xs-12" })
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                @Html.DropDownListFor(model => model.ProcessName, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "doorserve Repairs", Value = "doorserve Repairs"},
+                    new SelectListItem {Text = "WarrantyBazaar", Value = "WarrantyBazaar"}
+
+                }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ProcessName, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.ServiceProviderName, htmlAttributes: new { @class = "col-md-1 col-xs-12" })
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                @Html.DropDownListFor(model => model.ServiceProviderName,null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ServiceProviderName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.TrcName, htmlAttributes: new { @class = "col-md-1 col-xs-12" })
+            <div class="col-md-2 col-sm-2 col-xs-12">
+                @Html.DropDownListFor(model => model.TrcName,null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TrcName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-sm text-center" id="btnSubmit">Search</button>
+            </div>
+        </div>
+        <div class="ln_solid"></div>
+
+    </div>
+
+</form> 
+
+
+

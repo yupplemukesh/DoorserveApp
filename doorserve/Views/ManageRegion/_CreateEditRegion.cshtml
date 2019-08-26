@@ -1,0 +1,42 @@
+﻿@model doorserve.Models.ManageRegionModel
+@Html.HiddenFor(x=>x.RegionId)
+
+@*<div class="row" style="padding-bottom: 5px;">
+    @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        @Html.TextBoxFor(model => model.RegionId, new { @class = "form-control", @cols = 42, @rows = 2 })
+
+    </div>
+</div>*@
+<div class="row" style="padding-bottom: 5px;">
+    @Html.LabelFor(model => model.RegionName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        @Html.TextBoxFor(model => model.RegionName, new { @class = "form-control", @cols = 42, @rows = 2 })
+
+    </div>
+</div>
+<div class="row" style="padding-bottom: 5px;">
+    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @cols = 42, @rows = 2 })
+
+    </div>
+</div>
+
+
+<div class="row" style="padding-bottom: 5px;">
+    @Html.Label("State Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+    <div class="col-md-6 col-sm-6 col-xs-12">
+         @Html.ListBoxFor(model => model.SelectedStates, Model.StateList, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+        @Html.ValidationMessageFor(model => model.SelectedStates, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="row" style="padding-bottom: 5px;">
+    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        @Html.CheckBoxFor(model => model.IsActive, new { @checked = "checked" })
+
+    </div>
+</div>
+

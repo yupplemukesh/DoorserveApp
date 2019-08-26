@@ -1,0 +1,147 @@
+﻿@model doorserve.Models.User1
+<input type="button" class="btn btn-sm btn-info btnSize" value="Back To List" onclick="@("window.location.href='" + @Url.Action("CreateUser1", "Master",new { }) + "'");" />
+<div class="row">
+    <div class="col-md-7 col-sm-7 col-xs-7">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add User<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @{Html.RenderPartial("AddUserViewChild");}
+              
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 col-sm-5 col-xs-5">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Add User<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+             
+                    @{Html.RenderPartial("MenuList", Model.TableMenu);}
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section scripts{
+    <script>
+        function BindCityAndSate() {
+            debugger
+            var value = document.getElementById("Pincode").value;
+            if (value.length == 6) {
+                AjaxWithValueDEE('BindSatetByPincode', 'State', value)
+
+                AjaxWithValueDEE('BindCityByPincode', 'City', value)
+            }
+        
+        }
+        function AjaxWithValueDEE(method, ddl, val) {
+
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+
+                    $('#' + ddl).val(data[0].Text);
+
+                }
+            });
+        }
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+        }
+        $("#UserRole").change(function () {
+            debugger;
+            var end = this.value;
+            var firstDropVal = $('#UserRole').val();
+            $("#test1 tbody tr").remove();
+            $.ajax({
+                type: 'GET',
+                url: "/Master/SubMenuRole?RoleID=" + firstDropVal,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    debugger;
+                    var Quan = 1;
+                    var trHTML = '';
+                    $.each(response, function (i, item) {
+                        trHTML += '<tr style="padding-top:5px"><td hidden>' + item.ParentMenuId + '</td><td>' + item.ParentMenuName + '</td><td hidden>' + item.MenuCap_ID + '</td><td>' + item.Menu_Name + '</td><td><input type="checkbox" checked="checked" name="foo" value="' + item.MenuCap_ID + '" /></td></tr>';
+                    });
+                    $('#test1').append(trHTML);
+        $("#tableMenuDiv").show();
+                    check_checkbox(UserId, MainMenu);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+
+            });
+        });
+        function checkSubmit()
+        {
+            var listName = "TableMenu";
+            var table = $("#test1 tbody");
+            var qtd = 0;
+            table.find('tr').each(function (i) {
+                var $tds = $(this).find('td');
+                //console.log($tds);
+
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].MenuCap_ID'value='" + $tds.eq(0).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].Menu_Name' value='" + $tds.eq(1).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].SubMenuName' value='" + $tds.eq(2).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].ParentMenuID' value='" + $tds.eq(3).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].isNewlyEnrolled' value='" + $tds.find('input:checkbox').is(':checked') + "'>");
+
+                qtd += 1;
+            });
+            return true;
+        }
+
+    </script>
+}

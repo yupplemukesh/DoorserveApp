@@ -1,0 +1,103 @@
+﻿@model  IEnumerable<doorserve.Models.UREVASmodel>
+@using doorserve.Models
+
+@{
+    ViewBag.Title = "UpdateReverseAWB";
+}
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Update AWB Status</h3>
+            </div>  
+            <div class="col-md-6 ">
+                <div class="pull-right">
+                    @if (Permissions.Rights.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="x_content">
+        <table class="table table-striped table-bordered table-condensed" id="myTable">
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourierLogo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourierName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OpenReverseAWBStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AvgOPenTAT)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+
+            @foreach (var item in Model)
+            {
+                var Source = "";
+
+                Source = "http://crm.doorserve.com/UploadedImages/" + item.CourierLogo;
+
+                <tr>
+
+                    <td>
+                        <img src="@Url.Content(Source)" alt="Courier Logo" width="90" height="90" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CourierName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OpenReverseAWBStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AvgOPenTAT)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @if (Permissions.Rights.Edit)
+                        {
+                            @Html.ActionLink("Update", "UREVASform", new { CourierId = item.CourierId }, new { @class = "btn btn-sm btn-primary" })
+                        }
+                        </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    </div>
+
+    @if (ViewBag.Message != null)
+    {
+        <div id="snackbar">@ViewBag.Message</div>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <script>
+
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+        </script>
+    }

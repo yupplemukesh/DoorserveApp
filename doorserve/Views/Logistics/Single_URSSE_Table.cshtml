@@ -1,0 +1,117 @@
+﻿@model IEnumerable<doorserve.Models.URSSE_Page_Model>
+
+
+<table class="table table-striped table-bordered table-condensed" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RR_NO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CC_NO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Entry_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CallStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceEngineerAction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile_No)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AltNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EMail_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cust_Add)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cust_State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cust_City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pincode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeviceType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RR_NO)
+            </td>
+            <td>
+                <input type="button" value="@item.CC_NO" id="link" />
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Entry_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CallStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceEngineerAction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile_No)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AltNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMail_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust_Add)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust_State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cust_City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pincode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+        </tr>
+        }
+    </tbody>
+
+
+</table>
+

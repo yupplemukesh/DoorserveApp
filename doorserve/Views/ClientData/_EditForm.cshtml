@@ -1,0 +1,148 @@
+﻿@model TogoFogo.Models.ServiceCenter.CallDetailsModel
+@{
+    ViewBag.Title = "Edit Client";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="panel-heading">
+
+    <h3 class="m-y-0">Edit Call log</h3>
+
+</div>
+<div class="panel-body">
+
+    @using (Html.BeginForm("Edit", "ClientData", FormMethod.Post, new { id = "submitthis" }))
+    {
+    @Html.HiddenFor(x=>x.DeviceId)
+    @Html.HiddenFor(x=>x.CustomerId)
+    @Html.HiddenFor(x=>x.Id)
+
+    @Html.Partial("_NewCallLogForm", Model)
+    }
+</div>
+
+
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/js/form-m")
+<script>
+
+    $(".ladda-button").hide();
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            var refval = e.cvalue;
+            if (ddl == "StateId")
+                $("#CityId").empty();
+            if (ddl == 'DeviceModalId') {
+
+                var brand = $("#DeviceBrandId").val();
+                var category = $("#DeviceSubCategoryId").val();
+                if (brand == "" || category == "")
+                    return false;
+                else
+                    val = brand + ',' + category;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger
+                    $("#" + ddl).empty();
+
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                    if (refval != null || refval != undefined) {
+                        $('#' + ddl).val(refval);
+                    }
+
+
+                }
+            });
+        }
+
+        function getCustomer() {
+            var mobile = $("#CustomerContactNumber").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("BindCustomerJson", "DropdownBind")',
+                data: { 'mobile': mobile },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
+                    $("#CustomerName").val(data[0].CustomerName);
+                    $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
+                    $("#CustomerEmail").val(data[0].Email);
+                    $("#CustomerId").val(data[0].customerId);
+                    $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
+                    $("#NearLocation").val(data[0].NearLocation);
+                    $("#Address").val(data[0].Address);
+                    $("#IsExistingCustomer").prop("checked", true);
+                    $("#Pincode").val(data.PinNumber);
+                    $("#Country").val(data.Country);
+                    $("#State").val(data.State);
+                    $("#City").val(data.City);
+
+                }
+            });
+        }
+
+
+
+      @*
+          var obj = { value: data[0].CountryId, cvalue: data[0].StateId }; +
+                        AjaxWithValue('BindStateJson', 'StateId', obj);
+                    obj.value = data[0].StateId;
+                    obj.cvalue = data[0].CityId;
+                    AjaxWithValue('BindLocationJson', 'CityId', obj)
+          $("#PinNumber").val(data[0].PinNumber);
+                    $("#CountryId").val(data[0].CountryId);
+
+
+          function getLocationByPin() {
+          var PinCode=  $("#PinNumber").val();
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("BindLocationByPinJson", "DropdownBind")',
+                    data: {'value':  PinCode},
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#CountryId").val(data[0].CountryId);
+                        var obj = { value: data[0].CountryId, cvalue:data[0].StateId }; +
+                          AjaxWithValue('BindStateJson', 'StateId', obj);
+                        obj.value = data[0].StateId;
+                        obj.cvalue = data[0].CityId;
+                         AjaxWithValue('BindLocationJson', 'CityId', obj)
+
+
+                    }
+                });
+        }
+*@
+
+            $('input[type=radio][name="ServiceTypeId"]').change(function () {
+
+                if ($(this).val() == 7) {
+
+                    $("#ProblemInfo").hide();
+                }
+                else {
+
+                    $("#ProblemInfo").show();
+                }
+
+        });
+
+</script>
+
+}

@@ -1,0 +1,201 @@
+﻿@using doorserve.Models
+@model doorserve.Models.ProductModel
+
+
+@using (Html.BeginForm("EditProduct", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.ProductId)
+    @Html.HiddenFor(model => model.ProductImage)
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.CategoryID, Model._Category,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCat', this)" })
+            </div>
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+      
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.SubCatId, Model._SubCat, new { @class = "form-control", @id = "SubCat" })
+            </div>
+                @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })            
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.DropDownListFor(model => model.BrandID, Model._BrandName, new { @class = "form-control" })
+            </div>
+                @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })            
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.Label("Model", htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
+            </div>
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })           
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.Label("Model Color", htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.ListBoxFor(model => model.ProductColor, Model._ProductColor, new { @class = "selectpicker1", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
+            </div>
+                @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })           
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.Label("Alternate Model Name", htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.AlternateProductName, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MRP, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.MarketPrice, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.MarketPrice, htmlAttributes: new { @class = "form-control", onkeypress = "return isNumber(event)" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.TUPC, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.TUPC, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+            </div>
+        </div>
+    </div>
+
+
+    @* <div class="form-group">
+            @Html.LabelFor(model => model.ProductImage, htmlAttributes: new { @class = "control-label" })
+            <div class="input-group">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+
+                <div class="col-md-3 col-sm-3 col-lg-3 col-xs-12">
+                    @*<img id="blah" src="/Images/male-user-add.png" width="50" alt="your image" style="height: 50px" />
+                    @if (Model != null)
+                    {
+
+                        <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" />
+                    }
+                    else
+                    {
+                        <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" />
+                    }
+                </div>
+            </div>
+        </div>*@
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.Label("Model Image", htmlAttributes: new { @class = "control-label" })
+            <div class="input-group ">
+                <span class="input-group-addon"></span>
+                @Html.TextBoxFor(model => model.ProductImg, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                @if (Model != null)
+                {
+
+                    <img id="blah" src="~/UploadedImages/@Model.ProductImage" width="50" height="50" style="margin-top:15px" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Images/male-user-add.png" width="50" height="50" style="margin-top:15px" />
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsRepair, htmlAttributes: new { @class = "control-label" })
+
+            @Html.CheckBoxFor(model => model.IsRepair)
+            @Html.ValidationMessageFor(model => model.IsRepair, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+
+            @Html.CheckBoxFor(model => model.IsActive)
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="row ">
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+    $('.selectpicker1').selectpicker();
+    $(".bootstrap-select").click(function () {
+        $(this).addClass("open");
+
+        //$('#CountryList').attr('data-live-search', true);
+    });
+    $(document).click(function () {
+        $(".bootstrap-select").removeClass("open");
+        $('.selectpicker').attr("data-live-search", true);
+
+    });
+    $(".bootstrap-select").click(function (e) {
+        debugger;
+        e.stopPropagation();
+
+
+    });
+</script>
+
+@Scripts.Render("~/bundles/jqueryval")

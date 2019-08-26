@@ -1,0 +1,281 @@
+﻿@model TogoFogo.Models.ManageBannersModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+
+<div class="panel-heading">
+
+    <h3 class="m-y-0">Edit Banner</h3>
+
+</div>
+@using (Html.BeginForm("Edit", "ManageBanners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="panel-body">
+
+        @Html.Partial("_CreateEditBanner", Model)
+        @Html.Partial("_CreateEditBannerUpload", Model)
+        @Html.Partial("_BannerUploadList", Model.ImgDetails)
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <button class="btn btn-primary pull-right">SAVE</button>
+        </div>
+    </div>
+}
+@section scripts{
+    <script>
+
+        var ImgList = @Html.Raw(Json.Encode(Model.ImgDetails));
+        if (ImgList == null)
+            ImgList = [];
+        $("#btnEditImg").click(function () {
+            debugger
+            var Description = CKEDITOR.instances.editor1.getData();
+           // var send = JSON.stringify({ editor1: Description });
+            var HeaderTitle = $("#HeaderTitle").val();
+            var SortOrder = $("#SortOrder").val();
+            var AltText = $("#AltText").val();
+            var BannerLinkURL = $("#BannerLinkURL").val();
+            var Img = {
+                Description: Description,
+                HeaderTitle: HeaderTitle,
+                SortOrder: SortOrder,
+                AltText: AltText,
+                BannerLinkURL: BannerLinkURL,
+                BannerFileName: $("#FileName").val(),
+                BannerFile: null,
+                url: '',
+                RefKey: $("#BannerId").val()
+
+            };
+            var files = $('#BannerFileName').get(0).files;
+            if (files.length > 0 || $("#ImgURI").prop("src") != "") {
+
+                if (files.length > 0)
+                    Img.BannerFile = files[0];
+                if (Img.FileName != "")
+                    Img.url = "/TempFiles/" + $("#BannerId").val() + '/' + Img.FileName;
+                else
+                    Img.url = $("#ImgURI").prop("src");
+                NextStep(Img);
+                CKEDITOR.instances.editor1.setData('');
+            }
+
+        });
+
+
+
+        function NextStep(Img) {
+            if ($("#Action").val() == "U") {
+                var result = ImgList.filter(obj => {
+                    return obj.HeaderTitle === Img.HeaderTitle
+                });
+                result[0].BannerUploadId = Img.BannerUploadId;
+                result[0].HeaderTitle = Img.HeaderTitle;
+                result[0].Description =  Img.Description;
+                result[0].SortOrder = Img.SortOrder;
+                result[0].AltText = Img.AltText;
+                result[0].BannerFile = Img.BannerFile;
+               result[0].BannerFileName = Img.BannerFileName;
+                result[0].BannerLinkURL = Img.BannerLinkURL;
+                result[0].url = Img.url;
+            }
+            else {
+                ImgList.push(Img);
+            }
+
+            BindTable();
+            $("#BannerUploadId").val(null);
+            $("#HeaderTitle").val('');
+            $("#Description").val('');
+            $("#SortOrder").val('');
+            $("#AltText").val('');
+            $("#BannerLinkURL").val('');
+            $("#BannerFileName").val('');
+            $("#Action").val('');
+            $("#ImgURI").prop('src', null);
+        }
+
+
+        $("#BtnSave").click(function () {
+            var data = new FormData();
+            var banner = {
+                BannnerId: $("#BannnerId").val(),
+                Title: $("#Title").val(),
+                Name: $("#Name").val(),
+                PageId: $("#PageId").val(),
+                SectionId: $("#SectionId").val(),
+                Extra1: $("#Extra1").val(),
+                IsActive: $("#IsActive").val(),
+                ImgDetails: ImgList
+            };
+            var images = [];
+            for (var i = 0; i < ImgList.length; i++ )
+            {
+               var img1 = {
+                   BannerUploadId: ImgList[i].BannerUploadId,
+                   HeaderTitle: ImgList[i].HeaderTitle,
+                   Description: ImgList[i].Description,
+                   SortOrder: ImgList[i].SortOrder,
+                   AltText: ImgList[i].AltText,
+                   BannerFileName: ImgList[i].BannerFileName,
+                   BannerFile: ImgList[i].BannerFile,
+                   BannerLinkURL:ImgList[i].BannerLinkURL,
+                   RefKey: ImgList[i].RefKey
+               };
+                images.push(img1);
+                if (ImgList[i].BannerFile!= null) {
+                    debugger
+                    data.append(ImgList[i].HeaderTitle, ImgList[i].BannerFile);
+                }
+           }
+            banner.ImgDetails = images;
+            console.log(JSON.stringify(images));
+            debugger
+            data.append("ImgDetail", JSON.stringify(banner));
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "ManageBanners")',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                encode: true,
+                success: function (response) {
+                  //location.reload();
+                    console.log(response);
+                    window.location.href = "Index";
+                },
+                complete: function (response) {
+
+                }
+            })
+           });
+
+
+
+        function EditItem(EditBannerUpload) {
+            debugger
+            var result = ImgList.filter(obj => {
+                return obj.HeaderTitle === EditBannerUpload
+            });
+            $("#BannerUploadId").val(result[0].BannerUploadId);
+            $("#HeaderTitle").val(result[0].HeaderTitle);
+            $("#Description").val(result[0].Description);
+            $("#SortOrder").val(result[0].SortOrder);
+
+            $("#FileName").val(result[0].FileName);
+            var image = "/TempFiles/" + $("#BannerId").val() + "/" + result[0].FileName;
+            $("#ImgURI").prop("src", image);
+            $("#AltText").val(result[0].AltText);
+            $("#BannerLinkURL").val(result[0].BannerLinkURL);
+            $("#Action").val("U");
+        }
+
+        function BindTable() {
+            debugger
+
+            var count = 1;
+
+
+            $("#tblImgList >tbody").empty();
+            $.each(ImgList, function (key, value) {
+                if (value.BannerUploadId != null)
+                    value.url = "/TempFiles/" + value.RefKey + '/' + value.FileName; var element = "<tr>";
+                element = element + "<td>" + count + "</td>";
+                element = element + "<td><label name= 'Description' >" + value.Description + "</label> </td>";
+                element = element + "<td><label name= 'HeaderTitle'>" + value.HeaderTitle + "</label> </td>";
+                element = element + "<td><label name= 'SortOrder'>" + value.SortOrder + "</label> </td>";
+                element = element + "<td><img src='" + value.url + "' height='30' /> </td>";
+                element = element + "<td><label name= 'BannerLinkURL'>" + value.BannerLinkURL + "</label> </td>";
+                element = element + "<td><label name= 'AltText'>" + value.AltText + "</label> </td>";
+                element = element + "<td style='display: inline-flex'><a href='#' onclick='EditItem(\"" + value.HeaderTitle + "\")' class='btn btn-small btn-info btnSize'>Edit</a></td>";
+                element = element + "<td style='display: inline-flex'><a href='#' onclick='DeleteItem(\"" + value.HeaderTitle + "\")' class='btn btn-small btn-info btnSize'>Delete</a></td>";
+                element = element + "</tr>";
+                $("#tblImgList >tbody").append(element);
+                count = count + 1;
+            });
+        }
+        function DeleteItem(DeleteBannerUpload) {
+
+            var result = ImgList.filter(obj => {
+                return obj.HeaderTitle === DeleteBannerUpload
+            });
+            ImgList.splice($.inArray(result[0], ImgList), 1);
+
+            BindTable();
+
+        }
+
+
+
+
+
+
+        function UploadFile(Img) {
+             var data = new FormData();
+            var files = $('#BannerFileName').get(0).files;
+            if (files.length > 0) {
+                data.append("file", files[0]);
+
+                data.append("BannerId", $("#BannerId").val());
+                data.append("HeaderTitle", Img.HeaderTitle);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadFile", "ManageBanners")',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        Img.FileName = result;
+                    },
+                    complete: function (result) {
+                        NextStep(Img);
+
+
+                    }
+
+                });
+            }
+            else
+                NextStep(Img);
+        }
+
+
+
+
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            var other = e.Other;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+                    console.log(data);
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+
+                    if (other != undefined) {
+                        $('#' + ddl).val(other);
+
+                    }
+                }
+            });
+        }
+
+    </script>
+   
+
+}
+

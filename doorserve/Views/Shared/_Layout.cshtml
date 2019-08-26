@@ -1,0 +1,68 @@
+﻿<html lang="en">
+<!-- Mirrored from big-bang-studio.com/cosmos/pages-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Nov 2017 05:36:02 GMT -->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="description" content="">
+        <title>doorserve</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
+        @Styles.Render("~/Content/css")
+        
+    </head>
+
+    <body class="authentication-body" onload="noBack();">
+        <div class="container-fluid">
+            <div class="authentication-header m-b-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <a class="authentication-logo" href="void()">
+                            <img src="~/Content/img/doorserve.png" alt="" style="width:100%">
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            @RenderBody()
+        </div>
+        @if (TempData["response"] != null)
+        {
+            var resp = TempData["response"] as doorserve.Models.ResponseModel;
+            <div class="tox tox-silver-sink tox-tinymce-aux" style="position: relative;">
+                <div id="toast-container" class="toast-top-right">
+                    @if (resp.IsSuccess)
+                    {
+                        <div class="toast toast-success" aria-live="polite" style="">
+                            <div class="toast-message">@resp.Response</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="toast toast-error" aria-live="polite" style="">
+                            <div class="toast-message">@resp.Response</div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="tox tox-silver-sink tox-tinymce-aux" style="position: relative;" id="msg">
+                <div id="toast-container" class="toast-top-right">
+                    <div class="toast toast-success" aria-live="polite" style="display:none;">
+                        <div class="toast-message"></div>
+                    </div>
+                    <div class="toast toast-error" aria-live="polite" style="display:none;">
+                        <div class="toast-message"></div>
+                    </div>
+                </div>
+            </div>
+        }
+        @Scripts.Render("~/bundles/customBundle")
+        <script>
+                        $("#toast-container").fadeOut(5000);
+
+        </script>
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

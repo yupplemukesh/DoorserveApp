@@ -1,0 +1,70 @@
+﻿@model TogoFogo.Models.ManageBannerUploadModel
+@{
+    Layout = null;
+}
+@Html.AntiForgeryToken()
+@Html.HiddenFor(x => x.BannerFileName)
+@Html.HiddenFor(x => x.BannerUploadId)
+@Html.HiddenFor(x => x.ItemCode)
+@Html.HiddenFor(x => x.RefKey)
+<div class="row">
+    <div class="form-material">
+        <div class="col-sm-12">
+            <div class="form-group has-value">
+                @Html.TextAreaFor(model => model.Description, new { @id = "editor1", @class = "No-border" })
+                <script>
+                      CKEDITOR.config.allowedContent = true;
+                    CKEDITOR.replace('editor1', {
+                        height: 350,
+                        extraPlugins: 'colorbutton,colordialog'
+                    });
+                </script>
+
+                <label class="floating-label">Image Description</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-material">
+        <div class="col-sm-2">
+            <div class="form-group has-value  ">
+                @Html.TextBoxFor(model => model.HeaderTitle, new { @class = "form-control input-md", @placeholder = "Header Title" })
+                <label class="floating-label t-0 ">Header Title</label>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control input-md", @placeholder = "SortOrder" })
+                <label class="floating-label t-0">SortOrder</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.BannerFile, new { @class = "form-control input-md", @type = "File", @onchange = "readURL1(this);" })
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <img src="/TempFiles/" id="ImgURI" height="30" />
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.BannerLinkURL, htmlAttributes: new { @class = "form-control input-md", @placeholder = "Banner Link" })
+                <label class="floating-label t-0">Banner Link</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group has-value">
+                @Html.TextBoxFor(model => model.AltText, htmlAttributes: new { @class = "form-control input-md", @placeholder = "Alternate Text" })
+                <label class="floating-label t-0">Alternate Text</label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-1">
+        <button class="btn btn-primary" id="btnEditImg" type="button">Add/Edit </button>
+    </div>
+</div>

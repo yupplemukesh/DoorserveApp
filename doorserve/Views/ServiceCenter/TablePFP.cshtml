@@ -1,0 +1,90 @@
+﻿
+
+@model IEnumerable<doorserve.Models.AllData>
+@{
+    Layout = null;
+}
+<br />
+<table class="table table-striped table-bordered table-condensed text-nowrap" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Request Date and Time for Packing")
+            </th>
+
+            <th>
+                @Html.DisplayName("Total Tat")
+            </th>
+            <th>
+                @Html.DisplayName("Tat")
+            </th>
+            <th>
+                @Html.DisplayName("Materials to be Packed")
+            </th>
+            <th>
+                @Html.DisplayName("Is Repacking?")
+            </th>
+            <th>
+                @Html.DisplayName("JOB Number")
+            </th>
+            <th>
+                @Html.DisplayName("Call Request Number")
+            </th>
+            <th>
+                @Html.DisplayName("Purpose?")
+            </th>
+            <th>
+                @Html.DisplayName("From Name, Address and Contact No")
+            </th>
+            <th>
+                @Html.DisplayName("To  Name, Address and Contact No")
+            </th>
+            <th>
+                @Html.DisplayName("TRC Name")
+            </th>
+        </tr>
+    </thead>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Display("")
+            </td>
+
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Materials_packed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Is_Repaking)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobNumber)
+            </td>
+            <td>
+                <input type="button" value="@item.CC_NO" id="link" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prpose)
+            </td>
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrcName)
+            </td>
+
+        </tr>
+    }
+
+</table>

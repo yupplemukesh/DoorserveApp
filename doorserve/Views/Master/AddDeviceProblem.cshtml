@@ -1,0 +1,68 @@
+﻿@using System.Web.UI.WebControls
+@model doorserve.Models.DeviceProblemModel
+@{
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("AddDeviceProblem", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+  
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.DropDownListFor(model => model.CatId, Model.CatIdList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatId', this)" })
+            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.SubCategory , htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+           
+            @Html.DropDownListFor(model => model.SubCatId, Model.SubCatIdList, new { @class = "form-control" })  
+            @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.Problem, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new {  @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">           
+            @Html.CheckBoxFor(model=>model.IsActive,new { @checked="checked"})
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+            @*<button class="btn btn-primary" type="button">Cancel</button>*@
+            <button class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+}
+    @*@if (ViewBag.SortOrder != null)
+    {
+        <script>
+            document.getElementById('SortOrder').value = '@ViewBag.SortOrder';
+           
+        </script>
+    }*@
+
+@if (ViewBag.Message != null)
+{
+    <script>
+        alert('@ViewBag.Message');
+    </script>
+}

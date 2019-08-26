@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "HFTemplateIndex";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3 class="m-y-0">Add E-Mail/SMS/Notification/IVR Template</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
+            <div class="x_content">
+                <br />
+                @Html.Action("AddIVRTemplate", "WebsiteSettings")
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3 class="m-y-0">List Of All Template</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
+            <div class="x_content" style="overflow-x: scroll;">
+                @Html.Action("IVRTemplateTable", "WebsiteSettings")
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Template</h4>
+            </div>
+
+            <div class="modal-body" id="Info">@Html.Action("EditIVRTemplate", "WebsiteSettings")</div>
+        </div>
+
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+
+@if (ViewBag.Message != null)
+{
+    <script>
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+    </script>
+}
+@section Scripts{
+    <script>
+        function Edit(Id) {
+            $.ajax({
+                type: 'GET',
+                url: "/WebsiteSettings/EditIVRTemplate?id=" + Id,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+
+        function BindGateway(method, ddl, e) {
+            $('#' + ddl).empty();
+            var val = e.value;
+            if (val == "E-Mail")
+            {
+                method = "BindEmailGateway";
+                $('#HFTemplateName').prop('disabled', false);
+                $('#Gateway').prop('disabled', false);
+                $('#BCCEmailID').prop('disabled', false);
+                $('#EmailSubject').prop('disabled', false);
+                
+            }
+            else if (val == "SMS") {
+                method = "BindSMSGateway";
+                $('#HFTemplateName').prop('disabled', true);
+                $('#Gateway').prop('disabled', false);
+                $('#BCCEmailID').prop('disabled', true);
+                $('#EmailSubject').prop('disabled', true);
+            }
+            else {
+                $('#HFTemplateName').prop('disabled', true);
+                $('#Gateway').prop('disabled', true);
+                $('#BCCEmailID').prop('disabled', true);
+                $('#EmailSubject').prop('disabled', true);
+            }
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                     
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                }
+            });
+        }
+    </script>
+}
+
+
+
+

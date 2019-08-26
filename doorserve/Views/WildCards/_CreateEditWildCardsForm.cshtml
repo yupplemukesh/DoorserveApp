@@ -1,0 +1,33 @@
+﻿@model doorserve.Models.WildCardModel
+
+    <div class="row form-group">
+        <div class="col-md-6">
+            <label class="control-label" for="form-control-9">Wild Card Name</label>
+            @Html.TextBoxFor(model => model.WildCard, new { @class = "form-control input-md", @placeholder = "Wild Card Name" })
+            @Html.ValidationMessageFor(model => model.WildCard, "", new { @class = "text-danger" })
+        </div>                
+    </div>
+
+
+    <div class="row form-group">
+        <div class="col-md-6">
+            <label class="control-label" for="form-control-9"> Select Action Type </label>
+            @Html.ListBoxFor(model => model.actionTypes, Model.ActionTypeList, htmlAttributes: new { @class = "selectpicker form-control", multiple = "multiple", data_actions_box = "true", data_width = "100%", @data_val = "true", @data_val_required = "choose is device category" })
+            @Html.ValidationMessageFor(model => model.actionTypes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+    <div class="row form-group">
+        <div class="col-md-3">
+            <div class="col-md-3"><label class=" control-label" >Is Active</label></div>
+            <div class="col-md-1">
+                <label class="custom-control custom-control-primary custom-checkbox active">
+                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "custom-control-input" })
+                    <span class="custom-control-indicator"></span>
+
+                </label>
+
+            </div>
+           </div>
+        </div>

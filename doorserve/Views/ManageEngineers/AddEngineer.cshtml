@@ -1,0 +1,196 @@
+﻿@model doorserve.Models.ManageEngineerModel
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("AddEngineer", "ManageEngineers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="col-md-8 col-sm-8 col-lg-8">
+
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model.EngineerCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.EngineerCode, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EngineerCode, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EngineerPhoto1, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.EngineerPhoto1, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
+
+            </div>
+
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.Trc, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.Trc,null, htmlAttributes: new { @class = "form-control"})
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.Department, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.Department, htmlAttributes: new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.Department, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.Designation, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.EmployeeName, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmpMobileNo, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.EmpMobileNo, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmpMobileNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmpAltNo, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.EmpAltNo, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmpAltNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmpEmailId, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.EmpEmailId, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmpEmailId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmpAddress, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextAreaFor(model => model.EmpAddress, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
+                @Html.ValidationMessageFor(model => model.EmpAddress, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmpJoiningDate, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.TextBoxFor(model => model.EmpJoiningDate, htmlAttributes: new { @class = "form-control", id = "datepicker1", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.EmpJoiningDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.EmpPicUp, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.DropDownListFor(model => model.EmpPicUp, new List<SelectListItem>
+                {
+                    new SelectListItem {Text = "Yes", Value = "Yes"},
+                    new SelectListItem {Text = "No", Value = "No"}
+
+                }, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmpPicUp, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.BikeModel, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.BikeModel, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BikeModel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+                @Html.LabelFor(model => model.BikeNumber, htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                @Html.TextBoxFor(model => model.BikeNumber, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BikeNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    <div class="row" style="padding-bottom: 5px;">
+        <div class="col-md-3 col-md-offset-1 col-xs-12">
+
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "" })
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            @Html.DropDownListFor(model => model.IsActive, new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Yes", Value = "Yes"},
+                new SelectListItem {Text = "No", Value = "No"}
+
+            }, "Select", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+        </div>
+        <div class="ln_solid"></div>
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                @*<button class="btn btn-primary" type="button">Cancel</button>*@
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" style="margin-top: 40px;">
+        <img id="blah" src="~/Images/male-user-add.png" width="200" height="200" alt="your image" />
+    </div>
+
+}

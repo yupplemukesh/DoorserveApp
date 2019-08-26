@@ -1,0 +1,23 @@
+﻿@model doorserve.Models.Template.TemplateModel
+@{
+    ViewBag.Title = "Edit Template";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Edit Template </h3>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+
+    @using (Html.BeginForm("Edit", "Templates", FormMethod.Post, new { id = "form", enctype = "multipart/form-data" }))
+    {
+
+        @Html.Partial("_CreateEditEmailSmsNotificationForm", Model)
+    }
+</div>

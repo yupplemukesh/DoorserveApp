@@ -1,0 +1,466 @@
+﻿
+@model IEnumerable<doorserve.Models.AllData>
+@{
+    Layout = null;
+}
+<br />
+<table class="table table-striped table-bordered table-condensed text-nowrap" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Repair Date")
+            </th>
+            <th>
+                @Html.DisplayName("JOB Date")
+            </th>
+            <th>
+                @Html.DisplayName("JOB Number")
+            </th>
+            <th>
+                @Html.DisplayName("Engineer Name")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CallRequestDate)
+            </th>
+            <th>
+                @Html.DisplayName("Total Tat")
+            </th>
+            <th>
+                @Html.DisplayName("Tat")
+            </th>
+            <th>
+                @Html.DisplayName("AWB Number")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CC_NO)
+            </th>
+            <th>
+                @Html.DisplayName("Repair Count")
+            </th>
+            <th>
+                @Html.DisplayName("Receiving Document")
+            </th>
+            <th>
+                @Html.DisplayName("Purpose")
+            </th>
+            <th>
+                @Html.DisplayName("Courier Name")
+            </th>
+            <th>
+                @Html.DisplayName("Schedule Pickup Date and Time")
+            </th>
+            <th>
+                @Html.DisplayName("Actual Pickup Date and Time")
+            </th>
+            <th>
+                @Html.DisplayName("From Name Address and Contact No")
+            </th>
+            <th>
+                @Html.DisplayName("To  Name Address and Contact No")
+            </th>
+            <th>
+                @Html.DisplayName("TRC City/Location")
+            </th>
+            <th>
+                @Html.DisplayName("TRC Name")
+            </th>
+            <th>
+                @Html.DisplayName("Inward Type")
+            </th>
+            <th>
+                @Html.DisplayName("Is Returnable?")
+            </th>
+            <th>
+                @Html.DisplayName("Number of Boxes")
+            </th>
+            <th>
+                @Html.DisplayName("Number of Boxes Received")
+            </th>
+            <th>
+                @Html.DisplayName("Device")
+            </th>
+            <th>
+                @Html.DisplayName("Brand")
+            </th>
+            <th>
+                @Html.DisplayName("Model")
+            </th>
+            <th>
+                @Html.DisplayName("Serial Number")
+            </th>
+            <th>
+                @Html.DisplayName("IMEI-1")
+            </th>
+            <th>
+                @Html.DisplayName("IMEI-2")
+            </th>
+            <th>
+                @Html.DisplayName("Problem Reported")
+            </th>
+            <th>
+                @Html.DisplayName("Problem Observed")
+            </th>
+            <th>
+                @Html.DisplayName("Estimated Cost (INR)")
+            </th>
+            <th>
+                @Html.DisplayName("Is Estimated Cost Approved?")
+            </th>
+            <th>
+                @Html.DisplayName("Warranty Status")
+            </th>
+            <th>
+                @Html.DisplayName("Warranty Expiry Date")
+            </th>
+            <th>
+                @Html.DisplayName("Is Device Physically Damaged?")
+            </th>
+            <th>
+                @Html.DisplayName("Is Device Warranty Void?")
+            </th>
+            <th>
+                @Html.DisplayName("Is IW Call Converted to OOW Call?")
+            </th>
+            <th>
+                @Html.DisplayName("Is customer agree to wipe device data?")
+            </th>
+            <th>
+                @Html.DisplayName("Customer Support  Remarks")
+            </th>
+            <th>
+                @Html.DisplayName("Is Battery Removable?")
+            </th>
+            <th>
+                @Html.DisplayName("Is Battery Received?")
+            </th>
+            <th>
+                @Html.DisplayName("Is Battery Required?")
+            </th>
+            <th>
+                @Html.DisplayName("Battery Brand and Model")
+            </th>
+            <th>
+                @Html.DisplayName("Is Different Device Received?")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device Brand")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device Model")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device TUPC")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device Serial Number")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device IMEI 1")
+            </th>
+            <th>
+                @Html.DisplayName("Received Device IMEI 2")
+            </th>
+            <th>
+                @Html.DisplayName("Is Received Device Physically Damaged?")
+            </th>
+            <th>
+                @Html.DisplayName("Receive Date")
+            </th>
+            <th>
+                @Html.DisplayName("Receiver Remarks")
+            </th>
+            <th>
+                @Html.DisplayName("Is Need Receive Approval?")
+            </th>
+            <th>
+                @Html.DisplayName("Receive Approval Status")
+            </th>
+            <th>
+                @Html.DisplayName("Receive Approved By")
+            </th>
+            <th>
+                @Html.DisplayName("Receive Approval Date")
+            </th>
+            <th>
+                @Html.DisplayName("Is Warranty Sticker Tempered?")
+            </th>
+            <th>
+                @Html.DisplayName("Is Device Water Damaged?")
+            </th>
+            <th>
+                @Html.DisplayName("Is Device Warranty Void Now?")
+            </th>
+            <th>
+                @Html.DisplayName("Problem Found")
+            </th>
+            <th>
+                @Html.DisplayName("Is OS/Software Reinstall Required? ")
+            </th>
+            <th>
+                @Html.DisplayName("Is Customer Data Backup Done?")
+            </th>
+            <th>
+                @Html.DisplayName("Current OS/Software Name and Version")
+            </th>
+            <th>
+                @Html.DisplayName("Installed OS/Software Name and Version")
+            </th>
+            <th>
+                @Html.DisplayName("Spare Parts Required")
+            </th>
+            <th>
+                @Html.DisplayName("Total Estimated Spare Cost (INR)")
+            </th>
+            <th>
+                @Html.DisplayName("Approved Spare Cost (INR)")
+            </th>
+            <th>
+                @Html.DisplayName("Total Estimated Repair Cost (INR)")
+            </th>
+            <th>
+                @Html.DisplayName("Approved Repair Cost (INR)")
+            </th>
+            <th>
+                @Html.DisplayName("Is Repair Cost is Less than Approved Cost?")
+            </th>
+            <th>
+                @Html.DisplayName("Is Current Repair Cost Approved?")
+            </th>
+        </tr>
+    </thead>
+
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JOBDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EnggName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CallRequestDate)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AWBNumber)
+        </td>
+        <td>
+            <input type="button" value="@item.CC_NO" id="link" />
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivingDocument)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.CourierName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SchedulePickupDateandTime)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrcAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrcName)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NoOfBoxesReceived)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CatName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Model)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Problem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrblmObsrvd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimatedCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstimatedCostApproved)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhysicalDamage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceWarrantyVoid)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wipedevice)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BtryRemovable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BtryReceived)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BtryReq)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BtryBrandAndModel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDiffDeviceRecvd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvdDevice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvdBrand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvdModel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceTUPC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvdSerialNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvdIMEI1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvdIMEI2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPhyDamage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceiveDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceiveApprovalNeeded)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvApprovalStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvApprovedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecvApprovalDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WarrantyStickerTempered)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceWaterDamaged)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceWarrantyVoid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.probF)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OS_Software_Reinstall)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer_Data_Backup)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Current_OS_Software_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Installed_OS)
+        </td>
+        <td>
+            @Html.Display("")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalEstimatedSpareCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApprovedSpareCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalEstimatedRepairCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApprovedRepairCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsRepairCost_is_Less_than_Approved_Cost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsRepairCostApproved)
+        </td>
+    </tr>
+    }
+
+</table>

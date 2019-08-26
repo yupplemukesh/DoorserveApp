@@ -1,0 +1,56 @@
+﻿@using doorserve.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@using (Html.BeginForm("Login", "Home"))
+{@Html.AntiForgeryToken()
+<div class="container">
+
+
+
+    <div class="row">
+
+        <div class="col-md-6 col-md-offset-3" id="login">
+            <img src="~/Images/doorserve_Logo.png" alt="LOGO" height="70" width="350">
+
+            @Html.ValidationSummary(true, "")
+            <div class="form-group" style="margin-top:50px">
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="iconn"> <i class="glyphicon glyphicon-user"></i></span>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "username", style = "height:35px" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { style = "color:white" })
+                </div>
+
+            </div>
+            <div class="form-group sm-md-10">
+
+                <div class="input-group">
+                    <span class="input-group-addon" id="iconn1"> <i class="glyphicon glyphicon-lock"></i></span>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = " Enter Password", style = "height:35px" })
+                </div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { style = "color:white" })
+            </div>
+            <div class=" col-md-offset-2" style="margin-top:50px">
+                <input type="submit" class="btn btn-primary col-md-10" value="login" style="border-radius:0px;" @*onclick="window.location.href='/Master/Brand'"*@>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+}
+
+<hr />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/CSS/Login.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+}
+

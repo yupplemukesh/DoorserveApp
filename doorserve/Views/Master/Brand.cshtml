@@ -1,0 +1,133 @@
+﻿@using doorserve.Models
+@{
+    ViewBag.Title = "Brand";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<style>
+    table.dataTable thead th, table.dataTable thead td {
+        padding: 10px 18px;
+        border-bottom: none !important;
+    }
+</style>
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">Add Brand</h3>
+            </div>
+            <div class="col-md-6 ">
+                <div class="pull-right">
+                    @if (Permissions.Rights.ExcelExport)
+                    {
+                        <button class="btn btn-primary excel">Export to Excel</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    @if (Permissions.Rights.Create)
+    {
+        @Html.Action("AddBrand", "Master")
+    }
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    @*<h2>List Of All Brands<small></small></h2>*@
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" style="overflow-x: scroll;">
+                    @if (Permissions.Rights.View)
+                    {
+                        @Html.Action("BrandTable", "Master")
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Brand</h4>
+            </div>
+
+            @*<div class="modal-body" id="Info">@Html.Partial("EditBrand")</div>*@
+            <div class="modal-body" id="Info">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+@if (ViewBag.Message != null)
+{
+    <div id="snackbar">@ViewBag.Message</div>
+}
+@if (ViewBag.SubmitBrand != null)
+{
+    <div id="snackbar">@ViewBag.SubmitBrand</div>
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function EditBrand(BrandId) {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("EditBrand", "Master")',
+                data: { brandId: BrandId},
+                @*url: "/Master/EditBrand?BrandId=" + BrandId,*@
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    $("#Info").html(response);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+            });
+        }
+
+    </script>
+    @if (ViewBag.Message != null || ViewBag.SubmitBrand != null)
+    {
+        <script>
+
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+
+        </script>
+    }
+  
+    <script>
+
+         $(document).ready(function () {
+            $('#ResetImage').click(function () {
+                $("#blah").prop('src', "");
+            })
+        });
+       
+    </script>
+}
+
+

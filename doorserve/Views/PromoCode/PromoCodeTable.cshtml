@@ -1,0 +1,42 @@
+﻿@model IEnumerable<doorserve.Models.PromoCodeModel>
+@{ 
+    Layout = null;
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PromoCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ToDate)
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+   
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PromoCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FromDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ToDate)
+        </td>
+      
+    </tr>
+}
+
+</table>

@@ -1,0 +1,96 @@
+﻿@model  IEnumerable<doorserve.Models.ClientData.UploadedExcelModel>
+@using doorserve.Models
+@using GridMvc.Html
+@{
+    var i = 0;
+//int rowNumber = Convert.ToInt32(ViewBag.RowNumber);
+//int pageSize = 10;
+//int pageNumber = Convert.ToInt32(ViewBag.PageNumber);
+//if ((pageNumber) > 1)
+//{
+//    rowNumber = (pageSize) * (pageNumber - 1) + rowNumber;
+//}
+}
+
+
+<div class="panel-heading">
+
+    <div class="row">
+        <div class="">
+
+
+
+            @if (Permissions.Rights.ExcelExport)
+            {
+                using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
+                {
+
+                    <div class=" col-md-1 col-md-offset-9 text-right" id="Installtion1" style="display:none">
+                        @Html.Hidden("tabIndex", 'B')
+                        <button type="submit" class="tools-icon btn btn-primary btn-sm excel" id="t1"> Template</button>
+                    </div>
+                    
+                }
+
+
+               
+                    using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
+                    {                        
+                        <div class=" col-md-1 col-md-offset-9 text-right" id="Repair1" style="display:none">
+                            @Html.Hidden("tabIndex", 'T')
+                            <button type="submit" class="tools-icon btn btn-primary btn-sm excel" id="t2"> Template</button>
+                        </div>
+                    }
+
+
+
+
+
+                    using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
+                    {
+                        <div class="col-md-1 pull-right m-r-60 text-right">
+                            @Html.Hidden("tabIndex", 'D')
+                            <button type="submit" class="tools-icon btn btn-primary btn-sm excel "> Export to Excel</button>
+                        </div>
+                    }
+
+                }
+                @*<button class="btn btn-primary excel">Export to Excel</button>*@
+
+            </div>
+
+
+    </div>
+    </div>
+    <div class="x_content" style="overflow-x: scroll;">
+        <div class="for-popup-height">
+            <div class="code-cut">
+           @Html.Grid(Model).Named("DataList").Columns(columns =>
+            {
+               columns.Add()
+                    .Titled("#SLN")
+                    .SetWidth(10)
+                    .RenderValueAs(o =>
+                      {
+                          i++;
+                          return @<text> @i </text>;
+});
+columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
+columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
+columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
+columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
+columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
+columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
+columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
+columns.Add().Titled("Action")
+ .Filterable(true).Sanitized(false).Encoded(false).
+  RenderValueAs(model => Html.ActionLink("Edit", "Edit", new { Crn = model.CRN }, null));
+}).Named("DataList").WithPaging(10).Sortable(true)
+            </div>
+        </div>
+    </div>
+
+

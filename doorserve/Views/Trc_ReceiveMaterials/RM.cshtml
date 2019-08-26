@@ -1,0 +1,537 @@
+﻿
+@model doorserve.Models.ReceiveMaterials
+@{
+	Layout = null;
+
+}
+<style>
+	option {
+		background: white !important;
+		color: black !important;
+	}
+</style>
+@using (Html.BeginForm("RM", "Trc_ReceiveMaterials", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.HiddenFor(m=>m.JobNumber)
+<div class="row">
+	<p style="font-size: 17px;"><u>Inward/Inbound/Received Consignment Details:</u></p>
+	<div class="col-md-6">
+
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.ProcessName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.ProcessName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.AWBNo, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.AWBNo, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.AWBNo, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.ReceivingDoc, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				
+				@Html.DropDownListFor(model => model.ReceivingDoc, new List<SelectListItem>
+							{
+								new SelectListItem {Text = "Aadhar Card", Value = "Aadhar Card"},
+								new SelectListItem {Text = "Pan Card", Value = "Pan Card"},
+								new SelectListItem {Text = "Passport", Value = "Passport"},
+								new SelectListItem {Text = "Driving licence", Value = "Driving licence"}
+							}, "Select", new { @class = "form-control btn-warning"})
+				@Html.ValidationMessageFor(model => model.ReceivingDoc, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.CourierName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.CourierName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.CourierName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.ScheduleDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.ScheduleDate, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.ScheduleDate, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.CustoFullInfo, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextAreaFor(model => model.CustoFullInfo, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "5", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.CustoFullInfo, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.TRCCity, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.TRCCity, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.InwardType, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.InwardType, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.InwardType, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.NoOfBoxes, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.NoOfBoxes, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.NoOfBoxes, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.BoxCondition, new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				
+				@Html.DropDownListFor(model => model.BoxCondition, new List<SelectListItem>
+							{
+								new SelectListItem {Text = "Normal", Value = "Normal"},
+								new SelectListItem {Text = "Bad", Value = "Bad"}
+								
+							}, "Select", new { @class = "form-control btn-warning"})
+				@Html.ValidationMessageFor(model => model.BoxCondition, "", new { @class = "text-danger" })
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.ServiceProviderName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.ServiceProviderName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.ServiceProviderName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.CC_NO, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.CC_NO, htmlAttributes: new { @class = "form-control", id = "getCC_NO", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.CC_NO, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.CallRequestDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.CallRequestDate, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.CallRequestDate, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.PurPose, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.PurPose, new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.PurPose, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.TRCInfoFull, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextAreaFor(model => model.TRCInfoFull, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "5", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.TRCInfoFull, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.TrcName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.TrcName, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.TrcName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.Returnable, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.Returnable, new List<SelectListItem>
+							{
+								new SelectListItem {Text = "Yes", Value = "Yes"},
+								new SelectListItem {Text = "No", Value = "No"}
+
+							}, "Select", new { @class = "form-control btn-warning" })
+
+				@Html.ValidationMessageFor(model => model.Returnable, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.NoOfBoxesReceived, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.NoOfBoxesReceived, htmlAttributes: new { @class = "form-control btn-warning" })
+				@Html.ValidationMessageFor(model => model.NoOfBoxesReceived, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.DamagedBox, new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.DamagedBox1, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
+			</div>
+			<div class="col-md-12">
+
+				<img id="blah" src="~/Images/male-user-add.png" alt="your image" class="col-md-6 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12" style="width:100px;height:100px" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<p style="font-size: 17px;"><u>Device Information:</u></p>
+
+	<div class="col-md-6">
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.SubCatName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.SubCatName, new { @class = "form-control", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.SubCatName, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.Brand, htmlAttributes: new { @class = "form-control", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.Model, htmlAttributes: new { @class = "form-control", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.TUPCModel, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.TUPCModel, htmlAttributes: new { @class = "form-control", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.TUPCModel, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.Serial_No, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.Serial_No, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.Serial_No, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.IMEI1, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.IMEI1, htmlAttributes: new { @class = "form-control", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.IMEI1, "", new { @class = "text-danger" })
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+
+
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.IMEI2, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.IMEI2, htmlAttributes: new { @class = "form-control", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.IMEI2, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.ProblemReported, new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.ProblemReported, new { @class = "form-control", @cols = "42", @rows = "3", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.ProblemReported, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.ProblemObserved, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextAreaFor(model => model.ProblemObserved, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "3", @readonly = "readyonly" })
+				@Html.ValidationMessageFor(model => model.ProblemObserved, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.WarrentyExpiryDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.WarrentyExpiryDate, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.WarrentyExpiryDate, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="row">
+	<p style="font-size: 17px;"><u>Warranty Information:</u></p>
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.WarrentyStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.DropDownListFor(model => model.WarrentyStatus, new List<SelectListItem>
+					{
+						new SelectListItem {Text = "Yes", Value = "Yes"},
+						new SelectListItem {Text = "No", Value = "No"}
+
+					}, "Select", new { @class = "form-control",@readonly= "readonly" })
+				@Html.ValidationMessageFor(model => model.WarrentyStatus, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.EstimatedCost, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.EstimatedCost, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.EstimatedCost, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.PhysicallyDamageReported, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.PhysicallyDamageReported, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.PhysicallyDamageReported, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px" id="revisit">
+			@Html.LabelFor(model => model.wipedevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.wipedevice, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.wipedevice, "", new { @class = "text-danger" })
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 col-xs-12">
+
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.OOWCall, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.OOWCall, new { @class = "form-control" })
+
+				@Html.ValidationMessageFor(model => model.OOWCall, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.WarrantyVoid, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.WarrantyVoid, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.WarrantyVoid, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.CostApproved, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.CostApproved, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+				@Html.ValidationMessageFor(model => model.CostApproved, "", new { @class = "text-danger" })
+			</div>
+		</div>
+		<div class="row" style="padding-bottom: 5px">
+			@Html.LabelFor(model => model.CustomerSupport, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				@Html.TextBoxFor(model => model.CustomerSupport, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.CustomerSupport, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+	</div>
+</div>
+	<div class="row">
+		<p style="font-size: 17px;"><u>Receive Information:</u></p>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.BtryRemovable, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.BtryRemovable, new List<SelectListItem>
+						{
+							new SelectListItem {Text = "Yes", Value = "Yes"},
+							new SelectListItem {Text = "No", Value = "No"}
+
+						}, "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.BtryRemovable, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.BtryReq, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.BtryReq, new List<SelectListItem>
+					{
+						new SelectListItem {Text = "Yes", Value = "Yes"},
+						new SelectListItem {Text = "No", Value = "No"}
+
+					}, "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.BtryReq, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.IsDiffDeviceRecvd, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.IsDiffDeviceRecvd, new List<SelectListItem>
+					{
+						new SelectListItem {Text = "Yes", Value = "Yes"},
+						new SelectListItem {Text = "No", Value = "No"}
+
+					}, "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.IsDiffDeviceRecvd, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.ReceivedDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+
+					@Html.DropDownListFor(model => model.ReceivedDevice,Model.ReceivedDeviceList,"Select", new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.ReceivedDevice, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvdBrand, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+
+					@Html.DropDownListFor(model => model.RecvdBrand, Model.RecvdBrandlList,"Select", new { @class = "form-control btn-warning", onchange = "AjaxWithValue('BindModelNameJson', 'RecvdModel', this)" })
+					@Html.ValidationMessageFor(model => model.RecvdBrand, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvdModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.RecvdModel, Model.RecvdModelList,"Select", new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.RecvdModel, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.IsPhyDamage, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.IsPhyDamage, new List<SelectListItem>
+					{
+						new SelectListItem {Text = "Yes", Value = "Yes"},
+						new SelectListItem {Text = "No", Value = "No"}
+
+					}, "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.IsPhyDamage, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.ReceiveDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.ReceiveDate, htmlAttributes: new { @class = "form-control btn-warning", id = "datepicker", autocomplete = "off" })
+					@Html.ValidationMessageFor(model => model.ReceiveDate, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvRemarks, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextAreaFor(model => model.RecvRemarks, htmlAttributes: new { @class = "form-control btn-warning", @cols = "42", @rows = "2" })
+					@Html.ValidationMessageFor(model => model.RecvRemarks, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.EnggName, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.EnggName, Model.Engg_NameList,"Select", new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.EnggName, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.BtryReceived, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.BtryReceived, new List<SelectListItem>
+						{
+							new SelectListItem {Text = "Yes", Value = "Yes"},
+							new SelectListItem {Text = "No", Value = "No"}
+
+						}, "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.BtryReceived, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-12">
+
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.BtryBrandAndModel, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.BtryBrandAndModel, htmlAttributes: new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.BtryBrandAndModel, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.DeviceTUPC, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.DeviceTUPC, htmlAttributes: new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.DeviceTUPC, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvdSerialNo, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.RecvdSerialNo, htmlAttributes: new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.RecvdSerialNo, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvdIMEI1, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.RecvdIMEI1, htmlAttributes: new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.RecvdIMEI1, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvdIMEI2, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.RecvdIMEI2, htmlAttributes: new { @class = "form-control btn-warning" })
+					@Html.ValidationMessageFor(model => model.RecvdIMEI2, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.PhotoOfDevice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.PhotoOfDevice1, htmlAttributes: new { @type = "file", @class = "form-control" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.ReceiveApprovalNeeded, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.DropDownListFor(model => model.ReceiveApprovalNeeded, new List<SelectListItem>
+				{
+					new SelectListItem {Text = "Yes", Value = "Yes"},
+					new SelectListItem {Text = "No", Value = "No"}
+
+				}, "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.ReceiveApprovalNeeded, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvApprovalStatus, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.RecvApprovalStatus, htmlAttributes: new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.RecvApprovalStatus, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvApprovedBy, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.RecvApprovedBy, htmlAttributes: new { @class = "form-control" })
+					@Html.ValidationMessageFor(model => model.RecvApprovedBy, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="row" style="padding-bottom: 5px">
+				@Html.LabelFor(model => model.RecvApprovalDate, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+				<div class="col-md-6 col-sm-6 col-xs-12">
+					@Html.TextBoxFor(model => model.RecvApprovalDate, htmlAttributes: new { @class = "form-control", id = "datepicker" })
+					@Html.ValidationMessageFor(model => model.RecvApprovalDate, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<br />
+			<div class="row" style="padding-bottom: 5px">
+				@Html.Label("", htmlAttributes: new { @class = "col-md-2  col-xs-12" })
+				<div class="col-md-6 col-md-offset-4 col-sm-6 col-sm-offset-4 col-xs-12">
+					@Html.ActionLink("PrintJobSheet", "JobSheet", "Trc_ReceiveMaterials",null, new {@class="btn btn-primary" , @style = "float:right" ,id= "myLink" });
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ln_solid"></div>
+	<div class="form-group">
+		<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+			<button class="btn btn-primary" type="reset">Reset</button>
+			<button type="submit" class="btn btn-success" id="btnNotify">Submit</button>
+		</div>
+	</div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

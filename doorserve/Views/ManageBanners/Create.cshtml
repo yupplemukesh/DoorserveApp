@@ -1,0 +1,287 @@
+﻿@model TogoFogo.Models.ManageBannersModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
+}
+
+@helper CustomRenderingOfColumn(TogoFogo.Models.ManageBannersModel Banners)
+{
+    if (Banners.BannerId != null)
+    {
+        @Html.ActionLink("Edit", "ManageBanners", new { Id = Banners.BannerId }, null)
+
+    }
+    else
+    {
+        @Html.Raw("");
+
+    }
+}
+
+<div class="panel-heading">
+
+    <h3 class="m-y-0">Create/Edit Banner</h3>
+
+</div>
+@using (Html.BeginForm("Create", "ManageBanners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="panel-body">
+        <!--/.col-->
+
+        @Html.Partial("_CreateEditBanner", Model)
+        
+        @Html.Partial("_CreateEditBannerUpload", Model)
+        @Html.Partial("_BannerUploadList", Model.ImgDetails)
+    </div>
+    <div class="row">
+        <div class="col-sm-5 col-md-5 ">
+            <button class="btn btn-primary pull-right" type="button" id="BtnSave">Submit</button>
+        </div>
+    </div>
+}
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var ImgList = @Html.Raw(Json.Encode(Model.ImgDetails));
+        if (ImgList == null)
+            ImgList = [];
+        $("#btnEditImg").click(function () {
+            debugger
+               CKEDITOR.config.allowedContent = true;
+            var Description = CKEDITOR.instances.editor1.getData();
+           // var send = JSON.stringify({ editor1: Description });
+            var ItemCode = $("#ItemCode").val();
+             var HeaderTitle = $("#HeaderTitle").val();
+            var SortOrder = $("#SortOrder").val();
+            var AltText = $("#AltText").val();
+            var BannerLinkURL = $("#BannerLinkURL").val();
+            var BannerId = $("#BannerId").val();
+            var bannerUploadedId = $("#BannerUploadId").val();
+           
+            var Img = {
+                BannerUploadId: bannerUploadedId,
+                Description: Description,
+                HeaderTitle: HeaderTitle,
+                ItemCode:ItemCode,
+                SortOrder: SortOrder,
+                AltText: AltText,
+                BannerLinkURL: BannerLinkURL,
+                BannerFileName: $("#BannerFileName").val(),
+                BannerFile: null,
+                url: '',
+                RefKey: BannerId
+            };
+            var files = $('#BannerFile').get(0).files;
+            if (files.length > 0 || $("#ImgURI").prop("src") != "") {
+                debugger
+                if (files.length > 0)
+                    Img.BannerFile = files[0];
+                if (Img.BannerFileName != "")
+                    Img.url = "/TempFiles/Banners/" + $("#Name").val() + '/' + Img.BannerFileName;
+                else
+                    Img.url = $("#ImgURI").prop("src");
+                NextStep(Img);
+                CKEDITOR.instances.editor1.setData('');
+            }
+        });
+        function NextStep(Img) {
+           debugger
+                var result = ImgList.filter(obj => {
+                    return obj.ItemCode === Img.ItemCode
+                });
+            if (result.length > 0) {
+                result[0].BannerUploadId = Img.BannerUploadId;
+                result[0].HeaderTitle = Img.HeaderTitle;
+                result[0].Description =  Img.Description;
+                result[0].SortOrder = Img.SortOrder;
+                result[0].AltText = Img.AltText;
+                result[0].ItemCode = Img.ItemCode;
+                result[0].BannerFile = Img.BannerFile;
+                result[0].BannerFileName = Img.BannerFileName;
+                result[0].BannerLinkURL = Img.BannerLinkURL;
+                result[0].url = Img.url;
+            }
+            else {
+                ImgList.push(Img);
+            }
+            BindTable();
+            $("#BannerUploadId").val(null);
+            $("#HeaderTitle").val('');
+            $("#Description").val('');
+            $("#SortOrder").val('');
+            $("#AltText").val('');
+            $("#BannerLinkURL").val('');
+            $("#BannerFile").val('');
+                        $("#ItemCode").val('');
+            $("#Action").val('');
+            $("#ImgURI").prop('src', null);
+        }
+        $("#BtnSave").click(function () {
+            var data = new FormData();
+            var banner = {
+                BannerId: $("#BannerId").val(),
+                Title: $("#Title").val(),
+                Name: $("#Name").val(),
+                PageId: $("#PageId").val(),
+                SectionId: $("#SectionId").val(),
+                Extra1: $("#Extra1").val(),
+                IsActive: $("#IsActive").val(),
+                ImgDetails: ImgList
+            };
+            var images = [];
+            for (var i = 0; i < ImgList.length; i++ )
+            {               
+               var file = ImgList[i].BannerFile;
+               var img1 = {
+                   BannerUploadId: ImgList[i].BannerUploadId,
+                   HeaderTitle: ImgList[i].HeaderTitle,
+                   Description: ImgList[i].Description,
+                   SortOrder: ImgList[i].SortOrder,
+                   AltText: ImgList[i].AltText,
+                   ItemCode: ImgList[i].ItemCode,
+                   BannerFileName: ImgList[i].BannerFileName,
+                   BannerLinkURL:ImgList[i].BannerLinkURL,
+                   RefKey: ImgList[i].RefKey
+               };
+                images.push(img1);
+                if (file!= null) {
+                    data.append("SlideImg"+i, file);
+                }
+           }
+            banner.ImgDetails = images;
+            console.log(JSON.stringify(images));
+            debugger
+            data.append("ImgDetail", JSON.stringify(banner));
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "ManageBanners")',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                encode: true,
+                success: function (response) {
+                  //location.reload();
+                    console.log(response);
+                    window.location.href = "/ManageBanners/Index";
+                },
+                complete: function (response) {
+
+                }
+            })
+           });
+        function EditItem(EditBannerUpload) {            
+            console.log(EditBannerUpload);
+            var result = ImgList.filter(obj => {
+                return obj.ItemCode === EditBannerUpload
+            });
+            $("#BannerUploadId").val(result[0].BannerUploadId);
+            $("#HeaderTitle").val(result[0].HeaderTitle);
+              CKEDITOR.config.allowedContent = true;
+                    CKEDITOR.instances['editor1'].setData(result[0].Description);             
+
+            $("#SortOrder").val(result[0].SortOrder);
+            $("#ItemCode").val(result[0].ItemCode);
+            $("#BannerFileName").val(result[0].BannerFileName);
+            if (result[0].BannerFileName != "") {
+                var image = "/TempFiles/Banners/"+$("#Name").val()+'/' + result[0].BannerFileName;
+                $("#ImgURI").prop("src", image);
+            }
+            else 
+
+                $("#ImgURI").prop("src", result[0].url);
+                $("#AltText").val(result[0].AltText);
+                $("#BannerLinkURL").val(result[0].BannerLinkURL);
+                $("#Action").val("U");
+            
+        }
+        function BindTable() {           
+            var count = 1;
+            $("#tblImgList >tbody").empty();
+            $.each(ImgList, function (key, value) {
+                debugger
+                value.ItemCode = 'SP00' + count;
+                if (value.BannerUploadId != '')
+                    value.url = "/TempFiles/Banners/" + $("#Name").val()+"/"
+                        + value.BannerFileName;
+                var element = "<tr>";
+                element = element + "<td>" + count + "</td>";
+                element = element + "<td class='text-nowrap'>"+ value.Description + "</td>";
+                element = element + "<td><label name= 'HeaderTitle'>" + value.HeaderTitle + "</label> </td>";
+                element = element + "<td><label name= 'SortOrder'>" + value.SortOrder + "</label> </td>";
+                element = element + "<td><img src='" + value.url + "' height='30' /> </td>";
+                element = element + "<td><label name= 'BannerLinkURL'>" + value.BannerLinkURL + "</label> </td>";
+                element = element + "<td><label name= 'AltText'>" + value.AltText + "</label> </td>";
+                element = element + "<td style='display: inline-flex'><a href='#' onclick='EditItem(\"" + value.ItemCode + "\")' class='btn btn-small btn-info btnSize'>Edit</a></td>";
+                element = element + "<td style='display: inline-flex'><a href='#' onclick='DeleteItem(\"" + value.ItemCode+ "\")' class='btn btn-small btn-info btnSize'>Delete</a></td>";
+                element = element + "</tr>";
+                $("#tblImgList >tbody").append(element);
+                count = count + 1;
+            });
+        }
+        function DeleteItem(DeleteBannerUpload) {
+            debugger
+            var result = ImgList.filter(obj => {
+                return obj.ItemCode === DeleteBannerUpload
+            });
+            ImgList.splice($.inArray(result[0], ImgList), 1);
+            BindTable();
+        }
+        function UploadFile(Img) {
+             var data = new FormData();
+            var files = $('#BannerFileName').get(0).files;
+            if (files.length > 0) {
+                data.append("file", files[0]);
+
+                data.append("BannerId", $("#BannerId").val());
+                data.append("HeaderTitle", Img.HeaderTitle);
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("UploadFile", "ManageBanners")',
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        Img.FileName = result;
+                    },
+                    complete: function (result) {
+                        NextStep(Img);
+
+
+                    }
+
+                });
+            }
+            else
+                NextStep(Img);
+        }
+        function AjaxWithValue(method, ddl, e) {
+            var val = e.value;
+            var other = e.Other;
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method + "?value=" + val,
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+                    console.log(data);
+                    //var sel = new Option('-Select-', '');
+                    //$('#' + ddl).append(sel);
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+
+                    if (other != undefined) {
+                        $('#' + ddl).val(other);
+
+                    }
+                }
+            });
+        }  
+    </script>
+}

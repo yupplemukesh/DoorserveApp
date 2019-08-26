@@ -1,0 +1,329 @@
+﻿@using doorserve.Models
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="">
+    <title>doorserve</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
+    @Scripts.Render("~/bundles/ckEditorJS")
+    @Styles.Render("~/Content/css/bootstap")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/Gridmvc")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Styles", required: false)
+    @{
+        var SessionModel = Session["User"] as SessionModel;
+    }
+</head>
+<body class="layout layout-header-fixed layout-left-sidebar-fixed">
+    <div class="site-overlay"></div>
+    <div class="site-header">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                    @if (SessionModel != null)
+                    {
+                        if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
+                        {
+                            <img src="@SessionModel.LogoUrl" width="52%" />
+                        }
+                        else
+                        {
+                            <img src="~/content/img/doorserves.png" />
+                            <img src="~/content/img/WbLogo.png" width="52%" />
+
+                        }
+                    }
+
+                </a>
+                <button class="navbar-toggler left-sidebar-toggle pull-left visible-xs" type="button">
+                    <span class="hamburger"></span>
+                </button>
+                <button class="navbar-toggler right-sidebar-toggle pull-right visible-xs-block" type="button">
+                    <i class="zmdi zmdi-long-arrow-left"></i>
+                    <div class="dot bg-danger"></div>
+                </button>
+                <button class="navbar-toggler pull-right visible-xs-block" type="button" data-toggle="collapse" data-target="#navbar">
+                    <span class="more"></span>
+                </button>
+            </div>
+            <div class="navbar-collapsible">
+                <div id="navbar" class="navbar-collapse collapse">
+                    <button class="navbar-toggler left-sidebar-collapse pull-left hidden-xs" type="button">
+                        <span class="hamburger"></span>
+                    </button>
+                    <button class="navbar-toggler right-sidebar-toggle pull-right hidden-xs" type="button">
+                        <i class="zmdi zmdi-long-arrow-left"></i>
+                        <div class="dot bg-danger"></div>
+                    </button>
+                    <form class="navbar-form navbar-left">
+                        <div class="navbar-search-group">
+                            <input type="text" class="form-control" id="filter" placeholder="Search">
+                            @*<button type="submit" class="btn btn-default">
+                                    <i class="zmdi zmdi-search"></i>
+                                </button>*@
+                        </div>
+                    </form>
+
+                    @Html.Partial("_LoginPartial")
+
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="site-main">
+        <div class="site-left-sidebar">
+            <div class="sidebar-backdrop"></div>
+            @Html.Action("DynamicLinks", "Home")
+        </div>
+        <div class="site-content">
+            <div class="panel panel-default">
+                @RenderBody()
+            </div>
+        </div>
+
+        <div class="site-footer">
+            2019 © warrantybazaar.com
+        </div>
+    </div>
+
+    @if (TempData["response"] != null)
+    {
+        var resp = TempData["response"] as doorserve.Models.ResponseModel;
+        <div class="tox tox-silver-sink tox-tinymce-aux" style="position: relative;">
+            <div id="toast-container" class="toast-top-right">
+                @if (resp.IsSuccess)
+                {
+                    <div class="toast toast-success" aria-live="polite" style="">
+                        <div class="toast-message">@resp.Response</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="toast toast-error" aria-live="polite" style="">
+                        <div class="toast-message">@resp.Response</div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="tox tox-silver-sink tox-tinymce-aux" style="position: relative;" id="msg">
+            <div id="toast-container" class="toast-top-right">
+                <div class="toast toast-success" aria-live="polite" style="display:none;">
+                    <div class="toast-message"></div>
+                </div>
+                <div class="toast toast-error" aria-live="polite" style="display:none;">
+                    <div class="toast-message"></div>
+                </div>
+            </div>
+        </div>
+    }
+    @Scripts.Render("~/bundles/customBundle")
+    @Scripts.Render("~/bundles/js/form-m")
+    @Scripts.Render("~/bundles/js/Gridmvc")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function (e) {
+            $('#myTable').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
+            $('#myTable1').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
+            $('#myTable2').DataTable({
+                "oLanguage": {
+                    "sEmptyTable": "No Record Found"
+                }
+            });
+            $('.selectpicker').selectpicker();
+            $(".bootstrap-select").click(function () {
+                $(this).addClass("open");
+
+                $('#CountryList').attr('data-live-search', true);
+            });
+            $(document).click(function () {
+                $(".bootstrap-select").removeClass("open");
+                $('.selectpicker').attr("data-live-search", true);
+
+            });
+            $(".bootstrap-select").click(function (e) {
+                e.stopPropagation();
+
+
+            });
+            $("#toast-container").fadeOut(5000);
+            $("#filter").keyup(function () {
+                var filter = $(this).val();
+                $("#sideMenu").find('li').each(function () {
+                    if (filter == "") {
+                        $(this).css("visibility", "visible");
+                        $(this).fadeIn();
+                    } else if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                        $(this).css("visibility", "hidden");
+                        $(this).fadeOut();
+
+                    } else {
+                        $(this).css("visibility", "visible");
+                        $(this).fadeIn();
+                    }
+                });
+            });
+            $('#OOWRRTable').DataTable({
+
+                dom: 'Bfrtip',
+
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: 'OOWR report',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+                        }
+                    },
+
+                ],
+                initComplete: function () {
+                    //$(".buttons-html5").css("background-color", "green","color","white");
+                    $('.buttons-html5').html('<b><span class="glyphicon glyphicon-file" data-toggle="tooltip" title="Export To Excel" style="font-size: 15px;color: darkgreen;font-weight: 600;">Export To Excel</span></b>');
+                    $('#hideLink').hide()
+                }
+            });
+            $(".datepicker").datepicker({
+                format: 'dd/mm/yyyy'
+
+            });
+            $(".dateTimePicker").datetimepicker({
+                timeFormat: 'hh:mm:ss',
+                dateFormat: 'dd/mm/yy',
+                showSecond: true,
+                minDate: new Date(),
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true
+
+            })
+
+               $(".template").click(function () {
+                var obj = $("#myTable").DataTable().$('tr:first').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+
+
+                $(obj1).find("th:eq(0)").remove();
+                $(obj1).find("th:eq(0)").remove();
+                $(obj1).find("th:eq(0)").remove();
+                $(obj1).find("th:eq(0)").remove();
+
+                $(obj).find("td:eq(0)").remove();
+                $(obj).find("td:eq(0)").remove();
+                $(obj).find("td:eq(0)").remove();
+                $(obj).find("td:eq(0)").remove();
+
+
+
+                $('<table>')
+                    .append(
+                        obj1
+                    )
+                    .append(
+                        obj
+                    )
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "Excel.xls" //do not include extension
+                    });
+            });
+               $(".excel").click(function () {
+                var obj = $("#myTable").DataTable().$('tr').clone();
+                var obj1 = $('<tr>').append($("#myTable thead tr").html());
+                var lstchl = $(obj1).find("th:last-child").html();
+                if (lstchl.indexOf("Action") != -1) {
+                    $(obj1).find("th:last-child").remove();
+                    $(obj).find("td:last-child").remove();
+                }
+
+                if ($("#tab-6").hasClass("active")) {
+                    obj = $("#myTable1").DataTable().$('tr').clone();
+                    obj1 = $('<tr>').append($("#myTable1 thead tr").html());
+                    lstchl = $(obj1).find("th:last-child").html();
+                    if (lstchl.indexOf("Action") != -1) {
+                        $(obj1).find("th:last-child").remove();
+                        $(obj).find("td:last-child").remove();
+                    }
+                }
+                else if ($("#tab-3").hasClass("active"))
+                //  table 3
+                {
+                    obj = $("#myTable2").DataTable().$('tr').clone();
+                    obj1 = $('<tr>').append($("#myTable2 thead tr").html());
+                    lstchl = $(obj1).find("th:last-child").html();
+                    if (lstchl.indexOf("Action") != -1) {
+                        $(obj1).find("th:last-child").remove();
+                        $(obj).find("td:last-child").remove();
+                    }
+
+                }
+
+                $('<table>')
+                    .append(
+                        obj1
+                    )
+                    .append(
+                        obj
+                )
+                  
+                    .table2excel({
+                        exclude: ".excludeThisClass",
+                        name: "Worksheet Name",
+                        filename: "Excel.xls" 
+                    });
+            });
+        });
+
+        function readURL(input) {
+            var _this = input;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    //$('#blah')
+                    //    .attr('src', e.target.result);
+                    $(_this).parent('div').next('div').find('img').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+          function readURL1(input) {
+            var _this = input;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    //$('#blah')
+                    //    .attr('src', e.target.result);
+                    $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+          var loadFile = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('editblah');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

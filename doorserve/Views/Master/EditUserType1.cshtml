@@ -1,0 +1,75 @@
+﻿@model doorserve.Models.UserTypeModel
+
+@{
+    ViewBag.Title = "EditUserType1";
+}
+
+<input type="button" class="btn btn-sm btn-info btnSize" value="Back To List" onclick="@("window.location.href='" + @Url.Action("CreateUserType1", "Master",new { }) + "'");" />
+<div class="row">
+    <div class="col-md-5 col-sm-5 col-xs-5">
+        <div class="x_panel">
+            <div class="x_title">
+                <h3 class="m-y-0">List Of Menu's</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+</div>
+            <div class="x_content">
+
+                @{Html.RenderPartial("MenuList", Model.TableMenu);}
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-7 col-sm-7 col-xs-7">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Edit UserType<small></small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                @{Html.RenderPartial("EditUserChild");}
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        function checkSubmit() {
+            var listName = "TableMenu";
+            var table = $("#test1 tbody");
+            var qtd = 0;
+            table.find('tr').each(function (i) {
+                var $tds = $(this).find('td');
+                //console.log($tds);
+
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].MenuCap_ID'value='" + $tds.eq(0).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].Menu_Name' value='" + $tds.eq(1).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].SubMenuName' value='" + $tds.eq(2).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].ParentMenuID' value='" + $tds.eq(3).text() + "'>");
+                $("#form11").prepend("<input type='hidden'name='" + listName + "[" + qtd + "].isNewlyEnrolled' value='" + $tds.find('input:checkbox').is(':checked') + "'>");
+
+                qtd += 1;
+            });
+            return true;
+        }
+    </script>
+}

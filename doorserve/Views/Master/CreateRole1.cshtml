@@ -1,0 +1,69 @@
+﻿@*<div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h3 class="m-y-0">List Of Role</h3>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-md-6">
+                <h3 class="m-y-0">List Of Role</h3>
+            </div>            
+        </div>
+    </div>
+</div>
+
+<div class="panel-body">
+    <div class="x_content" style="overflow-x: scroll;">
+        <div style="display:inline-flex" class="pull-right">
+            <input type="button" class="btn btn-sm btn-primary excel btn-success btnSize" value="Export" />
+            <input type="button" class="btn btn-sm btn-primary btnSize" value="Add New Role" onclick="@("window.location.href='" + @Url.Action("AddNewRole1", "Master",new { }) + "'");" />
+        </div>
+
+        @Html.Action("RoleTable1", "Master")
+    </div>
+    </div>
+
+
+    @section scripts{
+        <script>
+            function EditUserType(UserTypeId) {
+                debugger
+                $.ajax({
+                    type: 'GET',
+                    url: "/Master/EditUserType1?UserTypeId=" + UserTypeId,
+                    contentType: 'application/json; charset=utf-8',
+                    cache: false,
+                    success: function (response) {
+                        debugger;
+
+                    },
+                    error: function (e) {
+
+                        console.log(e);
+                        $(".submitbutton").attr("disabled", false);
+                        alert("Something went wrong...");
+
+                    },
+                    complete: function () {
+
+                        $(".submitbutton").attr("disabled", false);
+                    }
+                });
+            }
+        </script>
+    }
+
+

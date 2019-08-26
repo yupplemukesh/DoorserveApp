@@ -1,0 +1,115 @@
+﻿@model doorserve.Models.UserRoleModel
+
+@{
+    ViewBag.Title = "UserTypeAddRights";
+}
+
+<h2>UserRoleAddRights</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
+    @Html.HiddenFor(m => m.RoleId)
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.UserType, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.UserRole, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.UserRole, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            @Html.TextBoxFor(model => model.IsActive, new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 5px;">
+        @Html.LabelFor(model => model.MenuMasters, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+        <div class="col-md-6 col-sm-6 col-xs-12">
+
+            @Html.DropDownListFor(model => model.MenuMasters, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.MenuMasters, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-12">
+            <input type="button" class="btn btn-info" value="Add Submenu" onclick="AddSubMenu()" />
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-condensed" style="width: 100%" id="test1">
+            <thead>
+                <tr>
+                    <th>Submenu</th>
+
+                    <th>View Status</th>
+                </tr>
+            </thead>
+
+
+
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="ln_solid"></div>
+    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <div class="col-md-6 col-sm-6  col-xs-12 col-md-offset-5 col-sm-offset-5">
+            <button type="submit" class="btn  btn-success">Update</button>
+            <input type="button" class="btn btn-lg btn-warning btnSize" value="Back" onclick="@("window.location.href='" + @Url.Action("UserMaster", "Master") + "'");" />
+        </div>
+    </div>
+    <br />
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section scripts{
+    <script>
+        function AddSubMenu() {
+            var RoleId = $('#RoleId').val()
+
+            var MainMenu = $("#MenuMasters").val();
+            $("#test1 tbody tr").remove();
+            $.ajax({
+                type: 'GET',
+                url: "/Master/SubMenu?MainMenuId=" + MainMenu,
+                contentType: 'application/json; charset=utf-8',
+                cache: false,
+                success: function (response) {
+                    debugger;
+                    var Quan = 1;
+                    var trHTML = '';
+                    $.each(response, function (i, item) {
+                        trHTML += '<tr style="padding-top:5px"><td>' + item.Menu_Name + '</td><td><input type="checkbox" name="foo" value="' + item.MenuCap_ID + '" /></td></tr>';
+                    });
+                    $('#test1').append(trHTML);
+                    check_checkbox(UserId, MainMenu);
+                },
+                error: function (e) {
+                    console.log(e);
+                    $(".submitbutton").attr("disabled", false);
+                    alert("Something went wrong...");
+
+                },
+                complete: function () {
+
+                    $(".submitbutton").attr("disabled", false);
+                }
+
+            });
+        }
+    </script>
+}

@@ -1,0 +1,861 @@
+﻿@model doorserve.Models.ServiceProviderModel
+@using doorserve.Models
+@{
+    var cs = "active in";
+
+    var HC = "";
+    if (Model.action == 'I')
+    {
+        HC = "disabled";
+    }
+
+
+}
+
+@Html.HiddenFor(x => x.Path)
+<div class="row">
+    <div class="col-md-2">
+
+        <ul class="nav nav-tabs m-b-15 tabs-left">
+
+            @if (Model.Activetab == "tab-1")
+            {
+                <li class="active">
+                    <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-2" class="@HC" id="tab2" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-3" class="@HC" id="tab3" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-4" class="@HC" id="tab4" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-5" class="@HC" id="tab5" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-6" class="@HC" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                    </a>
+                </li>
+            }
+
+            else if (Model.Activetab == "tab-2")
+            {
+                <li>
+                    <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-3" class="@HC" id="tab3" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-4" class="@HC" id="tab4" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-5" class="@HC" id="tab5" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-6" class="@HC" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                    </a>
+                </li>
+            }
+
+
+            else if (Model.Activetab == "tab-3")
+            {
+
+                <li>
+                    <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#tab-3" id="tab3" role="tab" data-toggle="tab" aria-expanded="true">
+                        <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-4" class="@HC" id="tab4" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-5" class="@HC" id="tab5" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-6" class="@HC" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                    </a>
+                </li>
+
+            }
+            else if (Model.Activetab == "tab-4")
+            {
+
+                <li>
+                    <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-3" id="tab3" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#tab-4" id="tab4" role="tab" data-toggle="tab" aria-expanded="true">
+                        <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-5" class="@HC" id="tab5" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-6" class="@HC" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                    </a>
+                </li>
+            }
+
+
+            else if (Model.Activetab == "tab-5")
+            {
+
+                <li>
+                    <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-3" id="tab3" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-4" id="tab4" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#tab-5" id="tab5" role="tab" data-toggle="tab" aria-expanded="true">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-6" class="@HC" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                    </a>
+                </li>
+            }
+            else if (Model.Activetab == "tab-6")
+            {
+
+                <li>
+                    <a href="#tab-1" id="tab1" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-library zmdi-hc-fw"></i> Website
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-2" id="tab2" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-delicious zmdi-hc-fw"></i>Organization
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-3" id="tab3" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts zmdi-hc-fw"></i>Address and Contact Person
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-4" id="tab4" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-accounts-add zmdi-hc-fw"></i>Bank Details
+                    </a>
+                </li>
+                <li>
+                    <a href="#tab-5" id="tab5" role="tab" data-toggle="tab" aria-expanded="true">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i>Registration
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#tab-6" class="@HC" id="tab6" role="tab" data-toggle="tab">
+                        <i class="zmdi zmdi-texture zmdi-hc-fw"></i> Services Offered
+                    </a>
+                </li>
+            }
+
+
+
+
+        </ul>
+    </div>
+
+    <div class="col-md-10">
+        <div class="tab-content tab-content responsive">
+
+            @if (Model.Activetab == "tab-1")
+            {
+                @:<div class="tab-pane fade in @cs" id="tab-1">
+                }
+                else
+                {
+                    @:<div class="tab-pane fade in" id="tab-1">
+                    }
+            <div class="container-fluid tab-form-control">
+                <div class="row">
+                    @using (Html.BeginForm("AddorEditServiceProvider", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                    {
+                        @Html.HiddenFor(x => x.ProviderId)
+                        @Html.HiddenFor(x => x.action)
+                        @Html.HiddenFor(x => x.CurrentProviderName)
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+
+
+
+                            @if (Model.IsSuperAdmin)
+                            {
+                                <div class=" row form-group">
+                                    <label class="col-md-3 control-label" for="selectbasic">Companies	</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList, "Select", new { @class = "form-control" })
+                                        @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
+                                        @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+
+                            @if (Model.action == 'U')
+                            {
+                            <!-- Text input-->
+                            <div class=" row form-group">
+                                <label class="col-md-3 " for="textinput">Service Provider Code</label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.ProviderCode, new { @class = "form-control input-md", @placeholder = "Service Provider Code" })
+                                    @Html.ValidationMessageFor(model => model.ProviderCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            }
+                            <!-- Text input-->
+                            <div class=" row form-group">
+                                <label class="col-md-3 " for="textinput">Service Provider Name</label>
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(model => model.ProviderName, new { @class = "form-control input-md", @placeholder = "Service Provider Name" })
+                                    @Html.ValidationMessageFor(model => model.ProviderName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="row form-group pull-right">
+                                @if (Model.action == 'I')
+                                {
+                                    <button type="button" class="btn btn-primary reset">RESET</button>
+                                }
+                                <button class="btn btn-primary">
+                                    SAVE
+
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        @if (Model.Activetab == "tab-2")
+        {
+            @:<div class="tab-pane fade in @cs" id="tab-2">
+            }
+            else
+            {
+                @:<div class="tab-pane fade in" id="tab-2">
+
+
+
+
+
+
+
+
+                }
+
+
+        <!-- <h2> Address and Contact Person</h2>-->
+
+        <div class="container-fluid tab-form-control">
+            <div class="row">
+                @using (Html.BeginForm("AddorEditOrganization", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                    @Html.HiddenFor(x => x.ProviderId)
+                    @Html.HiddenFor(x => x.action)
+                    Model.Organization.Type = "Provider";
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+                        @Html.Partial("~/Views/common/_AddOrEditOrginazation.cshtml", Model.Organization)
+                        <div class="row form-group pull-right">
+                            @if (Model.action == 'I')
+                            {
+                                <button type="button" class="btn btn-primary reset">RESET</button>
+                            }
+                            <button type="submit" class="btn btn-primary">
+                                SAVE
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+
+
+    </div>
+
+    @if (Model.Activetab == "tab-3")
+    {
+        @:<div class="tab-pane fade in @cs" id="tab-3">
+}
+else
+{
+    @:<div class="tab-pane fade in" id="tab-3">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+<div class="container-fluid tab-form-control">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+        <div class="row margin-bottom-sm">
+            <div class="col-12 pull-right align-text-top  ">
+                <input type="button" class="btn btn-primary " id="AddContactPerson" value="add  Contact" />
+            </div>
+
+        </div>
+        <div class="row">
+
+
+            @if (Model.ContactPersons != null)
+            {
+                <div class="col-12">
+
+                    @Html.Partial("~/Views/Common/_ContactDetails.cshtml", Model.ContactPersons)
+                    <div class="row" style="display:none" id="ContactPerson">
+                        @using (Html.BeginForm("AddOrPersonContactDetails", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                        {
+                            Model.Contact.IsSingleCenter = Model.Organization.IsSingleCenter;
+                            Model.Contact.RefKey = Model.ProviderId;
+                            <div class="col-12">
+                                @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)
+                            </div>
+                            <div class="form-group row m-b-25">
+                                <div class="col-sm-offset-11  col-md-1">
+                                    <button type="submit" class="btn btn-success" style="">Save</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>
+</div>
+
+@if (Model.Activetab == "tab-4")
+{
+    @:<div class="tab-pane fade in @cs" id="tab-4">
+    }
+    else
+    {
+        @:<div class="tab-pane fade in" id="tab-4">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+<!--<h2>Bank Details</h2>-->
+<div class="container-fluid tab-form-control">
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+        <div class="row margin-bottom-sm">
+            <div class="col-12 pull-right align-text-top  ">
+                <input type="button" class="btn btn-primary" id="AddBankAccount" value="add  Bank" />
+            </div>
+
+        </div>
+        <div class="row" id="bankDetails">
+
+            @if (Model.BankDetails != null)
+            {
+                <div class="col-12">
+                    @Html.Partial("~/Views/Common/_bankDetails.cshtml", Model.BankDetails)
+
+                    <div class="row" style="display:none" id="BankAccount">
+                        @using (Html.BeginForm("AddOrEditBank", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+                        {
+                            Model.Bank.RefKey = Model.ProviderId;
+                            <div class="col-12">
+                                @Html.Partial("~/Views/Common/_AddOrUpdateBankDetails.cshtml", Model.Bank)
+                            </div>
+
+                            <div class="form-group row m-b-25">
+                                <div class="col-sm-offset-11  col-md-1">
+                                    <button type="submit" class="btn btn-success" style="">Save</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+
+
+
+</div>
+</div>
+@if (Model.Activetab == "tab-5")
+{
+    @:<div class="tab-pane fade in @cs" id="tab-5">
+    }
+    else
+    {
+        @:<div class="tab-pane fade in" id="tab-5">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+<!--<h2>Registration</h2>-->
+
+<div class="container-fluid tab-form-control">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+            @using (Html.BeginForm("AddOrEditASPReg", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
+            {
+                @Html.HiddenFor(x => x.ProviderId)
+                @Html.HiddenFor(x => x.action)
+
+                <!-- Select Basic -->
+                <div class="row form-group">
+                    <label class="col-md-3 control-label" for="selectbasic">
+                        Is Active?
+                    </label>
+                    <div class="col-md-9">
+
+                        @Html.CheckBoxFor(x => x.IsActive)
+
+                    </div>
+
+                </div>
+
+
+                <!-- Text input-->
+                <div class=" row form-group ">
+                    <label class="col-md-3 " for="textinput">Comments</label>
+                    <div class="col-md-9">
+                        @Html.TextAreaFor(x => x.Remarks, new { @class = "form-control input-md" })
+                    </div>
+                </div>
+
+                <div class="row form-group pull-right">
+                    @if (Model.action == 'I')
+                    {
+                        <button type="button" class="btn btn-primary reset">RESET</button>
+                    }
+
+                    <button class="btn btn-primary">
+                        SAVE
+
+                    </button>
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+@if (Model.Activetab == "tab-6")
+{
+    @:<div class="tab-pane fade in @cs" id="tab-6">
+    }
+    else
+    {
+        @:<div class="tab-pane fade in" id="tab-6">
+
+
+
+
+
+
+
+
+        }
+<!--<h2>Registration</h2>-->
+
+<div class="container-fluid tab-form-control">
+
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-md-6">
+                    <h3 class="m-y-0">Service Offered:</h3>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="pull-right">
+                        @if (Permissions.Rights.Create || Permissions.Rights.Edit)
+                        {
+
+
+                            <a href="@Url.Action("ManageService","ManageServiceProviders", new {@RefKey=Model.ProviderId})" class="btn btn-primary"> Add </a>
+                            <a href="#" data-target="#UploadModel" data-toggle="modal" class="btn btn-primary">
+                                Import Pin code List
+
+                            </a>
+                        }
+                        @if (Permissions.Rights.ExcelExport)
+                        {
+                            <button class="btn btn-primary excel">Export to Excel</button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        @Html.Partial("~/Views/Common/_ServicesOptedTable.cshtml", Model.Services)
+    </div>
+</div>
+
+
+</div>
+</div>
+</div>
+
+</div>
+<div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="UploadModel" role="dialog" tabindex="-1" target="_blank">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body mb-0 p-0">
+                @using (Html.BeginForm("ImportServiceableAreaPinCodes", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                 
+                    @Html.Action("_GetUploadForm",new {@refKey=Model.ProviderId })
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+      $(document).ready(function () {
+              $("#ServiceForm").find("input[type=text], textarea,select").val("");
+              $("#ServiceForm").closest('form').find("input[type=checkbox]").prop('checked', false);
+              $('.selectpicker').selectpicker('refresh');
+              var DivName = $('.nav-tabs .active a').attr('href');
+              activaTab(DivName);
+          })
+
+    function activaTab(tab) {
+        $(tab).addClass("active in");
+    };
+    $("#AddContactPerson").click(function () {
+        $('#ContactPerson').find(':input,select').each(function () {
+            switch (this.type) {
+                case 'button':
+                case 'text':
+                case 'submit':
+                case 'password':
+                case 'file':
+                case 'email':
+                case 'date':
+                case 'number':
+                    $(this).val('');
+                    break;
+                case 'select-one':
+                    $(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                    break;
+            }
+
+            $("#ContactId").val('');
+
+        })
+        $("#ContactPerson").show();
+    });
+
+    $(".reset").click(function () {
+        $(this).closest('form').find("input[type=text], textarea,select").val("");
+        $("#ConCity").empty();
+        $("#ConState").empty();
+        $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
+        $('.selectpicker').selectpicker('refresh');
+    });
+    $("#AddBankAccount").click(function () {
+
+        $('#BankAccount').find(':input,select').each(function () {
+            debugger
+            switch (this.type) {
+                case 'button':
+                case 'text':
+                case 'submit':
+                case 'password':
+                case 'file':
+                case 'email':
+                case 'date':
+                case 'number':
+                    $(this).val('');
+                    break;
+                case 'select-one':
+                    $(this).val('');
+                    break;
+                case 'checkbox':
+                case 'radio':
+                    this.checked = false;
+                    break;
+            }
+
+            $("#bankId").val('');
+
+        })
+
+        $("#BankAccount").show();
+    });
+    function AjaxWithValue(method, ddl, e) {
+        var val = e.value;
+        var other = e.Other;
+        console.log(other);
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?value=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $("#" + ddl).empty();
+
+                //var sel = new Option('-Select-', '');
+                //$('#' + ddl).append(sel);
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].Text, data[i].Value);
+                    $('#' + ddl).append(opt);
+                }
+
+                if (other != undefined) {
+                    $('#' + ddl).val(other);
+
+                }
+
+            }
+        });
+    }
+
+
+
+
+    function getItems(Id, method) {
+        debugger
+        var val = Id;       
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?Id=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (method == 'JsonGetBank') {
+                    $("#bankId").val(data.bankId);
+                    $("#BankNameId").val(data.BankNameId);
+                    $("#BankAccountNumber").val(data.BankAccountNumber);
+                    $("#BankCompanyName").val(data.BankCompanyName);
+                    $("#BankIFSCCode").val(data.BankIFSCCode);
+                    $("#BankBranchName").val(data.BankBranchName);
+
+                    $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);
+                    if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
+                        $("#conBankImg").prop("src", $("#Path").val() + "/Banks/" + data.BankCancelledChequeFileName);
+                    }
+
+                    $("#IsDefault").prop("checked", data.IsDefault);
+                    $("#BankAccount").show();
+                }
+                else {
+                    debugger
+                    $("#ContactId").val(data.ContactId);
+                    $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                    $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                    $("#ConPanFileName").val(data.ConPanFileName);
+                    $("#ConFirstName").val(data.ConFirstName);
+                    $("#ConEmailAddress").val(data.ConEmailAddress);
+                    $("#CurrentEmail").val(data.ConEmailAddress);
+                    $("#ConLastName").val(data.ConLastName);
+                    $("#ConMobileNumber").val(data.ConMobileNumber);
+                    $("#ConPanNumber").val(data.ConPanNumber);
+                    $("#ConVoterId").val(data.ConVoterId);
+                    $("#ConAdhaarNumber").val(data.ConAdhaarNumber);
+                    $("#AddressTypeId").val(data.AddressTypeId);
+                    $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                    $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                    $("#ConPanFileName").val(data.ConPanFileName);
+                    if (data.ConAdhaarFileName != null || data.ConAdhaarFileName != "") {
+                        $("#conAdhrImg").prop("src", $("#Path").val() + "/ADHRs/" + data.ConAdhaarFileName);
+                    }
+                    if (data.ConVoterIdFileName != null || data.ConVoterIdFileName != "") {
+                        $("#conVoterImg").prop("src", $("#Path").val() + "/VoterIds/" + data.ConVoterIdFileName);
+                    }
+
+                    if (data.ConPanFileName != null || data.ConPanFileName != "") {
+                        $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
+                    }
+                    $("#CurrentIsUser").val(data.CurrentIsUser);
+                    $("#ContactPerson").show();
+                    $("#Pincode").val(data.PinNumber);
+                    var obj = { value: data.PinNumber, Other: data.LocationId };
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);             
+                   
+                    $("#Country").val(data.Country);
+                    $("#State").val(data.State);
+                    $("#StateId").val(data.StateId);
+                    $("#CountryId").val(data.CountryId);
+                    $("#LocationId").val(data.LocationId);
+                    $("#Address").val(data.Address);
+                    $("#Locality").val(data.Locality);
+                    $("#NearLocation").val(data.NearLocation);
+                    $("#IsUser").prop("checked", data.IsUser);
+
+                }
+
+            }
+        });
+    }
+
+     function EditService(Service) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetService","ManageClients")',
+            data: { "serviceId": Service },
+                   async: true,
+            contentType: "application/json",
+            success: function (data) {
+                    $("#ServiceId").val(data.ServiceId);
+                    $("#CategoryId").val(data.CategoryId);
+                    $("#ServiceTypeId").val(data.ServiceTypeId);
+                    $("#DeliveryTypeId").val(data.DeliveryTypeId);
+                    $("#ServiceCharges").val(data.ServiceCharges);
+                   $("#Remarks").val(data.Remarks);
+                 var obj = { value: data.CategoryId, Other: data.SubCategoryId };
+                AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', obj);
+                $("#IsActive").prop("checked", data.IsActive);
+                    $("#CountryId").val(data.CountryId);
+
+
+                }
+
+
+        });
+
+    }
+</script>

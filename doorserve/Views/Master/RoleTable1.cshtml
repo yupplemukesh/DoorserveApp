@@ -1,0 +1,59 @@
+﻿@model IEnumerable<doorserve.Models.UserRoleModel>
+@{
+    Layout = null;
+}
+<table class="table table-striped table-bordered table-condensed" id="myTable">
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserType)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.UserRole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+
+            <th>Actions</th>
+        </tr>
+
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserType)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.UserRole)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td style="display: inline-flex">
+                @*<input type="button" class="btn btn-small btn-warning btnSize" value="Add Rights" onclick="@("window.location.href='" + @Url.Action("UserTypeAddRights", "Master",new {UserTypeId=item.UserTypeId }) + "'");" />*@
+                @*<a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditUserType(@item.UserTypeId)">Edit</a>*@
+                <input type="button" class="btn btn-small btn-warning btnSize" value="Edit" onclick="@("window.location.href='" + @Url.Action("EditUserRole1", "Master",new {RoleID=item.RoleId }) + "'");" />
+            </td>
+        </tr>
+    }
+
+</table>

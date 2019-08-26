@@ -1,0 +1,112 @@
+﻿
+@model IEnumerable<doorserve.Models.AllData>
+@{
+    Layout = null;
+}
+<br />
+<table class="table table-striped table-bordered table-condensed text-nowrap" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Request Date and Time for Packing")
+            </th>
+
+            <th>
+                @Html.DisplayName("Total Tat")
+            </th>
+            <th>
+                @Html.DisplayName("Tat")
+            </th>
+            <th>
+                @Html.DisplayName("Materials to be Packed")
+            </th>
+            <th>
+                @Html.DisplayName("Is Repacking?")
+            </th>
+            <th>
+                @Html.DisplayName("JOB Number")
+            </th>
+            <th>
+                @Html.DisplayName("Call Request Number")
+            </th>
+            <th>
+                @Html.DisplayName("Purpose?")
+            </th>
+            <th>
+                @Html.DisplayName("From Name, Address and Contact No")
+            </th>
+            <th>
+                @Html.DisplayName("To  Name, Address and Contact No")
+            </th>
+            <th>
+                @Html.DisplayName("TRC Name")
+            </th>
+        </tr>
+    </thead>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Display("")
+            </td>
+
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Materials_packed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Is_Repaking)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobNumber)
+            </td>
+            <td>
+                <input type="button" value="@item.CC_NO" id="link" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prpose)
+            </td>
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.Display("")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrcName)
+            </td>
+
+        </tr>
+    }
+
+</table>
+<style>
+    #link {
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        /*optional*/
+        font-family: arial,sans-serif; /*input has OS specific font-family*/
+        color: cornflowerblue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    $('input:button').click(function () {
+        //alert($(this).val());
+        var ccNo = $(this).val()
+        CCno(ccNo);
+    });
+</script>

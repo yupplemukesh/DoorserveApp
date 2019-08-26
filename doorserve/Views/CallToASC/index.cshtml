@@ -1,0 +1,311 @@
+﻿@model doorserve.Models.Customer_Support.CallToASCModel
+@using doorserve.Models
+@using GridMvc.Html
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+    var count = 0;
+    var count1 = 0;
+
+
+}
+
+<div class="panel-heading">
+    <div class="row">
+
+        <div class="col-md-6"><h3 class="m-y-0">Allocate Call To ASC</h3></div>
+
+        <div class="col-md-6  add-tem-btn-mar-top">
+            <div class="panel-tools">
+                @if (Permissions.Rights.ExcelExport)
+                {
+
+                    using (Html.BeginForm("ExportToExcel", "CallToASC", FormMethod.Get))
+                    {
+
+                        @Html.Hidden("tabIndex", 'P')
+                        <button type="submit" class="tools-icon btn btn-primary btn-sm excel"> Export to Excel</button>
+                    }
+
+
+                }
+                @if (Permissions.Rights.Create)
+                {
+                    <button type="button" id="allocateASP" class="btn btn-primary">Allocate To ASC</button>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs m-b-15 m-t-15">
+
+
+            <li class="active">
+                <a href="#tab-5" role="tab" data-toggle="tab">
+                    <button type="submit" class="btn btn-primary btn-sm"> PENDING REQUEST </button>
+                </a>
+            </li>
+            <li>
+                <a href="#tab-6" role="tab" data-toggle="tab">
+                    <button type="submit" class="btn btn-primary btn-sm"> ASSIGNED REQUEST  </button>
+                </a>
+            </li>
+
+
+        </ul>
+        <div class="tab-content">
+            @if (Permissions.Rights.View)
+            {
+                <div role="tabpanel" class="tab-pane fade in active" id="tab-5">
+
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="panel panel-default panel-table">
+                                    <div class="panel-body">
+                                        <div class="text-center">
+                                            <div class="form-group ">
+                                                <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Authorized Service Center</label>
+                                                <div class="col-sm-8 col-md-8">
+                                                    @Html.DropDownListFor(x => x.CallAllocate.AllocateId, Model.CallAllocate.ToAllocateList, "Select", new { @class = "custom-select", @id = "AllocateId" })
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="table-responsive for-popup-height">
+                                            <div class="code-cut">
+                                                @Html.Grid(Model.PendingCalls).Columns(columns =>
+                                           {
+                                               columns.Add().Titled("<input name='checkBox',checked='false', type='checkBox' onClick='selectedItem(this,\"pendingCalls\")'  />")
+                                               .Encoded(false).Sanitized(false).SetWidth(30)
+                                               .RenderValueAs(o => Html.CheckBox("checked", false, new { name = "selectedIds", @dataval = o.DeviceId, @class = "chk-item" }));
+                                               columns.Add()
+                                              .Titled("#SLN")
+                                              .SetWidth(10)
+                                              .RenderValueAs(o =>
+                                              {
+                                              count++;
+                                              return @<text> @count </text>;
+         });
+          columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+          columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+          columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+          columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+          columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+          columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+          columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+          columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+          columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+          columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+          columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+          columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+          columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+          columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+          columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+          columns.Add(model => model.ProviderName).Titled("ASP Name")
+                                     .Filterable(true).Sanitized(false).Encoded(false).
+                                     RenderValueAs(model => Html.ActionLink(model.ProviderName, "Edit", "ManageServiceProviders", new { @id = model.providerId }, null));
+
+      }).WithPaging(10).Sortable(true)
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane fade in" id="tab-6">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default panel-table">
+                                    @*<div class="panel-body">
+                                            <div class="text-center">
+
+
+                                                <div class="form-group ">
+                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Client</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.AClientId, Model.ClientList, "Select", new { @class = "custom-select" })
+                                                    </div>
+
+                                                    <label for="form-control-3" class="col-sm-1 col-md-1 control-label">Service Type</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.AServiceTypeId, Model.ServiceTypeList, "select", new { @class = "custom-select" })
+
+                                                    </div>
+                                                    <label for="form-control-3" class="col-sm-2 col-md-2 control-label">Service Provider</label>
+                                                    <div class="col-sm-2 col-md-2">
+                                                        @Html.DropDownListFor(x => x.AServiceProviderId, Model.ServiceProviderList, "Select", new { @class = "custom-select" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>*@
+                                    <div class="panel-body">
+                                        <div class="table-responsive for-popup-height">
+                                            <div class="code-cut">
+                                                @Html.Grid(Model.AllocatedCalls).Columns(columns =>
+                                           {
+                                               columns.Add()
+                                              .Titled("#SLN")
+                                              .SetWidth(10)
+                                              .RenderValueAs(o =>
+                                              {
+                                              count1++;
+                                              return @<text> @count1 </text>;
+         });
+          columns.Add(c => c.CRN).Titled("Call Id").Filterable(true);
+          columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+          columns.Add(c => c.CreatedOn).Titled("Upload Date").Filterable(true);
+          columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+          columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+          columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+          columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+          columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+          columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+          columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+          columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+          columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+          columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+          columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+          columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+          columns.Add(model => model.ProviderName).Titled("Provider Name")
+                                     .Filterable(true).Sanitized(false).Encoded(false).
+                                    RenderValueAs(model => Html.ActionLink(model.ProviderName, "Edit", "ManageServiceProviders", new { @id = model.providerId }, null));
+          columns.Add(model => model.ServiceCenterName).Titled("ASC Name")
+                                     .Filterable(true).Sanitized(false).Encoded(false).
+                                     RenderValueAs(model => Html.ActionLink(model.ServiceCenterName, "Edit", "ManageServiceCenters", new { @id = model.ServiceCenterId }, null));
+      }).WithPaging(10).Sortable(true)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+                $("#chkAll").on("change", function (e) {
+
+            $(".chk-item").prop('checked', $(this).prop("checked"));
+        });
+
+        $(document).on("click", "#allocateASP", function (e) {
+
+
+            if (($('#AllocateId').val() == '')){
+                alert('please select authorized service center');
+                return false;
+            };
+
+            var checkboxcount = 0;
+            $('.grid-wrap >.grid-table > tbody  > tr').each(function () {
+
+                var check = $(this).find('[type=checkbox]');
+                if ($(check).prop("checked")) {
+                    checkboxcount++;
+                }
+            });
+
+            if (checkboxcount > 0) {
+
+                var obj = [];
+                    $('.grid-wrap >.grid-table > tbody  > tr').each(function () {
+                var check = $(this).find('[type=checkbox]');
+                if ($(check).prop("checked")) {
+                    var deviceId = $(check).attr("dataval");
+                    //var DataId = $(check).attr("id");
+                    var item = { DeviceId: deviceId/*, DataId: DataId*/ };
+                    obj.push(item);
+                }
+            });
+            console.log(obj);
+            if (obj.length > 0) {
+                var data = {
+                    AllocateId: $("#AllocateId").val(), SelectedDevices: obj
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Allocate","CallToASC")',
+                    data: data,
+                    dataType: "json",
+                    success: function (resultData) {
+                        console.log(resultData);
+                        if (resultData == "Ok")
+                            window.location.reload();
+
+                    },
+                    error: (function () {
+                        alert("Something went wrong");
+                    })
+                });
+            }
+            }
+            else {
+                alert("please select a checkbox")
+                return false;
+            }
+
+
+        })
+
+        function selectedItem(elm, str) {
+
+            debugger
+            if (str == 'pendingCalls')
+                $(".chk-item").prop('checked', $(elm).prop("checked"));
+        }
+
+        $('a[data-toggle="tab"]').click(function (e) {
+            debugger
+            if (this.hash == '#tab-6')
+                $("#tabIndex").val('A');
+                else
+                $("#tabIndex").val('P');
+
+        });
+
+        @*$(document).on("click", "#ExportExcel", function () {
+
+            var data = {
+                Status: "P"
+            };
+            $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ExportToExcel", "CallToASC")',
+                    data: data,
+                    dataType: "json",
+                    success: function (resultData) {
+                        console.log(resultData);
+                        if (resultData == "Ok")
+                            window.location.reload();
+
+                    },
+                    error: (function () {
+                        alert("Something went wrong");
+                    })
+                });
+        })*@
+    </script>
+}
