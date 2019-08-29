@@ -49,7 +49,7 @@ namespace doorserve.Repository.State
             sp.Add(param);
             param = new SqlParameter("@User", ToDBNull(state.UserId));
             sp.Add(param);
-            param = new SqlParameter("@Action", (object)state.Action);
+            param = new SqlParameter("@Action", (object)state.EventAction);
             sp.Add(param);
             var sql = "USPInsertUpdateState @StateId,@StateName,@StateCode,@CntyID,@Remarks,@IsActive,@User,@Action";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

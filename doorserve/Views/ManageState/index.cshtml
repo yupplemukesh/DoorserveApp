@@ -17,7 +17,7 @@
                 <div class="pull-right">
                     @if (Permissions.Rights.ExcelExport)
                     {
-                        <button class="btn btn-secondary excel">
+                        <button class="btn btn-secondary" onclick="tableExport('State')">
                             Export Excel
                         </button>
                     }
@@ -70,10 +70,10 @@
                                     @Html.DisplayName("Created By")
                                 </th>
                                 <th>
-                                    @Html.DisplayName("Modify By")
+                                    @Html.DisplayName("Created Date")
                                 </th>
                                 <th>
-                                    @Html.DisplayName("Created Date")
+                                    @Html.DisplayName("Modify By")
                                 </th>
                                 <th>
                                     @Html.DisplayName("Modify Date")
@@ -107,17 +107,20 @@
 
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                    @if (item.IsActive)
+                                    {<span>Yes</span> }
+                                    else
+                                    { <span>No</span>}
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CBy)
+                                    @Html.DisplayFor(modelItem => item.AddedBy)
                                 </td>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.MBy)
+                                    @Html.DisplayFor(modelItem => item.AddedOn)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.AddedOn)
+                                    @Html.DisplayFor(modelItem => item.ModifiedBy)
                                 </td>
 
                                 <td>

@@ -635,8 +635,7 @@ else
         <div class="modal-content">
             <div class="modal-body mb-0 p-0">
                 @using (Html.BeginForm("ImportServiceableAreaPinCodes", "ManageServiceProviders", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                 
+                {                 
                     @Html.Action("_GetUploadForm",new {@refKey=Model.ProviderId })
                 }
             </div>

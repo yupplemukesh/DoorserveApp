@@ -4,22 +4,32 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
-using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
+using System.Web.Mvc;
+using System.Web.Mvc.Filters;
 
 namespace doorserve.Filters
 {
    
-        public class ValidateModel: ActionFilterAttribute,IActionFilter
+       
+        public class ValidateModel : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            public override void OnActionExecuting(HttpActionContext actionContext)
+            var viewData = filterContext.Controller.ViewData;
+      
+            if (!viewData.ModelState.IsValid)
             {
-                if (!actionContext.ModelState.IsValid)
+                filterContext.Result = new ViewResult
                 {
-                    actionContext.Response = actionContext.Request.CreateErrorResponse(
-                        HttpStatusCode.BadRequest, actionContext.ModelState);
-                }
+                    ViewData = viewData,
+                    TempData = filterContext.Controller.TempData
+                    
+                };
             }
-        
+
+            base.OnActionExecuting(filterContext);
+        }
+
+
     }
 }

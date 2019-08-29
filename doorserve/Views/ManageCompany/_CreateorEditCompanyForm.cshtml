@@ -565,7 +565,7 @@
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function (data) {
-
+             
                                     if (method == 'JsonGetBank') {
                                         $("#bankId").val(data.bankId);
                                         $("#BankNameId").val(data.BankNameId);
@@ -581,6 +581,7 @@
                                         $("#BankAccount").show();
                                     }
                                     else {
+                                                               console.log(data);
                                         $("#ContactId").val(data.ContactId);
                                         $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
                                         $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
@@ -617,7 +618,7 @@
                                         $("#Address").val(data.Address);
                                         $("#Locality").val(data.Locality);
                                         $("#NearLocation").val(data.NearLocation);                                        
-                                        $("#IsUser").prop("checked", data.isUser);
+                                        $("#IsUser").prop("checked", data.IsUser);
                                         $("#ContactPerson").show();
                                     }
 

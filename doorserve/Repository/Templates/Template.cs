@@ -71,7 +71,8 @@ namespace doorserve.Repository.EmailSmsTemplate
             var sp = new List<SqlParameter>();
             var param = new SqlParameter("@ActionName", TemplateName);
             sp.Add(param);
-            param = new SqlParameter("@CompId", CompId);
+            param = new SqlParameter("@CompId", ToDBNull(CompId)
+                );
             sp.Add(param);
             return await _context.Database.SqlQuery<TemplateModel>("UspGetTemplateByActionName  @ActionName,@CompId", sp.ToArray()).ToListAsync();
         }

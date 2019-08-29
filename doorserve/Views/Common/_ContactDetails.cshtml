@@ -19,7 +19,7 @@
                     <th>
                         @Html.DisplayName("Last Name")
                     </th>
-            
+
                     <th>
                         @Html.DisplayName("Mobile Number")
                     </th>
@@ -32,39 +32,45 @@
                     <th>
                         @Html.DisplayName("City")
                     </th>
+                    <th>
+                        @Html.DisplayName("IsUser")
+                    </th>
                     <th>Action</th>
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Count
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConFirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConLastName)
-                </td>
-          
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConMobileNumber)
-                </td>
+        <tr>
+            <td>
+                @Count
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConLastName)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.ConEmailAddress)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LocationName)
-                </td>
-                <td style="display: inline-flex">
-                    <a href='#' onclick="getItems('@item.ContactId','JsonGetPerson')" class="btn btn-small btn-info btnSize ">Edit</a>
-                </td>
-            </tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConMobileNumber)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ConEmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsUser)
+            </td>
+            <td style="display: inline-flex">
+                <a href='#' onclick="getItems('@item.ContactId','JsonGetPerson')" class="btn btn-small btn-info btnSize ">Edit</a>
+            </td>
+        </tr>
                 Count++;
             }
 

@@ -12,8 +12,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TogoFogo</RootNamespace>
-    <AssemblyName>TogoFogo</AssemblyName>
+    <RootNamespace>doorserve</RootNamespace>
+    <AssemblyName>doorserve</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -980,6 +980,8 @@
     <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Content\Scripts\jquery.datetimepicker.full.js" />
+    <Content Include="Content\Scripts\jquery.table2excel.js" />
     <Content Include="Content\Scripts\jquery.unobtrusive-ajax.js" />
     <None Include="Content\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Content\Scripts\jquery.validate.js" />
@@ -1639,7 +1641,7 @@
     <Content Include="Views\Common\_AddOrEditOffered.cshtml" />
     <Content Include="Views\Common\_AppointmentDetails.cshtml" />
     <Content Include="Views\ClientData\_CallDetails.cshtml" />
-    <Content Include="Views\ClientData\_EditForm.cshtml" />
+    <Content Include="Views\ClientData\Edit.cshtml" />
     <Content Include="Views\ClientData\_OrderHistory.cshtml" />
     <Content Include="Views\Employees\_EmployeeContactPerson.cshtml" />
     <Content Include="Views\ManageBanners\Create.cshtml" />

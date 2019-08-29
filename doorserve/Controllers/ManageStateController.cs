@@ -46,7 +46,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Create(ManageStateModel state)
         {
             var session = Session["User"] as SessionModel;
-            state.Action = 'I';
+            state.EventAction = 'I';
             state.UserId = session.UserId;
             var response = await _State.AddUpdateState(state);
             TempData["response"] = response;
@@ -67,7 +67,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Edit(ManageStateModel state)
         {
             var session = Session["User"] as SessionModel;
-            state.Action = 'U';
+            state.EventAction = 'U';
             state.UserId = session.UserId;
             var response = await _State.AddUpdateState(state);
             TempData["response"] = response;

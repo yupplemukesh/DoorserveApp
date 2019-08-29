@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using doorserve.Filters;
 using doorserve.Models;
 using doorserve.Permission;
 
@@ -44,54 +45,45 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Category)]
         [HttpPost]
+        [ValidateModel]
         public ActionResult AddCategory(DeviceCategoryModel model)
         {
-            try
+            using (var con = new SqlConnection(_connectionString))
             {
+                var session = Session["User"] as SessionModel;
+                var result = con.Query<int>("Add_Modify_Delete_Category",
+                    new
+                    {
+                        CatId = "",
+                        model.CatName,
+                        model.IsRepair,
+                        model.IsActive,
+                        model.SortOrder,
+                        model.Comments,
+                        User = session.UserId,
+                        Action = "add",
+                        companyId = session.CompanyId
 
-
-               using (var con = new SqlConnection(_connectionString))
+                    }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                var response = new ResponseModel();
+                if (result == 1)
                 {
-                    var session = Session["User"] as SessionModel;
-                    var result = con.Query<int>("Add_Modify_Delete_Category",
-                        new
-                        {
-                            CatId = "",
-                            model.CatName,
-                            model.IsRepair,
-                            model.IsActive,
-                            model.SortOrder,
-                            model.Comments,
-                            User = session.UserId,
-                            Action = "add",
-                            companyId= session.CompanyId
+                    response.IsSuccess = true;
+                    response.Response = "Successfully Added";
+                    TempData["response"] = response;
 
-                        }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    var response = new ResponseModel();
-                    if (result == 1)
-                    {
-                        response.IsSuccess = true;
-                        response.Response = "Successfully Added";
-                        TempData["response"] = response;
-                        
 
-                    }
-                    else
-                    {
-                        response.IsSuccess = true;
-                        response.Response = "Category Already Exist";
-                        TempData["response"] = response;
-                        
-                    }
+                }
+                else
+                {
+                    response.IsSuccess = true;
+                    response.Response = "Category Already Exist";
+                    TempData["response"] = response;
+
                 }
 
-            }
-            catch (Exception e)
-            {
 
-                throw e;
-            }
-
+            }        
             return RedirectToAction("DeviceCategory");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Device_Category)]
@@ -104,11 +96,8 @@ namespace doorserve.Controllers
                 return View(result);
             }            
         }
-        [HttpPost]
-        public ActionResult DeviceCategoryTable(int CatId)
-        {
-            return View();
-        }
+ 
+     
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Category)]
         public ActionResult EditDeviceCategory(int CatId)
         {
@@ -121,6 +110,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Category)]
         [HttpPost]
+        [ValidateModel]
         public ActionResult EditDeviceCategory(DeviceCategoryModel model)
         {
             try
@@ -191,10 +181,9 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Device_Sub_Category)]
         [HttpPost]
+        [ValidateModel]
         public ActionResult AddSubCategory(SubcategoryModel model)
-        {
-            try
-            {
+        {          
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var session = Session["User"] as SessionModel;
@@ -234,16 +223,8 @@ namespace doorserve.Controllers
                         TempData["response"] = response;
                         
                     }
-                }
-
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
-
-            return RedirectToAction("DeviceSubCategory");
+                }          
+                return RedirectToAction("DeviceSubCategory");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult DeviceSubCategoryTable()
@@ -279,11 +260,10 @@ namespace doorserve.Controllers
             }
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Device_Sub_Category)]
-        [HttpPost]
+        [HttpPost]        
+        [ValidateModel]
         public ActionResult EditDeviceSubCategory(SubcategoryModel model)
-        {
-            try
-            {
+        {           
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var session = Session["User"] as SessionModel;
@@ -316,15 +296,7 @@ namespace doorserve.Controllers
 
                     }
                 }
-
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
-
-            return RedirectToAction("DeviceSubCategory");
+                      return RedirectToAction("DeviceSubCategory");
         }
     }
 }

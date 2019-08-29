@@ -316,7 +316,7 @@ namespace doorserve.Controllers
                 filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
 
 
-                return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+                return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
             }
             else
             {
@@ -327,7 +327,7 @@ namespace doorserve.Controllers
                     var result = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
                     // objManageLocation.ManageLocationList
                     filecontent = ExcelExportHelper.ExportExcel(result, "", false, columns);
-                    return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+                    return File(filecontent, ExcelExportHelper.ExcelContentType, "Location.xlsx");
                 }
 
                 //byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);

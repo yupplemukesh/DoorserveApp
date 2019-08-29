@@ -16,7 +16,7 @@
             <div class="col-md-6 ">
                 <div class="pull-right">
                     
-                        <button class="btn btn-secondary excel">
+                        <button class="btn btn-secondary" onclick="tableExport('process')">
                             Export Excel
                         </button>
                         @if (Permissions.Rights.Create)
@@ -96,9 +96,12 @@
                                             @Html.DisplayFor(modelItem => item.Remark)
 
                                 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsActive)
-                                </td>
+                                        <td>
+                                            @if (item.IsActive)
+                                            {<span>Yes</span> }
+                                            else
+                                            { <span>No</span>}
+                                        </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CBy)
                                 </td>

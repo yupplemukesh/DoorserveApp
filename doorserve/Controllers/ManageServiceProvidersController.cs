@@ -873,7 +873,7 @@ namespace doorserve.Controllers
                IsUser="No"
                 }};
                 filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
-                return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+                return File(filecontent, ExcelExportHelper.ExcelContentType, "ASPTemplate.xlsx");
             }
             else
             {
@@ -883,7 +883,7 @@ namespace doorserve.Controllers
                     "IsServiceCenter","ContactName","ContactMobile","ContactEmail","ContactPAN","ContactVoterId","ContactAdhaar",
                     "AddressType","Country","State","City","Address","Locality","NearByLocation","PinCode","IsUser","ServiceableAreaPinCode" };               
                 filecontent = ExcelExportHelper.ExportExcel(response, "", false, columns);
-                return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
+                return File(filecontent, ExcelExportHelper.ExcelContentType, "ProviderData.xlsx");
             }
         }
 

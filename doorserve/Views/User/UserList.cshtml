@@ -25,7 +25,7 @@
                 <div class="pull-left">
                     @if (Permissions.Rights.ExcelExport)
                     {
-                        <button class="btn btn-primary excel">Export to Excel</button>
+                        <button class="btn btn-primary" onclick="tableExport('user')" >Export to Excel</button>
                     }
                 </div>
             </div>
@@ -114,7 +114,7 @@
                    
                     <td>
 
-                        @(item.IsActive == true ? "Active" : "InActive ")
+                        @(item.IsActive == true ? "Yes" : "No")
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.LastUpdatedBy)

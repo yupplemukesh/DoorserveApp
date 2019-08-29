@@ -8,7 +8,7 @@ using doorserve.Models;
 
 namespace doorserve.Models
 {
-    public class ManageStateModel:ContactPersonModel
+    public class ManageStateModel:RegistrationModel
     {
         public long St_ID { get; set; }
         [DisplayName("State Name")]
@@ -18,14 +18,9 @@ namespace doorserve.Models
         [Required]
         [DisplayName("Country Name")]
         public long St_CntyID { get; set; }
-        public long AddedBy { get; set; }
-        public DateTime AddedOn { get; set; }
-        public string CBy { get; set; }
-        public long ModifiedBy { get; set; }
-        public DateTime ? ModifiedOn { get; set; }
-        public string MBy { get; set; }        
+  
+     
         public string Cnty_Name { get; set; }        
-        public string Remarks { get; set; }
         public System.Web.Mvc.SelectList _CountryList { get; set; }
     }
 }

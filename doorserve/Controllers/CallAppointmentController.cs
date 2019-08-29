@@ -62,6 +62,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Schedule_Appointment)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Edit(CallDetailsModel Appointment)
         {
             try

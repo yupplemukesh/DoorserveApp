@@ -306,18 +306,20 @@ namespace doorserve.Controllers
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
                         var Templates = await _templateRepo.GetTemplateByActionName("User Registration", SessionModel.CompanyId);
-                        SessionModel.Email = contact.ConEmailAddress;
-                        var WildCards = await CommonModel.GetWildCards();
-                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
-                        U.Val = contact.ConFirstName;
-                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
-                        U.Val = pwd;
-                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
-                        U.Val = contact.ConEmailAddress;
-                        SessionModel.Mobile = contact.ConMobileNumber;
-                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
-                        if (Templates != null)
-                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                        if (Templates.Count > 0)
+                        {
+                            SessionModel.Email = contact.ConEmailAddress;
+                            var WildCards = await CommonModel.GetWildCards();
+                            var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                            U.Val = contact.ConFirstName;
+                            U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                            U.Val = pwd;
+                            U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                            U.Val = contact.ConEmailAddress;
+                            SessionModel.Mobile = contact.ConMobileNumber;
+                            var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                                await _emailSmsServices.Send(Templates, c, SessionModel);
+                        }
                     }
                 }
                 else
@@ -325,18 +327,20 @@ namespace doorserve.Controllers
                     if (contact.IsUser)
                     {
                         var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
-                        SessionModel.Email = contact.ConEmailAddress;
-                        var WildCards = await CommonModel.GetWildCards();
-                        var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
-                        U.Val = contact.ConFirstName;
-                        U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
-                        U.Val = pwd;
-                        U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
-                        U.Val = contact.ConEmailAddress;
-                        SessionModel.Mobile = contact.ConMobileNumber;
-                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
-                        if (Templates != null)
+                        if (Templates.Count > 0)
+                        {
+                            SessionModel.Email = contact.ConEmailAddress;
+                            var WildCards = await CommonModel.GetWildCards();
+                            var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                            U.Val = contact.ConFirstName;
+                            U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                            U.Val = pwd;
+                            U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                            U.Val = contact.ConEmailAddress;
+                            SessionModel.Mobile = contact.ConMobileNumber;
+                            var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                             await _emailSmsServices.Send(Templates, c, SessionModel);
+                        }
                     }
 
                 }

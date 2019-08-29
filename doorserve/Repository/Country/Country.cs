@@ -47,7 +47,7 @@ namespace doorserve.Repository.Country
             sp.Add(param);
             param = new SqlParameter("@User", ToDBNull(contry.UserId));
             sp.Add(param);           
-            param = new SqlParameter("@Action", (object)contry.Action);
+            param = new SqlParameter("@Action", (object)contry.EventAction);
             sp.Add(param);
             var sql = "USPInsertUpdateCountry @cntyId,@CntyName,@Remarks,@IsActive,@User,@Action";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

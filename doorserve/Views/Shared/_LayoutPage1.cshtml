@@ -132,18 +132,24 @@
         $(document).ready(function (e) {
             $('#myTable').DataTable({
                 "oLanguage": {
-                    "sEmptyTable": "No Record Found"
-                }
+                    "sEmptyTable": "No Record Found",
+                    sProcessing:  "<img src='/content/img/loading.gif'>"
+                },
+                 processing : true
             });
             $('#myTable1').DataTable({
                 "oLanguage": {
-                    "sEmptyTable": "No Record Found"
-                }
+                    "sEmptyTable": "No Record Found",
+                     sProcessing:  "<img src='/content/img/loading.gif'>"
+                },
+                 processing : true
             });
             $('#myTable2').DataTable({
                 "oLanguage": {
-                    "sEmptyTable": "No Record Found"
-                }
+                    "sEmptyTable": "No Record Found",
+                     sProcessing: "<img src='/content/img/loading.gif'>"
+                },
+                 processing : true
             });
             $('.selectpicker').selectpicker();
             $(".bootstrap-select").click(function () {
@@ -243,7 +249,12 @@
                         filename: "Excel.xls" //do not include extension
                     });
             });
-               $(".excel").click(function () {
+             
+        });
+
+        function tableExport(name) {
+
+           
                 var obj = $("#myTable").DataTable().$('tr').clone();
                 var obj1 = $('<tr>').append($("#myTable thead tr").html());
                 var lstchl = $(obj1).find("th:last-child").html();
@@ -285,11 +296,10 @@
                     .table2excel({
                         exclude: ".excludeThisClass",
                         name: "Worksheet Name",
-                        filename: "Excel.xls" 
+                        filename:name+'.xls' 
                     });
-            });
-        });
-
+      
+        }
         function readURL(input) {
             var _this = input;
             if (input.files && input.files[0]) {

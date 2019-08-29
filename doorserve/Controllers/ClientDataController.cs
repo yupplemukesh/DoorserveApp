@@ -20,7 +20,7 @@ using doorserve.Repository.ImportFiles;
 
 namespace doorserve.Controllers
 {
-    [ValidateModel]
+
     public class ClientDataController : Controller
     {
         private readonly IUploadFiles _RepoUploadFile;
@@ -128,7 +128,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
-
+        [ValidateModel]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {            
             var session = Session["User"] as SessionModel;
@@ -214,6 +214,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> NewCallLog(CallDetailsModel uploads)
         {
             var session = Session["User"] as SessionModel;
@@ -368,13 +369,13 @@ namespace doorserve.Controllers
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
             CallDetailsModel.IsClientAddedBy = true;
-            return View("_EditForm", CallDetailsModel);
+            return View(CallDetailsModel);
         }
 
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
-    
+        [ValidateModel]
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
             try

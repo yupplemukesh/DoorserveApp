@@ -44,7 +44,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Create(ManageCountryModel contry)
         {
             var session = Session["User"] as SessionModel;
-            contry.Action = 'I';
+            contry.EventAction = 'I';
             contry.UserId = session.UserId;            
             var response = await _Country.AddUpdateCountry(contry);
             TempData["response"] = response;
@@ -64,7 +64,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Edit(ManageCountryModel contry)
         {
             var session = Session["User"] as SessionModel;
-            contry.Action = 'U';
+            contry.EventAction = 'U';
             contry.UserId = session.UserId;            
             var response = await _Country.AddUpdateCountry(contry);
             TempData["response"] = response;

@@ -18,6 +18,7 @@ using Microsoft.Owin.Security;
 using doorserve.Models;
 using doorserve.Permission;
 using doorserve.Repository.EmailSmsServices;
+using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
@@ -78,6 +79,7 @@ namespace doorserve.Controllers
        [HttpPost]
        [AllowAnonymous]
        [CustomHandleError]
+       [ValidateModel]
         public async Task<ActionResult> Login(LoginViewModel m)
         {
             if (string.IsNullOrEmpty(m.Email) || string.IsNullOrEmpty(m.Password))
@@ -273,6 +275,7 @@ namespace doorserve.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [ValidateModel]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
