@@ -279,6 +279,7 @@ namespace doorserve.Controllers
                     objUser.PinNumber = item.PinNumber;
                     objUser.ModifiedBy = item.LastUpdatedBy;
                     objUser.District = item.District;
+                    objUser.LocationName = item.LocationName;
                     objUser.State = item.State;
                     objUser.RoleName = item.RoleName;
                     objUser.ConFirstName = item.ConFirstName;

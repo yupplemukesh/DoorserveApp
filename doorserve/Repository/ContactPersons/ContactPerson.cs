@@ -87,6 +87,7 @@ namespace doorserve.Repository
             sp.Add(param);
             var sql = "USPGETCONTACTPERSONS @ContactId,@REFKEY";
             var res= await _context.Database.SqlQuery<OtherContactPersonModel>(sql, sp.ToArray()).ToListAsync();
+           
             return res;
         }
         public async Task<ContactPersonModel> GetContactPersonByContactId(Guid contactId)
