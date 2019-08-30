@@ -43,7 +43,7 @@ namespace doorserve.Models
         public string ConVoterId { get; set; }
         [DisplayName("Upload Voter ID Card Number")]
         public HttpPostedFileBase ConVoterIdFilePath { get; set; }
-        public char? Action { get; set; }
+
         public string ConVoterIdFileName { get; set; }
         public string ConVoterIdFileUrl { get; set; }       
         [DisplayName("Aadhaar Number")]

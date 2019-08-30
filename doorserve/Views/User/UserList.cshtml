@@ -69,6 +69,13 @@
                         @Html.DisplayName("Is Active")
                     </th>
                     <th>
+                        @Html.DisplayName("Created By")
+                    </th>
+
+                    <th>
+                        @Html.DisplayName("Created Date")
+                    </th>
+                    <th>
                         @Html.DisplayName("Modify By")
                     </th>
 
@@ -82,58 +89,64 @@
 
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @count
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._ContactPerson.ConFirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserName)
-                    </td>
-                    <td>
-                        @item.RoleName
+        <tr>
+            <td>
+                @count
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @item.RoleName
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._ContactPerson.ConEmailAddress)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._ContactPerson.ConMobileNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._AddressDetail.State)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._AddressDetail.District)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._AddressDetail.PinNumber)
-                    </td>
-                   
-                    <td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConEmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConMobileNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PinNumber)
+            </td>
 
-                        @(item.IsActive == true ? "Yes" : "No")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ModifyDate)
-                    </td>
-                    <td style="display: inline-flex">
-                        @if (Permissions.Rights.Edit)
-                        {
-                            <a href="@Url.Action("EditUser","User",new { id=item.UserId})" class="btn btn-small btn-info btnSize">Edit</a>
-                        }
+            <td>
 
-                        @*<input type="button" class="btn btn-small btn-warning btnSize" value="Add Rights" onclick="@("window.location.href='" + @Url.Action("AddRights", "Master",new {ID=item.ID }) + "'");" />*@
-                        @*<a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditUser(@item.ID)">Edit</a>*@
-                        @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize" onclick="EditPassword( @item.ID , '@item.Password')">Update UserPassword</a>*@
-                        @*<input type="button" class="btn btn-small btn-success btnSize" value="Update Password" onclick="@("window.location.href='" + @Url.Action("EditPassword", "Master",new {Id=item.ID,Email=item.Email_Address,username=item.UserName}) + "'");" />*@
-                    </td>
-                </tr>
+                @(item.IsActive == true ? "Yes" : "No")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedOn)
+            </td>
+            <td style="display: inline-flex">
+                @if (Permissions.Rights.Edit)
+                {
+                    <a href="@Url.Action("EditUser","User",new { id=item.UserId})" class="btn btn-small btn-info btnSize">Edit</a>
+                }
+
+                @*<input type="button" class="btn btn-small btn-warning btnSize" value="Add Rights" onclick="@("window.location.href='" + @Url.Action("AddRights", "Master",new {ID=item.ID }) + "'");" />*@
+                @*<a href="#Editmodel" data-toggle="modal" class="btn btn-small btn-info btnSize " onclick="EditUser(@item.ID)">Edit</a>*@
+                @*<a href="#Historymodel" data-toggle="modal" class="btn btn-small btn-success btnSize" onclick="EditPassword( @item.ID , '@item.Password')">Update UserPassword</a>*@
+                @*<input type="button" class="btn btn-small btn-success btnSize" value="Update Password" onclick="@("window.location.href='" + @Url.Action("EditPassword", "Master",new {Id=item.ID,Email=item.Email_Address,username=item.UserName}) + "'");" />*@
+            </td>
+        </tr>
                 count++;
             }
 

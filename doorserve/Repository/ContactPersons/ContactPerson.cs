@@ -55,7 +55,7 @@ namespace doorserve.Repository
             sp.Add(param);
             param = new SqlParameter("@CONADHAARFILENAME", ToDBNull(contact.ConAdhaarFileName));
             sp.Add(param);
-            param = new SqlParameter("@ACTION", (object)contact.Action);
+            param = new SqlParameter("@ACTION", (object)contact.EventAction);
             sp.Add(param);
             param = new SqlParameter("@USER", ToDBNull(contact.UserId));
             sp.Add(param);

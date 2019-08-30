@@ -22,23 +22,23 @@
                 <div class="row" style="padding-bottom: 5px;">
                     @Html.Label("Region", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList, htmlAttributes: new { @class = "form-control", tabindex = "1" })
+                        @Html.DropDownListFor(model => model.RegionId, Model.RegionList,"Select", htmlAttributes: new { @class = "form-control", tabindex = "1" })
                         @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
                     @Html.Label("Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.TextBoxFor(model => model._ContactPerson.ConFirstName, htmlAttributes: new { @class = "form-control", tabindex = "1" })
-                        @Html.ValidationMessageFor(model => model._ContactPerson.ConFirstName, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.ConFirstName, htmlAttributes: new { @class = "form-control", tabindex = "1" })
+                        @Html.ValidationMessageFor(model => model.ConFirstName, "", new { @class = "text-danger" })
                         @Html.HiddenFor(model => model.UserId)
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model._ContactPerson.ConMobileNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.LabelFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.TextBoxFor(model => model._ContactPerson.ConMobileNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10", tabindex = "2" })
-                        @Html.ValidationMessageFor(model => model._ContactPerson.ConMobileNumber, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10", tabindex = "2" })
+                        @Html.ValidationMessageFor(model => model.ConMobileNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
@@ -70,40 +70,40 @@
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "GetLocation()", tabindex = "7", id = "Pincode" })
-                        @Html.ValidationMessageFor(model => model._AddressDetail.PinNumber, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "GetLocation()", tabindex = "7", id = "Pincode" })
+                        @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model._AddressDetail.LocationId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.LabelFor(model => model.LocationId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.DropDownListFor(model => model._AddressDetail.LocationId, Model._AddressDetail.LocationList, "Select", htmlAttributes: new { @class = "form-control", id = "LocationId" })
-                        @Html.ValidationMessageFor(model => model._AddressDetail.LocationId, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.LocationId, Model.LocationList, "Select", htmlAttributes: new { @class = "form-control", id = "LocationId" })
+                        @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model._AddressDetail.District, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.LabelFor(model => model.District, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.TextBoxFor(model => model._AddressDetail.District, htmlAttributes: new { @class = "form-control", id = "District", @readonly = "readonly", tabindex = "8" })
-                        @Html.ValidationMessageFor(model => model._AddressDetail.District, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.District, htmlAttributes: new { @class = "form-control", id = "District", @readonly = "readonly", tabindex = "8" })
+                        @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.TextBoxFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "form-control", id = "State", @readonly = "readonly", tabindex = "9" })
-                        @Html.ValidationMessageFor(model => model._AddressDetail.State, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.State, htmlAttributes: new { @class = "form-control", id = "State", @readonly = "readonly", tabindex = "9" })
+                        @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        @Html.TextBoxFor(model => model._AddressDetail.Address, htmlAttributes: new { @class = "form-control", tabindex = "10" })
-                        @Html.ValidationMessageFor(model => model._AddressDetail.Address, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Address, htmlAttributes: new { @class = "form-control", tabindex = "10" })
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
@@ -111,11 +111,11 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
 
                         Home
-                        @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 1, new { @checked = "checked" })
+                        @Html.RadioButtonFor(model => model.AddressTypeId, 1, new { @checked = "checked" })
                         Work
-                        @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 2)
+                        @Html.RadioButtonFor(model => model.AddressTypeId, 2)
                         Other
-                        @Html.RadioButtonFor(model => model._AddressDetail.AddressTypeId, 3)
+                        @Html.RadioButtonFor(model => model.AddressTypeId, 3)
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">

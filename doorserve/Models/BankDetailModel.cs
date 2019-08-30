@@ -54,7 +54,7 @@ namespace doorserve.Models
        public int UserId { get; set; }
        public bool CurrentIsUser { get; set; }
        public Guid? CompanyId { get; set; }
-       public string Password { get; set; }
+       public  virtual string Password { get; set; }
        public char EventAction { get; set; }
         public string AddedBy { get; set; }
         public DateTime AddedOn { get; set; }

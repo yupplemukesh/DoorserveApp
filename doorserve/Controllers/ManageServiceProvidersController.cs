@@ -159,14 +159,14 @@ namespace doorserve.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
-            var pwd = "CA5680";
+            var pwd = CommonModel.RandomPassword(8);
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             contact.UserTypeId = 4;
             if (contact.ContactId != null)
-                contact.Action = 'U';
+                contact.EventAction = 'U';
             else
-                contact.Action = 'I';
+                contact.EventAction = 'I';
             contact.UserId = SessionModel.UserId;
             contact.CompanyId = SessionModel.CompanyId;
             if (TempData["provider"] != null)
@@ -178,7 +178,7 @@ namespace doorserve.Controllers
 
             if (response.IsSuccess)
             {
-                if (contact.Action == 'U')
+                if (contact.EventAction == 'U')
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {

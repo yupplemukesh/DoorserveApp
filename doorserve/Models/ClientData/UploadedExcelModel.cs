@@ -12,8 +12,6 @@ namespace doorserve.Models.ClientData
     {
         public string ServiceTypeName { get; set; }
         public string DeliveryTypeName { get; set; }
-        [Required]
-        [DisplayName("Client Name")]
         public string ClientName { get; set; }
         [DisplayName("Uploaded Date")]
         public DateTime CreatedOn { get; set; }

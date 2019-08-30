@@ -130,7 +130,7 @@ namespace doorserve.Repository
             sp.Add(param);
             param = new SqlParameter("@RefKey", ToDBNull(employee.RefKey));
             sp.Add(param);
-            param = new SqlParameter("@Action", (object)employee.Action);
+            param = new SqlParameter("@Action", (object)employee.EventAction);
             sp.Add(param);
             param = new SqlParameter("@VHType", ToDBNull(employee.Vehicle.VHTypeId));
             sp.Add(param);

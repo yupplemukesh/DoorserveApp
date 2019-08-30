@@ -297,15 +297,15 @@ namespace doorserve.Controllers
             contact.CompanyId = contact.RefKey;
 
             if (contact.ContactId == null)
-                contact.Action = 'I';
+                contact.EventAction = 'I';
             else
-                contact.Action = 'U';
+                contact.EventAction = 'U';
             CompanyModel comp = new CompanyModel();
             var response = await _ContactPersonRepo.AddUpdateContactDetails(contact);
             if (response.IsSuccess)
             {
                 contact.ContactId = new Guid(response.result);
-                if (contact.Action == 'U')
+                if (contact.EventAction == 'U')
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {

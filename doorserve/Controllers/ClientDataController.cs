@@ -375,12 +375,32 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
+            var SessionModel = Session["User"] as SessionModel;
+            if (!ModelState.IsValid)
+            {
+                CallDetailsModel.IsAssingedCall = true;
+                CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
+                CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
+                CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString() + "," + CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
+                CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+                CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
+                CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+                CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+                CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+                CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
+                CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
+                CallDetailsModel.IsClientAddedBy = true;
+                return View(CallDetailsModel);
+            }
+
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
+               
                 CallDetailsModel.UserId = SessionModel.UserId;
                 CallDetailsModel.CompanyId = SessionModel.CompanyId;
                 CallDetailsModel.EventAction = 'U';

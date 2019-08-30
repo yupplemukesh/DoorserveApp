@@ -121,10 +121,10 @@ namespace doorserve.Controllers
             emp.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             emp.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            emp.Action = 'I';
+            emp.EventAction = 'I';
             emp.UserId = session.UserId;
             emp.CompanyId = session.CompanyId;
-            var pwd = "CA5680";
+            var pwd = CommonModel.RandomPassword(8);
             if (emp.IsUser)
                 emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             if (session.UserTypeName.ToLower().Contains("provider"))
@@ -250,7 +250,7 @@ namespace doorserve.Controllers
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            empModel.Action = 'U';
+            empModel.EventAction = 'U';
             if (SessionModel.UserTypeName.ToLower().Contains("provider"))
             {              
                 if (!SessionModel.UserRole.Contains("Service Provider SC Admin"))

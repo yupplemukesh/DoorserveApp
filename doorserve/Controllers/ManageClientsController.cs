@@ -150,9 +150,9 @@ namespace doorserve.Controllers
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             if (contact.ContactId != null)
-                contact.Action = 'U';
+                contact.EventAction = 'U';
             else
-                contact.Action = 'I';
+                contact.EventAction = 'I';
             var Client = TempData["client"] as ClientModel;
             if (TempData["client"] != null)                
                 contact.RefKey =Client.ClientId;
@@ -164,7 +164,7 @@ namespace doorserve.Controllers
             var response = await _contactPerson.AddUpdateContactDetails(contact);                       
             if (response.IsSuccess)
             {
-                if (contact.Action == 'U')
+                if (contact.EventAction == 'U')
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {

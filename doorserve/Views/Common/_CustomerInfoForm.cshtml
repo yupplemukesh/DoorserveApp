@@ -180,11 +180,21 @@
 @Scripts.Render("~/bundles/jquery")
 
 <script>
-    
+
+       $("#LocationId").change(function (e) {
+                  var locationId = $(this).val();
+        if (locationId != '')
+            BindAddressByLocation(locationId);
+        else {
+                          $("#District").val('');
+                          $("#Country").val('');    
+                          $("#State").val('');
+        }
+
+              })
     function getLocationByPin() {
         //console.log("First step");
-        var Id = $("#PinCode").val();
-        debugger
+        var Id = $("#PinCode").val();        
         if (Id.length == 6) {
             $.ajax({
                 url: "/DropdownBind/GetLocationByPinCode",
@@ -193,14 +203,14 @@
                 data: { pin: Id },
                 contentType: "application/json",
                 success: function (result) {
-
+                       $("#District").val('');
+                          $("#Country").val('');    
+                          $("#State").val('');
                     
-                        $("#District").val(result.District);
-                        $("#State").val(result.State);
-                        $("#Country").val(result.Country);
-                        $("#LocationId").val(result.LocationId);
-                        $("#StateId").val(result.StateId);
-                        $("#CountryId").val(result.CountryId);
+                        //$("#District").val(result.District);
+                        //$("#State").val(result.State);
+                        //$("#Country").val(result.Country);
+                        //$("#LocationId").val(result.LocationId);                      
                         var obj = { value: Id, Other: result.LocationId };
                         AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                     
@@ -211,7 +221,21 @@
         }
         
     };
-
+       function BindAddressByLocation(locationId) {
+                  $.ajax({
+                      type: "GET",
+                      url: '@Url.Action("BindLocationByLocationIdJson","DropdownBind")',
+                      data: {"value": locationId},
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      async: true,
+                      success: function (data) {
+                          $("#District").val(data.DistrictName);
+                          $("#Country").val(data.CountryName);
+                          $("#State").val(data.StateName);
+                      }
+                  });
+              }
 	  
    
 
