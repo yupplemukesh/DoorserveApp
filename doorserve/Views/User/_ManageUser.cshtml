@@ -57,8 +57,16 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "BindCityAndSate()", tabindex = "7", id = "Pincode" })
+                @Html.TextBoxFor(model => model._AddressDetail.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "GetLocation()", tabindex = "7", id = "Pincode" })
                 @Html.ValidationMessageFor(model => model._AddressDetail.PinNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom: 5px;">
+            @Html.LabelFor(model => model._AddressDetail.LocationId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.DropDownListFor(model => model._AddressDetail.LocationId, Model._AddressDetail.LocationList,"Select", htmlAttributes: new { @class = "form-control", id = "LocationId" })
+                @Html.ValidationMessageFor(model => model._AddressDetail.LocationId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
@@ -72,7 +80,6 @@
             @Html.LabelFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.TextBoxFor(model => model._AddressDetail.State, htmlAttributes: new { @class = "form-control", id = "State", @readonly = "readonly", tabindex = "9" })
-                @Html.HiddenFor(model => model._AddressDetail.StateId, new { id = "StateId" })
                 @Html.ValidationMessageFor(model => model._AddressDetail.State, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -103,7 +110,6 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-
                 <button class="btn btn-primary" type="reset">Reset</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
@@ -113,18 +119,48 @@
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 <script>
-    function BindCityAndSate() {
-
-        $('#State').val('');
-        $('#District').val('');
-        var value = document.getElementById("Pincode").value;
-        if (value.length == 6) {
-            AjaxWithValueDEE('BindSatetByPincode', 'State', value)
-
-            AjaxWithValueDEE('BindCityByPincode', 'District', value)
+    function GetLocation() {
+        var Id = $("#Pincode").val();
+            if (Id.length == 6) {
+                $.ajax({
+                    url: "/DropdownBind/GetLocationByPinCode",
+                    async: true,
+                    type: "GET",
+                    data: { pin: Id },
+                    success: function (result) {
+                        $("#State").val('');                           
+                        $("#District").val('');
+                        var obj = { value: Id, Other: result.LocationId};
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    }
+                });
+            }
+        };
+       $("#LocationId").change(function (e) {
+                  var locationId = $(this).val();
+        if (locationId != '')
+            BindAddressByLocation(locationId);
+        else {
+                          $("#District").val('');
+                          $("#Country").val('');    
+                          $("#State").val('');
         }
 
-    }
+       })
+        function BindAddressByLocation(locationId) {
+                  $.ajax({
+                      type: "GET",
+                      url: '@Url.Action("BindLocationByLocationIdJson","DropdownBind")',
+                      data: {"value": locationId},
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      async: true,
+                      success: function (data) {
+                          $("#District").val(data.DistrictName);
+                          $("#State").val(data.StateName);
+                      }
+                  });
+              }
     function AjaxWithValueDEE(method, ddl, val) {
 
         $.ajax({

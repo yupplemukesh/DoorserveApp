@@ -70,13 +70,6 @@ namespace doorserve.Models
         [DisplayName("Organization Name")]
         public string ORGNAME { get; set; }
 
-        public bool IsUser { get; set; }
-        [Required]
-        [System.Web.Mvc.Remote("RemoteValidationforUserName", "Master", AdditionalFields = "CurrentUserName", ErrorMessage = "User Name already exists!")]
-        public string UserName { get; set; }
-        [Required]
-        public string CurrentUserName { get; set; }
-        public string Password { get; set; }
         [DisplayName("Is Active ?")]
         public bool IsActive { get; set; }
         public Guid? CompanyId { get; set; }

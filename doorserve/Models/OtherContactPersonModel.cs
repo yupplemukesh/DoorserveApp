@@ -10,17 +10,10 @@ namespace doorserve.Models
 {
     public class OtherContactPersonModel:ContactPersonModel
     {
-           [Required]
-            public override int ? AddressTypeId { get; set; }
         [Required]
-        public override string Address { get; set; }
+        public override int ? AddressTypeId { get; set; }
         [Required]
-        public override int? CountryId { get; set; }
-        [Required]
-        public override int? StateId { get; set; }
-        [Required]
-        public override int ?CityId { get; set; }
-      
+        public override string Address { get; set; }      
        
     }
 }

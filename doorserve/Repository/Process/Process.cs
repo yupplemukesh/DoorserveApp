@@ -47,7 +47,7 @@ namespace doorserve.Repository.Process
             sp.Add(param);
             param = new SqlParameter("@ProcessOwner", ToDBNull(Process.ProcessOwner));
             sp.Add(param);
-            param = new SqlParameter("@Remark", ToDBNull(Process.Remark));
+            param = new SqlParameter("@Remark", ToDBNull(Process.Remarks));
             sp.Add(param);
             param = new SqlParameter("@IsActive", (object)(Process.IsActive));
             sp.Add(param);
@@ -55,7 +55,7 @@ namespace doorserve.Repository.Process
             sp.Add(param);
             param = new SqlParameter("@CompanyId", ToDBNull(Process.CompanyId));
             sp.Add(param);
-            param = new SqlParameter("@Action", (object)Process.Action);
+            param = new SqlParameter("@Action", (object)Process.EventAction);
             sp.Add(param);
             var sql = "USPInsertUpdateProcess @ProcessId,@ProcessName,@ProcessCode,@ProcessOwner,@Remark,@IsActive,@User,@CompanyId,@Action";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

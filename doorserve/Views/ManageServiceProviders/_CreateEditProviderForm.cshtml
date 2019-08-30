@@ -653,7 +653,6 @@ else
               var DivName = $('.nav-tabs .active a').attr('href');
               activaTab(DivName);
           })
-
     function activaTab(tab) {
         $(tab).addClass("active in");
     };
@@ -684,7 +683,6 @@ else
         })
         $("#ContactPerson").show();
     });
-
     $(".reset").click(function () {
         $(this).closest('form').find("input[type=text], textarea,select").val("");
         $("#ConCity").empty();
@@ -692,6 +690,17 @@ else
         $(this).closest('form').find("input[type=checkbox]").prop('checked', false);
         $('.selectpicker').selectpicker('refresh');
     });
+    $("#LocationId").change(function (e) {
+                  var locationId = $(this).val();
+        if (locationId != '')
+            BindAddressByLocation(locationId);
+        else {
+                          $("#District").val('');
+                          $("#Country").val('');    
+                          $("#State").val('');
+        }
+
+              })
     $("#AddBankAccount").click(function () {
 
         $('#BankAccount').find(':input,select').each(function () {
@@ -750,21 +759,32 @@ else
             }
         });
     }
-
-
-
-
+        function BindAddressByLocation(locationId) {
+                  $.ajax({
+                      type: "GET",
+                      url: '@Url.Action("BindLocationByLocationIdJson","DropdownBind")',
+                      data: {"value": locationId},
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      async: true,
+                      success: function (data) {
+                          $("#District").val(data.DistrictName);
+                          $("#Country").val(data.CountryName);
+                          $("#State").val(data.StateName);
+                      }
+                  });
+              }
     function getItems(Id, method) {
-        debugger
-        var val = Id;       
+        var val = Id;
         $.ajax({
             type: "GET",
             url: "/DropdownBind/" + method + "?Id=" + val,
             data: '{}',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            async: true,
             success: function (data) {
-                console.log(data);
+                        console.log(data);
                 if (method == 'JsonGetBank') {
                     $("#bankId").val(data.bankId);
                     $("#BankNameId").val(data.BankNameId);
@@ -772,17 +792,14 @@ else
                     $("#BankCompanyName").val(data.BankCompanyName);
                     $("#BankIFSCCode").val(data.BankIFSCCode);
                     $("#BankBranchName").val(data.BankBranchName);
-
+                    $("#IsDefault").prop("checked", data.isDefault);
                     $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);
                     if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
                         $("#conBankImg").prop("src", $("#Path").val() + "/Banks/" + data.BankCancelledChequeFileName);
                     }
-
-                    $("#IsDefault").prop("checked", data.IsDefault);
                     $("#BankAccount").show();
                 }
                 else {
-                    debugger
                     $("#ContactId").val(data.ContactId);
                     $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
                     $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
@@ -809,29 +826,29 @@ else
                     if (data.ConPanFileName != null || data.ConPanFileName != "") {
                         $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
                     }
+                   
                     $("#CurrentIsUser").val(data.CurrentIsUser);
-                    $("#ContactPerson").show();
                     $("#Pincode").val(data.PinNumber);
                     var obj = { value: data.PinNumber, Other: data.LocationId };
-                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);             
-                   
-                    $("#Country").val(data.Country);
-                    $("#State").val(data.State);
-                    $("#StateId").val(data.StateId);
-                    $("#CountryId").val(data.CountryId);
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+
+                    if (data.LocationId !='') {
+                        $("#Country").val(data.Country);
+                        $("#State").val(data.State);
+                        $("#District").val(data.District);
+                    }
                     $("#LocationId").val(data.LocationId);
                     $("#Address").val(data.Address);
                     $("#Locality").val(data.Locality);
-                    $("#NearLocation").val(data.NearLocation);
+                    $("#NearLocation").val(data.NearLocation);                    
                     $("#IsUser").prop("checked", data.IsUser);
-
+                    $("#ContactPerson").show();
                 }
 
             }
         });
     }
-
-     function EditService(Service) {
+    function EditService(Service) {
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetService","ManageClients")',

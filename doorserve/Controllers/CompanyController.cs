@@ -11,6 +11,7 @@ using doorserve.Repository;
 using System.Reflection;
 using doorserve.Permission;
 using doorserve.Repository.EmailSmsServices;
+using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
@@ -100,6 +101,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -205,6 +207,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
 
@@ -286,7 +289,7 @@ namespace doorserve.Controllers
             if (contact.ConAdhaarNumberFilePath != null)
                 contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRs/");
 
-            var pwd = "CA5680";
+            var pwd = CommonModel.RandomPassword(6);
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             contact.UserTypeId = 1;
@@ -301,6 +304,7 @@ namespace doorserve.Controllers
             var response = await _ContactPersonRepo.AddUpdateContactDetails(contact);
             if (response.IsSuccess)
             {
+                contact.ContactId = new Guid(response.result);
                 if (contact.Action == 'U')
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
@@ -425,6 +429,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -496,6 +501,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Registration(CompanyModel comp)
         {
             var SessionModel = Session["User"] as SessionModel;

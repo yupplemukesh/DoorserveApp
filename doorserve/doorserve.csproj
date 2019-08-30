@@ -977,6 +977,7 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="App_Data\Error.log" />
     <None Include="Content\Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.js" />
     <Content Include="Content\Scripts\jquery-1.10.2.min.js" />
@@ -1655,9 +1656,12 @@
     <Content Include="Views\ServiceCenter\_AddorEditPartDetails.cshtml" />
     <Content Include="Views\ServiceCenter\_PartsDetails.cshtml" />
     <Content Include="Views\Templates\Index1.cshtml" />
+    <Content Include="Views\ManageServiceCenters\ManageService.cshtml" />
+    <Content Include="Views\ManageServiceCenters\ManageServiceableAreaPinCode.cshtml" />
+    <Content Include="Views\ManageServiceCenters\ServiceableAreaPincode.cshtml" />
+    <Content Include="Views\ManageServiceCenters\_ServiceOptedTableServiceCenters.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Barcode_file\" />
     <Folder Include="Models\Menu\" />
     <Folder Include="UploadedImages\" />

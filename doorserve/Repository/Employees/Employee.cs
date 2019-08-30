@@ -119,11 +119,7 @@ namespace doorserve.Repository
             param = new SqlParameter("@AddressTypeId", ToDBNull(employee.AddressTypeId));
             sp.Add(param);
             param = new SqlParameter("@LocationId", ToDBNull(employee.LocationId));
-            sp.Add(param);           
-            param = new SqlParameter("@StateId", ToDBNull(employee.StateId));
-            sp.Add(param);
-            param = new SqlParameter("@CountryId", ToDBNull(employee.CountryId));
-            sp.Add(param);
+            sp.Add(param);                    
             param = new SqlParameter("@PinCode", ToDBNull(employee.PinNumber));
             sp.Add(param);
             param = new SqlParameter("@Address", ToDBNull(employee.Address));
@@ -163,7 +159,7 @@ namespace doorserve.Repository
             sp.Add(param);
             var sql = "USPInsertUpdateEMPDetails @EMPID,@EMPCode,@EMPFNAME,@EMPLName,@EMPPhoto,@EMPMobileNo ,@EMPEmail ,@EMPPAN ,@EMPPANFILENAME,@EMPVOTERID," +
                         "@EMPVOTERIDFILENAME,@EMPADHAAR,@EMPADHAARFILENAME,@contactId,@DesignationId, @DepartmentId ,@EMPDOJ , @EMPDOB , @USER,@IsActive" +
-                        ",@IsPickUp,@AddressTypeId,@LocationId,@StateId,@CountryId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel,@VehicleBrand,@DrivingLicense,@InsuranceExpairyDate,@EmployeeTypeId," +
+                        ",@IsPickUp,@AddressTypeId,@LocationId,@PinCode,@Address,@Locality,@NearByLocation,@RefKey,@Action,@VHType,@VHID, @VHNumber,@VHModel,@VehicleBrand,@DrivingLicense,@InsuranceExpairyDate,@EmployeeTypeId," +
                         "@ISUSER,@DefautPwd,@CompanyId,@ProviderId";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)

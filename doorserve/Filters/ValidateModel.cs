@@ -26,7 +26,6 @@ namespace doorserve.Filters
                     
                 };
             }
-
             base.OnActionExecuting(filterContext);
         }
 

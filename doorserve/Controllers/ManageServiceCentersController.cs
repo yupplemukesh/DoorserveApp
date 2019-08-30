@@ -89,6 +89,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -134,6 +135,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -340,6 +342,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -417,6 +420,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -486,22 +490,19 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditClientReg(ServiceCenterModel Center)
         {
 
             var SessionModel = Session["User"] as SessionModel;
-            if (Center.IsUser && !string.IsNullOrEmpty(Center.Password))
-                Center.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(Center.Password, true);
+
 
             var cltns = TempData["center"] as ServiceCenterModel;
             Center.Organization = new OrganizationModel();
             if (TempData["center"] != null)
             {
                 cltns.Remarks = Center.Remarks;
-                cltns.IsActive = Center.IsActive;
-                cltns.IsUser = Center.IsUser;
-                cltns.UserName = Center.UserName;
-                cltns.Password = Center.Password;
+                cltns.IsActive = Center.IsActive;            
                 Center = cltns;               
             }                    
             try
@@ -567,6 +568,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
 
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> ManageService(ServiceModel service)
         {
             if (service.ServiceId != null)
@@ -620,6 +622,7 @@ namespace doorserve.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> ManageServiceableAreaPinCode(ServiceOfferedModel service)
         {
             var SessionModel = Session["User"] as SessionModel;

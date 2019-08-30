@@ -104,15 +104,14 @@ namespace doorserve.Repository.Clients
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),                   
                     IsActive = Convert.ToBoolean(reader["IsActive"].ToString()),                   
-                    AddresssId = new Guid(reader["AddresssId"].ToString()),                  
-                    CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
-                     StateId = Convert.ToInt32(reader["StateId"].ToString()),
+                    AddresssId = new Guid(reader["AddresssId"].ToString()),                          
                      AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
                      Locality = reader["Locality"].ToString(),
                      NearLocation = reader["NearLocation"].ToString(),
                      PinNumber = reader["PinNumber"].ToString(),
                      Address = reader["Address"].ToString(),                    
                     State = reader["State"].ToString(),
+                    IsUser = Convert.ToBoolean(reader["IsUser"].ToString()),
                     Country = reader["Country"].ToString(),
                     LocationName = reader["LocationName"].ToString()
                 };

@@ -116,11 +116,10 @@ namespace doorserve.Repository.ServiceProviders
                     ConAdhaarFileName = reader["ConAdhaarFileName"].ToString(),
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),                   
-                    IsActive = Convert.ToBoolean(reader["IsActive"].ToString()),
+                    IsUser = Convert.ToBoolean(reader["IsUser"].ToString()),
             
                     LocationId = Convert.ToInt32(reader["LocationId"].ToString()),
-                    CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
-                        StateId = Convert.ToInt32(reader["StateId"].ToString()),
+              
                         AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
                         Locality = reader["Locality"].ToString(),
                         NearLocation = reader["NearLocation"].ToString(),

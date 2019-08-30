@@ -17,19 +17,13 @@ namespace doorserve.Repository
 
         }
         public async Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact)
-        {
-
-           
+        {           
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@CONTACTID",ToDBNull(contact.ContactId));
             sp.Add(param);
             param = new SqlParameter("@REFKEY", ToDBNull(contact.RefKey));  
             sp.Add(param);
             param = new SqlParameter("@CONADDRESSTYPEID", ToDBNull(contact.AddressTypeId));
-            sp.Add(param);
-            param = new SqlParameter("@CONCOUNTRYID", ToDBNull(contact.CountryId));
-            sp.Add(param);
-            param = new SqlParameter("@CONSTATEID", ToDBNull(contact.StateId));
             sp.Add(param);
             param = new SqlParameter("@CONLOCATIONID", ToDBNull(contact.LocationId));
             sp.Add(param);
@@ -75,7 +69,7 @@ namespace doorserve.Repository
             sp.Add(param);
             param = new SqlParameter("@IsSingleCenter", ToDBNull(contact.IsSingleCenter));
             sp.Add(param);
-            var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONCOUNTRYID,@CONSTATEID,@CONLOCATIONID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
+            var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONLOCATIONID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
                 "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD,@CompId,@IsSingleCenter";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
             if (res.ResponseCode==0)

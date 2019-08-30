@@ -463,7 +463,6 @@
                     <script>
                         var DivName = $('.nav-tabs .active a').attr('href');
                         activaTab(DivName);
-
                         function activaTab(tab) {
 
                             $(tab).addClass("active in");
@@ -496,9 +495,17 @@
                             })
                             $("#ContactPerson").show();
                         });
+                        $("#LocationId").change(function (e) {
+                  var locationId = $(this).val();
+        if (locationId != '')
+            BindAddressByLocation(locationId);
+        else {
+                          $("#District").val('');
+                          $("#Country").val('');    
+                          $("#State").val('');
+        }
 
-
-
+              })
                         $("#AddBankAccount").click(function () {
                             $('#BankAccount').find(':input,select').each(function () {
                                 debugger
@@ -528,6 +535,21 @@
 
                             $("#BankAccount").show();
                         });
+                            function BindAddressByLocation(locationId) {
+                  $.ajax({
+                      type: "GET",
+                      url: '@Url.Action("BindLocationByLocationIdJson","DropdownBind")',
+                      data: {"value": locationId},
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      async: true,
+                      success: function (data) {
+                          $("#District").val(data.DistrictName);
+                          $("#Country").val(data.CountryName);
+                          $("#State").val(data.StateName);
+                      }
+                  });
+              }
                         function AjaxWithValue(method, ddl, e) {
                             var val = e.value;
                             var other = e.Other;
@@ -557,73 +579,78 @@
                             });
                         }
                         function getItems(Id, method) {
-                            var val = Id;
-                            $.ajax({
-                                type: "GET",
-                                url: "/DropdownBind/" + method + "?Id=" + val,
-                                data: '{}',
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (data) {
-             
-                                    if (method == 'JsonGetBank') {
-                                        $("#bankId").val(data.bankId);
-                                        $("#BankNameId").val(data.BankNameId);
-                                        $("#BankAccountNumber").val(data.BankAccountNumber);
-                                        $("#BankCompanyName").val(data.BankCompanyName);
-                                        $("#BankIFSCCode").val(data.BankIFSCCode);
-                                        $("#BankBranchName").val(data.BankBranchName);
-                                        $("#IsDefault").prop("checked", data.isDefault);
-                                        $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);
-                                        if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
-                                            $("#conBankImg").prop("src", $("#Path").val() + "/Cheques/" + data.BankCancelledChequeFileName);
-                                        }
-                                        $("#BankAccount").show();
-                                    }
-                                    else {
-                                                               console.log(data);
-                                        $("#ContactId").val(data.ContactId);
-                                        $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
-                                        $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
-                                        $("#ConPanFileName").val(data.ConPanFileName);
-                                        $("#ConFirstName").val(data.ConFirstName);
-                                        $("#ConEmailAddress").val(data.ConEmailAddress);
-                                        $("#CurrentEmail").val(data.ConEmailAddress);
-                                        $("#ConLastName").val(data.ConLastName);
-                                        $("#ConMobileNumber").val(data.ConMobileNumber);
-                                        $("#ConPanNumber").val(data.ConPanNumber);
-                                        $("#ConVoterId").val(data.ConVoterId);
-                                        $("#ConAdhaarNumber").val(data.ConAdhaarNumber);
-                                        $("#AddressTypeId").val(data.AddressTypeId);
-                                        $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
-                                        $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
-                                        $("#ConPanFileName").val(data.ConPanFileName);
-                                        if (data.ConAdhaarFileName != null || data.ConAdhaarFileName != "") {
-                                            $("#conAdhrImg").prop("src", $("#Path").val() + "/ADHRs/" + data.ConAdhaarFileName);
-                                        }
-                                        if (data.ConVoterIdFileName != null || data.ConVoterIdFileName != "") {
-                                            $("#conVoterImg").prop("src", $("#Path").val() + "/VoterIds/" + data.ConVoterIdFileName);
-                                        }
+        var val = Id;
+        $.ajax({
+            type: "GET",
+            url: "/DropdownBind/" + method + "?Id=" + val,
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: true,
+            success: function (data) {
+                        console.log(data);
+                if (method == 'JsonGetBank') {
+                    $("#bankId").val(data.bankId);
+                    $("#BankNameId").val(data.BankNameId);
+                    $("#BankAccountNumber").val(data.BankAccountNumber);
+                    $("#BankCompanyName").val(data.BankCompanyName);
+                    $("#BankIFSCCode").val(data.BankIFSCCode);
+                    $("#BankBranchName").val(data.BankBranchName);
+                    $("#IsDefault").prop("checked", data.isDefault);
+                    $("#BankCancelledChequeFileName").val(data.BankCancelledChequeFileName);
+                    if (data.BankCancelledChequeFileName != null || data.BankCancelledChequeFileName != "") {
+                        $("#conBankImg").prop("src", $("#Path").val() + "/Banks/" + data.BankCancelledChequeFileName);
+                    }
+                    $("#BankAccount").show();
+                }
+                else {
+                    $("#ContactId").val(data.ContactId);
+                    $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                    $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                    $("#ConPanFileName").val(data.ConPanFileName);
+                    $("#ConFirstName").val(data.ConFirstName);
+                    $("#ConEmailAddress").val(data.ConEmailAddress);
+                    $("#CurrentEmail").val(data.ConEmailAddress);
+                    $("#ConLastName").val(data.ConLastName);
+                    $("#ConMobileNumber").val(data.ConMobileNumber);
+                    $("#ConPanNumber").val(data.ConPanNumber);
+                    $("#ConVoterId").val(data.ConVoterId);
+                    $("#ConAdhaarNumber").val(data.ConAdhaarNumber);
+                    $("#AddressTypeId").val(data.AddressTypeId);
+                    $("#ConAdhaarFileName").val(data.ConAdhaarFileName);
+                    $("#ConVoterIdFileName").val(data.ConVoterIdFileName);
+                    $("#ConPanFileName").val(data.ConPanFileName);
+                    if (data.ConAdhaarFileName != null || data.ConAdhaarFileName != "") {
+                        $("#conAdhrImg").prop("src", $("#Path").val() + "/ADHRs/" + data.ConAdhaarFileName);
+                    }
+                    if (data.ConVoterIdFileName != null || data.ConVoterIdFileName != "") {
+                        $("#conVoterImg").prop("src", $("#Path").val() + "/VoterIds/" + data.ConVoterIdFileName);
+                    }
 
-                                        if (data.ConPanFileName != null || data.ConPanFileName != "") {
-                                            $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
-                                        }
-                                        $("#CurrentIsUser").val(data.CurrentIsUser);
-                                        $("#Pincode").val(data.PinNumber);
-                                        var obj = { value: data.PinNumber, Other: data.LocationId };
-                                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
-                                        $("#Country").val(data.Country);
-                                        $("#State").val(data.State);
-                                        $("#LocationId").val(data.LocationId);
-                                        $("#Address").val(data.Address);
-                                        $("#Locality").val(data.Locality);
-                                        $("#NearLocation").val(data.NearLocation);                                        
-                                        $("#IsUser").prop("checked", data.IsUser);
-                                        $("#ContactPerson").show();
-                                    }
+                    if (data.ConPanFileName != null || data.ConPanFileName != "") {
+                        $("#conPanImg").prop("src", $("#Path").val() + "/PanCards/" + data.ConPanFileName);
+                    }
+                   
+                    $("#CurrentIsUser").val(data.CurrentIsUser);
+                    $("#Pincode").val(data.PinNumber);
+                    var obj = { value: data.PinNumber, Other: data.LocationId };
+                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
 
-                                }
-                            });
-                        }
+                    if (data.LocationId !='') {
+                        $("#Country").val(data.Country);
+                        $("#State").val(data.State);
+                        $("#District").val(data.District);
+                    }
+                    $("#LocationId").val(data.LocationId);
+                    $("#Address").val(data.Address);
+                    $("#Locality").val(data.Locality);
+                    $("#NearLocation").val(data.NearLocation);                    
+                    $("#IsUser").prop("checked", data.IsUser);
+                    $("#ContactPerson").show();
+                }
+
+            }
+        });
+    }
                     </script>
 

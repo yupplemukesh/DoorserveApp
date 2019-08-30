@@ -13,14 +13,9 @@ namespace doorserve.Models
         public Guid? AddresssId { get; set; }
         [DisplayName("Address Type")]
         public virtual  int? AddressTypeId { get; set; }
-        [DisplayName("Country")]
-        public virtual int? CountryId { get; set; }
-        [DisplayName("State")]
-        public virtual int? StateId { get; set; }
-        
-        public virtual int ? CityId { get; set; }      
-        public string City { get; set; }
-        [DisplayName("City")]
+     
+
+        [DisplayName("District")]
         public string District { get; set; }
         public string State { get; set; }
         public string Country { get; set; }

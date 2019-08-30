@@ -54,8 +54,6 @@ namespace doorserve.Controllers
             CalAppintmentModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CalAppintmentModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CalAppintmentModel.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
-            CalAppintmentModel.StateList = new SelectList(_dropdown.BindState(CalAppintmentModel.CountryId), "Value", "Text");
-            CalAppintmentModel.CityList = new SelectList(_dropdown.BindLocation(CalAppintmentModel.StateId), "Value", "Text");
             CalAppintmentModel.StatusList = new SelectList(_dropdown.BindCallStatusNew(), "Value", "Text");
             return PartialView(Mapper.Map<CallDetailsModel>(CalAppintmentModel));
             //UpdateAppointmentDetail

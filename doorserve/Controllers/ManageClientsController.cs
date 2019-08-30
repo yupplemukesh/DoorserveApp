@@ -75,6 +75,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
 
@@ -120,6 +121,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -144,7 +146,7 @@ namespace doorserve.Controllers
                 contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "VoterIds");
             if (contact.ConPanNumberFilePath != null)
                 contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PANCards");
-            var pwd = "CA5680";
+            var pwd = CommonModel.RandomPassword(8);
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
             if (contact.ContactId != null)
@@ -177,7 +179,7 @@ namespace doorserve.Controllers
                         U.Val = contact.ConEmailAddress;
                         SessionModel.Mobile = contact.ConMobileNumber;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
-                        if (Templates != null)
+                        if (Templates.Count> 0)
                             await _emailSmsServices.Send(Templates, c, SessionModel);
                     }
                 }
@@ -226,7 +228,9 @@ namespace doorserve.Controllers
 
         }
 
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditService(ServiceModel service)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -326,6 +330,7 @@ namespace doorserve.Controllers
         // POST: ManageClient/Create  
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditClient(ClientModel client)
         {
 
@@ -394,6 +399,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditOrganization(ClientModel client,OrganizationModel org)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -454,6 +460,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {
             var SessionModel = Session["User"] as SessionModel;

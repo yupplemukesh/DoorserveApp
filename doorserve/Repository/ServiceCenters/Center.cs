@@ -97,7 +97,6 @@ namespace doorserve.Repository.ServiceCenters
                     if (CenterModel == null)
                         CenterModel = new ServiceCenterModel();
                     CenterModel.CurrentCenterName = CenterModel.CenterName;
-                    CenterModel.CurrentUserName = CenterModel.UserName;
                     reader.NextResult();
 
                     CenterModel.Organization =
@@ -149,8 +148,7 @@ namespace doorserve.Repository.ServiceCenters
                     ConPanFileName = reader["ConPanFileName"].ToString(),
                     ConVoterIdFileName = reader["ConVoterIdFileName"].ToString(),        
                     AddresssId = new Guid(reader["AddresssId"].ToString()),                   
-                    CountryId = Convert.ToInt32(reader["CountryId"].ToString()),
-                    StateId = Convert.ToInt32(reader["StateId"].ToString()),
+              
                     AddressTypeId = Convert.ToInt32(reader["AddressTypeId"].ToString()),
                     Locality = reader["Locality"].ToString(),
                     NearLocation = reader["NearLocation"].ToString(),
@@ -240,18 +238,12 @@ namespace doorserve.Repository.ServiceCenters
 																									
             param = new SqlParameter("@tab", ToDBNull(center.Activetab));
             sp.Add(param);
-            param = new SqlParameter("@ISUSER", ToDBNull(center.IsUser));
-            sp.Add(param);
-            param = new SqlParameter("@USERNAME", ToDBNull(center.UserName));
-            sp.Add(param);
-            param = new SqlParameter("@Password", ToDBNull(center.Password));
-            sp.Add(param);
             param = new SqlParameter("@CompId", ToDBNull(center.CompanyId));
             sp.Add(param);
 
             var sql = "USPInsertUpdateDeleteCenter @CENTERID,@PROVIDERID,@CENTERCODE,@CENTERNAME,@ORGNAME ,@ORGCODE ,@ORGIECNUMBER ,@ORGSTATUTORYTYPE,@ORGAPPLICATIONTAXTYPE," +
                         "@ORGGSTCATEGORY,@ORGGSTNUMBER,@ORGGSTFILEPATH,@ORGPANNUMBER,@ORGPANFILEPATH, @ISACTIVE ,@REMARKS , @ACTION , @USER" +
-                        ",@tab,@ISUSER,@USERNAME,@Password,@CompId";
+                        ",@tab,@CompId";
 
 
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();

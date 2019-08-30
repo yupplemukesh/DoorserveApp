@@ -173,7 +173,7 @@ namespace doorserve.Controllers
             empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
-           empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
+           //empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
            empModel.LocationList = new SelectList(drop.BindLocationforEmp(empModel.LocationId), "Value", "Text");
             empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(empModel.ProviderId), "Name", "Text");
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");

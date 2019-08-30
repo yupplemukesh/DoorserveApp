@@ -170,25 +170,24 @@
     <div class="row">
         <div class="col-md-12">
 
-          
+
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
                 </div>
-                @Html.ValidationMessageFor(model => model.LocationName, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.District, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(model => model.State, new { @class = "form-control", id = "State" })
-                    @Html.HiddenFor(model => model.StateId, new { id = "StateId" })
-
+                    @Html.TextBoxFor(model => model.District, new { @class = "form-control"})
                 </div>
-               
+
             </div>
+            
 
         </div>
     </div>
@@ -197,30 +196,38 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label" })
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label" })
+                <div class="input-group">
+                    <span class="input-group-addon"></span>
+                    @Html.TextBoxFor(model => model.State, new { @class = "form-control", id = "State" })
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.Country, new { @class = "form-control", id = "Country" })
-                    @Html.HiddenFor(model => model.CountryId, new { id = "CountryId" })
                 </div>
-              
+
             </div>
+
+
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Address" })
-
                 </div>
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
-
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.Locality, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
@@ -230,6 +237,14 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.Locality, "", new { @class = "text-danger" })
             </div>
+            
+
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.NearLocation, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
@@ -239,17 +254,9 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.NearLocation, "", new { @class = "text-danger" })
             </div>
-
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
                 @Html.LabelFor(model => model.IsUser, htmlAttributes: new { @class = "control-label" })
                 <div class="input-group">
-
                     @Html.CheckBoxFor(model => model.IsUser, new { @checked = "checked" })
                 </div>
             </div>
@@ -261,15 +268,13 @@
 <script>
     $(document).ready(function () {
 
-       // $("#District").attr('readonly', true);
+        $("#District").attr('readonly', true);
         $("#State").attr('readonly', true);
         $("#Country").attr('readonly', true);
     });
 
     function GetLocation() {
-            console.log("First step");
         var Id = $("#Pincode").val();
-            debugger
             if (Id.length == 6) {
                 $.ajax({
                     url: "/DropdownBind/GetLocationByPinCode",
@@ -278,10 +283,9 @@
                     data: { pin: Id },
                     success: function (result) {
                        // $("#District").val(result.District);
-                        $("#State").val(result.State);
-                        $("#Country").val(result.Country);                        
-                        $("#StateId").val(result.StateId);
-                        $("#CountryId").val(result.CountryId);
+                        $("#State").val('');
+                        $("#Country").val('');                        
+                        $("#District").val('');
                         var obj = { value: Id, Other: result.LocationId};
                         AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
                     }

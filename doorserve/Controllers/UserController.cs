@@ -12,6 +12,7 @@ using doorserve.Permission;
 using System.Web;
 using System.Threading.Tasks;
 using doorserve.Repository.EmailSmsServices;
+using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
@@ -22,25 +23,32 @@ namespace doorserve.Controllers
 
         private readonly doorserve.Repository.EmailSmsTemplate.ITemplate _templateRepo;
         private readonly IEmailSmsServices _emailSmsServices;
-         public UserController()
+        private readonly DropdownBindController _drp;
+        public UserController()
         {
 
             _templateRepo = new doorserve.Repository.EmailSmsTemplate.Template();
             _emailSmsServices = new Repository.EmailsmsServices();
+            _drp = new DropdownBindController();
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Create}, (int)MenuCode.Users)]
         public async Task<ActionResult> AddUser()
         {
             var session = Session["User"] as SessionModel;
-            var user = new UserModel {RegionList=new SelectList( 
-                await CommonModel.GetRegionListByComp(session.CompanyId),"Name","Text")
+            var user = new UserModel { RegionList = new SelectList(
+                await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text"),
+                _AddressDetail = new AddressDetail {
+                    LocationList = new SelectList(Enumerable.Empty<SelectList>())
+                }
               
             };
 
             return View(user);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Users)]
-        [HttpPost]      
+        [ValidateModel]
+        [HttpPost]
+
         public async Task<ActionResult> AddUser(UserModel objUser)
         {
 
@@ -63,8 +71,7 @@ namespace doorserve.Controllers
                             objUser.ConEmailAddress,
                             objUser._AddressDetail.AddressTypeId,
                             objUser._AddressDetail.Address,
-                            objUser._AddressDetail.District,
-                            objUser._AddressDetail.StateId,
+                            objUser._AddressDetail.LocationId,
                             objUser._AddressDetail.PinNumber,
                             objUser.IsActive,
                             objUser.UserLoginId,
@@ -139,24 +146,18 @@ namespace doorserve.Controllers
                     objUser.IsActive = result.IsActive;                    
                     objUser._AddressDetail.PinNumber = result.PinNumber;
                     objUser._AddressDetail.Address = result.Address;
-                    objUser._AddressDetail.AddressTypeId = result.AddressTypeId;
-                    //objUser._AddressDetail.CityId = result.CityId;
-                    objUser._AddressDetail.StateId = result.StateId;
+                    objUser._AddressDetail.AddressTypeId = result.AddressTypeId;               
                     objUser._AddressDetail.District = result.District;
                     objUser._AddressDetail.State = result.State;
                     objUser._ContactPerson.ConFirstName = result.ConFirstName;
                     objUser._ContactPerson.ConMobileNumber = result.ConMobileNumber;
                     objUser.CurrentPassword= doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(result.Password, true);
                     objUser.RegionId = result.RegionId;
-
-
-                   
+                    objUser._AddressDetail.LocationId= result.LocationId;
+                    objUser.ConEmailAddress = result.ConEmailAddress;
+                    objUser._AddressDetail.LocationList = new SelectList(_drp.BindLocationByPinCode(result.PinNumber), "Value", "Text");
                     objUser.RegionList = new SelectList(await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text");
-                   
-                    //objUser._ContactPerson.ConEmailAddress = result.ConEmailAddress;
-                        objUser.ConEmailAddress = result.ConEmailAddress;
                     objUser.CurrentEmail = result.ConEmailAddress;
-                    //objUser._ContactPerson.CurrentEmail = result.ConEmailAddress;
                     objUser.UserTypeId = result.UserTypeId;
                 }
             }
@@ -164,6 +165,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         [HttpPost]
+        [ValidateModel]
         public ActionResult EditUser(User objUser)
         {
             var session = Session["User"] as SessionModel;
@@ -171,11 +173,7 @@ namespace doorserve.Controllers
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
-            var Status = 1;
-            //var Status = (int)type.InvokeMember("sendmail_update",
-            //                        BindingFlags.Instance | BindingFlags.InvokeMethod |
-            //                        BindingFlags.NonPublic, null, mpc,
-            //                        new object[] { objUser._ContactPerson.ConEmailAddress, objUser.Password, objUser.UserName });
+            var Status = 1;  
             if (Status == 1)
             {
                
@@ -183,8 +181,6 @@ namespace doorserve.Controllers
                     objUser.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.Password, true);
                 else
                     objUser.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(objUser.CurrentPassword, true);
-
-
                 using (var con = new SqlConnection(_connectionString))
                     {
                         var result = con.Query<int>("UspInsertUser",
@@ -196,8 +192,7 @@ namespace doorserve.Controllers
                                 objUser._ContactPerson.ConFirstName,
                                 objUser._ContactPerson.ConMobileNumber,
                                 objUser.ConEmailAddress,
-                                objUser._AddressDetail.StateId,
-                                objUser._AddressDetail.District,
+                                objUser._AddressDetail.LocationId,                           
                                 objUser._AddressDetail.Address,
                                 objUser._AddressDetail.AddressTypeId,
                                 objUser._AddressDetail.PinNumber,

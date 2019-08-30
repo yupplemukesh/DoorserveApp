@@ -18,6 +18,7 @@ namespace doorserve.Controllers
     {
         private readonly IBank _bankRepo;
         private readonly IContactPerson _ContactRepo;
+
         private readonly string _connectionString;
         public DropdownBindController()
         {
@@ -1157,7 +1158,7 @@ namespace doorserve.Controllers
         }
 
 
-         public List<ListItem>  BindLocationByPinCode(string value)
+        public List<ListItem>  BindLocationByPinCode(string value)
         {
             using (var con = new SqlConnection(_connectionString))
             {
@@ -1182,6 +1183,22 @@ namespace doorserve.Controllers
             }
         }
 
+        public ManageLocation LocationByLocationId(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var address = con.Query<ManageLocation>("GETLOCATIONBYLOCATIONID", new { LocationId = value },
+                    commandType: CommandType.StoredProcedure).SingleOrDefault();             
+                return address;
+            }
+        }
+
+        public JsonResult BindLocationByLocationIdJson(string value)
+        {
+            var location = LocationByLocationId(value);
+            return Json(location, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult BindLocationByPinJson(string value)
         {
             using (var con = new SqlConnection(_connectionString))
@@ -1881,6 +1898,7 @@ namespace doorserve.Controllers
                 throw ex ;
             }
         }
+
 
         public  ActionResult PoridersJSON(Guid value)
         {

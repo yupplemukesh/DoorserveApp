@@ -36,7 +36,7 @@ namespace doorserve.Controllers
         public ActionResult ManageCityLocation()
         {
             LocationViewModel ls = new LocationViewModel();
-            ls.Rights  = (UserActionRights)HttpContext.Items["ActionsRights"];
+         
 
             if (TempData["AddLocation"] != null)
             {
@@ -59,15 +59,13 @@ namespace doorserve.Controllers
             {
                 ml._CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                
-                //var result = con.Query<int>("SELECT coalesce(MAX(SortOrder),0) from MstDeviceProblem", null, commandType: CommandType.Text).FirstOrDefault();
-
-                //ViewBag.SortOrder = result + 1;
                 return View(ml);
 
             }
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
         [HttpPost]
+        [ValidateModel]
         public ActionResult AddCityLocation(ManageLocation model)
         {
             try
@@ -154,6 +152,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Cities_Locations)]
         [HttpPost]
+        [ValidateModel]
         public ActionResult EditCityLocation(ManageLocation model)
         {
             try
@@ -196,7 +195,7 @@ namespace doorserve.Controllers
             return RedirectToAction("ManageCityLocation");
         }
 
-        [HttpPost]
+
         private string SaveFile(HttpPostedFileBase file, string folderName)
         {
             try
@@ -222,6 +221,7 @@ namespace doorserve.Controllers
 
         [HttpPost]
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
+        [ValidateModel]
         public async Task<ActionResult> Import(ProviderFileModel provider)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -310,18 +310,13 @@ namespace doorserve.Controllers
                 PinCode=281204,
                 LocationName="Raya",
                 IsActive=true
-                }};
-                //byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
-                // return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
+                }};           
                 filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
-
-
                 return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
             }
             else
             {
                 string[] columns = new string[] { "CountryName", "StateName", "DistrictName", "PinCode", "LocationName", "IsActive" };
-
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var result = con.Query<ManageLocation>("GetLocationDetails", new { }, commandType: CommandType.StoredProcedure).ToList();
@@ -329,12 +324,6 @@ namespace doorserve.Controllers
                     filecontent = ExcelExportHelper.ExportExcel(result, "", false, columns);
                     return File(filecontent, ExcelExportHelper.ExcelContentType, "Location.xlsx");
                 }
-
-                //byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
-                // return File(filecontent, ExcelExportHelper.ExcelContentType, "LocationTemplate.xlsx");
-               
-
-
             }
         }
     }

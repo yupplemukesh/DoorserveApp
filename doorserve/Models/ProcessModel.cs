@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace doorserve.Models
 {
-    public class ProcessModel:ContactPersonModel
+    public class ProcessModel:RegistrationModel
     {
         public int ProcessId {get; set;}
         [DisplayName("Process Name")]
@@ -15,13 +15,6 @@ namespace doorserve.Models
         public string ProcessCode {get; set;}
         [DisplayName("Process Owner")]
         public string ProcessOwner {get; set;}        
-        public int CreatedBy {get; set;}
-        public string CBy { get; set; }
-        public int ModifyBy {get; set;}
-        public string MBy { get; set; }
-        public DateTime CreatedDateTime { get; set; }
-        public DateTime ? ModifyDateTime { get; set; }
-        public string Remark { get; set; }
         
     }
 }

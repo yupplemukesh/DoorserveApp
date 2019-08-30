@@ -44,7 +44,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Create(ProcessModel Process)
         {
             var session = Session["User"] as SessionModel;
-            Process.Action = 'I';
+            Process.EventAction = 'I';
             Process.UserId = session.UserId;
             Process.CompanyId = session.CompanyId;
             var response = await _Process.AddUpdateProcess(Process);
@@ -65,7 +65,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Edit(ProcessModel Process)
         {
             var session = Session["User"] as SessionModel;
-            Process.Action = 'U';
+            Process.EventAction = 'U';
             Process.UserId = session.UserId;
             Process.CompanyId = session.CompanyId;
             var response = await _Process.AddUpdateProcess(Process);

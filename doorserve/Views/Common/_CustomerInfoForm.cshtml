@@ -133,26 +133,13 @@
         </div>
         <div class="form-material">
             <div class="row">
-
-
-
                 <div class="col-sm-3">
                     <div class="form-group has-value">
-                        @Html.TextBoxFor(x => x.Country, new { @class = "form-control", id = "Country" })
-                        @Html.HiddenFor(model => model.CountryId, new { id = "CountryId" })
-                        @Html.ValidationMessageFor(x => x.CountryId, "", new { @class = "text-danger" })
-                        <label class="floating-label t-0">Country</label>
+                        @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
+                        <label class="floating-label  t-0">City</label>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="form-group has-value">
-                        @Html.TextBoxFor(x => x.State, new { @class = "form-control", id = "State" })
-                        @Html.HiddenFor(model => model.StateId, new { id = "StateId" })
-                        @Html.ValidationMessageFor(x => x.StateId, "", new { @class = "text-danger" })
-                        <label class="floating-label  t-0">State</label>
-                    </div>
-                </div>
-
                 <div class="col-sm-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.District, new { @class = "form-control", id = "District" })
@@ -161,13 +148,22 @@
                     </div>
                 </div>
 
+
                 <div class="col-sm-3">
                     <div class="form-group has-value">
-                        @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })                        
-                        @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
-                        <label class="floating-label  t-0">City</label>
+                        @Html.TextBoxFor(x => x.State, new { @class = "form-control", id = "State" })
+                        <label class="floating-label  t-0">State</label>
                     </div>
                 </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group has-value">
+                        @Html.TextBoxFor(x => x.Country, new { @class = "form-control", id = "Country" })
+                        <label class="floating-label t-0">Country</label>
+                    </div>
+                </div>
+
+
 
 
             </div>

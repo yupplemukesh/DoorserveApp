@@ -57,11 +57,7 @@ namespace doorserve.Repository
             pararm = new SqlParameter("@Landmark", ToDBNull( Call.NearLocation));
             sp.Add(pararm);
             pararm = new SqlParameter("@PinCode", ToDBNull( Call.PinNumber));
-            sp.Add(pararm);
-            pararm = new SqlParameter("@CountyId", ToDBNull(Call.CountryId));
-            sp.Add(pararm);
-            pararm = new SqlParameter("@StateId", ToDBNull(Call.StateId));
-            sp.Add(pararm);
+            sp.Add(pararm);          
             pararm = new SqlParameter("@LocationId", ToDBNull(Call.LocationId));
             sp.Add(pararm);
             pararm = new SqlParameter("@City", ToDBNull(Call.District));
@@ -124,7 +120,7 @@ namespace doorserve.Repository
             sp.Add(pararm);
             var sql = "AddEditCallLog " +
                 "@ID,@CLIENTID,@isExistingCustomer,@CustMobileNubmer,@CustType,@CustName,@CustAltCont,@CustEmail,@AddressTypeId,@Address," +
-                "@Landmark,@PinCode,@CountyId,@StateId,@LocationId,@City,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
+                "@Landmark,@PinCode,@LocationId,@City,@DEVICECATEGORYID,@DEVICEBRANDID,@DEVICEMODELID,@SLN,@IMEI1,@IMEI2,@DEVICEPURCHASEFROM,@DOP," +
                 "@BILLNUBMER,@BILLAMOUNT,@DEVICECONDITIONID,@SERVICETYPEID,@DELIVERYTYPEID,@ACTION,@USERID,@CompanyId,@DEVICEID,@CUSTOMERID,@SubCategoryId,@ModelNumber,@Remarks," +
                 "@StatusId,@AppointmentDateTime,@ProblemDescription,@IssueOcurringSinceDate,@PreviousCallId,@DataSourceId";
 

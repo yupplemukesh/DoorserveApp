@@ -86,6 +86,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
 
@@ -132,6 +133,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -275,8 +277,8 @@ namespace doorserve.Controllers
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
-
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> ManageService(ServiceModel service)
         {
             if (service.ServiceId != null)
@@ -331,6 +333,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
 
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> ManageServiceableAreaPinCode(ServiceOfferedModel service)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -362,6 +365,7 @@ namespace doorserve.Controllers
         // POST: ManageClient/Create  
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -433,6 +437,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -500,6 +505,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> AddOrEditASPReg(ServiceProviderModel provider)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -609,6 +615,7 @@ namespace doorserve.Controllers
         // POST: ManageClient/Edit/5
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Edit(ServiceProviderModel provider, OrganizationModel org)
         {
             var SessionModel = Session["User"] as SessionModel;
@@ -638,7 +645,6 @@ namespace doorserve.Controllers
                 return View(provider);
             }
         }
-        [HttpPost]
         private string SaveFile(HttpPostedFileBase file, string folderName)
         {
             try
@@ -664,6 +670,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Service_Provider)]
 
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> ImportProviders(ProviderFileModel provider)
         {
             var SessionModel = Session["User"] as SessionModel;
