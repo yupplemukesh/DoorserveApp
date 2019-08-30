@@ -67,11 +67,15 @@
         @Html.ValidationMessageFor(model => model.OrgGSTNumberFilePath, "", new { @class = "text-danger" })
     </div>
     <div class="col-md-4">
-        <a data-target="#modalIMGOrgGST" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-            <div class="ba-0 tp-s img-thumbnail">
-                <img alt="Organization GST File" class="card-img-top thumb-Img" src="@Model.OrgGSTFileUrl">
-            </div>
-        </a>
+       @if (!string.IsNullOrEmpty(Model.OrgGSTFileUrl))
+        {
+            <img id="blah" src="@Model.OrgGSTFileUrl" class="thumb-Img" alt="your image" />
+        }
+        else
+        {
+            <img id="blah" src="~/Content/img/icon-img/doc-icon.png" class="thumb-Img" alt="your image" />
+        }
+        
     </div>
 
 </div>
@@ -92,13 +96,15 @@
         @Html.ValidationMessageFor(model => model.OrgPanNumberFilePath, "", new { @class = "text-danger" })
     </div>
     <div class="col-md-4">
-        <a data-target="#modalIMGOrgPan" data-toggle="modal" href="#" class="color-gray-darker td-hover-none">
-            <div class="ba-0 tp-s img-thumbnail">
-                <img alt="Organization Pan File" class="card-img-top thumb-Img" src="@Model.OrgPanFileUrl">
-            </div>
-        </a>
-    </div>
-
+        @if (!string.IsNullOrEmpty(Model.OrgPanFileUrl))
+                {
+                    <img id="blah" src="@Model.OrgPanFileUrl" class="thumb-Img" alt="your image" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Content/img/icon-img/doc-icon.png" class="thumb-Img" alt="your image" />
+                }
+             </div>
 </div>
 @if (Model.Type == "Provider")
 {

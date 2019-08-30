@@ -74,8 +74,16 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.BankCancelledChequeFilePath, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-1 col-sm-1">              
-                    <img src="~/Content/img/icon-img/doc-icon.png" id="conBankImg" class="a thumb-Img" style="pointer-events: none;">                
+            <div class="col-md-1 col-sm-1">
+                @*<img src="~/Content/img/icon-img/doc-icon.png" id="conBankImg" class="a thumb-Img" style="pointer-events: none;">*@
+                @if (!string.IsNullOrEmpty(Model.BankCancelledChequeFileUrl))
+                {
+                    <img id="blah" src="@Model.BankCancelledChequeFileUrl" class="thumb-Img" alt="your image" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Content/img/icon-img/doc-icon.png" class="thumb-Img" alt="your image" />
+                }
             </div>
 
         </div>

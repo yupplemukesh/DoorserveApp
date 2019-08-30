@@ -23640,7 +23640,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 }
 
 .b-left-side {
-    border-left: 2px solid #ddd;
+    border-left: 1px solid #ddd;
     border-top: 0px solid red
 }
 .company-tabs > li {
@@ -23693,7 +23693,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 }
 
 .thumb-Img {
-    width: 80px;
+    width: 52px;
 }
 .for-popup-height {
     min-height:320px;

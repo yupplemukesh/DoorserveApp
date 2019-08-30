@@ -75,9 +75,16 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.ConPanNumberFilePath, "", new { @class = "text-danger" })
             </div>
-            <div class="col-md-1 col-sm-1">           
-                <img src="~/Content/img/icon-img/doc-icon.png" id="conPanImg"  class="a thumb-Img" style="pointer-events: none;">
-
+            <div class="col-md-1 col-sm-1">
+                @*<img src="~/Content/img/icon-img/doc-icon.png" id="conPanImg"  class="a thumb-Img" style="pointer-events: none;">*@
+                @if (!string.IsNullOrEmpty(Model.ConPanFileUrl))
+                {
+                    <img id="blah" src="@Model.ConPanFileUrl" class="thumb-Img" alt="your image" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Content/img/icon-img/doc-icon.png" class="thumb-Img" alt="your image" />
+                }
             </div>           
         </div>
     </div>
@@ -105,8 +112,15 @@
                 @Html.ValidationMessageFor(model => model.ConVoterIdFilePath, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-1 col-sm-1">
-                <img src="~/Content/img/icon-img/doc-icon.png" class="a thumb-Img" id="conVoterImg" style="pointer-events: none;">
-
+                @* <img src="~/Content/img/icon-img/doc-icon.png" class="a thumb-Img" id="conVoterImg" style="pointer-events: none;">*@
+                @if (!string.IsNullOrEmpty(Model.ConVoterIdFileUrl))
+                {
+                    <img id="blah" src="@Model.ConVoterIdFileUrl" class="thumb-Img" alt="your image" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Content/img/icon-img/doc-icon.png" class="thumb-Img" alt="your image" />
+                }
             </div>
         </div>
     </div>
@@ -134,7 +148,16 @@
             </div>
 
             <div class="col-md-1 col-sm-1">
-                <img src="~/Content/img/icon-img/doc-icon.png" id="conAdhrImg" class="a thumb-Img" style="pointer-events: none;">
+                @*<img src="~/Content/img/icon-img/doc-icon.png" id="conAdhrImg" class="a thumb-Img" style="pointer-events: none;">*@
+                @if (!string.IsNullOrEmpty(Model.ConAdhaarFileUrl))
+                {
+                    <img id="blah" src="@Model.ConAdhaarFileUrl" class="thumb-Img" alt="your image" />
+                }
+                else
+                {
+                    <img id="blah" src="~/Content/img/icon-img/doc-icon.png" class="thumb-Img" alt="your image" />
+                }
+
             </div>
 
         </div>
