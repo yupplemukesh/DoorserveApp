@@ -76,6 +76,17 @@ namespace doorserve.Repository.EmailSmsTemplate
             sp.Add(param);
             return await _context.Database.SqlQuery<TemplateModel>("UspGetTemplateByActionName  @ActionName,@CompId", sp.ToArray()).ToListAsync();
         }
+
+        public async Task<List<TemplateModel>> GetTemplateByActionId(int ActionId, Guid? CompId)
+        {
+            var sp = new List<SqlParameter>();
+            var param = new SqlParameter("@ActionId", ActionId);
+            sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(CompId)
+                );
+            sp.Add(param);
+            return await _context.Database.SqlQuery<TemplateModel>("UspGetTemplateByActionId  @ActionId,@CompId", sp.ToArray()).ToListAsync();
+        }
         public async Task<List<TemplateModel>> GetUploadedExcelListByGUID(Guid GUID,string MessageTypeName)
         {
             List<SqlParameter> sp = new List<SqlParameter>();

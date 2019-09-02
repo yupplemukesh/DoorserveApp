@@ -288,7 +288,7 @@ namespace doorserve.Controllers
                     if (!string.IsNullOrEmpty(UserPassword.Password))
                     {
                         UserPassword.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(UserPassword.Password, true);
-                        var Templates = await _templateRepo.GetTemplateByActionName("Forget Password", new Guid("06174296-86E0-41B6-A96F-916BE0F165F1"));
+                        var Templates = await _templateRepo.GetTemplateByActionId(11, UserPassword.CompanyId);
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = UserPassword.UserName;
@@ -317,13 +317,6 @@ namespace doorserve.Controllers
           
                 }
               
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form

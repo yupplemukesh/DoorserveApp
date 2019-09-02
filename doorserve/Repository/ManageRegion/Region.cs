@@ -35,18 +35,19 @@ namespace doorserve.Repository.ManageRegion
         {
             var param = new SqlParameter("@REGIONID", RegionId);
             return await _Context.Database.SqlQuery<ManageRegionModel>("USPGetRegionById @REGIONID", param).SingleOrDefaultAsync();
-
-
         }
 
         public async Task<ResponseModel> AddUpdateRegion(ManageRegionModel Region)
         {
             var statesList = new List<StateModel>();
-            for (int i = 0; i < Region.SelectedStates.Count; i++)
+            if (Region.SelectedStates != null)
             {
-                var state = new StateModel { St_ID = Region.SelectedStates[i].ToString() };
-                statesList.Add(state);
+                for (int i = 0; i < Region.SelectedStates.Count; i++)
+                {
+                    var state = new StateModel { St_ID = Region.SelectedStates[i].ToString() };
+                    statesList.Add(state);
 
+                }
             }
             string xml = "";
             if (Region.SelectedStates != null)

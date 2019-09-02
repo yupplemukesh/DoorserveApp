@@ -12,7 +12,9 @@ namespace doorserve.Models
         public string RegionName { get; set; }
         public string StateXml { get; set; }
         public SelectList StateList { get; set; }
+        public SelectList CompanyList { get; set; }
         public  List<int> SelectedStates { get; set; }
+        public bool IsAdmin { get; set; }
 
 
     }

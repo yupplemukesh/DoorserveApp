@@ -86,7 +86,6 @@ namespace doorserve.Controllers
                             RefId = session.RefKey,
                             companyId = session.CompanyId,
                             objUser.RegionId
-
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -95,12 +94,11 @@ namespace doorserve.Controllers
                         objResponseModel.Response= "Something went wrong";      
                     }
                     else if (result == 1)
-                    {
-                        
+                    {                        
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";      
-                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration", session.CompanyId);
+                    var Templates = await _templateRepo.GetTemplateByActionId(12, session.CompanyId);
                     session.Email = objUser.ConEmailAddress;
                     var WildCards = await CommonModel.GetWildCards();
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
@@ -315,7 +313,7 @@ namespace doorserve.Controllers
                     if (response.ResponseCode == 0)
                     {
                         response.IsSuccess = true;
-                        var Templates = await _templateRepo.GetTemplateByActionName("Change Password",session.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(7,session.CompanyId);
                         session.Email = User.Identity.Name;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();

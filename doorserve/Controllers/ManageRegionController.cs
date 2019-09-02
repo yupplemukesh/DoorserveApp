@@ -45,18 +45,26 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Regions)]
         public async Task<ActionResult> Create()
         {
+            var session = Session["User"] as SessionModel;
             ManageRegionModel MR = new ManageRegionModel();
             MR.StateList= new SelectList(_Dropdown.BindState(), "Value", "Text");
+            if (session.UserTypeName.ToLower() == "super admin")
+            {
+                MR.IsAdmin = true;
+                MR.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(MR);
         }
         [HttpPost]
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Regions)]
+        [ValidateModel]
         public async Task<ActionResult> Create(ManageRegionModel Region)
         {
             var session = Session["User"] as SessionModel;
             Region.EventAction = 'I';
             Region.UserId = session.UserId;
-            Region.CompanyId = session.CompanyId;
+            if (session.UserTypeName.ToLower() == "company")
+                Region.CompanyId = session.CompanyId;
             var response = await _Region.AddUpdateRegion(Region);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -65,11 +73,15 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Edit(Guid RegionId)
         {
             var Region = await _Region.GetRegionById(RegionId);
-            var states = Deserialize<List<StateModel>>(Region.StateXml);
             var selectedItems = new List<int>();
-            foreach (var item in states)
+            if (Region.StateXml != null)
             {
-                selectedItems.Add(Convert.ToInt32(item.St_ID));
+                var states = Deserialize<List<StateModel>>(Region.StateXml);
+       
+                foreach (var item in states)
+                {
+                    selectedItems.Add(Convert.ToInt32(item.St_ID));
+                }
             }
             Region.StateList = new SelectList(_Dropdown.BindState(), "Value", "Text");
             Region.SelectedStates = selectedItems;
@@ -77,12 +89,12 @@ namespace doorserve.Controllers
         }
         [HttpPost]
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Regions)]
+        [ValidateModel]
         public async Task<ActionResult> Edit(ManageRegionModel Region)
         {
             var session = Session["User"] as SessionModel;
             Region.EventAction = 'U';
-            Region.UserId = session.UserId;
-            Region.CompanyId = session.CompanyId;
+            Region.UserId = session.UserId;         
             var response = await _Region.AddUpdateRegion(Region);
             TempData["response"] = response;
             return RedirectToAction("Index");

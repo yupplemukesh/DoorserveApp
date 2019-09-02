@@ -47,6 +47,7 @@ namespace doorserve.Repository
                         template.EmailBody = emailBody;
                         foreach (var item in wildcards)
                         {
+                            template.Subject = template.Subject.Replace("[%" + item.Text + "%]", item.Val);
                             template.EmailBody = template.EmailBody.Replace("[%"+ item.Text + "%]", item.Val);
                         }
                         MailMessage mail = new MailMessage();
@@ -70,13 +71,13 @@ namespace doorserve.Repository
 
                         foreach (var item in wildcards)
                         {
+                           
                             template.EmailBody = template.EmailBody.Replace("[%"+item.Text+"%]", item.Val);
                         }
                  
                         template.PhoneNumber = session.Mobile;
                         res.IsSuccess = SendSms(template, getwaymodel);
                     }
-
                 }
             }
             return res;
@@ -97,8 +98,6 @@ namespace doorserve.Repository
                 smtp.Send(mail);
                 flag = true;
 
-
-
             }
             catch(Exception ex)
             {
@@ -106,22 +105,6 @@ namespace doorserve.Repository
             }
             return flag;
         }
-
-
-        //private async Task<string> AddEmailLog(MailMessage mail,bool status)
-        //{
-
-
-        //}
-
-
-        //private async Task<string> AddSmsLog(MailMessage mail, bool status)
-        //{
-
-
-        //}
-
-
         private bool SendSms(TemplateModel template, GatewayModel gatway)
         {
          
@@ -166,7 +149,7 @@ namespace doorserve.Repository
                 //Close the response
                 reader.Close();
                 response.Close();
-                if (!string.IsNullOrEmpty(responseString))
+                if (gatway.SuccessMessage==response.StatusCode.ToString())
                     return true;
                 else
                     return false;
@@ -186,7 +169,6 @@ namespace doorserve.Repository
 
         }
      
-
         private async  Task<EmailHeaderFooterModel> getHeaderfooter(int? HeaderFooterId)
         {
 

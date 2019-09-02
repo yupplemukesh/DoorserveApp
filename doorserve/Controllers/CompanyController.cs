@@ -289,9 +289,10 @@ namespace doorserve.Controllers
             if (contact.ConAdhaarNumberFilePath != null)
                 contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRs/");
 
-            var pwd = CommonModel.RandomPassword(6);
+            var pwd = CommonModel.RandomPassword(8);
             if (contact.IsUser)
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
+        
             contact.UserTypeId = 1;
             contact.UserId = SessionModel.UserId;
             contact.CompanyId = contact.RefKey;
@@ -309,7 +310,7 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration", SessionModel.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(12, SessionModel.CompanyId);
                         if (Templates.Count > 0)
                         {
                             SessionModel.Email = contact.ConEmailAddress;
@@ -330,7 +331,7 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(12, SessionModel.CompanyId);
                         if (Templates.Count > 0)
                         {
                             SessionModel.Email = contact.ConEmailAddress;

@@ -188,7 +188,7 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(12,SessionModel.CompanyId);
                         SessionModel.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
@@ -207,7 +207,7 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(12,SessionModel.CompanyId);
                         SessionModel.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();

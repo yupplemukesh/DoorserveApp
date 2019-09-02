@@ -303,6 +303,8 @@
                                 <h4 class="p-b-10"> Organization Code : </h4>
                                 @using (Html.BeginForm("AddorEditOrganizaion", "ManageCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
                                 {
+                                    @Html.AntiForgeryToken()
+
                                     Model.Organization.RefKey = Model.CompanyId;
                                     @Html.Partial("~/Views/Common/_AddOrEditOrginazation.cshtml", Model.Organization)
                                     <div class="form-group row m-b-25">
@@ -333,6 +335,7 @@
                                 <div class="row" style="display:none" id="ContactPerson">
                                     @using (Html.BeginForm("AddOrEditContactPerson", "ManageCompany", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactform" }))
                                     {
+                                        @Html.AntiForgeryToken()
                                         Model.Contact.RefKey = Model.CompanyId;
                                         <div class="col-12">
                                             @Html.Partial("~/Views/Common/_AddEditContactPerson.cshtml", Model.Contact)

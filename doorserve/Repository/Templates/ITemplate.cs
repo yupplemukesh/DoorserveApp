@@ -14,6 +14,7 @@ namespace doorserve.Repository.EmailSmsTemplate
         Task<TemplateListModel> GetTemplates(FilterModel filterModel);
         Task<TemplateModel> GetTemplateByGUID(int TemplateId,Guid? GUID);
         Task<List<TemplateModel>> GetTemplateByActionName(string TemplateName,Guid? CompId);
+        Task<List<TemplateModel>> GetTemplateByActionId(int ActionId, Guid? CompId);
         Task<ResponseModel> AddUpdateDeleteTemplate(TemplateModel templateModel, char action);
         Task<List<TemplateModel>> GetUploadedExcelListByGUID(Guid GUID,string MessageTypeName);
         Task<ResponseModel> DeleteUploadedExcelData(Guid GUID, string MessageTypeName, string UploadedData);

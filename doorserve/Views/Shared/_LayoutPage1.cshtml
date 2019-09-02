@@ -8,6 +8,8 @@
     <meta name="description" content="">
     <title>doorserve</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
+    <link rel="icon" href="/content/img/icon-img/FAV-WB.png" type="image/x-icon" />
+
     @Scripts.Render("~/bundles/ckEditorJS")
     @Styles.Render("~/Content/css/bootstap")
     @Styles.Render("~/Content/css")
@@ -15,7 +17,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", required: false)
     @{
-       var SessionModel = Session["User"] as SessionModel;
+        var SessionModel = Session["User"] as SessionModel;
     }
 </head>
 <body class="layout layout-header-fixed layout-left-sidebar-fixed">
@@ -26,13 +28,14 @@
                 <a class="navbar-brand" href="@Url.Action("Index","Home")">
                     @if (SessionModel != null)
                     {
+                        <img src="~/content/img/doorserves.png" />
                         if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
                         {
                             <img src="@SessionModel.LogoUrl" width="52%" />
                         }
                         else
                         {
-                            <img src="~/content/img/doorserves.png" />
+
                             <img src="~/content/img/WbLogo.png" width="52%" />
 
                         }
