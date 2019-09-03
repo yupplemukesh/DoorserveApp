@@ -153,11 +153,19 @@ namespace doorserve
                 return _headerTypes;
             }
         }
-        public static async Task<List<BindGateway>> GetMailerGatewayList(Int64 GatewayTypeId)
+        public static List<BindGateway> GetMailerGatewayList(Int64 GatewayTypeId,Guid? compId)
         {
             using (var _context = new ApplicationDbContext())
             {
-                var _Gateways = await _context.Database.SqlQuery<BindGateway>("select GatewayId, GatewayName from MSTGateway where GatewayTypeId = " + GatewayTypeId + " AND IsActive=1").ToListAsync();
+                var query = "select GatewayId, GatewayName from MSTGateway where GatewayTypeId =@gatewayTypeId  AND IsActive=1";
+                if (compId != null)
+                    query = query + " And companyId=@compId";
+                var sp = new List<SqlParameter>();
+                var param = new SqlParameter("@gatewayTypeId", GatewayTypeId);
+                sp.Add(param);
+                param = new SqlParameter("@compId", compId);
+                sp.Add(param);
+                var _Gateways =  _context.Database.SqlQuery<BindGateway>(query,sp.ToArray()).ToList();
                 return _Gateways;
             }
         }
@@ -185,15 +193,17 @@ namespace doorserve
                 return Section;
             }
         }
-        public static async Task<List<CheckBox>> GetWildCards()
+        public static async Task<List<CheckBox>> GetWildCards(Guid ? compId)
         {
             using (var _context = new ApplicationDbContext())
             {
                 
                 var query = "select WildCardId Value,WildCard Text,'' Val  from WildCard where IsActive=1";
-              
+                if (compId != null)
+                    query = query + " and companyId=@compId";
+                var param = new SqlParameter("@compId", compId); 
 
-                var _clientData = await _context.Database.SqlQuery<CheckBox>(query).ToListAsync();
+                var _clientData = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
                 return _clientData;
             }
         }

@@ -37,6 +37,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Wild_Cards)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Create(WildCardModel wildcardModel)
         {
 
@@ -66,6 +67,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Wild_Cards)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Edit(WildCardModel wildcardModel)
         {
     

@@ -13,6 +13,7 @@ using doorserve.Models;
 using doorserve.Models.Gateway;
 using doorserve.Models.Template;
 using doorserve.Repository.EmailSmsServices;
+using Newtonsoft.Json;
 
 namespace doorserve.Repository
 {
@@ -117,7 +118,7 @@ namespace doorserve.Repository
             template.MessageText = template.EmailBody;
             //Your message to send, Add URL encoding here.
             string message = Regex.Replace(template.MessageText, "<.*?>", string.Empty);
-             message = Regex.Replace(message, "&nbsp;", string.Empty);
+             message = Regex.Replace(message, "&nbsp;", " ");
 
             //Prepare you post parameters
             StringBuilder sbPostData = new StringBuilder();
@@ -145,10 +146,11 @@ namespace doorserve.Repository
                 //Get the response
                 HttpWebResponse response = (HttpWebResponse)httpWReq.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream());
-              var   responseString = reader.ReadToEnd();
+                var   responseString = reader.ReadToEnd();
                 //Close the response
                 reader.Close();
                 response.Close();
+                var res= JsonConvert.DeserializeObject<ReponseViewModel>(responseString);
                 if (gatway.SuccessMessage==response.StatusCode.ToString())
                     return true;
                 else

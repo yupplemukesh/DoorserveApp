@@ -466,7 +466,7 @@
                 $('#GatewayId').append(opt)
                 if (data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
-                        opt = new Option(data[i].Text, data[i].Value);
+                        opt = new Option(data[i].GatewayName, data[i].GatewayId);
                         $('#GatewayId').append(opt);
                     }
                 }

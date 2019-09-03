@@ -18,6 +18,7 @@ using System.Xml.XPath;
 using System.Xml.Linq;
 using System.Xml;
 using doorserve.Permission;
+using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
@@ -63,13 +64,14 @@ namespace doorserve.Controllers
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Text", "Text");
+            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(CurrentUser.CompanyId), "Text", "Text");
             templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
             templatemodel.IsSystemDefined = true;
             return View(templatemodel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
+
         public async Task<ActionResult> Create(TemplateModel templateModel)
         {
 
@@ -242,13 +244,13 @@ namespace doorserve.Controllers
                 templatemodel.ScheduleTime = strSheduleArray[1];
             }
 
-            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Text", "Text");
+            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(CurrentUser.CompanyId), "Text", "Text");
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
             templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
-            templatemodel.GatewayList=new SelectList(await CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId), "GatewayId", "GatewayName"); 
+            templatemodel.GatewayList=new SelectList( CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId,CurrentUser.CompanyId), "GatewayId", "GatewayName"); 
 
             return View(templatemodel);
         }
@@ -422,22 +424,13 @@ namespace doorserve.Controllers
             }
             return RedirectToAction("Index");
         }
-        public JsonResult BindGateway(Int64 GatewayTypeId)
+        public  ActionResult  BindGateway(Int64 GatewayTypeId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var gateway = con.Query<BindGateway>("select GatewayId,GatewayName from MSTGateway where GatewayTypeId="+ GatewayTypeId + "", commandType: CommandType.Text);
-                List<ListItem> items = new List<ListItem>();
-                
-                foreach (var val in gateway)
-                {
-                    items.Add(new ListItem
-                    {
-                        Value = val.GatewayId.ToString(), //Value Field(ID)
-                        Text = val.GatewayName //Text Field(Name)l
-                    });
-                }
-                return Json(items, JsonRequestBehavior.AllowGet);
+                var getway =  CommonModel.GetMailerGatewayList(GatewayTypeId, CurrentUser.CompanyId);
+               
+                return Json(getway, JsonRequestBehavior.AllowGet);
             }
         }
         private string SaveFile(HttpPostedFileBase file, string folderName)

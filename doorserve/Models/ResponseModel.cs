@@ -12,4 +12,9 @@ namespace doorserve.Models
         public string result { get; set; }
         public bool IsSuccess { get; set; }
     }
+
+    public class ReponseViewModel {
+        public string Status { get; set; }
+        public string Message { get; set; }
+    }
 }

@@ -278,8 +278,7 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
+          
                 using (var con = new SqlConnection(_connectionString))
                 {
                     var UserPassword = con.Query<SessionModel>("GETUSERBYUSERNAME",
@@ -289,7 +288,7 @@ namespace doorserve.Controllers
                     {
                         UserPassword.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(UserPassword.Password, true);
                         var Templates = await _templateRepo.GetTemplateByActionId(11, UserPassword.CompanyId);
-                        var WildCards = await CommonModel.GetWildCards();
+                        var WildCards = await CommonModel.GetWildCards(UserPassword.CompanyId);
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = UserPassword.UserName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
@@ -317,10 +316,10 @@ namespace doorserve.Controllers
           
                 }
               
-            }
+            
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+      
         }
         //
         // GET: /Account/ForgotPasswordConfirmation

@@ -100,7 +100,7 @@ namespace doorserve.Controllers
                         objResponseModel.Response = "Successfully Added";      
                     var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
                     CurrentUser.Email = objUser.ConEmailAddress;
-                    var WildCards = await CommonModel.GetWildCards();
+                    var WildCards = await CommonModel.GetWildCards(CurrentUser.CompanyId);
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                     U.Val = objUser.ConFirstName;
                     U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
@@ -315,7 +315,7 @@ namespace doorserve.Controllers
                         response.IsSuccess = true;
                         var Templates = await _templateRepo.GetTemplateByActionId(7,CurrentUser.CompanyId);
                         CurrentUser.Email = User.Identity.Name;
-                        var WildCards = await CommonModel.GetWildCards();
+                        var WildCards = await CommonModel.GetWildCards(CurrentUser.CompanyId);
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = CurrentUser.UserName;
                          U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();

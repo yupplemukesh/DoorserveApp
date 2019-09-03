@@ -309,7 +309,7 @@ namespace doorserve.Controllers
                         if (Templates.Count > 0)
                         {
                             CurrentUser.Email = contact.ConEmailAddress;
-                            var WildCards = await CommonModel.GetWildCards();
+                            var WildCards = await CommonModel.GetWildCards(null);
                             var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                             U.Val = contact.ConFirstName;
                             U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
@@ -330,7 +330,7 @@ namespace doorserve.Controllers
                         if (Templates.Count > 0)
                         {
                             CurrentUser.Email = contact.ConEmailAddress;
-                            var WildCards = await CommonModel.GetWildCards();
+                            var WildCards = await CommonModel.GetWildCards(null);
                             var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                             U.Val = contact.ConFirstName;
                             U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
