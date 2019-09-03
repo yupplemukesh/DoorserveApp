@@ -16,7 +16,7 @@ using doorserve.Permission;
 using doorserve.Repository.Customer_Support;
 namespace doorserve.Controllers
 {
-    public class CallToASCController : Controller
+    public class CallToASCController : BaseController
     {
         private readonly ICustomerSupport _customerSupport;
 
@@ -29,22 +29,22 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Service_Provider)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
+        
             var filter = new FilterModel();
 
-            if (session.UserTypeName.ToLower().Contains("provider"))
-                filter.ProviderId = session.RefKey;
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
+                filter.ProviderId = CurrentUser.RefKey;
 
-            filter.CompId = session.CompanyId;
+            filter.CompId = CurrentUser.CompanyId;
             filter.IsExport = false;
             var calls = await _customerSupport.GetASCCalls(filter);
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
-            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
-            if (session.UserTypeName.ToLower().Contains("provider"))
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(session.RefKey), "Name", "Text") };
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(CurrentUser.RefKey), "Name", "Text") };
         else
-                calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceComp(session.CompanyId), "Name", "Text") };
+                calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceComp(CurrentUser.CompanyId), "Name", "Text") };
 
             return View(calls);
         }
@@ -56,9 +56,9 @@ namespace doorserve.Controllers
 
             try
             {
-                var session = Session["User"] as SessionModel;
+
                 allocate.AllocateTo = "ASC";
-                allocate.UserId = session.UserId;
+                allocate.UserId = CurrentUser.UserId;
                 var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -75,8 +75,7 @@ namespace doorserve.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel {CompId= session.CompanyId,tabIndex=tabIndex,IsExport=true};
+            var filter = new FilterModel {CompId= CurrentUser.CompanyId,tabIndex=tabIndex,IsExport=true};
             var response = await _customerSupport.GetASCCalls(filter);
             byte[] filecontent;
             string[] columns;

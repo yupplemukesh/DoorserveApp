@@ -11,7 +11,7 @@ using doorserve.Models;
 
 namespace doorserve.Controllers
 {
-    public class RepairStatusController : Controller
+    public class RepairStatusController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -133,10 +133,10 @@ namespace doorserve.Controllers
         public ActionResult EditRepairStatus1()
         {
 
-            var SessionModel = Session["User"] as SessionModel;
-            ViewBag.CourierName = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.PrblmObsrvd = new SelectList(dropdown.BindProblemObserved(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+
+            ViewBag.CourierName = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.PrblmObsrvd = new SelectList(dropdown.BindProblemObserved(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectList>());
             return View();
         }

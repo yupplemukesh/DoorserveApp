@@ -12,7 +12,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class GSTTaxController : Controller
+    public class GSTTaxController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -28,13 +28,11 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.GST_Tax)]
         public ActionResult AddGst()
         {
-
-            var session = Session["User"] as SessionModel;
             GstTaxModel gm = new GstTaxModel();
             gm.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             gm.StateList = new SelectList(Enumerable.Empty<SelectList>());
             gm.GstcategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
+            gm.DeviceCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             gm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
             gm.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(), "Value", "Text");
             gm.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(),"Value","Text");
@@ -52,7 +50,6 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_GstTax",
                             new
                             {
@@ -78,8 +75,8 @@ namespace doorserve.Controllers
                                 model.Gst_Applicable_date,
                                 model.IsActive,
                                 model.Comments,
-                                User = SessionModel.UserId,
-                                SessionModel.CompanyId,
+                                User = CurrentUser.UserId,
+                                CurrentUser.CompanyId,
                                 Action="I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();
@@ -115,11 +112,10 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View}, (int)MenuCode.GST_Tax)]
         public ActionResult GstTaxtable()
         {
-            var SessionModel = Session["User"] as SessionModel;
             var objGstTaxModel = new List<GstTaxModel>();
             using (var con = new SqlConnection(_connectionString))
             {
-                objGstTaxModel= con.Query<GstTaxModel>("Get_GstTax", new { companyId = SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+                objGstTaxModel= con.Query<GstTaxModel>("Get_GstTax", new { companyId = CurrentUser.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
               
             }         
             return View(objGstTaxModel);
@@ -130,7 +126,6 @@ namespace doorserve.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-              var SessionModel = Session["User"] as SessionModel;
                 var result2 = con.Query<GstTaxModel>("SELECT * from MstGstTax Where GstTaxId=@GstTaxId", new { @GstTaxId = Gsttaxid },
                 commandType: CommandType.Text).FirstOrDefault();
                 result2.SACList = new SelectList(CommonModel.SAC_NumberList(), "Text", "Text");
@@ -138,7 +133,7 @@ namespace doorserve.Controllers
                 result2.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 result2.GstcategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                 result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(result2.Device_Cat), "Value", "Text");
                 result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
                 result2.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
@@ -177,7 +172,6 @@ namespace doorserve.Controllers
                  {
                      using (var con = new SqlConnection(_connectionString))
                      {
-                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_GstTax",
                              new
                              {
@@ -203,8 +197,8 @@ namespace doorserve.Controllers
                                  model.Gst_Applicable_date,
                                  model.IsActive,
                                  model.Comments,
-                                 User = SessionModel.UserId,
-                                 SessionModel.CompanyId,
+                                 User = CurrentUser.UserId,
+                                 CurrentUser.CompanyId,
                                  Action = "U"
                              }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 

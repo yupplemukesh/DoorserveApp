@@ -13,7 +13,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -50,7 +50,6 @@ namespace doorserve.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var session = Session["User"] as SessionModel;
                 var result = con.Query<int>("Add_Modify_Delete_Category",
                     new
                     {
@@ -60,9 +59,9 @@ namespace doorserve.Controllers
                         model.IsActive,
                         model.SortOrder,
                         model.Comments,
-                        User = session.UserId,
+                        User = CurrentUser.UserId,
                         Action = "add",
-                        companyId = session.CompanyId
+                        companyId = CurrentUser.CompanyId
 
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -91,8 +90,7 @@ namespace doorserve.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var session = Session["User"] as SessionModel;
-                var result = con.Query<DeviceCategoryModel>("USPGetCategoryList", new {companyId= session.CompanyId}, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<DeviceCategoryModel>("USPGetCategoryList", new {companyId= CurrentUser.CompanyId}, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }            
         }
@@ -115,10 +113,9 @@ namespace doorserve.Controllers
         {
             try
             {
-                //model.ModifyBy = (Convert.ToString(Session["User_ID"]) == null ? "0" : Convert.ToString(Session["User_ID"]));
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var session = Session["User"] as SessionModel;
+                  
                     var result = con.Query<int>("Add_Modify_Delete_Category",
                         new
                         {
@@ -128,9 +125,9 @@ namespace doorserve.Controllers
                             model.IsActive,
                             model.SortOrder,
                             model.Comments,                            
-                            User = session.UserId,
+                            User = CurrentUser.UserId,
                             Action = "edit", 
-                            companyId= session.CompanyId                           
+                            companyId= CurrentUser.CompanyId                           
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result == 2)
@@ -173,9 +170,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Device_Sub_Category)]
         public ActionResult AddSubCategory()
         {
-            var session = Session["User"] as SessionModel;
             SubcategoryModel sm = new SubcategoryModel();
-            sm.CategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
+            sm.CategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             
             return View(sm);
         }
@@ -186,7 +182,7 @@ namespace doorserve.Controllers
         {          
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var session = Session["User"] as SessionModel;
+           
 
                     var result = con.Query<int>("Add_Modify_Delete_SubCategory",
                         new
@@ -203,9 +199,9 @@ namespace doorserve.Controllers
                             model.IsActive,
                             model.Comments,
                             model.IMEILength,
-                            User = session.UserId,
+                            User = CurrentUser.UserId,
                             Action = "add",
-                            session.CompanyId
+                            CurrentUser.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result != 0)
@@ -232,8 +228,7 @@ namespace doorserve.Controllers
             SubcategoryModel objSubcategoryModel = new SubcategoryModel();
             using (var con = new SqlConnection(_connectionString))
             {
-                var session = Session["User"] as SessionModel;
-                var result1 = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new {companyId= session.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+                var result1 = con.Query<SubcategoryModel>("GetSubCategoryDetails ", new {companyId= CurrentUser.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result1);
             };   
 
@@ -246,10 +241,9 @@ namespace doorserve.Controllers
 
             using (var con = new SqlConnection(_connectionString))
             {
-                var session = Session["User"] as SessionModel;
                 var result = con.Query<SubcategoryModel>("select CatId,SubCatId,SubCatName,SortOrder,IsRequiredIMEI1,IsRequiredIMEI2,IsRequiredSerialNo,Comments,SRNOLength,IsActive,IsRepair,Sr_no_req,IMEILength from MstSubCategory where SubCatId=@SubCatId", new { SubCatId },
                     commandType: CommandType.Text).FirstOrDefault();
-                result.CategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
+                result.CategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
              
                 if (result != null)
                 {
@@ -266,7 +260,6 @@ namespace doorserve.Controllers
         {           
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var session = Session["User"] as SessionModel;
 
                     var result = con.Query<int>("Add_Modify_Delete_SubCategory",
                         new
@@ -283,9 +276,9 @@ namespace doorserve.Controllers
                             model.IsActive,
                             model.Comments,
                             model.IMEILength,
-                            User = session.UserId,
+                            User = CurrentUser.UserId,
                             Action = "edit",
-                            session.CompanyId
+                            CurrentUser.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result == 2)

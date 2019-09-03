@@ -19,7 +19,7 @@ using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
-    public class CallAppointmentController : Controller
+    public class CallAppointmentController : BaseController
 
     {
         private readonly ICenter _centerRepo;      
@@ -33,9 +33,8 @@ namespace doorserve.Controllers
         // GET: CallAppointment
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Schedule_Appointment)]
         public async Task<ActionResult> Index()
-        {
-            var user = Session["User"] as SessionModel; 
-            var filter = new FilterModel { CompId = user.CompanyId };
+        { 
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId };
             var Appointcalls = await _centerRepo.GetCallDetails(filter);
 
             return View(Appointcalls);
@@ -43,13 +42,12 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Schedule_Appointment)]
         public async Task<ActionResult> Edit(string CRN)
         {
-            var session = Session["User"] as SessionModel;
             var CalAppintmentModel = await _centerRepo.GetCallsDetailsById(CRN);
-            CalAppintmentModel.BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text");
-            CalAppintmentModel.CategoryList = new SelectList(_dropdown.BindCategory(session.CompanyId), "Value", "Text");
+            CalAppintmentModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+            CalAppintmentModel.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             CalAppintmentModel.ProductList = new SelectList(_dropdown.BindProduct(CalAppintmentModel.DeviceBrandId), "Value", "Text");
-            CalAppintmentModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
-            CalAppintmentModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(session.CompanyId), "Value", "Text");
+            CalAppintmentModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            CalAppintmentModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
             CalAppintmentModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CalAppintmentModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CalAppintmentModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");

@@ -11,7 +11,7 @@ using doorserve.Repository.EmailHeaderFooters;
 
 namespace doorserve.Controllers
 {
-    public class EmailHeaderFooterController : Controller
+    public class EmailHeaderFooterController : BaseController
     {
         private readonly IEmailHeaderFooters _emailHeaderFooterRepo;
         public EmailHeaderFooterController()
@@ -22,8 +22,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_Header_and_Footer_Template)]
         public async Task<ActionResult> Index()
        {
-            var session = Session["User"] as SessionModel;
-            var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters( new Filters.FilterModel {CompId= session.CompanyId});
+            var emailheaderfooter = await _emailHeaderFooterRepo.GetEmailHeaderFooters( new Filters.FilterModel {CompId= CurrentUser.CompanyId});
             EmailHeaderFooterMainModel model = new EmailHeaderFooterMainModel();
             model.EmailHeaderFooter = new EmailHeaderFooterModel();
             model.mainModel = Mapper.Map<List<EmailHeaderFooterModel>>(emailheaderfooter);
@@ -41,7 +40,6 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Create(EmailHeaderFooterModel emailheaderfooter)
         {
 
-            var session = Session["User"] as SessionModel;
             var emailheaderfooterModel = new EmailHeaderFooterModel
                 {
                     EmailHeaderFooterId = emailheaderfooter.EmailHeaderFooterId,
@@ -50,8 +48,8 @@ namespace doorserve.Controllers
                     IsActive=emailheaderfooter.IsActive,
                     HeaderHTML = emailheaderfooter.HeaderHTML,
                     FooterHTML = emailheaderfooter.FooterHTML,
-                    UserId = session.UserId,
-                    CompanyId= session.CompanyId
+                    UserId = CurrentUser.UserId,
+                    CompanyId= CurrentUser.CompanyId
                 };
                 ResponseModel response = new ResponseModel();
                 if (emailheaderfooterModel.EmailHeaderFooterId != 0)

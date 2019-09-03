@@ -21,7 +21,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class TemplatesController : Controller
+    public class TemplatesController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -36,9 +36,9 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Index()
         {
-            var SessionModel = Session["User"] as SessionModel;
 
-            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel {CompId= SessionModel.CompanyId });
+
+            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel {CompId= CurrentUser.CompanyId });
             templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             return View(templates);
@@ -46,9 +46,9 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> Index1()
         {
-            var SessionModel = Session["User"] as SessionModel;
 
-            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel { CompId = SessionModel.CompanyId });
+
+            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel { CompId = CurrentUser.CompanyId });
             templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             return View(templates);
@@ -56,7 +56,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Create()
         {
-            var SessionModel = Session["User"] as SessionModel;
+            
             var templatemodel = new TemplateModel();
             templatemodel.IsActive = true;
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
@@ -64,7 +64,7 @@ namespace doorserve.Controllers
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
             templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(), "Text", "Text");
-            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(SessionModel.CompanyId), "Value", "Text");
+            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
             templatemodel.IsSystemDefined = true;
             return View(templatemodel);
         }
@@ -72,12 +72,12 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(TemplateModel templateModel)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var response =new doorserve.Models.ResponseModel();
                 Boolean Isvalid = false;
                 DataTable dtToEmailExcelData = new DataTable();
-                templateModel.UserId = SessionModel.UserId;
-               templateModel.CompanyId = SessionModel.CompanyId;
+                templateModel.UserId = CurrentUser.UserId;
+               templateModel.CompanyId = CurrentUser.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
                 {
 
@@ -232,7 +232,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Edit(int id,Guid? GUID)
         {
-            var SessionModel = Session["User"] as SessionModel;
+   
             var templatemodel = new TemplateModel();
             templatemodel = await _templateRepo.GetTemplateByGUID(id,GUID);
             if(!string.IsNullOrEmpty(templatemodel.ScheduleDateTime))
@@ -247,7 +247,7 @@ namespace doorserve.Controllers
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(SessionModel.CompanyId), "Value", "Text");
+            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
             templatemodel.GatewayList=new SelectList(await CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId), "GatewayId", "GatewayName"); 
 
             return View(templatemodel);
@@ -256,12 +256,12 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(TemplateModel templateModel)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var response = new doorserve.Models.ResponseModel();
             Boolean Isvalid = false;
             DataTable dtToEmailExcelData = new DataTable();
-            templateModel.UserId = SessionModel.UserId;
-            templateModel.CompanyId = SessionModel.CompanyId;
+            templateModel.UserId = CurrentUser.UserId;
+            templateModel.CompanyId = CurrentUser.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
             {
                 var times = templateModel.ScheduleTime.Split(':');

@@ -13,7 +13,7 @@ using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
-    public class ManageCourierApiController : Controller
+    public class ManageCourierApiController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -25,8 +25,7 @@ namespace doorserve.Controllers
         {          
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { SessionModel.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<ManageCourierApiModel>("GetCourierAPIDetails", new { CurrentUser.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }           
            
@@ -34,11 +33,10 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Courier_API)]
         public ActionResult Create()
         {
-            var SessionModel = Session["User"] as SessionModel;
             ManageCourierApiModel courierApiModel = new ManageCourierApiModel
             {
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
-                CourierList = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text")
+                CourierList = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text")
             };
             return View(courierApiModel);
         }
@@ -47,7 +45,6 @@ namespace doorserve.Controllers
         [ValidateModel]
         public ActionResult Create(ManageCourierApiModel model)
         {
-            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
                 {
         
@@ -69,8 +66,8 @@ namespace doorserve.Controllers
                             model.IsLargePacket,
                             model.IsActive,
                             model.Comments,
-                            User = SessionModel.UserId,
-                            SessionModel.CompanyId,
+                            User = CurrentUser.UserId,
+                            CurrentUser.CompanyId,
                             Action = "I",
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                             var response = new ResponseModel();

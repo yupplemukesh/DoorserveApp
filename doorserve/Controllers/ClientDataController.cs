@@ -21,7 +21,7 @@ using doorserve.Repository.ImportFiles;
 namespace doorserve.Controllers
 {
 
-    public class ClientDataController : Controller
+    public class ClientDataController : BaseController
     {
         private readonly IUploadFiles _RepoUploadFile;
         private readonly ICallLog _RepoCallLog;
@@ -41,22 +41,22 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
+
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
-            var filter = new FilterModel { CompId = session.CompanyId };
-            if (session.UserTypeName.ToLower().Contains("client"))
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId };
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
             {
-                filter.ClientId = session.RefKey;
+                filter.ClientId = CurrentUser.RefKey;
                 IsClient = true;
             }
             var clientData = new MainClientDataModel();
-            var serviceType = await CommonModel.GetServiceType(session.CompanyId);
-            var deliveryType = await CommonModel.GetDeliveryServiceType(session.CompanyId);
+            var serviceType = await CommonModel.GetServiceType(CurrentUser.CompanyId);
+            var deliveryType = await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId);
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
             clientData.Client.ClientId = filter.ClientId;
-            clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
+            clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
             clientData.Client.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
             clientData.Client.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
             // new call Log
@@ -67,8 +67,8 @@ namespace doorserve.Controllers
             ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
-                BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text"),
-                CategoryList = new SelectList(_dropdown.BindCategory(session.CompanyId), "Value", "Text"),
+                BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text"),
+                CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SubCategoryList =new SelectList(Enumerable.Empty<SelectListItem>()),
                 ProductList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text"),
@@ -87,10 +87,9 @@ namespace doorserve.Controllers
         }
         public async Task<ActionResult> GetAssignedCalls()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId };
-            if (session.UserRole.ToLower().Contains("client"))
-                filter.ClientId = session.RefKey;
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId };
+            if (CurrentUser.UserRole.ToLower().Contains("client"))
+                filter.ClientId = CurrentUser.RefKey;
             var calls = await _RepoUploadFile.GetAssingedCalls(filter);
             return PartialView("_TotalCallsList", calls);
         }
@@ -120,10 +119,9 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Create()
         {
-            var session = Session["User"] as SessionModel;
             var clientDate = new ClientDataModel();
-            clientDate.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
-            clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
+            clientDate.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
+            clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
             return View(clientDate);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
@@ -131,11 +129,10 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
         {            
-            var session = Session["User"] as SessionModel;
-            clientDataModel.CompanyId = session.CompanyId;
-            clientDataModel.UserId = session.UserId;
+            clientDataModel.CompanyId = CurrentUser.CompanyId;
+            clientDataModel.UserId = CurrentUser.UserId;
             if (clientDataModel.IsClient)
-                clientDataModel.ClientId = session.RefKey;
+                clientDataModel.ClientId = CurrentUser.RefKey;
             string excelPath = Server.MapPath(FilePath + "ClientData");
             if (clientDataModel.DataFile != null)
             {
@@ -217,12 +214,11 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> NewCallLog(CallDetailsModel uploads)
         {
-            var session = Session["User"] as SessionModel;
 
-            uploads.UserId = session.UserId;
-            uploads.CompanyId = session.CompanyId;
-            if (session.UserRole.ToLower().Contains("client"))
-                uploads.ClientId = session.RefKey;
+            uploads.UserId = CurrentUser.UserId;
+            uploads.CompanyId = CurrentUser.CompanyId;
+            if (CurrentUser.UserRole.ToLower().Contains("client"))
+                uploads.ClientId = CurrentUser.RefKey;
             uploads.EventAction = 'I';
             var response = await _RepoCallLog.AddOrEditCallLog(uploads);
             TempData["response"] = response;
@@ -232,10 +228,9 @@ namespace doorserve.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId, tabIndex = tabIndex };
-            if (session.UserRole.ToLower().Contains("Client"))
-                filter.ClientId = session.RefKey;
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, tabIndex = tabIndex };
+            if (CurrentUser.UserRole.ToLower().Contains("Client"))
+                filter.ClientId = CurrentUser.RefKey;
             var response = await _RepoUploadFile.GetExportAssingedCalls(filter);
             byte[] filecontent;
             string[] columns;
@@ -353,17 +348,16 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Edit(string Crn)
         {
-            var SessionModel = Session["User"] as SessionModel;
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
             CallDetailsModel.IsAssingedCall = true;
-            CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
-            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
+            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString()+","+ CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
             CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
-            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
-            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
@@ -401,8 +395,8 @@ namespace doorserve.Controllers
             try
             {
                
-                CallDetailsModel.UserId = SessionModel.UserId;
-                CallDetailsModel.CompanyId = SessionModel.CompanyId;
+                CallDetailsModel.UserId = CurrentUser.UserId;
+                CallDetailsModel.CompanyId = CurrentUser.CompanyId;
                 CallDetailsModel.EventAction = 'U';
                 var response = await _RepoCallLog.AddOrEditCallLog(CallDetailsModel);
                 TempData["response"] = response;
@@ -431,10 +425,9 @@ namespace doorserve.Controllers
 
         public  ActionResult OpenedCallsList()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId,Type='O' };
-            if (session.UserTypeName.ToLower().Contains("client"))
-                filter.ClientId = session.RefKey;
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId,Type='O' };
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = CurrentUser.RefKey;
             var calls = _RepoCallLog.GetClientCalls(filter);
             return PartialView ("_OpenedCallsList", calls);
 
@@ -442,10 +435,9 @@ namespace doorserve.Controllers
         public ActionResult ClosedCallsList()
         {
 
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId, Type = 'C' };
-            if (session.UserTypeName.ToLower().Contains("client"))
-                filter.ClientId = session.RefKey;
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, Type = 'C' };
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = CurrentUser.RefKey;
             var calls = _RepoCallLog.GetClientCalls(filter);
             return PartialView("_ClosedCallsList", calls);
         }
@@ -473,8 +465,7 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> GetCallHistory (Guid DeviceId)
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId, RefKey=DeviceId };
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, RefKey=DeviceId };
             var his = await _RepoCallLog.GetCallHistory(filter);
             return PartialView("_OrderHistory", his);
         }

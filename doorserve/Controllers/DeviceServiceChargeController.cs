@@ -12,7 +12,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class DeviceServiceChargeController : Controller
+    public class DeviceServiceChargeController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -29,11 +29,10 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Device_Service_Charge)]
         public ActionResult AddServiceCharge()
         {
-            var session = Session["User"] as SessionModel;
             ServiceChargeModel scm = new ServiceChargeModel();
-            scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
+            scm.DeviceCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             scm.DeviceSubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
-            scm.BrandList = new SelectList(dropdown.BindBrand(session.CompanyId), "Value", "Text");
+            scm.BrandList = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             scm.ModelNameList = new SelectList(Enumerable.Empty<SelectListItem>());           
             return View(scm);
         }
@@ -47,7 +46,7 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
+                        var CurrentUser = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_ServiceCharge",
                             new
                             {
@@ -64,7 +63,7 @@ namespace doorserve.Controllers
                                 model.MarketPrice,
                                 model.ServiceCharge,
                                 model.IsActive,
-                                User = SessionModel.UserId,
+                                User = CurrentUser.UserId,
                                 Action = "I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel { IsSuccess = false };
@@ -114,13 +113,12 @@ namespace doorserve.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
                 var result = con.Query<ServiceChargeModel>("SELECT * from MstDeviceServiceCharge Where ServiceChargeId=@serviceChargeId", new { @serviceChargeId = ServiceChargeId },
                 commandType: CommandType.Text).FirstOrDefault();               
-                result.DeviceCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                result.DeviceCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                 result.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                result.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                result.ModelNameList = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
+                result.BrandList = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                result.ModelNameList = new SelectList(dropdown.BindProduct(CurrentUser.CompanyId), "Value", "Text");
                 return View(result);
             }
 
@@ -136,7 +134,6 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_ServiceCharge",
                             new
                             {
@@ -153,7 +150,7 @@ namespace doorserve.Controllers
                                 model.MarketPrice,
                                 model.ServiceCharge,
                                 model.IsActive,
-                                User = SessionModel.UserId,
+                                User = CurrentUser.UserId,
                                 Action = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel { IsSuccess = false };

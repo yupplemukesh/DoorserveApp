@@ -13,7 +13,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class NotificationGatewayController : Controller
+    public class NotificationGatewayController : BaseController
     {
 
         private readonly IGateway _gatewayRepo;
@@ -29,10 +29,10 @@ namespace doorserve.Controllers
         {
             var getwaylist = await CommonModel.GetGatewayType();
 
-            var SessionModel = Session["User"] as SessionModel;
+
             var getwayTypeId = getwaylist.Where(x => x.Text == "Notification Gateway").Select(x => x.Value).SingleOrDefault();
 
-            var notificationgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=SessionModel.CompanyId });
+            var notificationgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=CurrentUser.CompanyId });
 
             NotificationGateWayMainModel model = new NotificationGateWayMainModel();
             model.Gateway = new NotificationGatewayModel();
@@ -52,7 +52,7 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(NotificationGatewayModel notificationgateway)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             if (ModelState.IsValid)
             {
                 var gatewayModel = new GatewayModel
@@ -66,8 +66,8 @@ namespace doorserve.Controllers
                     GoogleApiURL = notificationgateway.GoogleApiUrl,
                     GoogleProjectID = notificationgateway.GoogleProjectID,
                     GoogleProjectName = notificationgateway.GoogleProjectName,
-                    UserId = SessionModel.UserId,
-                    CompanyId=SessionModel.CompanyId,
+                    UserId = CurrentUser.UserId,
+                    CompanyId=CurrentUser.CompanyId,
                 };
                 ResponseModel response = new ResponseModel();
                 if (gatewayModel.GatewayId != 0)

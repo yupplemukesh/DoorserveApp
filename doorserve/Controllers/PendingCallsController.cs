@@ -19,7 +19,7 @@ using doorserve.Models.ClientData;
 
 namespace doorserve.Controllers
 {
-    public class PendingCallsController : Controller
+    public class PendingCallsController : BaseController
     {
         private readonly ICustomerSupport _customerSupport;
         private readonly ICallLog _RepoCallLog;
@@ -35,12 +35,12 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel {CompId= session.CompanyId,IsExport=false};
+
+            var filter = new FilterModel {CompId= CurrentUser.CompanyId,IsExport=false};
             var calls = await _customerSupport.GetASPCalls(filter);
-            calls.ClientList = new SelectList(await CommonModel.GetClientData(session.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
-            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(session.CompanyId),"Name","Text") };
+            calls.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId),"Name","Text") };
             return View(calls);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
@@ -50,9 +50,9 @@ namespace doorserve.Controllers
 
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
+
                 allocate.AllocateTo = "ASP";
-                allocate.UserId = SessionModel.UserId;
+                allocate.UserId = CurrentUser.UserId;
                  var response = await _customerSupport.AllocateCall(allocate);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -69,13 +69,13 @@ namespace doorserve.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            var session = Session["User"] as SessionModel;
+
             var filter = new FilterModel
             {
-                CompId = session.CompanyId
+                CompId = CurrentUser.CompanyId
                 ,
                 tabIndex = tabIndex,
-                UserId = session.UserId,
+                UserId = CurrentUser.UserId,
                 Type = tabIndex               
             };
             var response = await _customerSupport.GetASPCalls(filter);
@@ -129,16 +129,16 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Call_Allocate_To_ASP)]
         public async Task<ActionResult> Create()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId, IsExport = false };
+
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, IsExport = false };
             // var Newcalls = await _customerSupport.GetASPCalls(filter);
             var Newcalls = new CallDetailsModel();
-            Newcalls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(session.CompanyId), "Value", "Text");
+            Newcalls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
             
             // IsAssingedCall = true,
-            Newcalls.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(session.CompanyId), "Value", "Text");
-            Newcalls.BrandList = new SelectList(_dropdown.BindBrand(session.CompanyId), "Value", "Text");
-            Newcalls.CategoryList = new SelectList(_dropdown.BindCategory(session.CompanyId), "Value", "Text");
+            Newcalls.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
+            Newcalls.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+            Newcalls.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             Newcalls.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());
             Newcalls.ProductList = new SelectList(Enumerable.Empty<SelectListItem>());
             Newcalls.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
@@ -159,12 +159,12 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CallDetailsModel uploads)
         {
-            var session = Session["User"] as SessionModel;
+    
 
-            uploads.UserId = session.UserId;
-            uploads.CompanyId = session.CompanyId;
-            //if (session.UserRole.ToLower().Contains("client"))
-               // uploads.ClientId = session.RefKey;
+            uploads.UserId = CurrentUser.UserId;
+            uploads.CompanyId = CurrentUser.CompanyId;
+            //if (CurrentUser.UserRole.ToLower().Contains("client"))
+               // uploads.ClientId = CurrentUser.RefKey;
             uploads.EventAction = 'I';
             var response = await _RepoCallLog.AddOrEditCallLog(uploads);
             TempData["response"] = response;
@@ -173,10 +173,10 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Esclated_Calls)]
         public async Task<ActionResult> EscalateCalls(char? Type)
         {
-            var session = Session["User"] as SessionModel;
+
             if (Type ==null)
                 Type = 'A';
-            var filter = new FilterModel { CompId = session.CompanyId ,Type= Convert.ToChar(Type),UserId=session.UserId };
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId ,Type= Convert.ToChar(Type),UserId=CurrentUser.UserId };
 
             var calls = new EsclatedCallsViewModel();
             calls.Calls= await _RepoCallLog.GetExclatedCalls(filter);
@@ -186,8 +186,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Esclated_Calls)]
         public async Task<ActionResult> Cancel()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId };
+
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId };
             var _calls = await _RepoCallLog.GetCancelRequestedData(filter);
             return View(_calls);
         }

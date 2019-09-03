@@ -15,7 +15,7 @@ using doorserve.Permission;
 namespace doorserve.Controllers
 {
    
-    public class LogisticsController : Controller
+    public class LogisticsController : BaseController
     {
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -233,9 +233,9 @@ namespace doorserve.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
 
-                var session = Session["User"] as SessionModel;
-                ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(session.CompanyId), "Value", "Text");
-                ViewBag.CourierName = new SelectList(dropdown.BindCourier(session.CompanyId), "Value", "Text");
+
+                ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(CurrentUser.CompanyId), "Value", "Text");
+                ViewBag.CourierName = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
                 ViewBag.CallStatus = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
                 var result = con.Query<ReverseAWB_AllocationModel>("GetDataIn_Reverse_AWB_Allocation",
                         new { CC_NO = CC_NO }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -345,10 +345,9 @@ namespace doorserve.Controllers
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
-            var SessionModel = Session["User"] as SessionModel;
             ViewBag.CallStatus = new SelectList(dropdown.BindCall_Status_Master(), "Value", "Text");
-            ViewBag.CourierName = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.EngineerName = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
+            ViewBag.CourierName = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.EngineerName = new SelectList(dropdown.BindEngineer(CurrentUser.CompanyId), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = new URSSEModel();

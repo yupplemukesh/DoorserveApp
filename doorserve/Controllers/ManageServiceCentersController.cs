@@ -23,7 +23,7 @@ using System.Data;
 namespace doorserve.Controllers
 {
 
-    public class ManageServiceCentersController : Controller
+    public class ManageServiceCentersController : BaseController
     {
         private readonly ICenter _Center;
         private readonly IProvider _Provider;
@@ -54,14 +54,14 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Service_Center_TRC)]
         public  async Task<ActionResult> Index()
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             Guid? ProviderId = null;
             Guid? CenterId = null;
-            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
-                ProviderId = SessionModel.RefKey;
-           if (SessionModel.UserTypeName.ToLower().Contains("center"))
-                CenterId = SessionModel.RefKey;
-            var filter = new FilterModel { CompId = SessionModel.CompanyId,RefKey= CenterId, ProviderId= ProviderId };
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
+                ProviderId = CurrentUser.RefKey;
+           if (CurrentUser.UserTypeName.ToLower().Contains("center"))
+                CenterId = CurrentUser.RefKey;
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId,RefKey= CenterId, ProviderId= ProviderId };
             var Centers = await _Center.GetCenters(filter);           
             return View(Centers);
         }
@@ -92,7 +92,7 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             if (bank.BankCancelledChequeFilePath != null && bank.BankCancelledChequeFileName != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path+"Banks/" + bank.BankCancelledChequeFileName)))
@@ -105,7 +105,7 @@ namespace doorserve.Controllers
                 bank.EventAction = 'U';
             else
                 bank.EventAction = 'I';
-              bank.UserId = SessionModel.UserId;
+              bank.UserId = CurrentUser.UserId;
             if (TempData["center"] != null)
             {
                 var _center = TempData["center"] as ServiceCenterModel;
@@ -138,7 +138,7 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
 
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)    
             {   
@@ -170,8 +170,8 @@ namespace doorserve.Controllers
                 contact.EventAction = 'U';
             else
                 contact.EventAction = 'I';
-            contact.UserId = SessionModel.UserId;
-            contact.CompanyId = SessionModel.CompanyId;
+            contact.UserId = CurrentUser.UserId;
+            contact.CompanyId = CurrentUser.CompanyId;
             
             if (TempData["center"] != null)
             {
@@ -188,8 +188,8 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionId(12,SessionModel.CompanyId);
-                        SessionModel.Email = contact.ConEmailAddress;
+                        var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
+                        CurrentUser.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = contact.ConFirstName;
@@ -197,18 +197,18 @@ namespace doorserve.Controllers
                         U.Val = pwd;
                         U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                         U.Val = contact.ConEmailAddress;
-                        SessionModel.Mobile = contact.ConMobileNumber;
+                        CurrentUser.Mobile = contact.ConMobileNumber;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates != null)
-                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                            await _emailSmsServices.Send(Templates, c, CurrentUser);
                     }
                 }
                 else
                 {
                     if (contact.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionId(12,SessionModel.CompanyId);
-                        SessionModel.Email = contact.ConEmailAddress;
+                        var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
+                        CurrentUser.Email = contact.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = contact.ConFirstName;
@@ -216,10 +216,10 @@ namespace doorserve.Controllers
                         U.Val = pwd;
                         U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                         U.Val = contact.ConEmailAddress;
-                        SessionModel.Mobile = contact.ConMobileNumber;
+                        CurrentUser.Mobile = contact.ConMobileNumber;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates != null)
-                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                            await _emailSmsServices.Send(Templates, c, CurrentUser);
                     }
 
                 }
@@ -251,21 +251,21 @@ namespace doorserve.Controllers
         private async Task<ServiceCenterModel> GetCenter(Guid ? centerId)
         {
 
-            var SessionModel = Session["User"] as SessionModel;
+
             var Center = await _Center.GetCenterById(centerId);
             Center.Path = _path;
 
-            if (SessionModel.UserRole.ToLower().Contains("provider"))
+            if (CurrentUser.UserRole.ToLower().Contains("provider"))
             {
-                var providerId = SessionModel.RefKey;
+                var providerId = CurrentUser.RefKey;
                 var provider = await _Provider.GetProviderById(providerId);
                 Center.IsProvider = true;
             }
 
-            else if (SessionModel.UserRole.ToLower().Contains("company"))
+            else if (CurrentUser.UserRole.ToLower().Contains("company"))
             {
                 Center.IsCompany = true;
-                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
 
             }
             else
@@ -281,14 +281,14 @@ namespace doorserve.Controllers
 
             if (Center.Organization == null)
                 Center.Organization = new OrganizationModel();
-            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            Center.SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Center.ServiceList = await doorserve.CommonModel.GetServiceType(SessionModel.CompanyId);
-            Center.DeliveryServiceList = await doorserve.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId);
+            Center.ServiceList = await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId);
+            Center.DeliveryServiceList = await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId);
             Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Center.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -345,7 +345,6 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
-            var SessionModel = Session["User"] as SessionModel;
             var statutory = await CommonModel.GetStatutoryType();
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             var cltns = TempData["center"] as ServiceCenterModel;     
@@ -359,13 +358,13 @@ namespace doorserve.Controllers
             Center.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
             Center.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
             Center.Contact.LocationList = new SelectList(dropdown.BindLocation(), "Value", "Text");
-            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+            Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             Center.Service = new ServiceOfferedModel
             {
-                SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
-                ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text"),
-                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text"),
+                ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text"),
+                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text"),
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
                 CityList = new SelectList(Enumerable.Empty<SelectList>()),
@@ -374,16 +373,16 @@ namespace doorserve.Controllers
             };
 
 
-            if (SessionModel.UserTypeName.ToLower().Contains("super admin"))
+            if (CurrentUser.UserTypeName.ToLower().Contains("super admin"))
             {
                 Center.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
                 
             }
-            else if (SessionModel.UserTypeName.ToLower().Contains("company"))
+            else if (CurrentUser.UserTypeName.ToLower().Contains("company"))
             {
                 Center.IsCompany = true;
-                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
-                Center.CompanyId = SessionModel.CompanyId;
+                Center.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
+                Center.CompanyId = CurrentUser.CompanyId;
             }
             
 
@@ -397,7 +396,7 @@ namespace doorserve.Controllers
             // if (!SessionModel.UserTypeName.ToLower().Contains("super admin"))
             //Center.CompanyId = SessionModel.CompanyId;
             Center.Activetab = "tab-1";
-            Center.CreatedBy = SessionModel.UserId;            
+            Center.CreatedBy = CurrentUser.UserId;            
             var response = await _Center.AddUpdateDeleteCenter(Center);
             _Center.Save();
             Center.CenterId = new Guid(response.result);
@@ -423,7 +422,7 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var cltns = TempData["center"] as ServiceCenterModel;
             if (TempData["center"] != null)
             {
@@ -459,7 +458,7 @@ namespace doorserve.Controllers
             {
 
                 Center.Activetab = "tab-2";
-                Center.CreatedBy = SessionModel.UserId;
+                Center.CreatedBy = CurrentUser.UserId;
                 var response = await _Center.AddUpdateDeleteCenter(Center);
                 _Center.Save();
                 Center.CenterId = new Guid(response.result);
@@ -494,7 +493,6 @@ namespace doorserve.Controllers
         public async Task<ActionResult> AddOrEditClientReg(ServiceCenterModel Center)
         {
 
-            var SessionModel = Session["User"] as SessionModel;
 
 
             var cltns = TempData["center"] as ServiceCenterModel;
@@ -509,7 +507,7 @@ namespace doorserve.Controllers
             {
 
                 Center.Activetab = "tab-5";
-                Center.CreatedBy = SessionModel.UserId;
+                Center.CreatedBy = CurrentUser.UserId;
                 var response = await _Center.AddUpdateDeleteCenter(Center);
                 _Center.Save();
                 Center.CenterId = new Guid(response.result);
@@ -543,7 +541,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         public async Task<ActionResult> ManageService(Guid RefKey, Guid? ServiceId)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var service = new ServiceModel();
             if (ServiceId != null)
             {
@@ -557,9 +555,9 @@ namespace doorserve.Controllers
                 service.RefKey = RefKey;
             }
 
-            service.SupportedCategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            service.ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
-            service.DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+            service.SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            service.ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            service.DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
             return View(service);
 
         }
@@ -587,7 +585,7 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> ManageServiceableAreaPinCode(Guid ServiceId)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var service = new ManageServiceModel();
             service.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId = null });
             service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
@@ -607,7 +605,7 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> ServiceableAreaPinCode(Guid? ServiceId, Guid? FileId)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var service = await _services.GetServiceAreaPins(new FilterModel { ServiceId = ServiceId, FileId = FileId });
             return View(service);
         }
@@ -625,12 +623,12 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> ManageServiceableAreaPinCode(ServiceOfferedModel service)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             if (service.ServiceAreaId != null)
                 service.EventAction = 'U';
             else
                 service.EventAction = 'I';
-            service.UserId = SessionModel.UserId;
+            service.UserId = CurrentUser.UserId;
             var response = await _services.AddOrEditServiceableAreaPin(service);
 
             TempData["response"] = response;
@@ -683,9 +681,9 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> ImportServiceableAreaPinCodes(ProviderFileModel provider)
         {
-            var SessionModel = Session["User"] as SessionModel;
-            provider.CompanyId = SessionModel.CompanyId;
-            provider.UserId = SessionModel.UserId;
+
+            provider.CompanyId = CurrentUser.CompanyId;
+            provider.UserId = CurrentUser.UserId;
 
             if (provider.DataFile != null)
             {

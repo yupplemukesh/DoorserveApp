@@ -14,7 +14,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class ManageSACCodesController : Controller
+    public class ManageSACCodesController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -62,7 +62,7 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                      var SessionModel = Session["User"] as SessionModel;
+
                         var result = con.Query<int>("Add_Edit_Delete_SACCodes",
                             new
                             {
@@ -85,8 +85,8 @@ namespace doorserve.Controllers
                                 model.Description_Of_Goods,
                                 model.IsActive,
                                 model.Comments,
-                                User = SessionModel.UserId,
-                                SessionModel.CompanyId,
+                                User = CurrentUser.UserId,
+                                CurrentUser.CompanyId,
                                 ACTION = "I"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
@@ -117,8 +117,7 @@ namespace doorserve.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<SacCodesModel>("Get_SacCodes", new { companyId = SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<SacCodesModel>("Get_SacCodes", new { companyId = CurrentUser.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
             
@@ -131,7 +130,7 @@ namespace doorserve.Controllers
          
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
+
                 var result = con.Query<SacCodesModel>("Select * from MstSacCodes Where SacCodesId=@SacCodesId", new { @SacCodesId = sacCodeId },
                     commandType: CommandType.Text).FirstOrDefault();
                 result.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -167,7 +166,7 @@ namespace doorserve.Controllers
         [HttpPost]
         public ActionResult EditSacCode(SacCodesModel model)
         {
-          var SessionModel = Session["User"] as SessionModel;
+
             try
             {
                 if (ModelState.IsValid)
@@ -198,8 +197,8 @@ namespace doorserve.Controllers
                                 model.Description_Of_Goods,
                                 model.IsActive,
                                 model.Comments,
-                                User = SessionModel.UserId,
-                                SessionModel.CompanyId,
+                                User = CurrentUser.UserId,
+                                CurrentUser.CompanyId,
                                 ACTION = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 2)

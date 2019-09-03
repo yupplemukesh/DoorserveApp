@@ -16,7 +16,7 @@ using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
-    public class UserController : Controller
+    public class UserController :BaseController
     {
         private readonly string _connectionString =
           ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -35,9 +35,9 @@ namespace doorserve.Controllers
         public async Task<ActionResult> AddUser()
         {
 
-            var session = Session["User"] as SessionModel;
+
             var user = new UserModel { RegionList = new SelectList(
-                await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text"),                 
+                await CommonModel.GetRegionListByComp(CurrentUser.CompanyId), "Name", "Text"),                 
                     LocationList = new SelectList(Enumerable.Empty<SelectList>())
 
         };
@@ -49,18 +49,18 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> AddUser(UserModel objUser)
         {
-            var session = Session["User"] as SessionModel;
+
             if (!ModelState.IsValid)
 
             {
                 objUser.RegionList = new SelectList(
-                await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text");
+                await CommonModel.GetRegionListByComp(CurrentUser.CompanyId), "Name", "Text");
                 objUser.LocationList = new SelectList( _drp.BindLocationByPinCode(objUser.PinNumber),"Value","Text");
                 return View(objUser);
 
             }
 
-            objUser.UserLoginId = session.UserId;            
+            objUser.UserLoginId = CurrentUser.UserId;            
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -83,8 +83,8 @@ namespace doorserve.Controllers
                             objUser.IsActive,
                             objUser.UserLoginId,
                             userTypeId = objUser.UserTypeId,
-                            RefId = session.RefKey,
-                            companyId = session.CompanyId,
+                            RefId = CurrentUser.RefKey,
+                            companyId = CurrentUser.CompanyId,
                             objUser.RegionId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
@@ -98,8 +98,8 @@ namespace doorserve.Controllers
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";      
-                    var Templates = await _templateRepo.GetTemplateByActionId(12, session.CompanyId);
-                    session.Email = objUser.ConEmailAddress;
+                    var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
+                    CurrentUser.Email = objUser.ConEmailAddress;
                     var WildCards = await CommonModel.GetWildCards();
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                     U.Val = objUser.ConFirstName;
@@ -107,10 +107,10 @@ namespace doorserve.Controllers
                     U.Val =objUser.Password ;
                     U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                     U.Val = objUser.UserName;
-                    session.Mobile = objUser.ConMobileNumber;
+                    CurrentUser.Mobile = objUser.ConMobileNumber;
                     var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                     if (Templates.Count>0)
-                        await _emailSmsServices.Send(Templates, c, session);
+                        await _emailSmsServices.Send(Templates, c, CurrentUser);
 
                 }
                     else
@@ -130,7 +130,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         public async Task<ActionResult> EditUser(Int64 id = 0)
         {
-            var session = Session["User"] as SessionModel;
+
             User objUser = new User();
             Int64 UserId = id;
             using (var con = new SqlConnection(_connectionString))
@@ -159,7 +159,7 @@ namespace doorserve.Controllers
                     objUser.LocationId= result.LocationId;
                     objUser.ConEmailAddress = result.ConEmailAddress;
                     objUser.LocationList = new SelectList(_drp.BindLocationByPinCode(result.PinNumber), "Value", "Text");
-                    objUser.RegionList = new SelectList(await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text");
+                    objUser.RegionList = new SelectList(await CommonModel.GetRegionListByComp(CurrentUser.CompanyId), "Name", "Text");
                     objUser.CurrentEmail = result.ConEmailAddress;
                     objUser.UserTypeId = result.UserTypeId;
                 }
@@ -172,16 +172,16 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> EditUser(User objUser)
         {
-            var session = Session["User"] as SessionModel;
+           
             if (!ModelState.IsValid)
             {
                 objUser.RegionList = new SelectList(
-                await CommonModel.GetRegionListByComp(session.CompanyId), "Name", "Text");
+                await CommonModel.GetRegionListByComp(CurrentUser.CompanyId), "Name", "Text");
                 objUser.LocationList = new SelectList(_drp.BindLocationByPinCode(objUser.PinNumber), "Value", "Text");
                 return View(objUser);
 
             }
-            objUser.UserLoginId = session.UserId;
+            objUser.UserLoginId = CurrentUser.UserId;
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -211,8 +211,8 @@ namespace doorserve.Controllers
                                 objUser.IsActive,
                                 objUser.UserLoginId,
                                 userTypeId = objUser.UserTypeId,
-                                RefId = session.RefKey,
-                                companyId = session.CompanyId,
+                                RefId = CurrentUser.RefKey,
+                                companyId = CurrentUser.CompanyId,
                                 objUser.RegionId
 
 
@@ -249,21 +249,21 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Users)]
         public ActionResult UserList()
         {
-            var session = Session["User"] as SessionModel;
+          
             int UserId = 0;
             Guid? RefKey = null;
             Guid? CompanyId = null;
-            if (session.UserRole.ToLower().Contains("super admin"))
-                UserId = session.UserId;
-            else if (session.UserRole.ToLower().Contains("company admin"))
-                CompanyId = session.CompanyId;
+            if (CurrentUser.UserRole.ToLower().Contains("super admin"))
+                UserId = CurrentUser.UserId;
+            else if (CurrentUser.UserRole.ToLower().Contains("company admin"))
+                CompanyId = CurrentUser.CompanyId;
             else
-                RefKey = session.RefKey;
+                RefKey = CurrentUser.RefKey;
 
             List<User> UserList = new List<User>();
             using (var con = new SqlConnection(_connectionString))
             {
-                UserId = session.UserId;
+                UserId = CurrentUser.UserId;
                 var result = con.Query<dynamic>("GETUSERLIST", new { UserId,RefKey, CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 foreach(var item in result)
@@ -305,25 +305,25 @@ namespace doorserve.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var session = Session["User"] as SessionModel;
+
                     var encrpt_OldPass = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.CurrentPassword, true);
                     var encrpt_NewPass = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Encrypt(reset.NewPassword, true);
-                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { session.UserId, OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
+                    var response =  con.Query<ResponseModel>("ChangePassword_Proc", new { CurrentUser.UserId, OldPassword = encrpt_OldPass, NewPassword = encrpt_NewPass },
                                             commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (response.ResponseCode == 0)
                     {
                         response.IsSuccess = true;
-                        var Templates = await _templateRepo.GetTemplateByActionId(7,session.CompanyId);
-                        session.Email = User.Identity.Name;
+                        var Templates = await _templateRepo.GetTemplateByActionId(7,CurrentUser.CompanyId);
+                        CurrentUser.Email = User.Identity.Name;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
-                        U.Val = session.UserName;
+                        U.Val = CurrentUser.UserName;
                          U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
                         U.Val = reset.NewPassword;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
 
                         if (Templates != null)
-                            await _emailSmsServices.Send(Templates, c, session);
+                            await _emailSmsServices.Send(Templates, c, CurrentUser);
                     }
                     else
                        response.IsSuccess = false;                  
@@ -335,9 +335,9 @@ namespace doorserve.Controllers
        
         public ActionResult UserProfile()
         {
-            var SessionModel = Session["User"] as SessionModel;
+           
             User objUser = new User();
-            int UserId = SessionModel.UserId;
+            int UserId = CurrentUser.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
 
@@ -364,7 +364,7 @@ namespace doorserve.Controllers
                     objUser._UserRole.RoleName = result.RoleName;
                     objUser._OrganizationModel.OrgCode = result.OrgCode;
                     objUser._OrganizationModel.OrgName = result.OrgName;
-                    objUser.RefName = SessionModel.RefName;
+                    objUser.RefName = CurrentUser.RefName;
                 }
             }
 

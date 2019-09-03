@@ -16,7 +16,7 @@ using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
-    public class ManagePinZIPCodeController : Controller
+    public class ManagePinZIPCodeController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -36,11 +36,11 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Create()
         {
-            var SessionModel = Session["User"] as SessionModel;
+
 
             CourierPinZipCode courierPinZipCode = new CourierPinZipCode
             {
-                CourierList = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text"),
+                CourierList = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text"),
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 CityList = new SelectList(Enumerable.Empty<SelectListItem>())            
@@ -52,7 +52,6 @@ namespace doorserve.Controllers
         [ValidateModel]
         public ActionResult Create(CourierPinZipCode model)
         {
-            var SessionModel = Session["User"] as SessionModel;
             using (var con = new SqlConnection(_connectionString))
                 {                   
                         var result = con.Query<int>("Add_Edit_Delete_CourierPinZipCode",
@@ -75,7 +74,7 @@ namespace doorserve.Controllers
                             model.OrderPreference,
                             model.IsActive,
                             model.Comments,                            
-                            User = SessionModel.UserId,
+                            User = CurrentUser.UserId,
                             Action = "I"
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                        var response = new ResponseModel();
@@ -105,7 +104,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Pin_Zip_Code)]
         public ActionResult Edit(int pinZipId)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             DropdownBindController dropdownBindController=new DropdownBindController();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -119,7 +118,7 @@ namespace doorserve.Controllers
                     result.Courier = result.CourierID.ToString();
                     result.PIN_Country1 = result.Pin_CountryID.ToString();
                     result.CountryList= new SelectList(dropdown.BindCountry(), "Value", "Text");
-                    result.CourierList= new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
+                    result.CourierList= new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
                     result.StateList = new SelectList(dropdownBindController.BindState(result.Pin_CountryID),"Value","Text");
                     result.CityList = new SelectList(dropdownBindController.BindLocation(result.Pin_State), "Value", "Text");
                     result.PIN_State1 = result.Pin_State.ToString();
@@ -134,7 +133,6 @@ namespace doorserve.Controllers
         [ValidateModel]
         public ActionResult Edit(CourierPinZipCode model)
         {
-            var SessionModel = Session["User"] as SessionModel;
             int PinZipId = Convert.ToInt32(TempData["PinZipId"]);
                 model.Pin_ZIP_ID = PinZipId;
                 using (var con = new SqlConnection(_connectionString))
@@ -159,7 +157,7 @@ namespace doorserve.Controllers
                                 model.OrderPreference,
                                 model.IsActive,
                                 model.Comments,                                
-                                User = SessionModel.UserId,
+                                User = CurrentUser.UserId,
                                 Action = "U"
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -186,10 +184,9 @@ namespace doorserve.Controllers
         [HttpGet]
         public ActionResult Mass_Courier_UPload()
         {
-            var SessionModel = Session["User"] as SessionModel;
 
             ViewBag.CountryBulk = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            ViewBag.CourierBulk = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
+            ViewBag.CourierBulk = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.PIN_CountryBulk = new SelectList(dropdown.BindCountry(), "Value", "Text");
             ViewBag.PIN_StateBulk = new SelectList(Enumerable.Empty<SelectListItem>());
             ViewBag.PIN_CityBulk = new SelectList(Enumerable.Empty<SelectListItem>());

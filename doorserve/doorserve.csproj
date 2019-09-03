@@ -206,6 +206,7 @@
     <Compile Include="AutoMapper\AutoMapperConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActionTypesController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CallAppointmentController.cs" />
     <Compile Include="Controllers\CallToASCController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -1666,6 +1667,7 @@
     <Folder Include="Models\Menu\" />
     <Folder Include="UploadedImages\" />
     <Folder Include="UploadExcel\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Custo_PCRC\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\DropdownBind\" />

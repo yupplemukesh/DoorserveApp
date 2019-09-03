@@ -12,7 +12,7 @@ using doorserve.Repository.EmailHeaderFooters;
 
 namespace doorserve.Controllers
 {
-    public class TemplatePartController : Controller
+    public class TemplatePartController : BaseController
     {
         private readonly ITemplateParts _templatePartRepo;
         public TemplatePartController()
@@ -23,9 +23,9 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Template_Part)]
         public async Task<ActionResult> Index()
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var templatePart =new TemplatePartMainModel();
-            templatePart.mainModel = await _templatePartRepo.GetTemplatePart(new Filters.FilterModel {CompId=SessionModel.CompanyId });
+            templatePart.mainModel = await _templatePartRepo.GetTemplatePart(new Filters.FilterModel {CompId= CurrentUser.CompanyId });
             templatePart.TemplatePart = new TemplatePartModel();
             return View(templatePart);
         }
@@ -41,7 +41,7 @@ namespace doorserve.Controllers
         {
             if (ModelState.IsValid)
             {
-                var SessionModel = Session["User"] as SessionModel;
+
                 var templatepartModel = new TemplatePartModel
                 {
                     TemplatePartId = templatepart.TemplatePartId,                    
@@ -49,8 +49,8 @@ namespace doorserve.Controllers
                     IsActive= templatepart.IsActive,
                     HTMLPart = templatepart.HTMLPart,
                     PlainTextPart = templatepart.PlainTextPart,
-                    UserId = SessionModel.UserId,
-                    CompanyId=SessionModel.CompanyId
+                    UserId = CurrentUser.UserId,
+                    CompanyId= CurrentUser.CompanyId
                 };
                 ResponseModel response = new ResponseModel();
                 if (templatepartModel.TemplatePartId != 0)

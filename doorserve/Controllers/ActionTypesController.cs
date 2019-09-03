@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using doorserve.Filters;
 using doorserve.Models;
 using doorserve.Permission;
 using doorserve.Repository;
 
 namespace doorserve.Controllers
 {
-    public class ActionTypesController : Controller
+    public class ActionTypesController : BaseController
     {
 
         private readonly IActionTypes _actionTypeModel;
@@ -33,19 +34,16 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Action_Types)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Create(ActionTypeModel actiontype)
         {
-            if (ModelState.IsValid)
-            {
-                var session = Session["User"] as SessionModel;
-                actiontype.AddeddBy = session.UserId;
+         
+                actiontype.AddeddBy = CurrentUser .UserId;
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'I');
                 _actionTypeModel.Save();
                 TempData["response"] = response;
                 return RedirectToAction("Index");
-            }
-            else
-                return View(actiontype);
+           
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Action_Types)]
@@ -56,21 +54,16 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Action_Types)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Edit(ActionTypeModel actiontype)
         {
-            if (ModelState.IsValid)
-            {
-
-                var session = Session["User"] as SessionModel;
-                actiontype.AddeddBy = session.UserId;
+                       
+                actiontype.AddeddBy = CurrentUser.UserId;
                 var response = await _actionTypeModel.AddUpdateDeleteActionTypes(actiontype, 'U');
                 _actionTypeModel.Save();
                 TempData["response"] = response;
                 return RedirectToAction("Index");
-            }
-            else
-
-                return View(actiontype);
+          
         
         }
 

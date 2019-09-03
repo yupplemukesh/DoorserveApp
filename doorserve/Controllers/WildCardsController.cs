@@ -12,7 +12,7 @@ using doorserve.Repository.WildCards;
 
 namespace doorserve.Controllers
 {
-    public class WildCardsController : Controller
+    public class WildCardsController : BaseController
     {
         private readonly IWildCards _wildCardRepo;
         public WildCardsController()
@@ -23,8 +23,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Wild_Cards)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
-            var wildcards = await _wildCardRepo.GetWildCards(new FilterModel { CompId= session.CompanyId} );
+      
+            var wildcards = await _wildCardRepo.GetWildCards(new FilterModel { CompId= CurrentUser.CompanyId} );
   
             return View(wildcards);
         }
@@ -39,9 +39,9 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(WildCardModel wildcardModel)
         {
-            var SessionModel = Session["User"] as SessionModel;
-            wildcardModel.UserId = SessionModel.UserId;
-                wildcardModel.CompanyId = SessionModel.CompanyId;
+
+            wildcardModel.UserId = CurrentUser.UserId;
+                wildcardModel.CompanyId = CurrentUser.CompanyId;
                 var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'I');
                 _wildCardRepo.Save();
                 TempData["response"] = response;
@@ -68,9 +68,9 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(WildCardModel wildcardModel)
         {
-            var SessionModel = Session["User"] as SessionModel;
-            wildcardModel.UserId = SessionModel.UserId;
-                wildcardModel.CompanyId = SessionModel.CompanyId;
+    
+            wildcardModel.UserId = CurrentUser.UserId;
+                wildcardModel.CompanyId = CurrentUser.CompanyId;
 
                 var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'U');
                 _wildCardRepo.Save();

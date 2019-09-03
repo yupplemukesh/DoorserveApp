@@ -14,7 +14,7 @@ using doorserve.Models;
 
 namespace doorserve.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly string _connectionString =
              ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -24,10 +24,9 @@ namespace doorserve.Controllers
         [Authorize]
         public ActionResult DynamicLinks()
         {
-            var session = Session["User"] as SessionModel;
             MenuMasterModel objMenuMaster;
-            if (session !=null)
-             objMenuMaster = session.Menues;
+            if (CurrentUser != null)
+             objMenuMaster = CurrentUser.Menues;
            else
              objMenuMaster = new MenuMasterModel();
             return PartialView("_SideMenu", objMenuMaster);

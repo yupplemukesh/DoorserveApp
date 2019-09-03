@@ -13,7 +13,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class SMSGatewayController : Controller
+    public class SMSGatewayController : BaseController
     {
         private readonly IGateway  _gatewayRepo;
         public SMSGatewayController()
@@ -24,13 +24,13 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.SMS_Gateway_Settings)]
         public async Task<ActionResult> Index()
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             var getwaylist = await CommonModel.GetGatewayType();
 
 
             var getwayTypeId = getwaylist.Where(x => x.Text == "SMS Gateway").Select(x => x.Value).SingleOrDefault();
             
-            var smsgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=SessionModel.CompanyId });
+            var smsgateway = await _gatewayRepo.GetGatewayByType(new Filters.FilterModel {GatewayTypeId=getwayTypeId,CompId=CurrentUser.CompanyId });
             
             SMSGateWayMainModel model = new SMSGateWayMainModel();
             model.Gateway = new SMSGatewayModel();
@@ -52,7 +52,7 @@ namespace doorserve.Controllers
         {
             if (ModelState.IsValid)
             {
-                var SessionModel = Session["User"] as SessionModel;
+
                 var gatewayModel = new GatewayModel {
                     GatewayId = smsgateway.GatewayId,
                     GatewayTypeId = smsgateway.GatewayTypeId,
@@ -63,8 +63,8 @@ namespace doorserve.Controllers
                     URL = smsgateway.URL,
                     OTPSender = smsgateway.OTPSender,
                     SuccessMessage = smsgateway.SuccessMessage,
-                    UserId = SessionModel.UserId,
-                    CompanyId=SessionModel.CompanyId
+                    UserId = CurrentUser.UserId,
+                    CompanyId=CurrentUser.CompanyId
                 };
                 ResponseModel response= new ResponseModel();
                 if (gatewayModel.GatewayId != 0)

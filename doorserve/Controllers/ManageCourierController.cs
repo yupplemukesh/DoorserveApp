@@ -15,7 +15,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class ManageCourierController : Controller
+    public class ManageCourierController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -49,8 +49,7 @@ namespace doorserve.Controllers
         {            
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<ManageCourierModel>("GETCourierMasterData", new { SessionModel.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
+                var result = con.Query<ManageCourierModel>("GETCourierMasterData", new { CurrentUser.CompanyId, }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }           
             
@@ -84,7 +83,6 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
                         string UploadedCourierFile = SaveImageFile(model.UploadedCourierFilePath, "Courier/Logo");
                         string UploadedGSTFile = SaveImageFile(model.UploadedGSTFilePath, "Courier/Gst");
                         string PANCardFile = SaveImageFile(model.PANCardFilePath, "Courier/PanCards");
@@ -175,8 +173,8 @@ namespace doorserve.Controllers
                                 model.LuluandSky_Status,
                                 model.Comments,
                                 model.IsActive,
-                                User = SessionModel.UserId,
-                                SessionModel.CompanyId,
+                                User = CurrentUser.UserId,
+                                CurrentUser.CompanyId,
                                 Action = "I",
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();
@@ -295,7 +293,6 @@ namespace doorserve.Controllers
         {
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
                 if (ModelState.IsValid)
                 {
                     using (var con = new SqlConnection(_connectionString))
@@ -490,8 +487,8 @@ namespace doorserve.Controllers
                                 model.LuluandSky_Status,
                                 model.Comments,
                                 model.IsActive,
-                                User = SessionModel.UserId,
-                                SessionModel.CompanyId,
+                                User = CurrentUser.UserId,
+                                CurrentUser.CompanyId,
                                 Action = "U",
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 

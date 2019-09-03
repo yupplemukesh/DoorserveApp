@@ -14,7 +14,7 @@ using doorserve.Models;
 
 namespace doorserve.Controllers
 {
-    public class ReportsController : Controller
+    public class ReportsController : BaseController
     {
         private readonly string _connectionString =
           ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -33,10 +33,10 @@ namespace doorserve.Controllers
         }
         public ActionResult FilterOfRepairReport()
         {
-            var SessionModel = Session["User"] as SessionModel;
+
 
             ViewBag.TrcName = new SelectList(dropdown.BindTrc(), "Value", "Text");
-            ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(SessionModel.CompanyId), "Value", "Text");
+            ViewBag.ServiceProviderName = new SelectList(dropdown.BindServiceProvider(CurrentUser.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]

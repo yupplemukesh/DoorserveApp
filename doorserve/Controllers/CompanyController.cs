@@ -15,7 +15,7 @@ using doorserve.Filters;
 
 namespace doorserve.Controllers
 {
-    public class ManageCompanyController : Controller
+    public class ManageCompanyController : BaseController
     {
        private readonly DropdownBindController _dropdown;
        private readonly ICompany _compRepo;
@@ -42,9 +42,7 @@ namespace doorserve.Controllers
         public async  Task<ActionResult> Index()
         {
 
-
-            var SessionModel = Session["User"] as SessionModel;
-            var _com = await _compRepo.GetCompanyDetails(SessionModel.CompanyId);
+            var _com = await _compRepo.GetCompanyDetails(CurrentUser.CompanyId);
             return View(_com);
         }
         private string SaveImageFile(HttpPostedFileBase file, string folderName)
@@ -104,8 +102,7 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> AddOrEditCompany(CompanyModel comp)
         {
-            var SessionModel = Session["User"] as SessionModel;
-            comp.CreatedBy = SessionModel.UserId;
+            comp.CreatedBy = CurrentUser.UserId;
             if (comp.CompanyLogo != null && comp.CompanyPath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path+"Logo/" + comp.CompanyLogo)))
@@ -211,7 +208,6 @@ namespace doorserve.Controllers
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
 
-            var SessionModel = Session["User"] as SessionModel;
             if (organization.OrgGSTFileName != null && organization.OrgGSTNumberFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Gsts/" + organization.OrgGSTFileName)))
@@ -235,7 +231,7 @@ namespace doorserve.Controllers
             organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
             organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
             organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
-            organization.UserId = SessionModel.UserId;
+            organization.UserId = CurrentUser.UserId;
 
             CompanyModel comp = new CompanyModel();
            if (TempData["Comp"] !=null)
@@ -265,7 +261,6 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(OtherContactPersonModel contact)
         {
-            var SessionModel = Session["User"] as SessionModel;
             if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
@@ -294,7 +289,7 @@ namespace doorserve.Controllers
                 contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
         
             contact.UserTypeId = 1;
-            contact.UserId = SessionModel.UserId;
+            contact.UserId = CurrentUser.UserId;
             contact.CompanyId = contact.RefKey;
 
             if (contact.ContactId == null)
@@ -310,10 +305,10 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser && !contact.CurrentIsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionId(12, SessionModel.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
                         if (Templates.Count > 0)
                         {
-                            SessionModel.Email = contact.ConEmailAddress;
+                            CurrentUser.Email = contact.ConEmailAddress;
                             var WildCards = await CommonModel.GetWildCards();
                             var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                             U.Val = contact.ConFirstName;
@@ -321,9 +316,9 @@ namespace doorserve.Controllers
                             U.Val = pwd;
                             U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                             U.Val = contact.ConEmailAddress;
-                            SessionModel.Mobile = contact.ConMobileNumber;
+                            CurrentUser.Mobile = contact.ConMobileNumber;
                             var c = WildCards.Where(x => x.Val != string.Empty).ToList();
-                                await _emailSmsServices.Send(Templates, c, SessionModel);
+                                await _emailSmsServices.Send(Templates, c, CurrentUser);
                         }
                     }
                 }
@@ -331,10 +326,10 @@ namespace doorserve.Controllers
                 {
                     if (contact.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionId(12, SessionModel.CompanyId);
+                        var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
                         if (Templates.Count > 0)
                         {
-                            SessionModel.Email = contact.ConEmailAddress;
+                            CurrentUser.Email = contact.ConEmailAddress;
                             var WildCards = await CommonModel.GetWildCards();
                             var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                             U.Val = contact.ConFirstName;
@@ -342,9 +337,9 @@ namespace doorserve.Controllers
                             U.Val = pwd;
                             U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                             U.Val = contact.ConEmailAddress;
-                            SessionModel.Mobile = contact.ConMobileNumber;
+                            CurrentUser.Mobile = contact.ConMobileNumber;
                             var c = WildCards.Where(x => x.Val != string.Empty).ToList();
-                            await _emailSmsServices.Send(Templates, c, SessionModel);
+                            await _emailSmsServices.Send(Templates, c, CurrentUser);
                         }
                     }
 
@@ -388,7 +383,6 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
-            var SessionModel = Session["User"] as SessionModel;
             if (bank.BankCancelledChequeFileName != null && bank.BankCancelledChequeFilePath != null)
             {
                 if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + bank.BankCancelledChequeFileName)))
@@ -416,7 +410,7 @@ namespace doorserve.Controllers
             }
             else
                 comp.Action = 'U';
-            bank.UserId = SessionModel.UserId;
+            bank.UserId = CurrentUser.UserId;
             var response = await _BankRepo.AddUpdateBankDetails(bank);
             TempData["response"] = response;
             if (comp.Action == 'I')
@@ -433,7 +427,6 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
-            var SessionModel = Session["User"] as SessionModel;
             CompanyModel comp = new CompanyModel();
             if (TempData["Comp"] != null)
             {
@@ -488,7 +481,7 @@ namespace doorserve.Controllers
             }
             agreement.DeliveryTypes = agreement.DeliveryTypes.Trim(',');
 
-            agreement.CreatedBy = SessionModel.UserId;
+            agreement.CreatedBy = CurrentUser.UserId;
             var response = await _compRepo.AddOrEditAgreeement(agreement);
             TempData["response"] = response;
             if(comp.Action=='I')
@@ -505,7 +498,6 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> Registration(CompanyModel comp)
         {
-            var SessionModel = Session["User"] as SessionModel;
             var CMP = comp;
             comp.ActiveTab = "tab-6";
             if (TempData["Comp"] != null)
@@ -518,7 +510,7 @@ namespace doorserve.Controllers
             }
             else
                 comp.Action = 'U';
-            comp.CreatedBy = SessionModel.UserId;
+            comp.CreatedBy = CurrentUser.UserId;
             var response = await _compRepo.AddUpdateDeleteCompany(comp);
             TempData["response"] = response;
             return RedirectToAction("Index");

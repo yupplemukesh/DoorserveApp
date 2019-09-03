@@ -13,7 +13,7 @@ using doorserve.Repository.EmailSmsServices;
 
 namespace doorserve.Controllers
 {
-    public class EmployeesController : Controller
+    public class EmployeesController : BaseController
     {
         private readonly IEmployee _employee;
         private readonly DropdownBindController drop;
@@ -53,20 +53,18 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Engineers)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
             var filter = new FilterModel();
-            if (session.UserTypeName.ToLower().Contains("provider"))
-                filter.ProviderId = session.RefKey;
-            if (session.UserTypeName.ToLower().Contains("center"))
-                filter.RefKey = session.RefKey;
-            filter.CompId = session.CompanyId;
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
+                filter.ProviderId = CurrentUser.RefKey;
+            if (CurrentUser.UserTypeName.ToLower().Contains("center"))
+                filter.RefKey = CurrentUser.RefKey;
+            filter.CompId = CurrentUser.CompanyId;
             var employee = await _employee.GetAllEmployees(filter);
             return View(employee);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Engineers)]
         public async Task<ActionResult> Create()
         {
-            var session = Session["User"] as SessionModel;
             var empModel = new EmployeeModel();
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");         
@@ -78,22 +76,22 @@ namespace doorserve.Controllers
             empModel.CenterList = new SelectList(Enumerable.Empty<SelectList>());
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
-            if (session.UserTypeName.ToLower().Contains("provider"))
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
             {
                 empModel.IsProvider = true;
-                if (session.UserRole.Contains("Service Provider SC Admin"))
-                    empModel.ProviderId = session.RefKey;
+                if (CurrentUser.UserRole.Contains("Service Provider SC Admin"))
+                    empModel.ProviderId = CurrentUser.RefKey;
                 else
-                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(session.RefKey), "Name", "Text");
+                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(CurrentUser.RefKey), "Name", "Text");
             }
-            else if (session.UserTypeName.ToLower().Contains("center"))
+            else if (CurrentUser.UserTypeName.ToLower().Contains("center"))
             {
-                empModel.RefKey = session.RefKey;              
+                empModel.RefKey = CurrentUser.RefKey;              
                 empModel.IsCenter = true;
                 empModel.ProviderList = new SelectList(Enumerable.Empty<SelectList>());
             }
             else
-                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
+                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             return View(empModel);
 
         }
@@ -102,7 +100,6 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Create(EmployeeModel emp)
         {
-            var session = Session["User"] as SessionModel;
             if (emp.EMPPhoto1 != null)
                 emp.EMPPhoto = SaveImageFile(emp.EMPPhoto1, "DP");
             if (emp.ConAdhaarNumberFilePath != null)
@@ -113,7 +110,7 @@ namespace doorserve.Controllers
                 emp.ConPanFileName = SaveImageFile(emp.ConPanNumberFilePath, "PANCards");
             emp.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             emp.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
+            emp.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             emp.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             emp.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             emp.CityList = new SelectList(Enumerable.Empty<SelectList>());
@@ -122,15 +119,15 @@ namespace doorserve.Controllers
             emp.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"),"Value","Text");
             emp.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             emp.EventAction = 'I';
-            emp.UserId = session.UserId;
-            emp.CompanyId = session.CompanyId;
+            emp.UserId = CurrentUser.UserId;
+            emp.CompanyId = CurrentUser.CompanyId;
             var pwd = CommonModel.RandomPassword(8);
             if (emp.IsUser)
                 emp.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
-            if (session.UserTypeName.ToLower().Contains("provider"))
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
             {
-                if (!session.UserRole.Contains("Service Provider SC Admin"))
-                    emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(session.RefKey), "Name", "Text");
+                if (!CurrentUser.UserRole.Contains("Service Provider SC Admin"))
+                    emp.CenterList = new SelectList(await CommonModel.GetServiceCenters(CurrentUser.RefKey), "Name", "Text");
 
             }          
          
@@ -140,8 +137,8 @@ namespace doorserve.Controllers
                
                     if (emp.IsUser)
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration",session.CompanyId);
-                         session.Email = emp.ConEmailAddress;
+                        var Templates = await _templateRepo.GetTemplateByActionName("User Registration", CurrentUser.CompanyId);
+                    CurrentUser.Email = emp.ConEmailAddress;
                         var WildCards = await CommonModel.GetWildCards();
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = emp.ConFirstName;
@@ -149,10 +146,10 @@ namespace doorserve.Controllers
                         U.Val = pwd;
                         U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                         U.Val = emp.ConEmailAddress;
-                           session.Mobile = emp.ConMobileNumber;
+                    CurrentUser.Mobile = emp.ConMobileNumber;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates != null)
-                            await _emailSmsServices.Send(Templates, c, session);
+                            await _emailSmsServices.Send(Templates, c, CurrentUser);
                     }
                 
 
@@ -164,13 +161,12 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Engineers)]
         public async Task<ActionResult> Edit(Guid empId)
         {
-            var session = Session["User"] as SessionModel;
             var empModel = await _employee.GetEmployeeById(empId);
 
             empModel.RefKey = empModel.CenterId;
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
+            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
            empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
            //empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
@@ -180,19 +176,19 @@ namespace doorserve.Controllers
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");          
             empModel.CurrentEmail = empModel.ConEmailAddress;
             empModel.CurrentIsUser = empModel.IsUser;
-            if (session.UserTypeName.ToLower().Contains("provider"))
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
             {
                 empModel.IsProvider = true;
-                if (!session.UserRole.Contains("Service Provider SC Admin"))
-                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(session.RefKey), "Name", "Text");
+                if (!CurrentUser.UserRole.Contains("Service Provider SC Admin"))
+                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(CurrentUser.RefKey), "Name", "Text");
             }
-            else if (session.UserTypeName.ToLower().Contains("center"))
+            else if (CurrentUser.UserTypeName.ToLower().Contains("center"))
             {
                 empModel.ProviderList = new SelectList(Enumerable.Empty<SelectList>());
                 empModel.IsCenter = true;
             }
             else
-                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(session.CompanyId), "Name", "Text");
+                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
 
             return View(empModel);
         }
@@ -201,9 +197,8 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Edit(EmployeeModel empModel)
          {
-            var SessionModel = Session["User"] as SessionModel;
-            empModel.UserId = SessionModel.UserId;
-            empModel.CompanyId = SessionModel.CompanyId;
+            empModel.UserId = CurrentUser.UserId;
+            empModel.CompanyId = CurrentUser.CompanyId;
             if (empModel.EMPPhoto1 != null && empModel.EMPPhoto != null)
             {
 
@@ -242,7 +237,7 @@ namespace doorserve.Controllers
 
             empModel.DeginationList = new SelectList(await CommonModel.GetDesignations(), "Value", "Text");
             empModel.DepartmentList = new SelectList(await CommonModel.GetDepartments(), "Value", "Text");
-            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+            empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             empModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
             //empModel.CountryList = new SelectList(drop.BindCountry(), "Value", "Text");
             //empModel.StateList = new SelectList(drop.BindState(empModel.CountryId), "Value", "Text");
@@ -251,23 +246,23 @@ namespace doorserve.Controllers
             empModel.Vehicle.VehicleTypeList = new SelectList(await CommonModel.GetLookup("Vehicle"), "Value", "Text");
             empModel.EngineerTypeList = new SelectList(await CommonModel.GetLookup("Engineer Type"), "Value", "Text");
             empModel.EventAction = 'U';
-            if (SessionModel.UserTypeName.ToLower().Contains("provider"))
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
             {              
-                if (!SessionModel.UserRole.Contains("Service Provider SC Admin"))
-                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(SessionModel.RefKey), "Name", "Text");
+                if (!CurrentUser.UserRole.Contains("Service Provider SC Admin"))
+                    empModel.CenterList = new SelectList(await CommonModel.GetServiceCenters(CurrentUser.RefKey), "Name", "Text");
             }
-            else if (SessionModel.UserTypeName.ToLower().Contains("center"))
+            else if (CurrentUser.UserTypeName.ToLower().Contains("center"))
                 empModel.ProviderList = new SelectList(Enumerable.Empty<SelectList>());
             else
-                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(SessionModel.CompanyId), "Name", "Text");
+                empModel.ProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             var response = await _employee.AddUpdateDeleteEmployee(empModel);
             if (response.IsSuccess)
             {
 
                 if (empModel.IsUser && empModel.CurrentIsUser)
                 {
-                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration",SessionModel.CompanyId);
-                    SessionModel.Email = empModel.ConEmailAddress;
+                    var Templates = await _templateRepo.GetTemplateByActionName("User Registration", CurrentUser.CompanyId);
+                    CurrentUser.Email = empModel.ConEmailAddress;
                     var WildCards = await CommonModel.GetWildCards();
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                     U.Val = empModel.ConFirstName;
@@ -275,10 +270,10 @@ namespace doorserve.Controllers
                     U.Val = pwd;
                     U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                     U.Val = empModel.ConEmailAddress;
-                    SessionModel.Mobile = empModel.ConMobileNumber;
+                    CurrentUser.Mobile = empModel.ConMobileNumber;
                     var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                     if (Templates != null)
-                        await _emailSmsServices.Send(Templates, c, SessionModel);
+                        await _emailSmsServices.Send(Templates, c, CurrentUser);
                 }
 
             }

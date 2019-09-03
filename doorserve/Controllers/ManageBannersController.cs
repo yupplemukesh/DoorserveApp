@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace doorserve.Controllers
 {
-    public class ManageBannersController : Controller
+    public class ManageBannersController : BaseController
     {
         private readonly IBanner _Banner;     
         public ManageBannersController()
@@ -24,10 +24,10 @@ namespace doorserve.Controllers
         // GET: ManageBanners
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
+
 
             Guid? BannerId = null;
-            var filter = new FilterModel { CompId = session.CompanyId, RefKey = BannerId };         
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, RefKey = BannerId };         
             var Banner = await _Banner.GetBanner(filter);          
             return View(Banner);
         }
@@ -63,8 +63,7 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> Create()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId };
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId };
             var Banner = new ManageBannersModel();
             Banner.ImgDetails = new List<ManageBannerUploadModel>();
             Banner.PageNameList = new SelectList(await CommonModel.GetLookup("Page"), "Value", "Text");          
@@ -80,7 +79,6 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Create(ManageBannersModel Banner)
         {
            
-            var SessionModel = Session["User"] as SessionModel;
             var ImageDetail = Request.Params["ImgDetail"];
             Banner = JsonConvert.DeserializeObject<ManageBannersModel>(ImageDetail);
 
@@ -104,8 +102,8 @@ namespace doorserve.Controllers
                 i++;
             }
 
-            Banner.UserId = SessionModel.UserId;
-            Banner.CompanyId = SessionModel.CompanyId;
+            Banner.UserId = CurrentUser.UserId;
+            Banner.CompanyId = CurrentUser.CompanyId;
             ResponseModel response = new ResponseModel();
             if (Banner.BannerId == null)
             {

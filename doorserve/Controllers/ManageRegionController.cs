@@ -13,7 +13,7 @@ using doorserve.Repository.ManageRegion;
 
 namespace doorserve.Controllers
 {
-    public class ManageRegionController : Controller
+    public class ManageRegionController : BaseController
     {
         private readonly IRegion _Region;
         private readonly DropdownBindController _Dropdown;
@@ -26,9 +26,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Regions)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
             var filter = new FilterModel();
-            filter.CompId = session.CompanyId;
+            filter.CompId = CurrentUser.CompanyId;
             var Region = await _Region.GetAllRegion(filter);
             return View(Region);
 
@@ -45,10 +44,10 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Regions)]
         public async Task<ActionResult> Create()
         {
-            var session = Session["User"] as SessionModel;
+
             ManageRegionModel MR = new ManageRegionModel();
             MR.StateList= new SelectList(_Dropdown.BindState(), "Value", "Text");
-            if (session.UserTypeName.ToLower() == "super admin")
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
             {
                 MR.IsAdmin = true;
                 MR.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
@@ -60,11 +59,11 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Create(ManageRegionModel Region)
         {
-            var session = Session["User"] as SessionModel;
+
             Region.EventAction = 'I';
-            Region.UserId = session.UserId;
-            if (session.UserTypeName.ToLower() == "company")
-                Region.CompanyId = session.CompanyId;
+            Region.UserId = CurrentUser.UserId;
+            if (CurrentUser.UserTypeName.ToLower() == "company")
+                Region.CompanyId = CurrentUser.CompanyId;
             var response = await _Region.AddUpdateRegion(Region);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -92,9 +91,9 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Edit(ManageRegionModel Region)
         {
-            var session = Session["User"] as SessionModel;
+
             Region.EventAction = 'U';
-            Region.UserId = session.UserId;         
+            Region.UserId = CurrentUser.UserId;         
             var response = await _Region.AddUpdateRegion(Region);
             TempData["response"] = response;
             return RedirectToAction("Index");

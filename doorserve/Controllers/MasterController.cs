@@ -18,7 +18,7 @@ using doorserve.Permission;
 namespace doorserve.Controllers
 {
     //[CustomAuthorize]
-    public class MasterController : Controller
+    public class MasterController : BaseController
     {
         #region ConnectionString
 
@@ -52,7 +52,7 @@ namespace doorserve.Controllers
         [HttpPost]
         public ActionResult AddBrand(BrandModel model)
         {
-            var SessionModel = Session["User"] as SessionModel;
+            
             try
             {
                 if (model.BrandIMG != null)
@@ -88,9 +88,9 @@ namespace doorserve.Controllers
                             model.IsRepair,
                             model.IsActive,
                             model.Comments,                           
-                            User = SessionModel.UserId,
+                            User = CurrentUser.UserId,
                             Action = "add",
-                            SessionModel.CompanyId
+                            CurrentUser.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result != 0)
@@ -133,7 +133,6 @@ namespace doorserve.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
                 if (model.BrandIMG != null)
                 {
                   
@@ -162,9 +161,9 @@ namespace doorserve.Controllers
                         model.UrlName,
                         model.Header,
                         model.Footer,
-                        User = SessionModel.UserId,
+                        User = CurrentUser.UserId,
                         Action = "edit",
-                        SessionModel.CompanyId
+                        CurrentUser.CompanyId
                     },
                     commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -185,9 +184,8 @@ namespace doorserve.Controllers
             BrandModel objBrandModel = new BrandModel();
             using (var con = new SqlConnection(_connectionString))
             {
-
-                var SessionModel = Session["User"] as SessionModel;
-                var result= con.Query<BrandModel>("Get_Brands", new { companyId= SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+               
+                var result= con.Query<BrandModel>("Get_Brands", new { companyId= CurrentUser.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
            }      
          
@@ -218,11 +216,10 @@ namespace doorserve.Controllers
         public ActionResult AddProduct()
         {
             using (var con = new SqlConnection(_connectionString))
-            {
-                var SessionModel = Session["User"] as SessionModel;
+            {               
                 ProductModel pm = new ProductModel {
-                    _BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text"),
-                    _Category= new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                    _BrandName= new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text"),
+                    _Category= new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                     _ProductColor= new SelectList(dropdown.BindProductColor(null), "Value", "Text"),
                     _SubCat= new SelectList(Enumerable.Empty<SelectList>())
 
@@ -253,8 +250,7 @@ namespace doorserve.Controllers
                 }
 
                 using (var con = new SqlConnection(_connectionString))
-                {
-                    var SessionModel = Session["User"] as SessionModel;
+                {                    
                     var result = con.Query<int>("Add_Edit_Delete_Products",
                         new
                         {
@@ -273,9 +269,9 @@ namespace doorserve.Controllers
                             model.IsActive,
                             model.Comments,
                             ProductColor = finalValue,
-                            User = SessionModel.UserId,                                                        
+                            User = CurrentUser.UserId,                                                        
                             Action = "add",
-                            SessionModel.CompanyId
+                            CurrentUser.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result >0)
@@ -318,9 +314,8 @@ namespace doorserve.Controllers
         public ActionResult ProductTable()
         {            
             using (var con = new SqlConnection(_connectionString))
-            {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<ProductModel>("GetProductDetail", new { SessionModel.CompanyId },
+            {               
+                var result = con.Query<ProductModel>("GetProductDetail", new { CurrentUser.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
@@ -331,13 +326,12 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Products)]
         public ActionResult EditProduct(int? ProductId)
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             ProductModel pm = new ProductModel();
             if (ProductId == 0 || ProductId == null)
             {
-                pm._BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                pm._Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                pm._BrandName = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                pm._Category = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                 pm._SubCat = new SelectList(Enumerable.Empty<SelectListItem>());
                 pm._ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
             }
@@ -361,9 +355,9 @@ namespace doorserve.Controllers
                         result.BrandID.ToString();
                     }
                   
-                    result._BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                    result._BrandName = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
                     result._SubCat = new SelectList(dropdown.BindSubCategory(result.CategoryID), "Value", "Text");
-                    result._Category = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                    result._Category = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                     result._ProductColor = new SelectList(dropdown.BindProductColor(null), "Value", "Text");
                  
                     return PartialView("EditProduct", result);
@@ -445,15 +439,14 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult AddDeviceProblem()
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             using (var con = new SqlConnection(_connectionString))
             {
 
                 DeviceProblemModel dcm = new DeviceProblemModel();
 
 
-                dcm.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                dcm.CatIdList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                 dcm.SubCatIdList = new SelectList(dropdown.BindSubCategory(dcm.CatId), "Value", "Text");
                
                 return PartialView(dcm);
@@ -462,8 +455,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Device_Problem)]
         [HttpPost]
         public ActionResult AddDeviceProblem(DeviceProblemModel model)
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {           
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.Problem == null)
@@ -480,8 +472,8 @@ namespace doorserve.Controllers
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
-                            User = SessionModel.UserId,
-                            SessionModel.CompanyId,
+                            User = CurrentUser.UserId,
+                            CurrentUser.CompanyId,
                             Action = "add"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -506,9 +498,8 @@ namespace doorserve.Controllers
         public ActionResult DeviceProblemtable()
         {           
             using (var con = new SqlConnection(_connectionString))
-            {
-                var SessionModel = Session["User"] as SessionModel;
-                var result= con.Query<DeviceProblemModel>("GetProblemDetail", new { SessionModel.CompanyId },
+            {                
+                var result= con.Query<DeviceProblemModel>("GetProblemDetail", new { CurrentUser.CompanyId },
                     commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
@@ -517,10 +508,9 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         public ActionResult EditDeviceProblem(int? ProblemID)
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             DeviceProblemModel dcm = new DeviceProblemModel();
-            dcm.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            dcm.CatIdList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             dcm.SubCatIdList = new SelectList(dropdown.BindSubCategory(dcm.CatId), "Value", "Text");
             using (var con = new SqlConnection(_connectionString))
             {
@@ -532,7 +522,7 @@ namespace doorserve.Controllers
                     result.Category = result.CatId.ToString();
                     result.SubCategory = result.SubCatId.ToString();
                 }
-                result.CatIdList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                result.CatIdList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                 result.SubCatIdList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                 return View(result);
             }
@@ -541,8 +531,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Device_Problem)]
         [HttpPost]
         public ActionResult EditDeviceProblem(DeviceProblemModel model)
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             using (var con = new SqlConnection(_connectionString))
             {
                 if (model.ProblemID == null)
@@ -560,8 +549,8 @@ namespace doorserve.Controllers
                             model.IsActive,
                             model.Problem,
                             model.SortOrder,
-                            User = SessionModel.UserId,
-                            SessionModel.CompanyId,
+                            User = CurrentUser.UserId,
+                            CurrentUser.CompanyId,
                             Action = "edit"
                         },
                         commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -597,8 +586,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Color_Master)]
         public ActionResult AddColorMaster()
         {
-            var SessionModel = Session["User"] as SessionModel;
-            ViewBag.Brand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+           
+            ViewBag.Brand = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             //ViewBag.Model = new SelectList(dropdown.BindModelName(), "Value", "Text");
             ViewBag.Model = new SelectList(Enumerable.Empty<SelectListItem>());
             return PartialView();
@@ -606,8 +595,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Color_Master)]
         [HttpPost]
         public ActionResult AddColorMaster(ColorModel m)
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             using (var con = new SqlConnection(_connectionString))
             {
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
@@ -617,8 +605,8 @@ namespace doorserve.Controllers
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
-                               User = SessionModel.UserId,
-                               SessionModel.CompanyId,
+                               User = CurrentUser.UserId,
+                               CurrentUser.CompanyId,
                                Action = "add"                               
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -658,8 +646,7 @@ namespace doorserve.Controllers
         public ActionResult EditColorMaster(ColorModel m)
         {        
            using (var con = new SqlConnection(_connectionString))
-            {
-                var SessionModel = Session["User"] as SessionModel;
+            {                
                 var result1 = con.Query<int>("Insert_Into_Color_Master",
                            new
                            {
@@ -667,8 +654,8 @@ namespace doorserve.Controllers
                                m.ColorName,
                                m.IsActive,
                                m.Comments,
-                               User = SessionModel.UserId,
-                               SessionModel.CompanyId,
+                               User = CurrentUser.UserId,
+                               CurrentUser.CompanyId,
                                Action = "edit",                            
 
                            }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -695,9 +682,8 @@ namespace doorserve.Controllers
         {
             
             using (var con = new SqlConnection(_connectionString))
-            {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { SessionModel.CompanyId, },
+            {               
+                var result = con.Query<ColorModel>("Select cm.ColorId,cm.ColorName,cm.IsActive,cm.Comments,cm.CreatedDate,cm.ModifyDate,cum.UserName 'CBy',cum1.UserName 'MBy' from Color_Master cm left join Create_User_Master cum on cum.Id=cm.CreatedBy left join Create_User_Master cum1 on cum1.Id=cm.ModifyBy", new { CurrentUser.CompanyId, },
                     commandType: CommandType.Text).ToList();
                 return View(result);
             }        
@@ -872,9 +858,8 @@ namespace doorserve.Controllers
         #region WebsiteProblemList
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult Probs_price_Matrix()
-        {
-            var SessionModel = Session["User"] as SessionModel;
-            ViewBag.BrandName= new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");                        
+        {            
+            ViewBag.BrandName= new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");                        
             ViewBag.Problem = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
             ViewBag.Model_Id = new SelectList(Enumerable.Empty<SelectListItem>());
             if (TempData["Message"] != null)
@@ -886,10 +871,9 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult AddWebsiteData()
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             var parts = new Prob_Vs_price_matrix();
-            parts.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+            parts.BrandList = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             parts.ProblemList = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
             parts.ModelList = new SelectList(dropdown.BindModelName(),"value","text");
             return PartialView(parts);
@@ -897,9 +881,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Spare_Problem_Price_matrix)]
         [HttpPost]
         public ActionResult AddWebsiteData(Prob_Vs_price_matrix m)
-        {
-            var SessionModel = Session["User"] as SessionModel;
-            m.UserId = SessionModel.UserId;
+        {            
+            m.UserId = CurrentUser.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", new {
@@ -911,7 +894,7 @@ namespace doorserve.Controllers
                     m.Max_Price,
                     action ="Add",
                     m.UserId,
-                    SessionModel.CompanyId
+                    CurrentUser.CompanyId
                 },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -932,8 +915,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Spare_Problem_Price_matrix)]
         public ActionResult EditWebsiteData(int websitePriceProblem, int ProblemId)
-        {
-            var SessionModel = Session["User"] as SessionModel;
+        {            
             var result = new Prob_Vs_price_matrix();
             using (var con = new SqlConnection(_connectionString))
             {
@@ -942,7 +924,7 @@ namespace doorserve.Controllers
                 result = con.Query<Prob_Vs_price_matrix>("sp_GetSingleRecord_Probles_VS_Price_Matrix ",
                     new { Problem_Id = ProblemId, model_ID = websitePriceProblem }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 ViewBag.Problem = new SelectList(dropdown.BindMstDeviceProblemAbhishek(), "Value", "Text");
-                ViewBag.BrandName = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+                ViewBag.BrandName = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
                 if (result.Model_Id != null)
                 {
                     ViewBag.Model_Id = new SelectList(dropdown.BindProduct(Int32.Parse(result.BrandName)), "Value", "Text");
@@ -960,9 +942,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Spare_Problem_Price_matrix)]
         [HttpPost]
         public ActionResult EditWebsiteData(Prob_Vs_price_matrix m)
-        {
-            var SessionModel = Session["User"] as SessionModel;
-            m.UserId = SessionModel.UserId;
+        {           
+            m.UserId = CurrentUser.UserId;
             using (var con = new SqlConnection(_connectionString))
             {
                 var result = con.Query<int>("sp_insert_into_Probles_VS_Price_matrix", 
@@ -974,7 +955,7 @@ namespace doorserve.Controllers
                         m.Max_Price,
                         action = "edit",
                         m.UserId,
-                        SessionModel.CompanyId
+                        CurrentUser.CompanyId
                     },
                    commandType: CommandType.StoredProcedure).FirstOrDefault();
                 var response = new ResponseModel();
@@ -997,9 +978,8 @@ namespace doorserve.Controllers
         public ActionResult WebsiteDataTable()
          {           
             using (var con = new SqlConnection(_connectionString))
-            {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", new { SessionModel.CompanyId },
+            {                
+                var result = con.Query<Prob_Vs_price_matrix>("Sp_Probles_VS_Price_matrix_List", new { CurrentUser.CompanyId },
                    commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
 

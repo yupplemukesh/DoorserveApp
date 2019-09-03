@@ -13,7 +13,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class ManageSparePartController : Controller
+    public class ManageSparePartController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -63,7 +63,6 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult AddSpareType()
         {
-            var SessionModel = Session["User"] as SessionModel;
             //using (var con = new SqlConnection(_connectionString))
             //{
             //    var result = con.Query<int>("select coalesce(MAX(SortOrder),0) from MstSpareType", null, commandType: CommandType.Text).FirstOrDefault();
@@ -71,7 +70,7 @@ namespace doorserve.Controllers
             //}
 
             var sparetype = new ManageSpareType {
-                CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text"),
+                CategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>())
 
         };
@@ -84,7 +83,6 @@ namespace doorserve.Controllers
         {
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
                 using (var con = new SqlConnection(_connectionString))
                 {
  
@@ -97,9 +95,9 @@ namespace doorserve.Controllers
                             model.SubCategoryId,
                             model.SortOrder,
                             model.IsActive,
-                            User = SessionModel.UserId,
+                            User = CurrentUser.UserId,
                             Action = "add",
-                            SessionModel.CompanyId
+                            CurrentUser.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result == 1)
@@ -132,8 +130,8 @@ namespace doorserve.Controllers
           
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
-                var result = con.Query<ManageSpareType>("GetSpareTypeDetail", new {companyId= SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+
+                var result = con.Query<ManageSpareType>("GetSpareTypeDetail", new {companyId= CurrentUser.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
 
                return View(result);
             }          
@@ -141,7 +139,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Spare_Type)]
         public ActionResult EditSpareType(int SpareTypeId)
         {
-            var SessionModel = Session["User"] as SessionModel;
+        
             ManageSpareType mst = new ManageSpareType();
             if (SpareTypeId == 0)
             {
@@ -155,7 +153,7 @@ namespace doorserve.Controllers
         
                     var result = con.Query<ManageSpareType>("Select * from MstSpareType where SpareTypeId=@SpareTypeId", new { SpareTypeId = SpareTypeId },
                         commandType: CommandType.Text).FirstOrDefault();
-                    result.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+                    result.CategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
                     result.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
                     //testing
                     //ViewBag.SubCategory = new SelectList(dropdown.BindSubCategory(result.CategoryId), "Value", "Text");
@@ -175,7 +173,7 @@ namespace doorserve.Controllers
         [HttpPost]
         public ActionResult EditSpareType(ManageSpareType model)
         {
-            var SessionModel = Session["User"] as SessionModel;
+
             try
             {               
                 using (var con = new SqlConnection(_connectionString))
@@ -190,9 +188,9 @@ namespace doorserve.Controllers
                             model.SubCategoryId,
                             model.SortOrder,
                             model.IsActive,
-                            User = SessionModel.UserId,
+                            User = CurrentUser.UserId,
                             Action = "edit",
-                            SessionModel.CompanyId
+                            CurrentUser.CompanyId
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
                     if (result == 2)
@@ -248,13 +246,13 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Spare_Part_Name)]
         public ActionResult AddSparePartName()
         {
-            var SessionModel = Session["User"] as SessionModel;
+  
             var sparepart = new ManageSparePart();
             sparepart.CTHNoList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
-            sparepart.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            sparepart.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
+            sparepart.CategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            sparepart.BrandList = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             sparepart.DeviceModelNameList = new SelectList(dropdown.BindProduct(sparepart.BrandId), "Value", "Text");
-            sparepart.SpareTypeIdList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+            sparepart.SpareTypeIdList = new SelectList(dropdown.BindSpareType(CurrentUser.CompanyId), "Value", "Text");
             sparepart.SubCategoryList = new SelectList(dropdown.BindSubCategory(sparepart.CategoryId), "Value", "Text");
                     
             return PartialView(sparepart);
@@ -263,7 +261,6 @@ namespace doorserve.Controllers
         [HttpPost]
         public ActionResult AddSparePartName(ManageSparePart model)
         {
-            var SessionModel = Session["User"] as SessionModel;
             try
             {                
                 if (model.PartImage1 != null)
@@ -291,8 +288,8 @@ namespace doorserve.Controllers
                             model.Part_Image,
                             model.IsActive,
                             model.SortOrder,
-                            User = SessionModel.UserId,
-                            SessionModel.CompanyId,
+                            User = CurrentUser.UserId,
+                            CurrentUser.CompanyId,
                             Action = "add"                       
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     var response = new ResponseModel();
@@ -327,8 +324,7 @@ namespace doorserve.Controllers
            
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
-                var result= con.Query<ManageSparePart>("GetSparePartDetails", new { SessionModel.CompanyId}, commandType: CommandType.StoredProcedure).ToList();
+                var result= con.Query<ManageSparePart>("GetSparePartDetails", new { CurrentUser.CompanyId}, commandType: CommandType.StoredProcedure).ToList();
 
                 return View(result);
             }          
@@ -351,14 +347,14 @@ namespace doorserve.Controllers
                 //ViewBag.CTHNo = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var SessionModel = Session["User"] as SessionModel;
+       
                     var result = con.Query<ManageSparePart>("Select * from MstSparePart where SpareTypeId=@SpareTypeId", new { SpareTypeId = SpareTypeId },
                         commandType: CommandType.Text).FirstOrDefault();
                     result.SubCategoryList = new SelectList(dropdown.BindSubCategory(), "Value", "Text");
-                    result.CategoryList = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                    result.BrandList = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                    result.DeviceModelNameList = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
-                    result.SpareTypeIdList = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+                    result.CategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+                    result.BrandList = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                    result.DeviceModelNameList = new SelectList(dropdown.BindProduct(CurrentUser.CompanyId), "Value", "Text");
+                    result.SpareTypeIdList = new SelectList(dropdown.BindSpareType(CurrentUser.CompanyId), "Value", "Text");
                     result.CTHNoList= new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                     if (result != null)
                     {
@@ -378,7 +374,7 @@ namespace doorserve.Controllers
         {
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
+     
                 if (model.PartImage1 != null)
                 {
                     model.Part_Image = SaveImageFile(model.PartImage1);
@@ -404,8 +400,8 @@ namespace doorserve.Controllers
                             model.Part_Image,
                             model.IsActive,                            
                             model.SortOrder,
-                            SessionModel.CompanyId,
-                            User = SessionModel.UserId,
+                            CurrentUser.CompanyId,
+                            User = CurrentUser.UserId,
                             Action = "edit"                        
                             
                             

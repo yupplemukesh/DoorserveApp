@@ -13,7 +13,7 @@ using doorserve.Repository.Process;
 
 namespace doorserve.Controllers
 {
-    public class ProcessController : Controller
+    public class ProcessController : BaseController
     {
         private readonly IProcesses _Process;
         public ProcessController()

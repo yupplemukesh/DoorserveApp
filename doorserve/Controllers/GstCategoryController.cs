@@ -12,7 +12,7 @@ using doorserve.Permission;
 
 namespace doorserve.Controllers
 {
-    public class GstCategoryController : Controller
+    public class GstCategoryController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -38,7 +38,6 @@ namespace doorserve.Controllers
                 { 
                 using (var con = new SqlConnection(_connectionString))
                 {
-                        var session = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_GstCategory",
                         new
                         {
@@ -46,7 +45,7 @@ namespace doorserve.Controllers
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User=session.UserId,                            
+                            User= CurrentUser.UserId,                            
                             ACTION = 'I'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         var response = new ResponseModel();    
@@ -112,7 +111,6 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                 {
-                        var session = Session["User"] as SessionModel;
                         var result = con.Query<int>("Add_Edit_Delete_GstCategory",
                         new
                         {
@@ -120,7 +118,7 @@ namespace doorserve.Controllers
                             model.GSTCategory,
                             model.IsActive,
                             model.Comments,
-                            User = session.UserId,
+                            User = CurrentUser.UserId,
                             ACTION = 'U'
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
 

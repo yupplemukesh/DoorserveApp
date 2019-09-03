@@ -13,7 +13,7 @@ using doorserve.Repository.State;
 
 namespace doorserve.Controllers
 {
-    public class ManageStateController : Controller
+    public class ManageStateController : BaseController
     {
         private readonly IState _State;
         private readonly DropdownBindController dropdown;
@@ -26,7 +26,6 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_States_UTs)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
             var filter = new FilterModel();
             var State = await _State.GetAllState(filter);
             return View(State);
@@ -45,9 +44,9 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Create(ManageStateModel state)
         {
-            var session = Session["User"] as SessionModel;
+
             state.EventAction = 'I';
-            state.UserId = session.UserId;
+            state.UserId = CurrentUser.UserId;
             var response = await _State.AddUpdateState(state);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -55,7 +54,6 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.Manage_States_UTs)]
         public async Task<ActionResult> Edit(long St_ID)
         {
-            var session = Session["User"] as SessionModel;
             var Result = await _State.GetStateById(St_ID);
             Result._CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
             return View(Result);
@@ -66,9 +64,8 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Edit(ManageStateModel state)
         {
-            var session = Session["User"] as SessionModel;
             state.EventAction = 'U';
-            state.UserId = session.UserId;
+            state.UserId = CurrentUser.UserId;
             var response = await _State.AddUpdateState(state);
             TempData["response"] = response;
             return RedirectToAction("Index");

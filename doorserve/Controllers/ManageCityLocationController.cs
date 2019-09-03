@@ -18,7 +18,7 @@ using doorserve.Repository.ImportFiles;
 
 namespace doorserve.Controllers
 {
-    public class ManageCityLocationController : Controller
+    public class ManageCityLocationController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -72,7 +72,7 @@ namespace doorserve.Controllers
             {              
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var session = Session["User"] as SessionModel;
+          
                     var result = con.Query<int>("Add_Edit_Delete_Location",
                         new
                         {
@@ -84,7 +84,7 @@ namespace doorserve.Controllers
                             model.PinCode,
                             model.IsActive,
                             model.Comments,
-                            User = session.UserId,
+                            User = CurrentUser.UserId,
                             Action ="add"
                            
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -159,7 +159,6 @@ namespace doorserve.Controllers
             {
                 using (var con = new SqlConnection(_connectionString))
                 {
-                    var session = Session["User"] as SessionModel;
                     var result = con.Query<int>("Add_Edit_Delete_Location",
                         new
                         {
@@ -171,7 +170,7 @@ namespace doorserve.Controllers
                             model.PinCode,
                             model.IsActive,
                             model.Comments,
-                            User = session.UserId,
+                            User = CurrentUser.UserId,
                             Action = "edit"
 
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
@@ -223,10 +222,10 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Cities_Locations)]
         [ValidateModel]
         public async Task<ActionResult> Import(ProviderFileModel provider)
-        {
-            var SessionModel = Session["User"] as SessionModel;
-            provider.CompanyId = SessionModel.CompanyId;
-            provider.UserId = SessionModel.UserId;
+        { 
+
+            provider.CompanyId = CurrentUser.CompanyId;
+            provider.UserId = CurrentUser.UserId;
 
             if (provider.DataFile != null)
             {
@@ -296,8 +295,8 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Manage_Cities_Locations)]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId, tabIndex = tabIndex };
+
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, tabIndex = tabIndex };
             byte[] filecontent;
             if (tabIndex == 'T')
             {

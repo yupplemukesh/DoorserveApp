@@ -13,7 +13,7 @@ using doorserve.Repository.Country;
 
 namespace doorserve.Controllers
 {
-    public class ManageCountryController : Controller
+    public class ManageCountryController : BaseController
     {
         private readonly ICountry _Country;       
         public ManageCountryController()
@@ -26,7 +26,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Countries)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
+
             var filter = new FilterModel();           
             var Country = await _Country.GetAllCountry(filter);
             return View(Country);
@@ -43,9 +43,9 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Create(ManageCountryModel contry)
         {
-            var session = Session["User"] as SessionModel;
+   
             contry.EventAction = 'I';
-            contry.UserId = session.UserId;            
+            contry.UserId = CurrentUser.UserId;            
             var response = await _Country.AddUpdateCountry(contry);
             TempData["response"] = response;
             return RedirectToAction("Index");
@@ -53,7 +53,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Countries)]
         public async Task<ActionResult> Edit(long Cnty_Id)
         {
-            var session = Session["User"] as SessionModel;
+
             var Pro = await _Country.GetCountryById(Cnty_Id);
             return View(Pro);
 
@@ -63,9 +63,9 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Edit(ManageCountryModel contry)
         {
-            var session = Session["User"] as SessionModel;
+   
             contry.EventAction = 'U';
-            contry.UserId = session.UserId;            
+            contry.UserId = CurrentUser.UserId;            
             var response = await _Country.AddUpdateCountry(contry);
             TempData["response"] = response;
             return RedirectToAction("Index");

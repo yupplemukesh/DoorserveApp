@@ -14,7 +14,7 @@ using doorserve.Repository.ManagePageContents;
 
 namespace doorserve.Controllers
 {
-    public class ManagePageContentsController : Controller
+    public class ManagePageContentsController : BaseController
     {
         private readonly IPageContent _PageContent;
         private readonly DropdownBindController dropdown;
@@ -27,8 +27,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_Page_Contents)]
         public async Task<ActionResult> Index()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId };           
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId };           
            ManagePageContentsModel PageContentModel = new ManagePageContentsModel();            
             PageContentModel.MainContent = await _PageContent.GetAllPageContent(filter);
             PageContentModel.DynamicContent = new ManagePageContentsModel();
@@ -50,9 +49,9 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(ManagePageContentsModel PageContent)
         {
-            var SessionModel = Session["User"] as SessionModel;
-            PageContent.UserId = SessionModel.UserId;
-            PageContent.CompanyId = SessionModel.CompanyId;
+
+            PageContent.UserId = CurrentUser.UserId;
+            PageContent.CompanyId = CurrentUser.CompanyId;
             ResponseModel response = new ResponseModel();
             if (PageContent.ContentId==Guid.Empty )
             { 

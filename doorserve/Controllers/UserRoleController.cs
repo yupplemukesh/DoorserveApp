@@ -16,7 +16,7 @@ using System.IO;
 
 namespace doorserve.Controllers
 {
-    public class UserRoleController : Controller
+    public class UserRoleController : BaseController
     {
         private readonly string _connectionString =
             ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -64,7 +64,7 @@ namespace doorserve.Controllers
             var xml = ToXML(SelectedMenuList);
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
+
                 var result = con.Query<int>("UspInsertUserRole",
                     new
                     {
@@ -72,11 +72,11 @@ namespace doorserve.Controllers
                         objUserRole.RoleName,
                         objUserRole.IsActive,
                         objUserRole.Comments,
-                        UserLoginId= SessionModel.UserId,
+                        UserLoginId= CurrentUser.UserId,
                         MenuList=xml,
-                        SessionModel.RefKey,
+                        CurrentUser.RefKey,
                         objUserRole.RefName,
-                        companyId = SessionModel.CompanyId
+                        companyId = CurrentUser.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {                 
@@ -165,8 +165,8 @@ namespace doorserve.Controllers
         public ActionResult EditUserRole(UserRole objUserRole)
         {
 
-            var SessionModel = Session["User"] as SessionModel;
-            objUserRole.UserLoginId = SessionModel.UserId;
+
+            objUserRole.UserLoginId = CurrentUser.UserId;
             string MenuList = string.Empty;
             ResponseModel objResponseModel = new ResponseModel();
             var SelectedMenuList = objUserRole._MenuList.Where(m => m.CheckedStatus == true).ToList();
@@ -193,7 +193,7 @@ namespace doorserve.Controllers
                         MenuList=xml,
                         objUserRole.RefKey,
                         objUserRole.RefName,
-                        companyId = SessionModel.CompanyId
+                        companyId = CurrentUser.CompanyId
                     }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                 if (result == 0)
                 {
@@ -237,12 +237,12 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Manage_User_Roles)]
         public ActionResult UserRoleList()
         {
-            var SessionModel = Session["User"] as SessionModel;
+          
             Int64 RoleId = 0;
             int UserId = 0;
-            if (!SessionModel.UserRole.ToLower().Contains("super admin"))
-                UserId = SessionModel.UserId;
-            Guid? RefKey= SessionModel.RefKey;
+            if (!CurrentUser.UserRole.ToLower().Contains("super admin"))
+                UserId = CurrentUser.UserId;
+            Guid? RefKey= CurrentUser.RefKey;
             var objUserRole = new  List<UserRole>();          
             using (var con = new SqlConnection(_connectionString))
             { 
