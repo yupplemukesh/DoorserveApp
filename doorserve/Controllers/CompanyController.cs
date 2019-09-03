@@ -502,7 +502,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> Registration(CompanyModel comp)
         {
             var SessionModel = Session["User"] as SessionModel;
