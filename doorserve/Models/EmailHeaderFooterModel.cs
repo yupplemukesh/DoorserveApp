@@ -25,6 +25,9 @@ namespace doorserve.Models
         [DisplayName("Footer HTML")]
         public string FooterHTML { get; set; }     
         public SelectList ActionTypeList { get; set; }
+        public string CompanyName { get; set; }
+        public bool IsAdmin { get; set; }
+        public SelectList CompanyList { get; set; }
     }
 
 

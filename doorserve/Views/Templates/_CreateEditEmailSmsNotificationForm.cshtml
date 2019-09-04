@@ -1,6 +1,19 @@
 ﻿@model doorserve.Models.Template.TemplateModel
 
+
+@if (Model.IsAdmin)
+{
+    <div class="row form-group">
+        <div class="col-md-6">
+            <label class="control-label" for="form-control-9">Select Company</label>
+            @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList, "--Select--", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+}
 <div class="row">
+
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Mailer Template Type</label>
         @Html.HiddenFor(model => model.TemplateId)
@@ -9,7 +22,6 @@
         @Html.DropDownListFor(model => model.TemplateTypeId, Model.TemplateTypeList, "Select", new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.TemplateTypeId, "", new { @class = "text-danger" })
     </div>
-
 
     @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.ActionTypeName.ToLower() == "actionbased")
     {

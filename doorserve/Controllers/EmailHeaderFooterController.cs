@@ -26,7 +26,14 @@ namespace doorserve.Controllers
             EmailHeaderFooterMainModel model = new EmailHeaderFooterMainModel();
             model.EmailHeaderFooter = new EmailHeaderFooterModel();
             model.mainModel = Mapper.Map<List<EmailHeaderFooterModel>>(emailheaderfooter);
-            model.EmailHeaderFooter.ActionTypeList = new SelectList( await CommonModel.GetActionTypes(),"Value","Text");        
+            model.EmailHeaderFooter.ActionTypeList = new SelectList( await CommonModel.GetActionTypes(),"Value","Text");
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                model.EmailHeaderFooter.IsAdmin = true;
+                model.EmailHeaderFooter.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
+
+
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_Header_and_Footer_Template)]
@@ -39,26 +46,41 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(EmailHeaderFooterModel emailheaderfooter)
         {
-
+            if(ModelState.IsValid)
+            { 
             var emailheaderfooterModel = new EmailHeaderFooterModel
-                {
-                    EmailHeaderFooterId = emailheaderfooter.EmailHeaderFooterId,
-                    ActionTypeId = emailheaderfooter.ActionTypeId,
-                    Name = emailheaderfooter.Name,
-                    IsActive=emailheaderfooter.IsActive,
-                    HeaderHTML = emailheaderfooter.HeaderHTML,
-                    FooterHTML = emailheaderfooter.FooterHTML,
-                    UserId = CurrentUser.UserId,
-                    CompanyId= CurrentUser.CompanyId
-                };
+            {
+                EmailHeaderFooterId = emailheaderfooter.EmailHeaderFooterId,
+                ActionTypeId = emailheaderfooter.ActionTypeId,
+                Name = emailheaderfooter.Name,
+                IsActive = emailheaderfooter.IsActive,
+                HeaderHTML = emailheaderfooter.HeaderHTML,
+                FooterHTML = emailheaderfooter.FooterHTML,
+                UserId = CurrentUser.UserId,
+                CompanyId = emailheaderfooter.CompanyId
+            };
+            if (CurrentUser.UserTypeName.ToLower() != "super admin" && emailheaderfooterModel.EmailHeaderFooterId ==0)
+            {
+                emailheaderfooterModel.CompanyId = CurrentUser.CompanyId;
+            }
                 ResponseModel response = new ResponseModel();
-                if (emailheaderfooterModel.EmailHeaderFooterId != 0)
-                    response = await _emailHeaderFooterRepo.AddUpdateDeleteEmailHeaderFooter(emailheaderfooterModel, 'U');
-                else
-                    response = await _emailHeaderFooterRepo.AddUpdateDeleteEmailHeaderFooter(emailheaderfooterModel, 'I');
+            if (emailheaderfooterModel.EmailHeaderFooterId != 0)
+            
+                response = await _emailHeaderFooterRepo.AddUpdateDeleteEmailHeaderFooter(emailheaderfooterModel, 'U');
+         
+    
+            else
+                response = await _emailHeaderFooterRepo.AddUpdateDeleteEmailHeaderFooter(emailheaderfooterModel, 'I');
                 _emailHeaderFooterRepo.Save();
                 TempData["response"] = response;            
             return RedirectToAction("Index");
+            }
+            else
+            {
+                
+                return View (emailheaderfooter);
+
+            }
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit}, (int)MenuCode.EMail_Header_and_Footer_Template)]

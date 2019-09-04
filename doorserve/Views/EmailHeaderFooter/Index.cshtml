@@ -98,6 +98,7 @@
                 success: function (response) {
                     console.log(response);
                     $("#EmailHeaderFooterId").val(response.EmailHeaderFooterId);
+                    $("#CompanyId").val(response.CompanyId);
                     $("#Name").val(response.Name);
                     $("#ActionTypeId").val(response.ActionTypeId);
                     $("#IsActive").prop("checked", response.IsActive);

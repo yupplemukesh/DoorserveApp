@@ -19,7 +19,6 @@ namespace doorserve.Models.Template
         public SelectList MessageTypeList { get; set; }
         public List<TemplateModel> NonActionTemplates { get; set; }
         public List<TemplateModel> Templates { get; set; }
-        public List<TemplateTracker> TemplateTrackerList { get; set; }
-        public UserActionRights _UserActionRights { get; set; }
+        public List<TemplateTracker> TemplateTrackerList { get; set; }        
     }
 }

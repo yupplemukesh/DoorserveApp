@@ -5,16 +5,24 @@
 
 
 
-<div class="row form-group">
 
-    <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Action Type</label>
-
-        @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList,"--Select--", htmlAttributes: new { @class = "form-control"  })
-        @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
+@if (Model.IsAdmin)
+{
+    <div class="row form-group">
+        <div class="col-md-12">
+            <label class="control-label" for="form-control-9">Select Company</label>
+            @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList,"--Select--", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+        </div>
 
     </div>
-
+}
+<div class="row form-group">
+    <div class="col-md-12">
+        <label class="control-label" for="form-control-9">Action Type</label>
+        @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "--Select--", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
+    </div>
 </div>
 
 
@@ -38,10 +46,10 @@
 <div class="row form-group">
     <div class="col-sm-12 ">
         <label class="control-label" for="form-control-9">Header</p></label>
-        @Html.TextAreaFor(x=>x.HeaderHTML, new {@id= "editor1",@class="No-border" })
-        
+        @Html.TextAreaFor(x => x.HeaderHTML, new { @id = "editor1", @class = "No-border" })
+
         <script>
-             CKEDITOR.config.allowedContent = true;
+            CKEDITOR.config.allowedContent = true;
             CKEDITOR.replace('editor1', {
                 height: 350,
                 extraPlugins: 'colorbutton,colordialog'

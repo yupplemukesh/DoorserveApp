@@ -157,14 +157,19 @@ namespace doorserve
         {
             using (var _context = new ApplicationDbContext())
             {
+                
+                var param = new SqlParameter("@CompId", DBNull.Value);
+                var sp = new List<SqlParameter>();
+                param = new SqlParameter("@gatewayTypeId", GatewayTypeId);
+                sp.Add(param);
                 var query = "select GatewayId, GatewayName from MSTGateway where GatewayTypeId =@gatewayTypeId  AND IsActive=1";
                 if (compId != null)
+                {
+                    param.Value = compId;
                     query = query + " And companyId=@compId";
-                var sp = new List<SqlParameter>();
-                var param = new SqlParameter("@gatewayTypeId", GatewayTypeId);
-                sp.Add(param);
-                param = new SqlParameter("@compId", compId);
-                sp.Add(param);
+               
+                }
+               
                 var _Gateways =  _context.Database.SqlQuery<BindGateway>(query,sp.ToArray()).ToList();
                 return _Gateways;
             }
@@ -197,11 +202,17 @@ namespace doorserve
         {
             using (var _context = new ApplicationDbContext())
             {
-                
-                var query = "select WildCardId Value,WildCard Text,'' Val  from WildCard where IsActive=1";
+
+
+                var param = new SqlParameter("@compId", DBNull.Value);
+                var query = "select WildCardId Value,WildCard Text from WildCard where IsActive=1";
                 if (compId != null)
+                {
                     query = query + " and companyId=@compId";
-                var param = new SqlParameter("@compId", compId); 
+                    param = new SqlParameter("@compId", compId);
+                }
+
+   
 
                 var _clientData = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
                 return _clientData;

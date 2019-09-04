@@ -67,11 +67,16 @@ namespace doorserve.Controllers
             templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(CurrentUser.CompanyId), "Text", "Text");
             templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
             templatemodel.IsSystemDefined = true;
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                templatemodel.IsAdmin = true;
+                templatemodel.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(templatemodel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
-
+        [ValidateModel]
         public async Task<ActionResult> Create(TemplateModel templateModel)
         {
 
@@ -79,7 +84,8 @@ namespace doorserve.Controllers
                 Boolean Isvalid = false;
                 DataTable dtToEmailExcelData = new DataTable();
                 templateModel.UserId = CurrentUser.UserId;
-               templateModel.CompanyId = CurrentUser.CompanyId;
+            if (CurrentUser.UserTypeName.ToLower() != "super admin")
+                templateModel.CompanyId = CurrentUser.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
                 {
 
@@ -250,12 +256,17 @@ namespace doorserve.Controllers
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
             templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
-            templatemodel.GatewayList=new SelectList( CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId,CurrentUser.CompanyId), "GatewayId", "GatewayName"); 
-
+            templatemodel.GatewayList=new SelectList( CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId,CurrentUser.CompanyId), "GatewayId", "GatewayName");
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                templatemodel.IsAdmin = true;
+                templatemodel.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(templatemodel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
+        [ValidateModel]
         public async Task<ActionResult> Edit(TemplateModel templateModel)
         {
 
@@ -263,6 +274,7 @@ namespace doorserve.Controllers
             Boolean Isvalid = false;
             DataTable dtToEmailExcelData = new DataTable();
             templateModel.UserId = CurrentUser.UserId;
+            if (CurrentUser.UserTypeName.ToLower() != "super admin")
             templateModel.CompanyId = CurrentUser.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
             {
@@ -412,6 +424,7 @@ namespace doorserve.Controllers
             }
             if (Isvalid)
             {
+             
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'U');
                 _templateRepo.Save();
                 if (response.ResponseCode == 0)

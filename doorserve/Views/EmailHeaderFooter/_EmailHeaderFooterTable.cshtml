@@ -1,14 +1,16 @@
 ﻿@model IList<doorserve.Models.EmailHeaderFooterModel>
 @using doorserve.Models
 
-@{  var rights = ViewData["rights"] as doorserve.Models.UserActionRights;
- }
+
 
 
 <div class="table-responsive">
     <table class="table table-striped table-bordered dataTable" id="table-1">
         <thead>
             <tr>
+                <th>
+                    @Html.DisplayName("Company Name")
+                </th>
                 <th>
                     @Html.DisplayName("Action Type")
                 </th>
@@ -31,6 +33,9 @@
             @foreach (var item in Model)
             {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ActionTypeName)
                 </td>

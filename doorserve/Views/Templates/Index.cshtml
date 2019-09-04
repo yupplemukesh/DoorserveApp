@@ -51,6 +51,9 @@
                                             @Html.DisplayName("SLNo")
                                         </th>
                                         <th>
+                                            @Html.DisplayName("Company Name")
+                                        </th>
+                                        <th>
                                             @Html.DisplayName("Mailer Template Type")
                                         </th>
                                         <th>
@@ -89,45 +92,48 @@
                                 <tbody>
                                     @foreach (var item in Model.Templates)
                                     {
-                                        <tr>
-                                            <td>
-                                                @count
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MailerTemplateName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.MessageTypeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ActionTypeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.TemplateName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Subject)
-                                            </td>
+                                    <tr>
+                                        <td>
+                                            @count
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CompanyName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MailerTemplateName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MessageTypeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ActionTypeName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TemplateName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Subject)
+                                        </td>
 
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.BccEmails)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.IsSystemDefined)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.IsActive)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.AddedOn)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-                                            </td>
-                                            <td style="display: inline-flex">
-                                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "Templates", new { id = item.TemplateId })'>Edit</a>
-                                            </td>
-                                        </tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BccEmails)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsSystemDefined)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsActive)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AddedOn)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+                                        </td>
+                                        <td style="display: inline-flex">
+                                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "Templates", new { id = item.TemplateId })'>Edit</a>
+                                        </td>
+                                    </tr>
                                         count++;
                                     }
                                 </tbody>

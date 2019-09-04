@@ -63,10 +63,8 @@ namespace doorserve.Models.Template
         [DisplayName("Is System Defined ?")]
         public bool IsSystemDefined { get; set; }
         [DisplayName("Is Deleted ?")]
-        public bool? IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }      
       
-        public DateTime AddedOn { get; set; }
-        public int AddedBy { get; set; }
         //Email
         public Int64 EmailId { get; set; }
         public Int64 PixelId { get; set; }
@@ -104,7 +102,9 @@ namespace doorserve.Models.Template
         public SelectList WildCardList { get; set; }
         public SelectList EmailHeaderFooterList { get; set; }
         public List<TemplateTracker> TemplateTrackers{ get; set; }
-  
+        public string CompanyName { get; set; }
+        public bool IsAdmin { get; set; }
+        public SelectList CompanyList { get; set; }
     }
     public class BindGateway
     {
