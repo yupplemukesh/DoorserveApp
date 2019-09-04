@@ -34,10 +34,19 @@ namespace doorserve.Controllers
             
             SMSGateWayMainModel model = new SMSGateWayMainModel();
             model.Gateway = new SMSGatewayModel();
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                model.Gateway.IsAdmin = true;
+                model.Gateway.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
+
+
+
+
             model.mainModel = Mapper.Map<List<SMSGatewayModel>>(smsgateway);
             model.Gateway.GatewayTypeId = getwayTypeId;
             model.Gateway.GatewayList = new SelectList(smsgateway, "GatewayId", "GatewayName");
-            //model.Rights = (UserActionRights)HttpContext.Items["ActionsRights"];
+   
             return View(model);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.SMS_Gateway_Settings)]

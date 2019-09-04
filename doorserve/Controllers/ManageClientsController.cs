@@ -74,7 +74,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddOrEditBank(BankDetailModel bank)
         {
 
@@ -120,7 +120,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddOrPersonContactDetails(OtherContactPersonModel contact)
         {
             if (contact.ConAdhaarNumberFilePath != null && contact.ConAdhaarFileName != null)
@@ -228,7 +228,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddOrEditService(ServiceModel service)
         {
             if (service.ServiceId != null)
@@ -326,7 +326,7 @@ namespace doorserve.Controllers
         // POST: ManageClient/Create  
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddorEditClient(ClientModel client)
         {
             var statutory = await CommonModel.GetStatutoryType();
@@ -393,7 +393,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddorEditOrganization(ClientModel client,OrganizationModel org)
         {
             var cltns = TempData["client"] as ClientModel;
@@ -453,7 +453,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
-        [ValidateModel]
+ 
         public async Task<ActionResult> AddOrEditClientReg(ClientModel client)
         {
 

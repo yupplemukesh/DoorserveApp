@@ -34,8 +34,10 @@ namespace doorserve.Models
         public string SuccessMessage { get; set; }
         [DisplayName("OTP Sender")]
         public int? OTPSender { get; set; }
+        public string CompanyName { get; set; }
+        public bool IsAdmin { get; set; }
         public SelectList GatewayList { get; set; }
-        
+        public SelectList CompanyList { get; set; }
 
     }
 
@@ -45,8 +47,6 @@ namespace doorserve.Models
     {
         public List<SMSGatewayModel> mainModel { get; set; }
         public SMSGatewayModel Gateway { get; set; }
-        public UserActionRights Rights { get; set; }
-
 
     }
 }

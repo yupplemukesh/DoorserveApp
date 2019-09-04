@@ -362,7 +362,7 @@ namespace doorserve.Controllers
         // POST: ManageClient/Create  
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
-        [ValidateModel]
+        
         public async Task<ActionResult> AddorEditServiceProvider(ServiceProviderModel provider)
         {
 
@@ -457,7 +457,6 @@ namespace doorserve.Controllers
                 if (System.IO.File.Exists(Server.MapPath("~/UploadedImages/Providers/PANCards/" + provider.Organization.OrgPanFileName)))
                     System.IO.File.Delete(Server.MapPath("~/UploadedImages/Providers/PANCards/" + provider.Organization.OrgPanFileName));
             }
-
             if (provider.Organization.OrgGSTNumberFilePath != null)
                 provider.Organization.OrgGSTFileName = SaveImageFile(provider.Organization.OrgGSTNumberFilePath, "Gsts");
             if (provider.Organization.OrgPanNumberFilePath != null)
@@ -469,7 +468,6 @@ namespace doorserve.Controllers
             provider.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             try
             {
-
                 provider.Activetab = "tab-2";
                 provider.CreatedBy = CurrentUser.UserId;
                 var response = await _provider.AddUpdateDeleteProvider(provider);
@@ -502,7 +500,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
-        [ValidateModel]
+ 
         public async Task<ActionResult> AddOrEditASPReg(ServiceProviderModel provider)
         {
             var cltns = TempData["provider"] as ServiceProviderModel;
@@ -511,7 +509,6 @@ namespace doorserve.Controllers
             {
                 cltns.Remarks = provider.Remarks;
                 cltns.IsActive = provider.IsActive;
-
                 provider = cltns;
             }
             try
