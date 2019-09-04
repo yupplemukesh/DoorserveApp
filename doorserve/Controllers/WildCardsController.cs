@@ -33,6 +33,11 @@ namespace doorserve.Controllers
         {
             var wildcardmodel = new WildCardModel();
             wildcardmodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                wildcardmodel.IsAdmin = true;
+                wildcardmodel.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(wildcardmodel);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Wild_Cards)]
@@ -42,8 +47,10 @@ namespace doorserve.Controllers
         {
 
             wildcardModel.UserId = CurrentUser.UserId;
+            if (CurrentUser.UserTypeName.ToLower() != "super admin")
                 wildcardModel.CompanyId = CurrentUser.CompanyId;
-                var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'I');
+ 
+            var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'I');
                 _wildCardRepo.Save();
                 TempData["response"] = response;
                 return RedirectToAction("Index");
@@ -63,6 +70,11 @@ namespace doorserve.Controllers
             }
             wildcard.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             wildcard.actionTypes = ActionTypes;
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                wildcard.IsAdmin = true;
+                wildcard.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(wildcard);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Wild_Cards)]
@@ -71,7 +83,9 @@ namespace doorserve.Controllers
         public async Task<ActionResult> Edit(WildCardModel wildcardModel)
         {
     
+
             wildcardModel.UserId = CurrentUser.UserId;
+            if (CurrentUser.UserTypeName.ToLower() != "super admin")
                 wildcardModel.CompanyId = CurrentUser.CompanyId;
 
                 var response = await _wildCardRepo.AddUpdateDeleteWildCards(wildcardModel, 'U');

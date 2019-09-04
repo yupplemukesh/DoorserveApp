@@ -107,7 +107,7 @@
 
     <script>
         function GetGatwayDetails(Id) {
-            debugger;
+
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("Edit","smsGateway")',
@@ -116,6 +116,7 @@
                 data: { Id: Id },
                 success: function (response) {
                     $("#GatewayId").val(response.GatewayId);
+                    $("#CompanyId").val(response.CompanyId);
                     $("#GatewayName").val(response.GatewayName);
                     $("#GatewayTypeId").val(response.GatewayTypeId);
                     $("#IsActive").prop("checked", response.IsActive);

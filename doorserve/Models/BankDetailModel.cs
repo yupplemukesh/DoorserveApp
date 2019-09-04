@@ -57,10 +57,12 @@ namespace doorserve.Models
        public  virtual string Password { get; set; }
        public char EventAction { get; set; }
         public string AddedBy { get; set; }
-        public DateTime AddedOn { get; set; }
+        public DateTime? AddedOn { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? ModifiedOn { get; set; }
-
+        public string CompanyName { get; set; }
+       
+        public bool IsAdmin { get; set; } 
     }
 
 

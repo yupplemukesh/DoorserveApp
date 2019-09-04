@@ -13,6 +13,7 @@ namespace doorserve.Models.Gateway
         public NotificationGatewayModel()
         {
             GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
+            CompanyList = new SelectList(Enumerable.Empty<SelectListItem>());
 
         }
         public Int64 GatewayId { get; set; }
@@ -38,6 +39,7 @@ namespace doorserve.Models.Gateway
         [DisplayName("Google Project Name")]
         public string GoogleProjectName { get; set; }
         public SelectList GatewayList { get; set; }
+        public SelectList CompanyList { get; set; }
     }
 
     public class NotificationGateWayMainModel

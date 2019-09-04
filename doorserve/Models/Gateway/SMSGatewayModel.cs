@@ -13,8 +13,9 @@ namespace doorserve.Models
         public SMSGatewayModel()
         {
             GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
-
+            CompanyList= new SelectList(Enumerable.Empty<SelectListItem>());
         }
+    
         public Int64 GatewayId { get; set; }
         [Required]
         [DisplayName("Gateway Name")]
@@ -34,8 +35,6 @@ namespace doorserve.Models
         public string SuccessMessage { get; set; }
         [DisplayName("OTP Sender")]
         public int? OTPSender { get; set; }
-        public string CompanyName { get; set; }
-        public bool IsAdmin { get; set; }
         public SelectList GatewayList { get; set; }
         public SelectList CompanyList { get; set; }
 

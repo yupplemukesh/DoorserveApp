@@ -50,6 +50,9 @@
                         @Html.DisplayName("#SLNO")
                     </th>
                     <th>
+                        @Html.DisplayName("Company Name")
+                    </th>
+                    <th>
                         @Html.DisplayName("Name")
                     </th>
                     <th>
@@ -63,24 +66,27 @@
             </thead>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @count
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WildCard)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
+        <tr>
+            <td>
+                @count
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WildCard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
 
-                    <td style="display: inline-flex">
-                        @if (Permissions.Rights.Edit)
-                        {
-                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "WildCards", new { id = item.WildCardId })'>Edit</a>
-                        }
-                    </td>
-                </tr>
+            <td style="display: inline-flex">
+                @if (Permissions.Rights.Edit)
+                {
+                    <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "WildCards", new { id = item.WildCardId })'>Edit</a>
+                }
+            </td>
+        </tr>
                 count++;
             }
 

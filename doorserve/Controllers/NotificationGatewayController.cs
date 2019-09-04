@@ -36,6 +36,11 @@ namespace doorserve.Controllers
 
             NotificationGateWayMainModel model = new NotificationGateWayMainModel();
             model.Gateway = new NotificationGatewayModel();
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                model.Gateway.IsAdmin = true;
+                model.Gateway.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             model.mainModel = Mapper.Map<List<NotificationGatewayModel>>(notificationgateway);
             model.Gateway.GatewayTypeId = getwayTypeId;
             model.Gateway.GatewayList = new SelectList(notificationgateway, "GatewayId", "GatewayName");
@@ -69,6 +74,8 @@ namespace doorserve.Controllers
                     UserId = CurrentUser.UserId,
                     CompanyId=CurrentUser.CompanyId,
                 };
+                if (CurrentUser.UserTypeName.ToLower() == "super admin")
+                    gatewayModel.CompanyId = notificationgateway.CompanyId;
                 ResponseModel response = new ResponseModel();
                 if (gatewayModel.GatewayId != 0)
                     response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'U');

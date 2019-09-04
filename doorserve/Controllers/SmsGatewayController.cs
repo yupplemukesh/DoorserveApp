@@ -61,7 +61,6 @@ namespace doorserve.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var gatewayModel = new GatewayModel {
                     GatewayId = smsgateway.GatewayId,
                     GatewayTypeId = smsgateway.GatewayTypeId,
@@ -75,6 +74,8 @@ namespace doorserve.Controllers
                     UserId = CurrentUser.UserId,
                     CompanyId=CurrentUser.CompanyId
                 };
+                if (CurrentUser.UserTypeName.ToLower() == "super admin")
+                    gatewayModel.CompanyId = smsgateway.CompanyId;
                 ResponseModel response= new ResponseModel();
                 if (gatewayModel.GatewayId != 0)
                      response = await _gatewayRepo.AddUpdateDeleteGateway(gatewayModel, 'U');

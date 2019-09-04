@@ -13,7 +13,7 @@ namespace doorserve.Models
         public SMTPGatewayModel()
         {
             GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
-
+            CompanyList = new SelectList(Enumerable.Empty<SelectListItem>());
         }
 
         public Int64 GatewayId { get; set; }
@@ -42,6 +42,7 @@ namespace doorserve.Models
         public bool SSLEnabled { get; set; }
        
         public SelectList GatewayList { get;set;}
+        public SelectList CompanyList { get; set; }
     }
     public class SMTPGateWayMainModel
     {

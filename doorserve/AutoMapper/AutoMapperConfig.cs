@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using doorserve.Models;
 using doorserve.Models.ClientData;
+using doorserve.Models.Gateway;
 
 namespace doorserve.AutoMapper
 {
@@ -12,11 +13,10 @@ namespace doorserve.AutoMapper
     {
         public static void Initialize()
         {
-            Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<SMSGateway, SMSGatewayModel>().ReverseMap();
-                cfg.CreateMap<SMSGateway, SMTPGatewayModel>().ReverseMap();
-
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<SMSGatewayModel, GatewayModel>().ReverseMap();
+                cfg.CreateMap<SMTPGatewayModel, GatewayModel>().ReverseMap();
+                cfg.CreateMap<NotificationGatewayModel, GatewayModel>().ReverseMap();
             });
         }
     }

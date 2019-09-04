@@ -9,10 +9,7 @@ namespace doorserve.Models.Gateway
 {
     public class GatewayModel:RegistrationModel
     {
-        public GatewayModel(){
-
-            GatewayList = new SelectList(Enumerable.Empty<SelectListItem>());
-        }
+      
         public Int64 GatewayId { get; set; }
         [DisplayName("Gateway Name")]
         public string GatewayName { get; set; }
@@ -52,7 +49,7 @@ namespace doorserve.Models.Gateway
         public string GoogleProjectName { get; set; }
 
 
-      
-        public SelectList GatewayList { get; set; }
+ 
+    
     }
 }

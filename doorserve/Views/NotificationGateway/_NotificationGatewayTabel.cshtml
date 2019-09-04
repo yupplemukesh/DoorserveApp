@@ -10,7 +10,8 @@
         <thead>
             <tr>
                 <th>SL No</th>
-                <th>GatewayName</th>
+                <th>Company Name</th>
+                <th>Gateway Name</th>
                 <th>IsActive</th>
                 <th>Action</th>
 
@@ -19,19 +20,20 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@count</td>
-                    <td>@item.GatewayName</td>
-                    <td>@item.IsActive</td>
-                    <td class="text-center">
-                        @if (Permissions.Rights.Edit)
-                        {
-                            <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetGatwayDetails(@item.GatewayId)"><i class="glyphicon glyphicon-pencil"></i></button>
-                        }
+            <tr>
+                <td>@count</td>
+                <td>@item.CompanyName</td>
+                <td>@item.GatewayName</td>
+                <td>@item.IsActive</td>
+                <td class="text-center">
+                    @if (Permissions.Rights.Edit)
+                    {
+                        <button type="button" class="btn btn-success btn-circle btn-sm" onclick="GetGatwayDetails(@item.GatewayId)"><i class="glyphicon glyphicon-pencil"></i></button>
+                    }
 
-                    </td>
+                </td>
 
-                </tr>
+            </tr>
                 count++;
             }
 

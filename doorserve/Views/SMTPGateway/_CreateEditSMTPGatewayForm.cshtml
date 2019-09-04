@@ -3,6 +3,17 @@
 @Html.HiddenFor(x => x.GatewayId)
 @Html.HiddenFor(x => x.GatewayTypeId)
 
+@if (Model.IsAdmin)
+{
+    <div class="row form-group">
+        <div class="col-md-6">
+            <label class="control-label" for="form-control-9">Select Company</label>
+            @Html.DropDownListFor(model => model.CompanyId, Model.CompanyList, "Select", new { @class = "form-control input-md", @placeholder = "Gateway Name" })
+            @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
+        </div>
+
+    </div>
+}
 <div class="row">
     <div class="col-md-6 form-group">
         <label class=" control-label" for="form-control-9">Gateway Name</label>

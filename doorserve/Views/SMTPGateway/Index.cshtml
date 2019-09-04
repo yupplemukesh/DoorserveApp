@@ -48,7 +48,9 @@
                     <th>
                         @Html.DisplayName("SL NO")
                     </th>
-
+                    <th>
+                        @Html.DisplayName("Company Name")
+                    </th>
                     <th>
                         @Html.DisplayName("Gateway Name")
                     </th>
@@ -75,36 +77,39 @@
             </thead>
             @foreach (var item in Model.mainModel)
             {
-                <tr>
-                    <td>
-                        @count
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GatewayName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SmtpUserName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SmtpServerName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsDefault)
-                    </td>
-                    <td style="display: inline-flex">
-                        @if (Permissions.Rights.Edit)
-                        {
-                            <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "SMTPGateway", new { id = item.GatewayId })'>Edit</a>
-                        }
-                    </td>
+        <tr>
+            <td>
+                @count
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GatewayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SmtpUserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SmtpServerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDefault)
+            </td>
+            <td style="display: inline-flex">
+                @if (Permissions.Rights.Edit)
+                {
+                    <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "SMTPGateway", new { id = item.GatewayId })'>Edit</a>
+                }
+            </td>
 
-                </tr>
+        </tr>
                 count++;
             }
 

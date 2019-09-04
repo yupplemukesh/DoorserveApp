@@ -19,7 +19,7 @@ namespace doorserve.Models
         public string ActionTypeIds { get; set; }
 
         public SelectList ActionTypeList{ get; set; }
-
+        public SelectList CompanyList { get; set; }
     }
 
 }
