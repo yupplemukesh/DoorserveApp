@@ -137,7 +137,7 @@ namespace doorserve
                 return _actionTypes;
             }
         }
-        public static async Task<List<CheckBox>> GetHeaderFooter(Guid? CompId)
+        public static List<CheckBox> GetHeaderFooter(Guid? CompId)
         {
             using (var _context = new ApplicationDbContext())
             {
@@ -146,10 +146,12 @@ namespace doorserve
                 var query = "select emailHeaderFooterId value,name text from EmailHeaderFooter where isActive=1";
                 if (CompId != null)
                 {
-                    param.Value = CompId;
                     query = query + " and CompanyId=@compId";
+                    param.Value = CompId;    
                 }
-                var _headerTypes = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                else
+                    query = query + " and CompanyId is null";
+                var _headerTypes =  _context.Database.SqlQuery<CheckBox>(query, param).ToList();
                 return _headerTypes;
             }
         }
@@ -157,19 +159,22 @@ namespace doorserve
         {
             using (var _context = new ApplicationDbContext())
             {
-                
-                var param = new SqlParameter("@CompId", DBNull.Value);
                 var sp = new List<SqlParameter>();
-                param = new SqlParameter("@gatewayTypeId", GatewayTypeId);
-                sp.Add(param);
+                var param = new SqlParameter("@CompId", DBNull.Value);
+          
                 var query = "select GatewayId, GatewayName from MSTGateway where GatewayTypeId =@gatewayTypeId  AND IsActive=1";
                 if (compId != null)
                 {
                     param.Value = compId;
                     query = query + " And companyId=@compId";
-               
+
                 }
-               
+                else
+                    query = query + " And companyId is null";
+                sp.Add(param);
+                param = new SqlParameter("@gatewayTypeId", GatewayTypeId);
+                sp.Add(param);
+
                 var _Gateways =  _context.Database.SqlQuery<BindGateway>(query,sp.ToArray()).ToList();
                 return _Gateways;
             }
@@ -198,23 +203,20 @@ namespace doorserve
                 return Section;
             }
         }
-        public static async Task<List<CheckBox>> GetWildCards(Guid ? compId)
+        public static List<CheckBox> GetWildCards(Guid ? compId)
         {
             using (var _context = new ApplicationDbContext())
             {
-
-
                 var param = new SqlParameter("@compId", DBNull.Value);
-                var query = "select WildCardId Value,WildCard Text from WildCard where IsActive=1";
+                var query = "select WildCardId Value,WildCard Text from WildCard where IsActive=1 ";
                 if (compId != null)
                 {
                     query = query + " and companyId=@compId";
                     param = new SqlParameter("@compId", compId);
                 }
-
-   
-
-                var _clientData = await _context.Database.SqlQuery<CheckBox>(query, param).ToListAsync();
+                else                
+                    query = query + " and companyId is null"; 
+                var _clientData =  _context.Database.SqlQuery<CheckBox>(query, param).ToList();
                 return _clientData;
             }
         }

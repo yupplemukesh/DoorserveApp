@@ -102,8 +102,7 @@ namespace doorserve.Models.Template
         public SelectList WildCardList { get; set; }
         public SelectList EmailHeaderFooterList { get; set; }
         public List<TemplateTracker> TemplateTrackers{ get; set; }
-        public string CompanyName { get; set; }
-        public bool IsAdmin { get; set; }
+     
         public SelectList CompanyList { get; set; }
     }
     public class BindGateway
@@ -116,6 +115,13 @@ namespace doorserve.Models.Template
         public int HeaderFooterId { get; set; }
         public string HeaderFooterName { get; set; }
 
+    }
+
+    public class HeaderFooterTemplateModel
+    {
+        public SelectList EmailHeaderFooterList { get; set; }
+        public SelectList WildCardList { get; set; }
+        public SelectList GatewayList { get; set; }
     }
     public class TemplateTracker
     {

@@ -182,7 +182,7 @@ namespace doorserve.Controllers
                     {
                         var Templates = await _templateRepo.GetTemplateByActionId(12,CurrentUser.CompanyId);
                         CurrentUser.Email = contact.ConEmailAddress;
-                        var WildCards = await CommonModel.GetWildCards(CurrentUser.CompanyId);
+                        var WildCards =  CommonModel.GetWildCards(CurrentUser.CompanyId);
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = contact.ConFirstName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
@@ -201,7 +201,7 @@ namespace doorserve.Controllers
                     {
                         var Templates = await _templateRepo.GetTemplateByActionId(12,CurrentUser.CompanyId);
                         CurrentUser.Email = contact.ConEmailAddress;
-                        var WildCards = await CommonModel.GetWildCards(CurrentUser.CompanyId);
+                        var WildCards =  CommonModel.GetWildCards(CurrentUser.CompanyId);
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = contact.ConFirstName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
