@@ -2851,6 +2851,7 @@ table td[class*=col-], table th[class*=col-] {
         -ms-overflow-style: -ms-autohiding-scrollbar;
         border: 1px solid #ddd;
     }
+ 
 
     .user-role a {
         float:none !important;
@@ -4656,7 +4657,7 @@ tbody.collapse.in {
         }
 
             .navbar-nav > li > a {
-                padding:10px 7px;
+                padding:10px 4px;
             }
 }
 
@@ -4826,6 +4827,7 @@ tbody.collapse.in {
 
     .navbar-default .navbar-nav > li > a {
         color: #777;
+        padding:10px 15px;
     }
 
         .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
@@ -7089,6 +7091,7 @@ td > .carousel-caption {
     td.visible-sm, th.visible-sm {
         display: table-cell !important;
     }
+ 
 }
 
 @media (min-width:768px) and (max-width:991px) {
@@ -7101,6 +7104,25 @@ td > .carousel-caption {
     .visible-sm-inline {
         display: inline !important;
     }
+
+    .user-role a span {
+        display: block !important;
+    }
+
+    .navbar-nav > li.nav-table > a {
+        display: block;
+    }
+
+    .navbar-default .navbar-nav > li > a {
+        padding: 10px 3px
+    }
+
+    .user-role {
+        text-align: center;
+    }
+    .navbar-nav > li.nav-table > a{display:block !important; margin-top:9px}
+    .navbar-search-group .form-control{width:75px}
+   
 }
 
 @media (min-width:768px) and (max-width:991px) {
@@ -8740,6 +8762,7 @@ td > .carousel-caption {
         display: none;
         left: 0;
     }
+   
 }
 
 .contacts .c-right-toolbar .crt-detail-mode-turn-off {
@@ -18159,7 +18182,7 @@ td > .carousel-caption {
 
         .navbar-header .navbar-brand img {
             display: inline-block;
-            width:42%;
+            width:75px;
         }
 
 @media (min-width:768px) {
@@ -18232,6 +18255,7 @@ td > .carousel-caption {
         position: absolute;
         z-index: 1001;
     }
+   
 
     .navbar-nav > li.dropdown.open > a:before {
         border-bottom-width: 9px;
@@ -18260,6 +18284,7 @@ td > .carousel-caption {
         padding-top: 0;
         padding-bottom: 0;
     }
+
 
         .navbar-nav > li.nav-table > a > .nav-cell {
             display: table-cell;
@@ -18300,15 +18325,18 @@ td > .carousel-caption {
 
 @media (min-width:768px) {
     .navbar-search-group .form-control {
-        width: 120px;
+        width: 75px;
     }
+    .navbar-search-group .form-control{padding-right:0}
+    .navbar-form{padding:0px 0px;}
+   
 }
 
 @media (min-width:992px) {
     .navbar-search-group .form-control {
         -webkit-transition: width .3s;
         transition: width .3s;
-        width: 200px;
+        width: 230px;
     }
 
         .navbar-search-group .form-control:focus {
@@ -19630,6 +19658,9 @@ textarea {
             }
 
     .navbar-header .navbar-brand img{width:12%}
+    .navbar-header .navbar-brand {
+        left: 53%
+    }
 }
 
 .table-borderless > tbody > tr > td, .table-borderless > tbody > tr > th, .table-borderless > tfoot > tr > td, .table-borderless > tfoot > tr > th, .table-borderless > thead > tr > td, .table-borderless > thead > tr > th {
@@ -20529,12 +20560,15 @@ a.bg-dribbble:focus, a.bg-dribbble:hover {
     .hidden-md-up {
         display: none !important;
     }
+    
 }
 
 @media (max-width:991px) {
     .hidden-md-down {
         display: none !important;
     }
+  
+
 }
 
 @media (min-width:992px) {
@@ -23559,7 +23593,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 }
 
 .nav-cell {
-    color: #333;
+    color: #777777;
     text-decoration: none;
     font-size: 12px;
 }

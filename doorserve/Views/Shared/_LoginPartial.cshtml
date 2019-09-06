@@ -12,11 +12,11 @@
     <ul class="nav navbar-nav navbar-right">
         <li class="nav-table user-role">
             <a href="#" class="dropdown-toggle">
-                <span class="nav-cell menu-icon p-r-5 ">
+                <span class="nav-cell menu-icon">
                     <img src="~/Content/img/icon-img/user-t.png">
 
                 </span>
-                <label class="nav-cell p-l-10">
+                <label class="nav-cell">
                     @if (SessionModel != null)
                     {
                     @SessionModel.UserTypeName
@@ -24,10 +24,10 @@
                 </label>
             </a>
             <a href="#" class="dropdown-toggle">
-                <span class="nav-cell menu-icon p-r-5 ">
+                <span class="nav-cell menu-icon">
                     <img src="~/Content/img/icon-img/user-r.png">
                 </span>
-                <label class="nav-cell p-l-10">
+                <label class="nav-cell">
                     @if (SessionModel != null)
                     {
                         @SessionModel.UserRole
@@ -96,7 +96,7 @@
             {
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-cell p-r-10">
+                    <span class="nav-cell p-r-5">
                         <img class="img-circle" src="~/content/img/avatars/1.jpg" alt="" width="32" height="32">
                     </span>
                     <span class="nav-cell">
