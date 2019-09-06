@@ -39,7 +39,7 @@ namespace doorserve.Controllers
         {
 
 
-            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel {CompId= CurrentUser.CompanyId });
+            var templates = await _templateRepo.GetTemplates(new Filters.FilterModel { CompId = CurrentUser.CompanyId });
             templates.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templates.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             return View(templates);
@@ -57,15 +57,15 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         public async Task<ActionResult> Create()
         {
-            
+
             var templatemodel = new TemplateModel();
             templatemodel.IsActive = true;
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(CurrentUser.CompanyId), "Text", "Text");
-            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
+            templatemodel.WildCardList = new SelectList(CommonModel.GetWildCards(CurrentUser.CompanyId), "Text", "Text");
+            templatemodel.EmailHeaderFooterList = new SelectList(CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
             templatemodel.IsSystemDefined = true;
             if (CurrentUser.UserTypeName.ToLower() == "super admin")
             {
@@ -76,105 +76,105 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> Create(TemplateModel templateModel)
         {
 
-            var response =new doorserve.Models.ResponseModel();
-                Boolean Isvalid = false;
-                DataTable dtToEmailExcelData = new DataTable();
-                templateModel.UserId = CurrentUser.UserId;
+            var response = new doorserve.Models.ResponseModel();
+            Boolean Isvalid = false;
+            DataTable dtToEmailExcelData = new DataTable();
+            templateModel.UserId = CurrentUser.UserId;
             if (CurrentUser.UserTypeName.ToLower() != "super admin")
                 templateModel.CompanyId = CurrentUser.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
-                {
+            {
 
                 var times = templateModel.ScheduleTime.Split(':');
 
                 templateModel.ScheduleDateTime = Convert.ToDateTime(templateModel.ScheduleDate).AddHours(Convert.ToInt32(times[0])).AddMinutes(Convert.ToInt32(times[1])).ToString();
-                }
-                if (templateModel.MessageTypeName == "SMTP Gateway")
+            }
+            if (templateModel.MessageTypeName == "SMTP Gateway")
+            {
+                if (templateModel.ToEmailFile != null)
                 {
-                    if (templateModel.ToEmailFile != null)
+                    string excelPath = SaveFile(templateModel.ToEmailFile, "ToEmail");
+                    string conString = string.Empty;
+                    string extension = Path.GetExtension(templateModel.ToEmailFile.FileName);
+                    switch (extension)
                     {
-                        string excelPath = SaveFile(templateModel.ToEmailFile, "ToEmail");
-                        string conString = string.Empty;
-                        string extension = Path.GetExtension(templateModel.ToEmailFile.FileName);
-                        switch (extension)
-                        {
-                            case ".xls": //Excel 97-03
-                                conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-                                break;
-                            case ".xlsx": //Excel 07 or higher
-                                conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-                                break;
+                        case ".xls": //Excel 97-03
+                            conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                            break;
+                        case ".xlsx": //Excel 07 or higher
+                            conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                            break;
 
-                        }
-                        conString = string.Format(conString, excelPath);
-                       
-                        using (OleDbConnection excel_con = new OleDbConnection(conString))
-                        {
-                            excel_con.Open();
-                            string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
-                            dtToEmailExcelData.Columns.AddRange(new DataColumn[1] {
+                    }
+                    conString = string.Format(conString, excelPath);
+
+                    using (OleDbConnection excel_con = new OleDbConnection(conString))
+                    {
+                        excel_con.Open();
+                        string sheet1 = excel_con.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null).Rows[0]["TABLE_NAME"].ToString();
+                        dtToEmailExcelData.Columns.AddRange(new DataColumn[1] {
                             new DataColumn("ToEmail", typeof(string))
                         });
                         using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT [To Email]as ToEmail  FROM [" + sheet1 + "]", excel_con))
                         {
-                                oda.Fill(dtToEmailExcelData);
+                            oda.Fill(dtToEmailExcelData);
                         }
                         excel_con.Close();
-                        }
-                        if (dtToEmailExcelData != null && dtToEmailExcelData.Rows.Count > 0)
+                    }
+                    if (dtToEmailExcelData != null && dtToEmailExcelData.Rows.Count > 0)
+                    {
+                        var emailChecklist = dtToEmailExcelData.AsEnumerable().Select(x =>
+                                      new { Valid = IsEmail(x.Field<string>("ToEmail")) }).ToList();
+
+                        int Count = (from mail in emailChecklist
+                                     where mail.Valid == false
+                                     select mail).Count();
+                        if (Count > 0)
                         {
-                            var emailChecklist = dtToEmailExcelData.AsEnumerable().Select(x =>
-                                          new { Valid = IsEmail(x.Field<string>("ToEmail")) }).ToList();
+                            response.Response = "Upload Valid Email";
+                            response.IsSuccess = Isvalid;
+                            TempData["response"] = response;
+                            return Redirect("Create");
+                        }
+                        else
+                            Isvalid = true;
 
-                            int Count = (from mail in emailChecklist
-                                       where mail.Valid == false
-                                       select mail).Count();
-                            if (Count > 0)
-                            {
-                                response.Response = "Upload Valid Email";
-                                response.IsSuccess = Isvalid;
-                                TempData["response"] = response;
-                                return Redirect("Create");
-                            }
-                            else
-                                Isvalid = true;
+                        var ToEmailList = dtToEmailExcelData.AsEnumerable().Select(r => r.Field<string>("ToEmail")).ToList();
+                        templateModel.UploadedEmail = string.Join(";", ToEmailList);
+                        templateModel.TotalCount = dtToEmailExcelData.Rows.Count;
+                    }
+                }
+                if (!string.IsNullOrEmpty(templateModel.ToEmail))
+                {
+                    string[] strToemail = templateModel.ToEmail.Split(';');
 
-                            var ToEmailList = dtToEmailExcelData.AsEnumerable().Select(r => r.Field<string>("ToEmail")).ToList();
-                            templateModel.UploadedEmail = string.Join(";", ToEmailList);
-                            templateModel.TotalCount = dtToEmailExcelData.Rows.Count;
-                        }                      
-                    }
-                    if (!string.IsNullOrEmpty(templateModel.ToEmail))
-                    {
-                        string[] strToemail = templateModel.ToEmail.Split(';');
-
-                        templateModel.TotalCount += strToemail.Length;
-                        Isvalid = true;
-                    }
-                    if (!string.IsNullOrEmpty(templateModel.ToCCEmail))
-                    {
-                        string[] strToEmailcc = templateModel.ToCCEmail.Split(';');
-                        templateModel.TotalCount += strToEmailcc.Length;
-                        Isvalid = true;
-                    }
+                    templateModel.TotalCount += strToemail.Length;
+                    Isvalid = true;
+                }
+                if (!string.IsNullOrEmpty(templateModel.ToCCEmail))
+                {
+                    string[] strToEmailcc = templateModel.ToCCEmail.Split(';');
+                    templateModel.TotalCount += strToEmailcc.Length;
+                    Isvalid = true;
+                }
                 if (templateModel.TemplateTypeId == 69)
                 {
                     Isvalid = true;
                 }
-                    if (!Isvalid)
-                    {
-                        response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
-                        response.IsSuccess = Isvalid;
-                        TempData["response"] = response;
-                        return Redirect("Index");
-                    }                    
-                }
-                else
+                if (!Isvalid)
                 {
+                    response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
+                    response.IsSuccess = Isvalid;
+                    TempData["response"] = response;
+                    return Redirect("Index");
+                }
+            }
+            else
+            {
                 if (templateModel.ToMobileNoFile != null)
                 {
                     string excelPath = SaveFile(templateModel.ToMobileNoFile, "ToMobile");
@@ -226,37 +226,37 @@ namespace doorserve.Controllers
                 {
                     Isvalid = true;
                 }
-            }            
+            }
             if (Isvalid)
             {
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'I');
-               // response.Response = "Successfully inserted record";
+                // response.Response = "Successfully inserted record";
                 //response.IsSuccess = Isvalid;
                 TempData["response"] = response;
             }
 
-            return RedirectToAction("Index");           
+            return RedirectToAction("Index");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
-        public async Task<ActionResult> Edit(int id,Guid? GUID)
+        public async Task<ActionResult> Edit(int id, Guid? GUID)
         {
-   
+
             var templatemodel = new TemplateModel();
-            templatemodel = await _templateRepo.GetTemplateByGUID(id,GUID);
-            if(!string.IsNullOrEmpty(templatemodel.ScheduleDateTime))
+            templatemodel = await _templateRepo.GetTemplateByGUID(id, GUID);
+            if (!string.IsNullOrEmpty(templatemodel.ScheduleDateTime))
             {
-               string[] strSheduleArray = templatemodel.ScheduleDateTime.Split(' ');
+                string[] strSheduleArray = templatemodel.ScheduleDateTime.Split(' ');
                 templatemodel.ScheduleDate = strSheduleArray[0];
                 templatemodel.ScheduleTime = strSheduleArray[1];
             }
 
-            templatemodel.WildCardList = new SelectList(await CommonModel.GetWildCards(CurrentUser.CompanyId), "Text", "Text");
+            templatemodel.WildCardList = new SelectList(CommonModel.GetWildCards(templatemodel.CompanyId), "Text", "Text");
             templatemodel.ActionTypeList = new SelectList(await CommonModel.GetActionTypes(), "Value", "Text");
             templatemodel.MessageTypeList = new SelectList(await CommonModel.GetLookup("Gateway"), "Value", "Text");
             templatemodel.TemplateTypeList = new SelectList(await CommonModel.GetLookup("Template"), "Value", "Text");
             templatemodel.PriorityTypeList = new SelectList(await CommonModel.GetLookup("Priority"), "Value", "Text");
-            templatemodel.EmailHeaderFooterList = new SelectList(await CommonModel.GetHeaderFooter(CurrentUser.CompanyId), "Value", "Text");
-            templatemodel.GatewayList=new SelectList( CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId,CurrentUser.CompanyId), "GatewayId", "GatewayName");
+            templatemodel.EmailHeaderFooterList = new SelectList(CommonModel.GetHeaderFooter(templatemodel.CompanyId), "Value", "Text");
+            templatemodel.GatewayList = new SelectList(CommonModel.GetMailerGatewayList(templatemodel.MessageTypeId, templatemodel.CompanyId), "GatewayId", "GatewayName");
             if (CurrentUser.UserTypeName.ToLower() == "super admin")
             {
                 templatemodel.IsAdmin = true;
@@ -266,7 +266,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.EMail_SMS_Notification_IVR_Template)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> Edit(TemplateModel templateModel)
         {
 
@@ -275,7 +275,7 @@ namespace doorserve.Controllers
             DataTable dtToEmailExcelData = new DataTable();
             templateModel.UserId = CurrentUser.UserId;
             if (CurrentUser.UserTypeName.ToLower() != "super admin")
-            templateModel.CompanyId = CurrentUser.CompanyId;
+                templateModel.CompanyId = CurrentUser.CompanyId;
             if (!string.IsNullOrEmpty(templateModel.ScheduleDate) && !string.IsNullOrEmpty(templateModel.ScheduleTime))
             {
                 var times = templateModel.ScheduleTime.Split(':');
@@ -356,7 +356,7 @@ namespace doorserve.Controllers
                     templateModel.TotalCount += strToEmailcc.Length;
                     Isvalid = true;
                 }
-               
+
                 if (!Isvalid)
                 {
                     response.Response = "Please Enter To CC Email Or Upload To Email Excel file";
@@ -424,25 +424,25 @@ namespace doorserve.Controllers
             }
             if (Isvalid)
             {
-             
+
                 response = await _templateRepo.AddUpdateDeleteTemplate(templateModel, 'U');
                 _templateRepo.Save();
                 if (response.ResponseCode == 0)
                 {
                     response.Response = "Successfully updated";
                 }
-               
+
                 TempData["response"] = response;
                 TempData.Keep("response");
             }
             return RedirectToAction("Index");
         }
-        public  ActionResult  BindGateway(Int64 GatewayTypeId)
+        public ActionResult BindGateway(Int64 GatewayTypeId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var getway =  CommonModel.GetMailerGatewayList(GatewayTypeId, CurrentUser.CompanyId);
-               
+                var getway = CommonModel.GetMailerGatewayList(GatewayTypeId, CurrentUser.CompanyId);
+
                 return Json(getway, JsonRequestBehavior.AllowGet);
             }
         }
@@ -475,9 +475,9 @@ namespace doorserve.Controllers
             else
                 return false;
         }
-        public async Task<JsonResult> GetuploadedDataList(Guid GUID,string MessageTypeName)
+        public async Task<JsonResult> GetuploadedDataList(Guid GUID, string MessageTypeName)
         {
-            var templates = await _templateRepo.GetUploadedExcelListByGUID(GUID,MessageTypeName);
+            var templates = await _templateRepo.GetUploadedExcelListByGUID(GUID, MessageTypeName);
             return Json(templates, JsonRequestBehavior.AllowGet);
         }
         public async Task<JsonResult> DeleteUploadedExcelData(Guid GUID, string MessageTypeName, string UploadedData)
@@ -486,17 +486,25 @@ namespace doorserve.Controllers
             string strUploaded = string.Empty;
             string mstrMsgType = "SMTP Gateway";
             if (MessageTypeName.ToLower() == mstrMsgType.ToLower())
-            { 
-            strUploaded = UploadedData.Replace(',', ';');
+            {
+                strUploaded = UploadedData.Replace(',', ';');
             }
             else
             {
                 strUploaded = UploadedData;
             }
-            
+
             var templates = await _templateRepo.DeleteUploadedExcelData(GUID, MessageTypeName, strUploaded);
             return Json(templates, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult GetHeaderFooterByCompany(Guid? compId,int MessageTypeId)
+        {
+            var result = new HeaderFooterTemplateModel {
+                EmailHeaderFooterList = new SelectList(CommonModel.GetHeaderFooter(compId), "value", "text"),
+                WildCardList = new SelectList(CommonModel.GetWildCards(compId), "value", "text"),
+               GatewayList = new SelectList(CommonModel.GetMailerGatewayList(MessageTypeId, compId), "GatewayId", "GatewayName")
+        };
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -288,7 +288,7 @@ namespace doorserve.Controllers
                     {
                         UserPassword.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(UserPassword.Password, true);
                         var Templates = await _templateRepo.GetTemplateByActionId(11, UserPassword.CompanyId);
-                        var WildCards = await CommonModel.GetWildCards(UserPassword.CompanyId);
+                        var WildCards =  CommonModel.GetWildCards(UserPassword.CompanyId);
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = UserPassword.UserName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();

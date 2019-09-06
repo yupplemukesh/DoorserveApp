@@ -1335,7 +1335,7 @@ html {
 
 body {
     font-family: Roboto, sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.538462;
     color: #333;
     background-color: #eee;
@@ -2735,7 +2735,7 @@ th {
     width: 100%;
     max-width: 100%;
     margin-bottom: 20px;
-    font-size:13px;
+    font-size:12px;
 }
 
     .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
@@ -16850,7 +16850,7 @@ td > .carousel-caption {
             border-top: 1px solid transparent;
             color: #333;
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             line-height: 18px;
             padding: 10px 15px;
             position: relative;
@@ -23561,7 +23561,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .nav-cell {
     color: #333;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .sidebar-menu > li > a {color:#333;

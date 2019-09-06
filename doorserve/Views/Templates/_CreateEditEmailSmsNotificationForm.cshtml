@@ -630,6 +630,37 @@
         showMaskOnHover: false,
         //hourFormat: 24
     });
+
+    $(document).on("change", "#CompanyId", function (e) {
+
+       
+     $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetHeaderFooterByCompany","Templates")",
+            data: {compId: $(this).val(),"MessageTypeId": $("#MessageTypeId").val()},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+             $("#WildCards").empty().append("<option>select</option>");
+                $("#EmailHeaderFooterId").empty().append("<option>select</option>");
+                   $("#GatewayId").empty().append("<option>select</option>");
+             $.each(data.EmailHeaderFooterList, function (key, value) {
+                 var ops = '<option value=' + value.Value + '>' + value.Text + '</option>'
+                 $("#EmailHeaderFooterId").append(ops);
+             });
+             $.each(data.WildCardList, function (key, value) {
+                 var ops = '<option value=' + value.Value + '>' + value.Text + '</option>'
+                 $("#WildCards").append(ops);
+             });
+              $.each(data.GatewayList, function (key, value) {
+                 var ops = '<option value=' + value.Value + '>' + value.Text + '</option>'
+                 $("#GatewayId").append(ops);
+             });
+         }  
+     });
+ 
+    })
+
 </script>
 
 
