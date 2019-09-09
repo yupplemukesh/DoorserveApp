@@ -12,7 +12,7 @@
     <div class="col-md-8 col-sm-8 col-lg-8">
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
@@ -22,7 +22,7 @@
 
                 @Html.LabelFor(model => model.BrandDescription, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextAreaFor(model => model.BrandDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
@@ -32,7 +32,7 @@
 
                 @Html.LabelFor(model => model.MetaKeyword, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextAreaFor(model => model.MetaKeyword, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
@@ -42,7 +42,7 @@
 
                 @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextAreaFor(model => model.MetaDescription, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
@@ -52,7 +52,7 @@
 
                 @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextBoxFor(model => model.MetaTitle, htmlAttributes: new { @class = "form-control" })
             </div>
@@ -62,7 +62,7 @@
 
                 @Html.LabelFor(model => model.UrlName, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextBoxFor(model => model.UrlName, htmlAttributes: new { @class = "form-control" })
             </div>
@@ -72,7 +72,7 @@
 
                 @Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextBoxFor(model => model.Header, htmlAttributes: new { @class = "form-control" })
             </div>
@@ -82,7 +82,7 @@
 
                 @Html.LabelFor(model => model.Footer, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextBoxFor(model => model.Footer, htmlAttributes: new { @class = "form-control" })
             </div>
@@ -92,7 +92,7 @@
 
                 @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
 
                 @Html.TextAreaFor(model => model.Comments, htmlAttributes: new { @class = "form-control", @cols = "42", @rows = "2" })
             </div>
@@ -102,7 +102,7 @@
 
                 @Html.LabelFor(model => model.BrandImage, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="col-md-5 col-sm-12 col-xs-12">
 
                 @Html.TextBoxFor(model => model.BrandIMG, htmlAttributes: new { @type = "file", accept = "image/*", @class = "form-control", @onchange = "readURL(this);" })
 
@@ -132,7 +132,7 @@
         </div>
         <div class="ln_solid"></div>
         <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+            <div class="col-md-6 col-sm-12 col-xs-12 col-md-offset-4">
                 @*<button class="btn btn-primary" type="button">Cancel</button>*@
                 <button class="btn btn-primary" type="reset" id="ResetImage">Reset</button>
                 <button type="submit" class="btn btn-success" id="btnNotify">Submit</button>

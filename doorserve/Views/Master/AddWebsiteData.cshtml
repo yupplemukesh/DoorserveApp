@@ -8,7 +8,7 @@
             <div class="col-md-3 col-md-offset-1 col-xs-12">
                 @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.DropDownListFor(model => model.BrandName, Model.BrandList,  new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'Model_Id', this)" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
@@ -17,7 +17,7 @@
         <div class="col-md-3 col-md-offset-1 col-xs-12">
             @Html.LabelFor(model => model.Model_Id, htmlAttributes: new { @class = "" })
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-sm-12 col-xs-12">
 
             @Html.DropDownListFor(model => model.Model_Id, Model.ModelList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
             @Html.ValidationMessageFor(model => model.Model_Id, "", new { @class = "text-danger" })
@@ -27,7 +27,7 @@
         <div class="col-md-3 col-md-offset-1 col-xs-12">
             @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "" })
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-sm-12 col-xs-12">
             @Html.DropDownListFor(model => model.Problem, Model.ProblemList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Problem, "", new { @class = "text-danger" })
         </div>
@@ -37,7 +37,7 @@
             @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "" })
 
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-6 col-sm-12 col-xs-12">
             @Html.TextBoxFor(model => model.Market_Price, null, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Market_Price, "", new { @class = "text-danger" })
         </div>
@@ -50,7 +50,7 @@
                 @Html.LabelFor(model => model.estimated_Price, htmlAttributes: new { @class = "" })
 
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.estimated_Price, null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.estimated_Price, "", new { @class = "text-danger" })
             </div>
@@ -59,7 +59,7 @@
             <div class="col-md-3 col-md-offset-1 col-xs-12">
                 @Html.LabelFor(model => model.Min_Price, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.Min_Price, null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Min_Price, "", new { @class = "text-danger" })
             </div>
@@ -68,7 +68,7 @@
             <div class="col-md-3 col-md-offset-1 col-xs-12">
                 @Html.LabelFor(model => model.Max_Price, htmlAttributes: new { @class = "" })
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.Max_Price, null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Max_Price, "", new { @class = "text-danger" })
             </div>

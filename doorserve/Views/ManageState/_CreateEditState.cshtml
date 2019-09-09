@@ -3,7 +3,7 @@
 
 <div class="row" style="padding-bottom: 5px;">
     @Html.LabelFor(model => model.St_CntyID, htmlAttributes: new { @class = "col-md-2  col-xs-12" })
-    <div class="col-md-6 col-sm-6 col-xs-12">        
+    <div class="col-md-6 col-sm-12 col-xs-12">        
         @Html.DropDownListFor(model => model.St_CntyID, Model._CountryList, new { @class = "form-control"})
     </div>
     @Html.ValidationMessageFor(model => model.St_CntyID, "", new { @class = "text-danger" })
@@ -12,7 +12,7 @@
 
 <div class="row" style="padding-bottom: 5px;">
     @Html.LabelFor(model => model.St_Name, htmlAttributes: new { @class = "col-md-2  col-xs-12" })
-    <div class="col-md-6 col-sm-6 col-xs-12">        
+    <div class="col-md-6 col-sm-12 col-xs-12">        
         @Html.TextBoxFor(x => x.St_Name, new { @class = "form-control" })
     </div>
     @Html.ValidationMessageFor(model => model.St_Name, "", new { @class = "text-danger" })
@@ -22,7 +22,7 @@
 
 <div class="row" style="padding-bottom: 5px;">
     @Html.LabelFor(model => model.St_Code, htmlAttributes: new { @class = "col-md-2  col-xs-12" })
-    <div class="col-md-6 col-sm-6 col-xs-12">        
+    <div class="col-md-6 col-sm-12 col-xs-12">        
         @Html.TextBoxFor(x => x.St_Code, new { @class = "form-control" })
     </div>
     @Html.ValidationMessageFor(model => model.St_Code, "", new { @class = "text-danger" })
@@ -30,7 +30,7 @@
 
 <div class="row" style="padding-bottom: 5px;">
     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "col-md-2  col-xs-12" })
-    <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="col-md-6 col-sm-12 col-xs-12">
         @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @cols = 42, @rows = 2 })
 
     </div>
