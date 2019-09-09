@@ -34,28 +34,39 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Process)]
         public async Task<ActionResult> Create()
-        {          
-
-            return View();
+        {
+            var process = new ProcessModel();
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                process.IsAdmin = true;
+                process.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text"); 
+                    }
+            return View(process);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_Process)]
         [HttpPost]
         [ValidateModel]
         public async Task<ActionResult> Create(ProcessModel Process)
-        {
-            var session = Session["User"] as SessionModel;
+        {   
             Process.EventAction = 'I';
-            Process.UserId = session.UserId;
-            Process.CompanyId = session.CompanyId;
-            var response = await _Process.AddUpdateProcess(Process);
+            Process.UserId = CurrentUser.UserId;
+            Process.CompanyId = CurrentUser.CompanyId;
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+                Process.CompanyId = Process.CompanyId;
+                var response = await _Process.AddUpdateProcess(Process);
             TempData["response"] = response;
             return RedirectToAction("Index");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Process)]
         public async Task<ActionResult> Edit(int ProcessId)
         {
-            var session = Session["User"] as SessionModel;
+
             var Pro = await _Process.GetProcessesById(ProcessId);
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                Pro.IsAdmin = true;
+                Pro.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(Pro);
 
         }
@@ -64,10 +75,11 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> Edit(ProcessModel Process)
         {
-            var session = Session["User"] as SessionModel;
             Process.EventAction = 'U';
-            Process.UserId = session.UserId;
-            Process.CompanyId = session.CompanyId;
+            Process.UserId = CurrentUser.UserId;           
+            Process.CompanyId = CurrentUser.CompanyId;
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+                Process.CompanyId = Process.CompanyId;
             var response = await _Process.AddUpdateProcess(Process);
             TempData["response"] = response;
             return RedirectToAction("Index");

@@ -1803,6 +1803,15 @@ namespace doorserve.Controllers
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult GetProcess(string value)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var rmid = con.Query<CheckBox>("Select ProcessId Value, processName Text from MSTProcesses where isactive=1 and companyid=@CompId", new { CompId = value }, commandType: CommandType.Text);                               
+                return Json(rmid, JsonRequestBehavior.AllowGet);
+            }
+        }
         public JsonResult BindPinCodeByCountry(string value)
         {
             using (var con = new SqlConnection(_connectionString))

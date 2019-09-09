@@ -59,7 +59,7 @@ namespace doorserve.Controllers
                 UserId = CurrentUser.UserId,
                 CompanyId = emailheaderfooter.CompanyId
             };
-            if (CurrentUser.UserTypeName.ToLower() != "super admin" && emailheaderfooterModel.EmailHeaderFooterId ==0)
+            if (CurrentUser.UserTypeName.ToLower() != "super admin")
             {
                 emailheaderfooterModel.CompanyId = CurrentUser.CompanyId;
             }

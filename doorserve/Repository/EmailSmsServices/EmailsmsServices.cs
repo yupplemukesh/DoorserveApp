@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,13 +33,11 @@ namespace doorserve.Repository
         }
         public async Task<ResponseModel> Send( List<TemplateModel> templates, List<CheckBox> wildcards, SessionModel session)
         {
-            var res= new ResponseModel();
+            var response= new ResponseModel();
             foreach (var template in templates)
             {
 
                 var getwaymodel = await Getgateway(Convert.ToInt32(template.GatewayId));
-                bool flag = false;
-
                 if (template.ActionTypeName.ToLower() == "actionbased")
                 {
                     if (template.MessageTypeName == "SMTP Gateway")
@@ -64,8 +63,20 @@ namespace doorserve.Repository
                             mail.Priority = MailPriority.Normal;
                         else
                             mail.Priority = MailPriority.Low;
-                        flag = SendEmail(mail, getwaymodel);
-                        res.IsSuccess = flag;
+                        var res = SendEmail(mail, getwaymodel);
+                        var resp = SmsLog(new EmailSmsModel
+                        {
+                            UserId = session.UserId,
+                            PriorityTypeId = template.PriorityTypeId,
+                            GatewayId = template.GatewayId,
+                            EmailFrom = mail.From.ToString(),
+                            EmailTo = mail.To.ToString(),
+                            Content = mail.Body,
+                            EmailBCC = mail.Bcc.ToString(),
+                            Status=res.Status,
+                            ErrorText=res.Message                           
+                        });
+                        response = new ResponseModel { IsSuccess = true };
                     }
                     else if (template.MessageTypeName == "SMS Gateway")
                     {
@@ -77,15 +88,33 @@ namespace doorserve.Repository
                         }
                  
                         template.PhoneNumber = session.Mobile;
-                        res.IsSuccess = SendSms(template, getwaymodel);
+
+                        string message = Regex.Replace(template.EmailBody, "<.*?>", string.Empty);
+                        template.EmailBody = Regex.Replace(message, "&nbsp;", " ");
+                       var res = SendSms(template, getwaymodel);
+
+                       var resp= SmsLog(new EmailSmsModel
+                        {
+                            UserId = session.UserId,
+                            PriorityTypeId = template.PriorityTypeId,
+                            GatewayId = template.GatewayId,
+                            SmsFrom = getwaymodel.URL,
+                            PhoneNumber = session.Mobile,
+                            MessageText = template.EmailBody,
+                            Status = res.Status,
+                            ErrorText = res.Message
+                        });
+                        response = new ResponseModel { IsSuccess = true };
+
                     }
                 }
             }
-            return res;
+            return response;
         }
 
-        public bool  SendEmail(MailMessage mail,GatewayModel gateway)
+        public ReponseViewModel SendEmail(MailMessage mail,GatewayModel gateway)
         {
+            var respose = new ReponseViewModel();
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = gateway.SmtpServerName;
@@ -93,23 +122,24 @@ namespace doorserve.Repository
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new System.Net.NetworkCredential(gateway.SmtpUserName, gateway.SmtpPassword);
             mail.From = new MailAddress(gateway.Email) ;
-            bool flag = false;
             try
             {
                 smtp.Send(mail);
-                flag = true;
+                respose.Status = "Success";
 
             }
             catch(Exception ex)
             {
-                flag = false;
+                respose.Status = "Failed";
+                respose.Message = ex.Message;
             }
-            return flag;
+            return respose;
         }
-        private bool SendSms(TemplateModel template, GatewayModel gatway)
+        private ReponseViewModel SendSms(TemplateModel template, GatewayModel gatway)
         {
-         
 
+
+            var respose = new ReponseViewModel();
             string authKey = gatway.OTPApikey;
             //Multiple mobiles numbers separated by comma
             string mobileNumber = template.PhoneNumber;
@@ -151,26 +181,20 @@ namespace doorserve.Repository
                 reader.Close();
                 response.Close();
                 var res= JsonConvert.DeserializeObject<ReponseViewModel>(responseString);
-                if (gatway.SuccessMessage==response.StatusCode.ToString())
-                    return true;
-                else
-                    return false;
+                return res;               
 
             }
             catch (SystemException ex)
             {
-                return false;
+                return  new ReponseViewModel {Status="Faild",Message=ex.Message };
             }
 
 
         }
-        public  async Task<GatewayModel> Getgateway( int gatewayId)
+        private  async Task<GatewayModel> Getgateway( int gatewayId)
         {
-
             return await _gateway.GetGatewayById(gatewayId);
-
-        }
-     
+        }     
         private async  Task<EmailHeaderFooterModel> getHeaderfooter(int? HeaderFooterId)
         {
 
@@ -178,9 +202,86 @@ namespace doorserve.Repository
 
 
         }
+        private async Task<ResponseModel> EmailLog(EmailSmsModel email)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@UserId", ToDBNull(email.UserId));
+            sp.Add(param);
+            param = new SqlParameter("@PriorityTypeId", ToDBNull(email.PriorityTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@GatewayId", ToDBNull(email.GatewayId));
+            sp.Add(param);
+            param = new SqlParameter("@EmailFrom", ToDBNull(email.EmailFrom));
+            sp.Add(param);
+            param = new SqlParameter("@EmailTo", ToDBNull(email.EmailTo));
+            sp.Add(param);
+            param = new SqlParameter("@EmailBCC", ToDBNull(email.EmailBCC));
+            sp.Add(param);
+            param = new SqlParameter("@Subject", ToDBNull(email.Subject));
+            sp.Add(param);
+            param = new SqlParameter("@Content", ToDBNull(email.Content));
+            sp.Add(param);
+            param = new SqlParameter("@errorText", ToDBNull(email.ErrorText));
+            sp.Add(param);
+            param = new SqlParameter("@Status", ToDBNull(email.Status));
+            sp.Add(param);
+            var sql = "EmailSave @UserId,@PriorityTypeId, @GatewayId,@EmailFrom,@EmailTo,@EmailBCC,@Subject,@Content,@errorText,@Status";
+            var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            if (res.ResponseCode == 0)
+                res.IsSuccess = true;
+            else
+                res.IsSuccess = false;
+            return res;
 
-     
+
+
+        }
+
+        private async Task<ResponseModel> SmsLog(EmailSmsModel sms)
+        {
+            List<SqlParameter> sp = new List<SqlParameter>();
+            SqlParameter param = new SqlParameter("@UserId", ToDBNull(sms.UserId));
+            sp.Add(param);
+            param = new SqlParameter("@PriorityTypeId", ToDBNull(sms.PriorityTypeId));
+            sp.Add(param);
+            param = new SqlParameter("@GatewayId", ToDBNull(sms.GatewayId));
+            sp.Add(param);
+            param = new SqlParameter("@smsFrom", ToDBNull(sms.SmsFrom));
+            sp.Add(param);
+            param = new SqlParameter("@PhoneNumber", ToDBNull(sms.PhoneNumber));
+            sp.Add(param);
+            param = new SqlParameter("@MessageText", ToDBNull(sms.MessageText));
+            sp.Add(param);
+            param = new SqlParameter("@ErrorText", ToDBNull(sms.ErrorText));
+            sp.Add(param);
+            param = new SqlParameter("@Status", ToDBNull(sms.Status));
+            sp.Add(param);
       
+            var sql = "SMSSave @UserId,@PriorityTypeId,@GatewayId, @smsFrom,@PhoneNumber,@MessageText,@ErrorText,@Status";
+            try
+            {
+                var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
+                if (res.ResponseCode == 0)
+                    res.IsSuccess = true;
+                else
+                    res.IsSuccess = false;
+                return res;
+            }
+            catch (Exception ex)
+            {
+
+                return new ResponseModel();
+            }
+          
+
+        }
+        private object ToDBNull(object value)
+        {
+            if (null != value)
+                return value;
+            return DBNull.Value;
+        }
+
     }
 
    

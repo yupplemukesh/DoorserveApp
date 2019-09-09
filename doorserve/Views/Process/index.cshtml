@@ -48,8 +48,12 @@
                                     @Html.DisplayName("#SLN")
                                 </th>
                                 <th>
+                                    @Html.DisplayName("Company Name")
+                                </th>
+                                <th>
                                     @Html.DisplayName("Process Name")
                                 </th>
+
                                 <th>
                                     @Html.DisplayName("Process Owner")
                                 </th>
@@ -71,58 +75,62 @@
                                 </th>
                                 <th>
                                     @Html.DisplayName("Modify Date")
-                                </th>                              
-                               <th>Action</th>
+                                </th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @count
+                    <tr>
+                        <td>
+                            @count
 
-                                </td>
-                               
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ProcessName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyName)
 
-                                        </td>
-                                   
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ProcessOwner)
+                        </td>
 
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Remarks)
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProcessName)
 
-                                
-                                        <td>
-                                            @if (item.IsActive)
-                                            {<span>Yes</span> }
-                                            else
-                                            { <span>No</span>}
-                                        </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AddedBy)
-                                </td>
+                        </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ModifiedBy)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AddedOn)
-                                </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProcessOwner)
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ModifiedOn)
-                                </td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remarks)
 
-                                
 
-                                <td style="display: inline-flex">
-                                    <a href="@Url.Action("Edit","Process", new {ProcessId=item.ProcessId})" class="btn btn-small btn-info btnSize">Edit</a>
-                                </td>
-                            </tr>
+                        <td>
+                            @if (item.IsActive)
+                            {<span>Yes</span> }
+                            else
+                            { <span>No</span>}
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddedBy)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModifiedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddedOn)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModifiedOn)
+                        </td>
+
+
+
+                        <td style="display: inline-flex">
+                            <a href="@Url.Action("Edit","Process", new {ProcessId=item.ProcessId})" class="btn btn-small btn-info btnSize">Edit</a>
+                        </td>
+                    </tr>
                             count++;
                         }
 

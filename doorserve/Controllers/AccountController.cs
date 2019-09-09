@@ -296,7 +296,7 @@ namespace doorserve.Controllers
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates.Count > 0)
                         {
-                            var res = await _emailSmsServices.Send(Templates, c, UserPassword);
+                            var res =await _emailSmsServices.Send(Templates, c, UserPassword);
                             if (res.IsSuccess)
                                 res.Response = "Password sent successfully";
                             else

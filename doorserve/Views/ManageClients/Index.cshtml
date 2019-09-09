@@ -57,6 +57,9 @@
                                     @Html.DisplayName("#SN")
                                 </th>
                                 <th>
+                                    @Html.DisplayName("Company Name")
+                                </th>
+                                <th>
                                     @Html.DisplayName("Process Name")
                                 </th>
                                 <th>
@@ -87,49 +90,51 @@
                         </thead>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => Count)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ProcessName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ClientCode)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Count)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProcessName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ClientName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ORGNAME)
+                        </td>
 
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ClientName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ORGNAME)
-                                </td>
+                        <td>
+                            @if (item.IsActive)
+                            {<span>Yes</span> }
+                            else
+                            { <span>No</span>}
+                        </td>
 
-                                <td>
-                                    @if (item.IsActive)
-                                    {<span>Yes</span> }
-                                    else
-                                    { <span>No</span>}
-                                </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remarks)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModifyDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModifyBy)
+                        </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Remarks)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ModifyDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ModifyBy)
-                                </td>
+                        <td style="display: inline-flex">
+                            @if (Permissions.Rights.Edit)
+                            {
+                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ManageClients", new { id = item.ClientId })'>Edit</a>
+                            }
+                        </td>
 
-                                <td style="display: inline-flex">
-                                    @if (Permissions.Rights.Edit)
-                                    {
-                                        <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ManageClients", new { id = item.ClientId })'>Edit</a>
-                                    }
-                                </td>
-
-                            </tr>
+                    </tr>
                             Count++;
                         }
                     </table>

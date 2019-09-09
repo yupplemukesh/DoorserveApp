@@ -40,11 +40,15 @@
                     <th>
                         @Html.DisplayName("Serial No")
                     </th>
+
                     <th>
                         @Html.DisplayName("Name")
                     </th>
                     <th>
                         @Html.DisplayName("User Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("User Of")
                     </th>
                     <th>
                         @Html.DisplayName("Role Name")
@@ -96,11 +100,15 @@
             <td>
                 @count
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.ConFirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefName)
             </td>
             <td>
                 @item.RoleName

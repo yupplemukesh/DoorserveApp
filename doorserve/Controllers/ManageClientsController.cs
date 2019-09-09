@@ -273,7 +273,7 @@ namespace doorserve.Controllers
                            
             if (Client.Organization == null)
                 Client.Organization = new OrganizationModel();
-            Client.ProcessList = new SelectList(await CommonModel.GetProcesses(CurrentUser.CompanyId), "Value", "Text");
+         
         
             Client.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
             var statutory = await CommonModel.GetStatutoryType();
@@ -295,12 +295,22 @@ namespace doorserve.Controllers
                 DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text"),
                 RefKey = clientId                    
             };
+
             if (CurrentUser.UserTypeName.ToLower().Contains("super admin"))
             {
                 Client.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+                if (Client.CompanyId != null)
+                    Client.ProcessList = new SelectList(await CommonModel.GetProcesses(Client.CompanyId), "Value", "Text");
+                else
+                    Client.ProcessList = new SelectList(Enumerable.Empty<SelectList>());
                 Client.IsSuperAdmin = true;
             }
-          
+            else
+            {
+                Client.CompanyList = new SelectList(Enumerable.Empty<SelectList>());              
+                Client.ProcessList = new SelectList(await CommonModel.GetProcesses(CurrentUser.CompanyId), "Value", "Text");
+                Client.CompanyId = CurrentUser.CompanyId;
+            }
             if (clientId != null)
                 Client.action = 'U';
             else
@@ -344,8 +354,7 @@ namespace doorserve.Controllers
                 client.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
                 client.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
                 client.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
-                client.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-                client.Contact.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
+      
                 //client.Contact.CityList = new SelectList(await CommonModel.GetLookup("City"), "Value", "Text");
                 client.Contact.LocationList = client.Contact.LocationList = new SelectList(dropdown.BindLocationByPinCode(client.Contact.PinNumber), "Value", "Text");
                 if (CurrentUser.UserTypeName.ToLower().Contains("super admin"))
@@ -382,13 +391,16 @@ namespace doorserve.Controllers
             TempData["response"] = response;
             client.Activetab = "tab-2";
             if (client.action == 'I')
-            {               
+            {
                 TempData["client"] = client;
-                TempData.Keep("client");
                 return View("Create", client);
             }
             else
-            return View("Edit", client);
+            {
+                var clt = await GetClient(client.ClientId);
+                clt.Activetab = "tab-2";
+                return View("Edit", clt);
+            }
         }
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Clients)]
@@ -434,10 +446,10 @@ namespace doorserve.Controllers
             _client.Save();
             client.ClientId = new Guid(response.result);
             TempData["response"] = response;
-            TempData.Keep("response");
+            client.Activetab = "tab-3";
             if (client.action == 'I')
             {
-                client.Activetab = "tab-3";
+
                 TempData["client"] = client;
                 TempData.Keep("client");
                 return View("Create", client);
@@ -446,7 +458,8 @@ namespace doorserve.Controllers
             else
             {
                 var clt = await GetClient(client.ClientId);
-                     return View("Edit", clt);
+                clt.Activetab = "tab-3";
+                return View("Edit", clt);
             }
                
         }

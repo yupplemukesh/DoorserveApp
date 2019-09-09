@@ -261,122 +261,151 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOrEditContactPerson(OtherContactPersonModel contact)
         {
-            if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
+            if (ModelState.IsValid)
             {
-                if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
-                    System.IO.File.Delete(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName));
-            }
-
-            if (contact.ConAdhaarFileName != null && contact.ConAdhaarNumberFilePath != null)
-            {
-                if (System.IO.File.Exists(Server.MapPath(_path + "ADHRs/" + contact.ConAdhaarFileName)))
-                    System.IO.File.Delete(Server.MapPath(_path + "ADHRs/" + contact.ConAdhaarFileName));
-            }
-            if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
-            {
-                if (System.IO.File.Exists(Server.MapPath(_path + "PanCards/" + contact.ConPanFileName)))
-                    System.IO.File.Delete(Server.MapPath(_path + "PanCards/" + contact.ConPanFileName));
-            }
-            if (contact.ConVoterIdFilePath != null)
-                contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "/VoterIds");
-            if (contact.ConPanNumberFilePath != null)
-                contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PanCards/");
-            if (contact.ConAdhaarNumberFilePath != null)
-                contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRs/");
-
-            var pwd = CommonModel.RandomPassword(8);
-            if (contact.IsUser)
-                contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
-        
-            contact.UserTypeId = 1;
-            contact.UserId = CurrentUser.UserId;
-            contact.CompanyId = contact.RefKey;
-
-            if (contact.ContactId == null)
-                contact.EventAction = 'I';
-            else
-                contact.EventAction = 'U';
-            CompanyModel comp = new CompanyModel();
-            var response = await _ContactPersonRepo.AddUpdateContactDetails(contact);
-            if (response.IsSuccess)
-            {
-                contact.ContactId = new Guid(response.result);
-                if (contact.EventAction == 'U')
+                if (contact.ConVoterIdFileName != null && contact.ConVoterIdFilePath != null)
                 {
-                    if (contact.IsUser && !contact.CurrentIsUser)
+                    if (System.IO.File.Exists(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName)))
+                        System.IO.File.Delete(Server.MapPath(_path + "VoterIds/" + contact.ConVoterIdFileName));
+                }
+
+                if (contact.ConAdhaarFileName != null && contact.ConAdhaarNumberFilePath != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(_path + "ADHRs/" + contact.ConAdhaarFileName)))
+                        System.IO.File.Delete(Server.MapPath(_path + "ADHRs/" + contact.ConAdhaarFileName));
+                }
+                if (contact.ConPanFileName != null && contact.ConPanNumberFilePath != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(_path + "PanCards/" + contact.ConPanFileName)))
+                        System.IO.File.Delete(Server.MapPath(_path + "PanCards/" + contact.ConPanFileName));
+                }
+                if (contact.ConVoterIdFilePath != null)
+                    contact.ConVoterIdFileName = SaveImageFile(contact.ConVoterIdFilePath, "/VoterIds");
+                if (contact.ConPanNumberFilePath != null)
+                    contact.ConPanFileName = SaveImageFile(contact.ConPanNumberFilePath, "PanCards/");
+                if (contact.ConAdhaarNumberFilePath != null)
+                    contact.ConAdhaarFileName = SaveImageFile(contact.ConAdhaarNumberFilePath, "ADHRs/");
+
+                var pwd = CommonModel.RandomPassword(8);
+                if (contact.IsUser)
+                    contact.Password = Encrypt_Decript_Code.encrypt_decrypt.Encrypt(pwd, true);
+
+                contact.UserTypeId = 1;
+                contact.UserId = CurrentUser.UserId;
+                contact.CompanyId = contact.RefKey;
+
+                if (contact.ContactId == null)
+                    contact.EventAction = 'I';
+                else
+                    contact.EventAction = 'U';
+                CompanyModel comp = new CompanyModel();
+                var response = await _ContactPersonRepo.AddUpdateContactDetails(contact);
+                if (response.IsSuccess)
+                {
+                    contact.ContactId = new Guid(response.result);
+                    if (contact.EventAction == 'U')
                     {
-                        var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
-                        if (Templates.Count > 0)
+                        if (contact.IsUser && !contact.CurrentIsUser)
                         {
-                            CurrentUser.Email = contact.ConEmailAddress;
-                            var WildCards =  CommonModel.GetWildCards(null);
-                            var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
-                            U.Val = contact.ConFirstName;
-                            U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
-                            U.Val = pwd;
-                            U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
-                            U.Val = contact.ConEmailAddress;
-                            CurrentUser.Mobile = contact.ConMobileNumber;
-                            var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                            var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
+                            if (Templates.Count > 0)
+                            {
+                                CurrentUser.Email = contact.ConEmailAddress;
+                                var WildCards = CommonModel.GetWildCards(null);
+                                var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                                U.Val = contact.ConFirstName;
+                                U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                                U.Val = pwd;
+                                U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                                U.Val = contact.ConEmailAddress;
+                                CurrentUser.Mobile = contact.ConMobileNumber;
+                                var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                                 await _emailSmsServices.Send(Templates, c, CurrentUser);
+                            }
                         }
                     }
+                    else
+                    {
+                        if (contact.IsUser)
+                        {
+                            var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
+                            if (Templates.Count > 0)
+                            {
+                                CurrentUser.Email = contact.ConEmailAddress;
+                                var WildCards = CommonModel.GetWildCards(null);
+                                var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                                U.Val = contact.ConFirstName;
+                                U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
+                                U.Val = pwd;
+                                U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
+                                U.Val = contact.ConEmailAddress;
+                                CurrentUser.Mobile = contact.ConMobileNumber;
+                                var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                                await _emailSmsServices.Send(Templates, c, CurrentUser);
+                            }
+                        }
+
+                    }
+
+                }
+                if (TempData["Comp"] != null)
+                {
+                    comp = TempData["Comp"] as CompanyModel;
+                    var Location = _dropdown.BindLocationNew(contact.LocationId).FirstOrDefault();
+                    contact.LocationName = Location.Text;
+                    comp.Contacts.Add(contact);
+                    comp.ActiveTab = "tab-4";
+                    comp.Action = 'I';
+                    TempData["Comp"] = comp;
+                    comp.Contact = new OtherContactPersonModel
+                    {
+                        AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text"),
+                        RefKey = comp.CompanyId,
+                        CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
+                        StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                        // CityList = new SelectList(Enumerable.Empty<SelectList>())
+                        LocationList = new SelectList(Enumerable.Empty<SelectListItem>())
+                    };
                 }
                 else
+                    comp.Action = 'U';
+                TempData["response"] = response;
+                if (comp.Action == 'I')
+                    return View("Create", comp);
+                else
                 {
-                    if (contact.IsUser)
-                    {
-                        var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
-                        if (Templates.Count > 0)
-                        {
-                            CurrentUser.Email = contact.ConEmailAddress;
-                            var WildCards =  CommonModel.GetWildCards(null);
-                            var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
-                            U.Val = contact.ConFirstName;
-                            U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
-                            U.Val = pwd;
-                            U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
-                            U.Val = contact.ConEmailAddress;
-                            CurrentUser.Mobile = contact.ConMobileNumber;
-                            var c = WildCards.Where(x => x.Val != string.Empty).ToList();
-                            await _emailSmsServices.Send(Templates, c, CurrentUser);
-                        }
-                    }
+                    comp = await GetCompany(contact.RefKey);
+                    comp.ActiveTab = "tab-3";
+                    return View("Edit", comp);
 
                 }
-               
             }
-            if (TempData["Comp"] != null)
+            else
             {
-                comp = TempData["Comp"] as CompanyModel;
-                var Location = _dropdown.BindLocationNew(contact.LocationId).FirstOrDefault();
-                contact.LocationName = Location.Text;
-                comp.Contacts.Add(contact);
-                comp.ActiveTab = "tab-4";
-                comp.Action = 'I';
-                TempData["Comp"] = comp;
-                comp.Contact = new OtherContactPersonModel
+               var comp = TempData["Comp"] as CompanyModel;
+                if (comp != null)
                 {
-                    AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text"),
-                    RefKey = comp.CompanyId,
-                    CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text"),
-                    StateList = new SelectList(Enumerable.Empty<SelectList>()),
+                    comp.Contact = contact;
+                    comp.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
+                    comp.Contact.RefKey = comp.CompanyId;
+                    comp.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
+                    comp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
                     // CityList = new SelectList(Enumerable.Empty<SelectList>())
-                   LocationList = new SelectList(Enumerable.Empty<SelectListItem>())
-            };            
-            }
-            else
-                comp.Action = 'U';
-            TempData["response"] = response;
-            if (comp.Action == 'I')          
-                return View("Create", comp);       
-            else
-            {
-                comp = await GetCompany(contact.RefKey);
+                    comp.Contact.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
+                }
                 comp.ActiveTab = "tab-3";
-                return View("Edit", comp);
 
-            }  
+                if (comp.Action == 'I')
+                
+                 return View("Create", comp);
+                else
+                {
+                    comp = await GetCompany(contact.RefKey);    
+                    return View("Edit", comp);
+
+                }
+
+            }
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]

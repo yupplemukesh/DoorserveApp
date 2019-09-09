@@ -53,6 +53,7 @@ namespace doorserve.Models
        public string LastUpdatedBy { get; set; }
        public int UserId { get; set; }
        public bool CurrentIsUser { get; set; }
+        [DisplayName("Company Name")]
        public Guid? CompanyId { get; set; }
        public  virtual string Password { get; set; }
        public char EventAction { get; set; }

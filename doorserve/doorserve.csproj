@@ -307,6 +307,7 @@
     <Compile Include="Models\DynamicCrouselModel.cs" />
     <Compile Include="Models\EmailGateway.cs" />
     <Compile Include="Models\EmailHeaderFooterModel.cs" />
+    <Compile Include="Models\EmailSmsModel.cs" />
     <Compile Include="Models\Email_send_code.cs" />
     <Compile Include="Models\Employee\EmployeeModel.cs" />
     <Compile Include="Models\Employee\VehicleModel.cs" />

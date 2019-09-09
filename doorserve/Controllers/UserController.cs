@@ -283,11 +283,9 @@ namespace doorserve.Controllers
                     objUser.ConFirstName = item.ConFirstName;
                     objUser.ConMobileNumber = item.ConMobileNumber;
                     objUser.ConEmailAddress = item.ConEmailAddress;
+                    objUser.RefName = item.RefName;
                     UserList.Add(objUser);
                 }
-     
-
-
             }         
             return View(UserList);
         }
