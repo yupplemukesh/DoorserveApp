@@ -60,7 +60,8 @@ namespace doorserve.Controllers
 
             }
 
-            objUser.UserLoginId = CurrentUser.UserId;            
+            objUser.UserLoginId = CurrentUser.UserId;
+            objUser.UserTypeId = CurrentUser.UserTypeId;
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();

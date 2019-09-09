@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using doorserve.Filters;
 using doorserve.Models;
 using doorserve.Models.Template;
 
@@ -244,27 +245,37 @@ namespace doorserve
                 return _servicetype;
             }
         }
-        public static async Task<List<CheckBox>> GetServiceType(Guid? compId)
+        public static async Task<List<CheckBox>> GetServiceType(FilterModel filter)
         {
             using (var _context = new ApplicationDbContext())
             {
+                List<SqlParameter> sp = new List<SqlParameter>();
                 var param = new SqlParameter("@CompId", DBNull.Value);
-                if (compId != null)
-                    param.Value = compId;
-
-                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("USPGETSERVICETYPES @CompId", param).ToListAsync();
+                if (filter.CompId != null)
+                    param.Value = filter.CompId;
+                sp.Add(param);
+                param = new SqlParameter("@RefKey", DBNull.Value);
+                if (filter.RefKey != null)
+                    param.Value = filter.RefKey;
+                sp.Add(param);
+                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("USPGETSERVICETYPES @CompId,@RefKey", sp.ToArray()).ToListAsync();
                 return _deliveryType;
             }
         }
-        public static async Task<List<CheckBox>> GetDeliveryServiceType( Guid? compId)
+        public static async Task<List<CheckBox>> GetDeliveryServiceType(FilterModel filter)
         {
             using (var _context = new ApplicationDbContext())
             {
+                List<SqlParameter> sp = new List<SqlParameter>();
                 var param = new SqlParameter("@CompId", DBNull.Value);
-                if (compId != null)
-                    param.Value=compId;
-
-                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("USPGETDELIVERYTYPES @CompId", param).ToListAsync();
+                if (filter.CompId != null)
+                    param.Value = filter.CompId;
+                sp.Add(param);
+                param = new SqlParameter("@RefKey", DBNull.Value);              
+                if(filter.RefKey !=null)
+                    param.Value = filter.RefKey;
+                sp.Add(param);
+                var _deliveryType = await _context.Database.SqlQuery<CheckBox>("USPGETDELIVERYTYPES @CompId,@RefKey", sp.ToArray()).ToListAsync();
                 return _deliveryType;
             }
         }

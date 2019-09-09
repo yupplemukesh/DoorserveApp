@@ -108,6 +108,8 @@ namespace doorserve.Controllers
                         UserRole = rs.RoleName,
                         UserName=rs.UserName,
                         Mobile= rs.Mobile,
+
+                        RoleId=rs.RoleId,
                         UserTypeId=rs.UserTypeId,
                        Menues = manues
                     };

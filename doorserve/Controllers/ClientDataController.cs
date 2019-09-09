@@ -41,18 +41,18 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
         {
-
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
             var filter = new FilterModel { CompId = CurrentUser.CompanyId };
             if (CurrentUser.UserTypeName.ToLower().Contains("client"))
             {
                 filter.ClientId = CurrentUser.RefKey;
+                filter.RefKey = CurrentUser.RefKey;
                 IsClient = true;
             }
             var clientData = new MainClientDataModel();
-            var serviceType = await CommonModel.GetServiceType(CurrentUser.CompanyId);
-            var deliveryType = await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId);
+            var serviceType = await CommonModel.GetServiceType(filter);
+            var deliveryType = await CommonModel.GetDeliveryServiceType(filter);
             clientData.Client = new ClientDataModel();
             clientData.Client.IsClient = IsClient;
             clientData.Client.ClientId = filter.ClientId;
@@ -121,7 +121,7 @@ namespace doorserve.Controllers
         {
             var clientDate = new ClientDataModel();
             clientDate.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
-            clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            clientDate.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId,RefKey=CurrentUser.RefKey }), "Value", "Text");
             return View(clientDate);
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
@@ -356,8 +356,8 @@ namespace doorserve.Controllers
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString()+","+ CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
             CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
-            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
-            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
+            CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel {CompId= CurrentUser.CompanyId,RefKey= CallDetailsModel.ClientId }), "Value", "Text");
+            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
@@ -382,8 +382,8 @@ namespace doorserve.Controllers
                 CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
                 CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString() + "," + CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
                 CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
-                CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(SessionModel.CompanyId), "Value", "Text");
-                CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+                CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
+                CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
                 CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
                 CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
                 CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");

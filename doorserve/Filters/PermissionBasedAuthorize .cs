@@ -77,7 +77,7 @@ namespace doorserve.Permission
             return Valid;
         }      
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-        {
+       {
 
             if (HttpContext.Current.Session["User"] != null)
             {

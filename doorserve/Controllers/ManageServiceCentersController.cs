@@ -250,8 +250,6 @@ namespace doorserve.Controllers
                }
         private async Task<ServiceCenterModel> GetCenter(Guid ? centerId)
         {
-
-
             var Center = await _Center.GetCenterById(centerId);
             Center.Path = _path;
 
@@ -287,8 +285,8 @@ namespace doorserve.Controllers
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
             Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Center.ServiceList = await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId);
-            Center.DeliveryServiceList = await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId);
+            Center.ServiceList = await doorserve.CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId,RefKey= Center.CenterId });
+            Center.DeliveryServiceList = await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = Center.CenterId });
             Center.Bank.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             Center.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
             Center.Contact.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
@@ -363,8 +361,8 @@ namespace doorserve.Controllers
             {
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
-                ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text"),
-                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text"),
+                ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(new FilterModel { CompId= CurrentUser.CompanyId }), "Value", "Text"),
+                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
                 CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 StateList = new SelectList(Enumerable.Empty<SelectList>()),
                 CityList = new SelectList(Enumerable.Empty<SelectList>()),
@@ -554,10 +552,9 @@ namespace doorserve.Controllers
                 service.SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>());
                 service.RefKey = RefKey;
             }
-
             service.SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
-            service.ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
-            service.DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
+            service.ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text");
+            service.DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text");
             return View(service);
 
         }

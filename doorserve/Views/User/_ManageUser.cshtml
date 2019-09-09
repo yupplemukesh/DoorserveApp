@@ -2,6 +2,7 @@
 @Html.HiddenFor(x => x.CurrentEmail)
 @Html.HiddenFor(model => model.UserId)
 @Html.HiddenFor(x => x.CurrentPassword)
+@Html.HiddenFor(x => x.UserTypeId)
 <div class="x_content">
     <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
         <div class="row" style="padding-bottom: 5px;">
@@ -65,7 +66,7 @@
         <div class="row" style="padding-bottom: 5px;">
             @Html.LabelFor(model => model.LocationId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.DropDownListFor(model => model.LocationId, Model.LocationList,"Select", htmlAttributes: new { @class = "form-control", id = "LocationId" })
+                @Html.DropDownListFor(model => model.LocationId, Model.LocationList, "Select", htmlAttributes: new { @class = "form-control", id = "LocationId" })
                 @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -128,7 +129,7 @@
                     type: "GET",
                     data: { pin: Id },
                     success: function (result) {
-                        $("#State").val('');                           
+                        $("#State").val('');
                         $("#District").val('');
                         var obj = { value: Id, Other: result.LocationId};
                         AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
@@ -142,7 +143,7 @@
             BindAddressByLocation(locationId);
         else {
                           $("#District").val('');
-                          $("#Country").val('');    
+                          $("#Country").val('');
                           $("#State").val('');
         }
 

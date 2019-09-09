@@ -39,7 +39,7 @@ namespace doorserve.Controllers
             var filter = new FilterModel {CompId= CurrentUser.CompanyId,IsExport=false};
             var calls = await _customerSupport.GetASPCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text");
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList=new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId),"Name","Text") };
             return View(calls);
         }
@@ -133,10 +133,10 @@ namespace doorserve.Controllers
             var filter = new FilterModel { CompId = CurrentUser.CompanyId, IsExport = false };
             // var Newcalls = await _customerSupport.GetASPCalls(filter);
             var Newcalls = new CallDetailsModel();
-            Newcalls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            Newcalls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(filter), "Value", "Text");
             
             // IsAssingedCall = true,
-            Newcalls.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text");
+            Newcalls.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(filter), "Value", "Text");
             Newcalls.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             Newcalls.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             Newcalls.SubCategoryList = new SelectList(Enumerable.Empty<SelectListItem>());

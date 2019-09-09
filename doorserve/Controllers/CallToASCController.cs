@@ -39,7 +39,7 @@ namespace doorserve.Controllers
             filter.IsExport = false;
             var calls = await _customerSupport.GetASCCalls(filter);
             calls.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
-            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text");
+            calls.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(filter), "Value", "Text");
             calls.ServiceProviderList = new SelectList(await CommonModel.GetServiceProviders(CurrentUser.CompanyId), "Name", "Text");
             if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
             calls.CallAllocate = new Models.Customer_Support.AllocateCallModel { ToAllocateList = new SelectList(await CommonModel.GetServiceCenters(CurrentUser.RefKey), "Name", "Text") };

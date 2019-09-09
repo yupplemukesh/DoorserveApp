@@ -11,6 +11,7 @@ namespace doorserve.Models
         public  string UserRole { get; set; }
         public  string UserName { get; set; }
         public  int UserTypeId { get; set; }
+        public int? RoleId { get; set; }    
         public  string UserTypeName { get; set; }
         public  Guid? CompanyId { get; set; }
         public  Guid? RefKey { get; set; }

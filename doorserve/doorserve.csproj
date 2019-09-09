@@ -248,7 +248,6 @@
     <Compile Include="Controllers\PromoCodeController.cs" />
     <Compile Include="Controllers\PurchaseProcurementController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
-    <Compile Include="Controllers\ServiceCenterController.cs" />
     <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\SMTPGatewayController.cs" />
     <Compile Include="Controllers\TemplatePartController.cs" />

@@ -245,9 +245,9 @@ namespace doorserve.Controllers
                 service.ServiceId = new Guid(response.result);
                 service.Category = dropdown.BindCategory(CurrentUser.CompanyId).Where(x=>Convert.ToInt32(x.Value)==service.CategoryId).FirstOrDefault().Text;
                 service.SubCategory = dropdown.BindSubCategory(service.CategoryId).Where(x => x.Value == service.SubCategoryId.ToString()).FirstOrDefault().Text;
-                var services = await CommonModel.GetServiceType(CurrentUser.CompanyId);
+                var services = await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
                 service.ServiceType= services.Where(x => x.Value == service.ServiceTypeId).FirstOrDefault().Text;
-                var Deliveries = await CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId);
+                var Deliveries = await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
                 service.ServiceType = Deliveries.Where(x => Convert.ToInt32(x.Value) == service.DeliveryTypeId).FirstOrDefault().Text;              
                 Client.Services.Add(service);
                 Client.action = 'I';
@@ -291,8 +291,8 @@ namespace doorserve.Controllers
             {
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>()),
-                ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text"),
-                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text"),
+                ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
+                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
                 RefKey = clientId                    
             };
 
@@ -366,8 +366,8 @@ namespace doorserve.Controllers
                 {
                     SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                     SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>()),
-                    ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(CurrentUser.CompanyId), "Value", "Text"),
-                    DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(CurrentUser.CompanyId), "Value", "Text"),                 
+                    ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
+                    DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),                 
                     ServiceId = null,
                     SubCategoryId = 0,
                     CategoryId = 0,

@@ -13,6 +13,7 @@ using doorserve.Permission;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace doorserve.Controllers
 {
@@ -23,12 +24,13 @@ namespace doorserve.Controllers
         DropdownBindController dropdown = new DropdownBindController();
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Manage_User_Roles)]
-        public ActionResult AddUserRole(Int64 id=0)
+        public async Task<ActionResult> AddUserRole(Int64 id=0)
         {
 
             UserRole objUserRole = new UserRole();
             objUserRole.IsActive = true;
-            Int64 RoleId = id;           
+            Int64? RoleId = CurrentUser.RoleId;
+                  
             using (var con = new SqlConnection(_connectionString))
             {
                 objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenuByRole",
