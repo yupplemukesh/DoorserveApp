@@ -11,19 +11,19 @@
         <div class="row">
 
 
-            <div class="col-sm-9 col-md-9 ">
+            <div class="col-sm-12 col-md-9 ">
                 <div class="form-group row">
 
-                    <label class="col-sm-1 " for="form-control-1"> Mobile  </label>
-                    <div class="col-sm-2 col-md-2 ">
+                    <label class="col-sm-3 col-md-1" for="form-control-1"> Mobile  </label>
+                    <div class="col-sm-9 col-md-3 ">
                         @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "", onchange = "getCustomer()" })
                         @Html.ValidationMessageFor(x => x.CustomerContactNumber, "", new { @class = "text-danger", style = "white-space:nowrap" })
                     </div>
 
 
-                    <label class="col-sm-3 col-md-3 text-right" for="form-control-1"> Customer Type  </label>
+                    <label class="col-sm-3 col-md-2" for="form-control-1"> Customer Type  </label>
 
-                    <div class="col-sm-6 col-md-6">
+                    <div class="col-sm-9 col-md-6">
                         @foreach (var item in Model.CustomerTypeList)
                         {
                             <label class="custom-control custom-control-primary custom-checkbox">
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3 col-md-3 ">
+            <div class="col-sm-12 col-md-3 ">
                 <label class="custom-control custom-control-primary custom-checkbox">
                     @Html.CheckBoxFor(x => x.IsExistingCustomer, new { @class = "custom-control-input" })
                     <span class="custom-control-indicator"></span>
@@ -49,7 +49,7 @@
 
         <div class="row">
             <div class="form-material">
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerName, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
                 </div>
 
 
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
 
                         @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
@@ -66,7 +66,7 @@
                         <label class="floating-label">Email</label>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.CustomerAltConNumber, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerAltConNumber, "", new { @class = "text-danger" })
@@ -75,7 +75,7 @@
                 </div>
 
 
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger" })
@@ -88,25 +88,26 @@
 
         <div class="form-material">
             <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
-                    <div class="row form-group has-value">
-                        <div class="col-md-3 col-sm-3 col-xs-3"><label class="label-font-500">Address Type</label> </div>
-
-                        @foreach (var item in Model.AddressTypelist)
-                        {
-                            <label class="custom-control custom-control-primary custom-checkbox">
-                                @Html.RadioButtonFor(x => x.AddressTypeId, item.Value)
-                                <span>@item.Text</span>
-                            </label>
-                        }
-                        @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid" })
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="row form-group has-value">
+                <div class="col-md-3 col-sm-3 col-xs-12 "><label class="label-font-500">Address Type</label> </div>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    @foreach (var item in Model.AddressTypelist)
+                    {
+                        <label class="custom-control custom-control-primary custom-checkbox">
+                            @Html.RadioButtonFor(x => x.AddressTypeId, item.Value)
+                            <span>@item.Text</span>
+                        </label>
+                    }
+                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid" })
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="row">
                         <div class="form-material">
-                            <div class="col-sm-6 col-xs-6">
+                            <div class="col-sm-6 col-md-6 col-xs-6 ">
                                 <div class="form-group has-value">
                                     @Html.TextBoxFor(x => x.NearLocation, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(x => x.NearLocation, "", new { @class = "text-danger" })
@@ -115,7 +116,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-6 col-xs-6">
+                            <div class="col-sm-6 col-md-6">
                                 <div class="form-group has-value">
                                     @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", id = "PinCode", @OnChange = "getLocationByPin()" })
                                     @Html.ValidationMessageFor(x => x.PinNumber, "", new { @class = "text-danger" })
@@ -133,14 +134,14 @@
         </div>
         <div class="form-material">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
                         <label class="floating-label  t-0">City</label>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.District, new { @class = "form-control", id = "District" })
                         @Html.ValidationMessageFor(x => x.District, "", new { @class = "text-danger" })
@@ -149,14 +150,14 @@
                 </div>
 
 
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.State, new { @class = "form-control", id = "State" })
                         <label class="floating-label  t-0">State</label>
                     </div>
                 </div>
 
-                <div class="col-sm-3">
+                <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.Country, new { @class = "form-control", id = "Country" })
                         <label class="floating-label t-0">Country</label>

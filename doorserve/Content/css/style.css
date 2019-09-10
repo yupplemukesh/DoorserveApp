@@ -18280,7 +18280,7 @@ td > .carousel-caption {
 
     .navbar-nav > li.nav-table > a {
         display: table;
-        height: 50px;
+        height: 41px;
         padding-top: 0;
         padding-bottom: 0;
     }
@@ -19659,7 +19659,7 @@ textarea {
 
     .navbar-header .navbar-brand img{width:12%}
     .navbar-header .navbar-brand {
-        left: 53%
+        left: 60%
     }
 }
 
@@ -20537,7 +20537,8 @@ a.bg-dribbble:focus, a.bg-dribbble:hover {
         display: none !important;
     }
     .navbar-header .navbar-brand img {
-        width: 16%;
+        width: 23%;
+        
     }
 }
 
@@ -23750,7 +23751,7 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 
     .user-role a img {
         vertical-align: top;
-        width: 18px
+        width: 15px
     }
 
     .user-role .nav-cell {
