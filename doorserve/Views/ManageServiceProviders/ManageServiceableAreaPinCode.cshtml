@@ -97,32 +97,10 @@
     @Scripts.Render("~/bundles/jqueryval")
 <script>
      $("#ServiceAreaId").val(null);
-       $("#PinCode").val(null);
-         function getLocationByPin() {
-          var PinCode=  $("#PinNumber").val();
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("BindLocationByPinJson", "DropdownBind")',
-                    data: {'value':  PinCode},
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data);
-                        $("#CountryId").val(data[0].CountryId);
-                        var obj = { value: data[0].CountryId, Other:data[0].StateId }; +
-                          AjaxWithValue('BindStateJson', 'StateId', obj);
-                        obj.value = data[0].StateId;
-                        obj.Other = data[0].City;
-                        AjaxWithValue('BindCityJson', 'City', obj)
-                         obj.value =  data[0].City+","+data[0].StateId;
-                         obj.Other = data[0].PinNumber;
-                         AjaxWithValue('BindPinCodeJson', 'PinCode', obj)
-                    }
-                });
-        }
-
-  
-     function AjaxWithValue(method, ddl, e) {
+    $("#PinCode").val(null);
+ 
+     
+        function AjaxWithValue(method, ddl, e) {         
          var val = e.value;
          var other=e.Other;   
          if (ddl == "PinCode")
@@ -149,26 +127,23 @@
             }
         });
     }
-     function EditAreaPin(Service) {
+        function EditAreaPin(Service) {
         $.ajax({
             type: "GET",
-            url: '@Url.Action("GetServiceAreaPinCode","ManageServiceProviders")',
+            url: '@Url.Action("GetServiceAreaPinCode","ManageServiceCenters")',
             data: { "ServiceAreaId": Service },
                    async: true,
             contentType: "application/json",
             success: function (data) {
                 console.log(data);
-                    $("#ServiceAreaId").val(data.ServiceAreaId);
-                    $("#ServiceId").val(data.ServiceId);
-                    $("#CountryId").val(data.CountryId);           
-                 var obj = { value: data.CountryId, Other: data.StateId };
-                AjaxWithValue('BindStateJson', 'StateId', obj);
-                obj.value = data.StateId;
-                obj.Other = data.City;
-                AjaxWithValue('BindCityJson', 'City', obj);
-                obj.value = data.City+','+data.StateId;
-                obj.Other = data.PinCode;
-                AjaxWithValue('BindPinCodeJson', 'PinCode', obj);
+                  $("#ServiceAreaId").val(data.ServiceAreaId);
+                  $("#ServiceId").val(data.ServiceId);
+                $("#Country").val(data.Country);   
+                $("#State").val(data.State);
+                $("#District").val(data.District);  
+                $("#PinCode").val(data.PinCode);  
+                 var obj = { value:data.PinCode , Other: data.LocationId};
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);            
                 $("#IsActive").prop("checked", data.IsActive);
                 
                 }

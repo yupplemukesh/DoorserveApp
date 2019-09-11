@@ -10,26 +10,26 @@ namespace doorserve.Models
 {
     public class ServiceOfferedModel:ServiceModel
     {
-
+         
+        
         public Guid? ServiceAreaId { get; set; }
-        [Required]
-        [DisplayName("Country")]
-        public int CountryId { get; set;}
+
+
         public string Country { get; set; }
-        [Required]
-        [DisplayName("State")]
-        public int StateId { get; set; }
+
         public string State { get; set; }
+
+        [DisplayName("District")]
+        public string District { get; set; }
         [Required]
-        [DisplayName("City")]
-        public int CityId { get; set; }
-        public string City { get; set; }
+        [DisplayName("Pin Code")]
+
         public string PinCode { get; set; }
 
-        public SelectList CountryList { get; set; }
-        public SelectList StateList { get; set; }
-        public SelectList CityList { get; set; }
-        public SelectList PinCodeList { get; set; }
+        [Required]
+        [DisplayName("Location Name")]
+        public int? LocationId { get; set; }
+        public string LocationName { get; set; }
         public SelectList LocationList { get; set; }
 
 

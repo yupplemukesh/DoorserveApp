@@ -109,13 +109,7 @@ namespace doorserve.Repository
             sp.Add(param);
             param = new SqlParameter("@ServiceId", ToDBNull(service.ServiceId));
             sp.Add(param);
-            param = new SqlParameter("@CountryId", ToDBNull(service.CountryId));
-            sp.Add(param);
-            param = new SqlParameter("@StateId", ToDBNull(service.StateId));
-            sp.Add(param);
-            param = new SqlParameter("@pincode", ToDBNull(service.PinCode));
-            sp.Add(param);
-            param = new SqlParameter("@City", ToDBNull(service.City));
+            param = new SqlParameter("@LocationId", ToDBNull(service.LocationId));
             sp.Add(param);
             param = new SqlParameter("@IsActive", ToDBNull(service.IsActive));
             sp.Add(param);         
@@ -123,7 +117,7 @@ namespace doorserve.Repository
             sp.Add(param);
             param = new SqlParameter("@ACTION", ToDBNull(service.EventAction));
             sp.Add(param);
-            var sql = "ADDOrEditServiceableAreaPins @ServiceAreaId, @ServiceId,@CountryId,@StateId,@pincode,@City, @IsActive ,@User ,@ACTION";
+            var sql = "ADDOrEditServiceableAreaPins @ServiceAreaId, @ServiceId, @LocationId, @IsActive ,@User ,@ACTION";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

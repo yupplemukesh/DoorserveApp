@@ -4,7 +4,7 @@
 <div class=" row form-group">
     <label class="col-md-2 control-label" for="selectbasic">Device Category	</label>
     <div class="col-md-4">
-        @Html.DisplayFor(model => model.Category,  new { @class = "form-control"})
+        @Html.DisplayFor(model => model.Category, new { @class = "form-control" })
     </div>
     <label class="col-md-2 control-label" for="selectbasic">Device Sub-Category	</label>
     <div class="col-md-4">
@@ -22,42 +22,41 @@
     <div class="col-md-4">
 
         @Html.DisplayFor(model => model.DeliveryType, new { @class = "form-control" })
-  
+
     </div>
 </div>
 
 <div class="row form-group">
     <label class="col-md-2 control-label" for="radios">PinCode</label>
     <div class="col-md-4">
-        @Html.TextBox("PinNumber","",  new { @class = "form-control", onchange = "getLocationByPin()" })   
+        @Html.TextBoxFor(x=>x.PinCode, "", new { @class = "form-control", onchange = "GetLocation()" })
     </div>
 </div>
 <div class="row form-group">
 
-    <label class="col-md-2 control-label" for="radios">Country</label>
-    <div class="col-md-4">
-        @Html.DropDownListFor(model => model.CountryId, Model.CountryList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'StateId', this)" })
-        @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+    <label class="col-md-2 control-label" for="radios">Locations/City</label>
+    <div class="col-md-2">
+        @Html.DropDownListFor(model => model.LocationId, Model.LocationList, htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
+    </div>
+
+    <label class="col-md-2 control-label" for="radios">District</label>
+    <div class="col-md-2">
+        @Html.TextBoxFor(model => model.District, htmlAttributes: new { @class = "form-control", @disabled = "true" })
     </div>
     <label class="col-md-2 control-label" for="radios">State</label>
-    <div class="col-md-4">
-        @Html.DropDownListFor(model => model.StateId, Model.StateList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BinCityJson', 'City', this)" })
-        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
+    <div class="col-md-2">
+        @Html.TextBoxFor(model => model.State, htmlAttributes: new { @class = "form-control",@disabled = "true"})
+    </div>
+    <label class="col-md-2 control-label" for="radios">Country</label>
+    <div class="col-md-2">
+        @Html.TextBoxFor(model => model.Country,  htmlAttributes: new { @class = "form-control",@disabled = "true" })
     </div>
 
 
 </div>
 <div class="row form-group">
-    <label class="col-md-2 control-label" for="radios">District</label>
-    <div class="col-md-4">
-        @Html.DropDownListFor(model => model.City, Model.CityList, htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindPinCodeJson', 'PinCode', this)" })
-        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-    </div>
-    <label class="col-md-2 control-label" for="radios">Pincode</label>
-    <div class="col-md-4">
-        @Html.DropDownListFor(model => model.PinCode, Model.PinCodeList, htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
-    </div>
+  
 </div>
 
 <div class="row form-group">
@@ -65,5 +64,62 @@
     <div class="col-md-1">
         @Html.CheckBoxFor(model => model.IsActive)
     </div>
-   
+
 </div>
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+
+        $("#District").attr('readonly', true);
+        $("#State").attr('readonly', true);
+        $("#Country").attr('readonly', true);
+    });
+
+    function GetLocation() {
+        var Id = $("#PinCode").val();
+            if (Id.length == 6) {
+                $.ajax({
+                    url: "/DropdownBind/GetLocationByPinCode",
+                    async: true,
+                    type: "GET",
+                    data: { pin: Id },
+                    success: function (result) {
+                       // $("#District").val(result.District);
+                        $("#State").val('');
+                        $("#Country").val('');
+                        $("#District").val('');
+                        var obj = { value: Id, Other: result.LocationId};
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    }
+                });
+            }
+        };
+      $("#LocationId").change(function (e) {
+                  var locationId = $(this).val();
+        if (locationId != '')
+            BindAddressByLocation(locationId);
+        else {
+                          $("#District").val('');
+                          $("#Country").val('');    
+                          $("#State").val('');
+        }
+
+      })
+      function BindAddressByLocation(locationId) {
+                  $.ajax({
+                      type: "GET",
+                      url: '@Url.Action("BindLocationByLocationIdJson","DropdownBind")',
+                      data: {"value": locationId},
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      async: true,
+                      success: function (data) {
+                          $("#District").val(data.DistrictName);
+                          $("#Country").val(data.CountryName);
+                          $("#State").val(data.StateName);
+                      }
+                  });
+              }
+</script>
+@Scripts.Render("~/bundles/jqueryval")

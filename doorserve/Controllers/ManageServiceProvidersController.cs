@@ -300,10 +300,8 @@ namespace doorserve.Controllers
             service.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = ServiceId });
             service.Service.IsActive = false;
             service.BaseUrl = _fpath;
-            service.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            service.Service.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            service.Service.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            service.Service.PinCodeList = new SelectList(Enumerable.Empty<SelectList>());
+    
+            service.Service.LocationList = new SelectList(Enumerable.Empty<SelectList>());
             service.Files = await _RepoUploadFile.GetFiles(ServiceId);
             service.ImportModel = new ProviderFileModel();
             return View(service);
@@ -347,14 +345,8 @@ namespace doorserve.Controllers
             services.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = service.ServiceId });
             services.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = service.ServiceId });
             services.Service.IsActive = false;
+            services.Service.LocationList = new SelectList(Enumerable.Empty<SelectList>()); 
             services.Service.ServiceAreaId = null;
-            services.Service.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
-            services.Service.StateList = new SelectList(dropdown.BindState(service.CountryId), "Value", "Text");
-            services.Service.CityList = new SelectList(dropdown.BindDiscrictByPin(service.PinCode), "Text", "Text");
-            services.Service.PinCodeList = new SelectList(dropdown.BindPinCodeParam(service.City + "," + service.StateId), "Text", "Text");
-            services.Service.CountryId = service.CountryId;
-            services.Service.StateId = service.StateId;
-            services.Service.City = service.City;
             services.Files = new List<ProviderFileModel>();
             services.ImportModel = new ProviderFileModel();
             return View(services);
@@ -387,12 +379,8 @@ namespace doorserve.Controllers
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
-                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
-                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
-                StateList = new SelectList(Enumerable.Empty<SelectList>()),
-                CityList = new SelectList(Enumerable.Empty<SelectList>()),
+                DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),             
                 LocationList = new SelectList(Enumerable.Empty<SelectList>()),
-            PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
             };
 
             if (TempData["provider"] != null)
@@ -569,11 +557,7 @@ namespace doorserve.Controllers
                 SupportedSubCategoryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
                 ServiceList = new SelectList(await doorserve.CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
                 DeliveryServiceList = new SelectList(await doorserve.CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId }), "Value", "Text"),
-                CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text"),
-                StateList = new SelectList(Enumerable.Empty<SelectList>()),
-                CityList = new SelectList(Enumerable.Empty<SelectList>()),
                LocationList = new SelectList(Enumerable.Empty<SelectListItem>()),
-            PinCodeList = new SelectList(Enumerable.Empty<SelectList>()),
                 RefKey = ProviderId
             };
 
@@ -890,9 +874,7 @@ namespace doorserve.Controllers
                 }};
             byte[] filecontent = ExcelExportHelper.ExportExcel(providerData, "", false, columns);
             return File(filecontent, ExcelExportHelper.ExcelContentType, "AreaPinCodeTemplate.xlsx");
-        }
-
-      
+        }      
 
     }
 }

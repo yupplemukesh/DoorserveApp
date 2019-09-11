@@ -247,13 +247,10 @@ namespace doorserve.Controllers
             Guid? RefKey= CurrentUser.RefKey;
             var objUserRole = new  List<UserRole>();          
             using (var con = new SqlConnection(_connectionString))
-            { 
-               
+            {                
                    objUserRole = con.Query<UserRole>("UspGetUserRoleDetail", new { RoleId, UserId, RefKey },
                     commandType: CommandType.StoredProcedure).ToList();                             
             }
-
-
             return View(objUserRole);
 
         }    
