@@ -15,7 +15,7 @@
 <div class="row">
 
     <div class="col-md-6 form-group">
-        <label class=" control-label" for="form-control-9">Mailer Template Type</label>
+        <label class=" control-label" for="form-control-9">Mailer Template Type<span class="error-alert">*</span></label>
         @Html.HiddenFor(model => model.TemplateId)
         @Html.HiddenFor(model => model.MailerTemplateName)
         @Html.HiddenFor(model => model.GUID)
@@ -27,7 +27,7 @@
     {
 
         <div class="col-md-6 form-group" id="actions">
-            <label class=" control-label" for="form-control-9">Action Type</label>
+            <label class=" control-label" for="form-control-9">Action Type<span class="error-alert">*</span></label>
             @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
         </div>
@@ -36,7 +36,7 @@
     {
 
         <div class="col-md-6 form-group hidden" id="actions">
-            <label class=" control-label" for="form-control-9">Action Type</label>
+            <label class=" control-label" for="form-control-9">Action Type<span class="error-alert">*</span></label>
             @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
         </div>
@@ -45,7 +45,7 @@
 </div>
 <div class="row">
     <div class="col-md-6 form-group">
-        <label class=" control-label" for="form-control-9"> Template Name </label>
+        <label class=" control-label" for="form-control-9"> Template Name<span class="error-alert">*</span> </label>
         <div class="form-group">
             @Html.HiddenFor(model => model.MessageTypeName)
             @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control input-md", @placeholder = "Mailer Template Name" })
@@ -53,7 +53,7 @@
         </div>
     </div>
     <div class="col-md-6 form-group">
-        <label class=" control-label" for="form-control-9">Message Type </label>
+        <label class=" control-label" for="form-control-9">Message Type<span class="error-alert">*</span> </label>
         <div class="form-group">
             @Html.DropDownListFor(model => model.MessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.MessageTypeId, "", new { @class = "text-danger" })
@@ -62,7 +62,7 @@
 </div>
 <div class="row">
     <div class="col-md-6 form-group" id="mailerGateway">
-        <label class=" control-label" for="form-control-9">Mailer Gateway</label>
+        <label class=" control-label" for="form-control-9">Mailer Gateway<span class="error-alert">*</span></label>
         <div class="form-group">
             @Html.DropDownListFor(model => model.GatewayId, Model.GatewayList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.GatewayId, "", new { @class = "text-danger" })
@@ -71,7 +71,7 @@
     @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway")
     {
         <div class="col-md-6 form-group" id="header">
-            <label class=" control-label" for="form-control-9">Header Footer Template</label>
+            <label class=" control-label" for="form-control-9">Header Footer Template<span class="error-alert">*</span></label>
             <div class="form-group">
                 @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
@@ -81,7 +81,7 @@
     else
     {
         <div class="col-md-6 form-group hidden" id="header">
-            <label class=" control-label" for="form-control-9">Header Footer Template</label>
+            <label class=" control-label" for="form-control-9">Header Footer Template<span class="error-alert">*</span></label>
             <div class="form-group">
                 @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
@@ -93,7 +93,7 @@
     @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "actionbased")
     {
         <div class="col-md-6 form-group" id="bccEmail">
-            <label class=" control-label" for="form-control-9">BCC Email ID</label>
+            <label class=" control-label" for="form-control-9">BCC Email ID<span class="error-alert">*</span></label>
             @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
             @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
         </div>
@@ -101,7 +101,7 @@
     else
     {
         <div class="col-md-6 form-group hidden" id="bccEmail">
-            <label class=" control-label" for="form-control-9">BCC Email ID</label>
+            <label class=" control-label" for="form-control-9">BCC Email ID<span class="error-alert">*</span></label>
             @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
             @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
         </div>
@@ -111,7 +111,7 @@
     @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway")
     {
         <div class="col-md-6 form-group" id="emailSubject">
-            <label class=" control-label" for="form-control-9">Email Subject</label>
+            <label class=" control-label" for="form-control-9">Email Subject<span class="error-alert">*</span></label>
             @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
             @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
         </div>
@@ -119,7 +119,7 @@
     else
     {
         <div class="col-md-6 form-group hidden" id="emailSubject">
-            <label class=" control-label" for="form-control-9">Email Subject</label>
+            <label class=" control-label" for="form-control-9">Email Subject<span class="error-alert">*</span></label>
             @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
             @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
         </div>
@@ -250,7 +250,7 @@
 </div>
 <div class="row">
     <div class="col-md-6 form-group" id="PriorityType">
-        <label class="control-label" for="form-control-9">Priority</label>
+        <label class="control-label" for="form-control-9">Priority<span class="error-alert">*</span></label>
         <div class="form-group">
             @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })

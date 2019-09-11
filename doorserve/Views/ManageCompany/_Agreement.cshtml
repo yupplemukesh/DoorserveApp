@@ -9,7 +9,7 @@
 <div class="row form-group">
     <!-- Multiple Radios (inline) -->
     @*@Html.HiddenFor(x => x.ServiceType)*@
-    <label class="col-md-3 control-label" for="radios">Service Type</label>
+    <label class="col-md-3 control-label" for="radios">Service Type<span class="error-alert">*</span></label>
 
     @for (int x = 0; x < Model.ServiceList.Count(); x++)
     {
@@ -38,7 +38,7 @@
 <div class="row form-group">
     @*@Html.HiddenFor(x=>x.ServiceDeliveryType)*@
     <!-- Multiple Radios (inline) -->
-    <label class="col-md-3 control-label" for="radios">Service Delivery Type</label>
+    <label class="col-md-3 control-label" for="radios">Service Delivery Type<span class="error-alert">*</span></label>
     @for (int x = 0; x < Model.DeliveryServiceList.Count(); x++)
     {
         <div class="col-md-2">

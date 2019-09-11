@@ -1,7 +1,7 @@
 ﻿@model doorserve.Models.Company.CompanyModel
 
 <div class="form-group row">
-    <label class="col-sm-4 control-label" for="form-control-1">Company Type</label>
+    <label class="col-sm-4 control-label" for="form-control-1">Company Type <span class="error-alert">*</span></label>
     <div class="col-sm-8">
         @Html.DropDownListFor(x => x.CompanyTypeId, Model.CompanyTypeList, "Select", new { @class = "form-control input-md", })
         @Html.ValidationMessageFor(model => model.CompanyTypeId, "", new { @class = "text-danger" })
@@ -10,12 +10,12 @@
 
 <div class="form-group row">
 
-    <label class="col-sm-4 control-label" for="form-control-1">Company Code</label>
+    <label class="col-sm-4 control-label" for="form-control-1">Company Code <span class="error-alert">*</span></label>
     <div class="col-sm-3">
         @Html.TextBoxFor(x => x.CompanyCode, new { @class = "form-control input-md", })
         @Html.ValidationMessageFor(model => model.CompanyCode, "", new { @class = "text-danger" })
     </div>
-    <label class="col-sm-2 control-label" for="form-control-1">Company Name</label>
+    <label class="col-sm-2 control-label" for="form-control-1">Company Name <span class="error-alert">*</span></label>
     <div class="col-sm-3">
         @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control input-md" })
         @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })

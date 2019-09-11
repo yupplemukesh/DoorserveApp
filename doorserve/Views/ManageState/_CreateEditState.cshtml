@@ -2,9 +2,12 @@
 
 
 <div class="row" style="padding-bottom: 5px;">
-    @Html.LabelFor(model => model.St_CntyID, htmlAttributes: new { @class = "col-md-2  col-xs-12" })
-    <div class="col-md-6 col-sm-12 col-xs-12">        
-        @Html.DropDownListFor(model => model.St_CntyID, Model._CountryList, new { @class = "form-control"})
+    <div class="col-md-2  col-xs-12">
+        @Html.LabelFor(model => model.St_CntyID)
+        <span class="error-alert">*</span>
+    </div> 
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        @Html.DropDownListFor(model => model.St_CntyID, Model._CountryList, new { @class = "form-control" })
     </div>
     @Html.ValidationMessageFor(model => model.St_CntyID, "", new { @class = "text-danger" })
 </div>

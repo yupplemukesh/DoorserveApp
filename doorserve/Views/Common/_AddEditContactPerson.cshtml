@@ -13,7 +13,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConFirstName, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConFirstName)
+                    <span class="error-alert">*</span>
+                </div>              
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(x => x.ConFirstName, new { @class = "form-control", @placeholder = "First Name" })
@@ -36,7 +39,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConMobileNumber)
+                    <span class="error-alert">*</span>
+                </div>             
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(x => x.ConMobileNumber, new { @class = "form-control", @placeholder = "Mobile number" })
@@ -44,7 +50,10 @@
                 @Html.ValidationMessageFor(model => model.ConMobileNumber, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.ConEmailAddress)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(x => x.ConEmailAddress, new { @class = "form-control", @placeholder = "Email-Address" })
@@ -167,7 +176,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.AddressTypeId, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.AddressTypeId)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.AddressTypeId, Model.AddressTypelist,
@@ -177,10 +189,13 @@
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PinNumber)
+                    <span class="error-alert">*</span>
+                </div>              
                 <div class="input-group">
                     <span class="input-group-addon"></span>
-                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code", id = "Pincode", @OnChange= "GetLocation()" })
+                    @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", @placeholder = "Pin code", id = "Pincode", @OnChange = "GetLocation()" })
                 </div>
                 @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
             </div>
@@ -195,7 +210,10 @@
 
 
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.LocationName, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.LocationName)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
@@ -244,7 +262,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Address)
+                    <span class="error-alert">*</span>
+                </div>              
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Address" })

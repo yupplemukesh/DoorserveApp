@@ -15,17 +15,22 @@
         </div>
     <div class="row" style="padding-bottom: 5px;">
         <div class="col-md-3 col-md-offset-1 col-xs-12">
-            @Html.LabelFor(model => model.Model_Id, htmlAttributes: new { @class = "" })
+            <div class="">
+                @Html.LabelFor(model => model.Model_Id)
+                <span class="error-alert">*</span>
+            </div>           
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
-
             @Html.DropDownListFor(model => model.Model_Id, Model.ModelList, "Select", htmlAttributes: new { @class = "form-control", placeholder = "" })
             @Html.ValidationMessageFor(model => model.Model_Id, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="row" style="padding-bottom: 5px;">
         <div class="col-md-3 col-md-offset-1 col-xs-12">
-            @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "" })
+            <div class="">
+                @Html.LabelFor(model => model.Problem)
+                <span class="error-alert">*</span>
+            </div>          
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
             @Html.DropDownListFor(model => model.Problem, Model.ProblemList, "Select", new { @class = "form-control" })
@@ -34,7 +39,10 @@
     </div>
     <div class="row" style="padding-bottom: 5px;">
         <div class="col-md-3 col-md-offset-1 col-xs-12">
-            @Html.LabelFor(model => model.Market_Price, htmlAttributes: new { @class = "" })
+            <div class="">
+                @Html.LabelFor(model => model.Market_Price)
+                <span class="error-alert">*</span>
+            </div>           
 
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
@@ -47,7 +55,10 @@
     <div class="col-md-6 col-sm-6 col-lg-6">
         <div class="row" style="padding-bottom: 5px;">
             <div class="col-md-3 col-md-offset-1 col-xs-12">
-                @Html.LabelFor(model => model.estimated_Price, htmlAttributes: new { @class = "" })
+                <div class="">
+                    @Html.LabelFor(model => model.estimated_Price)
+                    <span class="error-alert">*</span>
+                </div>            
 
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
@@ -57,7 +68,10 @@
         </div>
         <div class="row" style="padding-bottom: 5px;">
             <div class="col-md-3 col-md-offset-1 col-xs-12">
-                @Html.LabelFor(model => model.Min_Price, htmlAttributes: new { @class = "" })
+                <div class="">
+                    @Html.LabelFor(model => model.Min_Price)
+                    <span class="error-alert">*</span>
+                </div>               
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.Min_Price, null, new { @class = "form-control" })
@@ -66,7 +80,10 @@
         </div>
         <div class="row" style="padding-bottom: 5px;">
             <div class="col-md-3 col-md-offset-1 col-xs-12">
-                @Html.LabelFor(model => model.Max_Price, htmlAttributes: new { @class = "" })
+                <div class="">
+                    @Html.LabelFor(model => model.Max_Price)
+                    <span class="error-alert">*</span>
+                </div>               
             </div>
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.Max_Price, null, new { @class = "form-control" })

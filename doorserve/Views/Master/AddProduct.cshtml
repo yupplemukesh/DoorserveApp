@@ -3,36 +3,51 @@
 {
     <div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Category)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="col-md-6 col-sm-12 col-xs-12">
-                @Html.DropDownListFor(model => model.CategoryID,Model._Category,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatId', this)" })
+                @Html.DropDownListFor(model => model.CategoryID, Model._Category, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCatId', this)" })
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.SubCategory)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="col-md-6 col-sm-12 col-xs-12">
 
-                @Html.DropDownListFor(model => model.SubCatId,Model._SubCat , new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SubCatId, Model._SubCat, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.BrandName)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="col-md-6 col-sm-12 col-xs-12">
-                @Html.DropDownListFor(model => model.BrandID,Model._BrandName, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.BrandID, Model._BrandName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.Label("Model", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.Label("Model")
+                <span class="error-alert">*</span>
+            </div>           
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.ProductName, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.Label("Model Color", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.Label("Model Color")
+                <span class="error-alert">*</span>
+            </div>           
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.DropDownListFor(model => model.ProductColor, Model._ProductColor, new { @class = "selectpicker", multiple = "multiple", data_live_search = "true", data_actions_box = "true", data_width = "100%" })
                 @Html.ValidationMessageFor(model => model.ProductColor, "", new { @class = "text-danger" })

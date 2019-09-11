@@ -11,7 +11,10 @@
     @Html.HiddenFor(model => model.BrandId)
     <div class="col-md-8 col-sm-8 col-lg-8">
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.BrandName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.BrandName)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.BrandName, htmlAttributes: new { @class = "form-control", placeholder = "Enter Brand Name" })
                 @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })

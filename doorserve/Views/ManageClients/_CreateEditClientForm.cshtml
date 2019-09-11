@@ -267,7 +267,7 @@ else
                     }
                     <!-- Select Basic -->
                     <div class=" row form-group">
-                        <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>
+                        <label class="col-md-3 control-label" for="selectbasic">Process Name<span class="error-alert">*</span>	</label>
                         <div class="col-md-9">
                             @Html.DropDownListFor(model => model.ProcessId, Model.ProcessList, "Select", new { @class = "form-control" })
                             @*@Html.TextBoxFor(model => model.ProcessName, htmlAttributes: new { @class = "form-control", placeholder = "",@readonly="readonly" })*@
@@ -279,7 +279,7 @@ else
                     @if (Model.action == 'U')
                     {
                         <div class=" row form-group">
-                            <label class="col-md-3 " for="textinput">Client Code</label>
+                            <label class="col-md-3 " for="textinput">Client Code<span class="error-alert">*</span></label>
                             <div class="col-md-9">
                                 @Html.TextBoxFor(model => model.ClientCode, new { @class = "form-control input-md", @placeholder = "Client Code" })
                                 @Html.ValidationMessageFor(model => model.ClientCode, "", new { @class = "text-danger" })
@@ -290,7 +290,7 @@ else
 
                     <!-- Text input-->
                     <div class=" row form-group">
-                        <label class="col-md-3 " for="textinput">Client Name</label>
+                        <label class="col-md-3 " for="textinput">Client Name<span class="error-alert">*</span></label>
                         <div class="col-md-9">
                             @Html.TextBoxFor(model => model.ClientName, new { @class = "form-control input-md", @placeholder = "Client Name" })
                             @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })

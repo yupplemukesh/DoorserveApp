@@ -16,7 +16,7 @@
 }
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Gateway Name</label>
+        <label class="control-label" for="form-control-9">Gateway Name<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "Gateway Name" })
         @Html.ValidationMessageFor(model => model.GatewayName, "", new { @class = "text-danger" })
     </div>
@@ -25,7 +25,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Sender ID</label>
+        <label class="control-label" for="form-control-9">Sender ID<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.SenderID, new { @class = "form-control input-md", @placeholder = "Sender ID" })
         @Html.ValidationMessageFor(model => model.SenderID, "", new { @class = "text-danger" })
     </div>
@@ -36,7 +36,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Google Api key</label>
+        <label class="control-label" for="form-control-9">Google Api key<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.GoogleApikey, new { @class = "form-control input-md", @placeholder = "Google Api key" })
         @Html.ValidationMessageFor(model => model.GoogleApikey, "", new { @class = "text-danger" })
     </div>
@@ -56,7 +56,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Project ID (in Google)</label>
+        <label class="control-label" for="form-control-9">Project ID (in Google)<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.GoogleProjectID, new { @class = "form-control input-md", @placeholder = "Google Project ID" })
         @Html.ValidationMessageFor(model => model.GoogleProjectID, "", new { @class = "text-danger" })
     </div>
@@ -65,7 +65,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Project Name (in Google)</label>
+        <label class="control-label" for="form-control-9">Project Name (in Google)<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.GoogleProjectName, new { @class = "form-control input-md", @placeholder = "Google Project Name" })
         @Html.ValidationMessageFor(model => model.GoogleProjectName, "", new { @class = "text-danger" })
     </div>

@@ -17,7 +17,7 @@
 }
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">SMS Gateway Name</label>
+        <label class="control-label" for="form-control-9">SMS Gateway Name<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.GatewayName, new { @class = "form-control input-md", @placeholder = "Gateway Name" })
         @Html.ValidationMessageFor(model => model.GatewayName, "", new { @class = "text-danger" })
     </div>
@@ -28,7 +28,7 @@
 
 <div class="row form-group">
     <div class="col-sm-12 ">
-        <label class="control-label" for="form-control-9">URL Setting</p></label>
+        <label class="control-label" for="form-control-9">URL Setting<span class="error-alert">*</span></label>
         @Html.TextAreaFor(model => model.URL, new { @class = "form-control input-md", @placeholder = "URL" })
         @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
     </div>
@@ -37,7 +37,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Trans Api key</label>
+        <label class="control-label" for="form-control-9">Trans Api key<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.TransApikey, new { @class = "form-control input-md", @placeholder = "Trans Api key" })
         @Html.ValidationMessageFor(model => model.TransApikey, "", new { @class = "text-danger" })
     </div>
@@ -56,7 +56,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Success Message</label>
+        <label class="control-label" for="form-control-9">Success Message<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.SuccessMessage, new { @class = "form-control input-md", @placeholder = "Success Message" })
         @Html.ValidationMessageFor(model => model.SuccessMessage, "", new { @class = "text-danger" })
     </div>

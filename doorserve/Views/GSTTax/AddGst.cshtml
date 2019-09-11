@@ -10,14 +10,20 @@
         <div class="col-md-6">
 
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.CountryId)
+                    <span class="error-alert">*</span>
+                </div>             
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.CountryId, Model.CountryList, new { @class = "form-control", onchange = "AjaxWithValue('BindStateJson', 'State', this)" })
                     @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.StateId, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.StateId)
+                    <span class="error-alert">*</span>
+                </div>              
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.StateId, Model.StateList, new { @class = "form-control", id = "State" })
                     @Html.ValidationMessageFor(model => model.StateId, "", new { @class = "text-danger" })
@@ -25,58 +31,82 @@
             </div>
 
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Applicable_Tax, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Applicable_Tax)
+                    <span class="error-alert">*</span>
+                </div>          
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Applicable_Tax, Model.ApplicableTaxTypeList,"Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Applicable_Tax, Model.ApplicableTaxTypeList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Applicable_Tax, "", new { @class = "text-danger" })
                 </div>
             </div>
 
            
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.GstCategoryId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.GstCategoryId)
+                    <span class="error-alert">*</span>
+                </div>              
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.GstCategoryId, Model.GstcategoryList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.GstCategoryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Device_Cat, htmlAttributes: new { @class = "col-md-4  col-xs-12", })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Device_Cat)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Device_SubCat', this)" })
+                    @Html.DropDownListFor(model => model.Device_Cat, Model.DeviceCategoryList, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'Device_SubCat', this)" })
                     @Html.ValidationMessageFor(model => model.Device_Cat, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Device_SubCat, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Device_SubCat)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Device_SubCat, Model.DeviceSubCategoryList, new { @class = "form-control",id= "Device_SubCat" })
+                    @Html.DropDownListFor(model => model.Device_SubCat, Model.DeviceSubCategoryList, new { @class = "form-control", id = "Device_SubCat" })
                     @Html.ValidationMessageFor(model => model.Device_SubCat, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.GstHeading, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.GstHeading)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.GstHeading, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.GstHeading, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Gst_HSNCode_Id, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Gst_HSNCode_Id)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.Gst_HSNCode_Id, Model.GstHSNCodeList,"Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Gst_HSNCode_Id, Model.GstHSNCodeList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Gst_HSNCode_Id, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CTH_NumberId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.CTH_NumberId)
+                    <span class="error-alert">*</span>
+                </div>             
                 <div class="col-md-6 col-sm-6 col-xs-12">
-                    @Html.DropDownListFor(model => model.CTH_NumberId,Model.CTHNumberList , "Select", new { @class = "form-control" })
+                    @Html.DropDownListFor(model => model.CTH_NumberId, Model.CTHNumberList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CTH_NumberId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.SACId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.SACId)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.SACId, Model.SACList, "Select", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.SACId, "", new { @class = "text-danger" })
@@ -90,37 +120,56 @@
             <div class="row" style="padding-bottom: 5px;">
                 @Html.LabelFor(model => model.Product_Sale_Range, htmlAttributes: new { @class = "col-md-3  col-xs-12" })
                 <div class="col-md-7 col-sm-7 col-xs-12" style="display: inline-flex">
-                    @Html.LabelFor(model => model.Product_Sale_From, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    <div class="col-md-4  col-xs-12">
+                        @Html.LabelFor(model => model.Product_Sale_From)
+                        <span class="error-alert">*</span>
+                    </div>
                     @Html.TextBoxFor(model => model.Product_Sale_From, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Product_Sale_From, "", new { @class = "text-danger" })
-                    @Html.LabelFor(model => model.Product_Sale_TO, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                    <div class="col-md-4  col-xs-12">
+                        @Html.LabelFor(model => model.Product_Sale_TO)
+                        <span class="error-alert">*</span>
+                    </div>
                     @Html.TextBoxFor(model => model.Product_Sale_TO, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Product_Sale_TO, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CGST, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.CGST)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.CGST, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.CGST, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.SGST, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.SGST)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.SGST, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.SGST, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.IGST, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.IGST)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.IGST, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.IGST, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Product_Cat)
+                    <span class="error-alert">*</span>
+                </div>
                 @Html.LabelFor(model => model.Product_Cat, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.Product_Cat, htmlAttributes: new { @class = "form-control" })
@@ -128,6 +177,10 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Product_SubCat)
+                    <span class="error-alert">*</span>
+                </div>
                 @Html.LabelFor(model => model.Product_SubCat, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.Product_SubCat, htmlAttributes: new { @class = "form-control" })

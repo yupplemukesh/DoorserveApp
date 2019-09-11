@@ -24,7 +24,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.ColorName, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.ColorName)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.ColorName, htmlAttributes: new { @class = "form-control" })

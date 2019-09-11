@@ -23904,3 +23904,8 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .StepProgress strong {
     display: block;
 }
+
+.error-alert {
+
+color:red;
+}

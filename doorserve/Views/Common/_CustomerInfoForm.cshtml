@@ -14,14 +14,14 @@
             <div class="col-sm-12 col-md-9 ">
                 <div class="form-group row">
 
-                    <label class="col-sm-3 col-md-1" for="form-control-1"> Mobile  </label>
+                    <label class="col-sm-3 col-md-1" for="form-control-1"> Mobile <span class="error-alert">*</span> </label>
                     <div class="col-sm-9 col-md-3 ">
                         @Html.TextBoxFor(x => x.CustomerContactNumber, new { @class = "", onchange = "getCustomer()" })
                         @Html.ValidationMessageFor(x => x.CustomerContactNumber, "", new { @class = "text-danger", style = "white-space:nowrap" })
                     </div>
 
 
-                    <label class="col-sm-3 col-md-2" for="form-control-1"> Customer Type  </label>
+                    <label class="col-sm-3 col-md-2" for="form-control-1"> Customer Type <span class="error-alert">*</span> </label>
 
                     <div class="col-sm-9 col-md-6">
                         @foreach (var item in Model.CustomerTypeList)
@@ -53,7 +53,7 @@
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerName, "", new { @class = "text-danger" })
-                        <label class="floating-label">Customer Name</label>
+                        <label class="floating-label">Customer Name <span class="error-alert">*</span></label>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
 
                         @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerEmail, "", new { @class = "text-danger" })
-                        <label class="floating-label">Email</label>
+                        <label class="floating-label">Email <span class="error-alert">*</span></label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
@@ -138,7 +138,7 @@
                     <div class="form-group has-value">
                         @Html.DropDownListFor(model => model.LocationId, Model.LocationList, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.LocationId, "", new { @class = "text-danger" })
-                        <label class="floating-label  t-0">City</label>
+                        <label class="floating-label  t-0">City <span class="error-alert">*</span></label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">

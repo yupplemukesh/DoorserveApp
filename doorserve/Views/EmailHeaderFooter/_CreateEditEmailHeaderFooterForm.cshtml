@@ -19,7 +19,7 @@
 }
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Action Type</label>
+        <label class="control-label" for="form-control-9">Action Type<span class="error-alert">*</span></label>
         @Html.DropDownListFor(model => model.ActionTypeId, Model.ActionTypeList, "--Select--", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ActionTypeId, "", new { @class = "text-danger" })
     </div>
@@ -28,7 +28,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Template Name</label>
+        <label class="control-label" for="form-control-9">Template Name<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-md", @placeholder = "Email Header And Footer template" })
         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
     </div>

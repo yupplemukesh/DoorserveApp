@@ -9,7 +9,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.BankNameId, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BankNameId)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.BankNameId, Model.BankList, "Select", new { @class = "form-control" })
@@ -18,7 +21,10 @@
                 @Html.ValidationMessageFor(model => model.BankNameId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BankAccountNumber)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.BankAccountNumber, htmlAttributes: new { @class = "form-control", placeholder = "Bank Account Number" })
@@ -33,7 +39,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.BankCompanyName, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BankCompanyName)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.BankCompanyName, htmlAttributes: new { @class = "form-control", placeholder = "Company Name at Bank Account" })
@@ -42,7 +51,10 @@
                 @Html.ValidationMessageFor(model => model.BankCompanyName, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.BankIFSCCode, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.BankIFSCCode)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.BankIFSCCode, htmlAttributes: new { @class = "form-control input-md", placeholder = "IFSC Code" })
