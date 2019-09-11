@@ -42,6 +42,9 @@ namespace doorserve.Permission
                 {
                     int UserId = session.UserId;
                     var menues = session.Menues as MenuMasterModel;
+                    if (MenuName == 0)
+                        return true;
+
                     string privilegeLevels = menues.SubMenuList.Where(x => x.MenuCapId== MenuName).Select(x => x.ActionIds).FirstOrDefault();                   
                     if (AccessLevel.Length > 0 && !string.IsNullOrEmpty(privilegeLevels))
                     {

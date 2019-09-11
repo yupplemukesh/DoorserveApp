@@ -34,7 +34,7 @@ namespace doorserve.Controllers
             using (var con = new SqlConnection(_connectionString))
             {
                 objUserRole._MenuList = con.Query<MenuMasterModel>("UspGetMenuByRole",
-                    new { RoleId }, commandType: CommandType.StoredProcedure).ToList();
+                    new { RoleId,CurrentUser.RefKey }, commandType: CommandType.StoredProcedure).ToList();
                 var menuList = objUserRole._MenuList.Where(x => x.ParentMenuId==0).ToList();
                 foreach (var item in menuList)
                 {

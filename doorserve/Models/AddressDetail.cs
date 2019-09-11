@@ -28,6 +28,7 @@ namespace doorserve.Models
         public string NearLocation { get; set; }
         [DisplayName("Pin Code")]
         [RegularExpression(@"^([0-9]{6})$", ErrorMessage = "Invalid Pin Code")]
+        [Required]
         public string PinNumber { get; set; }
        
         public SelectList AddressTypelist { get; set; }

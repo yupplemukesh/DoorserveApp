@@ -386,10 +386,9 @@ namespace doorserve.Controllers
 
         }
         //GetCallDetailByID
-        //[PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)0)]
         public async Task<ActionResult> ManageServiceProvidersDetails(string CRN, string Param)
         {
-
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(CRN);
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
@@ -403,7 +402,6 @@ namespace doorserve.Controllers
             CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
             var providerList = dropdown.BindServiceProvider(CallDetailsModel.PinNumber);
             CallDetailsModel.CompLogo = CurrentUser.LogoUrl;
-
             if (Convert.ToBoolean(CallDetailsModel.IsRepeat))
             {
                 var prvList = providerList.Where(x => x.Value == CallDetailsModel.PrvProviderId.ToString()).ToList();
@@ -480,7 +478,7 @@ namespace doorserve.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, 0)]
         [HttpPost]
         public async Task<ActionResult> UpdateCall(CallStatusDetailsModel callStatusDetails)
         {          
