@@ -84,12 +84,12 @@ namespace doorserve.Controllers
             CompanyData.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             CompanyData.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
             CompanyData.Contact.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
-            CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType(null);
-            CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
+            CompanyData.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel ());
+            CompanyData.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel());
             return View(CompanyData);
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
+        [PermissionBasedAuthorize(new Actions[] {  Actions.View, Actions.Edit }, (int)MenuCode.Manage_company)]
         public async Task<ActionResult> Edit(Guid CompId)
         {
             TempData["Comp"] = null;
@@ -124,8 +124,8 @@ namespace doorserve.Controllers
             comp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             comp.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
             comp.Contact.LocationList = new SelectList(_dropdown.BindLocation(), "Value", "Text");
-            comp.Agreement.ServiceList = await CommonModel.GetServiceType(null);
-            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
+            comp.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel {CompId= comp.CompanyId});
+            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel {CompId= comp.CompanyId });
             if (comp.Action == 'I')
             {
                 comp.ActiveTab = "tab-2";

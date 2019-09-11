@@ -48,9 +48,14 @@
                         @Html.DisplayFor(modelItem => item.BankBranchName)
                     </td>                    
                     <td style="display: inline-flex">
-                        
+                        @if (Permissions.Rights.View && !Permissions.Rights.Edit && !Permissions.Rights.Create)
+                        {
+                            <a href="#" onclick="getItems('@item.bankId','JsonGetBank')" class="btn btn-small btn-info btnSize ">View</a>
+                        }
+                        @if (Permissions.Rights.Edit)
+                        {
                             <a href="#" onclick="getItems('@item.bankId','JsonGetBank')" class="btn btn-small btn-info btnSize ">Edit</a>
-                       
+                        }
                     </td>
                 </tr>
                 i++;

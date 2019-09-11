@@ -434,7 +434,6 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         [HttpPost]
-        [ValidateModel]
         public async Task<ActionResult> AddorEditOrganization(ServiceProviderModel provider, OrganizationModel org)
         {
 

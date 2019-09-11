@@ -84,6 +84,7 @@
      rowNumber++;
      return @<text> @rowNumber </text>;
      });
+             columns.Add(c => c.CompanyName).Titled("Company Name").Filterable(true);
            columns.Add(c => c.ProviderCode).Titled("ASP Code").Filterable(true);
            columns.Add(c => c.ProviderName).Titled("ASP Name").Filterable(true);
            columns.Add(c => c.ORGNAME).Titled("Organization Name").Filterable(true);

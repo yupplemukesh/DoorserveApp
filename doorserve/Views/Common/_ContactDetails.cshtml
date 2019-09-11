@@ -68,7 +68,14 @@
                 @Html.DisplayFor(modelItem => item.IsUser)
             </td>
             <td style="display: inline-flex">
-                <a href='#' onclick="getItems('@item.ContactId','JsonGetPerson')" class="btn btn-small btn-info btnSize ">Edit</a>
+                @if (Permissions.Rights.Edit)
+                {
+                    <a href='#' onclick="getItems('@item.ContactId','JsonGetPerson')" class="btn btn-small btn-info btnSize ">Edit</a>
+                }
+                @if (Permissions.Rights.View &&  !Permissions.Rights.Edit && !Permissions.Rights.Create )
+                {
+                    <a href='#' onclick="getItems('@item.ContactId','JsonGetPerson')" class="btn btn-small btn-info btnSize ">View</a>
+                }
             </td>
         </tr>
                 Count++;

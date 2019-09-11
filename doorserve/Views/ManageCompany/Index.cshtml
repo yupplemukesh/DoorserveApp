@@ -29,10 +29,8 @@
                         @if (Permissions.Rights.Create)
                         {
                             <a class="btn btn-primary" href="@Url.Action("Create", "ManageCompany")">
-
                                 <span>
                                     Add Company
-
                                 </span>
                             </a>
                         }
@@ -105,6 +103,12 @@
                                     {
                                         <a class="btn btn-small btn-info btnSize " href='@Url.Action("Edit", "ManageCompany", new { @compId = item.CompanyId })'>Edit</a>
                                     }
+                                    @if (Permissions.Rights.View && !Permissions.Rights.Edit && !Permissions.Rights.Create)
+                                    {
+                                        <a class="btn btn-small btn-info btnSize " href='@Url.Action("Edit", "ManageCompany", new { @compId = item.CompanyId })'>View</a>
+                                    }
+
+
                                 </td>
                             </tr>
                             Count++;
