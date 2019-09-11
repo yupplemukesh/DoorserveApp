@@ -248,6 +248,7 @@
     <Compile Include="Controllers\PromoCodeController.cs" />
     <Compile Include="Controllers\PurchaseProcurementController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\ServiceCenterController.cs" />
     <Compile Include="Controllers\SMSGatewayController.cs" />
     <Compile Include="Controllers\SMTPGatewayController.cs" />
     <Compile Include="Controllers\TemplatePartController.cs" />
@@ -865,6 +866,7 @@
     <Content Include="Content\css\application.min.css" />
     <Content Include="Content\css\bootstrap-datetimepicker.css" />
     <Content Include="Content\css\bootstrap-select.min.css" />
+    <Content Include="Content\css\jquery.datetimepicker.css" />
     <Content Include="Content\css\plugin\style.css" />
     <Content Include="Content\css\style.css" />
     <Content Include="Content\css\style.min.css" />

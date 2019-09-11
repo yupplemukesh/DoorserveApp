@@ -108,7 +108,7 @@ namespace doorserve.Repository.ImportFiles
                 return value;
             return DBNull.Value;
         }
-        public async Task<ResponseModel> UploadClientData(ClientDataModel client, DataTable table)
+        public async Task<ResponseModel> UploadClientData(FileDetailModel client, DataTable table)
         {
             var sp = new List<SqlParameter>();
             var pararm = new SqlParameter("@ClientId", client.ClientId);

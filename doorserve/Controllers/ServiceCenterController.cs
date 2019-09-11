@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 
 namespace doorserve.Controllers
 {
-    public class ServiceCenterController : Controller
+    public class ServiceCenterController : BaseController
     {
         private readonly ICenter _centerRepo;
         private readonly IEmployee _empRepo;
@@ -62,16 +62,16 @@ namespace doorserve.Controllers
         }
         public ActionResult PFPForm()
         {
-            var SessionModel = Session["User"] as SessionModel;
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+          
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(SessionModel.CompanyId), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.QCPersonName = ViewBag.Engg_Name;
-            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(SessionModel.CompanyId), "Value", "Text");
+            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(CurrentUser.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]
@@ -83,7 +83,7 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
+                  
                         var result = con.Query<int>("Insert_into_Pending_For_Packing",
                             new
                             {
@@ -107,7 +107,7 @@ namespace doorserve.Controllers
                                 m.Packaging_Material_Size,
                                 m.Width,
                                 m.Weight,
-                                SessionModel.CompanyId
+                                CurrentUser.CompanyId
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
                         {
@@ -134,9 +134,9 @@ namespace doorserve.Controllers
         {
             using (var con = new SqlConnection(_connectionString))
             {
-                var SessionModel = Session["User"] as SessionModel;
+ 
                 var result = con.Query<AllData>("GetTableDataForPendingPacking",
-                   new { SessionModel.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
+                   new { CurrentUser.CompanyId }, commandType: CommandType.StoredProcedure).ToList();
                 return View(result);
             }
 
@@ -165,17 +165,17 @@ namespace doorserve.Controllers
         }
         public ActionResult PFBIForm()
         {
-            var SessionModel = Session["User"] as SessionModel;
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(SessionModel.CompanyId), "Value", "Text");
+
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(SessionModel.CompanyId), "Value", "Text");
-            ViewBag.CourierID = new SelectList(dropdown.BindCourier(SessionModel.CompanyId), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.CourierID = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]
@@ -187,7 +187,7 @@ namespace doorserve.Controllers
                 {
                     using (var con = new SqlConnection(_connectionString))
                     {
-                        var SessionModel = Session["User"] as SessionModel;
+     
                         var result = con.Query<int>("Insert_Into_Billing_Invoicing_Information",
                             new
                             {
@@ -209,7 +209,7 @@ namespace doorserve.Controllers
                                 m.Collectable_Amount,
                                 m.Schedule_Courier_Pickup_Date,
                                 m.Courier_Type,
-                                SessionModel.CompanyId
+                                CurrentUser.CompanyId
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                         if (result == 1)
                         {
@@ -275,17 +275,17 @@ namespace doorserve.Controllers
         }
         public ActionResult Form_Re_Print_Invoice_Bill()
         {
-            var session = Session["User"] as SessionModel;
-            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(session.CompanyId), "Value", "Text");
-            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(session.CompanyId), "Value", "Text");
-            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(session.CompanyId), "Value", "Text");
-            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(session.CompanyId), "Value", "Text");
-            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(session.CompanyId), "Value", "Text");
+
+            ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.Engg_Name = new SelectList(dropdown.BindEngineer(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.SpareType = new SelectList(dropdown.BindSpareType(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.SpareName = new SelectList(Enumerable.Empty<SelectListItem>());
-            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(session.CompanyId), "Value", "Text");
-            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(session.CompanyId), "Value", "Text");
-            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(session.CompanyId), "Value", "Text");
-            ViewBag.CourierID = new SelectList(dropdown.BindCourier(session.CompanyId), "Value", "Text");
+            ViewBag.ProblemFound = new SelectList(dropdown.BindProblemObserved(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.QCPersonName = new SelectList(dropdown.BindEngineer(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.QCFailReason = new SelectList(dropdown.BindQC(CurrentUser.CompanyId), "Value", "Text");
+            ViewBag.CourierID = new SelectList(dropdown.BindCourier(CurrentUser.CompanyId), "Value", "Text");
             return View();
         }
         [HttpPost]
@@ -308,28 +308,28 @@ namespace doorserve.Controllers
 
         {
          
-            var SessionModel = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = SessionModel.CompanyId,IsExport=false};
-            if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
-                filter.ProviderId = SessionModel.RefKey;
+
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId,IsExport=false};
+            if (CurrentUser.UserRole.Contains("Service Provider SC Admin"))
+                filter.ProviderId = CurrentUser.RefKey;
                       
                
-            if (SessionModel.UserTypeName.ToLower().Contains("center"))
-                filter.RefKey = SessionModel.RefKey;
+            if (CurrentUser.UserTypeName.ToLower().Contains("center"))
+                filter.RefKey = CurrentUser.RefKey;
             var calls = await _centerRepo.GetCallDetails(filter);
             calls.Employee = new EmployeeModel();
-            if (SessionModel.UserTypeName.ToLower().Contains("center"))
+            if (CurrentUser.UserTypeName.ToLower().Contains("center"))
             {
-                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(SessionModel.RefKey), "Name", "Text");
+                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeList(CurrentUser.RefKey), "Name", "Text");
                 calls.IsAscOrAsp = true;
             }
-            else if (SessionModel.UserRole.Contains("Service Provider SC Admin"))
+            else if (CurrentUser.UserRole.Contains("Service Provider SC Admin"))
             {
-                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(SessionModel.RefKey), "Name", "Text");
+                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeByProvider(CurrentUser.RefKey), "Name", "Text");
                 calls.IsAscOrAsp = true;
             }
             else            
-                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(SessionModel.CompanyId), "Name", "Text");
+                calls.Employee.EmployeeList = new SelectList(await CommonModel.GetEmployeeListByCompany(CurrentUser.CompanyId), "Name", "Text");
 
 
             return View(calls);
@@ -347,10 +347,10 @@ namespace doorserve.Controllers
         {
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
-                callStatus.UserId = SessionModel.UserId;                
-                callStatus.RefKey = SessionModel.RefKey;
-                callStatus.CompId = SessionModel.CompanyId;
+     
+                callStatus.UserId = CurrentUser.UserId;                
+                callStatus.RefKey = CurrentUser.RefKey;
+                callStatus.CompId = CurrentUser.CompanyId;
                 var response = await _centerRepo.UpdateCallsStatus(callStatus);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -370,8 +370,8 @@ namespace doorserve.Controllers
 
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
-                assignCall.UserId = SessionModel.UserId;
+ 
+                assignCall.UserId = CurrentUser.UserId;
                 var response = await _centerRepo.AssignCallsDetails(assignCall);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -386,23 +386,23 @@ namespace doorserve.Controllers
 
         }
         //GetCallDetailByID
-        [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
+        //[PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Open_Calls)]
         public async Task<ActionResult> ManageServiceProvidersDetails(string CRN, string Param)
         {
 
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(CRN);
-            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString()+","+ CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
-            CallDetailsModel.ServiceTypeList = new SelectList( await CommonModel.GetServiceType(new FilterModel { }),"Value","Text");
-            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(SessionModel.CompanyId), "Value", "Text");
+            CallDetailsModel.ServiceTypeList = new SelectList( await CommonModel.GetServiceType(new FilterModel { CompId= CallDetailsModel.CompanyId,RefKey= CallDetailsModel.ClientId }),"Value","Text");
+            CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CallDetailsModel.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
             var providerList = dropdown.BindServiceProvider(CallDetailsModel.PinNumber);
-            CallDetailsModel.CompLogo = SessionModel.LogoUrl;
+            CallDetailsModel.CompLogo = CurrentUser.LogoUrl;
 
             if (Convert.ToBoolean(CallDetailsModel.IsRepeat))
             {
@@ -445,8 +445,8 @@ namespace doorserve.Controllers
         {
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
-                callStatusDetails.UserId = SessionModel.UserId;               
+              
+                callStatusDetails.UserId = CurrentUser.UserId;               
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
                 return RedirectToAction("AcceptCalls");
@@ -465,8 +465,8 @@ namespace doorserve.Controllers
         {
             try
             {
-                var SessionModel = Session["User"] as SessionModel;
-                callStatusDetails.UserId = SessionModel.UserId;
+
+                callStatusDetails.UserId = CurrentUser.UserId;
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -550,8 +550,8 @@ namespace doorserve.Controllers
                 callStatusDetails.Type = "CL";
                 callStatusDetails.AppointmentStatus = 12;
             }
-            var SessionModel = Session["User"] as SessionModel;
-            callStatusDetails.UserId = SessionModel.UserId;
+        
+            callStatusDetails.UserId = CurrentUser.UserId;
             var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
                 TempData["response"] = response;
             if(callStatusDetails.Type == "C")
@@ -565,8 +565,7 @@ namespace doorserve.Controllers
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
-            var SessionModel = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = SessionModel.CompanyId, tabIndex = tabIndex, IsExport = true };
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, tabIndex = tabIndex, IsExport = true };
             var response = await _centerRepo.GetCallDetails(filter);
             byte[] filecontent;
             string[] columns;

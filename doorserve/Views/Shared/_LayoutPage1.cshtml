@@ -1,5 +1,4 @@
 ﻿@using doorserve.Models
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -9,7 +8,6 @@
     <title>doorserve</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
     <link rel="icon" href="/content/img/icon-img/FAV-WB.png" type="image/x-icon" />
-
     @Scripts.Render("~/bundles/ckEditorJS")
     @Styles.Render("~/Content/css/bootstap")
     @Styles.Render("~/Content/css")
@@ -17,7 +15,11 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Styles", required: false)
     @{
-        var SessionModel = Session["User"] as SessionModel;
+        var SessionModel = new SessionModel();
+        if (Session["User"] != null)
+        {
+            SessionModel = Session["User"] as SessionModel;
+        }
     }
 </head>
 <body class="layout layout-header-fixed layout-left-sidebar-fixed">

@@ -171,8 +171,8 @@ namespace doorserve.Controllers
             comp.Agreement = await _compRepo.GetAgreement(CompanyId);
             if (comp.Agreement == null)
                 comp.Agreement = new AgreementModel();
-            comp.Agreement.ServiceList = await CommonModel.GetServiceType(null);
-            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(null);
+            comp.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel {CompId=CurrentUser.CompanyId });
+            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
             if(!string.IsNullOrEmpty(comp.Agreement.AgreementFile))
             comp.Agreement.AgreementFileUrl = _path + "Agreements/" + comp.Agreement.AgreementFile;
             if (!string.IsNullOrEmpty(comp.Agreement.CancelledChequeFile))

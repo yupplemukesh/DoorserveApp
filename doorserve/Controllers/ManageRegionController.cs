@@ -84,6 +84,11 @@ namespace doorserve.Controllers
             }
             Region.StateList = new SelectList(_Dropdown.BindState(), "Value", "Text");
             Region.SelectedStates = selectedItems;
+            if (CurrentUser.UserTypeName.ToLower() == "super admin")
+            {
+                Region.IsAdmin = true;
+                Region.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
+            }
             return View(Region);
         }
         [HttpPost]

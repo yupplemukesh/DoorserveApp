@@ -40,6 +40,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
+
         {
             ViewBag.PageNumber = (Request.QueryString["grid-page"] == null) ? "1" : Request.QueryString["grid-page"];
             bool IsClient = false;
@@ -53,7 +54,7 @@ namespace doorserve.Controllers
             var clientData = new MainClientDataModel();
             var serviceType = await CommonModel.GetServiceType(filter);
             var deliveryType = await CommonModel.GetDeliveryServiceType(filter);
-            clientData.Client = new ClientDataModel();
+            clientData.Client = new FileDetailModel();
             clientData.Client.IsClient = IsClient;
             clientData.Client.ClientId = filter.ClientId;
             clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
@@ -79,10 +80,11 @@ namespace doorserve.Controllers
                 //{
                 AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text"),
                 LocationList = new SelectList(Enumerable.Empty<SelectListItem>()),
-              
+
                 // }
 
             };
+            clientData.tab_index = "tab-5";
             return View(clientData);
         }
         public async Task<ActionResult> GetAssignedCalls()
@@ -127,7 +129,7 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
         [ValidateModel]
-        public async Task<ActionResult> Upload(ClientDataModel clientDataModel)
+        public async Task<ActionResult> Upload(FileDetailModel clientDataModel)
         {            
             clientDataModel.CompanyId = CurrentUser.CompanyId;
             clientDataModel.UserId = CurrentUser.UserId;
@@ -211,18 +213,59 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
-        [ValidateModel]
         public async Task<ActionResult> NewCallLog(CallDetailsModel uploads)
         {
+            if (ModelState.IsValid)
+            {
+                uploads.UserId = CurrentUser.UserId;
+                uploads.CompanyId = CurrentUser.CompanyId;
+                if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+                    uploads.ClientId = CurrentUser.RefKey;
+                uploads.EventAction = 'I';
+                var response = await _RepoCallLog.AddOrEditCallLog(uploads);
+                TempData["response"] = response;
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                bool IsClient = false;
+                var filter = new FilterModel { CompId = CurrentUser.CompanyId };
+                if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+                {
+                    filter.ClientId = CurrentUser.RefKey;
+                    filter.RefKey = CurrentUser.RefKey;
+                    IsClient = true;
+                }
+                var clientData = new MainClientDataModel();
+                var serviceType = await CommonModel.GetServiceType(filter);
+                var deliveryType = await CommonModel.GetDeliveryServiceType(filter);
+                clientData.Client = new FileDetailModel();
+                clientData.Client.IsClient = IsClient;
+                clientData.Client.ClientId = filter.ClientId;
+                clientData.Client.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
+                clientData.Client.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
+                clientData.Client.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
+                // new call Log
+                    clientData.NewCallLog = uploads;
+                    clientData.NewCallLog.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                    clientData.NewCallLog.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+                    clientData.NewCallLog.SubCategoryList = new SelectList(_dropdown.BindSubCategory(uploads.DeviceCategoryId),"Value","Text");
+                    clientData.NewCallLog.ProductList = new SelectList(_dropdown.BindProduct(uploads.DeviceBrandId.ToString() + "," + uploads.DeviceSubCategoryId.ToString()), "Value", "Text");
+                    clientData.NewCallLog.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+                    clientData.NewCallLog.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+                    clientData.NewCallLog.IsClient = IsClient;
+                    clientData.NewCallLog.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+                clientData.NewCallLog.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
+                clientData.NewCallLog.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
+                // address=new AddressDetail
+                //{
+                clientData.NewCallLog.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
+                    clientData.NewCallLog.LocationList = new SelectList( _dropdown.BindLocationByPinCode(clientData.NewCallLog.PinNumber),"Value","Text");
+                clientData.tab_index = "tab-7";
+                // }
+                return View("Index", clientData);
+            };
 
-            uploads.UserId = CurrentUser.UserId;
-            uploads.CompanyId = CurrentUser.CompanyId;
-            if (CurrentUser.UserRole.ToLower().Contains("client"))
-                uploads.ClientId = CurrentUser.RefKey;
-            uploads.EventAction = 'I';
-            var response = await _RepoCallLog.AddOrEditCallLog(uploads);
-            TempData["response"] = response;
-            return RedirectToAction("Index");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Assign_Calls)]
         [HttpGet]
@@ -443,10 +486,10 @@ namespace doorserve.Controllers
         }
         public ActionResult UploadedDataList()
         {
-            var session = Session["User"] as SessionModel;
-            var filter = new FilterModel { CompId = session.CompanyId, Type = 'D' };
-            if (session.UserTypeName.ToLower().Contains("client"))
-                filter.ClientId = session.RefKey;
+    
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId, Type = 'D' };
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+                filter.ClientId = CurrentUser.RefKey;
             var calls = _RepoCallLog.GetClientCalls(filter);
             return PartialView("_UploadedDataList", calls);
 

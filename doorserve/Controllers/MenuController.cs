@@ -24,7 +24,7 @@ namespace doorserve.Controllers
         {
             var menuesModel = new MenuesModel();
             menuesModel.Menues =await _menues.GetMenues();
-            menuesModel.menu = new MenuMasterModel {ServiceTypeList=await CommonModel.GetServiceType(null)};  
+            menuesModel.menu = new MenuMasterModel {ServiceTypeList=await CommonModel.GetServiceType(new Filters.FilterModel())};  
             return View(menuesModel);
         }
 

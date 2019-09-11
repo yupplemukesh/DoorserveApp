@@ -19,7 +19,7 @@ namespace doorserve.Models.ServiceCenter
         }
         public bool IsAssingedCall { get; set; }
         public int? StatusId { get; set; }      
-        [Required]
+
         public string RejectionReason { get; set; }
         public string CancelReason { get; set; }
         public string CompLogo { get; set; }
@@ -50,6 +50,8 @@ namespace doorserve.Models.ServiceCenter
         public string Symptom3 { get; set; }
         public string InvoiceFileName { get; set; }
         public string JobSheetFileName { get; set; }
+
+        public string tab_index { get; set;  }
 
     }
 }

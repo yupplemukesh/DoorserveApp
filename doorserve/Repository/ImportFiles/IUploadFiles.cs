@@ -11,7 +11,7 @@ namespace doorserve.Repository
 {
    public interface IUploadFiles: IDisposable
     {
-        Task<ResponseModel> UploadClientData(ClientDataModel client, DataTable table);
+        Task<ResponseModel> UploadClientData(FileDetailModel client, DataTable table);
         MainClientDataModel GetUploadedList(FilterModel filterModel);
         
         Task<CallsViewModel> GetAssingedCalls(FilterModel filterModel);

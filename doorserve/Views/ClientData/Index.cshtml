@@ -11,54 +11,97 @@
     <div class="row">
         <div class="col-md-12">
             <ul class="nav nav-tabs">
-                <li class="active">
 
-                    <a href="#tab-5" role="tab" data-toggle="tab">
-                        <button type="submit" class="btn btn-success btn-sm">
-                            Uploaded data
-                        </button>
-                    </a>
-                </li>
-                <li>
-                    <a href="#tab-6" role="tab" data-toggle="tab">
-                        <button type="submit" class="btn btn-primary btn-sm">Assigned Calls</button>
-                    </a>
-                </li>
-                <li>
-                    <a href="#tab-7" role="tab" data-toggle="tab">
-                        <button type="submit" class="btn btn-info btn-sm">Log New Calls</button>
-                    </a>
-                </li>
+                @if (Model.tab_index == "tab-5")
+                {
+                    @:<li class="active">
+                    }
+                    else
+                    {
+                    @:<li>
+                    }
+                <a href="#tab-5" role="tab" data-toggle="tab">
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Uploaded data
+                    </button>
+                </a>
+            </li>
+
+            @if (Model.tab_index == "tab-6")
+            {
+                @:<li class="active">
+                }
+                else
+                {                   
+                @:<li>
+                }
+            <a href="#tab-6" role="tab" data-toggle="tab">
+                <button type="submit" class="btn btn-primary btn-sm">Assigned Calls</button>
+            </a>
+            </li>
+            @if (Model.tab_index == "tab-7")
+            {
+                @:<li class="active">
+                }
+                else
+                {                    
+                @:<li>
+                }
+            <a href="#tab-7" role="tab" data-toggle="tab">
+                <button type="submit" class="btn btn-info btn-sm">Log New Calls</button>
+            </a>
+            </li>
             </ul>
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="tab-5">
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <div class="panel panel-default panel-table b-t-0" id="clientDataPanel">
-                                @Html.Partial("_UploadData")
-                            </div>
-                        </div>
-                    </div>
-                </div><!--tab-pane-5-->
-                <div role="tabpanel" class="tab-pane fade in" id="tab-6">
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <div class="panel panel-default panel-table b-t-0" id="callsPanel">
-                                @Html.Partial("_TotalCallsList")
-                            </div>
-                        </div>
-                    </div>
-                </div><!--tab-pane-6-->
-                <div role="tabpanel" class="tab-pane fade in" id="tab-7">
-                    @using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { @id = "submitthis" }))
-                    {
-
-                        @Html.Partial("_NewCallLogForm", Model.NewCallLog)
-                    }
-                </div>
-            </div>
+                @if (Model.tab_index == "tab-5")
+                {
+                    @:<div role="tabpanel" class="tab-pane fade in active" id="tab-5">
+}
+else
+{
+    @:<div role="tabpanel" class="tab-pane fade in" id="tab-5">
+    }
+<div class="row">
+    <div class="col-md-12 form-group">
+        <div class="panel panel-default panel-table b-t-0" id="clientDataPanel">
+            @Html.Partial("_UploadData")
         </div>
     </div>
+</div>
+</div><!--tab-pane-5-->
+@if (Model.tab_index == "tab-6")
+{
+    @:<div role="tabpanel" class="tab-pane fade in active" id="tab-6">
+}
+else
+{
+    @:<div role="tabpanel" class="tab-pane fade in" id="tab-6">
+    }
+<div class="row">
+    <div class="col-md-12 form-group">
+        <div class="panel panel-default panel-table b-t-0" id="callsPanel">
+            @Html.Partial("_TotalCallsList")
+        </div>
+    </div>
+</div>
+</div><!--tab-pane-6-->
+@if (Model.tab_index == "tab-6")
+{
+    @:<div role="tabpanel" class="tab-pane fade in active" id="tab-7">
+    }
+    else
+    {
+        @:<div role="tabpanel" class="tab-pane fade in" id="tab-7">
+        }
+@using (Html.BeginForm("NewCallLog", "ClientData", FormMethod.Post, new { @id = "submitthis" }))
+{
+
+    @Html.Partial("_NewCallLogForm", Model.NewCallLog)
+}
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="modal fade" id="Editmodel" tabindex="-1" role="dialog">
     <div class="modal-dialog">
@@ -69,10 +112,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Call History</h4>
             </div>
-
             <div class="modal-body" id="Info">
-
-
             </div>
         </div>
 
@@ -174,20 +214,22 @@
                 success: function (data) {
 
                     console.log(data);
-                    $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
-                    $("#CustomerName").val(data[0].CustomerName);
-                    $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
-                    $("#CustomerEmail").val(data[0].Email);
-                    $("#CustomerId").val(data[0].customerId);
-                    $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
-                    $("#NearLocation").val(data[0].NearLocation);
-                    $("#Address").val(data[0].Address);
-                    $("#PinCode").val(data[0].PinNumber);
-                    $("#CountryId").val(data[0].CountryId);
-                    $("#IsExistingCustomer").prop("checked", true);
-                    $("#StateId").val(data[0].StateId);
-                    var obj = { value:data[0].PinNumber , Other: data[0].LocationId };
-                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    if (data[0] != undefined) {
+                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
+                        $("#CustomerName").val(data[0].CustomerName);
+                        $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
+                        $("#CustomerEmail").val(data[0].Email);
+                        $("#CustomerId").val(data[0].customerId);
+                        $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
+                        $("#NearLocation").val(data[0].NearLocation);
+                        $("#Address").val(data[0].Address);
+                        $("#PinCode").val(data[0].PinNumber);
+                        $("#CountryId").val(data[0].CountryId);
+                        $("#IsExistingCustomer").prop("checked", true);
+                        $("#StateId").val(data[0].StateId);
+                        var obj = { value: data[0].PinNumber, Other: data[0].LocationId };
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    }
                 }
             });
         }
@@ -222,20 +264,20 @@
 
         $("#ServiceTypeId").change(function () {
             if ($(this).val() == 7) {
-                $("#Repair1").hide();               
-                $("#Installtion1").show();              
-               
+                $("#Repair1").hide();
+                $("#Installtion1").show();
+
             }
             else if ($(this).val() == 8)
             {
-                $("#Installtion1").hide();               
-                $("#Repair1").show();              
-               
+                $("#Installtion1").hide();
+                $("#Repair1").show();
+
             }
-           
+
         });
           function GetHistory(DeviceId) {
-            debugger
+
             $.ajax({
                 type: 'GET',
                 url: '@Url.Action("GetCallHistory","ClientData")',
@@ -243,7 +285,7 @@
                 cache: false,
                 data: {"DeviceId": DeviceId},
                 success: function (response) {
-                  
+
                     $("#Info").html(response);
                 },
                 error: function (e) {

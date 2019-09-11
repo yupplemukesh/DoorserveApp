@@ -307,9 +307,14 @@ namespace doorserve.Controllers
             }
             else
             {
-                Client.CompanyList = new SelectList(Enumerable.Empty<SelectList>());              
-                Client.ProcessList = new SelectList(await CommonModel.GetProcesses(CurrentUser.CompanyId), "Value", "Text");
-                Client.CompanyId = CurrentUser.CompanyId;
+                Client.CompanyList = new SelectList(Enumerable.Empty<SelectList>());
+                if (clientId == null)
+                {
+                    Client.ProcessList = new SelectList(await CommonModel.GetProcesses(CurrentUser.CompanyId), "Value", "Text");
+                    Client.CompanyId = CurrentUser.CompanyId;
+                }
+                else
+                    Client.ProcessList = new SelectList(await CommonModel.GetProcesses(Client.CompanyId), "Value", "Text");         
             }
             if (clientId != null)
                 Client.action = 'U';

@@ -260,7 +260,11 @@ else
                             @Html.ValidationMessageFor(model => model.CompanyId, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                        }
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(x=>x.CompanyId)
+                    }
                     <!-- Select Basic -->
                     <div class=" row form-group">
                         <label class="col-md-3 control-label" for="selectbasic">Process Name	</label>

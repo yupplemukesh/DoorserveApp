@@ -22,21 +22,19 @@ namespace doorserve.Models
         public SelectList ClientList { get; set; }
         public SelectList ServiceTypeList { get; set; }
         public SelectList DeliveryTypeList { get; set; }
-        [Required]
-        [DisplayName("Upload file")]
-        public HttpPostedFileBase DataFile { get; set; }       
+  
+         
         public Guid? Id { get; set; }
-        [DisplayName("Client")]
-        [Required]
+
         public Guid? ClientId { get; set; }
         [Required]
         [DisplayName("Service Type")]
-
+        public int ServiceTypeId { get; set; }
         public string DataSource { get; set; }
         public string ProcessName { get; set; }
         public bool IsClientAddedBy { get; set; } 
         public string FileName { get; set; }
-        public int ServiceTypeId { get; set; }
+
         [Required]
         [DisplayName("Delivery Type")]
         public int DeliveryTypeId { get; set; }

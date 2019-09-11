@@ -49,7 +49,9 @@
                             <th>
                                 @Html.DisplayName("#SLN")
                             </th>
-                          
+                            <th>
+                                @Html.DisplayName("Company Name")
+                            </th>
                             <th>
                                 @Html.DisplayName("Region Name")
                             </th>
@@ -77,46 +79,49 @@
                     </thead>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @count
+                <tr>
+                    <td>
+                        @count
 
-                            </td>
+                    </td>
 
-                           
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyName)
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RegionName)
+                    </td>
 
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Remarks)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegionName)
 
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsActive)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AddedBy)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastUpdatedBy)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AddedOn)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LastUpdateDate)
-                            </td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
 
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddedBy)
+                    </td>
 
-                            <td style="display: inline-flex">
-                                <a href="@Url.Action("Edit", "ManageRegion", new { RegionId = item.RegionId })" class="btn btn-small btn-info btnSize">Edit</a>
-                            </td>
-                        </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddedOn)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdateDate)
+                    </td>
+
+
+
+                    <td style="display: inline-flex">
+                        <a href="@Url.Action("Edit", "ManageRegion", new { RegionId = item.RegionId })" class="btn btn-small btn-info btnSize">Edit</a>
+                    </td>
+                </tr>
                         count++;
                     }
 

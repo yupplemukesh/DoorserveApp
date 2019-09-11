@@ -31,7 +31,6 @@ namespace doorserve.Models.ClientData
         [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$", ErrorMessage = "Invalid email format.")]
         public string CustomerEmail { get; set; }
         [DisplayName("Customer Address Type")]
-        [Required(ErrorMessage = "Address Type Required")]
         public string CustomerAddressType { get; set; }
         [DisplayName("Customer Address")]
         public string CustomerAddress { get; set; }
@@ -77,7 +76,7 @@ namespace doorserve.Models.ClientData
         [DisplayName("Call ID")]
         public string CRN { get; set; }
         public bool? IsRepeat { get; set; }
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public bool IsExistingCustomer { get; set; }
         [DisplayName("Customer Type")]
         [Required(ErrorMessage="Customer Type Required")]
@@ -149,9 +148,8 @@ namespace doorserve.Models.ClientData
             // get other property value
             var otherPropertyInfo = validationContext.ObjectType.GetProperty(OtherProperty);
             var otherValue = otherPropertyInfo.GetValue(validationContext.ObjectInstance);
-
             // verify values
-            if (value.ToString().Equals(otherValue.ToString()))
+            if (Convert.ToString(value).Equals(Convert.ToString(otherValue)))
                 return new ValidationResult(string.Format("{0} should not be equal to {1}.", validationContext.MemberName, OtherProperty));
             else
                 return ValidationResult.Success;
