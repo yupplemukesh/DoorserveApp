@@ -27,20 +27,20 @@
 </div>
 
 <div class="row form-group">
-    <label class="col-md-2 control-label" for="radios">PinCode</label>
+    <label class="col-md-2 control-label" for="radios">PinCode<span class="error-alert">*</span></label>
     <div class="col-md-4">
         @Html.TextBoxFor(x=>x.PinCode, "", new { @class = "form-control", onchange = "GetLocation()" })
     </div>
 </div>
 <div class="row form-group">
 
-    <label class="col-md-2 control-label" for="radios">Locations/City</label>
+    <label class="col-md-2 control-label" for="radios">Locations/City<span class="error-alert">*</span></label>
     <div class="col-md-2">
         @Html.DropDownListFor(model => model.LocationId, Model.LocationList, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
     </div>
 
-    <label class="col-md-2 control-label" for="radios">District</label>
+    <label class="col-md-2 control-label" for="radios">District<span class="error-alert">*</span></label>
     <div class="col-md-2">
         @Html.TextBoxFor(model => model.District, htmlAttributes: new { @class = "form-control", @disabled = "true" })
     </div>
