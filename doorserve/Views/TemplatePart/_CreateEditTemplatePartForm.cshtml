@@ -5,7 +5,7 @@
 
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Template Part Name</label>
+        <label class="control-label" for="form-control-9">Template Part Name<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.TemplatePartName, new { @class = "form-control input-md", @placeholder = "Template Part Name" })
         @Html.ValidationMessageFor(model => model.TemplatePartName, "", new { @class = "text-danger" })
     </div>
@@ -22,7 +22,7 @@
 </div>
 <div class="row form-group">
     <div class="col-sm-12 ">
-        <label class="control-label" for="form-control-9">HTMLPart</p></label>
+        <label class="control-label" for="form-control-9">HTMLPart<span class="error-alert">*</span></p></label>
         @Html.TextAreaFor(x=>x.HTMLPart, new {@id= "editor1" })
         <script>
             CKEDITOR.replace('editor1', {
@@ -34,7 +34,7 @@
 </div>
 <div class="row form-group">
     <div class="col-md-12">
-        <label class="control-label" for="form-control-9">Plain Text Part</label>
+        <label class="control-label" for="form-control-9">Plain Text Part<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.PlainTextPart, new { @class = "form-control input-md", @placeholder = "Plain Text Part" })
         @Html.ValidationMessageFor(model => model.PlainTextPart, "", new { @class = "text-danger" })
     </div>

@@ -57,7 +57,7 @@
     <div class="col-md-12">
 
         <div class="col-md-6 col-sm-6">
-            <label class=" control-label" for="form-control-9">Engineer Code</label>
+            <label class=" control-label" for="form-control-9">Engineer Code<span class="error-alert">*</span></label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(x => x.EmpCode, new { @class = "form-control", @placeholder = "Engineer Code" })
@@ -72,7 +72,7 @@
 <div class="form-group row">
     <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
-            <label class=" control-label" for="form-control-9">Engineer Type</label>
+            <label class=" control-label" for="form-control-9">Engineer Type<span class="error-alert">*</span></label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(x => x.EngineerTypeId, Model.EngineerTypeList, "Select", new { @class = "form-control" })
@@ -110,7 +110,7 @@
             @Html.ValidationMessageFor(x => x.DepartmentId, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-6 col-sm-6">
-            <label class=" control-label" for="form-control-9">Designation</label>
+            <label class=" control-label" for="form-control-9">Designation<span class="error-alert">*</span></label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(x => x.DesignationId, Model.DeginationList, "Select", new { @class = "form-control" })
@@ -122,7 +122,7 @@
 <div class="form-group row">
     <div class="col-md-12">
         <div class="col-md-6 col-sm-6">
-            <label class=" control-label" for="form-control-9"> Date of Joining</label>
+            <label class=" control-label" for="form-control-9"> Date of Joining<span class="error-alert">*</span></label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(x => x.EMPDOJ, "{0:dd-MM-yyyy}", new { @class = "form-control input-md datepicker" })
@@ -130,7 +130,7 @@
             @Html.ValidationMessageFor(x => x.EMPDOJ, "", new { @class = "text-danger" })
         </div>
         <div class="col-md-6 col-sm-6">
-            <label class=" control-label" for="form-control-9">Date Of Birth</label>
+            <label class=" control-label" for="form-control-9">Date Of Birth<span class="error-alert">*</span></label>
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(x => x.EMPDOB, "{0:dd-MM-yyyy}", new { @class = "form-control input-md datepicker" })

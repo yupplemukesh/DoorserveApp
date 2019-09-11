@@ -3,7 +3,7 @@
 
 
     <div class=" row form-group">
-        <label class="col-md-3 " for="textinput">Name</label>
+        <label class="col-md-3 " for="textinput">Name<span class="error-alert">*</span></label>
         <div class="col-md-9">
             
                     @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-md", @placeholder = "Name" })

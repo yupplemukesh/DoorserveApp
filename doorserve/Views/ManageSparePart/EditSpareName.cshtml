@@ -11,7 +11,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.Category)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
@@ -19,7 +22,10 @@
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SubCategory)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.SubCategory, Model.SubCategoryList, new { @class = "form-control" })
@@ -42,7 +48,10 @@
                 @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.DeviceModelName, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.DeviceModelName)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.DropDownListFor(model => model.ProductId, Model.DeviceModelNameList, new { @class = "form-control" })
@@ -83,7 +92,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.SpareCode, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.SpareCode)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.SpareCode, htmlAttributes: new { @class = "form-control" })
@@ -91,7 +103,10 @@
                 @Html.ValidationMessageFor(model => model.SpareCode, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                @Html.LabelFor(model => model.PartName, htmlAttributes: new { @class = "control-label" })
+                <div class="control-label">
+                    @Html.LabelFor(model => model.PartName)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="input-group">
                     <span class="input-group-addon"></span>
                     @Html.TextBoxFor(model => model.PartName, htmlAttributes: new { @class = "form-control" })

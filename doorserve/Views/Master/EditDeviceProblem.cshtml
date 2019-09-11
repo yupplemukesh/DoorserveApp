@@ -13,10 +13,13 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.Category)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="input-group">
                 <span class="input-group-addon"></span>
-                @Html.DropDownListFor(model => model.CatId, Model.CatIdList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
+                @Html.DropDownListFor(model => model.CatId, Model.CatIdList, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
             </div>
             @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
         </div>
@@ -25,7 +28,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.SubCategory)
+                <span class="error-alert">*</span>
+            </div>        
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(model => model.SubCatId, Model.SubCatIdList, new { @class = "form-control", @id = "EditSubCategory" })
@@ -37,7 +43,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.Problem, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.Problem)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.Problem, htmlAttributes: new { @class = "form-control" })

@@ -7,27 +7,36 @@
 @using (Html.BeginForm("AddProblemObserved", "ProblemObserved", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.DeviceCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            @Html.DropDownListFor(model => model.Device_Category,Model.CategoryList,"Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
-            @Html.ValidationMessageFor(model => model.Device_Category, "", new { @class = "text-danger" })
-        </div>
+<div class="row" style="padding-bottom: 5px;">
+    <div class="col-md-3 col-md-offset-1 col-xs-12">
+        @Html.LabelFor(model => model.DeviceCategory)
+        <span class="error-alert">*</span>
+    </div>  
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        @Html.DropDownListFor(model => model.Device_Category, Model.CategoryList, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategory', this)" })
+        @Html.ValidationMessageFor(model => model.Device_Category, "", new { @class = "text-danger" })
     </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            @Html.DropDownListFor(model => model.SubCategory,Model.SubCategoryList,"Select" @*new List<SelectListItem> { }*@, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
-        </div>
+</div>
+<div class="row" style="padding-bottom: 5px;">
+    <div class="col-md-3 col-md-offset-1 col-xs-12">
+        @Html.LabelFor(model => model.SubCategory)
+        <span class="error-alert">*</span>
+    </div>   
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        @Html.DropDownListFor(model => model.SubCategory, Model.SubCategoryList, "Select"@*new List<SelectListItem> { }*@, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
     </div>
-    <div class="row" style="padding-bottom: 5px;">
-        @Html.LabelFor(model => model.ProblemCode, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
-        <div class="col-md-6 col-sm-12 col-xs-12">
-            @Html.TextBoxFor(model => model.ProblemCode, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ProblemCode, "", new { @class = "text-danger" })
-        </div>
+</div>
+<div class="row" style="padding-bottom: 5px;">
+    <div class="col-md-3 col-md-offset-1 col-xs-12">
+        @Html.LabelFor(model => model.ProblemCode)
+        <span class="error-alert">*</span>
+    </div>    
+    <div class="col-md-6 col-sm-12 col-xs-12">
+        @Html.TextBoxFor(model => model.ProblemCode, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ProblemCode, "", new { @class = "text-danger" })
     </div>
+</div>
 
     <div class="row" style="padding-bottom: 5px;">
         @Html.LabelFor(model => model.ProblemObserved, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })

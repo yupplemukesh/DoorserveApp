@@ -283,7 +283,7 @@
                             @if (Model.IsCompany)
                             {
                                 <div class=" row form-group">
-                                    <label class="col-md-3 control-label" for="selectbasic">Authorized Service Provider	</label>
+                                    <label class="col-md-3 control-label" for="selectbasic">Authorized Service Provider<span class="error-alert">*</span>	</label>
                                     <div class="col-md-9">
                                         @Html.DropDownListFor(model => model.ProviderId, Model.ProviderList, "Select", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.ProviderId, "", new { @class = "text-danger" })
@@ -306,7 +306,7 @@
                                 </div>
 
                                 <div class=" row form-group">
-                                    <label class="col-md-3 control-label" for="selectbasic">Authorized Service Provider	</label>
+                                    <label class="col-md-3 control-label" for="selectbasic">Authorized Service Provider<span class="error-alert">*</span>	</label>
                                     <div class="col-md-9">
                                         @Html.DropDownListFor(model => model.ProviderId, Model.ProviderList, "Select", new { @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.ProviderId, "", new { @class = "text-danger" })
@@ -326,7 +326,7 @@
                             @if (Model.action == 'U')
                             {
                                 <div class=" row form-group">
-                                    <label class="col-md-3 " for="textinput">Service Center Code</label>
+                                    <label class="col-md-3 " for="textinput">Service Center Code<span class="error-alert">*</span></label>
                                     <div class="col-md-9">
                                         @Html.TextBoxFor(model => model.CenterCode, new { @class = "form-control input-md", @placeholder = "Service Center Code" })
                                         @Html.ValidationMessageFor(model => model.CenterCode, "", new { @class = "text-danger" })
@@ -337,7 +337,7 @@
 
                                 <!-- Text input-->
                                 <div class=" row form-group">
-                                    <label class="col-md-3 " for="textinput">Service Center Name</label>
+                                    <label class="col-md-3 " for="textinput">Service Center Name<span class="error-alert">*</span></label>
                                     <div class="col-md-9">
                                         @Html.TextBoxFor(model => model.CenterName, new { @class = "form-control input-md", @placeholder = "Service Center Name" })
                                         @Html.ValidationMessageFor(model => model.CenterName, "", new { @class = "text-danger" })

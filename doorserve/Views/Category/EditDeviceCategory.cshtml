@@ -10,7 +10,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.CatName, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.CatName)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.CatName, htmlAttributes: new { @class = "form-control" })
@@ -23,7 +26,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.SortOrder)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control", @maxlength = "3" })

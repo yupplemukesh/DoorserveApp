@@ -15,7 +15,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.DeviceCategory, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.DeviceCategory)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(model => model.Device_Category, null, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'EditSubCategory', this)" })
@@ -27,7 +30,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.SubCategory)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.DropDownListFor(model => model.SubCategory, null, new { @class = "form-control", id = "EditSubCategory" })
@@ -39,7 +45,10 @@
 <div class="form-group">
     <div class="row">
         <div class="col-md-12">
-            @Html.LabelFor(model => model.ProblemCode, htmlAttributes: new { @class = "control-label" })
+            <div class="control-label">
+                @Html.LabelFor(model => model.ProblemCode)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="input-group">
                 <span class="input-group-addon"></span>
                 @Html.TextBoxFor(model => model.ProblemCode, new { @class = "form-control" })

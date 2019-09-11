@@ -36,89 +36,98 @@
         </div>
     </div>
 </div>
+<div class="panel-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="x_content" style="overflow-x: scroll;">
+                @if (Permissions.Rights.View)
+                {
+                    <table class="table table-striped table-bordered table-condensed" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>Serial No</th>
+                                <th>
+                                    @Html.DisplayName("Banner Title")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Banner Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Page Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Section Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("IsActive")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("AddedBy")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("AddedOn")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("ModifiedBy")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("ModifiedOn")
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@RowNo</td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PageName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SectionName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsActive)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AddedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AddedOn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModifiedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModifiedOn)
+                                </td>
 
-<table class="table table-striped table-bordered table-condensed" id="myTable">
-    <thead>
-        <tr>
-            <th>Serial No</th>
-            <th>
-                @Html.DisplayName("Banner Title")
-            </th>
-            <th>
-                @Html.DisplayName("Banner Name")
-            </th>
-            <th>
-                @Html.DisplayName("Page Name")
-            </th>
-            <th>
-                @Html.DisplayName("Section Name")
-            </th>
-            <th>
-                @Html.DisplayName("IsActive")
-            </th>
-            <th>
-                @Html.DisplayName("AddedBy")
-            </th>
-            <th>
-                @Html.DisplayName("AddedOn")
-            </th>
-            <th>
-                @Html.DisplayName("ModifiedBy")
-            </th>
-            <th>
-                @Html.DisplayName("ModifiedOn")
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@RowNo</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PageName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SectionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedOn)
-            </td>
+                                <td style="display: inline-flex;">
 
-            <td style="display: inline-flex;">
+                                   @if (Permissions.Rights.Edit)
+             {
+                                       @* //<input type="button" class="btn btn-success btn-circle btn-sm" onclick="EditBanner('@item.BannerId')" value="Edit" />*@
 
-                @* @if (Permissions.Rights.Edit)
-            { }
+                                    @Html.ActionLink("Edit", "Edit", "ManageBanners", new { Id = @item.BannerId }, null)
 
-        //<input type="button" class="btn btn-success btn-circle btn-sm" onclick="EditBanner('@item.BannerId')" value="Edit" />*@
+                                   }
+                                </td>
+                            </tr>
+                            RowNo++;
+                        }
 
-                @Html.ActionLink("Edit", "Edit", "ManageBanners", new { Id = @item.BannerId }, null)
-
-
-            </td>
-        </tr>
-        RowNo++;
-    }
-
-</table>
+                    </table>
+                }
+            </div>
+        </div>      
+    </div>
+</div>
 
 @if (ViewBag.Message != null)
 {
@@ -136,5 +145,5 @@
 }
 
 @section Scripts{
- 
+
 }

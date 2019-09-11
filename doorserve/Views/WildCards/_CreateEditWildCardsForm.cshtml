@@ -13,7 +13,7 @@
 }
 <div class="row form-group">
     <div class="col-md-6">
-        <label class="control-label" for="form-control-9">Wild Card Name</label>
+        <label class="control-label" for="form-control-9">Wild Card Name<span class="error-alert">*</span></label>
         @Html.TextBoxFor(model => model.WildCard, new { @class = "form-control input-md", @placeholder = "Wild Card Name" })
         @Html.ValidationMessageFor(model => model.WildCard, "", new { @class = "text-danger" })
     </div>
@@ -22,7 +22,7 @@
 
 <div class="row form-group">
     <div class="col-md-6">
-        <label class="control-label" for="form-control-9"> Select Action Type </label>
+        <label class="control-label" for="form-control-9"> Select Action Type <span class="error-alert">*</span></label>
         @Html.ListBoxFor(model => model.actionTypes, Model.ActionTypeList, htmlAttributes: new { @class = "selectpicker form-control", multiple = "multiple", data_actions_box = "true", data_width = "100%", @data_val = "true", @data_val_required = "choose is device category" })
         @Html.ValidationMessageFor(model => model.actionTypes, "", new { @class = "text-danger" })
     </div>

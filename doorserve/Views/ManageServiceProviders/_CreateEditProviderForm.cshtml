@@ -271,7 +271,7 @@
                             {
                             <!-- Text input-->
                             <div class=" row form-group">
-                                <label class="col-md-3 " for="textinput">Service Provider Code</label>
+                                <label class="col-md-3 " for="textinput">Service Provider Code<span class="error-alert">*</span></label>
                                 <div class="col-md-9">
                                     @Html.TextBoxFor(model => model.ProviderCode, new { @class = "form-control input-md", @placeholder = "Service Provider Code" })
                                     @Html.ValidationMessageFor(model => model.ProviderCode, "", new { @class = "text-danger" })
@@ -281,7 +281,7 @@
                             }
                             <!-- Text input-->
                             <div class=" row form-group">
-                                <label class="col-md-3 " for="textinput">Service Provider Name</label>
+                                <label class="col-md-3 " for="textinput">Service Provider Name<span class="error-alert">*</span></label>
                                 <div class="col-md-9">
                                     @Html.TextBoxFor(model => model.ProviderName, new { @class = "form-control input-md", @placeholder = "Service Provider Name" })
                                     @Html.ValidationMessageFor(model => model.ProviderName, "", new { @class = "text-danger" })

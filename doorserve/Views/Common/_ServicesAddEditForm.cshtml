@@ -2,12 +2,12 @@
 @Html.HiddenFor(x => x.ServiceId)
 @Html.HiddenFor(x => x.RefKey)
 <div class=" row form-group">
-    <label class="col-md-2 control-label" for="selectbasic">Device Category	</label>
+    <label class="col-md-2 control-label" for="selectbasic">Device Category	<span class="error-alert">*</span></label>
     <div class="col-md-4">
         @Html.DropDownListFor(model => model.CategoryId, Model.SupportedCategoryList, "-Select-", htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
         @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
     </div>
-    <label class="col-md-2 control-label" for="selectbasic">Device Sub-Category	</label>
+    <label class="col-md-2 control-label" for="selectbasic">Device Sub-Category	<span class="error-alert">*</span></label>
     <div class="col-md-4">
         @Html.DropDownListFor(model => model.SubCategoryId, Model.SupportedSubCategoryList, "-Select-", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
@@ -16,13 +16,13 @@
 
 <div class="row form-group">
 
-    <label class="col-md-2 control-label" for="radios">Service Type</label>
+    <label class="col-md-2 control-label" for="radios">Service Type<span class="error-alert">*</span></label>
     <div class="col-md-4">
         @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceList, "-Select-", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ServiceTypeId, "", new { @class = "text-danger" })
     </div>
 
-    <label class="col-md-2 control-label" for="radios">Service Delivery Type</label>
+    <label class="col-md-2 control-label" for="radios">Service Delivery Type<span class="error-alert">*</span></label>
     <div class="col-md-4">
 
         @Html.DropDownListFor(model => model.DeliveryTypeId, Model.DeliveryServiceList, "-Select-", htmlAttributes: new { @class = "form-control" })

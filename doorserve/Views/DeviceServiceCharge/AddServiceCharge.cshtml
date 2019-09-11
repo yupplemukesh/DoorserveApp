@@ -10,42 +10,60 @@
         <div class="col-md-6">
 
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.CategoryId)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.CategoryId, Model.DeviceCategoryList, new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'DeviceSub', this)" })
                     @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.SubCatId, htmlAttributes: new { @class = "col-md-4 col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.SubCatId)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.SubCatId, Model.DeviceSubCategoryList, new { @class = "form-control", id = "DeviceSub" })
                     @Html.ValidationMessageFor(model => model.SubCatId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.BrandId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.BrandId)
+                    <span class="error-alert">*</span>
+                </div>             
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.BrandId, Model.BrandList, new { @class = "form-control", onchange = "AjaxWithValue('BindModelNameJson', 'ModelName', this)" })
                     @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.ModalNameId, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.ModalNameId)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.DropDownListFor(model => model.ModalNameId, Model.ModelNameList, new { @class = "form-control", id = "ModelName" })
                     @Html.ValidationMessageFor(model => model.ModalNameId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.HSNCode, htmlAttributes: new { @class = "col-md-4  col-xs-12", })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.HSNCode)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.HSNCode, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.HSNCode, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.SAC, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.SAC)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.SAC, null, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.SAC, "", new { @class = "text-danger" })
@@ -56,14 +74,20 @@
         </div>
         <div class="col-md-6">
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.TRUPC, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.TRUPC)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.TRUPC, htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.TRUPC, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.Form, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.Form)
+                    <span class="error-alert">*</span>
+                </div>           
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.Form, null, new { @class = "form-control" })
 
@@ -71,14 +95,20 @@
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.MRP)
+                    <span class="error-alert">*</span>
+                </div>               
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.MRP, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.MRP, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="row" style="padding-bottom: 5px;">
-                @Html.LabelFor(model => model.MarketPrice, htmlAttributes: new { @class = "col-md-4  col-xs-12" })
+                <div class="col-md-4  col-xs-12">
+                    @Html.LabelFor(model => model.MarketPrice)
+                    <span class="error-alert">*</span>
+                </div>                
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     @Html.TextBoxFor(model => model.MarketPrice, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.MarketPrice, "", new { @class = "text-danger" })

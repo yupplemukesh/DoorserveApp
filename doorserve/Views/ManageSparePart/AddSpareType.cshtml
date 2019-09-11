@@ -6,31 +6,43 @@
 {
     <div class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.Category)
+                <span class="error-alert">*</span>
+            </div>        
             <div class="col-md-6 col-sm-12 col-xs-12">
-                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList,"Select" ,new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
-                @Html.ValidationMessageFor(model => model.Category,"", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.CategoryId, Model.CategoryList, "Select", new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.SubCategory, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.SubCategory)
+                <span class="error-alert">*</span>
+            </div>          
             <div class="col-md-6 col-sm-12 col-xs-12">
-                @Html.DropDownListFor(model => model.SubCategoryId,Model.SubCategoryList,"Select" ,new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SubCategory, "",new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.SubCategoryId, Model.SubCategoryList, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SubCategory, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.SpareTypeName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.SpareTypeName)
+                <span class="error-alert">*</span>
+            </div>            
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.SpareTypeName, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SpareTypeName,"", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.SpareTypeName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">
-            @Html.LabelFor(model => model.SortOrder, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+            <div class="col-md-3 col-md-offset-1 col-xs-12">
+                @Html.LabelFor(model => model.SortOrder)
+                <span class="error-alert">*</span>
+            </div>           
             <div class="col-md-6 col-sm-12 col-xs-12">
                 @Html.TextBoxFor(model => model.SortOrder, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SortOrder,"", new { @class = "text-danger" },"")
+                @Html.ValidationMessageFor(model => model.SortOrder, "", new { @class = "text-danger" }, "")
             </div>
         </div>
         <div class="row" style="padding-bottom: 5px;">

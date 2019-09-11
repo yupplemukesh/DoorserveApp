@@ -27,7 +27,10 @@
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.Label("Name", htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-3 col-md-offset-1 col-xs-12">
+                        @Html.Label("Name")
+                        <span class="error-alert">*</span>
+                    </div>                 
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         @Html.TextBoxFor(model => model.ConFirstName, htmlAttributes: new { @class = "form-control", tabindex = "1" })
                         @Html.ValidationMessageFor(model => model.ConFirstName, "", new { @class = "text-danger" })
@@ -35,21 +38,30 @@
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-3 col-md-offset-1 col-xs-12">
+                        @Html.LabelFor(model => model.ConMobileNumber)
+                        <span class="error-alert">*</span>
+                    </div>                  
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         @Html.TextBoxFor(model => model.ConMobileNumber, htmlAttributes: new { @class = "form-control", @maxlength = "10", tabindex = "2" })
                         @Html.ValidationMessageFor(model => model.ConMobileNumber, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-3 col-md-offset-1 col-xs-12">
+                        @Html.LabelFor(model => model.ConEmailAddress)
+                        <span class="error-alert">*</span>
+                    </div>                 
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         @Html.TextBoxFor(model => model.ConEmailAddress, htmlAttributes: new { @class = "form-control", tabindex = "3" })
                         @Html.ValidationMessageFor(model => model.ConEmailAddress, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-3 col-md-offset-1 col-xs-12">
+                        @Html.LabelFor(model => model.UserName)
+                        <span class="error-alert">*</span>
+                    </div>                   
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         @Html.TextBoxFor(model => model.UserName, htmlAttributes: new { @class = "form-control", tabindex = "4" })
                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
@@ -70,7 +82,10 @@
                     </div>
                 </div>
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model.PinNumber, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-3 col-md-offset-1 col-xs-12">
+                        @Html.LabelFor(model => model.PinNumber)
+                        <span class="error-alert">*</span>
+                    </div>                    
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         @Html.TextBoxFor(model => model.PinNumber, htmlAttributes: new { @class = "form-control", onblur = "GetLocation()", tabindex = "7", id = "Pincode" })
                         @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
@@ -78,7 +93,10 @@
                 </div>
 
                 <div class="row" style="padding-bottom: 5px;">
-                    @Html.LabelFor(model => model.LocationId, htmlAttributes: new { @class = "col-md-3 col-md-offset-1 col-xs-12" })
+                    <div class="col-md-3 col-md-offset-1 col-xs-12">
+                        @Html.LabelFor(model => model.LocationId)
+                        <span class="error-alert">*</span>
+                    </div>                   
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         @Html.DropDownListFor(model => model.LocationId, Model.LocationList, "Select", htmlAttributes: new { @class = "form-control", id = "LocationId" })
                         @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
