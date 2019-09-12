@@ -69,7 +69,7 @@ namespace doorserve.Controllers
                 ServiceTypeList = clientData.Client.ServiceTypeList,
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
                 BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text"),
-                CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
+                CategoryList = new SelectList(_dropdown.BindCategory(filter), "Value", "Text"),
                 SubCategoryList =new SelectList(Enumerable.Empty<SelectListItem>()),
                 ProductList = new SelectList(Enumerable.Empty<SelectListItem>()),
                 CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text"),
@@ -133,7 +133,7 @@ namespace doorserve.Controllers
         {            
             clientDataModel.CompanyId = CurrentUser.CompanyId;
             clientDataModel.UserId = CurrentUser.UserId;
-            if (clientDataModel.IsClient)
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
                 clientDataModel.ClientId = CurrentUser.RefKey;
             string excelPath = Server.MapPath(FilePath + "ClientData");
             if (clientDataModel.DataFile != null)
@@ -248,8 +248,8 @@ namespace doorserve.Controllers
                 // new call Log
                     clientData.NewCallLog = uploads;
                     clientData.NewCallLog.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
-                    clientData.NewCallLog.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
-                    clientData.NewCallLog.SubCategoryList = new SelectList(_dropdown.BindSubCategory(uploads.DeviceCategoryId),"Value","Text");
+                    clientData.NewCallLog.CategoryList = new SelectList(_dropdown.BindCategory(new FilterModel {CompId=CurrentUser.CompanyId,ClientId= uploads.ClientId}), "Value", "Text");
+                    clientData.NewCallLog.SubCategoryList = new SelectList(_dropdown.BindSubCategory(new FilterModel{ CategoryId= uploads.DeviceCategoryId,  ClientId = uploads.ClientId }),"Value","Text");
                     clientData.NewCallLog.ProductList = new SelectList(_dropdown.BindProduct(uploads.DeviceBrandId.ToString() + "," + uploads.DeviceSubCategoryId.ToString()), "Value", "Text");
                     clientData.NewCallLog.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
                     clientData.NewCallLog.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
@@ -394,9 +394,9 @@ namespace doorserve.Controllers
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
             CallDetailsModel.IsAssingedCall = true;
             CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
-            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+            CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(new FilterModel {CompId= CallDetailsModel.CompanyId, ClientId= CallDetailsModel.ClientId}), "Value", "Text");
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
-            CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
+            CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(new FilterModel { CategoryId = CallDetailsModel.DeviceCategoryId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString()+","+ CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
             CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
             CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel {CompId= CurrentUser.CompanyId,RefKey= CallDetailsModel.ClientId }), "Value", "Text");
@@ -413,14 +413,14 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
-            var SessionModel = Session["User"] as SessionModel;
+          
             if (!ModelState.IsValid)
             {
                 CallDetailsModel.IsAssingedCall = true;
-                CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(SessionModel.CompanyId), "Name", "Text");
-                CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(SessionModel.CompanyId), "Value", "Text");
-                CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(SessionModel.CompanyId), "Value", "Text");
-                CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(CallDetailsModel.DeviceCategoryId), "Value", "Text");
+                CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
+                CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(new FilterModel { CompId = CurrentUser.CompanyId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
+                CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(new FilterModel { CategoryId = CallDetailsModel.DeviceCategoryId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
                 CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString() + "," + CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
                 CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
                 CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");

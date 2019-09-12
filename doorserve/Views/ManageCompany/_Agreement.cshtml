@@ -96,7 +96,7 @@
 
 <div class="form-group row">
 
-    <label class="col-sm-3 control-label" for="form-control-1">Uplode Agreement</label>
+    <label class="col-sm-3 control-label" for="form-control-1">Upload Agreement</label>
     <div class="col-sm-7">
         @Html.TextBoxFor(model => model.AgreementPath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
         @Html.ValidationMessageFor(model => model.AgreementPath, "", new { @class = "text-danger" })
@@ -116,7 +116,7 @@
 
 
 <div class="form-group row">
-    <label class="col-sm-3 control-label" for="form-control-1">Uplode Cancelled Check</label>
+    <label class="col-sm-3 control-label" for="form-control-1">Upload Cancelled Cheque</label>
     <div class="col-sm-7">
         @Html.TextBoxFor(model => model.CancelledChequePath, htmlAttributes: new { @type = "file", @class = "form-control", @onchange = "readURL(this);", accept = "image/*" })
         @Html.ValidationMessageFor(model => model.CancelledChequePath, "", new { @class = "text-danger" })

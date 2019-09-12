@@ -4,7 +4,7 @@
             <h4 class="m-t-0 m-b-25 p-t-10" id="DivAppointInfo" >Appointment Information</h4>
             <div class="row">
                 <div class="form-material" >
-                    <div class="col-sm-6 col-md-3">
+                    <div class="col-sm-6 col-md-3 ">
                         <div class="form-group has-value">
                             @Html.TextBoxFor(x => x.AppointmentDate,"{0:yyyy/MM/dd hh:mm}",  new { @class = "form-control dateTimePicker", @readOnly="True" })
                             @Html.ValidationMessageFor(x => x.AppointmentDate, "", new { @class = "text-danger" })

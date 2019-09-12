@@ -121,18 +121,14 @@ else
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-
         $("#DivprbObserved").hide();
         $("#ProblemInfo").hide();
-
-
         function AjaxWithValue(method, ddl, e) {
-            var val = e.value;
-            var refval = e.cvalue;
+            var val    =  e.value;
+            var refval =  e.cvalue;
             if (ddl == "StateId")
                 $("#CityId").empty();
             if (ddl == 'DeviceModalId') {
-
                 var brand = $("#DeviceBrandId").val();
                 var category = $("#DeviceSubCategoryId").val();
                 if (brand == "" || category == "")
@@ -140,17 +136,14 @@ else
                 else
                     val = brand + ',' + category;
             }
-
             $.ajax({
                 type: "GET",
                 url: "/DropdownBind/" + method + "?value=" + val,
                 data: '{}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (data) {
-                    debugger
+                success: function (data) {                    
                     $("#" + ddl).empty();
-
                     for (var i = 0; i < data.length; i++) {
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
@@ -158,14 +151,53 @@ else
                     if (refval != null || refval != undefined) {
                         $('#' + ddl).val(refval);
                     }
-
-
                 }
             });
         }
 
+        function AjaxWithFilter(method, ddl, e) {
+            var CategoryId = e.value;
+            var ClientId   =  $("#ClientId").val();
+              $.ajax({
+                  type: "GET",
+                  url: "/DropdownBind/" + method,
+                  data:  { CategoryId:  CategoryId,ClientId: ClientId},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {                    
+                    $("#" + ddl).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                    if (refval != null || refval != undefined) {
+                        $('#' + ddl).val(refval);
+                    }
+                }
+            });
+        }
+          function AjaxWithFilter1(method, ddl, e) {
+            var ClientId = e.value;
+            var companyId   =  $("#CompanyId").val();
+              $.ajax({
+                  type: "GET",
+                  url: "/DropdownBind/" + method,
+                  data:  { compId:  companyId,ClientId: ClientId},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {                    
+                    $("#" + ddl).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                    if (refval != null || refval != undefined) {
+                        $('#' + ddl).val(refval);
+                    }
+                }
+            });
+        }
         function GetDeviceDetails() {
-
             var sn = $("#DeviceSn").val();
             var IMEI = $("#DeviceIMEIOne").val();
             var CatId = $("#DeviceCategoryId").val();
@@ -178,7 +210,6 @@ else
                     dataType: "json",
                     async: true,
                     success: function (data) {
-
                         if (data!='Not Found') {
                             console.log(data);
                             $("#PrvCall").show();

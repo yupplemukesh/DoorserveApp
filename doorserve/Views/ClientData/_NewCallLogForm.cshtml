@@ -12,7 +12,7 @@
                             <div class="form-group row m-b-0">
                                 <div class="col-sm-4 col-md-2 p-l-0"> <h4>Select Client </h4></div>
                                 <div class="col-sm-8 col-md-5">
-                                    @Html.DropDownListFor(x => x.ClientId, Model.ClientList, "--Select--", new { @class = "form-control" })
+                                    @Html.DropDownListFor(x => x.ClientId, Model.ClientList, "--Select--", new { @class = "form-control", onchange = "AjaxWithFilter1('BindCategoriesJson', 'DeviceCategoryId', this)" })
                                     @Html.ValidationMessageFor(x => x.ClientId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
