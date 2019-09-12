@@ -40,7 +40,9 @@
                     <th>
                         @Html.DisplayName("Serial No")
                     </th>
-
+                    <th>
+                        @Html.DisplayName("Company Name")
+                    </th>
                     <th>
                         @Html.DisplayName("Name")
                     </th>
@@ -100,7 +102,9 @@
             <td>
                 @count
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ConFirstName)
             </td>
@@ -138,11 +142,12 @@
                 @(item.IsActive == true ? "Yes" : "No")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AddedOn)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.AddedBy)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedOn)
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedBy)
             </td>

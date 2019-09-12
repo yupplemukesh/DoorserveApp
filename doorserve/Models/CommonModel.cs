@@ -423,15 +423,11 @@ namespace doorserve
         {
             using (var _context = new ApplicationDbContext())
             {
-                var param = new SqlParameter("@companyId", DBNull.Value);
-                var query = "SELECT ProviderId Name,ProviderName Text FROM MstServiceProviders where IsActive=1";
+                var param = new SqlParameter("@CompId", DBNull.Value);
+                var query = "USPGetServiceProviders @CompId";
                 if (compId != null)
-                {
-                    query = query + " AND CompanyId=@companyId";
                     param.Value = compId;
-                }
-              
-                query = query + " Order by ProviderName";
+             
                 var _serviceProvider = await _context.Database.SqlQuery<CheckBox>(query,param).ToListAsync();
                 return _serviceProvider;
             }

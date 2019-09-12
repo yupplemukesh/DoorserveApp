@@ -340,7 +340,6 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
-        [ValidateModel]
         public async Task<ActionResult> AddorEditServiceCenter(ServiceCenterModel Center)
         {
             var statutory = await CommonModel.GetStatutoryType();
@@ -397,7 +396,7 @@ namespace doorserve.Controllers
             Center.Service.RefKey = Center.CenterId;
 
             TempData["response"] = response;
-            TempData.Keep("response");
+
 
             if (Center.action == 'I')
             {
@@ -413,7 +412,7 @@ namespace doorserve.Controllers
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
         {
 
