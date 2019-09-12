@@ -523,7 +523,7 @@ namespace doorserve.Controllers
         }
 
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.View, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
         public async Task<ActionResult> Edit(Guid id, string tab)
         {
             TempData["provider"] = null;

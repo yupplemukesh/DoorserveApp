@@ -90,7 +90,7 @@
                         </thead>
                         @foreach (var item in Model)
                         {
-                    <tr>
+                            <tr>
                         <td>
                             @Html.DisplayFor(modelItem => Count)
                         </td>
@@ -128,10 +128,16 @@
                         </td>
 
                         <td style="display: inline-flex">
+                           
                             @if (Permissions.Rights.Edit)
                             {
-                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("EDIT", "ManageClients", new { id = item.ClientId })'>Edit</a>
+                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("Edit", "ManageClients", new { id = item.ClientId })'>Edit</a>
                             }
+                            @if (Permissions.Rights.View && !Permissions.Rights.Edit && !Permissions.Rights.Create)
+                            {
+                                <a class="btn btn-small btn-info btnSize " href='@Url.Action("Edit", "ManageClients", new { id = item.ClientId })'>View</a>
+                            }
+
                         </td>
 
                     </tr>

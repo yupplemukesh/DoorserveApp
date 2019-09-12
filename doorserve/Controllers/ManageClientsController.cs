@@ -498,7 +498,7 @@ namespace doorserve.Controllers
         }
 
         // GET: ManageClient/Edit/5
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Clients)]
+        [PermissionBasedAuthorize(new Actions[] {Actions.View, Actions.Edit }, (int)MenuCode.Manage_Clients)]
         public async Task<ActionResult> Edit(Guid id)
         {
             TempData["client"] = null;

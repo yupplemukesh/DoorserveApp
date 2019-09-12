@@ -49,31 +49,23 @@
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>C:\Users\yupple\Desktop\bin\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>C:\Users\yupple\Desktop\bin\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="fontencoder">
-      <HintPath>C:\Users\Akshay\Desktop\ASP.NET on-line font encoder source feature level 9\fontencoder\bin\fontencoder.dll</HintPath>
-    </Reference>
     <Reference Include="GridMvc">
-      <HintPath>..\..\..\..\received file\GridMvc.dll</HintPath>
-    </Reference>
-    <Reference Include="IDAutomation.DataBarFontEncoder, Version=2017.0.0.0, Culture=neutral, PublicKeyToken=82039bd6f006216e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Akshay\Desktop\ASP.NET on-line font encoder source feature level 9\fontencoder\bin\IDAutomation.DataBarFontEncoder.dll</HintPath>
-    </Reference>
-    <Reference Include="IDAutomation.IntelligentMail, Version=1.0.4514.18051, Culture=neutral, PublicKeyToken=2b971e79b2b7a6e3">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Akshay\Desktop\ASP.NET on-line font encoder source feature level 9\fontencoder\bin\IDAutomation.IntelligentMail.dll</HintPath>
-    </Reference>
-    <Reference Include="IDAutomation.NetAssembly, Version=2009.0.0.0, Culture=neutral, PublicKeyToken=b734e31dca085caa">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Akshay\Desktop\ASP.NET on-line font encoder source feature level 9\fontencoder\bin\IDAutomation.NetAssembly.dll</HintPath>
+      <HintPath>C:\Users\yupple\Desktop\bin\GridMvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
@@ -150,12 +142,6 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>

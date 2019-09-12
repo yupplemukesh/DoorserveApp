@@ -10,9 +10,10 @@ namespace doorserve.Models
 {
     public class OtherContactPersonModel:ContactPersonModel
     {
-        [Required]
+       
+        [Required(ErrorMessage = "Select address type")]
         public override int ? AddressTypeId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Enter address")]
         public override string Address { get; set; }      
        
     }

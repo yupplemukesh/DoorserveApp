@@ -186,7 +186,7 @@
            "Select", new { @class = "form-control" })
 
                 </div>
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.AddressTypeId, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="control-label">
@@ -199,8 +199,6 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.PinNumber, "", new { @class = "text-danger" })
             </div>
-
-
         </div>
     </div>
 </div>

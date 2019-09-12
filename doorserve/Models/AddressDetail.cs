@@ -12,6 +12,7 @@ namespace doorserve.Models
     {
         public Guid? AddresssId { get; set; }
         [DisplayName("Address Type")]
+
         public virtual  int? AddressTypeId { get; set; }
      
 
@@ -19,7 +20,7 @@ namespace doorserve.Models
         public string District { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Select Location")]
         public int? LocationId { get; set; }
         public string LocationName { get; set; }
         public virtual string Address { get; set; } 
@@ -28,7 +29,7 @@ namespace doorserve.Models
         public string NearLocation { get; set; }
         [DisplayName("Pin Code")]
         [RegularExpression(@"^([0-9]{6})$", ErrorMessage = "Invalid Pin Code")]
-        [Required]
+        [Required(ErrorMessage ="Enter Pincode")]
         public string PinNumber { get; set; }
        
         public SelectList AddressTypelist { get; set; }
