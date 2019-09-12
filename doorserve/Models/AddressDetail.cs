@@ -22,6 +22,7 @@ namespace doorserve.Models
         public string Country { get; set; }
         [Required(ErrorMessage ="Select Location")]
         public int? LocationId { get; set; }
+        [DisplayName("Location Name")]
         public string LocationName { get; set; }
         public virtual string Address { get; set; } 
         public string Locality { get; set; }

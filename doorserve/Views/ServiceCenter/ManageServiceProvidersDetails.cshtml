@@ -19,7 +19,7 @@
                 @Html.Partial("_CallInformationForm", Model)
                 <div Id="CustomerInfo" style="display:none">
                 <div class="panel-body b-b-1">
-                    <h4 class="m-t-10 m-b-5 m-b-10">Customer Imformation</h4>
+                    <h4 class="m-t-10 m-b-5 m-b-10">Customer Information</h4>
                     <div class="row">
                         <div class="col-md-2 col-sm-2  col-xs-2">
                             <strong>   Name</strong>
@@ -293,7 +293,9 @@
                                                 <div class="form-material">
                                                     <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Invoice</h5></div>
                                                     <div class="col-sm-3">
-                                                        @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File", @onchange = "readURL(this);" })
+                                                        <div>
+                                                            @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File", @onchange = "readFileURL(this);" })
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <img src="/TempFiles/@Model.DeviceId/@Model.InvoiceFileName" width="50" />
@@ -301,7 +303,9 @@
 
                                                     <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Job Sheet</h5></div>
                                                     <div class="col-sm-3">
-                                                        @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File", @onchange = "readURL(this);" })
+                                                        <div>
+                                                            @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File", @onchange = "readFileURL(this);" })
+                                                        </div>
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <img src="/TempFiles/@Model.DeviceId/@Model.JobSheetFileName" width="50" />
@@ -349,7 +353,6 @@
                                     </div>
 
                                 </div>
-
                                 <div class="p-t-10" id="termConditions" style="display:none">
                                     <div class="panel-body  p-t-5 p-b-0">
 
@@ -621,7 +624,7 @@
                };
                   parts.push(part);
                if (PartList[i].PartFile != null) {
-                    debugger
+                    
                     data.append(PartList[i].PartNo,PartList[i].PartFile);
                 }
            }
@@ -880,5 +883,38 @@
             else
                 NextStep(part);
         }
+
+      
+
+        function readFileURL(input) {
+            debugger
+            var _this = input;
+            var fileExtension = ['pdf', 'jpg', 'png'];
+            if (input.files && input.files[0])
+            {
+                if ($.inArray(input.files[0].name.split('.').pop().toLowerCase(), fileExtension) == -1)
+                {
+                    alert("Only '.png','.jpg' and '.pdf' formats are allowed.");
+                   
+                    $(_this).val('');
+                    return false;
+                }
+                else {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        debugger
+                        if ($(_this).parent('div').parent("div").next('div').find('img')) {
+                            $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
+                        }
+                      
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+
+              
+                
+            }
+        }
+       
     </script>
 }
