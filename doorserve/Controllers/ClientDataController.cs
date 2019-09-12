@@ -408,8 +408,6 @@ namespace doorserve.Controllers
             CallDetailsModel.IsClientAddedBy = true;
             return View(CallDetailsModel);
         }
-
-
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
         [HttpPost]
 
