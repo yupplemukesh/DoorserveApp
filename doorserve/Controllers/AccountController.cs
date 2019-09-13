@@ -295,7 +295,11 @@ namespace doorserve.Controllers
                         U.Val = UserPassword.UserName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
                         U.Val = UserPassword.Password;
-                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+                         U.Val = UserPassword.CustomerCareNumber;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                    U.Val = UserPassword.ContactCareEmail;
+                    var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates.Count > 0)
                         {
                             var res =await _emailSmsServices.Send(Templates, c, UserPassword);
