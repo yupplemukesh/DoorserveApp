@@ -52,476 +52,480 @@
             @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="col-md-6 form-group">
-        <label class=" control-label" for="form-control-9">Message Type<span class="error-alert">*</span> </label>
-        <div class="form-group">
-            @Html.DropDownListFor(model => model.MessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.MessageTypeId, "", new { @class = "text-danger" })
+</div>
+    <div class="row">
+        <div class="col-md-6 form-group">
+            <label class=" control-label" for="form-control-9">Message Type<span class="error-alert">*</span> </label>
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.MessageTypeId, Model.MessageTypeList, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MessageTypeId, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-6 form-group" id="mailerGateway">
-        <label class=" control-label" for="form-control-9">Mailer Gateway<span class="error-alert">*</span></label>
-        <div class="form-group">
-            @Html.DropDownListFor(model => model.GatewayId, Model.GatewayList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.GatewayId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway")
-    {
-        <div class="col-md-6 form-group" id="header">
-            <label class=" control-label" for="form-control-9">Header Footer Template<span class="error-alert">*</span></label>
+    <div class="row">
+        <div class="col-md-6 form-group" id="mailerGateway">
+            <label class=" control-label" for="form-control-9">Mailer Gateway<span class="error-alert">*</span></label>
             <div class="form-group">
-                @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.GatewayId, Model.GatewayList, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.GatewayId, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="header">
-            <label class=" control-label" for="form-control-9">Header Footer Template<span class="error-alert">*</span></label>
-            <div class="form-group">
-                @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    }
-</div>
-<div class="row">
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "actionbased")
-    {
-        <div class="col-md-6 form-group" id="bccEmail">
-            <label class=" control-label" for="form-control-9">BCC Email ID<span class="error-alert">*</span></label>
-            @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
-            @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
-        </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="bccEmail">
-            <label class=" control-label" for="form-control-9">BCC Email ID<span class="error-alert">*</span></label>
-            @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
-            @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
-        </div>
-
-    }
-
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway")
-    {
-        <div class="col-md-6 form-group" id="emailSubject">
-            <label class=" control-label" for="form-control-9">Email Subject<span class="error-alert">*</span></label>
-            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
-            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
-        </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="emailSubject">
-            <label class=" control-label" for="form-control-9">Email Subject<span class="error-alert">*</span></label>
-            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
-            @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
-        </div>
-    }
-</div>
-<div class="row">
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "nonactionbased")
-    {
-        <div class="col-md-6 form-group" id="toEmail">
-            <label class=" control-label" for="form-control-9">To Email</label>
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
-            </div>
-            <div id="totalEmail"><a href="javascript:void(0)" id="popupEmailList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
-        </div>
-        <div class="col-md-6 form-group" id="uploadToEmail">
-            @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToEmailFile, htmlAttributes: new { @type = "file", @class = "form-control" })
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="toEmail">
-            <label class=" control-label" for="form-control-9">To Email</label>
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
-            </div>
-            <div id="totalEmail"><a href="javascript:void(0)" id="popupEmailList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
-        </div>
-        <div class="col-md-6 form-group hidden" id="uploadToEmail">
-            @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToEmailFile, htmlAttributes: new { @type = "file", @class = "form-control" })
-            </div>
-        </div>
-
-    }
-</div>
-<div class="row">
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName != "SMTP Gateway" && Model.ActionTypeName == "NonActionBased")
-    {
-        <div class="col-md-6 form-group" id="toMobile">
-            <label class=" control-label" for="form-control-9">To Mobile</label>
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
-            </div>
-            <div id="totalEmail"><a href="javascript:void(0)" id="popupMobileList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
-        </div>
-        <div class="col-md-6 form-group" id="uploadMobile">
-            @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToMobileNoFile, htmlAttributes: new { @type = "file", @class = "form-control" })
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="toMobile">
-            <label class=" control-label" for="form-control-9">To Mobile</label>
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
-            </div>
-            <div id="totalEmail"><a href="javascript:void(0)" id="popupMobileList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
-        </div>
-        <div class="col-md-6 form-group hidden" id="uploadMobile">
-            @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToMobileNoFile, htmlAttributes: new { @type = "file", @class = "form-control" })
-            </div>
-        </div>
-    }
-</div>
-<div class="row">
-
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.ActionTypeName.ToLower() == "nonactionbased")
-    {
-        <div class="col-md-6 form-group" id="dvScheduleTime">
-            <label class=" control-label" for="form-control-9">Shedule Date Time </label>
-            <div class="form-group">
-                <div class="col-md-8">
-                    @Html.TextBoxFor(model => model.ScheduleDate, new { id = "datepicker", @class = "form-control date-text" })
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway")
+        {
+            <div class="col-md-6 form-group" id="header">
+                <label class=" control-label" for="form-control-9">Header Footer Template<span class="error-alert">*</span></label>
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
                 </div>
-                <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.ScheduleTime, new { @class = "form-control", @placeholder = "HH:MM" })
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="header">
+                <label class=" control-label" for="form-control-9">Header Footer Template<span class="error-alert">*</span></label>
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.EmailHeaderFooterId, Model.EmailHeaderFooterList, "Select", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EmailHeaderFooterId, "", new { @class = "text-danger" })
                 </div>
-
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="dvScheduleTime">
-            <label class=" control-label" for="form-control-9">Shedule Date Time </label>
-            <div class="form-group">
-                <div class="col-md-8">
-                    @Html.TextBoxFor(model => model.ScheduleDate, new { id = "datepicker", @class = "form-control date-text" })
+        }
+    </div>
+    <div class="row">
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "actionbased")
+        {
+            <div class="col-md-6 form-group" id="bccEmail">
+                <label class=" control-label" for="form-control-9">BCC Email ID<span class="error-alert">*</span></label>
+                @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
+                @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="bccEmail">
+                <label class=" control-label" for="form-control-9">BCC Email ID<span class="error-alert">*</span></label>
+                @Html.TextBoxFor(model => model.BccEmails, new { @class = "form-control input-md", @placeholder = "BCC Email ID" })
+                @Html.ValidationMessageFor(model => model.BccEmails, "", new { @class = "text-danger" })
+            </div>
+
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway")
+        {
+            <div class="col-md-6 form-group" id="emailSubject">
+                <label class=" control-label" for="form-control-9">Email Subject<span class="error-alert">*</span></label>
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="emailSubject">
+                <label class=" control-label" for="form-control-9">Email Subject<span class="error-alert">*</span></label>
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control input-md", @placeholder = "Email Subject" })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        }
+    </div>
+    <div class="row">
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "nonactionbased")
+        {
+            <div class="col-md-6 form-group" id="toEmail">
+                <label class=" control-label" for="form-control-9">To Email</label>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
                 </div>
-                <div class="col-md-4">
-                    @Html.TextBoxFor(model => model.ScheduleTime, new { @class = "form-control", @placeholder = "HH:MM" })
+                <div id="totalEmail"><a href="javascript:void(0)" id="popupEmailList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
+            </div>
+            <div class="col-md-6 form-group" id="uploadToEmail">
+                @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToEmailFile, htmlAttributes: new { @type = "file", @class = "form-control" })
                 </div>
-
             </div>
-        </div>
-
-    }
-
-    @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "nonactionbased")
-    {
-        <div class="col-md-6 form-group" id="ToCCEmaildv">
-            <label class=" control-label" for="form-control-9">To CC Email</label>
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToCCEmail, new { @placeholder = "To CC Email", @class = "form-control" })
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="toEmail">
+                <label class=" control-label" for="form-control-9">To Email</label>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToEmail, new { @placeholder = "To Email", @class = "form-control" })
+                </div>
+                <div id="totalEmail"><a href="javascript:void(0)" id="popupEmailList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="col-md-6 form-group hidden" id="ToCCEmaildv">
-            <label class=" control-label" for="form-control-9">To CC Email</label>
-            <div class="form-group">
-                @Html.TextBoxFor(model => model.ToCCEmail, new { @placeholder = "To CC Email", @class = "form-control" })
+            <div class="col-md-6 form-group hidden" id="uploadToEmail">
+                @Html.Label("Browse File Email", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToEmailFile, htmlAttributes: new { @type = "file", @class = "form-control" })
+                </div>
             </div>
-        </div>
 
-    }
-</div>
-<div class="row">
-    <div class="col-md-6 form-group" id="PriorityType">
-        <label class="control-label" for="form-control-9">Priority<span class="error-alert">*</span></label>
-        <div class="form-group">
-            @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
-        </div>
+        }
     </div>
-    <div class="col-md-6 form-group" id="isSystemEmail">
-        <label class=" control-label" for="form-control-9">Is Active </label>
-        <div class="form-group">
-            @Html.CheckBoxFor(x => x.IsActive)
-        </div>
-    </div>
-</div>
-<div class="row" id="IsSystem">
-    <div class="col-sm-12 form-group">
-
-        <label class="control-label" for="form-control-9">Is System</label>
-        <div class="form-group">
-            @Html.CheckBoxFor(x => x.IsSystemDefined)
-        </div>
-
-    </div>
-</div>
-<div class="modal" id="UploadedData" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header  bg-primary">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                @*<h4 class="modal-title">Bank Details</h4>*@
+    <div class="row">
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName != "SMTP Gateway" && Model.ActionTypeName == "NonActionBased")
+        {
+            <div class="col-md-6 form-group" id="toMobile">
+                <label class=" control-label" for="form-control-9">To Mobile</label>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
+                </div>
+                <div id="totalEmail"><a href="javascript:void(0)" id="popupMobileList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
             </div>
-            <div class="modal-body" id="UploadedExcelList">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="javascript:void(0)" class="btn btn-primary btn-sm float-right" id="deleteRow">Delete</a>
-                        </div>
+            <div class="col-md-6 form-group" id="uploadMobile">
+                @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToMobileNoFile, htmlAttributes: new { @type = "file", @class = "form-control" })
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="toMobile">
+                <label class=" control-label" for="form-control-9">To Mobile</label>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.PhoneNumber, new { @placeholder = "Phone Number", @class = "form-control" })
+                </div>
+                <div id="totalEmail"><a href="javascript:void(0)" id="popupMobileList" data-guid="@Model.GUID">Total Count:<span> @(Model.TotalCount)</span> </a></div>
+            </div>
+            <div class="col-md-6 form-group hidden" id="uploadMobile">
+                @Html.Label("Browse File Phone", htmlAttributes: new { @class = "control-label", @for = "form-control-9" })
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToMobileNoFile, htmlAttributes: new { @type = "file", @class = "form-control" })
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.ActionTypeName.ToLower() == "nonactionbased")
+        {
+            <div class="col-md-6 form-group" id="dvScheduleTime">
+                <label class=" control-label" for="form-control-9">Shedule Date Time </label>
+                <div class="form-group">
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.ScheduleDate, new { id = "datepicker", @class = "form-control date-text" })
                     </div>
-                    <div class="row form-group">
-                        <div class="col-md-8">
-                            <table class="table table-striped table-bordered table-condensed" id="tblUpload" width="100%"></table>
-                        </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ScheduleTime, new { @class = "form-control", @placeholder = "HH:MM" })
                     </div>
 
                 </div>
             </div>
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="dvScheduleTime">
+                <label class=" control-label" for="form-control-9">Shedule Date Time </label>
+                <div class="form-group">
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.ScheduleDate, new { id = "datepicker", @class = "form-control date-text" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ScheduleTime, new { @class = "form-control", @placeholder = "HH:MM" })
+                    </div>
+
+                </div>
+            </div>
+
+        }
+
+        @if (!string.IsNullOrEmpty(Model.ActionTypeName) && Model.MessageTypeName == "SMTP Gateway" && Model.ActionTypeName.ToLower() == "nonactionbased")
+        {
+            <div class="col-md-6 form-group" id="ToCCEmaildv">
+                <label class=" control-label" for="form-control-9">To CC Email</label>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToCCEmail, new { @placeholder = "To CC Email", @class = "form-control" })
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6 form-group hidden" id="ToCCEmaildv">
+                <label class=" control-label" for="form-control-9">To CC Email</label>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ToCCEmail, new { @placeholder = "To CC Email", @class = "form-control" })
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group" id="PriorityType">
+            <label class="control-label" for="form-control-9">Priority<span class="error-alert">*</span></label>
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.PriorityTypeId, Model.PriorityTypeList, "Select", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PriorityTypeId, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-</div>
-@Scripts.Render("~/bundles/customBundle")
-<div class="row form-group">
-    <div class="col-md-12">
-        @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
+        <div class="row">
+            <div class="col-md-6 form-group" id="isSystemEmail">
+                <label class=" control-label" for="form-control-9">Is Active </label>
+                <div class="form-group">
+                    @Html.CheckBoxFor(x => x.IsActive)
+                </div>
+            </div>
+        </div>
+        <div class="row" id="IsSystem">
+            <div class="col-sm-12 form-group">
+
+                <label class="control-label" for="form-control-9">Is System</label>
+                <div class="form-group">
+                    @Html.CheckBoxFor(x => x.IsSystemDefined)
+                </div>
+
+            </div>
+        </div>
+        <div class="modal" id="UploadedData" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header  bg-primary">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        @*<h4 class="modal-title">Bank Details</h4>*@
+                    </div>
+                    <div class="modal-body" id="UploadedExcelList">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm float-right" id="deleteRow">Delete</a>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-8">
+                                    <table class="table table-striped table-bordered table-condensed" id="tblUpload" width="100%"></table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Scripts.Render("~/bundles/customBundle")
+        <div class="row form-group">
+            <div class="col-md-12">
+                @Html.TextAreaFor(x => x.EmailBody, new { @id = "editor1" })
+                <script>
+
+                    editor = CKEDITOR.replace('editor1', {
+                        height: 300,
+                        extraPlugins: 'colorbutton,colordialog'
+                    });
+
+                    editor.addCommand("mySimpleCommand", {
+                        exec: function (edt) {
+                            $('.wild-cart-m').hide().fadeIn(400);
+                        }
+                    });
+
+                    editor.ui.addButton('SuperButton', {
+                        label: "Click me",
+                        command: 'mySimpleCommand',
+                        toolbar: 'insert',
+                        icon: '../content/img/icon-img/wild.png',
+                        html: ''
+
+                    });
+
+
+
+                    $(document).ready(function () {
+                        $(".cke_button__superbutton_icon").click(function () {
+
+                            $(".wild-cart-m").fadeIn();
+
+                        });
+                        $(".zmdi-close").click(function () {
+                            $(".wild-cart-m").fadeOut();
+
+                        });
+
+                        $("#addWildCard").click(function (e) {
+                            var value = $("#WildCards").val();
+                            console.log(value);
+                            CKEDITOR.instances['editor1'].insertHtml('[%' + value + '%]');
+                            $('.wild-cart-m').modal('toggle');
+
+                        });
+                    });
+
+
+
+                </script>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <button class="btn btn-primary" type="reset">Reset</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        <div class="wild-cart-m">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-success">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                <i class="zmdi zmdi-close"></i>
+                            </span>
+                        </button>
+                        <h4 class="modal-title">Wild Card</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row ">
+                            <div class="col-md-12 ">
+                                <form class="form-horizontal ">
+
+                                    <div class="row form-group">
+
+                                        <div class="col-md-12">
+                                            <label class="control-label" for="form-control-9">Wild Cards</label>
+                                            @Html.DropDownList("WildCards", Model.WildCardList, "--Select--", new { @class = "form-control" })
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="addWildCard" data-dismiss="modal" class="btn btn-success">OK</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Scripts.Render("~/bundles/customBundle")
+        @Scripts.Render("~/bundles/jqueryval")
         <script>
+            $(document).on("change", "#TemplateTypeId", function () {
+                debugger
+                $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
+                if ($(this).find("option:selected").text() == 'NonActionBased') {
 
-            editor = CKEDITOR.replace('editor1', {
-                height: 300,
-                extraPlugins: 'colorbutton,colordialog'
-            });
-
-            editor.addCommand("mySimpleCommand", {
-                exec: function (edt) {
-                    $('.wild-cart-m').hide().fadeIn(400);
+                    $('#actions').addClass("hidden");
+                    $('#bccEmail').addClass("hidden");
+                    $('#IsSystem').addClass("hidden");
+                    $('#dvScheduleTime').removeClass("hidden");
+                    $('#emailSubject').addClass("hidden");
+                    $('#toEmail').addClass("hidden");
+                    $('#uploadToEmail').addClass("hidden");
+                    $('#ToCCEmaildv').addClass("hidden");
+                    $('#toMobile').addClass("hidden");
+                    $('#uploadMobile').addClass("hidden");
+                    $('#dvScheduleTime').addClass("hidden");
+                }
+                else {
+                    $('#actions').removeClass("hidden");
+                    $('#bccEmail').removeClass("hidden");
+                    $('#IsSystem').removeClass("hidden");
+                    $('#emailSubject').removeClass("hidden");
+                    $('#toEmail').addClass("hidden");
+                    $('#uploadToEmail').addClass("hidden");
+                    $('#ToCCEmaildv').addClass("hidden");
+                    $('#toMobile').addClass("hidden");
+                    $('#uploadMobile').addClass("hidden");
+                    $('#dvScheduleTime').addClass("hidden");
                 }
             });
 
-            editor.ui.addButton('SuperButton', {
-                label: "Click me",
-                command: 'mySimpleCommand',
-                toolbar: 'insert',
-                icon: '../content/img/icon-img/wild.png',
-                html: ''
-
-            });
-
-
-
-            $(document).ready(function () {
-                $(".cke_button__superbutton_icon").click(function () {
-
-                    $(".wild-cart-m").fadeIn();
-
-                });
-                $(".zmdi-close").click(function () {
-                    $(".wild-cart-m").fadeOut();
-
-                });
-
-                $("#addWildCard").click(function (e) {
-                    var value = $("#WildCards").val();
-                    console.log(value);
-                    CKEDITOR.instances['editor1'].insertHtml('[%' + value + '%]');
-                    $('.wild-cart-m').modal('toggle');
-
-                });
-            });
-
-
-
-        </script>
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-md-12 ">
-        <button class="btn btn-primary" type="reset">Reset</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</div>
-<div class="wild-cart-m">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">
-                        <i class="zmdi zmdi-close"></i>
-                    </span>
-                </button>
-                <h4 class="modal-title">Wild Card</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row ">
-                    <div class="col-md-12 ">
-                        <form class="form-horizontal ">
-
-                            <div class="row form-group">
-
-                                <div class="col-md-12">
-                                    <label class="control-label" for="form-control-9">Wild Cards</label>
-                                    @Html.DropDownList("WildCards", Model.WildCardList, "--Select--", new { @class = "form-control" })
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-
-
-
-
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="addWildCard" data-dismiss="modal" class="btn btn-success">OK</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-@Scripts.Render("~/bundles/customBundle")
-@Scripts.Render("~/bundles/jqueryval")
-<script>
-    $(document).on("change", "#TemplateTypeId", function () {
-        debugger
-        $('#MailerTemplateName').val($("#TemplateTypeId option:selected").text());
-        if ($(this).find("option:selected").text() == 'NonActionBased') {
-
-            $('#actions').addClass("hidden");
-            $('#bccEmail').addClass("hidden");
-            $('#IsSystem').addClass("hidden");
-            $('#dvScheduleTime').removeClass("hidden");
-            $('#emailSubject').addClass("hidden");
-            $('#toEmail').addClass("hidden");
-            $('#uploadToEmail').addClass("hidden");
-            $('#ToCCEmaildv').addClass("hidden");
-            $('#toMobile').addClass("hidden");
-            $('#uploadMobile').addClass("hidden");
-            $('#dvScheduleTime').addClass("hidden");
-        }
-        else {
-            $('#actions').removeClass("hidden");
-            $('#bccEmail').removeClass("hidden");
-            $('#IsSystem').removeClass("hidden");
-            $('#emailSubject').removeClass("hidden");
-            $('#toEmail').addClass("hidden");
-            $('#uploadToEmail').addClass("hidden");
-            $('#ToCCEmaildv').addClass("hidden");
-            $('#toMobile').addClass("hidden");
-            $('#uploadMobile').addClass("hidden");
-            $('#dvScheduleTime').addClass("hidden");
-        }
-    });
-
-    $(document).on("change", "#MessageTypeId", function () {
-        $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
-        if ($(this).find("option:selected").text() == 'SMS Gateway' || $(this).find("option:selected").text() == 'Notification Gateway') {
-            $('#emailSubject').addClass("hidden");
-            $('#toEmail').addClass("hidden");
-            $('#uploadToEmail').addClass("hidden");
-            $('#ToCCEmaildv').addClass("hidden");
-            $('#bccEmail').addClass("hidden");
-            $('#toMobile').addClass("hidden");
-            $('#uploadMobile').removeClass("hidden");
-            $('#header').addClass("hidden");
-            if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {
-                $('#uploadMobile').addClass("hidden");
-                $('#dvScheduleTime').addClass("hidden");
-            }
-        }
-        else {
-            $('#emailSubject').removeClass("hidden");
-            $('#uploadToEmail').removeClass("hidden");
-            $('#ToCCEmaildv').addClass("hidden");
-            $('#toMobile').addClass("hidden");
-            $('#uploadMobile').addClass("hidden");
-            $('#dvScheduleTime').addClass("hidden");
-            $('#header').removeClass("hidden");
-            if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {
-                $('#uploadToEmail').addClass("hidden");
-                $('#bccEmail').removeClass("hidden");
-                $('#toEmail').addClass("hidden");
-            }
-            else {
-                $('#toEmail').removeClass("hidden");
-                $('#ToCCEmaildv').removeClass("hidden");
-            }
-        }
-        $.ajax({
-            type: "GET",
-            url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
-            data: '{}',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                $('#GatewayId').html('');
-                var opt = new Option("--Select--", 0);
-                $('#GatewayId').append(opt)
-                if (data.length > 0) {
-                    for (var i = 0; i < data.length; i++) {
-                        opt = new Option(data[i].GatewayName, data[i].GatewayId);
-                        $('#GatewayId').append(opt);
+            $(document).on("change", "#MessageTypeId", function () {
+                $('#MessageTypeName').val($("#MessageTypeId option:selected").text());
+                if ($(this).find("option:selected").text() == 'SMS Gateway' || $(this).find("option:selected").text() == 'Notification Gateway') {
+                    $('#emailSubject').addClass("hidden");
+                    $('#toEmail').addClass("hidden");
+                    $('#uploadToEmail').addClass("hidden");
+                    $('#ToCCEmaildv').addClass("hidden");
+                    $('#bccEmail').addClass("hidden");
+                    $('#toMobile').addClass("hidden");
+                    $('#uploadMobile').removeClass("hidden");
+                    $('#header').addClass("hidden");
+                    if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {
+                        $('#uploadMobile').addClass("hidden");
+                        $('#dvScheduleTime').addClass("hidden");
                     }
                 }
+                else {
+                    $('#emailSubject').removeClass("hidden");
+                    $('#uploadToEmail').removeClass("hidden");
+                    $('#ToCCEmaildv').addClass("hidden");
+                    $('#toMobile').addClass("hidden");
+                    $('#uploadMobile').addClass("hidden");
+                    $('#dvScheduleTime').addClass("hidden");
+                    $('#header').removeClass("hidden");
+                    if ($('#TemplateTypeId').find('option:selected').text() == 'ActionBased') {
+                        $('#uploadToEmail').addClass("hidden");
+                        $('#bccEmail').removeClass("hidden");
+                        $('#toEmail').addClass("hidden");
+                    }
+                    else {
+                        $('#toEmail').removeClass("hidden");
+                        $('#ToCCEmaildv').removeClass("hidden");
+                    }
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/Templates/BindGateway?GatewayTypeId=" + $(this).val(),
+                    data: '{}',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('#GatewayId').html('');
+                        var opt = new Option("--Select--", 0);
+                        $('#GatewayId').append(opt)
+                        if (data.length > 0) {
+                            for (var i = 0; i < data.length; i++) {
+                                opt = new Option(data[i].GatewayName, data[i].GatewayId);
+                                $('#GatewayId').append(opt);
+                            }
+                        }
+                    }
+                });
+            });
+
+
+
+            function BindGateway(method, ddl, e) {
+                $('#' + ddl).empty();
+                var val = e.value;
+                if (val == "E-Mail") {
+                    method = "BindEmailGateway";
+                    $('#HeaderFooterTemplate').prop('disabled', true);
+                    $('#BCCEmailID').prop('disabled', true);
+                    $('#MailerGateway').prop('disabled', true);
+                    $('#EmailSubject').prop('disabled', true);
+                    $('#IsSystemEmail').prop('disabled', true);
+
+                }
+                else if (val == "SMS") {
+                    method = "BindSMSGateway";
+                    $('#HeaderFooterTemplate').prop('disabled', false);
+                    $('#BCCEmailID').prop('disabled', false);
+                    $('#EmailSubject').prop('disabled', false);
+
+                }
+                else {
+                    $('#HeaderFooterTemplate').prop('disabled', false);
+                    $('#BCCEmailID').prop('disabled', false);
+                    $('#EmailSubject').prop('disabled', false);
+                    $('#IsSystemEmail').prop('disabled', false);
+                    $('#MailerGateway').prop('disabled', false);
+                }
             }
-        });
-    });
-
-
-
-    function BindGateway(method, ddl, e) {
-        $('#' + ddl).empty();
-        var val = e.value;
-        if (val == "E-Mail") {
-            method = "BindEmailGateway";
-            $('#HeaderFooterTemplate').prop('disabled', true);
-            $('#BCCEmailID').prop('disabled', true);
-            $('#MailerGateway').prop('disabled', true);
-            $('#EmailSubject').prop('disabled', true);
-            $('#IsSystemEmail').prop('disabled', true);
-
-        }
-        else if (val == "SMS") {
-            method = "BindSMSGateway";
-            $('#HeaderFooterTemplate').prop('disabled', false);
-            $('#BCCEmailID').prop('disabled', false);
-            $('#EmailSubject').prop('disabled', false);
-
-        }
-        else {
-            $('#HeaderFooterTemplate').prop('disabled', false);
-            $('#BCCEmailID').prop('disabled', false);
-            $('#EmailSubject').prop('disabled', false);
-            $('#IsSystemEmail').prop('disabled', false);
-            $('#MailerGateway').prop('disabled', false);
-        }
-    }
-    $(document).on("keydown", "#ToCCEmail,#ToEmail", function (e) {
-        if (e.keyCode == 188) {
-            e.preventDefault();
-        }
-    });
-</script>
-<script>
+            $(document).on("keydown", "#ToCCEmail,#ToEmail", function (e) {
+                if (e.keyCode == 188) {
+                    e.preventDefault();
+                }
+            });
+        </script>
+        <script>
     $(document).on("click", "#popupEmailList,#popupMobileList", function () {
         var GUID = $(this).attr("data-guid");
         var _this = $(this);
@@ -611,8 +615,8 @@
             $("#chkAll").prop('checked', true);
         }
     });
-</script>
-<script>
+        </script>
+        <script>
 
     $(function () {
         $("#datepicker").datepicker({
@@ -633,7 +637,7 @@
 
     $(document).on("change", "#CompanyId", function (e) {
 
-       
+
      $.ajax({
             type: "GET",
             url: "@Url.Action("GetHeaderFooterByCompany","Templates")",
@@ -656,12 +660,12 @@
                  var ops = '<option value=' + value.Value + '>' + value.Text + '</option>'
                  $("#GatewayId").append(ops);
              });
-         }  
+         }
      });
- 
+
     })
 
-</script>
+        </script>
 
 
 

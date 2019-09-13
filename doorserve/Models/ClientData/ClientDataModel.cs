@@ -27,7 +27,7 @@ namespace doorserve.Models
         public Guid? Id { get; set; }
 
         public Guid? ClientId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select Service Type")]
         [DisplayName("Service Type")]
         public int ServiceTypeId { get; set; }
         public string DataSource { get; set; }
@@ -35,7 +35,7 @@ namespace doorserve.Models
         public bool IsClientAddedBy { get; set; } 
         public string FileName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select Delivery Type")]
         [DisplayName("Delivery Type")]
         public int DeliveryTypeId { get; set; }
         public string UploadedBy { get; set; }

@@ -42,7 +42,10 @@ namespace doorserve.Repository.ServiceProviders
             sp.Add(param);
             param = new SqlParameter("@ProviderId", ToDBNull(filterModel.RefKey));
             sp.Add(param);
-            return await _context.Database.SqlQuery<serviceProviderData>("USPGetAllProvidersForExcel @CompanyId,@ProviderId", sp.ToArray()).ToListAsync();
+            var _context1 = _context.Database;
+            _context1.CommandTimeout = 600;
+
+            return await _context1.SqlQuery<serviceProviderData>("USPGetAllProvidersForExcel @CompanyId,@ProviderId", sp.ToArray()).ToListAsync();
         }
 
         public async Task<ServiceProviderModel> GetProviderById(Guid? serviceProviderId)
