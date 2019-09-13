@@ -35,9 +35,11 @@ namespace doorserve.Models.ServiceCenter
         public UploadedExcelModel _UploadedExcelModel { get; set; }
         public string ProblemDescription { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public string IssueOcurringSinceDate { get; set; }        
+        public string IssueOcurringSinceDate { get; set; }
+        [Required(ErrorMessage = "Select appointment date")]
         public DateTime ? AppointmentDate { get; set; }
-        // public string Remarks { get; set; }
+        [Required(ErrorMessage = "Enter remarks")]
+        public string  Remarks { get; set; }
         public Guid? PreviousCallId { get; set; }
         public string ProblemObserved { get; set; }
         public  int ? CStatus { get; set; }

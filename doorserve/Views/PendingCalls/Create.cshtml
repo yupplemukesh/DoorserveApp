@@ -66,7 +66,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                debugger
+                
                 $("#" + ddl).empty();
 
                 for (var i = 0; i < data.length; i++) {
@@ -96,7 +96,7 @@
                     dataType: "json",
                     async: true,
                     success: function (data) {
-                        debugger
+                        
                         if (data == 'Not Found') {
 
                             $("#prvCallId").val(null);
@@ -139,26 +139,70 @@
                 dataType: "json",
                 async:true,
                 success: function (data) {
-
-                    console.log(data);
-                    $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
-                    $("#CustomerName").val(data[0].CustomerName);
-                    $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
-                    $("#CustomerEmail").val(data[0].Email);
-                    $("#CustomerId").val(data[0].customerId);
-                    $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
-                    $("#NearLocation").val(data[0].NearLocation);
-                    $("#Address").val(data[0].Address);
-                    $("#PinCode").val(data[0].PinNumber);
-                    $("#CountryId").val(data[0].CountryId);
-                    $("#IsExistingCustomer").prop("checked", true);
-                    $("#StateId").val(data[0].StateId);
-                    var obj = { value:data[0].PinNumber , Other: data[0].LocationId };
-                    AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+           
+                    // console.log(data);
+                    if (data.length > 0) {
+                        debugger
+                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
+                        $("#CustomerName").val(data[0].CustomerName);
+                        $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
+                        $("#CustomerEmail").val(data[0].Email);
+                        $("#CustomerId").val(data[0].customerId);
+                        $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
+                        $("#NearLocation").val(data[0].NearLocation);
+                        $("#Address").val(data[0].Address);
+                        $("#PinCode").val(data[0].PinNumber);
+                        $("#CountryId").val(data[0].CountryId);
+                        $("#IsExistingCustomer").prop("checked", true);
+                        $("#StateId").val(data[0].StateId);
+                        var obj = { value: data[0].PinNumber, Other: data[0].LocationId };
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    }
                 }
             });
         }
-
+        function AjaxWithFilter(method, ddl, e) {
+            var CategoryId = e.value;
+            var ClientId = $("#ClientId").val();
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method,
+                data: { CategoryId: CategoryId, ClientId: ClientId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                    //if (refval != null || refval != undefined) {
+                    //    $('#' + ddl).val(refval);
+                    //}
+                }
+            });
+        }
+        function AjaxWithFilter1(method, ddl, e) {
+            var ClientId = e.value;
+            var companyId = $("#CompanyId").val();
+            $.ajax({
+                type: "GET",
+                url: "/DropdownBind/" + method,
+                data: { compId: companyId, ClientId: ClientId },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#" + ddl).empty();
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].Text, data[i].Value);
+                        $('#' + ddl).append(opt);
+                    }
+                    //if (refval != null || refval != undefined) {
+                    //    $('#' + ddl).val(refval);
+                    //}
+                }
+            });
+        }
     </script>
 }
 

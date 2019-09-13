@@ -31,7 +31,7 @@
         if (ImgList == null)
             ImgList = [];
         $("#btnEditImg").click(function () {
-            debugger
+            
             var Description = CKEDITOR.instances.editor1.getData();
            // var send = JSON.stringify({ editor1: Description });
             var HeaderTitle = $("#HeaderTitle").val();
@@ -133,7 +133,7 @@
            }
             banner.ImgDetails = images;
             console.log(JSON.stringify(images));
-            debugger
+            
             data.append("ImgDetail", JSON.stringify(banner));
             $.ajax({
                 type: "POST",
@@ -157,7 +157,7 @@
 
 
         function EditItem(EditBannerUpload) {
-            debugger
+            
             var result = ImgList.filter(obj => {
                 return obj.HeaderTitle === EditBannerUpload
             });
@@ -175,7 +175,7 @@
         }
 
         function BindTable() {
-            debugger
+            
 
             var count = 1;
 

@@ -27,13 +27,13 @@
                         @foreach (var item in Model.CustomerTypeList)
                         {
                             <label class="custom-control custom-control-primary custom-checkbox">
-                                @Html.RadioButtonFor(x => x.CustomerTypeId, item.Value)
+                                @Html.RadioButtonFor(x => x.CustomerTypeId, item.Value, new { @checked = "checked" })
                                 <span>@item.Text</span>
                             </label>
                         }
 
                     </div>
-                    @Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger text-valid" })
+                    @*@Html.ValidationMessageFor(x => x.CustomerTypeId, "", new { @class = "text-danger text-valid" })*@
                 </div>
             </div>
 
@@ -95,11 +95,11 @@
                     @foreach (var item in Model.AddressTypelist)
                     {
                         <label class="custom-control custom-control-primary custom-checkbox">
-                            @Html.RadioButtonFor(x => x.AddressTypeId, item.Value)
+                            @Html.RadioButtonFor(x => x.AddressTypeId, item.Value, new { @checked = "checked" })
                             <span>@item.Text</span>
                         </label>
                     }
-                    @Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid" })
+                    @*@Html.ValidationMessageFor(x => x.AddressTypeId, "", new { @class = "text-danger text-valid" })*@
                     </div>
                 </div>
             </div>
