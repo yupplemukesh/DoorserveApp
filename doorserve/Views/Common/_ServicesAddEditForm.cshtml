@@ -2,13 +2,13 @@
 @Html.HiddenFor(x => x.ServiceId)
 @Html.HiddenFor(x => x.RefKey)
 <div class=" row form-group">
-    <label class="col-md-2 control-label" for="selectbasic">Device Category	<span class="error-alert">*</span></label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="selectbasic">Device Category	<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.DropDownListFor(model => model.CategoryId, Model.SupportedCategoryList, "-Select-", htmlAttributes: new { @class = "form-control", onchange = "AjaxWithValue('BindSubCategoryJson', 'SubCategoryId', this)" })
         @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
     </div>
-    <label class="col-md-2 control-label" for="selectbasic">Device Sub-Category	<span class="error-alert">*</span></label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="selectbasic">Device Sub-Category	<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.DropDownListFor(model => model.SubCategoryId, Model.SupportedSubCategoryList, "-Select-", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.SubCategoryId, "", new { @class = "text-danger" })
     </div>
@@ -16,14 +16,14 @@
 
 <div class="row form-group">
 
-    <label class="col-md-2 control-label" for="radios">Service Type<span class="error-alert">*</span></label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="radios">Service Type<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceList, "-Select-", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ServiceTypeId, "", new { @class = "text-danger" })
     </div>
 
-    <label class="col-md-2 control-label" for="radios">Service Delivery Type<span class="error-alert">*</span></label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="radios">Service Delivery Type<span class="error-alert">*</span></label>
+    <div class="col-md-3">
 
         @Html.DropDownListFor(model => model.DeliveryTypeId, Model.DeliveryServiceList, "-Select-", htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.DeliveryTypeId, "", new { @class = "text-danger" })
@@ -36,14 +36,14 @@
 
 <div class="row form-group">
 
-    <label class="col-md-2 control-label" for="radios">Service Charges</label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="radios">Service Charges<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.TextBoxFor(model => model.ServiceCharges, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.ServiceCharges, "", new { @class = "text-danger" })
     </div>
 
-    <label class="col-md-2 control-label" for="radios">Minimum Approval Cost</label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="radios">Minimum Approval Cost<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.TextBoxFor(model => model.MApprovalCost, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.MApprovalCost, "", new { @class = "text-danger" })
     </div>
@@ -53,13 +53,13 @@
 
 
 <div class="row form-group">
-    <label class="col-md-2 control-label" for="radios">Service Warranty Period In Month</label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="radios">Service Warranty Period In Month<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.TextBoxFor(model => model.WarranyPeriod, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.WarranyPeriod, "", new { @class = "text-danger" })
     </div>
-    <label class="col-md-2 control-label" for="radios">TAT(Hours)</label>
-    <div class="col-md-4">
+    <label class="col-md-3 control-label" for="radios">TAT(Hours)<span class="error-alert">*</span></label>
+    <div class="col-md-3">
         @Html.TextBoxFor(model => model.TargetApprovalTime, htmlAttributes: new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.TargetApprovalTime, "", new { @class = "text-danger" })
     </div>
@@ -69,12 +69,12 @@
 
 <div class="row form-group">
 
-    <label class="col-md-2 control-label" for="radios">IsActive</label>
-    <div class="col-md-1">
+    <label class="col-md-3 control-label" for="radios">IsActive</label>
+    <div class="col-md-3">
         @Html.CheckBoxFor(model => model.IsActive)
     </div>
-    <label class="col-md-2  col-md-offset-3 control-label" for="radios">Remarks </label>
-    <div class="col-md-4">
+    <label class="col-md-3  control-label" for="radios">Remarks </label>
+    <div class="col-md-3">
         @Html.TextAreaFor(model => model.Remarks, htmlAttributes: new { @class = "form-control" })
     </div>
 </div>
