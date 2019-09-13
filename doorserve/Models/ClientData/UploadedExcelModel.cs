@@ -83,7 +83,9 @@ namespace doorserve.Models.ClientData
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
         public string SubAppointmentStatus { get; set; }
+        [Required(ErrorMessage = "Select appointment status")]
         public int? AppointmentStatus { get; set; }
+
         public bool IsCancelCall { get; set; } 
         //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
