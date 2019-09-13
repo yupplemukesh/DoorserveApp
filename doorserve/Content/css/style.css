@@ -18286,10 +18286,11 @@ td > .carousel-caption {
     }
 
 
-        .navbar-nav > li.nav-table > a > .nav-cell {
+      .navbar-nav > li.nav-table > a > .nav-cell {
             display: table-cell;
             vertical-align: middle;
         }
+    .custom-control + .custom-control{margin-left:0px}
 
     .navbar-nav > li > a > .nav-icon {
         font-size: 24px;
@@ -20540,6 +20541,10 @@ a.bg-dribbble:focus, a.bg-dribbble:hover {
         width: 23%;
         
     }
+    .tab-res .nav > li > a {
+        padding: 10px 5px;
+    }
+    .custom-control + .custom-control{margin-left:0px}
 }
 
 @media (min-width:544px) {
@@ -23748,6 +23753,8 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 .user-role {
     font-size: 13px
 }
+
+
 
     .user-role a img {
         vertical-align: top;
