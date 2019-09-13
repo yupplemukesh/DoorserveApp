@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using doorserve.Filters;
 using doorserve.Models;
 using doorserve.Permission;
 
@@ -133,8 +134,8 @@ namespace doorserve.Controllers
                 result2.CountryList = new SelectList(dropdown.BindCountry(), "Value", "Text");
                 result2.StateList = new SelectList(dropdown.BindState(), "Value", "Text");
                 result2.GstcategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
-                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(result2.Device_Cat), "Value", "Text");
+                result2.DeviceCategoryList = new SelectList(dropdown.BindCategory(new FilterModel { CompId=CurrentUser.CompanyId}), "Value", "Text");
+                result2.DeviceSubCategoryList = new SelectList(dropdown.BindSubCategory(new Filters.FilterModel { CategoryId=result2.Device_Cat }), "Value", "Text");
                 result2.ApplicableTaxTypeList = new SelectList(CommonModel.GetApplicationTax(),"Value","Text");
                 result2.GstHSNCodeList = new SelectList(dropdown.BindGstHsnCode(), "Value", "Text");
                 if (result2 != null)

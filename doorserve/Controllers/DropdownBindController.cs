@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using doorserve.Filters;
 using doorserve.Models;
 using doorserve.Repository;
 using ListItem = System.Web.UI.WebControls.ListItem;
@@ -772,6 +773,60 @@ namespace doorserve.Controllers
             }
         }
 
+        public List<ListItem> BindSubCategory(FilterModel filter)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+                List<SubCategoryModel> company = con
+                    .Query<SubCategoryModel>(
+                        "GETSUBCATEGORIES", new { CategoryId = filter.CategoryId, ClientId = filter.ClientId },
+                        commandType: CommandType.StoredProcedure).ToList();
+                List<ListItem> items = new List<ListItem>();
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.SubCatId, //Value Field(ID)
+                        Text = val.SubCatName //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
+
+
+        public List<ListItem> BindCategory(FilterModel filter)
+        {
+            using (var con = new SqlConnection(_connectionString))
+            {
+
+                var query = "GETCategoryList";
+                List<BindDropdownModel> company = con
+                    .Query<BindDropdownModel>(
+                        query, new { companyId = filter.CompId, ClientId = filter.ClientId },
+                        commandType: CommandType.StoredProcedure).ToList();
+                List<ListItem> items = new List<ListItem>();
+                /*items.Add(new ListItem
+                {
+                    Value = "", //Value Field(ID)
+                    Text = "Select Category " //Text Field(Name)
+                  
+                });*/
+                foreach (var val in company)
+                {
+                    items.Add(new ListItem
+                    {
+                        Value = val.CatId, //Value Field(ID)
+                        Text = val.CatName //Text Field(Name)
+                    });
+                }
+
+                return items;
+            }
+        }
+
+
         public List<ListItem> BindSubCategory()
         {
             using (var con = new SqlConnection(_connectionString))
@@ -1258,6 +1313,17 @@ namespace doorserve.Controllers
 
                 return Json(items, JsonRequestBehavior.AllowGet);
             }
+        }
+        public JsonResult BindSubCategoriesJson(FilterModel filter)
+        {
+            var subcatgories = BindSubCategory(filter);
+                return Json(subcatgories, JsonRequestBehavior.AllowGet);            
+        }
+
+        public JsonResult BindCategoriesJson(FilterModel filter)
+        {
+            var catgories = BindCategory(filter);
+            return Json(catgories, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BindSubCategoryJson(string value)

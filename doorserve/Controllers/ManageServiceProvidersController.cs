@@ -290,7 +290,7 @@ namespace doorserve.Controllers
                 return View(service);
         }
 
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
 
         public async Task<ActionResult> ManageServiceableAreaPinCode(Guid ServiceId)
         {
@@ -307,7 +307,7 @@ namespace doorserve.Controllers
             return View(service);
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View, Actions.Edit }, (int)MenuCode.Manage_Service_Provider)]
 
         public async Task<ActionResult> ServiceableAreaPinCode(Guid? ServiceId, Guid? FileId)
         {

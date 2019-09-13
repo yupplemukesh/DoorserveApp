@@ -9,410 +9,412 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="m-t-0 m-b-5 m-l-20">
-                    <img src="@Model.CompLogo" />   
-                    <span class="pull-right">                        
-                        Customer Record Card
-                    </span>
-                </h4>
-              
+                <div class="row">
+                    <div class="col-md-6 text-left"> 
+                        <img src="@Model.CompLogo" />
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <h4> Customer Record Card</h4>
+                    </div>
+                </div>
+
                 @Html.Partial("_CallInformationForm", Model)
                 <div Id="CustomerInfo" style="display:none">
-                <div class="panel-body b-b-1">
-                    <h4 class="m-t-10 m-b-5 m-b-10">Customer Information</h4>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-                            <strong>   Name</strong>
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-
-                            @Model.CustomerName
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-                            <strong>
-                                Contact
-                                </strong>
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-
-                            @Model.CustomerContactNumber
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-                            <strong>
-                                Email
-                                </strong>
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-
-                            @Model.CustomerEmail
-                        </div>
-
-                    </div>
-                    <div class="row p-t-5">
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-                            <strong>
-                                Address
-                                </strong>
-                        </div>
-                        <div class="col-md-10 col-sm-10  col-xs-10">
-                            @Html.TextAreaFor(x=>x.Address, new {@rows="2",@class="Form-Control" })
-
-                        </div>
-                       
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-                            <strong>
-                                City
-                            </strong>
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-
-                            @Model.District
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-                            <strong>
-                                Pin Code
-                            </strong>
-                        </div>
-                        <div class="col-md-2 col-sm-2  col-xs-2">
-
-                            @Model.PinNumber
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                        @Html.Partial("~/Views/Common/_CustomerInfoForm.cshtml", Model)
-                        @Html.Partial("~/Views/Common/_CallLogDeviceInfoForm.cshtml", Model)
-                        @if (Model.ServiceTypeId == 8)
-                        {
-                            <div id="ProblemInfo">
-                                @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new doorserve.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId, ProblemObserved = Model.ProblemObserved })
+                    <div class="panel-body b-b-1">
+                        <h4 class="m-t-10 m-b-5 m-b-10">Customer Information</h4>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <strong>   Name</strong>
                             </div>
-                        }
-                        else
-                        {
-                            <div id="ProblemInfo" style="display:none">
-                                @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new doorserve.Models.ReportedProblemModel
-                                { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId, ProblemObserved = Model.ProblemObserved })
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+
+                                @Model.CustomerName
                             </div>
-                        }
-                        @if (Convert.ToBoolean(Model.IsRepeat))
-                        {
-                            @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
-                                new doorserve.Models.PreviousCallModel
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <strong>
+                                    Contact
+                                </strong>
+                            </div>
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+
+                                @Model.CustomerContactNumber
+                            </div>
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <strong>
+                                    Email
+                                </strong>
+                            </div>
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+
+                                @Model.CustomerEmail
+                            </div>
+
+                        </div>
+                        <div class="row p-t-5">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <strong>
+                                    Address
+                                </strong>
+                            </div>
+                            <div class="col-md-10 col-sm-10  col-xs-10">
+                                @Html.TextAreaFor(x => x.Address, new { @rows = "2", @class = "Form-Control" })
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <strong>
+                                    City
+                                </strong>
+                            </div>
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+
+                                @Model.District
+                            </div>
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+                                <strong>
+                                    Pin Code
+                                </strong>
+                            </div>
+                            <div class="col-md-2 col-sm-2  col-xs-2">
+
+                                @Model.PinNumber
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Common/_CustomerInfoForm.cshtml", Model)
+                @Html.Partial("~/Views/Common/_CallLogDeviceInfoForm.cshtml", Model)
+                @if (Model.ServiceTypeId == 8)
                 {
-               CallDate = Model.PrvCallDate,
-               CallId = Model.PrvCallId,
-               ProblemDescription = Model.PrvProblemDescription,
-               ProblemCloseDate = Model.ProblemCloseDate
-            })
-                            @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
-                            new doorserve.Models.WarrantyInformationModel
-                                {
-                                    ExpiryDate = Model.ExpiryDate,
-                                Status = Model.WarranyStatus
-                                })
-                        }
-                        @if (string.IsNullOrEmpty(Model.Param) || Model.Param == "P")
+                    <div id="ProblemInfo">
+                        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new doorserve.Models.ReportedProblemModel { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId, ProblemObserved = Model.ProblemObserved })
+                    </div>
+                }
+                else
+                {
+                    <div id="ProblemInfo" style="display:none">
+                        @Html.Partial("~/views/common/_DeviceProblemDetails.cshtml", new doorserve.Models.ReportedProblemModel
+                        { IssueOcurringSinceDate = Model.IssueOcurringSinceDate, ProblemDescription = Model.ProblemDescription, IsRepeat = Model.IsRepeat, RefKey = Model.DeviceId, ProblemObserved = Model.ProblemObserved })
+                    </div>
+                }
+                @if (Convert.ToBoolean(Model.IsRepeat))
+                {
+                    @Html.Partial("~/Views/Common/_PreviousCallDetails.cshtml",
+                        new doorserve.Models.PreviousCallModel
+        {
+       CallDate = Model.PrvCallDate,
+       CallId = Model.PrvCallId,
+       ProblemDescription = Model.PrvProblemDescription,
+       ProblemCloseDate = Model.ProblemCloseDate
+    })
+                    @Html.Partial("~/Views/Common/_WarranyInformationModel.cshtml",
+                    new doorserve.Models.WarrantyInformationModel
                         {
-                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", @id = "updateCall" }))
-                            {
-                                Model.Type = "C";
-                                @Html.HiddenFor(x => x.Type)
-                                @Html.HiddenFor(x => x.DeviceId)
-                                @Html.HiddenFor(x => x.CancelReason)
-                                @Html.HiddenFor(x => x.CStatus)
-                                @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
-                                <div id="DivServiceProvider">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"></span>
-                                                        @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
-                                                    </div>
-                                                    @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
-                                                </div>
+                            ExpiryDate = Model.ExpiryDate,
+                        Status = Model.WarranyStatus
+                        })
+                }
+                @if (string.IsNullOrEmpty(Model.Param) || Model.Param == "P")
+                {
+                    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", @id = "updateCall" }))
+                    {
+                        Model.Type = "C";
+                        @Html.HiddenFor(x => x.Type)
+                        @Html.HiddenFor(x => x.DeviceId)
+                        @Html.HiddenFor(x => x.CancelReason)
+                        @Html.HiddenFor(x => x.CStatus)
+                        @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
+                        <div id="DivServiceProvider">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                                @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                if (string.IsNullOrEmpty(Model.Param) && Model.AppointmentStatus != 23)
-                                {
-                                    <div class="row- form-group">
-                                        <div class="col-md-offset-10">
-                                            <button type="submit" class="btn btn-primary m-w-60">Submit</button>
-                                            @*<button type="button" class="btn btn-primary m-w-60" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>*@
-                                        </div>
-                                    </div>
-                                }
-                            }
-                        }
-                        @if (Model.Param == "P")
-                        {
-                            using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
-                            {
-                                @Html.HiddenFor(x => x.CStatus)
-                                @Html.HiddenFor(x => x.RejectionReason, new { id = "Rejection_Reason" })
-                                @Html.HiddenFor(x => x.DeviceId)
-                                <div class="row- form-group">
-                                    <div class="col-md-3 col-md-offset-9">
-                                        <span>
-                                            <a href="@Url.Action("AcceptCalls", "ServiceCenter")">
-                                                <button type="button" class="btn btn-info m-w-60" id="btnback">Back</button>
-                                            </a>
-                                            <a href="#">
-                                                <button type="button" class="btn btn-danger m-w-60" data-target="#rejectpopup" id="btnReject">Reject</button>
-                                            </a>
-                                            <a href="#">
-                                                <button type="submit" class="btn btn-primary m-w-60" id="btnAccept">Accept</button>
-                                            </a>
-                                        </span>
-                                    </div>
-                                </div>
-                            }
-                        }
-                        @if (Model.Param == "A" || Model.Param == "AP" || Model.Param == "CL")
-                        {
-                            <div class="form-horizontal" id="TechId">
-                                <div class="panel-body p-b-0 p-t-0">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                                            @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
-                            {
-                                Model.Type = "A";
-                                @Html.HiddenFor(x => x.Type)
-                                @Html.HiddenFor(x => x.DeviceId)
-                                @Html.HiddenFor(x => x.Param)
-                                @Html.HiddenFor(x => x.ProblemObserved)
-                                @Html.HiddenFor(x => x.IsServiceApproved)
-                                @Html.HiddenFor(x => x.InvoiceFileName)
-                                @Html.HiddenFor(x => x.JobSheetFileName)
-                                @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
-                                <div id="DivServiceProvider">
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                                    @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon"></span>
-                                                        @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
-                                                    </div>
-                                                    @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
-                                                </div>
+                        </div>
+                        if (string.IsNullOrEmpty(Model.Param) && Model.AppointmentStatus != 23)
+                        {
+                            <div class="row- form-group">
+                                <div class="col-md-offset-10">
+                                    <button type="submit" class="btn btn-primary m-w-60">Submit</button>
+                                    @*<button type="button" class="btn btn-primary m-w-60" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>*@
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                @if (Model.Param == "P")
+                {
+                    using (Html.BeginForm("ManageServiceProvidersDetails", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform" }))
+                    {
+                        @Html.HiddenFor(x => x.CStatus)
+                        @Html.HiddenFor(x => x.RejectionReason, new { id = "Rejection_Reason" })
+                        @Html.HiddenFor(x => x.DeviceId)
+                        <div class="row- form-group">
+                            <div class="col-md-3 col-md-offset-9">
+                                <span>
+                                    <a href="@Url.Action("AcceptCalls", "ServiceCenter")">
+                                        <button type="button" class="btn btn-info m-w-60" id="btnback">Back</button>
+                                    </a>
+                                    <a href="#">
+                                        <button type="button" class="btn btn-danger m-w-60" data-target="#rejectpopup" id="btnReject">Reject</button>
+                                    </a>
+                                    <a href="#">
+                                        <button type="submit" class="btn btn-primary m-w-60" id="btnAccept">Accept</button>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    }
+                }
+                @if (Model.Param == "A" || Model.Param == "AP" || Model.Param == "CL")
+                {
+                    <div class="form-horizontal" id="TechId">
+                        <div class="panel-body p-b-0 p-t-0">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4 class="m-t-0 m-b-5">Assign Call to technician</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "callform2" }))
+                    {
+                        Model.Type = "A";
+                        @Html.HiddenFor(x => x.Type)
+                        @Html.HiddenFor(x => x.DeviceId)
+                        @Html.HiddenFor(x => x.Param)
+                        @Html.HiddenFor(x => x.ProblemObserved)
+                        @Html.HiddenFor(x => x.IsServiceApproved)
+                        @Html.HiddenFor(x => x.InvoiceFileName)
+                        @Html.HiddenFor(x => x.JobSheetFileName)
+                        @Html.Partial("~/Views/Common/_AppointmentDetails.cshtml", Model)
+                        <div id="DivServiceProvider">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            @Html.Label("Authorized Serive Provider", htmlAttributes: new { @class = "control-label" })
+                                            <div class="input-group">
+                                                <span class="input-group-addon"></span>
+                                                @Html.DropDownListFor(model => model.providerId, Model.ProviderList, new { @class = "form-control" })
                                             </div>
+                                            @Html.ValidationMessageFor(model => model.providerId, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row" id="DropDown2">
+                                <div class="col-sm-2  col-xs-2"> <strong>Technician Name</strong></div>
+                                <div class="col-sm-4 col-xs-4">
+                                    @Html.TextBoxFor(m => m.TechnicianName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.TechnicianName, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-2 col-xs-2"> <strong>Technician Contact Number </strong></div>
+                                <div class="col-sm-4 col-xs-4">
+                                    @Html.TextBoxFor(m => m.TechnicianContactNumber, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.TechnicianContactNumber, "", new { @class = "text-danger" })
+                                </div>
+                                @*<div class="col-sm-5" id="DivTechName" style="display:none">
+                                      @Html.DisplayFor(x => x.TechnicianName)
+                                    </div>*@
+
+                            </div>
+                        </div>
+                        //if (Model.EmpId != null)
+                        //{
+                        @*<div class="panel-body">
+                                <div id="TechnicianDetailsForm2">
+                                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                                </div>
+                            </div>*@
+                        if (Model.TechnicianName != null)
+                        {
+
+                            <div class="panel panel-default panel-table b-r-0 b-l-0" id="spareParts">
+
                                 <div class="panel-body">
-                                    <div class="row" id="DropDown2">
-                                        <div class="col-sm-2"> <strong>Technician Name</strong></div>
-                                        <div class="col-sm-4">
-                                            @Html.TextBoxFor(m => m.TechnicianName, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.TechnicianName, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-sm-2"> <strong>Technician Contact Number </strong></div>
-                                        <div class="col-sm-4">
-                                            @Html.TextBoxFor(m => m.TechnicianContactNumber, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(x => x.TechnicianContactNumber, "", new { @class = "text-danger" })
-                                        </div>
-                                        @*<div class="col-sm-5" id="DivTechName" style="display:none">
-                                  @Html.DisplayFor(x => x.TechnicianName)
-                                </div>*@
+                                    <div class="form-horizontl" id="AddorEditParts">
+                                        <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Spare Parts Detail</h4>
 
+                                        @Html.Partial("_AddorEditPartDetails", new doorserve.Models.PartsDetailsModel())
+
+                                    </div>
+                                    <div id="PartListHTML">
+                                        @Html.Partial("_PartsDetails", Model.Parts)
                                     </div>
                                 </div>
-                                //if (Model.EmpId != null)
-                                //{
-                                @*<div class="panel-body">
-                            <div id="TechnicianDetailsForm2">
-                                @Html.Partial("_TechnicianDetailsForm", Model.Employee)
                             </div>
-                        </div>*@
-                                if (Model.TechnicianName != null)
-                                {
-                                   
-                                        <div class="panel panel-default panel-table b-r-0 b-l-0" id="spareParts">
+                            <div class="panel-body" id="EstimatedCost">
+                                <div class="form-horizontl">
+                                    <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Estimate Cost</h4>
 
-                                            <div class="panel-body">
-                                                <div class="form-horizontl" id="AddorEditParts">
-                                                    <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Spare Parts Detail</h4>
-
-                                                    @Html.Partial("_AddorEditPartDetails", new doorserve.Models.PartsDetailsModel())
-
-                                                </div>
-                                                <div id="PartListHTML">
-                                                    @Html.Partial("_PartsDetails", Model.Parts)
-                                                </div>
+                                    <div class="form-group row">
+                                        <div class="form-material">
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Service Charges</h5></div>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(x => x.ServiceCharges, new { @class = "Form-Control" })
                                             </div>
                                         </div>
-                                    <div class="panel-body" id="EstimatedCost">
-                                        <div class="form-horizontl">
-                                            <h4 class="m-t-0 m-b-25 p-t-10 p-b-10"> Estimate Cost</h4>
-
-                                            <div class="form-group row">
-                                                <div class="form-material">
-                                                    <div class="col-sm-2"> <h5 class="m-t-0">Service Charges</h5></div>
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => x.ServiceCharges, new { @class = "Form-Control" })
-                                                    </div>
-                                                </div>
 
 
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="form-material">
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="form-material">
 
-                                                    <div class="col-sm-2"> <h5 class="m-t-0">Spare Charges</h5></div>
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => x.PartCharges, new { @class = "Form-Control", @disabled = "disabled" })
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group row">
-                                                <div class="form-material">
-                                                    <div class="col-sm-2"> <h5 class="m-t-0">Total Cost</h5></div>
-                                                    <div class="col-sm-4">
-                                                        @Html.TextBoxFor(x => x.TotalCharges, new { @class = "Form-Control", @disabled = "disabled" })
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <div class="form-material">
-                                                    <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Invoice</h5></div>
-                                                    <div class="col-sm-3">
-                                                        <div>
-                                                            @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File", @onchange = "readFileURL(this);" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <img src="/TempFiles/@Model.DeviceId/@Model.InvoiceFileName" width="50" />
-                                                    </div>
-
-                                                    <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Job Sheet</h5></div>
-                                                    <div class="col-sm-3">
-                                                        <div>
-                                                            @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File", @onchange = "readFileURL(this);" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <img src="/TempFiles/@Model.DeviceId/@Model.JobSheetFileName" width="50" />
-                                                    </div>
-                                                </div>
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Spare Charges</h5></div>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(x => x.PartCharges, new { @class = "Form-Control", @disabled = "disabled" })
                                             </div>
                                         </div>
                                     </div>
-                                    if (Model.StatusId != 18)
-                                    {
-                                        <div class="row form-group m-t-5" id="divActions">
-                                            <div class=" col-md-offset-9 col-md-1">
-                                                <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
-                                            </div>
-                                            @if (Model.TotalCharges > 0 && Model.AppointmentStatus != 27)
-                                            {
-                                                Model.Type = "CC";
-                                                <div class="col-md-1">
-                                                    <button type="button" id="btnclose" class="btn btn-primary">Close Call</button>
-                                                </div>
 
-                                            }
-                                            @if (Model.TotalCharges == 0)
-                                            {
-                                                <div class="col-md-1">
-                                                    <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary" EmpId="@Model.Employee.EmpId">Print Record Card</button>
+
+                                    <div class="form-group row">
+                                        <div class="form-material">
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Total Cost</h5></div>
+                                            <div class="col-sm-4">
+                                                @Html.TextBoxFor(x => x.TotalCharges, new { @class = "Form-Control", @disabled = "disabled" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="form-material">
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Invoice</h5></div>
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    @Html.TextBoxFor(x => x.InvoiceFile, new { @class = "Form-Control", @type = "File", @onchange = "readFileURL(this);" })
                                                 </div>
-                                            }
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <img src="/TempFiles/@Model.DeviceId/@Model.InvoiceFileName" width="50" />
+                                            </div>
+
+                                            <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Job Sheet</h5></div>
+                                            <div class="col-sm-3">
+                                                <div>
+                                                    @Html.TextBoxFor(x => x.JobSheetFile, new { @class = "Form-Control", @type = "File", @onchange = "readFileURL(this);" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <img src="/TempFiles/@Model.DeviceId/@Model.JobSheetFileName" width="50" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            if (Model.StatusId != 18)
+                            {
+                                <div class="row form-group m-t-5" id="divActions">
+                                    <div class=" col-md-offset-9 col-md-1">
+                                        <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    @if (Model.TotalCharges > 0 && Model.AppointmentStatus != 27)
+                                    {
+                                        Model.Type = "CC";
+                                        <div class="col-md-1">
+                                            <button type="button" id="btnclose" class="btn btn-primary">Close Call</button>
                                         </div>
 
                                     }
-                                }
-                                else if (Model.Param != "AP" || Model.Param != "CL")
-                                {
-                                    <div class="row form-group m-t-5" id="divActions">
-                                        <div class=" col-md-offset-9 col-md-1">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                    @if (Model.TotalCharges == 0)
+                                    {
+                                        <div class="col-md-1">
+                                            <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary" EmpId="@Model.Employee.EmpId">Print Record Card</button>
                                         </div>
-                                    </div>
-                                }
-                                <div class="form-group p-l-5" id="TechEmpRemarks" style="display:none">
-                                    <div class="col-sm-3"> <strong>Action Taken By Technician</strong></div>
-                                    <div class="col-sm-9">
-                                        @Html.TextArea("txtEngActions", new { @class = "form-control", @rows = "4" })
-                                    </div>
-
+                                    }
                                 </div>
-                                <div class="p-t-10" id="termConditions" style="display:none">
-                                    <div class="panel-body  p-t-5 p-b-0">
 
-
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p style="font-size:10px"><b>* Term and Condition: </b> I am fully satishfied with the Repairs carried out of my Product  Time is working satisfactorily. (2) In case Payment made by you Please demand receipt from the service person .(3) This is a record of service rendered and is for uses by Doorserve Authorized service center only. (4)No guarantee on repairs of imported/tampered/ customer mishandled products.(5)company  assumed no responsibility what so ever if the product is not collected back with in 30 days from the date of intimation .(6) All disputes are subject to Delhi jurisdiction only.(7) Our responsibility is limited to the service of this service call only,we are not responsible for any conseqential damages arising from the delay in the non repairing of the product.</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group" id="DivSign" style="display:none">
-                                    <div class="col-sm-6 text-left">
-                                        <h5>Date</h5>
-                                    </div>
-                                    <div class="col-sm-6 text-right">
-                                        <h5>Customer Signature</h5>
-
-                                    </div>
-
-                                </div>
                             }
                         }
-                        @if (Model.Param == "CL")
+                        else if (Model.Param != "AP" || Model.Param != "CL")
                         {
-                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "cancelCallForm" }))
-                            {
-                                Model.IsCancelCall = true;
-                                @Html.HiddenFor(x => x.DeviceId)
-                                @Html.HiddenFor(x => x.IsCancelCall)
-                                @Html.HiddenFor(x => x.CancelReason)
-                                @Html.HiddenFor(x => x.Param)
-                                <div class="row form-group m-t-5" id="divActions">
-                                    <div class=" col-md-offset-9 col-md-2">
-                                        <button type="button" class="btn btn-primary" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>
-                                    </div>
+                            <div class="row form-group m-t-5" id="divActions">
+                                <div class=" col-md-offset-9 col-md-1">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
-                            }
+                            </div>
                         }
-                        @if (Model.Param == "AP")
-                        {
-                            using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "approvalForm" }))
-                            {
-                                Model.IsServiceApproved = true;
-                                @Html.HiddenFor(x => x.DeviceId)
-                                @Html.HiddenFor(x => x.Param)
-                                @Html.HiddenFor(x => x.IsServiceApproved)
-                                @Html.HiddenFor(x => x.RejectionReason)
-                                <div class="row form-group m-t-5" id="divActions">
-                                    <div class=" col-md-offset-9 col-md-2">
-                                        <button type="submit" class="btn btn-primary">Approved</button>
-                                        <button type="button" class="btn btn-primary" id="#btnReject">Dis-Approved</button>
+                        <div class="form-group p-l-5" id="TechEmpRemarks" style="display:none">
+                            <div class="col-sm-3"> <strong>Action Taken By Technician</strong></div>
+                            <div class="col-sm-9">
+                                @Html.TextArea("txtEngActions", new { @class = "form-control", @rows = "4" })
+                            </div>
+
+                        </div>
+                        <div class="p-t-10" id="termConditions" style="display:none">
+                            <div class="panel-body  p-t-5 p-b-0">
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p style="font-size:10px"><b>* Term and Condition: </b> I am fully satishfied with the Repairs carried out of my Product  Time is working satisfactorily. (2) In case Payment made by you Please demand receipt from the service person .(3) This is a record of service rendered and is for uses by Doorserve Authorized service center only. (4)No guarantee on repairs of imported/tampered/ customer mishandled products.(5)company  assumed no responsibility what so ever if the product is not collected back with in 30 days from the date of intimation .(6) All disputes are subject to Delhi jurisdiction only.(7) Our responsibility is limited to the service of this service call only,we are not responsible for any conseqential damages arising from the delay in the non repairing of the product.</p>
                                     </div>
+
                                 </div>
-                            }
-                        }
-                    </div>
-                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="DivSign" style="display:none">
+                            <div class="col-sm-6 text-left">
+                                <h5>Date</h5>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <h5>Customer Signature</h5>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+                @if (Model.Param == "CL")
+                {
+                    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "cancelCallForm" }))
+                    {
+                        Model.IsCancelCall = true;
+                        @Html.HiddenFor(x => x.DeviceId)
+                        @Html.HiddenFor(x => x.IsCancelCall)
+                        @Html.HiddenFor(x => x.CancelReason)
+                        @Html.HiddenFor(x => x.Param)
+                        <div class="row form-group m-t-5" id="divActions">
+                            <div class=" col-md-offset-9 col-md-2">
+                                <button type="button" class="btn btn-primary" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>
+                            </div>
+                        </div>
+                    }
+                }
+                @if (Model.Param == "AP")
+                {
+                    using (Html.BeginForm("UpdateCall", "ServiceCenter", FormMethod.Post, new { enctype = "multipart/form-data", id = "approvalForm" }))
+                    {
+                        Model.IsServiceApproved = true;
+                        @Html.HiddenFor(x => x.DeviceId)
+                        @Html.HiddenFor(x => x.Param)
+                        @Html.HiddenFor(x => x.IsServiceApproved)
+                        @Html.HiddenFor(x => x.RejectionReason)
+                        <div class="row form-group m-t-5" id="divActions">
+                            <div class=" col-md-offset-9 col-md-2">
+                                <button type="submit" class="btn btn-primary">Approved</button>
+                                <button type="button" class="btn btn-primary" id="#btnReject">Dis-Approved</button>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
+        </div>
+    </div>
 </div>
 <div id="rejectpopup" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -451,7 +453,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnCancelledReason" class="btn btn-primary" >Submit</button>
+                <button type="button" id="btnCancelledReason" class="btn btn-primary">Submit</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -478,7 +480,7 @@
             $("#CStatus").val(9);
             $("#cancelCallForm").submit();
         });
-        $("#btnCancelledReason").click(function () {               
+        $("#btnCancelledReason").click(function () {
                $("#CancelReason").val($("#CancelText").val());
             $("#CStatus").val(12);
             $("#cancelCallForm").submit();
@@ -526,7 +528,7 @@
 
         });
         $("#btnEditSparePart").click(function () {
-            
+
             var PartId = $("#PartId").val();
             var PartNo = $("#PartNo").val();
             var Description = $("#PartDescription").val();
@@ -546,16 +548,16 @@
 
             };
             var files = $('#PartFile').get(0).files;
-               if (files.length > 0 || $("#ImgURI").prop("src") != "") {   
+               if (files.length > 0 || $("#ImgURI").prop("src") != "") {
                 debugger
-              if (files.length > 0) 
+              if (files.length > 0)
                     part.PartFile = files[0];
                 if (part.FileName != "")
                     part.url = "/TempFiles/" + $("#DeviceId").val()+'/' + part.FileName;
                 else
                     part.url = $("#ImgURI").prop("src");
                     NextStep(part);
-                 
+
             }
 
         });
@@ -569,7 +571,7 @@
             CalculateTotal();
         });
         $("#btnemp").click(function () {
-                
+
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
                var JobSheet = $('#JobSheetFile').get(0).files;
@@ -612,7 +614,7 @@
                };
             var parts = [];
            for (var i= 0; i < PartList.length; i++ )
-           {               
+           {
                var part = {
                    PartId: PartList[i].PartId,
                    PartNo: PartList[i].PartNo,
@@ -624,7 +626,7 @@
                };
                   parts.push(part);
                if (PartList[i].PartFile != null) {
-                    
+
                     data.append(PartList[i].PartNo,PartList[i].PartFile);
                 }
            }
@@ -765,7 +767,7 @@
             debugger
             var result = PartList.filter(obj => {
                 return obj.PartNo === partnumber
-            });  
+            });
             if(result[0].FileName!='')
             result[0].url="/TempFiles/" + result[0].RefKey + '/' + result[0].FileName;
                                         $("#PartId").val(result[0].PartId);
@@ -778,11 +780,11 @@
                                         $("#ImgURI").prop("src", result[0].url);
         }
         function BindTable()
-        {    
+        {
             var count = 1;
             var sum = 0;
             $("#tblPartList >tbody").empty();
-            $.each(PartList, function (key, value) { 
+            $.each(PartList, function (key, value) {
                 if ( value.PartId != "" )
                     value.url = "/TempFiles/" + value.RefKey + '/' + value.FileName;
                     var element = "<tr>";
@@ -809,7 +811,7 @@
                 return obj.PartNo === partNumber
             });
             PartList.splice($.inArray(result[0], PartList), 1);
-          
+
         BindTable();
 
         }
@@ -884,7 +886,7 @@
                 NextStep(part);
         }
 
-      
+
 
         function readFileURL(input) {
             debugger
@@ -895,7 +897,7 @@
                 if ($.inArray(input.files[0].name.split('.').pop().toLowerCase(), fileExtension) == -1)
                 {
                     alert("Only '.png','.jpg' and '.pdf' formats are allowed.");
-                   
+
                     $(_this).val('');
                     return false;
                 }
@@ -906,15 +908,15 @@
                         if ($(_this).parent('div').parent("div").next('div').find('img')) {
                             $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
                         }
-                      
+
                     };
                     reader.readAsDataURL(input.files[0]);
                 }
 
-              
-                
+
+
             }
         }
-       
+
     </script>
 }

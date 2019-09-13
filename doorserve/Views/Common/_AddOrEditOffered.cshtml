@@ -40,18 +40,15 @@
         @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
     </div>
 
-    <label class="col-md-2 control-label" for="radios">District<span class="error-alert">*</span></label>
+    <label class="col-md-1 control-label" for="radios">District<span class="error-alert">*</span></label>
     <div class="col-md-2">
         @Html.TextBoxFor(model => model.District, htmlAttributes: new { @class = "form-control", @disabled = "true" })
     </div>
-    <label class="col-md-2 control-label" for="radios">State</label>
+    <label class="col-md-1 control-label" for="radios">State</label>
     <div class="col-md-2">
         @Html.TextBoxFor(model => model.State, htmlAttributes: new { @class = "form-control",@disabled = "true"})
     </div>
-    <label class="col-md-2 control-label" for="radios">Country</label>
-    <div class="col-md-2">
-        @Html.TextBoxFor(model => model.Country,  htmlAttributes: new { @class = "form-control",@disabled = "true" })
-    </div>
+  
 
 
 </div>
@@ -60,7 +57,11 @@
 </div>
 
 <div class="row form-group">
-    <label class="col-md-2 control-label" for="radios">IsActive</label>
+    <label class="col-md-2 control-label" for="radios">Country</label>
+    <div class="col-md-2">
+        @Html.TextBoxFor(model => model.Country, htmlAttributes: new { @class = "form-control", @disabled = "true" })
+    </div>
+    <label class="col-md-1 control-label" for="radios">IsActive</label>
     <div class="col-md-1">
         @Html.CheckBoxFor(model => model.IsActive)
     </div>
