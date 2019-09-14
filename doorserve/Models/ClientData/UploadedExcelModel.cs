@@ -16,10 +16,10 @@ namespace doorserve.Models.ClientData
         [DisplayName("Uploaded Date")]
         public DateTime CreatedOn { get; set; }
         public string CustomerType { get; set; }
-        [Required(ErrorMessage = "Name is Required")]
+        [Required(ErrorMessage = "Please enter Customer Name")]
         [DisplayName("Customer Name")]
         public string CustomerName { get; set; }
-        [Required(ErrorMessage = "Mobile No Required")]
+        [Required(ErrorMessage = "Please enter Contact Number")]
         [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "Invalid Mobile Number")]
         [DisplayName("Contact Number")]
         public string CustomerContactNumber { get; set; }
@@ -27,7 +27,7 @@ namespace doorserve.Models.ClientData
         [DisplayName("Alternate Contact Number")]
         public string CustomerAltConNumber { get; set; }
         [DisplayName("Customer Email")]
-        [Required(ErrorMessage = "Email is Required")]
+        [Required(ErrorMessage = "Please enter Customer Email")]
         [RegularExpression(@"^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$", ErrorMessage = "Invalid email format.")]
         public string CustomerEmail { get; set; }
         [DisplayName("Customer Address Type")]
@@ -79,7 +79,7 @@ namespace doorserve.Models.ClientData
         public Guid? CustomerId { get; set; }
         public bool IsExistingCustomer { get; set; }
         [DisplayName("Customer Type")]
-        [Required(ErrorMessage="Customer Type Required")]
+        [Required(ErrorMessage="Please select Customer Type")]
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
         public string SubAppointmentStatus { get; set; }
@@ -89,18 +89,18 @@ namespace doorserve.Models.ClientData
         public bool IsCancelCall { get; set; } 
         //public AddressDetail address { get; set; }
         [DisplayName("Device Brand")]
-        [Required]
+        [Required(ErrorMessage = "Please select Device Id")]
         public Guid DeviceId { get; set; }
-        [Required(ErrorMessage = "Device Brand is Required")]
+        [Required(ErrorMessage = "Please select Device Brand")]
         public int DeviceBrandId { get; set; }
-        [Required(ErrorMessage = "Device Category is Required")]
+        [Required(ErrorMessage = "Please select Device Category")]
         [DisplayName("Device Category")]
         public int DeviceCategoryId { get; set; }
 
-        [Required(ErrorMessage = "Device Sub Category is Required")]
+        [Required(ErrorMessage = "Please select Device Sub Category")]
         [DisplayName("Device Sub Category")]
         public int? DeviceSubCategoryId { get; set; }
-        [Required(ErrorMessage = "Device Modal Number is Required")]
+        [Required(ErrorMessage = "Please enter Device Modal Number")]
         [DisplayName("Device Modal Number")]       
         public int DeviceModalId { get; set; }
         public decimal ServiceCharges { get; set;   }
