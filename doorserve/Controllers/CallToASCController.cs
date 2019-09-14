@@ -50,7 +50,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create}, (int)MenuCode.Service_Provider)]
         [HttpPost]
-        [ValidateModel]
+        
         public async Task<ActionResult> Allocate(AllocateCallModel allocate)
         {
 

@@ -452,75 +452,103 @@ namespace doorserve.Controllers
             }
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
-        [HttpPost]
-        [ValidateModel]
+        [HttpPost]       
         public async Task<ActionResult> AddorEditAgreement(AgreementModel agreement)
         {
             CompanyModel comp = new CompanyModel();
-            if (TempData["Comp"] != null)
+            if (ModelState.IsValid)
             {
-                comp = TempData["Comp"] as CompanyModel;
-                comp.ActiveTab = "tab-6";
-                comp.Agreement = agreement;
-                TempData["Comp"] = comp;
-                comp.Action = 'I';
+                if (TempData["Comp"] != null)
+                {
+                    comp = TempData["Comp"] as CompanyModel;
+                    comp.ActiveTab = "tab-6";
+                    comp.Agreement = agreement;
+                    TempData["Comp"] = comp;
+                    comp.Action = 'I';
 
-                if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
-                    return View("create", comp);
+                    if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
+                        return View("create", comp);
+                }
+                else
+                {
+                    comp = await GetCompany(agreement.RefKey);
+                    comp.Action = 'U';
+                    comp.ActiveTab = "tab-5";
+                    if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
+                        return View("edit", comp);
+                }
+                if (agreement.CancelledChequeFile != null && agreement.CancelledChequeFile != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + agreement.CancelledChequeFile)))
+                        System.IO.File.Delete(Server.MapPath(_path + "Cheques/" + agreement.CancelledChequeFile));
+                }
+                if (agreement.AgreementFile != null && agreement.AgreementPath != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(_path + "Agreements/" + agreement.AgreementFile)))
+                        System.IO.File.Delete(Server.MapPath(_path + "Agreements/" + agreement.AgreementFile));
+                }
+                if (agreement.CancelledChequePath != null)
+                    agreement.CancelledChequeFile = SaveImageFile(agreement.CancelledChequePath, "Cheques/");
+                if (agreement.AgreementPath != null)
+                    agreement.AgreementFile = SaveImageFile(agreement.AgreementPath, "Agreements/");
+                if (agreement.AGRId == null)
+                    agreement.Action = 'I';
+                else
+                    agreement.Action = 'U';
+
+                foreach (var item in agreement.ServiceList)
+                {
+                    if (item.IsChecked)
+                        agreement.ServiceTypes = agreement.ServiceTypes + "," + item.Value;
+
+                }
+                agreement.ServiceTypes = agreement.ServiceTypes.Trim(',');
+                foreach (var item in agreement.DeliveryServiceList)
+                {
+                    if (item.IsChecked)
+                        agreement.DeliveryTypes = agreement.DeliveryTypes + "," + item.Value;
+
+                }
+                agreement.DeliveryTypes = agreement.DeliveryTypes.Trim(',');
+
+                agreement.CreatedBy = CurrentUser.UserId;
+                var response = await _compRepo.AddOrEditAgreeement(agreement);
+                TempData["response"] = response;
+                if (comp.Action == 'I')
+                    return View("Create", comp);
+                else
+                {
+                    comp = await GetCompany(agreement.RefKey);
+                    comp.ActiveTab = "tab-6";
+                    return View("Edit", comp);
+                }
             }
             else
             {
-                comp = await GetCompany(agreement.RefKey);
-                comp.Action = 'U';
-                comp.ActiveTab = "tab-5";
-                if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
-                    return View("edit", comp);
-            }           
-            if (agreement.CancelledChequeFile != null && agreement.CancelledChequeFile != null)
-            {
-                if (System.IO.File.Exists(Server.MapPath(_path + "Cheques/" + agreement.CancelledChequeFile)))
-                    System.IO.File.Delete(Server.MapPath(_path + "Cheques/" + agreement.CancelledChequeFile));
-            }
-            if (agreement.AgreementFile != null && agreement.AgreementPath != null)
-            {
-                if (System.IO.File.Exists(Server.MapPath(_path + "Agreements/" + agreement.AgreementFile)))
-                    System.IO.File.Delete(Server.MapPath(_path + "Agreements/" + agreement.AgreementFile));
-            }
-            if (agreement.CancelledChequePath != null)
-                agreement.CancelledChequeFile = SaveImageFile(agreement.CancelledChequePath, "Cheques/");
-            if (agreement.AgreementPath != null)
-                agreement.AgreementFile = SaveImageFile(agreement.AgreementPath, "Agreements/");
-            if (agreement.AGRId == null)
-                agreement.Action = 'I';
-            else
-                agreement.Action = 'U';
-           
-            foreach (var item in agreement.ServiceList)
-            {
-                if (item.IsChecked)
-                    agreement.ServiceTypes = agreement.ServiceTypes + "," + item.Value;
+                if (TempData["Comp"] != null)
+                {
+                    comp = TempData["Comp"] as CompanyModel;
+                    comp.ActiveTab = "tab-6";
+                    comp.Agreement = agreement;
+                    TempData["Comp"] = comp;
+                    comp.Action = 'I';
 
-            }
-            agreement.ServiceTypes = agreement.ServiceTypes.Trim(',');
-            foreach (var item in agreement.DeliveryServiceList)
-            {
-                if (item.IsChecked)
-                    agreement.DeliveryTypes = agreement.DeliveryTypes + "," + item.Value;
+                    if (agreement.ServiceList.Where(x => x.IsChecked).Count() == 0 || agreement.DeliveryServiceList.Where(x => x.IsChecked).Count() == 0)
+                        return View("create", comp);
+                }
+                else
+                {
+                    comp = await GetCompany(agreement.RefKey);
+                    comp.ActiveTab = "tab-6";
+                    comp.Agreement = agreement;
+                    comp.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel());
+                    comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel());
+                    return View("Edit", comp);
+                }
 
+                
             }
-            agreement.DeliveryTypes = agreement.DeliveryTypes.Trim(',');
-
-            agreement.CreatedBy = CurrentUser.UserId;
-            var response = await _compRepo.AddOrEditAgreeement(agreement);
-            TempData["response"] = response;
-            if(comp.Action=='I')
-            return View("Create", comp);
-            else
-            {
-                comp = await GetCompany(agreement.RefKey);
-                comp.ActiveTab = "tab-6";
-                return View("Edit", comp);
-            }
+            return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]

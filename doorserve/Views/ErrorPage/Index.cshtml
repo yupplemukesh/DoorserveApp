@@ -3,31 +3,47 @@
 
 <!-- Mirrored from big-bang-studio.com/cosmos/pages-500.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Nov 2017 05:36:02 GMT -->
 
-    <div class="container-fluid error-body">
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <div class="error">
-                    <div class="e-icon text-primary">
-                        <i class="zmdi zmdi-alert-circle-o"></i>
+<div class="container-fluid error-body">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="error">
+                <div class="e-icon text-primary">
+                    <i class="zmdi zmdi-alert-circle-o"></i>
+                </div>
+                @*<h1>500</h1>
+        <h2>Internal server error</h2>*@
+
+                @if (ViewBag.MyErrorMessage != null)
+                {
+                    var model = (HandleErrorInfo)ViewBag.MyErrorMessage;
+
+                    <span>Action Name</span> <div class="e-text">@(model.ActionName)</div>
+                    <span>Controller Name</span> <div class="e-text">
+                        @(model.ControllerName)
                     </div>
-                    @*<h1>500</h1>
-                    <h2>Internal server error</h2>*@
-                    <div class="e-text">Sorry something went wrong. Don't worry, we will fix it soon.</div>
-                    <a href="@Url.Action("Index","ErrorPage")"  class="btn btn-primary btn-lg">Go to home page</a>
-                    <div class="e-social">
-                        <a href="#">
-                            <i class="zmdi zmdi-github"></i>
-                        </a>
-                        <a href="#">
-                            <i class="zmdi zmdi-twitter"></i>
-                        </a>
-                        <a href="#">
-                            <i class="zmdi zmdi-dribbble"></i>
-                        </a>
-                    </div>
+                    <span>Error Message</span>
+                    <div class="e-text">@(model.Exception.Message)</div>
+                    @*@(model.Exception.InnerException!=null)
+                    {
+                    <span>Inner Error Message</span>
+                    <div class="e-text">  @(model.Exception.InnerException) </div>
+                    }*@
+                }
+                <a href="@Url.Action("Index","ErrorPage")" class="btn btn-primary btn-lg">Go to home page</a>
+                <div class="e-social">
+                    <a href="#">
+                        <i class="zmdi zmdi-github"></i>
+                    </a>
+                    <a href="#">
+                        <i class="zmdi zmdi-twitter"></i>
+                    </a>
+                    <a href="#">
+                        <i class="zmdi zmdi-dribbble"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 

@@ -20,20 +20,22 @@ namespace doorserve.Filters
             var controllerName = (string)filterContext.RouteData.Values["controller"];
             var actionName = (string)filterContext.RouteData.Values["action"];
             var model = new HandleErrorInfo(filterContext.Exception, controllerName, actionName);
-            if (filterContext.Exception is HttpAntiForgeryException)
+             filterContext.ExceptionHandled = true;
+            //if (filterContext.Exception is HttpAntiForgeryException)
+            //{
+
+            //}
+            //ViewData["Error"] = model;
+            filterContext.Controller.ViewBag.onExceptionError = model;          
+            
+            var result = new ViewResult()
             {
-
-            }
-            filterContext.Result = new RedirectToRouteResult(
-                 new RouteValueDictionary
-                 {
-                    { "action", "Index" },
-                    { "controller", "ErrorPage" }
-                 });
-
-            filterContext.ExceptionHandled = true;
-
+                ViewName = "~/Views/ErrorPage/Index.cshtml",
+            }; 
+            result.ViewBag.MyErrorMessage = model;
+            filterContext.Result = result;
         }
+
 
         public void LogError(ExceptionContext filterContext)
         {

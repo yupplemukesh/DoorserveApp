@@ -58,24 +58,32 @@ namespace doorserve.Controllers
             //UpdateAppointmentDetail
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Schedule_Appointment)]
-        [HttpPost]
-        [ValidateModel]
+        [HttpPost]   
         public async Task<ActionResult> Edit(CallDetailsModel Appointment)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var response =  await _centerRepo.EditCallAppointment(Appointment);
+                var response = await _centerRepo.EditCallAppointment(Appointment);
                 TempData["response"] = response;
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            else
             {
-                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
-                TempData["response"] = response;
-                TempData.Keep("response");               
-                return RedirectToAction("Index");
+                var filter = new FilterModel { CompId = CurrentUser.CompanyId };
+                Appointment.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                Appointment.CategoryList = new SelectList(_dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
+                Appointment.ProductList = new SelectList(_dropdown.BindProduct(Appointment.DeviceBrandId), "Value", "Text");
+                Appointment.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(filter), "Value", "Text");
+                Appointment.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(filter), "Value", "Text");
+                Appointment.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
+                Appointment.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
+                Appointment.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
+                Appointment.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
+                Appointment.StatusList = new SelectList(_dropdown.BindCallStatusNew(), "Value", "Text");
 
+                return View(Appointment);
             }
+            
            
                 
         }
