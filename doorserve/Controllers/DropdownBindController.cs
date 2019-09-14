@@ -1203,7 +1203,7 @@ namespace doorserve.Controllers
 
         public async Task<ActionResult> GetLocationByPinCode(string pin)
         {
-            var PinCodeDetails = await _ContactRepo.GetPinCode(pin);
+             var PinCodeDetails = await _ContactRepo.GetPinCode(pin);
             return Json(PinCodeDetails, JsonRequestBehavior.AllowGet);
         }
         public JsonResult BindLocationByPinCodeJson(string value)

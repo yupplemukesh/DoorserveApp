@@ -8,7 +8,7 @@ using doorserve.Models;
 
 namespace doorserve.Repository
 {
-    public class ContactPerson: IContactPerson
+    public class ContactPerson : IContactPerson
     {
         private readonly ApplicationDbContext _context;
         public ContactPerson()
@@ -17,11 +17,11 @@ namespace doorserve.Repository
 
         }
         public async Task<ResponseModel> AddUpdateContactDetails(ContactPersonModel contact)
-        {           
+        {
             List<SqlParameter> sp = new List<SqlParameter>();
-            SqlParameter param = new SqlParameter("@CONTACTID",ToDBNull(contact.ContactId));
+            SqlParameter param = new SqlParameter("@CONTACTID", ToDBNull(contact.ContactId));
             sp.Add(param);
-            param = new SqlParameter("@REFKEY", ToDBNull(contact.RefKey));  
+            param = new SqlParameter("@REFKEY", ToDBNull(contact.RefKey));
             sp.Add(param);
             param = new SqlParameter("@CONADDRESSTYPEID", ToDBNull(contact.AddressTypeId));
             sp.Add(param);
@@ -42,7 +42,7 @@ namespace doorserve.Repository
             param = new SqlParameter("@CONNUMBER", ToDBNull(contact.ConMobileNumber));
             sp.Add(param);
             param = new SqlParameter("@CONEMAIL", ToDBNull(contact.ConEmailAddress));
-            sp.Add(param);          
+            sp.Add(param);
             param = new SqlParameter("@CONPANNUMBER", ToDBNull(contact.ConPanNumber));
             sp.Add(param);
             param = new SqlParameter("@CONPANFILENAME", ToDBNull(contact.ConPanFileName));
@@ -72,7 +72,7 @@ namespace doorserve.Repository
             var sql = "USPADDOREDITCONTACTS @CONTACTID,@REFKEY,@CONADDRESSTYPEID,@CONLOCATIONID,@CONADDRESS,@CONLOCALITY ,@CONNEARBYLOCATION,@CONPIN," +
                 "@CONFNAME,@CONLNAME,@CONNUMBER,@CONEMAIL,@CONPANNUMBER,@CONPANFILENAME,@CONVOTERID,@CONVOTERIDFILENAME,@CONADHAARNUMBER,@CONADHAARFILENAME,@ACTION,@USER,@ISUSER,@USERTYPEID, @DefaultPWD,@CompId,@IsSingleCenter";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).FirstOrDefaultAsync();
-            if (res.ResponseCode==0)
+            if (res.ResponseCode == 0)
                 res.IsSuccess = true;
             else
                 res.IsSuccess = false;
@@ -86,8 +86,8 @@ namespace doorserve.Repository
             param = new SqlParameter("@REFKEY", ToDBNull(refKey));
             sp.Add(param);
             var sql = "USPGETCONTACTPERSONS @ContactId,@REFKEY";
-            var res= await _context.Database.SqlQuery<OtherContactPersonModel>(sql, sp.ToArray()).ToListAsync();
-           
+            var res = await _context.Database.SqlQuery<OtherContactPersonModel>(sql, sp.ToArray()).ToListAsync();
+
             return res;
         }
         public async Task<ContactPersonModel> GetContactPersonByContactId(Guid contactId)
@@ -101,12 +101,17 @@ namespace doorserve.Repository
             return await _context.Database.SqlQuery<ContactPersonModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
         }
         public async Task<AddressDetail> GetPinCode(string pin)
-            {
+        {
+
             List<SqlParameter> sp = new List<SqlParameter>();
             SqlParameter param = new SqlParameter("@Pincode", ToDBNull(pin));
-            sp.Add(param);            
+            sp.Add(param);
             var sql = "Get_State_City_pincode @Pincode";
-            return await _context.Database.SqlQuery<AddressDetail>(sql, sp.ToArray()).SingleOrDefaultAsync();
+            var result = await _context.Database.SqlQuery<AddressDetail>(sql, sp.ToArray()).FirstOrDefaultAsync();
+            if (result != null)
+                return result;
+
+            return new AddressDetail();
         }
         private object ToDBNull(object value)
         {
@@ -137,5 +142,5 @@ namespace doorserve.Repository
         }
 
     }
-    
+
 }
