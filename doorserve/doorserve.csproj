@@ -1649,6 +1649,7 @@
     <Content Include="Views\ManageServiceCenters\ManageServiceableAreaPinCode.cshtml" />
     <Content Include="Views\ManageServiceCenters\ServiceableAreaPincode.cshtml" />
     <Content Include="Views\ManageServiceCenters\_ServiceOptedTableServiceCenters.cshtml" />
+    <Content Include="Views\ServiceCenter\CloseCalls.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Barcode_file\" />

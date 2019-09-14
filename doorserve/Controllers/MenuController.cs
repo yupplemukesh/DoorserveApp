@@ -85,7 +85,7 @@ namespace doorserve.Controllers
             TempData["response"] = res;   
             var menuesModel = new MenuesModel();
             menuesModel.Menues = await _menues.GetMenues();
-            menuesModel.menu = new MenuMasterModel { ServiceTypeList = await CommonModel.GetServiceType(null) };
+            menuesModel.menu = new MenuMasterModel { ServiceTypeList = await CommonModel.GetServiceType(new Filters.FilterModel()) };
             return RedirectToAction ("index", menuesModel);
 
 

@@ -33,7 +33,7 @@
                         <img src="~/content/img/doorserves.png" />
                         if (!string.IsNullOrEmpty(SessionModel.LogoUrl))
                         {
-                            <img src="@SessionModel.LogoUrl"  />
+                            <img src="@SessionModel.LogoUrl" />
                         }
                         else
                         {
@@ -141,23 +141,23 @@
             $('#myTable').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found",
-                    sProcessing:  "<img src='/content/img/loading.gif'>"
+                    sProcessing: "<img src='/content/img/loading.gif'>"
                 },
-                 processing : true
+                processing: true
             });
             $('#myTable1').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found",
-                     sProcessing:  "<img src='/content/img/loading.gif'>"
+                    sProcessing: "<img src='/content/img/loading.gif'>"
                 },
-                 processing : true
+                processing: true
             });
             $('#myTable2').DataTable({
                 "oLanguage": {
                     "sEmptyTable": "No Record Found",
-                     sProcessing: "<img src='/content/img/loading.gif'>"
+                    sProcessing: "<img src='/content/img/loading.gif'>"
                 },
-                 processing : true
+                processing: true
             });
             $('.selectpicker').selectpicker();
             $(".bootstrap-select").click(function () {
@@ -175,7 +175,7 @@
 
 
             });
-            
+
             $("#filter").keyup(function () {
                 var filter = $(this).val();
                 $("#sideMenu").find('li').each(function () {
@@ -227,7 +227,7 @@
 
             })
 
-               $(".template").click(function () {
+            $(".template").click(function () {
                 var obj = $("#myTable").DataTable().$('tr:first').clone();
                 var obj1 = $('<tr>').append($("#myTable thead tr").html());
 
@@ -257,89 +257,84 @@
                         filename: "Excel.xls" //do not include extension
                     });
             });
-             
-        });
-            function tableExport(name) {
 
-           
-                var obj = $("#myTable").DataTable().$('tr').clone();
-                var obj1 = $('<tr>').append($("#myTable thead tr").html());
-                var lstchl = $(obj1).find("th:last-child").html();
+        });
+        function tableExport(name) {
+
+
+            var obj = $("#myTable").DataTable().$('tr').clone();
+            var obj1 = $('<tr>').append($("#myTable thead tr").html());
+            var lstchl = $(obj1).find("th:last-child").html();
+            if (lstchl.indexOf("Action") != -1) {
+                $(obj1).find("th:last-child").remove();
+                $(obj).find("td:last-child").remove();
+            }
+
+            if ($("#tab-6").hasClass("active")) {
+                obj = $("#myTable1").DataTable().$('tr').clone();
+                obj1 = $('<tr>').append($("#myTable1 thead tr").html());
+                lstchl = $(obj1).find("th:last-child").html();
+                if (lstchl.indexOf("Action") != -1) {
+                    $(obj1).find("th:last-child").remove();
+                    $(obj).find("td:last-child").remove();
+                }
+            }
+            else if ($("#tab-3").hasClass("active"))
+            //  table 3
+            {
+                obj = $("#myTable2").DataTable().$('tr').clone();
+                obj1 = $('<tr>').append($("#myTable2 thead tr").html());
+                lstchl = $(obj1).find("th:last-child").html();
                 if (lstchl.indexOf("Action") != -1) {
                     $(obj1).find("th:last-child").remove();
                     $(obj).find("td:last-child").remove();
                 }
 
-                if ($("#tab-6").hasClass("active")) {
-                    obj = $("#myTable1").DataTable().$('tr').clone();
-                    obj1 = $('<tr>').append($("#myTable1 thead tr").html());
-                    lstchl = $(obj1).find("th:last-child").html();
-                    if (lstchl.indexOf("Action") != -1) {
-                        $(obj1).find("th:last-child").remove();
-                        $(obj).find("td:last-child").remove();
-                    }
-                }
-                else if ($("#tab-3").hasClass("active"))
-                //  table 3
-                {
-                    obj = $("#myTable2").DataTable().$('tr').clone();
-                    obj1 = $('<tr>').append($("#myTable2 thead tr").html());
-                    lstchl = $(obj1).find("th:last-child").html();
-                    if (lstchl.indexOf("Action") != -1) {
-                        $(obj1).find("th:last-child").remove();
-                        $(obj).find("td:last-child").remove();
-                    }
+            }
 
-                }
-
-                $('<table>')
-                    .append(
-                        obj1
-                    )
-                    .append(
-                        obj
+            $('<table>')
+                .append(
+                    obj1
                 )
-                  
-                    .table2excel({
-                        exclude: ".excludeThisClass",
-                        name: "Worksheet Name",
-                        filename:name+'.xls' 
-                    });
-      
+                .append(
+                    obj
+                )
+
+                .table2excel({
+                    exclude: ".excludeThisClass",
+                    name: "Worksheet Name",
+                    filename: name + '.xls'
+                });
+
         }
-        function readURL(input)
-        {
-            
+        function readURL(input) {
+
             var _this = input;
-            if (input.files && input.files[0])
-            {
+            if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     //$('#blah')
-                   //.attr('src', e.target.result);
+                    //.attr('src', e.target.result);
                     $(_this).parent('div').next('div').find('img').attr('src', e.target.result);
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
 
-        function readURL1(input)
-        {
-            
+        function readURL1(input) {
+
             var _this = input;
-            if (input.files && input.files[0])
-            {
+            if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function (e)
-                {
+                reader.onload = function (e) {
                     //$('#blah')
-                   //.attr('src', e.target.result);
+                    //.attr('src', e.target.result);
                     $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
-          var loadFile = function (event) {
+        var loadFile = function (event) {
             var reader = new FileReader();
             reader.onload = function () {
                 var output = document.getElementById('editblah');

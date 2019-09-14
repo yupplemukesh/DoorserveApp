@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +11,6 @@ using doorserve.Filters;
 using doorserve.Models;
 using doorserve.Models.ClientData;
 using doorserve.Models.ServiceCenter;
-using doorserve.Models;
 
 namespace doorserve.Repository
 {
@@ -194,6 +195,43 @@ namespace doorserve.Repository
             sp.Add(param);
             return await _context.Database.SqlQuery<UploadedExcelModel>("GETPendingExCalls @CompId, @Type,@USERId", sp.ToArray()).ToListAsync();
         }     
+        public async Task<CallsViewModel> GetCalls(FilterModel filter)
+        {
+            var calls = new CallsViewModel();
+
+            var prms = new List<SqlParameter>();
+            var param  = new SqlParameter("@ProviderId", ToDBNull(filter.ProviderId));
+            prms.Add(param);
+            param = new SqlParameter("@CenterId", ToDBNull(filter.CenterId));
+            prms.Add(param);
+            param = new SqlParameter("@ClientId", ToDBNull(filter.ClientId));
+            prms.Add(param);
+            param = new SqlParameter("@CompanyId", ToDBNull(filter.CompId));
+            prms.Add(param);
+            using (var connection = _context.Database.Connection)
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = "GetCalls";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddRange(prms.ToArray());
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    calls.OpenCalls =
+                       ((IObjectContextAdapter)_context)
+                           .ObjectContext
+                           .Translate<UploadedExcelModel>(reader)
+                           .ToList();         
+                    reader.NextResult();
+                    calls.CloseCalls =
+                        ((IObjectContextAdapter)_context)
+                            .ObjectContext
+                            .Translate<UploadedExcelModel>(reader)
+                            .ToList();                   
+                }
+            }
+            return calls;
+        }
         public async Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter)
         {
             var param = new SqlParameter("@CompID", ToDBNull(filter.ClientId));

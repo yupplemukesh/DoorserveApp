@@ -23,6 +23,7 @@ namespace doorserve.Controllers
     public class ServiceCenterController : BaseController
     {
         private readonly ICenter _centerRepo;
+        private readonly ICallLog _log;
         private readonly IEmployee _empRepo;
         private readonly DropdownBindController _dropdown;
 
@@ -32,6 +33,8 @@ namespace doorserve.Controllers
             _centerRepo = new Center();
             _dropdown = new DropdownBindController();
             _empRepo = new Employee();
+            _log = new CallLog();
+
         }
         private readonly string _connectionString =
            ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -611,7 +614,6 @@ namespace doorserve.Controllers
 
 
         }
-
         [HttpPost]
         public JsonResult UploadFile()
         {
@@ -632,6 +634,43 @@ namespace doorserve.Controllers
                 file.SaveAs(path + "/"+PartNo+ Path.GetExtension(Path.Combine(directory, file.FileName)));
             }
             return Json( PartNo + Path.GetExtension(Path.Combine(directory, file.FileName)), JsonRequestBehavior.AllowGet);
+        }
+        [PermissionBasedAuthorize(new Actions[] { Actions.View, Actions.ExcelExport }, 0)]
+        [HttpGet]
+        public async Task<ActionResult> CloseCalls()
+        {
+            var filter = new FilterModel { CompId = CurrentUser.CompanyId,ServiceId=CurrentUser.RefKey,ProviderId=CurrentUser.RefKey
+            };
+
+
+            if (CurrentUser.UserTypeName.ToLower().Contains("company"))
+            {
+                filter.ProviderId = null;
+                filter.CenterId = null;
+                filter.ClientId = null;
+            }
+
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
+            {
+                filter.ProviderId = CurrentUser.RefKey;
+                filter.CenterId = null;
+                filter.ClientId = null;
+            }
+            if (CurrentUser.UserTypeName.ToLower().Contains("center"))
+            {
+                filter.ProviderId = null;
+                filter.CenterId = CurrentUser.RefKey;
+                filter.ClientId = null;
+            }
+
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+            {
+                filter.ProviderId = null;
+                filter.CenterId = null;
+                filter.ClientId = CurrentUser.RefKey;
+            }
+            var resp = await _log.GetCalls(filter);
+            return View(resp.CloseCalls);
         }
     }
     

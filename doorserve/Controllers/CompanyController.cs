@@ -162,17 +162,14 @@ namespace doorserve.Controllers
             comp.Organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
             comp.Contacts = await _ContactPersonRepo.GetContactPersonsByRefKey(comp.CompanyId);
             comp.Contact.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "value", "Text");
-            comp.Contact.CountryList = new SelectList(_dropdown.BindCountry(), "Value", "Text");
-            comp.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
-            comp.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
-            comp.Contact.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
+            comp.Contact.LocationList = new SelectList(Enumerable.Empty<SelectList>());
             comp.BankDetails = await _BankRepo.GetBanksByRefKey(CompanyId);
             comp.BankDetail.BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text");
             comp.Agreement = await _compRepo.GetAgreement(CompanyId);
             if (comp.Agreement == null)
                 comp.Agreement = new AgreementModel();
-            comp.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel {CompId=CurrentUser.CompanyId });
-            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
+            comp.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel());
+            comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel ());
             if(!string.IsNullOrEmpty(comp.Agreement.AgreementFile))
             comp.Agreement.AgreementFileUrl = _path + "Agreements/" + comp.Agreement.AgreementFile;
             if (!string.IsNullOrEmpty(comp.Agreement.CancelledChequeFile))
@@ -431,6 +428,11 @@ namespace doorserve.Controllers
                 comp.ActiveTab = "tab-5";
                 comp.Action = 'I';
                 comp.BankDetails.Add(bank);
+                comp.Agreement = new AgreementModel
+                {
+                    ServiceList = await CommonModel.GetServiceType(new FilterModel()),
+                    DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel())
+                };
                 comp.BankDetail = new BankDetailModel {
                                         RefKey = comp.CompanyId,
                     BankList = new SelectList(await CommonModel.GetLookup("Bank"), "Value", "Text")
@@ -528,7 +530,7 @@ namespace doorserve.Controllers
                 if (TempData["Comp"] != null)
                 {
                     comp = TempData["Comp"] as CompanyModel;
-                    comp.ActiveTab = "tab-6";
+                    comp.ActiveTab = "tab-5";
                     comp.Agreement = agreement;
                     TempData["Comp"] = comp;
                     comp.Action = 'I';
@@ -539,15 +541,18 @@ namespace doorserve.Controllers
                 else
                 {
                     comp = await GetCompany(agreement.RefKey);
-                    comp.ActiveTab = "tab-6";
+                    comp.ActiveTab = "tab-5";
                     comp.Agreement = agreement;
                     comp.Agreement.ServiceList = await CommonModel.GetServiceType(new FilterModel());
                     comp.Agreement.DeliveryServiceList = await CommonModel.GetDeliveryServiceType(new FilterModel());
                     return View("Edit", comp);
                 }
 
+
+
                 
             }
+
             return View();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_company)]

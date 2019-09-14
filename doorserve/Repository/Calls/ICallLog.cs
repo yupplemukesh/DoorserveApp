@@ -20,7 +20,7 @@ namespace doorserve.Repository
         Task<List<UploadedExcelModel>> GetCancelRequestedData(FilterModel filter);
         Task<List<CallHistory>> GetCallHistory(FilterModel filter);
         List<FileDetailModel> GetFileList(FilterModel filter);
-
+        Task<CallsViewModel> GetCalls(FilterModel filter);
         void Save();
     }
 }

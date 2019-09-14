@@ -267,7 +267,7 @@ namespace doorserve.Controllers
             };
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Assign_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport },0)]
         [HttpGet]
         public async Task<FileContentResult> ExportToExcel(char tabIndex)
         {
