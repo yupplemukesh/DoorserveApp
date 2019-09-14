@@ -388,69 +388,107 @@ namespace doorserve.Controllers
             return File(filecontent, ExcelExportHelper.ExcelContentType, "Excel.xlsx");
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, 0)]
         public async Task<ActionResult> Edit(string Crn)
         {
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
+            if (CallDetailsModel.ClientId!=null)
+            {
+
+                CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+                CallDetailsModel.Remarks = CallDetailsModel.CRemark;
+         
+            }
+            else
+            {
+                CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Customer support"), "Value", "Text");
+                CallDetailsModel.Remarks = CallDetailsModel.Remarks;
+
+            }
+            if (CallDetailsModel.ClientId != null)
+                CallDetailsModel.IsClientAddedBy = true;
+            else
+                CallDetailsModel.IsClientAddedBy = false;
             CallDetailsModel.IsAssingedCall = true;
             CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
             CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(new FilterModel {CompId= CallDetailsModel.CompanyId, ClientId= CallDetailsModel.ClientId}), "Value", "Text");
             CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(new FilterModel { CategoryId = CallDetailsModel.DeviceCategoryId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
             CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString()+","+ CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
-            CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
             CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel {CompId= CurrentUser.CompanyId,RefKey= CallDetailsModel.ClientId }), "Value", "Text");
             CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
             CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
-            CallDetailsModel.IsClientAddedBy = true;
+      
             return View(CallDetailsModel);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Assign_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, 0)]
         [HttpPost]
 
         public async Task<ActionResult> Edit(CallDetailsModel CallDetailsModel)
         {
-          
+
             if (!ModelState.IsValid)
             {
-                CallDetailsModel.IsAssingedCall = true;
+
+                //IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+
+                bool IsClient = false;
+                var filter = new FilterModel { CompId = CurrentUser.CompanyId };
+                if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+                {
+                    filter.ClientId = CurrentUser.RefKey;
+                    filter.RefKey = CurrentUser.RefKey;
+                    IsClient = true;
+                }
+
+                var serviceType = await CommonModel.GetServiceType(filter);
+                var deliveryType = await CommonModel.GetDeliveryServiceType(filter);
+
                 CallDetailsModel.ClientList = new SelectList(await CommonModel.GetClientData(CurrentUser.CompanyId), "Name", "Text");
-                CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(new FilterModel { CompId = CurrentUser.CompanyId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
+                CallDetailsModel.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
+                CallDetailsModel.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
+                // new call Log
                 CallDetailsModel.BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
+                CallDetailsModel.CategoryList = new SelectList(_dropdown.BindCategory(new FilterModel { CompId = CurrentUser.CompanyId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
                 CallDetailsModel.SubCategoryList = new SelectList(_dropdown.BindSubCategory(new FilterModel { CategoryId = CallDetailsModel.DeviceCategoryId, ClientId = CallDetailsModel.ClientId }), "Value", "Text");
                 CallDetailsModel.ProductList = new SelectList(_dropdown.BindProduct(CallDetailsModel.DeviceBrandId.ToString() + "," + CallDetailsModel.DeviceSubCategoryId.ToString()), "Value", "Text");
-                CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
-                CallDetailsModel.ServiceTypeList = new SelectList(await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
-                CallDetailsModel.DeliveryTypeList = new SelectList(await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId, RefKey = CallDetailsModel.ClientId }), "Value", "Text");
                 CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
                 CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
-                CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
+                CallDetailsModel.IsClient = IsClient;
+                if(CallDetailsModel.ClientId !=null)
+                CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+                else
+                    CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Customer support"), "Value", "Text");
+                CallDetailsModel.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
+                CallDetailsModel.DeliveryTypeList = new SelectList(deliveryType, "Value", "Text");
+                // address=new AddressDetail
+                //{
+                CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("ADDRESS"), "Value", "Text");
                 CallDetailsModel.LocationList = new SelectList(_dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
-                CallDetailsModel.IsClientAddedBy = true;
-                return View(CallDetailsModel);
+
+                // }
+                return View("edit", CallDetailsModel);
+
             }
 
-            try
+            else
             {
-               
                 CallDetailsModel.UserId = CurrentUser.UserId;
                 CallDetailsModel.CompanyId = CurrentUser.CompanyId;
                 CallDetailsModel.EventAction = 'U';
                 var response = await _RepoCallLog.AddOrEditCallLog(CallDetailsModel);
                 TempData["response"] = response;
+                if(CallDetailsModel.IsClientAddedBy)               
                 return RedirectToAction("Index");
+                else
+                    return RedirectToAction("Index","PendingCalls");
             }
-            catch (Exception ex)
-            {
-                var response = new ResponseModel { Response = ex.Message, IsSuccess = false };
-                TempData["response"] = response;
-                TempData.Keep("response");
-                //return Json("ex", JsonRequestBehavior.AllowGet);
-                return RedirectToAction("Index");
-            }
+           
+               
+            
 
         }
 

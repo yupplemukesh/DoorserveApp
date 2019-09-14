@@ -23,8 +23,8 @@
                         </div>
                     }*@
 
-            @if(!Model.IsAssingedCall)
-            { 
+            @*@if(!Model.IsAssingedCall)
+            {*@ 
                     <div class="col-sm-6 col-md-3" id="StatusDT">
                         <div class="form-group has-value">
                             @Html.DropDownListFor(x => x.AppointmentStatus, Model.StatusList,"Select", new { @class = "form-control" })
@@ -32,7 +32,7 @@
                             <label class="floating-label t-0">Appointment Status</label>
                         </div>
                     </div>
-               }
+               @*}*@
 
                         <div class="col-sm-6 col-md-3">
                             <div class="form-group has-value" id="DivRemarks">

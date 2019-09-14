@@ -38,8 +38,7 @@ namespace doorserve.Models.ServiceCenter
         public string IssueOcurringSinceDate { get; set; }
         [Required(ErrorMessage = "Select appointment date")]
         public DateTime ? AppointmentDate { get; set; }
-        [Required(ErrorMessage = "Enter remarks")]
-        public string  Remarks { get; set; }
+
         public Guid? PreviousCallId { get; set; }
         public string ProblemObserved { get; set; }
         public  int ? CStatus { get; set; }

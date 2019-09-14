@@ -53,14 +53,17 @@ namespace doorserve.Models.ClientData
         [DisplayName("DEVICE SLN")]
         public string DeviceSn { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}",ApplyFormatInEditMode = true)]
-        [DisplayName("Date of Purchase")]
-        [DataType(DataType.Date)]
+        [DisplayName("Date of Purchase")] 
+        [Required]
         public string DOP { get; set; }
         [DisplayName("DEVICE PURCHASE FROM")]
+        [Required]
         public string PurchaseFrom { get; set; }
        // [RequiredIf("Mobile == null",ErrorMessage = "At least email or phone should be provided.")]
-        [DisplayName("DEVICE IMEI FIRST")]
+
         [NotEqual("DeviceIMEISecond")]
+        [Required]
+        [DisplayName("Device IMEI")]
         public string DeviceIMEIOne { get; set; }
         [NotEqual("DeviceIMEIOne")]
         [DisplayName("DEVICE IMEI SECOND")]
@@ -83,7 +86,7 @@ namespace doorserve.Models.ClientData
         public int CustomerTypeId { get; set; }
         public SelectList CustomerTypeList { get; set; }
         public string SubAppointmentStatus { get; set; }
-        [Required(ErrorMessage = "Select appointment status")]
+
         public int? AppointmentStatus { get; set; }
 
         public bool IsCancelCall { get; set; } 
