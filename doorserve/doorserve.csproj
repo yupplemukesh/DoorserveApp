@@ -346,6 +346,7 @@
     <Compile Include="Models\ServiceRecord\ServiceRecordModel.cs" />
     <Compile Include="Models\ServiceRecord\VisitorsDetailsModel.cs" />
     <Compile Include="Models\Services\ServiceModel.cs" />
+    <Compile Include="Models\Services\ServiceViewModel.cs" />
     <Compile Include="Models\SessionModel.cs" />
     <Compile Include="Models\SMSGateway.cs" />
     <Compile Include="Models\TemplatePartModel.cs" />

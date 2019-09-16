@@ -403,7 +403,7 @@ namespace doorserve.Controllers
             CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
             CallDetailsModel.AddressTypelist = new SelectList(await CommonModel.GetLookup("Address"), "Value", "Text");
             CallDetailsModel.LocationList = new SelectList(dropdown.BindLocationByPinCode(CallDetailsModel.PinNumber), "Value", "Text");
-            var providerList = dropdown.BindServiceProvider(CallDetailsModel.PinNumber);
+            var providerList = dropdown.BindServiceProvider(CallDetailsModel.PinNumber, CRN);
             CallDetailsModel.CompLogo = CurrentUser.LogoUrl;
             if (Convert.ToBoolean(CallDetailsModel.IsRepeat))
             {
@@ -411,11 +411,11 @@ namespace doorserve.Controllers
                 if (prvList !=null)
                     CallDetailsModel.ProviderList = new SelectList(prvList, "Value", "Text");
                 else
-                    CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
+                    CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber, CRN), "Value", "Text");
 
             }
             else
-            CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber), "Value", "Text");
+            CallDetailsModel.ProviderList = new SelectList(dropdown.BindServiceProvider(CallDetailsModel.PinNumber, CRN), "Value", "Text");
             CallDetailsModel.Param = Param;
             CallDetailsModel.Files = new List<ProviderFileModel>();
             if (Param == "A")

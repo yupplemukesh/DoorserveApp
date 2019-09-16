@@ -493,40 +493,43 @@
         }
 <!--<h2>Registration</h2>-->
 
-<div class="container-fluid tab-form-control">
-    <div class="row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
-            @using (Html.BeginForm("AddOrEditService", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "ServiceForm" }))
-            {
-                @Html.HiddenFor(x => x.ClientId)
-                @Html.HiddenFor(x => x.action)
+              <div class="container-fluid tab-form-control">
+                  @if (Permissions.Rights.Create)
+                  {
+                  <div class="row">
+                      <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
 
-                @Html.Partial("~/views/common/_ServicesAddEditForm.cshtml", Model.Service)
-                if (Permissions.Rights.Create)
-                {
+                          @using (Html.BeginForm("AddOrEditService", "ManageClients", FormMethod.Post, new { enctype = "multipart/form-data", id = "ServiceForm" }))
+                          {
+                              @Html.HiddenFor(x => x.ClientId)
+                              @Html.HiddenFor(x => x.action)
 
-            <div class="row form-group pull-right">
-
-                <button type="button" class="btn btn-primary reset">RESET</button>
-               
-
-                <button class="btn btn-primary">
-                    SAVE
-
-                </button>
-            </div>
-                }
-
-            }
+                              @Html.Partial("~/views/common/_ServicesAddEditForm.cshtml", Model.Service)
 
 
-        </div>
+                              <div class="row form-group pull-right">
 
-    </div>
-    <div>
-        @Html.Partial("~/views/common/_ServicesTable.cshtml", Model.Services)
-    </div>
-</div>
+                                  <button type="button" class="btn btn-primary reset">RESET</button>
+
+
+                                  <button class="btn btn-primary">
+                                      SAVE
+
+                                  </button>
+                              </div>
+
+
+                          }
+
+
+                      </div>
+
+                  </div>
+                  }
+                  <div>
+                      @Html.Partial("~/views/common/_ServicesTable.cshtml", Model.Services)
+                  </div>
+              </div>
 
 
 </div>

@@ -108,8 +108,9 @@ namespace doorserve.Controllers
                         UserRole = rs.RoleName,
                         UserName=rs.UserName,
                         Mobile= rs.Mobile,
-
-                        RoleId=rs.RoleId,
+                        ContactCareEmail=rs.ContactCareEmail,
+                        CustomerCareNumber=rs.CustomerCareNumber,
+                        RoleId =rs.RoleId,
                         UserTypeId=rs.UserTypeId,
                        Menues = manues
                     };
@@ -297,8 +298,8 @@ namespace doorserve.Controllers
                         U.Val = UserPassword.Password;
                         U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
                          U.Val = UserPassword.CustomerCareNumber;
-                    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
-                    U.Val = UserPassword.ContactCareEmail;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                        U.Val = UserPassword.ContactCareEmail;
                     var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates.Count > 0)
                         {

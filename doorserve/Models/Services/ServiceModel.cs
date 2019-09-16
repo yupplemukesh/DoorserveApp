@@ -34,19 +34,19 @@ namespace doorserve.Models
 
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
-        public decimal? ServiceCharges { get; set; }
+        public virtual decimal? ServiceCharges { get; set; }
 
 
         [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
-        public decimal? MApprovalCost { get; set; }
+        public virtual decimal? MApprovalCost { get; set; }
 
 
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
-        public int? WarranyPeriod { get; set; }
+        public virtual int? WarranyPeriod { get; set; }
 
 
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
-        public int? TargetApprovalTime { get; set; }
+        public  virtual int? TargetApprovalTime { get; set; }
 
 
         public Guid? RefKey { get; set; }

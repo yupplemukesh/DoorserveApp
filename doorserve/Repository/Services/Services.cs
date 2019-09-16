@@ -19,14 +19,14 @@ namespace doorserve.Repository
             _context = new ApplicationDbContext();
         }
 
-        public async Task<ServiceModel> GetService(FilterModel filterModel)
+        public async Task<ServiceViewModel> GetService(FilterModel filterModel)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
             var param = new SqlParameter("@SERVICEID", ToDBNull(filterModel.ServiceId));
             sp.Add(param);
             param = new SqlParameter("@REFKEY", DBNull.Value);
             sp.Add(param);
-            return await _context.Database.SqlQuery<ServiceModel>("GETSERVICESBYREFKEY @SERVICEID,@REFKEY", sp.ToArray()).FirstOrDefaultAsync();
+            return await _context.Database.SqlQuery<ServiceViewModel>("GETSERVICESBYREFKEY @SERVICEID,@REFKEY", sp.ToArray()).FirstOrDefaultAsync();
         }
 
         public async Task<ServiceOfferedModel> GetServiceOfferd(FilterModel filterModel)

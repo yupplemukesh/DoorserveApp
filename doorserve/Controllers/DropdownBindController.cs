@@ -528,7 +528,7 @@ namespace doorserve.Controllers
                 return items;
             }
         }
-        public List<ListItem> BindServiceProvider(string Pincode)
+        public List<ListItem> BindServiceProvider(string Pincode,string CallId)
         {
             using (var con = new SqlConnection(_connectionString))
             {
@@ -537,7 +537,7 @@ namespace doorserve.Controllers
               
                 List<BindServiceProviderModel> company = con
                     .Query<BindServiceProviderModel>(query,
-                        new { Pincode }, commandType: CommandType.StoredProcedure).ToList();
+                        new { Pincode,CallId= CallId }, commandType: CommandType.StoredProcedure).ToList();
                 List<ListItem> items = new List<ListItem>();
                 items.Add(new ListItem
                 {
@@ -645,11 +645,11 @@ namespace doorserve.Controllers
                     .Query<Status_MasterModel>("SELECT * from Status_Master WHERE PageRef=@PageRef",
                         new{ PageRef }, commandType: CommandType.Text).ToList();
                 List<ListItem> items = new List<ListItem>();
-                items.Add(new ListItem
-                {
-                    Value = "", //Value Field(ID)
-                    Text = "Select" //Text Field(Name)
-                });
+                //items.Add(new ListItem
+                //{
+                //    Value = "", //Value Field(ID)
+                //    Text = "Select" //Text Field(Name)
+                //});
                 foreach (var val in company)
                 {
                     items.Add(new ListItem

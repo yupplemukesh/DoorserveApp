@@ -2966,6 +2966,10 @@ output {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+.grid-table {
+    min-height: 295px;
+}
+
     .form-control:focus {
         border-color: #ccc;
         outline: 0;

@@ -12,7 +12,7 @@ namespace doorserve.Repository
     {
         Task<ResponseModel> AddEditServices(ServiceModel serviceModel);
         Task<ResponseModel> AddOrEditServiceableAreaPin(ServiceOfferedModel areaPinModel);
-        Task<ServiceModel> GetService(FilterModel filterModel);
+        Task<ServiceViewModel> GetService(FilterModel filterModel);
         Task<ServiceOfferedModel> GetServiceOfferd(FilterModel filterModel);
         Task<ServiceOfferedModel> GetServiceAreaPin(FilterModel filterModel);
         Task<List<ServiceOfferedModel>> GetServiceAreaPins(FilterModel filterModel);

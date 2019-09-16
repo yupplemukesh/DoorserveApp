@@ -197,6 +197,10 @@ namespace doorserve.Controllers
                         U.Val = pwd;
                         U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                         U.Val = contact.ConEmailAddress;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+                        U.Val = CurrentUser.CustomerCareNumber;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                        U.Val = CurrentUser.ContactCareEmail;
                         CurrentUser.Mobile = contact.ConMobileNumber;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates != null)
@@ -541,7 +545,7 @@ namespace doorserve.Controllers
         public async Task<ActionResult> ManageService(Guid RefKey, Guid? ServiceId)
         {
 
-            var service = new ServiceModel();
+            var service = new ServiceViewModel();
             if (ServiceId != null)
             {
                 service = await _services.GetService(new FilterModel { ServiceId = ServiceId });

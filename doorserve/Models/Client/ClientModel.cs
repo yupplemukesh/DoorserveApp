@@ -21,7 +21,7 @@ namespace doorserve.Models
             Bank = new BankDetailModel();
             Contact = new OtherContactPersonModel();
             Services = new List<ServiceModel>();
-            Service = new ServiceModel();
+            Service = new ServiceViewModel();
         }
         public string Path { get; set; }
       
@@ -33,7 +33,7 @@ namespace doorserve.Models
         public OtherContactPersonModel Contact { get; set; }
         public List<BankDetailModel> BankDetails { get; set; }
         public List<ServiceModel> Services { get; set; }
-        public ServiceModel Service { get; set; }
+        public ServiceViewModel Service { get; set; }
         public BankDetailModel Bank { get; set; }
         public Guid? ClientId { get; set; }
         [Required]

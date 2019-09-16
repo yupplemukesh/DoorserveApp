@@ -175,6 +175,10 @@ namespace doorserve.Controllers
                         U.Val = pwd;
                         U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                         U.Val = contact.ConEmailAddress;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+                        U.Val = CurrentUser.CustomerCareNumber;
+                        U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                        U.Val = CurrentUser.ContactCareEmail;
                         CurrentUser.Mobile = contact.ConMobileNumber;
                         var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates.Count> 0)
@@ -229,40 +233,58 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Clients)]
         [HttpPost]
 
-        public async Task<ActionResult> AddOrEditService(ServiceModel service)
+        public async Task<ActionResult> AddOrEditService(ServiceViewModel service)
         {
-            if (service.ServiceId != null)
-                service.EventAction = 'U';
-            else
-                service.EventAction = 'I';
-            var Client = TempData["client"] as ClientModel;
-            if (TempData["client"] != null)
-                service.RefKey = Client.ClientId;          
-            var response = await _service.AddEditServices(service);
-            TempData["response"] = response;
-            if (TempData["client"] != null)
+            var Client = new ClientModel();
+            if (!ModelState.IsValid)
             {
-                service.ServiceId = new Guid(response.result);
-                service.Category = dropdown.BindCategory(CurrentUser.CompanyId).Where(x=>Convert.ToInt32(x.Value)==service.CategoryId).FirstOrDefault().Text;
-                service.SubCategory = dropdown.BindSubCategory(service.CategoryId).Where(x => x.Value == service.SubCategoryId.ToString()).FirstOrDefault().Text;
-                var services = await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
-                service.ServiceType= services.Where(x => x.Value == service.ServiceTypeId).FirstOrDefault().Text;
-                var Deliveries = await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
-                service.ServiceType = Deliveries.Where(x => Convert.ToInt32(x.Value) == service.DeliveryTypeId).FirstOrDefault().Text;              
-                Client.Services.Add(service);
-                Client.action = 'I';
-                Client.Activetab = "tab-6";
-                TempData["client"] = Client;
-                return View("Create", Client);
-            }
-            else
-            {
-                Client = await GetClient(service.RefKey);
-                Client.action = 'U';
-                Client.Activetab = "tab-5";
-                return View("Edit", Client);
-            }
+                if (TempData["client"] != null)
+                {
 
+                    return View("Create", Client);
+                }
+                else
+                {
+                    Client = await GetClient(service.RefKey);
+                    Client.action = 'U';
+                    Client.Activetab = "tab-5";
+                    return View("Edit", Client);
+                }
+            }
+            else
+            {
+                if (service.ServiceId != null)
+                    service.EventAction = 'U';
+                else
+                    service.EventAction = 'I';
+                 Client = TempData["client"] as ClientModel;
+                if (TempData["client"] != null)
+                    service.RefKey = Client.ClientId;
+                var response = await _service.AddEditServices(service);
+                TempData["response"] = response;
+                if (TempData["client"] != null)
+                {
+                    service.ServiceId = new Guid(response.result);
+                    service.Category = dropdown.BindCategory(CurrentUser.CompanyId).Where(x => Convert.ToInt32(x.Value) == service.CategoryId).FirstOrDefault().Text;
+                    service.SubCategory = dropdown.BindSubCategory(service.CategoryId).Where(x => x.Value == service.SubCategoryId.ToString()).FirstOrDefault().Text;
+                    var services = await CommonModel.GetServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
+                    service.ServiceType = services.Where(x => x.Value == service.ServiceTypeId).FirstOrDefault().Text;
+                    var Deliveries = await CommonModel.GetDeliveryServiceType(new FilterModel { CompId = CurrentUser.CompanyId });
+                    service.ServiceType = Deliveries.Where(x => Convert.ToInt32(x.Value) == service.DeliveryTypeId).FirstOrDefault().Text;
+                    Client.Services.Add(service);
+                    Client.action = 'I';
+                    Client.Activetab = "tab-6";
+                    TempData["client"] = Client;
+                    return View("Create", Client);
+                }
+                else
+                {
+                    Client = await GetClient(service.RefKey);
+                    Client.action = 'U';
+                    Client.Activetab = "tab-5";
+                    return View("Edit", Client);
+                }
+            }
 
 
         }
@@ -287,7 +309,7 @@ namespace doorserve.Controllers
             Client.Contact.StateList = new SelectList(Enumerable.Empty<SelectList>());
             Client.Contact.CityList = new SelectList(Enumerable.Empty<SelectList>());
             Client.Contact.LocationList= new SelectList(Enumerable.Empty<SelectList>());
-            Client.Service = new ServiceModel
+            Client.Service = new ServiceViewModel
             {
                 SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                 SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>()),
@@ -367,7 +389,7 @@ namespace doorserve.Controllers
                     client.CompanyList = new SelectList(await CommonModel.GetCompanies(), "Name", "Text");
                     client.IsSuperAdmin = true;
                 }
-                client.Service = new ServiceModel
+                client.Service = new ServiceViewModel
                 {
                     SupportedCategoryList = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text"),
                     SupportedSubCategoryList = new SelectList(Enumerable.Empty<SelectList>()),

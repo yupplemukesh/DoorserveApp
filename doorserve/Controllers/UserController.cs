@@ -108,6 +108,11 @@ namespace doorserve.Controllers
                     U.Val =objUser.Password ;
                     U = WildCards.Where(x => x.Text.ToUpper() == "USER NAME").FirstOrDefault();
                     U.Val = objUser.UserName;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+                    U.Val = CurrentUser.CustomerCareNumber;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                    U.Val = CurrentUser.ContactCareEmail;
+
                     CurrentUser.Mobile = objUser.ConMobileNumber;
                     var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                     if (Templates.Count>0)
