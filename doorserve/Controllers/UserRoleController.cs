@@ -29,7 +29,7 @@ namespace doorserve.Controllers
 
             UserRole objUserRole = new UserRole();
             objUserRole.IsActive = true;
-            Int64? RoleId = CurrentUser.RoleId;
+            Int64? RoleId = 0;
                   
             using (var con = new SqlConnection(_connectionString))
             {

@@ -201,9 +201,33 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_company)]
         [HttpPost]
-        [ValidateModel]
+
         public async Task<ActionResult> AddorEditOrganizaion(OrganizationModel organization)
         {
+            CompanyModel comp = new CompanyModel();
+            organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
+            organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
+            organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
+
+            if (!ModelState.IsValid)
+            {
+                if (TempData["Comp"] != null)
+                {
+                    comp = TempData["Comp"] as CompanyModel;
+                    comp.Action = 'I';
+                    comp.Organization = organization;
+                    TempData["Comp"] = comp;
+                    comp.ActiveTab = "tab-3";
+                    return View("Create", comp);
+                }
+                else
+                {
+                    comp = await GetCompany(organization.RefKey);
+                    comp.ActiveTab = "tab-3";
+                    return View("Edit", comp);
+                }
+
+            }
 
             if (organization.OrgGSTFileName != null && organization.OrgGSTNumberFilePath != null)
             {
@@ -225,12 +249,9 @@ namespace doorserve.Controllers
             else
                 organization.Action = 'U';
 
-            organization.GstCategoryList = new SelectList(await CommonModel.GetGstCategory(), "Value", "Text");
-            organization.AplicationTaxTypeList = new SelectList(await CommonModel.GetLookup("Application Tax Type"), "Value", "Text");
-            organization.StatutoryList = new SelectList(await CommonModel.GetLookup("Statutory Type"), "Value", "Text");
             organization.UserId = CurrentUser.UserId;
 
-            CompanyModel comp = new CompanyModel();
+        
            if (TempData["Comp"] !=null)
             {
                 comp = TempData["Comp"] as CompanyModel;

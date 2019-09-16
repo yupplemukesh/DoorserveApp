@@ -129,7 +129,7 @@ columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true)
      .Encoded(false)
      .Sanitized(false)
      .SetWidth(30)
-     .RenderValueAs(c => Html.ActionLink("Edit", "Edit", "ClientData", new { crn = c.CRN }, null));
+     .RenderValueAs(c => Html.ActionLink("Edit", "Edit", "ClientData", new { crn = c.CRN, Type="S" }, null));
            }
 
 }).WithPaging(10).Sortable(true)

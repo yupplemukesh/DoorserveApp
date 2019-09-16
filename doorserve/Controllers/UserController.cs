@@ -46,7 +46,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Create }, (int)MenuCode.Users)]
         [HttpPost]
-
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddUser(UserModel objUser)
         {
 
@@ -170,7 +170,7 @@ namespace doorserve.Controllers
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Users)]
         [HttpPost]
-
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditUser(User objUser)
         {
            

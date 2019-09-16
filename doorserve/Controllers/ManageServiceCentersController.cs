@@ -241,7 +241,7 @@ namespace doorserve.Controllers
             {
                 var Center = await GetCenter(contact.RefKey);                
                 Center.action = 'U';
-                Center.Activetab = "tab-3";
+                Center.Activetab = "tab-4";
                 return View("Edit", Center);
             }
 
@@ -407,87 +407,103 @@ namespace doorserve.Controllers
 
             }
             else
-                return View("Edit", Center);
+            {
+                var center = await GetCenter(Center.CenterId);
+                center.Activetab = "tab-2";
+                return View("Edit", center);
+            }
         }
 
         [PermissionBasedAuthorize(new Actions[] {Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
         [HttpPost]
 
-        public async Task<ActionResult> AddorEditOrganization(ServiceCenterModel Center,OrganizationModel org)
+        public async Task<ActionResult> AddorEditOrganization(OrganizationModel org)
         {
-
-            var cltns = TempData["center"] as ServiceCenterModel;
-            if (TempData["center"] != null)
-            {
-                Center = cltns;
-                Center.Organization = org;                
-            }
-            else          
-                Center.Organization = org;
-
-            if (Center.Organization.OrgGSTNumberFilePath != null && Center.Organization.OrgGSTFileName != null)
-            {
-                if (System.IO.File.Exists(Server.MapPath(_path+"Gsts/" + Center.Organization.OrgGSTFileName)))
-                    System.IO.File.Delete(Server.MapPath(_path+_path+"Gsts/" + Center.Organization.OrgGSTFileName));
-            }
-            if (Center.Organization.OrgPanNumberFilePath != null && Center.Organization.OrgPanFileName != null)
-            {
-                if (System.IO.File.Exists(Server.MapPath(_path+"PANCards/" + Center.Organization.OrgPanFileName)))
-                    System.IO.File.Delete(Server.MapPath(_path + "PANCards/" + Center.Organization.OrgPanFileName));
-            }
-
-            if (Center.Organization.OrgGSTNumberFilePath != null)
-                Center.Organization.OrgGSTFileName = SaveImageFile(Center.Organization.OrgGSTNumberFilePath, "Gsts");
-            if (Center.Organization.OrgPanNumberFilePath != null)
-                Center.Organization.OrgPanFileName = SaveImageFile(Center.Organization.OrgPanNumberFilePath, "PANCards");
+            var Center = new ServiceCenterModel();
             var statutory = await CommonModel.GetStatutoryType();
             Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
             var applicationTaxTypeList = await CommonModel.GetApplicationTaxType();
-            Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
-            Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
-        
+           
+            if (!ModelState.IsValid)
+            {
+                if (TempData["center"] != null)
+                {
+                    var cltns = TempData["center"] as ServiceCenterModel;
+                    Center = cltns;
+                    Center.action = 'I';
+                    Center.Activetab = "tab-2";
+                    Center.Organization = org;
 
-            try
+                    return View("Create", Center);
+                }
+                else
+                {
+                    var center = await GetCenter(org.RefKey);
+                    center.Activetab = "tab-2";
+                    Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+                    Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
+                    Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
+                    return View("Edit", center);
+                }
+            }
+            else
             {
 
+                if (TempData["center"] != null)
+                {
+                    var cltns = TempData["center"] as ServiceCenterModel;
+                    Center = cltns;
+                    Center.Organization = org;
+                }
+                else
+                    Center.Organization = org;
+
+                if (Center.Organization.OrgGSTNumberFilePath != null && Center.Organization.OrgGSTFileName != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(_path + "Gsts/" + Center.Organization.OrgGSTFileName)))
+                        System.IO.File.Delete(Server.MapPath(_path + _path + "Gsts/" + Center.Organization.OrgGSTFileName));
+                }
+                if (Center.Organization.OrgPanNumberFilePath != null && Center.Organization.OrgPanFileName != null)
+                {
+                    if (System.IO.File.Exists(Server.MapPath(_path + "PANCards/" + Center.Organization.OrgPanFileName)))
+                        System.IO.File.Delete(Server.MapPath(_path + "PANCards/" + Center.Organization.OrgPanFileName));
+                }
+                if (Center.Organization.OrgGSTNumberFilePath != null)
+                    Center.Organization.OrgGSTFileName = SaveImageFile(Center.Organization.OrgGSTNumberFilePath, "Gsts");
+                if (Center.Organization.OrgPanNumberFilePath != null)
+                    Center.Organization.OrgPanFileName = SaveImageFile(Center.Organization.OrgPanNumberFilePath, "PANCards");
+               
                 Center.Activetab = "tab-2";
                 Center.CreatedBy = CurrentUser.UserId;
                 var response = await _Center.AddUpdateDeleteCenter(Center);
                 _Center.Save();
                 Center.CenterId = new Guid(response.result);
+                Center.Organization.AplicationTaxTypeList = new SelectList(applicationTaxTypeList, "Value", "Text");
+                Center.Organization.GstCategoryList = new SelectList(dropdown.BindGst(null), "Value", "Text");
+                Center.Organization.StatutoryList = new SelectList(statutory, "Value", "Text");
                 TempData["response"] = response;
-                TempData.Keep("response");
                 if (Center.action == 'I')
                 {
                     Center.Activetab = "tab-3";
                     TempData["center"] = Center;
-                    TempData.Keep("center");
-                    return View("Create",Center);
+                    return View("Create", Center);
 
                 }
                 else
-                    return RedirectToAction("Index");
-
-
-
+                {
+                    var center = await GetCenter(org.RefKey);
+                    center.Activetab = "tab-3";
+                    return View("Edit", center);
+                }
             }
-            catch (Exception ex)
-            {
-                if (Center.action == 'I')
-                    return View("Create",Center);
-                 else
-                    return RedirectToAction("Index");
-            }
+                    
+          
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
-        [HttpPost]
-        [ValidateModel]
+        [HttpPost] 
         public async Task<ActionResult> AddOrEditClientReg(ServiceCenterModel Center)
         {
-
-
-
             var cltns = TempData["center"] as ServiceCenterModel;
             Center.Organization = new OrganizationModel();
             if (TempData["center"] != null)
@@ -496,9 +512,7 @@ namespace doorserve.Controllers
                 cltns.IsActive = Center.IsActive;            
                 Center = cltns;               
             }                    
-            try
-            {
-
+           
                 Center.Activetab = "tab-5";
                 Center.CreatedBy = CurrentUser.UserId;
                 var response = await _Center.AddUpdateDeleteCenter(Center);
@@ -507,15 +521,7 @@ namespace doorserve.Controllers
                 TempData["response"] = response;
                 TempData.Keep("response");              
                return RedirectToAction("Index");
-
-            }
-            catch (Exception ex)
-            {
-                if (Center.action == 'I')
-                    return View("Create", Center);
-                else
-                    return RedirectToAction("Index");
-            }
+           
         }
 
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Manage_Service_Center_TRC)]
@@ -609,9 +615,22 @@ namespace doorserve.Controllers
         }
 
         [HttpPost]
-        [ValidateModel]
+  
         public async Task<ActionResult> ManageServiceableAreaPinCode(ServiceOfferedModel service)
         {
+
+            var services = new ManageServiceModel();
+            if (!ModelState.IsValid)
+            {
+                services.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = service.ServiceId });
+                services.Service = service;
+                services.Service.LocationList = new SelectList(dropdown.BindLocationByPinCode(service.PinCode),"Value","Text");
+                services.Files = new List<ProviderFileModel>();
+                services.ImportModel = new ProviderFileModel();
+
+                return View(services);
+
+            }
 
             if (service.ServiceAreaId != null)
                 service.EventAction = 'U';
@@ -622,7 +641,6 @@ namespace doorserve.Controllers
 
             TempData["response"] = response;
 
-            var services = new ManageServiceModel();
             services.Services = await _services.GetServiceAreaPins(new FilterModel { ServiceId = service.ServiceId });
             services.Service = await _services.GetServiceOfferd(new FilterModel { ServiceId = service.ServiceId });
             services.Service.IsActive = false;

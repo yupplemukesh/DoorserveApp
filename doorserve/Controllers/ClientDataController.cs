@@ -389,9 +389,10 @@ namespace doorserve.Controllers
 
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, 0)]
-        public async Task<ActionResult> Edit(string Crn)
+        public async Task<ActionResult> Edit(string Crn,string Type)
         {
             var CallDetailsModel = await _centerRepo.GetCallsDetailsById(Crn);
+            CallDetailsModel.Type = Type;
             if (CallDetailsModel.ClientId!=null)
             {
 
@@ -458,8 +459,8 @@ namespace doorserve.Controllers
                 CallDetailsModel.CustomerTypeList = new SelectList(await CommonModel.GetLookup("Customer Type"), "Value", "Text");
                 CallDetailsModel.ConditionList = new SelectList(await CommonModel.GetLookup("Device Condition"), "Value", "Text");
                 CallDetailsModel.IsClient = IsClient;
-                if(CallDetailsModel.ClientId !=null)
-                CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
+                if (CallDetailsModel.ClientId != null)
+                    CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Client"), "Value", "Text");
                 else
                     CallDetailsModel.StatusList = new SelectList(await CommonModel.GetStatusTypes("Customer support"), "Value", "Text");
                 CallDetailsModel.ServiceTypeList = new SelectList(serviceType, "Value", "Text");
@@ -479,16 +480,19 @@ namespace doorserve.Controllers
                 CallDetailsModel.UserId = CurrentUser.UserId;
                 CallDetailsModel.CompanyId = CurrentUser.CompanyId;
                 CallDetailsModel.EventAction = 'U';
-                var response = await _RepoCallLog.AddOrEditCallLog(CallDetailsModel);
+                if (CallDetailsModel.ClientId == null)
+                    CallDetailsModel.CRemark = CallDetailsModel.Remarks;
+                    var response = await _RepoCallLog.AddOrEditCallLog(CallDetailsModel);
                 TempData["response"] = response;
-                if(CallDetailsModel.IsClientAddedBy)               
-                return RedirectToAction("Index");
+                if(!string.IsNullOrEmpty( CallDetailsModel.Type))
+                    return RedirectToAction("Index", "PendingCalls");
                 else
-                    return RedirectToAction("Index","PendingCalls");
+                    return RedirectToAction("Index");
+
             }
-           
-               
-            
+
+
+
 
         }
 

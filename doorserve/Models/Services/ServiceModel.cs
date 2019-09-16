@@ -32,19 +32,19 @@ namespace doorserve.Models
         public int DeliveryTypeId{ get; set; }
         public string DeliveryType { get; set; }
 
-        [Required(ErrorMessage = "Please enter Amount")]
+
         [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
         public decimal? ServiceCharges { get; set; }
 
-        [Required(ErrorMessage = "Please enter Amount")]
+
         [Range(0, double.MaxValue, ErrorMessage = "Please enter Amount")]
         public decimal? MApprovalCost { get; set; }
 
-        [Required(ErrorMessage = "Please enter Warranty")]
+
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public int? WarranyPeriod { get; set; }
 
-        [Required(ErrorMessage = "Please enter TAT(Hours)")]
+
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Enter number only")]
         public int? TargetApprovalTime { get; set; }
 
