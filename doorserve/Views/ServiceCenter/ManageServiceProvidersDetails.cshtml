@@ -904,7 +904,7 @@
                 else {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        debugger
+
                         if ($(_this).parent('div').parent("div").next('div').find('img')) {
                             $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
                         }

@@ -101,38 +101,39 @@
                                        {
                                        count++;
                                        return @<text> @count </text>;
-});
-columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
-columns.Add(model => model.CRN).Titled("Call Id").Filterable(true).Sanitized(false).Encoded(false).
-RenderValueAs(o => CustomRenderingOfColumn(o));
-columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
-columns.Add(c => c.Status).Titled("Status").Filterable(true);
-columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
-columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);
-columns.Add(c => c.DataSource).Titled("Data Source").Filterable(true);
-columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Type").Filterable(true);
-columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
-columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
-columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
-columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
-columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
-columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
-columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
-columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
-columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
-columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
-     if(Permissions.Rights.Edit)
-           {
-               columns.Add().Titled("Action")
-     .Encoded(false)
-     .Sanitized(false)
-     .SetWidth(30)
-     .RenderValueAs(c => Html.ActionLink("Edit", "Edit", "ClientData", new { crn = c.CRN, Type="S" }, null));
-           }
+                                       });
+                                       columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
+                                       columns.Add(model => model.CRN).Titled("Call Id").Filterable(true).Sanitized(false).Encoded(false).
+                                       RenderValueAs(o => CustomRenderingOfColumn(o));
+                                       columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
+                                       columns.Add(c => c.Status).Titled("Status").Filterable(true);
+                                       columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
+                                       columns.Add(c => c.ProcessName).Titled("Process Name").Filterable(true);
+                                       columns.Add(c => c.DataSource).Titled("Data Source").Filterable(true);
+                                       columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                                       columns.Add(c => c.DeliveryTypeName).Titled("Service Delivery Type").Filterable(true);
+                                       columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                                       columns.Add(c => c.CustomerContactNumber).Titled("Customer Mob").Filterable(true);
+                                       columns.Add(c => c.CustomerEmail).Titled("Customer E-mail").Filterable(true);
+                                       columns.Add(c => c.CustomerAddress).Titled("Address").Filterable(true);
+                                       columns.Add(c => c.CustomerCity).Titled("Location").Filterable(true);
+                                       columns.Add(c => c.CustomerPincode).Titled("PinCode").Filterable(true);
+                                       columns.Add(c => c.DeviceCategory).Titled("Device Category").Filterable(true);
+                                       columns.Add(c => c.DeviceBrand).Titled("Device Brand").Filterable(true);
+                                       columns.Add(c => c.DeviceModel).Titled("Device Model").Filterable(true);
+                                       columns.Add(c => c.DOP).Titled("Device DOP").Filterable(true);
+                                       columns.Add(c => c.PurchaseFrom).Titled("Device Purchase Form").Filterable(true);
+                                       if(Permissions.Rights.Edit)
+                                       {
+                                           columns.Add().Titled("Action")
+                                 .Encoded(false)
+                                 .Sanitized(false)
+                                 .SetWidth(30)
+                                 .RenderValueAs(c =>
+                                 Html.ActionLink("Edit", "Edit", "ClientData", new { crn = c.CRN, Type="S" }, null));
+                                       }
 
-}).WithPaging(10).Sortable(true)
+                                   }).WithPaging(10).Sortable(true)
                                     </div>
 
                                 </div>
