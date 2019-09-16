@@ -554,6 +554,7 @@
                                         @if (Permissions.Rights.Create || Permissions.Rights.Edit)
                                         {
                                             <a href="@Url.Action("ManageService", "ManageServiceCenters", new { @RefKey = Model.CenterId })" class="btn btn-primary"> Add </a>
+                                            <a href="@Url.Action("AreaPincodeTemplate", "ManageServiceCenters", new { @class = "dis-inline"})" class="btn btn-primary"> Pincode Template</a>
 
                                         }
                                         @if (Permissions.Rights.ExcelExport)
