@@ -90,12 +90,12 @@ else
                         </div>
                     </div>
                 </div>
-                <div class="form-horizontal">
+                <div class="">
                     <div class="tab-content">
                         @if (Permissions.Rights.View)
                         {
 
-                            <div class="table-responsive">
+                            <div class="table-responsive for-popup-height">
                                 <div class="code-cut">
                                     @Html.Grid(Model.PendingCalls).Columns(columns =>
                                {
@@ -210,8 +210,8 @@ else
                                 </div>
                             </div>
                         </div>
-                        <div class="form-horizontal">
-                            <div class="table-responsive">
+                        <div class="">
+                            <div class="table-responsive for-popup-height">
                                 <div class="code-cut">
                                     @Html.Grid(Model.AcceptedCalls).Columns(columns => {
                                    columns.Add()
@@ -271,8 +271,8 @@ else
                                 </div>
                             </div>
                         </div>
-                        <div class="form-horizontal">
-                            <div class="table-responsive">
+                        <div class="">
+                            <div class="table-responsive for-popup-height">
                                 <div class="code-cut">
                                     @Html.Grid(Model.AssignedCalls).Columns(columns => {
                                    columns.Add()
