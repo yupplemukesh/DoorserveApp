@@ -34,6 +34,9 @@
                         @Html.DisplayName("District")
                     </th>
                     <th>
+                        @Html.DisplayName("Location/City")
+                    </th>
+                    <th>
                         @Html.DisplayName("Pin Code")
                     </th>
                     <th>
@@ -73,6 +76,9 @@
                 @Html.DisplayFor(modelItem => item.District)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.LocationName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.PinCode)
             </td>
             <td>
@@ -91,7 +97,7 @@
                 @if (Permissions.Rights.Edit)
                 {
                     <span>
-                        <a href="#" onclick="EditAreaPin('@item.ServiceAreaId')"  class="btn btn-small btn-info btnSize">Edit Pincode</a>
+                        <a href="#" onclick="EditAreaPin('@item.ServiceAreaId')" class="btn btn-small btn-info btnSize">Edit Pincode</a>
                     </span>
                 }
             </td>

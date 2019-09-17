@@ -189,8 +189,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                if (data.length > 0) {
-                    debugger
+                if (data.length > 0) {                    
                     console.log(data[0]);
                     $('#' + ddl).val(data[0].Text);
                     if (ddl == "State") {

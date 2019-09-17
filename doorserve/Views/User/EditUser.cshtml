@@ -15,9 +15,9 @@
 </div>
 <div class="panel-body">
 
-    @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { id = "form",autocomplete = "off"  }))
+    @using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { id = "form", autocomplete = "off" }))
     {
-
+        @Html.AntiForgeryToken()
         @Html.Partial("_ManageUser", Model)
     }
 </div>
