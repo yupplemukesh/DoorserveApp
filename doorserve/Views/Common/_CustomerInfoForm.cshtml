@@ -53,7 +53,7 @@
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerName, "", new { @class = "text-danger" })
-                        <label class="floating-label">Customer Name <span class="error-alert">*</span></label>
+                        <label class="floating-label t-0">Customer Name <span class="error-alert">*</span></label>
                     </div>
                 </div>
 
@@ -63,14 +63,14 @@
 
                         @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerEmail, "", new { @class = "text-danger" })
-                        <label class="floating-label">Email <span class="error-alert">*</span></label>
+                        <label class="floating-label t-0">Email <span class="error-alert">*</span></label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.CustomerAltConNumber, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.CustomerAltConNumber, "", new { @class = "text-danger" })
-                        <label class="floating-label"> Alternative Contact Number</label>
+                        <label class="floating-label t-0"> Alternative Contact Number</label>
                     </div>
                 </div>
 
@@ -79,7 +79,7 @@
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.Address, "", new { @class = "text-danger" })
-                        <label class="floating-label">Address</label>
+                        <label class="floating-label t-0">Address</label>
                     </div>
                 </div>
 
@@ -111,7 +111,7 @@
                                 <div class="form-group has-value">
                                     @Html.TextBoxFor(x => x.NearLocation, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(x => x.NearLocation, "", new { @class = "text-danger" })
-                                    <label class="floating-label">Landmark</label>
+                                    <label class="floating-label t-0">Landmark</label>
 
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                                 <div class="form-group has-value">
                                     @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", id = "PinCode", @OnChange = "getLocationByPin()" })
                                     @Html.ValidationMessageFor(x => x.PinNumber, "", new { @class = "text-danger" })
-                                    <label class="floating-label">Pincode<span class="error-alert">*</span></label>
+                                    <label class="floating-label t-0">Pincode<span class="error-alert">*</span></label>
                                 </div>
                             </div>
 

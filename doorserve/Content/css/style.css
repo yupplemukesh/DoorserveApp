@@ -2966,9 +2966,9 @@ output {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
-.grid-table {
+/*.grid-table {
     min-height: 295px;
-}
+}*/
 
     .form-control:focus {
         border-color: #ccc;
@@ -17627,9 +17627,7 @@ td > .carousel-caption {
     box-shadow: none;
 }
 
-.fix-overlap label {
-    transform: translateY(-74%)
-}
+
 
 
     .form-material .form-control::-moz-placeholder {

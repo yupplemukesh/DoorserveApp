@@ -467,7 +467,6 @@ namespace doorserve.Repository.ServiceCenters
             param = new SqlParameter("@Type", ToDBNull(callStatusDetails.Type));
             sp.Add(param);
             param = new SqlParameter("@parts", ToDBNull(xml));
-            param.SqlDbType = SqlDbType.Xml;
             sp.Add(param);
             param = new SqlParameter("@InvoiceFile", ToDBNull(callStatusDetails.InvoiceFileName));
             sp.Add(param);

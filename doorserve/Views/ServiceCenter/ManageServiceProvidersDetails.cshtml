@@ -571,7 +571,7 @@
             CalculateTotal();
         });
         $("#btnemp").click(function () {
-
+            debugger
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
                var JobSheet = $('#JobSheetFile').get(0).files;
@@ -763,8 +763,7 @@
                                         winprint.focus();
                                         window.close();
                                         }
-        function EditItem(partnumber) {
-            debugger
+        function EditItem(partnumber) {          
             var result = PartList.filter(obj => {
                 return obj.PartNo === partnumber
             });
@@ -784,8 +783,8 @@
             var count = 1;
             var sum = 0;
             $("#tblPartList >tbody").empty();
-            $.each(PartList, function (key, value) {
-                if ( value.PartId != "" )
+            $.each(PartList, function (key, value) {                
+                if ( value.FileName != "" )
                     value.url = "/TempFiles/" + value.RefKey + '/' + value.FileName;
                     var element = "<tr>";
                                             element=element+"<td>" + count + "</td>";
@@ -888,8 +887,7 @@
 
 
 
-        function readFileURL(input) {
-            debugger
+        function readFileURL(input) {            
             var _this = input;
             var fileExtension = ['pdf', 'jpg', 'png'];
             if (input.files && input.files[0])
