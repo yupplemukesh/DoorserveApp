@@ -61,11 +61,11 @@ namespace doorserve.Models.ClientData
         public string PurchaseFrom { get; set; }
        // [RequiredIf("Mobile == null",ErrorMessage = "At least email or phone should be provided.")]
 
-        [NotEqual("DeviceIMEISecond")]
-        [Required]
+        //[NotEqual("DeviceIMEISecond")]
+        //[Required]
         [DisplayName("Device IMEI")]
         public string DeviceIMEIOne { get; set; }
-        [NotEqual("DeviceIMEIOne")]
+        //[NotEqual("DeviceIMEIOne")]
         [DisplayName("DEVICE IMEI SECOND")]
         public string DeviceIMEISecond { get; set; }
 

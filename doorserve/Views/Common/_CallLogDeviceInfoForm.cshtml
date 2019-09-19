@@ -31,7 +31,7 @@
                     <div class="form-group  has-value">
                         @Html.DropDownListFor(x => x.DeviceModalId, Model.ProductList, new { @class = "form-control" })
                         @Html.ValidationMessageFor(x => x.DeviceModalId, "", new { @class = "text-danger" })
-                        <label class="floating-label  t-0">Modal <span class="error-alert">*</span></label>
+                        <label class="floating-label  t-0">Model <span class="error-alert">*</span></label>
                     </div>
                 </div>
 
@@ -43,8 +43,6 @@
 
         <div class="row">
             <div class="form-material">
-
-
                 <div class="col-sm-3 col-md-3 col-xs-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.DeviceModelNo, new { @class = "form-control" })
@@ -52,7 +50,6 @@
                         <label class="floating-label">Model Number</label>
                     </div>
                 </div>
-
                 <div class="col-sm-3 col-md-3 col-xs-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.DeviceSn, new { @class = "form-control",onchange="GetDeviceDetails()" })
@@ -60,18 +57,19 @@
                         <label class="floating-label">Serial Number</label>
                     </div>
                 </div>
-                <div class="col-sm-3 col-md-3 col-xs-3">
+                <div class="col-sm-3 col-md-3 col-xs-3" id="dvDeviceImeiOne"  style="display:none;">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.DeviceIMEIOne, new { @class = "form-control", onchange = "GetDeviceDetails()" })
-                        @Html.ValidationMessageFor(x => x.DeviceIMEIOne, "", new { @class = "text-danger" })
+                        @*@Html.ValidationMessageFor(x => x.DeviceIMEIOne, "", new { @class = "text-danger" })*@
+                        <span id="lblIMEIErrorMsg" class="text-danger"></span>
                         <label class="floating-label">IMEI One</label>                        
                     </div>
                 </div>
-                <div class="col-sm-3 col-md-3 col-xs-3">
+                <div class="col-sm-3 col-md-3 col-xs-3" id="dvDeviceImeiTwo" style="display:none;">
                     <div class="form-group has-value">
 
                         @Html.TextBoxFor(x => x.DeviceIMEISecond, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.DeviceIMEISecond, "", new { @class = "text-danger" })
+                        @*@Html.ValidationMessageFor(x => x.DeviceIMEISecond, "", new { @class = "text-danger" })*@
                         <label class="floating-label">IMEI Two</label>
                         <div id="SameIMEI" style="color:red"></div>
                     </div>
@@ -120,7 +118,6 @@
 
                 <div class="col-sm-2 col-sm-4"> <h5 class="m-t-0">Device Condition <span class="error-alert">*</span></h5></div>
                 <div class="col-sm-8 col-sm-8">
-
                     @foreach (var item in Model.ConditionList)
                     {
                         <label class="custom-control custom-control-primary custom-checkbox p-l-0">
@@ -131,7 +128,6 @@
                     <div class="row">
                         <div class="col-md-12">
                             @Html.ValidationMessageFor(x => x.DeviceConditionId, "", new { @class = "text-danger" })
-
                         </div>
                     </div>
                 </div>

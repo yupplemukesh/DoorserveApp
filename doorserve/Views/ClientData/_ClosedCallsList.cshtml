@@ -48,7 +48,7 @@ int rowNumber = 0;
                                                           .Filterable(true).Sanitized(false).Encoded(false).
   RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN,Param='A'},null));
               columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
-           columns.Add(c => c.CreatedOn).Titled("Date Time").Filterable(true);
+           columns.Add(c => c.CreatedOn).Titled("Date Time").Filterable(true).Format("{0:dd-MM-yyyy hh:mm tt}");
            columns.Add(c => c.ClientName).Titled("Client Name").Filterable(true);
            columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
            columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
