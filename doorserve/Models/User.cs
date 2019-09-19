@@ -24,7 +24,10 @@ namespace doorserve.Models
         public string ConfirmPassword { get; set; }
         public int UserLoginId { get; set; }
         public string RoleName { get; set; }
-        public Guid? RegionId { get; set; }   
+
+
+        public List<Guid> SelectedRegions { get; set; }
+        public string Regions { get; set; }   
         public UserRole _UserRole { get; set; }
         public string RefName { get; set; }
         public SelectList RegionList { get; set; }

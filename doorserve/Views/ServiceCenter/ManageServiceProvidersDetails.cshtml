@@ -407,7 +407,7 @@
                         <div class="row form-group m-t-5" id="divActions">
                             <div class=" col-md-offset-9 col-md-3">
                                 <button type="submit" class="btn btn-primary">Approve</button>
-                                <button type="button" class="btn btn-primary" id="#btnReject">Dis-Approve</button>
+                                <button type="button" class="btn btn-primary" id="btnReject">Dis-Approve</button>
                             </div>
                         </div>
                     }
@@ -468,7 +468,11 @@
       var PartList = @Html.Raw(Json.Encode(Model.Parts));
         console.log(PartList);
         $(document).ready(function () {
-        $("#btnReject").click(function () {
+        $("#btnReject").click(function () {            
+            $("#rejectpopup").modal("show");
+        });
+
+           $("#btnRejection").click(function () {
             $("#rejectpopup").modal("show");
         });
         $("#btnCancel").click(function () {
@@ -478,6 +482,9 @@
             var rejectionreason = $("#Reasontxt").val();
             $("#Rejection_Reason").val(rejectionreason);
             $("#CStatus").val(9);
+            if ($("#Param").val() == "AP")
+            $("#approvalForm").submit();
+            else
             $("#cancelCallForm").submit();
         });
         $("#btnCancelledReason").click(function () {
@@ -549,7 +556,7 @@
             };
             var files = $('#PartFile').get(0).files;
                if (files.length > 0 || $("#ImgURI").prop("src") != "") {
-                debugger
+                
               if (files.length > 0)
                     part.PartFile = files[0];
                 if (part.FileName != "")
@@ -570,8 +577,7 @@
         $("#ServiceCharges").change(function () {
             CalculateTotal();
         });
-        $("#btnemp").click(function () {
-            debugger
+        $("#btnemp").click(function () {            
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
                var JobSheet = $('#JobSheetFile').get(0).files;
@@ -639,16 +645,14 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (result) {
-                  location.reload();
+                success: function (result) {            
+                window.location.href = window.location.href;
                 },
-                complete: function (result) {
-
+                failed: function (result) {
                 }
             })
            });
-            $("#btnclose").click(function () {
-                debugger
+            $("#btnclose").click(function () {                   
                var isApproved = $("#IsServiceApproved").val();
                var misapprovalCost = $("#MinimumApprovalCost").val();
                if (isApproved !="True") {
@@ -675,7 +679,7 @@
                 dataType: "json",
                 processData: false,
                 success: function (result) {
-                  location.reload();
+                          window.location.href = window.location.href;
                 },
                 complete: function (result) {
 

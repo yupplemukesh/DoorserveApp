@@ -67,7 +67,7 @@
 
                             <tr>
                                 <td>
-                                    @Html.CheckBoxFor(m => Model._MenuList[i].CheckedStatus, new { @class = "chkMenu", name = "CheckedStatus" })
+                                    @Html.CheckBoxFor(m => Model._MenuList[i].CheckedStatus, new { @class = "chkMenu chkSubMenu",   name = "CheckedStatus" })
                                     @Html.HiddenFor(m => Model._MenuList[i].ParentMenuId)
                                     @Html.HiddenFor(m => Model._MenuList[i].MenuCapId)
                                 </td>
@@ -83,7 +83,7 @@
                                                     <td>
                                                         @Html.HiddenFor(m => Model._MenuList[i].SubMenuList[j].MenuCapId)
                                                         @Html.HiddenFor(m => Model._MenuList[i].SubMenuList[j].ParentMenuId)
-                                                        @Html.CheckBoxFor(m => Model._MenuList[i].SubMenuList[j].CheckedStatus, new { @class = "chkMenu" })
+                                                        @Html.CheckBoxFor(m => Model._MenuList[i].SubMenuList[j].CheckedStatus, new { @class = "chkMenu subItem" })
                                                     </td>
                                                     <td class="label-font-500">
                                                         @Model._MenuList[i].SubMenuList[j].CapName
@@ -132,23 +132,11 @@
         }
         return valid;
     });
-    $(document).on("change", ".chkMenu", function (e) {
-
-
-
-        if ($(this).prop("checked") == false) {
-
-            $("#chkAll").prop('checked', false);
-
-        }
-
-
-        if ($('.chkMenu:checked').length == $('.chkMenu').length) {
-            $("#chkAll").prop('checked', true);
-        }
+    
+    $(document).on("change", ".chkSubMenu", function (e) {     
+        $(this).parent().next().next().children('table').find("input").prop('checked', $(this).prop("checked"));
     });
-    $(document).on("change", "#chkAll", function (e) {
-
+      $(document).on("change", "#chkAll", function (e) {
         $(".chkMenu").prop('checked', $(this).prop("checked"));
     });
     $(document).ready(function () {
@@ -156,6 +144,4 @@
             $("#chkAll").prop('checked', true);
         }
     });
-
-
 </script>

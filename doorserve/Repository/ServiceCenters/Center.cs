@@ -482,7 +482,7 @@ namespace doorserve.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@EngContactNumber", ToDBNull(callStatusDetails.TechnicianContactNumber));
             sp.Add(param);
-            param = new SqlParameter("@CancelReason", ToDBNull(callStatusDetails.CancelReason));
+            param = new SqlParameter("@CancelReason", ToDBNull(callStatusDetails.RejectionReason));
             sp.Add(param);
             param = new SqlParameter("@IsServiceApproval", ToDBNull(callStatusDetails.IsServiceApproved));
             sp.Add(param);

@@ -148,9 +148,6 @@ namespace doorserve.Controllers
             Newcalls.LocationList = new SelectList(Enumerable.Empty<SelectListItem>());
             //Newcalls.ClientId = 101;
             Newcalls.DataSourceId = 102;
-
-
-
             return View(Newcalls);
            
         }
@@ -158,8 +155,7 @@ namespace doorserve.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(CallDetailsModel uploads)
         {
-    
-
+   
             uploads.UserId = CurrentUser.UserId;
             uploads.CompanyId = CurrentUser.CompanyId;
             //if (CurrentUser.UserRole.ToLower().Contains("client"))
@@ -185,7 +181,6 @@ namespace doorserve.Controllers
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Esclated_Calls)]
         public async Task<ActionResult> Cancel()
         {
-
             var filter = new FilterModel { CompId = CurrentUser.CompanyId };
             var _calls = await _RepoCallLog.GetCancelRequestedData(filter);
             return View(_calls);

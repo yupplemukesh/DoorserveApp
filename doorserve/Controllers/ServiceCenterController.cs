@@ -545,6 +545,7 @@ namespace doorserve.Controllers
             if (callStatusDetails.Param == "AP")
             {
                 callStatusDetails.Type = "AP";
+                callStatusDetails.AppointmentStatus = callStatusDetails.CStatus;
             }
             if (callStatusDetails.Param == "CL")
             {
@@ -555,12 +556,17 @@ namespace doorserve.Controllers
             callStatusDetails.UserId = CurrentUser.UserId;
             var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
                 TempData["response"] = response;
-            if(callStatusDetails.Type == "C")
+            if (callStatusDetails.Type == "C")
                 return RedirectToAction("index", "PendingCalls");
-            else if(callStatusDetails.Type == "A")
-            return RedirectToAction("AcceptCalls");  
+            else if (callStatusDetails.Type == "A")
+            {
+                if (CurrentUser.UserTypeName.ToLower().Contains("company"))
+                    return Json("/ServiceCenter/OpenCalls", JsonRequestBehavior.AllowGet);
+                else
+                    return Json("/ServiceCenter/AcceptCalls", JsonRequestBehavior.AllowGet);         
+            }
             else
-                return RedirectToAction("EscalateCalls","PendingCalls");
+                return RedirectToAction("EscalateCalls", "PendingCalls");
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.ExcelExport }, (int)MenuCode.Open_Calls)]
         [HttpGet]
@@ -635,7 +641,7 @@ namespace doorserve.Controllers
             }
             return Json( PartNo + Path.GetExtension(Path.Combine(directory, file.FileName)), JsonRequestBehavior.AllowGet);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View, Actions.ExcelExport }, 0)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, 0)]
         [HttpGet]
         public async Task<ActionResult> CloseCalls()
         {
@@ -671,6 +677,48 @@ namespace doorserve.Controllers
             }
             var resp = await _log.GetCalls(filter);
             return View(resp.CloseCalls);
+        }
+
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Open_Calls)]
+        [HttpGet]
+        public async Task<ActionResult> OpenCalls()
+        {
+            var filter = new FilterModel
+            {
+                CompId = CurrentUser.CompanyId,
+                ServiceId = CurrentUser.RefKey,
+                ProviderId = CurrentUser.RefKey
+            };
+
+
+            if (CurrentUser.UserTypeName.ToLower().Contains("company"))
+            {
+                filter.ProviderId = null;
+                filter.CenterId = null;
+                filter.ClientId = null;
+            }
+
+            if (CurrentUser.UserTypeName.ToLower().Contains("provider"))
+            {
+                filter.ProviderId = CurrentUser.RefKey;
+                filter.CenterId = null;
+                filter.ClientId = null;
+            }
+            if (CurrentUser.UserTypeName.ToLower().Contains("center"))
+            {
+                filter.ProviderId = null;
+                filter.CenterId = CurrentUser.RefKey;
+                filter.ClientId = null;
+            }
+
+            if (CurrentUser.UserTypeName.ToLower().Contains("client"))
+            {
+                filter.ProviderId = null;
+                filter.CenterId = null;
+                filter.ClientId = CurrentUser.RefKey;
+            }
+            var resp = await _log.GetCalls(filter);
+            return View(resp.OpenCalls);
         }
     }
     

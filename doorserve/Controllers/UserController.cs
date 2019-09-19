@@ -59,9 +59,17 @@ namespace doorserve.Controllers
                 return View(objUser);
 
             }
-
+            objUser.Regions = "";
             objUser.UserLoginId = CurrentUser.UserId;
             objUser.UserTypeId = CurrentUser.UserTypeId;
+            if (objUser.SelectedRegions.Count > 0)
+            {
+                foreach (var regionId in objUser.SelectedRegions)
+                    objUser.Regions = objUser.Regions +','+ regionId.ToString();
+            }
+            objUser.Regions = objUser.Regions.TrimStart(',');
+            objUser.Regions = objUser.Regions.TrimEnd(',');
+
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
             Type type = mpc.GetType();
@@ -86,7 +94,7 @@ namespace doorserve.Controllers
                             userTypeId = objUser.UserTypeId,
                             RefId = CurrentUser.RefKey,
                             companyId = CurrentUser.CompanyId,
-                            objUser.RegionId
+                            objUser.Regions
                         }, commandType: CommandType.StoredProcedure).FirstOrDefault();
                     if (result == 0)
                     {
@@ -161,7 +169,7 @@ namespace doorserve.Controllers
                     objUser.ConFirstName = result.ConFirstName;
                     objUser.ConMobileNumber = result.ConMobileNumber;
                     objUser.CurrentPassword= doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(result.Password, true);
-                    objUser.RegionId = result.RegionId;
+                    objUser.Regions = result.Regions;
                     objUser.LocationId= result.LocationId;
                     objUser.ConEmailAddress = result.ConEmailAddress;
                     objUser.LocationList = new SelectList(_drp.BindLocationByPinCode(result.PinNumber), "Value", "Text");
@@ -169,6 +177,19 @@ namespace doorserve.Controllers
                     objUser.CurrentEmail = result.ConEmailAddress;
                     objUser.UserTypeId = result.UserTypeId;
                 }
+
+                objUser.SelectedRegions = new List<Guid>();
+                if (!string.IsNullOrEmpty(objUser.Regions))
+                {
+                    var regArrary = objUser.Regions.Split(',');
+                    for(int i=0; i< regArrary.Length; i++)
+                    {
+                     objUser.SelectedRegions.Add(new Guid(regArrary[i]));
+                    }
+                }
+
+
+
             }
             objUser.EventAction = 'U';
             return View(objUser);
@@ -187,6 +208,14 @@ namespace doorserve.Controllers
                 return View(objUser);
 
             }
+            objUser.Regions = "";
+            if (objUser.SelectedRegions.Count > 0)
+            {
+                foreach (var regionId in objUser.SelectedRegions)
+                    objUser.Regions = objUser.Regions +','+ regionId.ToString();
+            }
+            objUser.Regions = objUser.Regions.TrimStart(',');
+            objUser.Regions = objUser.Regions.TrimEnd(',');
             objUser.UserLoginId = CurrentUser.UserId;
             ResponseModel objResponseModel = new ResponseModel();
             var mpc = new Email_send_code();
@@ -219,7 +248,7 @@ namespace doorserve.Controllers
                                 userTypeId = objUser.UserTypeId,
                                 RefId = CurrentUser.RefKey,
                                 companyId = CurrentUser.CompanyId,
-                                objUser.RegionId
+                                objUser.Regions
 
 
                             }, commandType: CommandType.StoredProcedure).FirstOrDefault();
