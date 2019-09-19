@@ -12,7 +12,7 @@
 <div class="panel-heading">
     <h3 class="m-y-0">Add New Call</h3>
 </div>
-@using (Html.BeginForm("Create", "PendingCalls", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "PendingCalls", FormMethod.Post, new { enctype = "multipart/form-data",id="pendingCallsForm" }))
 {
     <div class="panel-body">
         <!--/.col-->
@@ -25,7 +25,7 @@
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-         $('input[type=radio][name="ServiceTypeId"]').change(function () {
+        $('input[type=radio][name="ServiceTypeId"]').change(function () {
                 //console.log($(this).val());
 
                 if ($(this).val() == 7) {
@@ -129,6 +129,7 @@
             }
 
         }
+
         function getCustomer() {
             var mobile = $("#CustomerContactNumber").val();
             $.ajax({
@@ -142,7 +143,7 @@
            
                     // console.log(data);
                     if (data.length > 0) {
-                        debugger
+                        
                         $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
                         $("#CustomerName").val(data[0].CustomerName);
                         $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
@@ -162,8 +163,19 @@
             });
         }
         function AjaxWithFilter(method, ddl, e) {
+            
             var CategoryId = e.value;
             var ClientId = $("#ClientId").val();
+            var categoryName = $(e).find(":selected").text();
+            if (categoryName.toLowerCase() == "mobile") {
+                $("#dvDeviceImeiOne").css("display", "block");
+                $("#dvDeviceImeiTwo").css("display", "block");
+            }
+            else {
+                $("#dvDeviceImeiOne").css("display", "none");
+                $("#dvDeviceImeiTwo").css("display", "none");
+            }
+
             $.ajax({
                 type: "GET",
                 url: "/DropdownBind/" + method,
@@ -172,7 +184,8 @@
                 dataType: "json",
                 success: function (data) {
                     $("#" + ddl).empty();
-                    for (var i = 0; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++)
+                    {
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
                     }
@@ -184,6 +197,7 @@
         }
         function AjaxWithFilter1(method, ddl, e) {
             var ClientId = e.value;
+
             var companyId = $("#CompanyId").val();
             $.ajax({
                 type: "GET",
@@ -203,6 +217,38 @@
                 }
             });
         }
+
+        $(document).on("click", "#btnSave", function (e) {
+           
+            var valid = true;
+            if ($("#DeviceCategoryId").find(":selected").text().toLowerCase() == "mobile")
+            {
+                if (!$("#DeviceIMEIOne").val()) {
+                    $("#lblIMEIErrorMsg").text("Enter the device IMEI One");
+                    valid = false;
+                }                
+                if (valid)
+                {
+                    if ($("#DeviceIMEIOne").val() && $("#DeviceIMEISecond").val())
+                    {
+                        if ($("#DeviceIMEIOne").val() == $("#DeviceIMEISecond").val()) {
+                            alert("IMEIOne and IMEISecond should not be same");
+                            valid = false;
+                        }
+                    }
+                }
+            }
+
+            if (valid)
+            {
+                if ($("#pendingCallsForm").valid()) {
+                    alert('d')
+                }
+                $('#btnSave').submit();
+            }
+
+
+        });
     </script>
 }
 

@@ -24,9 +24,7 @@ namespace doorserve.Models.ServiceCenter
         public string CancelReason { get; set; }
         public string CompLogo { get; set; }
         public Guid? EmpId { get; set; }
-        public string TechnicianName { get; set; }
-       [MinLength(10)]
-       [MaxLength(10)]
+        public string TechnicianName { get; set; }   
        [DisplayName("Technician Contact Number")]
         public string TechnicianContactNumber { get; set; }
         public EmployeeModel Employee { get; set; }

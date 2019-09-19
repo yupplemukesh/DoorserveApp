@@ -103,7 +103,6 @@
                     </div>
                 </div>
             </div>
-
                 <div class="col-md-6 col-sm-12">
                     <div class="row">
                         <div class="form-material">
@@ -112,10 +111,8 @@
                                     @Html.TextBoxFor(x => x.NearLocation, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(x => x.NearLocation, "", new { @class = "text-danger" })
                                     <label class="floating-label t-0">Landmark</label>
-
                                 </div>
                             </div>
-
                             <div class="col-sm-6 col-md-6">
                                 <div class="form-group has-value">
                                     @Html.TextBoxFor(x => x.PinNumber, new { @class = "form-control", id = "PinCode", @OnChange = "getLocationByPin()" })
@@ -123,12 +120,8 @@
                                     <label class="floating-label t-0">Pincode<span class="error-alert">*</span></label>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -222,7 +215,7 @@
         }
         
     };
-       function BindAddressByLocation(locationId) {
+    function BindAddressByLocation(locationId) {
                   $.ajax({
                       type: "GET",
                       url: '@Url.Action("BindLocationByLocationIdJson","DropdownBind")',

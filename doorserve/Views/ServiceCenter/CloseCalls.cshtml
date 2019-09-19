@@ -11,14 +11,8 @@
 <div class="panel-heading">
     <div class="row">
         <div class="col-md-6"><h3 class="m-y-0">Close Calls</h3></div>
-
         <div class="col-md-6  add-tem-btn-mar-top">
-
-
-
-
-
-            <div class="panel-tools">
+           <div class="panel-tools">
                 @if (Permissions.Rights.ExcelExport)
                 {
                     using (Html.BeginForm("ExportToExcel", "ClientData", FormMethod.Get))
@@ -37,20 +31,12 @@
 
 <div class="row">
     <div class="col-md-12">
-
-
-
         @if (Permissions.Rights.View)
         {
-
-
             <div class="panel-body">
-
                 <div class="row">
                     <div class="col-md-12">
-
                         <div class="panel panel-default panel-table">
-
                             <div class="panel-body">
                                 <div class="table-responsive for-popup-height">
                                     <div class="code-cut">
@@ -65,7 +51,7 @@
                                             count++;
                                             return @<text> @count </text>;
 });
-columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
+columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy hh:mm tt}");
      columns.Add(model => model.CRN).Titled("Call Id")
                                                           .Filterable(true).Sanitized(false).Encoded(false).
                                                             RenderValueAs(model => Html.ActionLink(model.CRN, "ManageServiceProvidersDetails","ServiceCenter", new { CRN = model.CRN,Param = "A" },null));

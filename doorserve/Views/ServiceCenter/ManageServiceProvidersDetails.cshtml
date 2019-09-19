@@ -375,7 +375,9 @@
                                 <h5>Customer Signature</h5>
 
                             </div>
-
+                            <div class="col-sm-6 text-left">
+                                <h5>Technician Signature</h5>
+                            </div>
                         </div>
                     }
                 }
@@ -527,39 +529,53 @@
             })
 
         });
-        $("#btnEditSparePart").click(function () {
-
+            $("#btnEditSparePart").click(function () {
+                
             var PartId = $("#PartId").val();
             var PartNo = $("#PartNo").val();
             var Description = $("#PartDescription").val();
             var Qty = $("#Qty").val();
             var UnitPrice = $("#UnitPrice").val();
+            var valid = false;
+            if (PartNo && Description && Qty && UnitPrice) {
 
-            var part = {
-                PartId: PartId,
-                PartNo: PartNo,
-                Description: Description,
-                Qty: Qty,
-                UnitPrice: UnitPrice,
-                FileName: $("#FileName").val(),
-                PartFile: null,
-                url: '',
-                RefKey: $("#DeviceId").val()
+                valid = true;
+             
+            }
+            else {
+              
+                $(".toast-message").html("Please fill the spare parts detail");
+                $(".toast-error").show();
+                $("#toast-container").fadeIn();
+                $("#toast-container").fadeOut(2000);
+                return false;
+            }
+            if (valid) {
+                var part = {
+                    PartId: PartId,
+                    PartNo: PartNo,
+                    Description: Description,
+                    Qty: Qty,
+                    UnitPrice: UnitPrice,
+                    FileName: $("#FileName").val(),
+                    PartFile: null,
+                    url: '',
+                    RefKey: $("#DeviceId").val()
 
-            };
-            var files = $('#PartFile').get(0).files;
-               if (files.length > 0 || $("#ImgURI").prop("src") != "") {
-                debugger
-              if (files.length > 0)
-                    part.PartFile = files[0];
-                if (part.FileName != "")
-                    part.url = "/TempFiles/" + $("#DeviceId").val()+'/' + part.FileName;
-                else
-                    part.url = $("#ImgURI").prop("src");
+                };
+                var files = $('#PartFile').get(0).files;
+                if (files.length > 0 || $("#ImgURI").prop("src") != "") {
+                    
+                    if (files.length > 0)
+                        part.PartFile = files[0];
+                    if (part.FileName != "")
+                        part.url = "/TempFiles/" + $("#DeviceId").val() + '/' + part.FileName;
+                    else
+                        part.url = $("#ImgURI").prop("src");
                     NextStep(part);
 
+                }
             }
-
         });
         $("#Qty").change(function () {
             Calculate();
@@ -571,7 +587,7 @@
             CalculateTotal();
         });
         $("#btnemp").click(function () {
-            debugger
+            
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
                var JobSheet = $('#JobSheetFile').get(0).files;
@@ -592,13 +608,13 @@
                    if(JobSheet.length > 0 )
                    data.append("JobSheetFile", JobSheet[0]);
                }
-               else {
-                   $(".toast-message").html("Please attached Jobsheet");
-                   $(".toast-error").show();
-                   $("#toast-container").fadeIn();
-                   $("#toast-container").fadeOut(2000);
-                   return false;
-               }
+               //else {
+               //    $(".toast-message").html("Please attached Jobsheet");
+               //    $(".toast-error").show();
+               //    $("#toast-container").fadeIn();
+               //    $("#toast-container").fadeOut(2000);
+               //    return false;
+               //}
             var CallDetail = {
                 DeviceId: $("#DeviceId").val(),
                 Remarks: $("#Remarks").val(),
@@ -646,11 +662,27 @@
 
                 }
             })
-           });
+        });
+
+
             $("#btnclose").click(function () {
-                debugger
+                var data = new FormData();
                var isApproved = $("#IsServiceApproved").val();
-               var misapprovalCost = $("#MinimumApprovalCost").val();
+                var misapprovalCost = $("#MinimumApprovalCost").val();
+                var JobSheet = $('#JobSheetFile').get(0).files;
+                if (JobSheet.length > 0 || JobSheetFileName.length > 0) {
+                    if (JobSheet.length > 0)
+                        data.append("JobSheetFile", JobSheet[0]);
+                }
+                else {
+                    $(".toast-message").html("Please attached Jobsheet");
+                   $(".toast-error").show();
+                   $("#toast-container").fadeIn();
+                   $("#toast-container").fadeOut(2000);
+                   return false;
+                }
+
+                
                if (isApproved !="True") {
                    $(".toast-message").html("Service cost is not approved");
                    $(".toast-error").show();
@@ -658,21 +690,24 @@
                    $("#toast-container").fadeOut(2000);
                    return false;
                }
-               if ($("#AppointmentStatus").val() == 27) {
-                   $(".toast-message").html("sorry ! You can not close Call it is cancelled intiated");
-                   $(".toast-error").show();
-                   $("#toast-container").fadeIn();
-                   $("#toast-container").fadeOut(2000);
-                   return false;
-               }
-               else {
-                 var data = JSON.stringify({ DeviceId : $("#DeviceId").val(), Type: "CC" });
+                if ($("#AppointmentStatus").val() == 27) {
+                    $(".toast-message").html("sorry ! You can not close Call it is cancelled intiated");
+                    $(".toast-error").show();
+                    $("#toast-container").fadeIn();
+                    $("#toast-container").fadeOut(2000);
+                    return false;
+                }
+                else {
+                    data.append("DeviceId", $("#DeviceId").val());
+                    data.append("Type", "CC");
+                }
                 $.ajax({
                 type: "POST",
                 url: '@Url.Action("CallStatusDetails", "ServiceCenter")',
                 data: data,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
+                cache: false,
+                contentType: false,
+                processData: false,
                 processData: false,
                 success: function (result) {
                   location.reload();
@@ -682,10 +717,6 @@
                 }
 
                     })
-
-
-               }
-
            });
     });
         $(document).ready(function () {
@@ -761,7 +792,8 @@
                                         winprint.document.write('</body></html>');
                                         winprint.document.close();
                                         winprint.focus();
-                                        window.close();
+            window.close();
+            $("#divActions").show();
                                         }
         function EditItem(partnumber) {          
             var result = PartList.filter(obj => {

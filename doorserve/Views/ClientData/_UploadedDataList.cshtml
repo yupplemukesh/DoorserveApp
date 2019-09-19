@@ -88,24 +88,25 @@
                        {
                            i++;
                            return @<text> @i </text>;
-});
-columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy}");
-columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
-columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
-columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
-columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
-columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
-columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
-columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
-columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
-columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
-columns.Add()
-.Titled("Action")
-.Sanitized(false).Encoded(false)
-.SetWidth(110)
-.RenderValueAs(o => CustomRenderingOfColumn(o).ToHtmlString())
-.Sortable(true);
-}).Named("DataList").WithPaging(10).Sortable(true)
+                       });
+                 columns.Add(c => c.CreatedOn).Titled("Date And Time").Filterable(true).Format("{0:dd-MM-yyyy hh:mm tt}");
+                 columns.Add(c => c.CRN).Titled("Call ID").Filterable(true);
+                 columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
+                 columns.Add(c => c.Status).Titled("Call Status").Filterable(true);
+                 columns.Add(c => c.ClientName).Titled("ClientName").Filterable(true);
+                 columns.Add(c => c.CustomerName).Titled("Customer Name").Filterable(true);
+                 columns.Add(c => c.CustomerContactNumber).Titled("Mobile Number").Filterable(true);
+                 columns.Add(c => c.CustomerEmail).Titled("Email").Filterable(true);
+                 columns.Add(c => c.ServiceTypeName).Titled("Service Type").Filterable(true);
+                 columns.Add(c => c.DeliveryTypeName).Titled("Delivery Type").Filterable(true);
+                 columns.Add(c => c.DeviceCategory).Titled("Category").Filterable(true);
+                 columns.Add()
+                 .Titled("Action")
+                 .Sanitized(false).Encoded(false)
+                 .SetWidth(110)
+                 .RenderValueAs(o => CustomRenderingOfColumn(o).ToHtmlString())
+                 .Sortable(true);
+             }).Named("DataList").WithPaging(10).Sortable(true)
         </div>
     </div>
 </div>

@@ -467,7 +467,22 @@ namespace doorserve.Controllers
             try
             {
 
+                callStatusDetails.JobSheetFile = Request.Files["JobSheetFile"];
                 callStatusDetails.UserId = CurrentUser.UserId;
+
+                string directory = "~/TempFiles/";
+                string path = Server.MapPath(directory + callStatusDetails.DeviceId);
+                if (callStatusDetails.JobSheetFile != null)
+                {
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    callStatusDetails.JobSheetFileName = callStatusDetails.JobSheetFile.FileName;
+
+                    if (System.IO.File.Exists(path+"/"+ callStatusDetails.JobSheetFileName))
+                        System.IO.File.Delete(path + "/" + callStatusDetails.JobSheetFileName);
+
+                    callStatusDetails.JobSheetFile.SaveAs(path +"/"+ callStatusDetails.JobSheetFile.FileName);
+                }
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);

@@ -102,7 +102,7 @@
                                        count++;
                                        return @<text> @count </text>;
                                        });
-                                       columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy}");
+                                       columns.Add(c => c.CreatedOn).Titled("Call Date").Filterable(true).Format("{0:dd-MM-yyyy hh:mm tt}");
                                        columns.Add(model => model.CRN).Titled("Call Id").Filterable(true).Sanitized(false).Encoded(false).
                                        RenderValueAs(o => CustomRenderingOfColumn(o));
                                        columns.Add(c => c.IsRepeat).Titled("Is Repeat Call").Filterable(true);
@@ -227,7 +227,7 @@
                     obj.push(item);
                 }
             });
-            console.log(obj);
+            
             if (obj.length > 0) {
                 var data = {
                     AllocateId: $("#AllocateId").val(), SelectedDevices: obj
