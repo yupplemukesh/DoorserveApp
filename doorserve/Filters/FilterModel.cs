@@ -18,7 +18,10 @@ namespace doorserve.Filters
         public bool IsExport { get; set; }
         public string DeviceSN { get; set; }
         public int? CategoryId { get; set; }
-        public string IMEI { get; set; }          
+        public int? SubCategoryId { get; set; }
+        public string ModelNo { get; set; }  
+        public string CustomerName { get; set; }
+        public string MobileNo{ get; set; }
         public int? GatewayTypeId { get; set; }
         public Guid? ServiceAreaId { get; set;  }
         public char Type { get; set; } 

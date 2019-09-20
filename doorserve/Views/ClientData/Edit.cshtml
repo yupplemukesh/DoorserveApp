@@ -69,34 +69,8 @@
             });
         }
 
-        function getCustomer() {
-            var mobile = $("#CustomerContactNumber").val();
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("BindCustomerJson", "DropdownBind")',
-                data: { 'mobile': mobile },
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
-                    $("#CustomerName").val(data[0].CustomerName);
-                    $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
-                    $("#CustomerEmail").val(data[0].Email);
-                    $("#CustomerId").val(data[0].customerId);
-                    $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
-                    $("#NearLocation").val(data[0].NearLocation);
-                    $("#Address").val(data[0].Address);
-                    $("#IsExistingCustomer").prop("checked", true);
-                    $("#Pincode").val(data.PinNumber);
-                    $("#Country").val(data.Country);
-                    $("#State").val(data.State);
-                    $("#City").val(data.City);
 
-                }
-            });
-        }
-
-       function AjaxWithFilter(method, ddl, e) {
+          function AjaxWithFilter(method, ddl, e) {
             var CategoryId = e.value;
             var ClientId   =  $("#ClientId").val();
               $.ajax({

@@ -225,10 +225,80 @@ else
        format: 'dd/mm/yyyy',
        endDate: new Date()
        });
+          function getCustomer() {
+            var mobile = $("#CustomerContactNumber").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("BindCustomerJson", "DropdownBind")',
+                data: { 'mobile': mobile },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async:true,
+                success: function (data) {
 
+                    console.log(data);
+                    if (data[0] != undefined) {
+                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
+                        $("#CustomerName").val(data[0].CustomerName);
+                        $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
+                        $("#CustomerEmail").val(data[0].Email);
+                        $("#CustomerId").val(data[0].customerId);
+                        $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
+                        $("#NearLocation").val(data[0].NearLocation);
+                        $("#Address").val(data[0].Address);
+                        $("#PinCode").val(data[0].PinNumber);
+                        
+                        $("#IsExistingCustomer").prop("checked", true);
+                        $("#State").val(data[0].State);
+                        $("#Country").val(data[0].Country);
+                        $("#District").val(data[0].District);
+                        var obj = { value: data[0].PinNumber, cvalue: data[0].LocationId };
+                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
+                    }
+                }
+            });
+        }
+    function GetDeviceDetails() {
+          debugger
+          var sn           =      $("#DeviceSn").val();
+          var ModelNo      =      $("#DeviceModelNo").val();
+          var category     =      $("#DeviceCategoryId").val();
+          var customername =      $("#CustomerName").val();
+          var custMobile   =      $("#CustomerContactNumber").val();
+          var subcategory  =      $("#DeviceSubCategoryId").val();
+            if (category != 0 && sn.length != 0 && ModelNo.length != 0 && subcategory!=0 && custMobile.length!=0 &&  customername.length!=0) {
+                $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("GetRepeatCall", "ClientData")',
+                    data: { 'DeviceSN': sn, 'ModelNo': ModelNo, 'CategoryId': category,"SubCategoryId": subcategory, "CustomerName": customername,"MobileNo": custMobile  },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                        console.log(data);
+                        if (data!='Not Found') {
+                            console.log(data);
+                            $("#PrvCall").show();
+                            var CallDate = new Date(parseInt(data.CallDate.substr(6)));
+                            var month = CallDate.getMonth() + 1;
+                            var ProblemDate = new Date(parseInt(data.ProblemCloseDate.substr(6)));
+                            var ExpiryDate = new Date(parseInt(data.ExpiryDate.substr(6)));
+                            $("#prvCallId").text(data.CallId);
+                            $("#prvCallId").val(data.CallId);
+                            $("#prvCallDate").val(CallDate.getDate() + '/' + month + '/' + CallDate.getFullYear());
+                            $("#PrvProblemDescription").val(data.ProblemDescription);
+                             month = ProblemDate.getMonth() + 1;
+                            $("#ProblemCloseDate").val(ProblemDate.getDate() + '/' + month+ '/' + ProblemDate.getFullYear());
+                            month = ExpiryDate.getMonth() + 1;
+                            $("#ExpiryDate").val(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
+                            $("#WStatus").val(data.Status);
+                            $("#IsRepeat").text("Yes");
+                        }
+                    }
+                });
+            }
 
-  
-
+        }
   
 </script>
 

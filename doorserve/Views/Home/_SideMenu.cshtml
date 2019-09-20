@@ -31,7 +31,7 @@
             <ul class="sidebar-submenu collapse">
                 @foreach (var submenu in Model.SubMenuList.Where(m => m.ParentMenuId == item.ParentMenuId))
                 {
-                    <li class="menu-subtitl"><a href="@submenu.PagePath">@submenu.Menu_Name </a></li>
+                    <li class="menu-subtitl"><a href="@submenu.PagePath">@submenu.CapName </a></li>
 
                 }
             </ul>

@@ -24,18 +24,24 @@ namespace doorserve.Repository
         public async Task<PreviousCallModel> GetPreviousCall(FilterModel filterModel)
         {
             List<SqlParameter> sp = new List<SqlParameter>();
-            var param = new SqlParameter("@SN", ToDBNull(filterModel.DeviceSN));
+            var param = new SqlParameter("@CustomerName", ToDBNull(filterModel.CustomerName));
+            sp.Add(param);
+            param = new SqlParameter("@MobileNo", ToDBNull(filterModel.MobileNo));
+            sp.Add(param);
+            param = new SqlParameter("@SN", ToDBNull(filterModel.DeviceSN));
             sp.Add(param);
              param = new SqlParameter("@CategoryId", ToDBNull(filterModel.CategoryId));
             sp.Add(param);
-            param = new SqlParameter("@IMEI", ToDBNull(filterModel.IMEI));
+            param = new SqlParameter("@SubCategoryId", ToDBNull(filterModel.SubCategoryId));
             sp.Add(param);
-            return await _context.Database.SqlQuery<PreviousCallModel>("GetRepeatCallDetails @SN,@CategoryId,@IMEI", sp.ToArray()).FirstOrDefaultAsync();
-        }
+            param = new SqlParameter("@ModelNo", ToDBNull(filterModel.ModelNo));
+            sp.Add(param);
+            return await _context.Database.SqlQuery<PreviousCallModel>("GetRepeatCallDetails @CustomerName, @MobileNo, @SN,@CategoryId, @SubCategoryId,@ModelNo", sp.ToArray()).FirstOrDefaultAsync();
+         }
         public async Task<ResponseModel> AddOrEditCallLog(CallDetailsModel Call)
         {
             var sp = new List<SqlParameter>();
-            var pararm = new SqlParameter("@ID", ToDBNull(Call.Id));
+            var pararm = new SqlParameter("@ID", ToDBNull(Call.Id));    
             sp.Add(pararm);
             pararm = new SqlParameter("@CLIENTID", ToDBNull(Call.ClientId));
             sp.Add(pararm);

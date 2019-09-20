@@ -21,7 +21,7 @@
         @Html.LabelFor(model => model.ServiceTypeId, htmlAttributes: new { @class = "col-md-4 col-sm-4 col-xs-12" })
         <div class="col-md-6 col-sm-8 col-xs-12">
 
-            @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceTypeList, "Select", new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.ServiceTypeId, Model.ServiceTypeList, "Select", new { @class = "form-control", @Id="serviceType" })
             @Html.ValidationMessageFor(x => x.ServiceTypeId, "", new { @class = "text-danger" })
         </div>
     </div>

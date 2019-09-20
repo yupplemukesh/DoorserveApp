@@ -46,7 +46,7 @@
                 <div class="col-sm-3 col-md-3 col-xs-3">
                     <div class="form-group has-value">
                         @Html.TextBoxFor(x => x.DeviceModelNo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(x => x.DeviceModelNo, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(x => x.DeviceModelNo, "", new { @class = "text-danger",onchange="GetDeviceDetails()" })
                         <label class="floating-label">Model Number</label>
                     </div>
                 </div>

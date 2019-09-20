@@ -47,7 +47,7 @@
         var val = e.value;
         var refval = e.cvalue;
         if (ddl == "StateId")
-            //$("#CityId").empty();
+            $("#CityId").empty();
             $("#LocationId").empty();
         if (ddl == 'DeviceModalId') {
 
@@ -82,86 +82,9 @@
         });
     }
 
-        function GetDeviceDetails() {
+      
 
-            var sn = $("#DeviceSn").val();
-            var IMEI = $("#DeviceIMEIOne").val();
-            var CatId = $("#DeviceCategoryId").val();
-            if (CatId != 0 && (sn.length != 0 || IMEI.length != 0)) {
-                $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("GetRepeatCall", "ClientData")',
-                    data: { 'DeviceSN': sn, 'IMEI': IMEI, 'CategoryId': CatId },
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    async: true,
-                    success: function (data) {
-                        
-                        if (data == 'Not Found') {
-
-                            $("#prvCallId").val(null);
-                            $("#PrvCall").hide();
-                            $("#IsRepeat").text("No");
-                        }
-                        else {
-                            $("#PrvCall").show();
-                            var CallDate = new Date(parseInt(data.CallDate.substr(6)));
-                            var month = CallDate.getMonth() + 1;
-                            var ProblemDate = new Date(parseInt(data.ProblemCloseDate.substr(6)));
-                            var ExpiryDate = new Date(parseInt(data.ExpiryDate.substr(6)));
-                            $("#prvCallId").text(data.CallId);
-                            $("#prvCallId").val(data.CallId);
-                            $("#prvCallDate").val(CallDate.getDate() + '/' + month + '/' + CallDate.getFullYear());
-                            $("#PrvProblemDescription").val(data.ProblemDescription);
-                             month = ProblemDate.getMonth() + 1;
-                            $("#ProblemCloseDate").val(ProblemDate.getDate() + '/' + month+ '/' + ProblemDate.getFullYear());
-                            month = ExpiryDate.getMonth() + 1;
-                            $("#ExpiryDate").val(ExpiryDate.getDate() + '/'+ month+ '/' + ExpiryDate.getFullYear());
-                            $("#WStatus").val(data.Status);
-                            $("#IsRepeat").text("Yes");
-                        }
-                    },
-                    fail: function (index) {
-
-
-                    }
-                });
-            }
-
-        }
-
-        function getCustomer() {
-            var mobile = $("#CustomerContactNumber").val();
-            $.ajax({
-                type: "GET",
-                url: '@Url.Action("BindCustomerJson", "DropdownBind")',
-                data: { 'mobile': mobile },
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async:true,
-                success: function (data) {
-           
-                    // console.log(data);
-                    if (data.length > 0) {
-                        
-                        $('input[name=CustomerTypeId][value="' + data[0].CustomerTypeId + '"]').prop('checked', true);
-                        $("#CustomerName").val(data[0].CustomerName);
-                        $("#CustomerAltConNumber").val(data[0].CustomerAltConNumber);
-                        $("#CustomerEmail").val(data[0].Email);
-                        $("#CustomerId").val(data[0].customerId);
-                        $('input[name="AddressTypeId"][value="' + data[0].AddressTypeId + '"]').prop('checked', true);
-                        $("#NearLocation").val(data[0].NearLocation);
-                        $("#Address").val(data[0].Address);
-                        $("#PinCode").val(data[0].PinNumber);
-                        $("#CountryId").val(data[0].CountryId);
-                        $("#IsExistingCustomer").prop("checked", true);
-                        $("#StateId").val(data[0].StateId);
-                        var obj = { value: data[0].PinNumber, Other: data[0].LocationId };
-                        AjaxWithValue('BindLocationByPinCodeJson', 'LocationId', obj);
-                    }
-                }
-            });
-        }
+     
         function AjaxWithFilter(method, ddl, e) {
             
             var CategoryId = e.value;

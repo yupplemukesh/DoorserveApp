@@ -23923,3 +23923,16 @@ tabs-left > li.active > a, .tabs-left > li.active > a:focus, .tabs-left > li.act
 
 color:red;
 }
+
+loader {
+    display: block;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: #fafafa url(../img/loading.gif) no-repeat center center;
+    text-align: center;
+    color: #999;
+}

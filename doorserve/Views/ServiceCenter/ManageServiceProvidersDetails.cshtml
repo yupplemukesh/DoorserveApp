@@ -434,6 +434,9 @@
         </div>
     </div>
 </div>
+
+<div id="loader" style="display:none">
+</div>
 <div id="rejectpopup" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -678,12 +681,10 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (result) {    
-                    debugger
+                success: function (result) {                        
                 window.location.href = window.location.href;
                 },
                 failed: function (result) {
-                    debugger
                         window.location.href = window.location.href;
                 }
             })
@@ -746,6 +747,12 @@
            });
     });
         $(document).ready(function () {
+
+   $(document).ajaxStart(function () {
+        $("#loader").fadeOut('slow');
+    }).ajaxStop(function () {
+             $("#loader").fadeIn();
+    });
         var param = $("#Param").val();
         if (param == 'A' || param == 'P' || param=='AP' || param=='CL' ) {
             $("#providerId").attr('disabled', true);
