@@ -470,19 +470,33 @@ namespace doorserve.Controllers
             {
 
                 callStatusDetails.JobSheetFile = Request.Files["JobSheetFile"];
+                callStatusDetails.InvoiceFile = Request.Files["InvoiceFile"];
                 callStatusDetails.UserId = CurrentUser.UserId;
 
                 string directory = "~/TempFiles/";
                 string path = Server.MapPath(directory + callStatusDetails.DeviceId);
-                if (callStatusDetails.JobSheetFile != null)
+                if (callStatusDetails.InvoiceFile != null || callStatusDetails.JobSheetFile != null || callStatusDetails.InvoiceFile != null)
                 {
                     if (!Directory.Exists(path))
                         Directory.CreateDirectory(path);
-                    callStatusDetails.JobSheetFileName = callStatusDetails.JobSheetFile.FileName;
-                    if (System.IO.File.Exists(path+"/"+ callStatusDetails.JobSheetFileName))
-                        System.IO.File.Delete(path + "/" + callStatusDetails.JobSheetFileName);
+                }
 
-                    callStatusDetails.JobSheetFile.SaveAs(path +"/"+ callStatusDetails.JobSheetFile.FileName);
+                if (callStatusDetails.InvoiceFile != null)
+                {
+                    callStatusDetails.InvoiceFileName = "DevicePic" + Path.GetExtension(Path.Combine(directory, callStatusDetails.InvoiceFile.FileName));
+                    if (System.IO.File.Exists(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.InvoiceFileName))
+                        System.IO.File.Delete(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.InvoiceFileName);
+                    if (callStatusDetails.InvoiceFile != null && callStatusDetails.InvoiceFile.ContentLength > 0)
+                        callStatusDetails.InvoiceFile.SaveAs(path + "/" + callStatusDetails.InvoiceFileName);
+                }
+                if (callStatusDetails.JobSheetFile != null)
+                {
+                    callStatusDetails.JobSheetFileName = "JobSheet" + Path.GetExtension(Path.Combine(directory, callStatusDetails.JobSheetFile.FileName));
+
+                    if (System.IO.File.Exists(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.JobSheetFileName))
+                        System.IO.File.Delete(directory + callStatusDetails.DeviceId + "/" + callStatusDetails.JobSheetFileName);
+                    if (callStatusDetails.JobSheetFile != null && callStatusDetails.JobSheetFile.ContentLength > 0)
+                        callStatusDetails.InvoiceFile.SaveAs(path + "/" + callStatusDetails.JobSheetFileName);
                 }
                 callStatusDetails.CompanyId = CurrentUser.CompanyId;
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);

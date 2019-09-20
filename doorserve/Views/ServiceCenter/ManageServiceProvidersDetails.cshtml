@@ -492,8 +492,7 @@
         $("#btnReject").click(function () {            
             $("#rejectpopup").modal("show");
         });
-
-           $("#btnRejection").click(function () {
+        $("#btnRejection").click(function () {
             $("#rejectpopup").modal("show");
         });
         $("#btnCancel").click(function () {
@@ -612,7 +611,8 @@
         $("#ServiceCharges").change(function () {
             CalculateTotal();
         });
-        $("#btnemp").click(function () {
+
+            $("#btnemp").click(function () {
             
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
@@ -623,13 +623,13 @@
                    if (InvoiceFile.length > 0)
                        data.append("InvoiceFile", InvoiceFile[0]);
                }
-               else {
-                   $(".toast-message").html("Please attached Invoice");
-                   $(".toast-error").show();
-                   $("#toast-container").fadeIn();
-                   $("#toast-container").fadeOut(2000);
-                   return false;
-               }
+               //else {
+               //    $(".toast-message").html("Please attached Invoice");
+               //    $(".toast-error").show();
+               //    $("#toast-container").fadeIn();
+               //    $("#toast-container").fadeOut(2000);
+               //    return false;
+               //}
                if (JobSheet.length > 0 || JobSheetFileName.length > 0) {
                    if(JobSheet.length > 0 )
                    data.append("JobSheetFile", JobSheet[0]);
@@ -681,11 +681,11 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (result) {                        
+                success: function (result) {             
                 window.location.href = window.location.href;
                 },
                 failed: function (result) {
-                        window.location.href = window.location.href;
+                    window.location.href = window.location.href;
                 }
             })
            });
@@ -693,6 +693,18 @@
                             var data = new FormData();
                var isApproved = $("#IsServiceApproved").val();
                 var misapprovalCost = $("#MinimumApprovalCost").val();
+                var InvoiceFile = $('#InvoiceFile').get(0).files;
+                if (InvoiceFile.length > 0 || InvoiceFileName.length > 0) {
+                    if (InvoiceFile.length > 0)
+                        data.append("InvoiceFile", InvoiceFile[0]);
+                }
+                 else {
+                   $(".toast-message").html("Please attached Invoice");
+                   $(".toast-error").show();
+                   $("#toast-container").fadeIn();
+                   $("#toast-container").fadeOut(2000);
+                   return false;
+               }
                 var JobSheet = $('#JobSheetFile').get(0).files;
                 if (JobSheet.length > 0 || JobSheetFileName.length > 0) {
                     if (JobSheet.length > 0)
@@ -740,7 +752,7 @@
                           window.location.href = window.location.href;
                 },
                 complete: function (result) {
-                     window.location.href = window.location.href;
+
                 }
 
                     })
