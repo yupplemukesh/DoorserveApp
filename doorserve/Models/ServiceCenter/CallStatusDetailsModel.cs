@@ -30,6 +30,7 @@ namespace doorserve.Models.ServiceCenter
         public string Type { get; set; }
         public int? CStatus { get; set; }
         public string Param { get; set; }
+        public Guid? CompanyId { get; set; }
         public bool? IsServiceApproved { get; set; }
  
     }

@@ -321,9 +321,9 @@
                                     @if (!Model.IsCompany)
                                     {
 
-                                    <div class=" col-md-offset-9 col-md-1">
-                                        <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
-                                    </div>
+                                        <div class=" col-md-offset-9 col-md-1">
+                                            <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
+                                        </div>
                                     }
                                     @if (Model.TotalCharges > 0 && Model.AppointmentStatus != 27)
                                     {
@@ -419,8 +419,9 @@
                         Model.IsServiceApproved = true;
                         @Html.HiddenFor(x => x.DeviceId)
                         @Html.HiddenFor(x => x.Param)
+                        @Html.HiddenFor(x => x.CStatus)
                         @Html.HiddenFor(x => x.IsServiceApproved)
-                        @Html.HiddenFor(x => x.RejectionReason)
+                        @Html.HiddenFor(x => x.RejectionReason,new { @Id = "Rejection_Reason" })
                         <div class="row form-group m-t-5" id="divActions">
                             <div class=" col-md-offset-9 col-md-3">
                                 <button type="submit" class="btn btn-primary">Approve</button>
@@ -677,10 +678,13 @@
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (result) {            
+                success: function (result) {    
+                    debugger
                 window.location.href = window.location.href;
                 },
                 failed: function (result) {
+                    debugger
+                        window.location.href = window.location.href;
                 }
             })
            });
@@ -735,7 +739,7 @@
                           window.location.href = window.location.href;
                 },
                 complete: function (result) {
-
+                     window.location.href = window.location.href;
                 }
 
                     })

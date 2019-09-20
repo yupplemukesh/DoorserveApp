@@ -413,9 +413,13 @@ namespace doorserve.Repository.ServiceCenters
             sp.Add(param);
             param = new SqlParameter("@Type", ToDBNull(callStatusDetails.Type));
             sp.Add(param);
+            param = new SqlParameter("@CompId", ToDBNull(callStatusDetails.CompanyId));
+            sp.Add(param);
             param = new SqlParameter("@InvoiceFileName", ToDBNull(callStatusDetails.InvoiceFileName));
             sp.Add(param);
-            var sql = "UpdateCallStatusDetails @StatusId,@RejectReasion,@DeviceId,@USER,@Type,@InvoiceFileName";
+            param = new SqlParameter("@JobSheetFileName", ToDBNull(callStatusDetails.JobSheetFileName));
+            sp.Add(param);
+            var sql = "UpdateCallStatusDetails @StatusId,@RejectReasion,@DeviceId,@USER,@Type,@CompId,@InvoiceFileName,@JobSheetFileName";
             var res = await _context.Database.SqlQuery<ResponseModel>(sql, sp.ToArray()).SingleOrDefaultAsync();
             if (res.ResponseCode == 0)
                 res.IsSuccess = true;

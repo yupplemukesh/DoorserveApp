@@ -442,7 +442,7 @@ namespace doorserve.Controllers
             return View(CallDetailsModel);
         }
         //
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, 0)]
         [HttpPost]
         public async Task<ActionResult> ManageServiceProvidersDetails(CallStatusDetailsModel callStatusDetails)
         {
@@ -479,12 +479,12 @@ namespace doorserve.Controllers
                     if (!Directory.Exists(path))
                         Directory.CreateDirectory(path);
                     callStatusDetails.JobSheetFileName = callStatusDetails.JobSheetFile.FileName;
-
                     if (System.IO.File.Exists(path+"/"+ callStatusDetails.JobSheetFileName))
                         System.IO.File.Delete(path + "/" + callStatusDetails.JobSheetFileName);
 
                     callStatusDetails.JobSheetFile.SaveAs(path +"/"+ callStatusDetails.JobSheetFile.FileName);
                 }
+                callStatusDetails.CompanyId = CurrentUser.CompanyId;
                 var response = await _centerRepo.UpdateCallsStatusDetails(callStatusDetails);
                 TempData["response"] = response;
                 return Json("Ok", JsonRequestBehavior.AllowGet);
@@ -577,10 +577,10 @@ namespace doorserve.Controllers
                 return RedirectToAction("index", "PendingCalls");
             else if (callStatusDetails.Type == "A")
             {
-                if (CurrentUser.UserTypeName.ToLower().Contains("company"))
-                    return RedirectToAction("OpenCalls");
+                if(CurrentUser.UserTypeName.ToLower().Contains("company"))
+                    return RedirectToAction("Opencalls", "ServiceCenter");
                 else
-                    return RedirectToAction("AcceptCalls");
+                return RedirectToAction("AcceptCalls", "ServiceCenter");
             }
             else
                 return RedirectToAction("EscalateCalls", "PendingCalls");
