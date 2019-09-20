@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-6 text-left"> 
+                    <div class="col-md-6 text-left">
                         <img src="@Model.CompLogo" />
                     </div>
                     <div class="col-md-6 text-right">
@@ -228,18 +228,18 @@
                                     @Html.ValidationMessageFor(x => x.TechnicianContactNumber, "", new { @class = "text-danger" })
                                 </div>
                                 @*<div class="col-sm-5" id="DivTechName" style="display:none">
-                                      @Html.DisplayFor(x => x.TechnicianName)
-                                    </div>*@
+                          @Html.DisplayFor(x => x.TechnicianName)
+                        </div>*@
 
                             </div>
                         </div>
                         //if (Model.EmpId != null)
                         //{
                         @*<div class="panel-body">
-                                <div id="TechnicianDetailsForm2">
-                                    @Html.Partial("_TechnicianDetailsForm", Model.Employee)
-                                </div>
-                            </div>*@
+                    <div id="TechnicianDetailsForm2">
+                        @Html.Partial("_TechnicianDetailsForm", Model.Employee)
+                    </div>
+                </div>*@
                         if (Model.TechnicianName != null)
                         {
 
@@ -317,24 +317,35 @@
                                 </div>
                             </div>
                             if (Model.StatusId != 18)
-                            {
-                                <div class="row form-group m-t-5" id="divActions">
+                            { <div class="row form-group m-t-5" id="divActions">
+                                    @if (!Model.IsCompany)
+                                    {
+
                                     <div class=" col-md-offset-9 col-md-1">
                                         <button type="button" id="btnemp" class="btn btn-primary">Submit</button>
                                     </div>
+                                    }
                                     @if (Model.TotalCharges > 0 && Model.AppointmentStatus != 27)
                                     {
                                         Model.Type = "CC";
-                                        <div class="col-md-1">
-                                            <button type="button" id="btnclose" class="btn btn-primary">Close Call</button>
-                                        </div>
+                                        if (!Model.IsCompany)
+                                        {
+
+                                            <div class="col-md-1">
+                                                <button type="button" id="btnclose" class="btn btn-primary">Close Call</button>
+                                            </div>
+                                        }
 
                                     }
                                     @if (Model.TotalCharges == 0)
                                     {
-                                        <div class="col-md-1">
-                                            <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary" EmpId="@Model.Employee.EmpId">Print Record Card</button>
-                                        </div>
+                                        if (!Model.IsCompany)
+                                        {
+
+                                            <div class="col-md-1">
+                                                <button type="button" id="btnPrint" onclick="PrintPage()" class="btn btn-primary" EmpId="@Model.Employee.EmpId">Print Record Card</button>
+                                            </div>
+                                        }
                                     }
                                 </div>
 
@@ -342,11 +353,14 @@
                         }
                         else if (Model.Param != "AP" || Model.Param != "CL")
                         {
-                            <div class="row form-group m-t-5" id="divActions">
-                                <div class=" col-md-offset-9 col-md-1">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                            if (!Model.IsCompany)
+                            {
+                                <div class="row form-group m-t-5" id="divActions">
+                                    <div class=" col-md-offset-9 col-md-1">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
                         <div class="form-group p-l-5" id="TechEmpRemarks" style="display:none">
                             <div class="col-sm-3"> <strong>Action Taken By Technician</strong></div>
@@ -390,6 +404,7 @@
                         @Html.HiddenFor(x => x.IsCancelCall)
                         @Html.HiddenFor(x => x.CancelReason)
                         @Html.HiddenFor(x => x.Param)
+
                         <div class="row form-group m-t-5" id="divActions">
                             <div class=" col-md-offset-9 col-md-2">
                                 <button type="button" class="btn btn-primary" data-target="#cancelpopup" id="btnCancel">Cancel Call</button>
@@ -572,7 +587,7 @@
             };
             var files = $('#PartFile').get(0).files;
                if (files.length > 0 || $("#ImgURI").prop("src") != "") {
-                debugger
+                
               if (files.length > 0)
                     part.PartFile = files[0];
                 if (part.FileName != "")
@@ -594,7 +609,7 @@
             CalculateTotal();
         });
         $("#btnemp").click(function () {
-            debugger
+            
             var data = new FormData();
             var InvoiceFile = $('#InvoiceFile').get(0).files;
                var JobSheet = $('#JobSheetFile').get(0).files;
@@ -669,8 +684,8 @@
                 }
             })
            });
-            $("#btnclose").click(function () {
-                debugger
+            $("#btnclose").click(function () {      
+                            var data = new FormData();
                var isApproved = $("#IsServiceApproved").val();
                 var misapprovalCost = $("#MinimumApprovalCost").val();
                 var JobSheet = $('#JobSheetFile').get(0).files;
@@ -680,6 +695,7 @@
                 }
                 else {
                     $(".toast-message").html("Please attached Jobsheet");
+                       $(".toast-success").hide();
                    $(".toast-error").show();
                    $("#toast-container").fadeIn();
                    $("#toast-container").fadeOut(2000);
@@ -690,6 +706,7 @@
                if (isApproved !="True") {
                    $(".toast-message").html("Service cost is not approved");
                    $(".toast-error").show();
+                         $(".toast-success").hide();
                    $("#toast-container").fadeIn();
                    $("#toast-container").fadeOut(2000);
                    return false;
@@ -697,6 +714,7 @@
                 if ($("#AppointmentStatus").val() == 27) {
                     $(".toast-message").html("sorry ! You can not close Call it is cancelled intiated");
                     $(".toast-error").show();
+                          $(".toast-success").hide();
                     $("#toast-container").fadeIn();
                     $("#toast-container").fadeOut(2000);
                     return false;

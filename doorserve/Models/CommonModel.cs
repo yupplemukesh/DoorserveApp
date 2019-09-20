@@ -587,13 +587,12 @@ namespace doorserve
     Template_Part=1008,
     Manage_Menues=1009,
     Manage_company=119,
-    Close_Calls = 609,
+    Accept_Calls = 609,
     Schedule_Appointment=13,
     Manage_Process=120,
     Manage_Page_Contents=1011,
     Manage_Regions=121,
     Esclated_Calls = 14,
-    Open_Calls =709
-
+    Open_Calls = 709
     }
 }

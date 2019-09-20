@@ -306,7 +306,7 @@ namespace doorserve.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Open_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Accept_Calls)]
         public async Task<ActionResult> AcceptCalls()
 
         {
@@ -344,7 +344,7 @@ namespace doorserve.Controllers
             var techDetails = await _empRepo.GetEmployeeById(EmpId);            
             return Json(techDetails, JsonRequestBehavior.AllowGet);
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Accept_Calls)]
         [HttpPost]
         public async Task<ActionResult> CallStatus(CallStatusModel callStatus)
         {
@@ -436,6 +436,8 @@ namespace doorserve.Controllers
                 CallDetailsModel.StatusList = new SelectList(dropdown.BindCallAppointmentStatus("Customer support"), "Value", "Text");
                 CallDetailsModel.Remarks = CallDetailsModel.CRemark;
             }
+            if (CurrentUser.UserTypeName.ToLower().Contains("company"))
+                CallDetailsModel.IsCompany = true;
 
             return View(CallDetailsModel);
         }
@@ -460,7 +462,7 @@ namespace doorserve.Controllers
             }
 
         }
-        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, (int)MenuCode.Open_Calls)]
+        [PermissionBasedAuthorize(new Actions[] { Actions.Edit }, 0)]
         [HttpPost]
         public async Task<ActionResult> CallStatusDetails(CallStatusDetailsModel callStatusDetails)
         {
@@ -576,9 +578,9 @@ namespace doorserve.Controllers
             else if (callStatusDetails.Type == "A")
             {
                 if (CurrentUser.UserTypeName.ToLower().Contains("company"))
-                    return Json("/ServiceCenter/OpenCalls", JsonRequestBehavior.AllowGet);
+                    return RedirectToAction("OpenCalls");
                 else
-                    return Json("/ServiceCenter/AcceptCalls", JsonRequestBehavior.AllowGet);         
+                    return RedirectToAction("AcceptCalls");
             }
             else
                 return RedirectToAction("EscalateCalls", "PendingCalls");

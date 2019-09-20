@@ -465,6 +465,7 @@ else
                 var data = {
                     StatusId: statusId, RejectionReason: "", SelectedDevices: obj
                 }
+                
                 $.ajax({
                     type: 'POST',
                     url: '@Url.Action("CallStatus", "ServiceCenter")',
@@ -476,8 +477,8 @@ else
                             window.location.reload();
 
                     },
-                    error: (function () {
-                        alert("Something went wrong");
+                    error: (function (index) {
+                      
                     })
                 });
             }

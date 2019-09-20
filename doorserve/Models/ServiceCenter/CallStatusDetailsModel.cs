@@ -31,5 +31,6 @@ namespace doorserve.Models.ServiceCenter
         public int? CStatus { get; set; }
         public string Param { get; set; }
         public bool? IsServiceApproved { get; set; }
+ 
     }
 }

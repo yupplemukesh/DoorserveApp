@@ -50,6 +50,7 @@ namespace doorserve.Models.ServiceCenter
         public string InvoiceFileName { get; set; }
         public string JobSheetFileName { get; set; }
 
+        public bool IsCompany { get; set; }
         public string tab_index { get; set;  }
 
     }
