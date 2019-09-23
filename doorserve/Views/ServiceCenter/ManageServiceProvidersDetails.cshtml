@@ -300,7 +300,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-1">
-                                                <img src="/TempFiles/@Model.DeviceId/@Model.InvoiceFileName" width="50" />
+                                              
+                                                @if (Model.InvoiceFileName != null && Model.InvoiceFileName != "")
+                                                {
+                                                    <a href="/TempFiles/@(Model.DeviceId)/@(Model.InvoiceFileName)" target="_blank">@(Model.InvoiceFileName)</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href=""  id="lnkInvFileName"></a>
+                                                }
                                             </div>
 
                                             <div class="col-sm-2"> <h5 class="m-t-0">Uplaod Job Sheet</h5></div>
@@ -310,7 +318,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-1">
-                                                <img src="/TempFiles/@Model.DeviceId/@Model.JobSheetFileName" width="50" />
+                                                @if (Model.JobSheetFileName != null && Model.JobSheetFileName != "")
+                                                {
+                                                    <a href="/TempFiles/@(Model.DeviceId)/@(Model.JobSheetFileName)" target="_blank">@(Model.JobSheetFileName)</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="" target="_blank" id="lnkJobsheetFileName" ></a>
+                                                }
+                                               
                                             </div>
                                         </div>
                                     </div>
@@ -487,7 +503,7 @@
     @Scripts.Render("~/bundles/js/form-m")
     <script>
       var PartList = @Html.Raw(Json.Encode(Model.Parts));
-        console.log(PartList);
+    
         $(document).ready(function () {
         $("#btnReject").click(function () {            
             $("#rejectpopup").modal("show");
@@ -623,24 +639,11 @@
                    if (InvoiceFile.length > 0)
                        data.append("InvoiceFile", InvoiceFile[0]);
                }
-               //else {
-               //    $(".toast-message").html("Please attached Invoice");
-               //    $(".toast-error").show();
-               //    $("#toast-container").fadeIn();
-               //    $("#toast-container").fadeOut(2000);
-               //    return false;
-               //}
-               if (JobSheet.length > 0 || JobSheetFileName.length > 0) {
+              if (JobSheet.length > 0 || JobSheetFileName.length > 0) {
                    if(JobSheet.length > 0 )
                    data.append("JobSheetFile", JobSheet[0]);
                }
-               //else {
-               //    $(".toast-message").html("Please attached Jobsheet");
-               //    $(".toast-error").show();
-               //    $("#toast-container").fadeIn();
-               //    $("#toast-container").fadeOut(2000);
-               //    return false;
-               //}
+          
             var CallDetail = {
                 DeviceId: $("#DeviceId").val(),
                 Remarks: $("#Remarks").val(),
@@ -972,26 +975,74 @@
                 if ($.inArray(input.files[0].name.split('.').pop().toLowerCase(), fileExtension) == -1)
                 {
                     alert("Only '.png','.jpg' and '.pdf' formats are allowed.");
-
                     $(_this).val('');
                     return false;
                 }
                 else {
                     var reader = new FileReader();
                     reader.onload = function (e) {
+                        
+                        if ($(_this).parent('div').parent("div").next('div').find('a'))
+                        {
 
-                        if ($(_this).parent('div').parent("div").next('div').find('img')) {
-                            $(_this).parent('div').parent("div").next('div').find('img').attr('src', e.target.result);
+                            var fileName = _this.files[0].name.split('.')[0];
+                            var extension = _this.files[0].name.split('.')[1];
+                           
+                             $(_this).parent('div').parent("div").next('div').find('a').attr('href', e.target.result)
+                            $(_this).parent('div').parent("div").next('div').find('a').text(fileName);
+                            $(_this).parent('div').parent("div").next('div').find('a').attr("ext", extension);                          
                         }
-
                     };
                     reader.readAsDataURL(input.files[0]);
                 }
-
-
-
             }
         }
 
+
+        $(document).on("click", "#lnkInvFileName", function () {
+            
+            var _this = $(this);
+
+            var newTab = window.open();
+            var extention = _this.attr("ext");
+            if (extention == "jpg" || extention == "png") {
+                newTab.document.body.innerHTML = '<img src=' + $(_this).attr("href") + ' width="50%" height="50%">';
+            }
+            else {
+               newTab.document.body.innerHTML = '<div style="clear: both"><iframe id = "viewer" frameborder = "0" scrolling ="no" width= "100%" height = "100%" src='+$(_this).attr("href")+' ></iframe ></div >';
+                
+            }
+        
+        });
+
+        $(document).on("click", "#lnkJobsheetFileName", function () {
+            
+            var _this = $(this);
+
+            var newTab = window.open();
+            var extention = _this.attr("ext");
+            if (extention == "jpg" || extention == "png") {
+                newTab.document.body.innerHTML = '<img src=' + $(_this).attr("href") + ' width="50%" height="50%">';
+            }
+            else {
+                newTab.document.body.innerHTML = '<div style="clear: both"><iframe id = "viewer" frameborder = "0" scrolling ="no" width= "100%" height = "100%" src=' + $(_this).attr("href") + ' ></iframe ></div >';
+
+            }
+
+
+        });
+
+        $(document).on("click", "#lnkPartsFileName", function () {
+            var _this = $(this);
+            var newTab = window.open();
+            var extention = _this.attr("ext");
+            if (extention == "jpg" || extention == "png") {
+                newTab.document.body.innerHTML = '<img src=' + $(_this).attr("href") + ' width="50%" height="50%">';
+            }
+            else {
+                newTab.document.body.innerHTML = '<div style="clear: both"><iframe id = "viewer" frameborder = "0" scrolling ="no" width= "100%" height = "100%" src=' + $(_this).attr("href") + ' ></iframe ></div >';
+
+            }
+        });
     </script>
 }

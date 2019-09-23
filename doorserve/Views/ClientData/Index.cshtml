@@ -174,7 +174,7 @@ else
                 }
             });
         }
-          function AjaxWithFilter1(method, ddl, e) {
+        function AjaxWithFilter1(method, ddl, e) {
             var ClientId = e.value;
             var companyId   =  $("#CompanyId").val();
               $.ajax({
@@ -209,7 +209,7 @@ else
         })
 
 
-            $('input[type=radio][name="ServiceTypeId"]').change(function () {
+           $('input[type=radio][name="ServiceTypeId"]').change(function () {
                 //console.log($(this).val());
 
           
@@ -239,9 +239,7 @@ else
                  $("#tabIndex").val('D');
 
         });
-
-
-   
+          
           function GetHistory(DeviceId) {
 
             $.ajax({
