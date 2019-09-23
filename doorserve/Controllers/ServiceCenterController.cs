@@ -17,6 +17,8 @@ using doorserve.Repository;
 using doorserve.Filters;
 using System.IO;
 using Newtonsoft.Json;
+using doorserve.Repository.EmailSmsServices;
+using doorserve.Repository.EmailSmsTemplate;
 
 namespace doorserve.Controllers
 {
@@ -26,7 +28,8 @@ namespace doorserve.Controllers
         private readonly ICallLog _log;
         private readonly IEmployee _empRepo;
         private readonly DropdownBindController _dropdown;
-
+        private readonly ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public ServiceCenterController()
         {
 
@@ -34,6 +37,8 @@ namespace doorserve.Controllers
             _dropdown = new DropdownBindController();
             _empRepo = new Employee();
             _log = new CallLog();
+            _emailSmsServices = new EmailsmsServices();
+            _templateRepo = new Template();
 
         }
         private readonly string _connectionString =
@@ -64,8 +69,7 @@ namespace doorserve.Controllers
             return View();
         }
         public ActionResult PFPForm()
-        {
-          
+        {          
             ViewBag.ReceivedDevice = new SelectList(dropdown.BindCategory(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.RecvdBrand = new SelectList(dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text");
             ViewBag.RecvdModel = new SelectList(dropdown.BindProduct(CurrentUser.CompanyId), "Value", "Text");
@@ -586,6 +590,24 @@ namespace doorserve.Controllers
         
             callStatusDetails.UserId = CurrentUser.UserId;
             var response = await _centerRepo.UpdateCallCenterCall(callStatusDetails);
+            //if (response.IsSuccess)
+            //{
+            //    var Templates = await _templateRepo.GetTemplateByActionId((int)EmailActions.ALLOCATE_TO_ENGINEER, CurrentUser.CompanyId);
+               
+            //    var WildCards = CommonModel.GetWildCards(CurrentUser.CompanyId);
+            //    var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+            //    U.Val = callStatusDetails.;
+            //    U = WildCards.Where(x => x.Text.ToUpper() == "CALL ID").FirstOrDefault();
+            //    U.Val = response.result;
+            //    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+            //    U.Val = CurrentUser.CustomerCareNumber;
+            //    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+            //    U.Val = CurrentUser.ContactCareEmail;
+            //    CurrentUser.Mobile = callStatusDetails.CustomerContactNumber;
+            //    var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+            //    if (Templates.Count > 0)
+            //        await _emailSmsServices.Send(Templates, c, CurrentUser);
+            //}
                 TempData["response"] = response;
             if (callStatusDetails.Type == "C")
                 return RedirectToAction("index", "PendingCalls");

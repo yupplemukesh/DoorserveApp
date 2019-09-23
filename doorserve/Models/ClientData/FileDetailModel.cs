@@ -18,9 +18,9 @@ namespace doorserve.Models.ClientData
             DeliveryTypeList = new SelectList(Enumerable.Empty<SelectListItem>());
         }
         public string UploadedFileName { get; set; }
-        public int TotalRecords { get; set; }
-        public int UploadedRecords { get; set; }
-        public int FailedRecords { get; set; }    
+        public int? TotalRecords { get; set; }
+        public int? UploadedRecords { get; set; }
+        public int? FailedRecords { get; set; }    
         public DateTime UploadedDate { get; set; }
         public string ServiceType { get; set; }
         [Required]

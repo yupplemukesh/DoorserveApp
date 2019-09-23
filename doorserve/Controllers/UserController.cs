@@ -107,7 +107,7 @@ namespace doorserve.Controllers
                         objResponseModel.IsSuccess = true;
                         objResponseModel.ResponseCode = 1;
                         objResponseModel.Response = "Successfully Added";      
-                    var Templates = await _templateRepo.GetTemplateByActionId(12, CurrentUser.CompanyId);
+                    var Templates = await _templateRepo.GetTemplateByActionId((int) EmailActions.USER_REGISTRATION, CurrentUser.CompanyId);
                     CurrentUser.Email = objUser.ConEmailAddress;
                     var WildCards =  CommonModel.GetWildCards(CurrentUser.CompanyId);
                     var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();

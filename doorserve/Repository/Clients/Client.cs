@@ -118,6 +118,8 @@ namespace doorserve.Repository.Clients
 
                 if (!string.IsNullOrEmpty(reader["LocationId"].ToString()))
                     person.LocationId = Convert.ToInt32(reader["LocationId"].ToString());
+
+                person.CurrentIsUser = person.IsUser;
                 person.ConVoterIdFileUrl = "/UploadedImages/Clients/VoterIds/" + person.ConVoterIdFileName;
                 person.ConAdhaarFileUrl = "/UploadedImages/Clients/ADHRS/" + person.ConAdhaarFileName;
                 person.ConPanFileUrl = "/UploadedImages/Clients/PANCards/" + person.ConPanFileName;

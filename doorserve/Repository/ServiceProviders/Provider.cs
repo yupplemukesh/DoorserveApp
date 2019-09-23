@@ -135,6 +135,7 @@ namespace doorserve.Repository.ServiceProviders
 
                 if (!string.IsNullOrEmpty( reader["AddresssId"].ToString()) )
                     person.AddresssId =new Guid( reader["AddresssId"].ToString());
+                person.CurrentIsUser = person.IsUser;
                 person.ConVoterIdFileUrl = "/UploadedImages/Providers/VoterIds/" + person.ConVoterIdFileName;
                 person.ConAdhaarFileUrl = "/UploadedImages/Providers/ADHRS/" + person.ConAdhaarFileName;
                 person.ConPanFileUrl = "/UploadedImages/Providers/PANCards/" + person.ConPanFileName;

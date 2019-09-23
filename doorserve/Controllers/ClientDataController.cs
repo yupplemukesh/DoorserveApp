@@ -17,6 +17,8 @@ using doorserve.Models.ClientData;
 using doorserve.Permission;
 using doorserve.Repository;
 using doorserve.Repository.ImportFiles;
+using doorserve.Repository.EmailSmsServices;
+using doorserve.Repository.EmailSmsTemplate;
 
 namespace doorserve.Controllers
 {
@@ -28,6 +30,8 @@ namespace doorserve.Controllers
         private readonly ICenter _centerRepo;
         private readonly IContactPerson _contactPerson;
         private readonly DropdownBindController _dropdown;
+        private readonly ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         private string FilePath = "~/Files/";
         public ClientDataController()
         {
@@ -36,7 +40,8 @@ namespace doorserve.Controllers
             _RepoCallLog = new CallLog();
             _centerRepo = new Center();
             _contactPerson = new ContactPerson();
-
+            _emailSmsServices = new EmailsmsServices();
+            _templateRepo = new Template();
         }
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Assign_Calls)]
         public async Task<ActionResult> Index()
@@ -64,7 +69,7 @@ namespace doorserve.Controllers
             {
                 DataSourceId=101,
              IsAssingedCall = true,
-            ClientList = clientData.Client.ClientList,
+              ClientList = clientData.Client.ClientList,
                 ServiceTypeList = clientData.Client.ServiceTypeList,
                 DeliveryTypeList = clientData.Client.DeliveryTypeList,
                 BrandList = new SelectList(_dropdown.BindBrand(CurrentUser.CompanyId), "Value", "Text"),
@@ -222,6 +227,26 @@ namespace doorserve.Controllers
                     uploads.ClientId = CurrentUser.RefKey;
                 uploads.EventAction = 'I';
                 var response = await _RepoCallLog.AddOrEditCallLog(uploads);
+                if (response.IsSuccess)
+                {
+                    var Templates = await _templateRepo.GetTemplateByActionId((int)EmailActions.CALL_REGISTRATION, CurrentUser.CompanyId);
+                    CurrentUser.Email = uploads.CustomerEmail;
+                    var WildCards = CommonModel.GetWildCards(CurrentUser.CompanyId);
+                    var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                    U.Val = uploads.CustomerName;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "CALL ID").FirstOrDefault();
+                    U.Val = response.result;                  
+                    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+                    U.Val = CurrentUser.CustomerCareNumber;
+                    U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                    U.Val = CurrentUser.ContactCareEmail;
+                    CurrentUser.Mobile = uploads.CustomerContactNumber;
+                    var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                    if (Templates.Count > 0)
+                        await _emailSmsServices.Send(Templates, c, CurrentUser);
+
+
+                }
                 TempData["response"] = response;
                 return RedirectToAction("Index");
             }
