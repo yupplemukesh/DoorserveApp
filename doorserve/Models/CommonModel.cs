@@ -508,7 +508,7 @@ namespace doorserve
 
     }
 
-    public  enum MenuCode
+     public  enum MenuCode
     {        
      System_Admin= 1,
      Manage_Countries= 101,
@@ -595,4 +595,22 @@ namespace doorserve
     Esclated_Calls = 14,
     Open_Calls = 709
     }
+    public enum EmailActions {
+        CHANGE_PASSWORD=7,
+        FORGET_PASSWORD=11,
+        USER_REGISTRATION=12,
+        ALLOCATE_TO_ASP = 13,
+        ALLOCATE_TO_ASC = 14,
+        ALLOCATE_TO_ENGINEER=15,
+        SCHEDULE_APPOINTMENT_TO_CUSTOMER=16,
+        JOB_STATUS_UPDATE_OPEN_CASE=16,
+        JOB_STATUS_UPDATE_CLOSE_CASE=17,
+        FILE_UPLAODED=18,
+        FILE_UPLOADED_BY_CLIENT=19,
+        FILE_UPLOADED_BY_ASP=20,
+        FILE_UPLOADED_BY_COMPANY=22,
+        NEW_CALL_ADDED_BY_CLIENT=23,
+        CALL_REGISTRATION=24
+    }
 }
+

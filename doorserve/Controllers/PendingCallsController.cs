@@ -16,6 +16,8 @@ using doorserve.Repository;
 using doorserve.Models.ServiceCenter;
 using AutoMapper;
 using doorserve.Models.ClientData;
+using doorserve.Repository.EmailSmsTemplate;
+using doorserve.Repository.EmailSmsServices;
 
 namespace doorserve.Controllers
 {
@@ -24,12 +26,16 @@ namespace doorserve.Controllers
         private readonly ICustomerSupport _customerSupport;
         private readonly ICallLog _RepoCallLog;
         private readonly DropdownBindController _dropdown;
+        private readonly ITemplate _templateRepo;
+        private readonly IEmailSmsServices _emailSmsServices;
         public PendingCallsController()
         {
 
             _customerSupport = new CustomerSupport();
             _RepoCallLog = new CallLog();
             _dropdown = new DropdownBindController();
+            _emailSmsServices = new EmailsmsServices();
+            _templateRepo = new Template();
         }
         // GET: CallToASP
         [PermissionBasedAuthorize(new Actions[] { Actions.View }, (int)MenuCode.Call_Allocate_To_ASP)]
@@ -162,6 +168,26 @@ namespace doorserve.Controllers
                // uploads.ClientId = CurrentUser.RefKey;
             uploads.EventAction = 'I';
             var response = await _RepoCallLog.AddOrEditCallLog(uploads);
+            if (response.IsSuccess)
+            {
+                var Templates = await _templateRepo.GetTemplateByActionId((int)EmailActions.CALL_REGISTRATION, CurrentUser.CompanyId);
+                CurrentUser.Email = uploads.CustomerEmail;
+                var WildCards = CommonModel.GetWildCards(CurrentUser.CompanyId);
+                var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
+                U.Val = uploads.CustomerName;
+                U = WildCards.Where(x => x.Text.ToUpper() == "CALL ID").FirstOrDefault();
+                U.Val = response.result;
+                U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
+                U.Val = CurrentUser.CustomerCareNumber;
+                U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
+                U.Val = CurrentUser.ContactCareEmail;
+                CurrentUser.Mobile = uploads.CustomerContactNumber;
+                var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                if (Templates.Count > 0)
+                    await _emailSmsServices.Send(Templates, c, CurrentUser);
+
+            }
+
             TempData["response"] = response;
             return RedirectToAction("Index");
         }

@@ -19,12 +19,19 @@
     {
        
         <a href="@Url.Action("ManageServiceProvidersDetails","ServiceCenter",new {Crn=excelModel.CRN,Param='A' })">View</a>
-    }
-    else
-    {
-        <a href="@Url.Action("Edit","ClientData",new {Crn=excelModel.CRN })">Edit</a>
+}
+else
+{
+        if (Permissions.Rights.Edit)
+        {
+        <a href="@Url.Action("Edit", "ClientData", new { Crn = excelModel.CRN })">Edit</a>
+        }
+        else
+        {
+            Html.Raw("");
+        }
 
-    } 
+    }
 }
 
 <div class="panel-heading">
