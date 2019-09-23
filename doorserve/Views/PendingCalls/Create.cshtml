@@ -16,7 +16,8 @@
 {
     <div class="panel-body">
         <!--/.col-->
-        @* @Html.Partial("_AddEditNewCall", Model)*@
+     
+       
         @Html.Partial("~/Views/ClientData/_NewCallLogForm.cshtml")
 
     </div>
@@ -43,6 +44,7 @@
         });
         $("#DivprbObserved").hide();
         $("#ProblemInfo").hide();
+
         function AjaxWithValue(method, ddl, e) {
         var val = e.value;
         var refval = e.cvalue;
@@ -73,20 +75,16 @@
                     var opt = new Option(data[i].Text, data[i].Value);
                     $('#' + ddl).append(opt);
                 }
-                if (refval != null || refval != undefined) {
-                    $('#' + ddl).val(refval);
-                }
+                //if (refval != null || refval != undefined) {
+                //    $('#' + ddl).val(refval);
+                //}
 
 
             }
         });
     }
-
-      
-
-     
         function AjaxWithFilter(method, ddl, e) {
-            debugger
+            
             var CategoryId = e.value;
             var ClientId = $("#ClientId").val();
             var categoryName = $(e).find(":selected").text();
@@ -141,7 +139,8 @@
             });
         }
 
-        $(document).on("click", "#btnSave", function (e) {
+        $(document).on("click", "#btnSave", function (e)
+        {
            
             var valid = true;
             if ($("#DeviceCategoryId").find(":selected").text().toLowerCase() == "mobile")
@@ -163,14 +162,10 @@
             }
 
             if (valid)
-            {
-                if ($("#pendingCallsForm").valid()) {
-                    alert('d')
-                }
-                $('#btnSave').submit();
+            {            
+                $("#pendingCallsForm").submit();            
+                
             }
-
-
         });
     </script>
 }

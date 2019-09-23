@@ -217,6 +217,16 @@ else
        endDate: new Date()
     });
 
+    $(document).ready(function () {
+        if ($("#DeviceCategoryId").find(":selected").text().toLowerCase() == "mobile") {
+            $("#dvDeviceImeiOne").css("display", "block");
+            $("#dvDeviceImeiTwo").css("display", "block");
+        }
+        else {
+            $("#dvDeviceImeiOne").css("display", "none");
+            $("#dvDeviceImeiTwo").css("display", "none");
+        }
+    });
        $('.datepicker-c').datepicker({
        autoclose: true,
        format: 'dd/mm/yyyy',
@@ -262,8 +272,11 @@ else
           var category     =      $("#DeviceCategoryId").val();
           var customername =      $("#CustomerName").val();
           var custMobile   =      $("#CustomerContactNumber").val();
-          var subcategory  =      $("#DeviceSubCategoryId").val();
-            if (category != 0 && sn.length != 0 && ModelNo.length != 0 && subcategory!=0 && custMobile.length!=0 &&  customername.length!=0) {
+        var subcategory = $("#DeviceSubCategoryId").val();
+        
+
+        if (category != 0 && sn.length != 0 && ModelNo.length != 0 && subcategory != 0 && custMobile.length != 0 && customername.length != 0)
+        {
                 $.ajax({
                     type: "GET",
                     url: '@Url.Action("GetRepeatCall", "ClientData")',

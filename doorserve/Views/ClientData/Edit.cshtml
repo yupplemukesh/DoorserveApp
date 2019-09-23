@@ -60,9 +60,9 @@
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
                     }
-                    if (refval != null || refval != undefined) {
-                        $('#' + ddl).val(refval);
-                    }
+                    //if (refval != null || refval != undefined) {
+                    //    $('#' + ddl).val(refval);
+                    //}
 
 
                 }
@@ -72,7 +72,18 @@
 
           function AjaxWithFilter(method, ddl, e) {
             var CategoryId = e.value;
-            var ClientId   =  $("#ClientId").val();
+              var ClientId = $("#ClientId").val();
+
+              var categoryName = $(e).find(":selected").text();
+              if (categoryName.toLowerCase() == "mobile") {
+                  $("#dvDeviceImeiOne").css("display", "block");
+                  $("#dvDeviceImeiTwo").css("display", "block");
+              }
+              else {
+                  $("#dvDeviceImeiOne").css("display", "none");
+                  $("#dvDeviceImeiTwo").css("display", "none");
+              }
+
               $.ajax({
                   type: "GET",
                   url: "/DropdownBind/" + method,
@@ -85,9 +96,9 @@
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
                     }
-                    if (refval != null || refval != undefined) {
-                        $('#' + ddl).val(refval);
-                    }
+                    //if (refval != null || refval != undefined) {
+                    //    $('#' + ddl).val(refval);
+                    //}
                 }
             });
         }
@@ -106,9 +117,9 @@
                         var opt = new Option(data[i].Text, data[i].Value);
                         $('#' + ddl).append(opt);
                     }
-                    if (refval != null || refval != undefined) {
-                        $('#' + ddl).val(refval);
-                    }
+                    //if (refval != null || refval != undefined) {
+                    //    $('#' + ddl).val(refval);
+                    //}
                 }
             });
         }

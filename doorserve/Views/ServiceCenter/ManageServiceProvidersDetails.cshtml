@@ -1044,5 +1044,16 @@
 
             }
         });
+
+        $(document).ready(function () {
+            if ($("#DeviceCategoryId").find(":selected").text().toLowerCase() == "mobile") {
+                $("#dvDeviceImeiOne").css("display", "block");
+                $("#dvDeviceImeiTwo").css("display", "block");
+            }
+            else {
+                $("#dvDeviceImeiOne").css("display", "none");
+                $("#dvDeviceImeiTwo").css("display", "none");
+            }
+        });
     </script>
 }
