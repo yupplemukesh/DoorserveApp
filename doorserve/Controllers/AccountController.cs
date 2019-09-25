@@ -66,7 +66,7 @@ namespace doorserve.Controllers
                 _userManager = value;
             }
         }
-        
+
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login()
@@ -74,12 +74,12 @@ namespace doorserve.Controllers
             //ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        
-       // POST: /Account/Login
-       [HttpPost]
-       [AllowAnonymous]
-       [CustomHandleError]
-       [ValidateModel]
+
+        // POST: /Account/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [CustomHandleError]
+        [ValidateModel]
         public async Task<ActionResult> Login(LoginViewModel m)
         {
             if (string.IsNullOrEmpty(m.Email) || string.IsNullOrEmpty(m.Password))
@@ -95,31 +95,36 @@ namespace doorserve.Controllers
                 var result = await con.QueryMultipleAsync("Login_Proc", new { Username = m.Email, Password = encrpt_Pass },
                     commandType: CommandType.StoredProcedure);
                 var rs = await result.ReadSingleOrDefaultAsync<dynamic>();
-                if (rs !=null)                {                   
+                if (rs != null)
+                {
                     var PerentMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
-                    PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName,ParentMenuId=x.ParentMenuId,ParentMenuName=x.ParentMenuName }).ToList();
-                    var SubMenues =    await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
-                    SubMenues = SubMenues.OrderBy(x => x.ParentMenuId).OrderBy(x=>x.shortOrder).ToList();
-                    var manues = new MenuMasterModel {ParentMenuList= PerentMenues,SubMenuList=SubMenues };
+                    PerentMenues = PerentMenues.Select(x => new MenuMasterModel { MenuCapId = x.MenuCapId, IsActive = x.IsActive, Menu_Name = x.Menu_Name, CapName = x.CapName, PagePath = x.PagePath, IconFileNameUl = iconPath + x.IconFileName, ParentMenuId = x.ParentMenuId, ParentMenuName = x.ParentMenuName }).ToList();
+                    var SubMenues = await result.ReadAsync<MenuMasterModel>() as List<MenuMasterModel>;
+                    SubMenues = SubMenues.OrderBy(x => x.ParentMenuId).OrderBy(x => x.shortOrder).ToList();
+                    var manues = new MenuMasterModel { ParentMenuList = PerentMenues, SubMenuList = SubMenues };
 
-                    SessionModel session = new SessionModel {UserId=rs.UserId,
-                        Email=rs.Email,RefKey=rs.RefKey, CompanyId=rs.CompanyId,
-                        UserTypeName=rs.UserTypeName,
+                    SessionModel session = new SessionModel
+                    {
+                        UserId = rs.UserId,
+                        Email = rs.Email,
+                        RefKey = rs.RefKey,
+                        CompanyId = rs.CompanyId,
+                        UserTypeName = rs.UserTypeName,
                         UserRole = rs.RoleName,
-                        UserName=rs.UserName,
-                        Mobile= rs.Mobile,
-                        ContactCareEmail=rs.ContactCareEmail,
-                        CustomerCareNumber=rs.CustomerCareNumber,
-                        RoleId =rs.RoleId,
-                        UserTypeId=rs.UserTypeId,
-                       Menues = manues
+                        UserName = rs.UserName,
+                        Mobile = rs.Mobile,
+                        ContactCareEmail = rs.ContactCareEmail,
+                        CustomerCareNumber = rs.CustomerCareNumber,
+                        RoleId = rs.RoleId,
+                        UserTypeId = rs.UserTypeId,
+                        Menues = manues
                     };
 
                     if (!session.UserTypeName.ToLower().Contains("super admin"))
                         session.LogoUrl = "/uploadedImages/Companies/Logo/" + rs.CompLogo;
-                 
 
-                    Session["User"] = session;                  
+
+                    Session["User"] = session;
                     var claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Name, m.Email));
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, m.Email));
@@ -131,16 +136,16 @@ namespace doorserve.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                {   
+                {
                     ViewBag.Message = "User Name or Password is not correct";
-                }         
+                }
             }
             return View();
-            }
+        }
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-           // FormsAuthentication.SignOut();
+            // FormsAuthentication.SignOut();
             foreach (var cookie in Request.Cookies.AllKeys)
             {
                 Request.Cookies.Remove(cookie);
@@ -149,12 +154,12 @@ namespace doorserve.Controllers
             {
                 Response.Cookies.Remove(cookie);
             }
-         
+
             Session["User"] = null;
             Session.Abandon();
             Session.Clear();
-            return View("Login",null);
-        }       
+            return View("Login", null);
+        }
         //GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -254,7 +259,7 @@ namespace doorserve.Controllers
             return View();
 
         }
-        
+
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -281,29 +286,31 @@ namespace doorserve.Controllers
         [ValidateModel]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-          
-                using (var con = new SqlConnection(_connectionString))
-                {
-                    var UserPassword = con.Query<SessionModel>("GETUSERBYUSERNAME",
-                    new { Username=model.Email}, commandType: CommandType.StoredProcedure).FirstOrDefault();
 
+            using (var con = new SqlConnection(_connectionString))
+            {
+                var UserPassword = con.Query<SessionModel>("GETUSERBYUSERNAME",
+                new { Username = model.Email }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+
+                if (UserPassword != null)
+                {
                     if (!string.IsNullOrEmpty(UserPassword.Password))
                     {
                         UserPassword.Password = doorserve.Encrypt_Decript_Code.encrypt_decrypt.Decrypt(UserPassword.Password, true);
                         var Templates = await _templateRepo.GetTemplateByActionId(11, UserPassword.CompanyId);
-                        var WildCards =  CommonModel.GetWildCards(UserPassword.CompanyId);
+                        var WildCards = CommonModel.GetWildCards(UserPassword.CompanyId);
                         var U = WildCards.Where(x => x.Text.ToUpper() == "NAME").FirstOrDefault();
                         U.Val = UserPassword.UserName;
                         U = WildCards.Where(x => x.Text.ToUpper() == "PASSWORD").FirstOrDefault();
                         U.Val = UserPassword.Password;
                         U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT NUMBER").FirstOrDefault();
-                         U.Val = UserPassword.CustomerCareNumber;
+                        U.Val = UserPassword.CustomerCareNumber;
                         U = WildCards.Where(x => x.Text.ToUpper() == "CUSTOMER SUPPORT EMAIL").FirstOrDefault();
                         U.Val = UserPassword.ContactCareEmail;
-                    var c = WildCards.Where(x => x.Val != string.Empty).ToList();
+                        var c = WildCards.Where(x => x.Val != string.Empty).ToList();
                         if (Templates.Count > 0)
                         {
-                            var res =await _emailSmsServices.Send(Templates, c, UserPassword);
+                            var res = await _emailSmsServices.Send(Templates, c, UserPassword);
                             if (res.IsSuccess)
                                 res.Response = "Password sent successfully";
                             else
@@ -316,17 +323,24 @@ namespace doorserve.Controllers
                     }
                     else
                     {
-                        ViewBag.Msg = "Email Does not exits";
+                        TempData["response"] = new ResponseModel { IsSuccess = false, Response = "Email Does not exits" };
+                      //  ViewBag.Msg = "Email Does not exits";
                         return View(model);
-
                     }
-          
                 }
-              
-            
+                else
+                {
+                    TempData["response"] = new ResponseModel { IsSuccess = false, Response = "Email Does not exits" };
+                    return View(model);
+
+                }
+
+            }
+
+
 
             // If we got this far, something failed, redisplay form
-      
+
         }
         //
         // GET: /Account/ForgotPasswordConfirmation
